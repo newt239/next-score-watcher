@@ -34,13 +34,13 @@ export type logDBProps = {
   variant: string;
 };
 
-export interface MotionCraftDatabase extends DexieDatabase {
+export interface ScoreWatcherDBTables extends DexieDatabase {
   games: Table<gameDBProps>;
   players: Table<playerDBProps>;
   logs: Table<logDBProps>;
 }
 
-const db = new Dexie("score_watcher") as MotionCraftDatabase;
+const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(1).stores({
   games:
     "++id, type, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, started",

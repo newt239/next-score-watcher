@@ -27,9 +27,12 @@ const Config: NextPage = () => {
   );
   const updatePlayerCount = async () => {
     if (game) {
-      const oldCount = await db.players.where({ game_id: game.id }).count();
-      if (oldCount < game.count) {
-        for (let i = oldCount + 1; i <= game.count; i++) {
+      const players = await db.players
+        .where({ game_id: game.id })
+        .reverse()
+        .toArray();
+      if (players.length < game.count) {
+        for (let i = players.length + 1; i <= game.count; i++) {
           await db.players.put({
             game_id: Number(game.id),
             name: `プレイヤー${i}`,
@@ -37,6 +40,12 @@ const Config: NextPage = () => {
             initial_wrong: 0,
           });
         }
+      } else {
+        players.forEach((player, i) => {
+          if (i < players.length - game.count) {
+            db.players.delete(Number(player.id)).catch((e) => console.log(e));
+          }
+        });
       }
     }
   };
@@ -52,7 +61,8 @@ const Config: NextPage = () => {
         <h2>形式設定</h2>
         <ConfigInput
           props={{
-            id: "name",
+            type: "game",
+            input_id: "name",
             label: "ゲーム名",
             placehodler: "",
             required: true,
@@ -60,14 +70,38 @@ const Config: NextPage = () => {
         />
         <ConfigNumberInput
           props={{
-            id: "count",
+            type: "game",
+            input_id: "count",
             label: "プレイヤー人数",
             min: 1,
             max: 5,
           }}
         />
         <h2>プレイヤー設定</h2>
-        {}
+        {players?.map((player, i) => (
+          <div key={player.id}>
+            <ConfigInput
+              props={{
+                type: "player",
+                input_id: "name",
+                id: Number(player.id),
+                label: "プレイヤー名",
+                placehodler: `プレイヤー${i}`,
+                required: true,
+              }}
+            />
+            <ConfigInput
+              props={{
+                type: "player",
+                input_id: "belong",
+                id: Number(player.id),
+                label: "所属",
+                placehodler: `〇〇高校`,
+                required: true,
+              }}
+            />
+          </div>
+        ))}
       </main>
     </div>
   );
