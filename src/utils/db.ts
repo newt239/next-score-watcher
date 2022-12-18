@@ -44,10 +44,11 @@ const db = new Dexie("score_watcher") as MotionCraftDatabase;
 db.version(1).stores({
   games:
     "++id, type, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, started",
-  players:
-    "++id, game_id -> games.id, name, belong, initial_correct, initial_wrong",
-  logs: "++id, game_id -> games.id, player_id -> players.id, variant",
+  players: "++id, game_id, name, belong, initial_correct, initial_wrong",
+  logs: "++id, game_id, player_id, variant",
 });
-db.open();
+db.open()
+  .then((r) => console.log(r))
+  .catch((r) => console.log(r));
 
 export default db;

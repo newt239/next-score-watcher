@@ -1,6 +1,6 @@
 import router from "next/router";
 
-import db from "utils/db";
+import db from "#/utils/db";
 
 export type RuleCardProps = {
   id: string;

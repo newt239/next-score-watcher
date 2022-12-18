@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 
-import RuleCard, { RuleCardProps } from "components/RuleCard";
+import RuleCard, { RuleCardProps } from "#/components/RuleCard";
 
 const ruleList: RuleCardProps[] = [
   {

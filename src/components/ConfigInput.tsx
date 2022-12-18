@@ -1,7 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
 
-import db, { gameDBProps } from "utils/db";
+import db, { gameDBProps } from "#/utils/db";
 
 type InputProps = {
   id: keyof gameDBProps;
