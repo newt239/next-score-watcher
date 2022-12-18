@@ -1,10 +1,8 @@
-import { useEffect } from "react";
-
-import { useLiveQuery } from "dexie-react-hooks";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 
-import Input from "components/Input";
+import ConfigInput from "components/ConfigInput";
+import ConfigNumberInput from "components/ConfigNumberInput";
 import RuleCard, { RuleCardProps } from "components/RuleCard";
 import db from "utils/db";
 
@@ -29,12 +27,20 @@ const Config: NextPage = () => {
     <div>
       <main>
         <h2>形式設定</h2>
-        <Input
+        <ConfigInput
           props={{
             id: "name",
             label: "ゲーム名",
             placehodler: "",
             required: true,
+          }}
+        />
+        <ConfigNumberInput
+          props={{
+            id: "count",
+            label: "プレイヤー人数",
+            min: 1,
+            max: 5,
           }}
         />
         <h2>プレイヤー設定</h2>
