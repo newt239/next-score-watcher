@@ -18,6 +18,7 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
         wrong_me: -1,
         correct_other: 0,
         wrong_other: 0,
+        started: false,
       });
       router.push(`/config/${game_id}`);
     } catch (err) {

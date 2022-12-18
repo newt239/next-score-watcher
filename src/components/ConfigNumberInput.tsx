@@ -27,13 +27,13 @@ const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
       <input
         id={props.id}
         type="range"
-        value={game[props.id]}
+        value={game[props.id] as string}
         min={props.min}
         max={props.max}
         className="range"
         onChange={(v) =>
           db.games.update(Number(game_id), {
-            [props.id]: v.target.value as string,
+            [props.id]: Number(v.target.value),
           })
         }
       />

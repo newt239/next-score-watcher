@@ -26,7 +26,7 @@ const ConfigInput: React.FC<{ props: InputProps }> = ({ props }) => {
         id={props.id}
         type="text"
         placeholder={props.placehodler}
-        value={game[props.id]}
+        value={game[props.id] as string}
         className="input w-full max-w-xs"
         onChange={(v) =>
           db.games.update(Number(game_id), {
