@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import ConfigInput from "#/components/ConfigInput";
@@ -102,6 +103,9 @@ const Config: NextPage = () => {
             />
           </div>
         ))}
+        <Link href={`/${game_id}/board`} className="btn">
+          ゲーム開始
+        </Link>
       </main>
     </div>
   );

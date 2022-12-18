@@ -20,7 +20,7 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
         wrong_other: 0,
         started: false,
       });
-      router.push(`/config/${game_id}`);
+      router.push(`/${game_id}/config`);
     } catch (err) {
       console.log(err);
     }

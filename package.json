@@ -10,6 +10,7 @@
     "format": "prettier --write \"./src/**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
     "daisyui": "^2.45.0",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
