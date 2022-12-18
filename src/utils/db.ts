@@ -2,11 +2,13 @@ import Dexie, { Table } from "dexie";
 
 export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 
+export type Rule = "normal" | "nomx";
+
 export type gameDBProps = {
   id?: number;
   name: string;
   count: number;
-  type: "normal";
+  type: Rule;
   correct_me: number;
   wrong_me: number;
   correct_other: number;
@@ -22,7 +24,7 @@ export type playerDBProps = {
   id?: number;
   game_id: number;
   name: string;
-  belong?: string;
+  belong: string;
   initial_correct: number;
   initial_wrong: number;
 };

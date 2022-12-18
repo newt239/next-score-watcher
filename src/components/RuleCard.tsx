@@ -1,19 +1,21 @@
 import router from "next/router";
 
-import db from "#/utils/db";
+import db, { gameDBProps, Rule } from "#/utils/db";
+import state from "#/utils/state";
 
 export type RuleCardProps = {
-  id: string;
+  id: Rule;
   name: string;
   description: string;
 };
+
 const RuleCard: React.FC<RuleCardProps> = (rule) => {
   const createGame = async () => {
     try {
       const game_id = await db.games.put({
-        name: "aaa",
+        name: state.rules[rule.id].name,
         count: 1,
-        type: "normal",
+        type: rule.id,
         correct_me: 1,
         wrong_me: -1,
         correct_other: 0,

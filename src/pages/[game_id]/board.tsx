@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 
 import BoardHeader from "#/components/BoardHeader";
+import Player from "#/components/Player";
 import db from "#/utils/db";
 
 const Board: NextPage = () => {
@@ -34,55 +35,9 @@ const Board: NextPage = () => {
             marginTop: 5,
           }}
         >
-          {players?.map((player, i) => {
-            const playerLogs = logs.filter(
-              (log) => log.player_id === player.id
-            );
-            return (
-              <div
-                key={player.id}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <div>{player.belong}</div>
-                  <div>{i + 1}</div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    writingMode: "vertical-rl",
-                    fontSize: "clamp(8vh, 2rem, 8vw)",
-                    height: "50vh",
-                    margin: "auto",
-                  }}
-                >
-                  {player.name}
-                </div>
-                <div
-                  style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
-                  onClick={async () => {
-                    try {
-                      await db.logs.put({
-                        game_id: Number(game_id),
-                        player_id: Number(player.id),
-                        variant: "correct",
-                      });
-                    } catch (err) {
-                      console.log(err);
-                    }
-                  }}
-                >
-                  {playerLogs.filter((log) => log.variant === "correct")
-                    .length -
-                    playerLogs.filter((log) => log.variant === "wrong").length}
-                </div>
-              </div>
-            );
-          })}
+          {players?.map((player, i) => (
+            <Player player={player} key={i} index={i} />
+          ))}
         </div>
       </main>
     </div>

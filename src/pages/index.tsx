@@ -1,15 +1,9 @@
 import { NextPage } from "next";
 import Head from "next/head";
 
+import GameList from "#/components/GameList";
 import RuleCard, { RuleCardProps } from "#/components/RuleCard";
-
-const ruleList: RuleCardProps[] = [
-  {
-    id: "normal",
-    name: "スコア計算",
-    description: "単純なスコアを計算します。",
-  },
-];
+import state from "#/utils/state";
 
 const Home: NextPage = () => {
   return (
@@ -20,15 +14,19 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <h2>作成したゲーム一覧</h2>
+        <GameList />
         <h2>形式一覧</h2>
-        {ruleList.map((rule) => (
-          <RuleCard
-            key={rule.id}
-            id={rule.id}
-            name={rule.name}
-            description={rule.description}
-          />
-        ))}
+        {(Object.keys(state.rules) as (keyof typeof state.rules)[]).map(
+          (id) => (
+            <RuleCard
+              key={id}
+              id={id}
+              name={state.rules[id].name}
+              description={state.rules[id].description}
+            />
+          )
+        )}
       </main>
     </div>
   );

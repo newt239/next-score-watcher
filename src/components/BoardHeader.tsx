@@ -35,7 +35,7 @@ const BoardHeader: React.FC = () => {
           }}
         >
           <h2 style={{ fontSize: "2rem" }}>{game.name}</h2>
-          <p color="white">{state[game.type]}</p>
+          <p color="white">{state.rules[game.type].name}</p>
         </div>
         <div
           className="flex-1"

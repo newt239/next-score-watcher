@@ -37,6 +37,7 @@ const Config: NextPage = () => {
           await db.players.put({
             game_id: Number(game.id),
             name: `プレイヤー${i}`,
+            belong: "",
             initial_correct: 0,
             initial_wrong: 0,
           });
@@ -78,6 +79,28 @@ const Config: NextPage = () => {
             max: 5,
           }}
         />
+        {game.type === "nomx" && (
+          <>
+            <ConfigNumberInput
+              props={{
+                type: "game",
+                input_id: "win_point",
+                label: "勝ち抜け正解数",
+                min: 1,
+                max: 30,
+              }}
+            />
+            <ConfigNumberInput
+              props={{
+                type: "game",
+                input_id: "lose_point",
+                label: "失格誤答数",
+                min: 1,
+                max: 30,
+              }}
+            />
+          </>
+        )}
         <h2>プレイヤー設定</h2>
         {players?.map((player, i) => (
           <div key={player.id}>
@@ -105,6 +128,9 @@ const Config: NextPage = () => {
         ))}
         <Link href={`/${game_id}/board`} className="btn">
           ゲーム開始
+        </Link>
+        <Link href="/" className="btn">
+          ホームに戻る
         </Link>
       </main>
     </div>
