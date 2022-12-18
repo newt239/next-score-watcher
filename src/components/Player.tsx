@@ -48,23 +48,61 @@ const Player: React.FC<PlayerProps> = ({ player, index }) => {
       >
         {player.name}
       </div>
-      <div
-        style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
-        onClick={async () => {
-          try {
-            await db.logs.put({
-              game_id: Number(game_id),
-              player_id: Number(player.id),
-              variant: "correct",
-            });
-          } catch (err) {
-            console.log(err);
-          }
-        }}
-      >
-        {playerLogs.filter((log) => log.variant === "correct").length -
-          playerLogs.filter((log) => log.variant === "wrong").length}
-      </div>
+      {game.type === "normal" && (
+        <div
+          style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
+          onClick={async () => {
+            try {
+              await db.logs.put({
+                game_id: Number(game_id),
+                player_id: Number(player.id),
+                variant: "correct",
+              });
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+        >
+          {playerLogs.filter((log) => log.variant === "correct").length -
+            playerLogs.filter((log) => log.variant === "wrong").length}
+        </div>
+      )}
+      {game.type === "nomx" && (
+        <>
+          <div
+            style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
+            onClick={async () => {
+              try {
+                await db.logs.put({
+                  game_id: Number(game_id),
+                  player_id: Number(player.id),
+                  variant: "correct",
+                });
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+          >
+            {playerLogs.filter((log) => log.variant === "correct").length}
+          </div>
+          <div
+            style={{ fontSize: "2rem", color: "blue", cursor: "pointer" }}
+            onClick={async () => {
+              try {
+                await db.logs.put({
+                  game_id: Number(game_id),
+                  player_id: Number(player.id),
+                  variant: "wrong",
+                });
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+          >
+            {playerLogs.filter((log) => log.variant === "wrong").length}
+          </div>
+        </>
+      )}
     </div>
   );
 };

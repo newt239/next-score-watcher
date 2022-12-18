@@ -77,7 +77,11 @@ const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
           }
         }}
       />
-      {game.count}
+      {props.type === "game"
+        ? game[props.input_id]
+        : (players.find((player) => player.id === props.id) as playerDBProps)[
+            props.input_id
+          ]}
     </div>
   );
 };
