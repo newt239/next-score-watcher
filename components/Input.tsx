@@ -1,5 +1,3 @@
-import { ChangeEventHandler } from "react";
-
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
 
@@ -29,12 +27,11 @@ const Input: React.FC<{ props: InputProps }> = ({ props }) => {
         placeholder={props.placehodler}
         value={game.name}
         className="input w-full max-w-xs"
-        onChange={(v) => {
-          console.log({ [props.id]: v });
+        onChange={(v) =>
           db.games.update(Number(game_id), {
             [props.id]: v.target.value as string,
-          });
-        }}
+          })
+        }
       />
     </div>
   );

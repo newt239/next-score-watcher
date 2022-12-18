@@ -12,6 +12,7 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
     try {
       const game_id = await db.games.put({
         name: "aaa",
+        count: 1,
         type: "normal",
         correct_me: 1,
         wrong_me: -1,

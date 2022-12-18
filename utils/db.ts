@@ -5,6 +5,7 @@ export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 export type gameDBProps = {
   id?: number;
   name: string;
+  count: number;
   type: "normal";
   correct_me: number;
   wrong_me: number;
@@ -23,7 +24,7 @@ export interface MotionCraftDatabase extends DexieDatabase {
 const db = new Dexie("score_watcher") as MotionCraftDatabase;
 db.version(1).stores({
   games:
-    "++id, type, name, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit",
+    "++id, type, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit",
 });
 db.open();
 
