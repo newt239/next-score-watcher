@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 
 import BoardHeader from "#/components/BoardHeader";
-import db, { gameDBProps } from "#/utils/db";
+import db from "#/utils/db";
 
 const Board: NextPage = () => {
   const router = useRouter();
@@ -13,10 +13,19 @@ const Board: NextPage = () => {
     () => db.players.where({ game_id: Number(game_id) }).toArray(),
     []
   );
+  const logs = useLiveQuery(
+    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
+  if (!game || !players || !logs) {
+    return null;
+  }
   return (
     <div>
       <main>
-        <BoardHeader />
+        <div style={{ padding: "1rem" }}>
+          <BoardHeader />
+        </div>
         <div
           style={{
             display: "flex",
@@ -25,33 +34,55 @@ const Board: NextPage = () => {
             marginTop: 5,
           }}
         >
-          {players?.map((player, i) => (
-            <div
-              key={player.id}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                textAlign: "center",
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <div>{player.belong}</div>
-                <div>{i + 1}</div>
-              </div>
+          {players?.map((player, i) => {
+            const playerLogs = logs.filter(
+              (log) => log.player_id === player.id
+            );
+            return (
               <div
+                key={player.id}
                 style={{
                   display: "flex",
-                  writingMode: "vertical-rl",
-                  fontSize: "clamp(8vh, 2rem, 8vw)",
-                  height: "50vh",
-                  margin: "auto",
+                  flexDirection: "column",
+                  alignItems: "center",
                 }}
               >
-                {player.name}
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <div>{player.belong}</div>
+                  <div>{i + 1}</div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    writingMode: "vertical-rl",
+                    fontSize: "clamp(8vh, 2rem, 8vw)",
+                    height: "50vh",
+                    margin: "auto",
+                  }}
+                >
+                  {player.name}
+                </div>
+                <div
+                  style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
+                  onClick={async () => {
+                    try {
+                      await db.logs.put({
+                        game_id: Number(game_id),
+                        player_id: Number(player.id),
+                        variant: "correct",
+                      });
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  }}
+                >
+                  {playerLogs.filter((log) => log.variant === "correct")
+                    .length -
+                    playerLogs.filter((log) => log.variant === "wrong").length}
+                </div>
               </div>
-              <button className="btn-primary btn"></button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>
