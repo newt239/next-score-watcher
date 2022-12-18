@@ -1,5 +1,4 @@
 import { NextPage } from "next";
-import Head from "next/head";
 
 import Input from "components/Input";
 import RuleCard, { RuleCardProps } from "components/RuleCard";
@@ -19,7 +18,7 @@ const Config: NextPage = () => {
         <h2>形式設定</h2>
         <Input
           props={{
-            id: "game_name",
+            id: "name",
             label: "ゲーム名",
             placehodler: "",
             required: true,

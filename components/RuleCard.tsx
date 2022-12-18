@@ -1,4 +1,6 @@
-import Link from "next/link";
+import router from "next/router";
+
+import db from "utils/db";
 
 export type RuleCardProps = {
   id: string;
@@ -6,15 +8,30 @@ export type RuleCardProps = {
   description: string;
 };
 const RuleCard: React.FC<RuleCardProps> = (rule) => {
+  const createGame = async () => {
+    try {
+      const game_id = await db.games.put({
+        name: "aaa",
+        type: "normal",
+        correct_me: 1,
+        wrong_me: -1,
+        correct_other: 0,
+        wrong_other: 0,
+      });
+      router.push(`/config/${game_id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
       <div className="card-body">
         <h2 className="card-title">{rule.name}</h2>
         <p>{rule.description}</p>
         <div className="card-actions justify-end">
-          <Link href={`/config/${rule.id}`} className="btn-primary btn">
-            設定する
-          </Link>
+          <button onClick={createGame} className="btn-primary btn">
+            新規作成
+          </button>
         </div>
       </div>
     </div>
