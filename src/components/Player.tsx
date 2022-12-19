@@ -3,13 +3,15 @@ import { useRouter } from "next/router";
 
 import PlayerScore from "./PlayerScore";
 
-import db, { playerDBProps } from "#/utils/db";
+import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 
 type PlayerProps = {
-  player: playerDBProps;
+  player: PlayerDBProps;
   index: number;
+  score: ComputedScoreDBProps | undefined;
 };
-const Player: React.FC<PlayerProps> = ({ player, index }) => {
+
+const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
@@ -24,7 +26,6 @@ const Player: React.FC<PlayerProps> = ({ player, index }) => {
   if (!game || !players || !logs) {
     return null;
   }
-  const playerLogs = logs.filter((log) => log.player_id === player.id);
   return (
     <div
       style={{
@@ -49,12 +50,16 @@ const Player: React.FC<PlayerProps> = ({ player, index }) => {
       >
         {player.name}
       </div>
-      <PlayerScore
-        rule={game.rule}
-        game_id={Number(game.id)}
-        player_id={Number(player.id)}
-        logs={playerLogs}
-      />
+      {score ? (
+        <PlayerScore
+          rule={game.rule}
+          game_id={Number(game.id)}
+          player_id={Number(player.id)}
+          score={score}
+        />
+      ) : (
+        <div>ERR!</div>
+      )}
     </div>
   );
 };

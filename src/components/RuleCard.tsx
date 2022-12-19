@@ -1,7 +1,7 @@
 import router from "next/router";
 import { Button, Card } from "semantic-ui-react";
 
-import db, { gameDBProps, Rule } from "#/utils/db";
+import db, { Rule } from "#/utils/db";
 import state from "#/utils/state";
 
 export type RuleCardProps = {

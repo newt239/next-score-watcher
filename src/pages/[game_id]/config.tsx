@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { NextPage } from "next";
@@ -8,16 +8,7 @@ import { Button, Container, Form } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
-import RuleCard, { RuleCardProps } from "#/components/RuleCard";
-import db, { gameDBProps } from "#/utils/db";
-
-const ruleList: RuleCardProps[] = [
-  {
-    id: "normal",
-    name: "スコア計算",
-    description: "単純なスコアを計算します。",
-  },
-];
+import db from "#/utils/db";
 
 const Config: NextPage = () => {
   const router = useRouter();

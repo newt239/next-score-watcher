@@ -1,6 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import Link from "next/link";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Button, Header, Menu } from "semantic-ui-react";
 
 import db from "#/utils/db";

@@ -1,11 +1,6 @@
 import db, { ComputedScoreDBProps } from "./db";
 
-type ComputeScoreProps = {
-  game_id: number;
-  player_id: number;
-};
-
-const computeScore = async ({ game_id }: ComputeScoreProps) => {
+const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
   if (!game) return;
   const playerList = await db.players.where({ game_id: game_id }).toArray();

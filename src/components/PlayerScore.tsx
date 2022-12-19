@@ -1,16 +1,17 @@
-import db, { logDBProps, playerDBProps, Rule } from "#/utils/db";
+import db, { ComputedScoreDBProps, Rule } from "#/utils/db";
 
 type PlayerProps = {
   rule: Rule;
   game_id: number;
   player_id: number;
-  logs: logDBProps[];
+  score: ComputedScoreDBProps;
 };
+
 const PlayerScore: React.FC<PlayerProps> = ({
   rule,
   game_id,
   player_id,
-  logs,
+  score,
 }) => {
   return (
     <div>
@@ -29,8 +30,7 @@ const PlayerScore: React.FC<PlayerProps> = ({
             }
           }}
         >
-          {logs.filter((log) => log.variant === "correct").length -
-            logs.filter((log) => log.variant === "wrong").length}
+          {score.score}
         </div>
       )}
       {rule === "nomx" && (
@@ -49,7 +49,7 @@ const PlayerScore: React.FC<PlayerProps> = ({
               }
             }}
           >
-            {logs.filter((log) => log.variant === "correct").length}
+            {score.correct}
           </div>
           <div
             style={{ fontSize: "2rem", color: "blue", cursor: "pointer" }}
@@ -65,7 +65,7 @@ const PlayerScore: React.FC<PlayerProps> = ({
               }
             }}
           >
-            {logs.filter((log) => log.variant === "wrong").length}
+            {score.wrong}
           </div>
         </>
       )}

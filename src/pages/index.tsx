@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Card, Container } from "semantic-ui-react";
 
 import GameList from "#/components/GameList";
-import RuleCard, { RuleCardProps } from "#/components/RuleCard";
+import RuleCard from "#/components/RuleCard";
 import state from "#/utils/state";
 
 const Home: NextPage = () => {

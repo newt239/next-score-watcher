@@ -2,23 +2,19 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
 import { Form, Input } from "semantic-ui-react";
 
-import db, {
-  gameDBProps,
-  playerDBProps,
-  ScoreWatcherDBTables,
-} from "#/utils/db";
+import db, { GameDBProps, PlayerDBProps } from "#/utils/db";
 
 type InputProps =
   | {
       type: "game";
-      input_id: keyof gameDBProps;
+      input_id: keyof GameDBProps;
       label: string;
       placehodler: string;
       required: boolean;
     }
   | {
       type: "player";
-      input_id: keyof playerDBProps;
+      input_id: keyof PlayerDBProps;
       id: number;
       label: string;
       placehodler: string;
@@ -40,7 +36,9 @@ const ConfigInput: React.FC<{ props: InputProps }> = ({ props }) => {
     if (props.type === "game") {
       return game[props.input_id] as string;
     } else if (props.type === "player") {
-      return players.find((player) => player.id === props.id)?.name as string;
+      return (
+        players.find((player) => player.id === props.id) as PlayerDBProps
+      )[props.input_id] as string;
     }
   };
   return (

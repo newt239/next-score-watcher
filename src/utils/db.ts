@@ -4,7 +4,7 @@ export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 
 export type Rule = "normal" | "nomx";
 
-export type gameDBProps = {
+export type GameDBProps = {
   id?: number;
   name: string;
   count: number;
@@ -20,7 +20,7 @@ export type gameDBProps = {
   started: boolean;
 };
 
-export type playerDBProps = {
+export type PlayerDBProps = {
   id?: number;
   game_id: number;
   name: string;
@@ -29,7 +29,7 @@ export type playerDBProps = {
   initial_wrong: number;
 };
 
-export type logDBProps = {
+export type LogDBProps = {
   id?: number;
   game_id: number;
   player_id: number;
@@ -53,9 +53,9 @@ export type ComputedScoreDBProps = {
 };
 
 export interface ScoreWatcherDBTables extends DexieDatabase {
-  games: Table<gameDBProps>;
-  players: Table<playerDBProps>;
-  logs: Table<logDBProps>;
+  games: Table<GameDBProps>;
+  players: Table<PlayerDBProps>;
+  logs: Table<LogDBProps>;
   computed_scores: Table<ComputedScoreDBProps>;
 }
 
