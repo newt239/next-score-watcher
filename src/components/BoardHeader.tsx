@@ -51,6 +51,22 @@ const BoardHeader: React.FC = () => {
         <Button.Group>
           <Button
             primary
+            onClick={async () => {
+              try {
+                await db.logs.put({
+                  game_id: Number(game_id),
+                  player_id: -1,
+                  variant: "through",
+                });
+              } catch (e) {
+                console.log(e);
+              }
+            }}
+          >
+            スルー
+          </Button>
+          <Button
+            primary
             disabled={logs.length === 0}
             onClick={async () => {
               try {
@@ -62,7 +78,7 @@ const BoardHeader: React.FC = () => {
           >
             一つ戻す
           </Button>
-          <Button onClick={() => router.push(`/${game.id}/config`)}>
+          <Button primary onClick={() => router.push(`/${game.id}/config`)}>
             設定
           </Button>
         </Button.Group>

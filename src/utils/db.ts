@@ -33,7 +33,7 @@ export type LogDBProps = {
   id?: number;
   game_id: number;
   player_id: number;
-  variant: string;
+  variant: "correct" | "wrong" | "through";
 };
 
 export type ComputedScoreDBProps = {
