@@ -1,3 +1,5 @@
+import { Button } from "semantic-ui-react";
+
 import db, { ComputedScoreDBProps, Rule } from "#/utils/db";
 
 type PlayerProps = {
@@ -14,10 +16,12 @@ const PlayerScore: React.FC<PlayerProps> = ({
   score,
 }) => {
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {rule === "normal" && (
-        <div
-          style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
+        <Button
+          circular
+          color="red"
+          style={{ fontSize: "2rem", aspectRatio: "1 / 1", margin: 5 }}
           onClick={async () => {
             try {
               await db.logs.put({
@@ -31,12 +35,14 @@ const PlayerScore: React.FC<PlayerProps> = ({
           }}
         >
           {score.score}
-        </div>
+        </Button>
       )}
       {rule === "nomx" && (
         <>
-          <div
-            style={{ fontSize: "2rem", color: "red", cursor: "pointer" }}
+          <Button
+            circular
+            color="red"
+            style={{ fontSize: "2rem", aspectRatio: "1 / 1", margin: 5 }}
             onClick={async () => {
               try {
                 await db.logs.put({
@@ -50,9 +56,11 @@ const PlayerScore: React.FC<PlayerProps> = ({
             }}
           >
             {score.correct}
-          </div>
-          <div
-            style={{ fontSize: "2rem", color: "blue", cursor: "pointer" }}
+          </Button>
+          <Button
+            circular
+            color="blue"
+            style={{ fontSize: "2rem", aspectRatio: "1 / 1", margin: 5 }}
             onClick={async () => {
               try {
                 await db.logs.put({
@@ -66,7 +74,7 @@ const PlayerScore: React.FC<PlayerProps> = ({
             }}
           >
             {score.wrong}
-          </div>
+          </Button>
         </>
       )}
     </div>

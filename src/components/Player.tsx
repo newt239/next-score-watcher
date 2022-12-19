@@ -32,6 +32,12 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        backgroundColor:
+          score?.state === "win"
+            ? "red"
+            : score?.state === "lose"
+            ? "blue"
+            : undefined,
       }}
     >
       <div style={{ display: "flex", justifyContent: "center" }}>

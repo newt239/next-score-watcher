@@ -1,4 +1,4 @@
-import db, { ComputedScoreDBProps } from "./db";
+import db, { ComputedScoreDBProps, GameDBProps } from "./db";
 
 const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
@@ -10,7 +10,7 @@ const computeScore = async (game_id: number) => {
       id: `${game_id}_${player.id}`,
       game_id,
       player_id: Number(player.id),
-      end: false,
+      state: "playing",
       score: 0,
       correct: player.initial_correct,
       wrong: player.initial_wrong,
@@ -25,19 +25,20 @@ const computeScore = async (game_id: number) => {
   gameLogList.map((log, quiz_position) => {
     insertDataList = insertDataList.map((playerState) => {
       if (playerState.player_id === log.player_id) {
+        const score = getScore(game, playerState, log.variant);
         if (log.variant === "correct") {
           return {
             ...playerState,
             correct: playerState.correct + 1,
             last_correct: quiz_position, // 0-indexed
-            score: playerState.score + game.correct_me, // TODO: 関数化する
+            score,
           };
         } else if (log.variant === "wrong") {
           return {
             ...playerState,
             wrong: playerState.wrong + 1,
             last_wrong: quiz_position, // 0-indexed
-            score: playerState.score + game.wrong_me, // TODO: 関数化する
+            score,
           };
         } else {
           return playerState;
@@ -47,7 +48,53 @@ const computeScore = async (game_id: number) => {
       }
     });
   });
+  // TODO: 最後に評価順 (order) を計算し state を算出
   db.computed_scores.bulkPut(insertDataList);
+};
+
+const getScore = (
+  game: GameDBProps,
+  playerState: ComputedScoreDBProps,
+  variant: "correct" | "wrong" | "through"
+) => {
+  if (variant === "through") return playerState.score;
+  switch (game.rule) {
+    case "normal":
+      return (
+        playerState.score +
+        (variant === "correct" ? game.correct_me : game.wrong_me)
+      );
+    case "nomx":
+      return (
+        playerState.score +
+        (variant === "correct" ? game.correct_me : game.wrong_me)
+      );
+  }
+};
+
+const getState = (
+  game: GameDBProps,
+  playerState: ComputedScoreDBProps,
+  quiz_position: number
+) => {
+  switch (game.rule) {
+    case "normal":
+      if (game.limit && quiz_position >= game.limit) {
+        return "win"; // TODO: 勝ち抜け人数を設定する
+      }
+    case "nomx":
+      if (game.limit && quiz_position >= game.limit) {
+        return "win";
+      }
+      if (game.lose_point && playerState.wrong >= game.lose_point) {
+        return "lose";
+      }
+      if (game.win_point && playerState.correct >= game.win_point) {
+        return "win";
+      }
+  }
+
+  return "playing";
 };
 
 export default computeScore;
