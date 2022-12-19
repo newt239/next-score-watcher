@@ -1,12 +1,12 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
+import { Form, Input } from "semantic-ui-react";
 
 import db, {
   gameDBProps,
   playerDBProps,
   ScoreWatcherDBTables,
 } from "#/utils/db";
-
 type NumberInputProps =
   | {
       type: "game";
@@ -39,7 +39,6 @@ const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
   }
   const inputValue = () => {
     if (props.type === "game") {
-      console.log("a");
       return game[props.input_id] as string;
     } else if (props.type === "player") {
       return players.find((player) => player.id === props.id)?.name as string;
@@ -47,24 +46,22 @@ const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
   };
 
   return (
-    <div className="form-control">
+    <Form.Field>
       <label
-        className="label"
         htmlFor={`${props.type}_${props.input_id}${
           props.type === "player" && "_" + props.id
         }`}
       >
-        <span className="label-text">{props.label}</span>
+        {props.label}
       </label>
-      <input
+      <Input
         id={`${props.type}_${props.input_id}${
           props.type === "player" && "_" + props.id
         }`}
-        type="range"
+        type="number"
         value={inputValue()}
         min={props.min}
         max={props.max}
-        className="range"
         onChange={(v) => {
           if (props.type === "game") {
             db.games.update(Number(game_id), {
@@ -77,12 +74,7 @@ const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
           }
         }}
       />
-      {props.type === "game"
-        ? game[props.input_id]
-        : (players.find((player) => player.id === props.id) as playerDBProps)[
-            props.input_id
-          ]}
-    </div>
+    </Form.Field>
   );
 };
 

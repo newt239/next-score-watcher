@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
+import { Card, Container } from "semantic-ui-react";
 
 import GameList from "#/components/GameList";
 import RuleCard, { RuleCardProps } from "#/components/RuleCard";
@@ -14,19 +15,24 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h2>作成したゲーム一覧</h2>
-        <GameList />
-        <h2>形式一覧</h2>
-        {(Object.keys(state.rules) as (keyof typeof state.rules)[]).map(
-          (id) => (
-            <RuleCard
-              key={id}
-              id={id}
-              name={state.rules[id].name}
-              description={state.rules[id].description}
-            />
-          )
-        )}
+        <Container>
+          <h1>Next Score Watcher</h1>
+          <h2>作成したゲーム一覧</h2>
+          <GameList />
+          <h2>形式一覧</h2>
+          <Card.Group>
+            {(Object.keys(state.rules) as (keyof typeof state.rules)[]).map(
+              (id) => (
+                <RuleCard
+                  key={id}
+                  id={id}
+                  name={state.rules[id].name}
+                  description={state.rules[id].description}
+                />
+              )
+            )}
+          </Card.Group>
+        </Container>
       </main>
     </div>
   );

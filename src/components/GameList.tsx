@@ -1,26 +1,29 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import Link from "next/link";
+import { Button, Card } from "semantic-ui-react";
 
 import db from "#/utils/db";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray());
   return (
-    <div>
+    <Card.Group>
       {games?.map((game) => (
-        <div key={game.id} className="card w-96 bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">{game.name}</h2>
-            <p>{game.type}</p>
-            <div className="card-actions justify-end">
-              <Link href={`/${game.id}/config`} className="btn-primary btn">
-                設定
+        <Card key={game.id}>
+          <Card.Content>
+            <Card.Header>{game.name}</Card.Header>
+            <Card.Description>{game.type}</Card.Description>
+            <div style={{ marginTop: "1rem" }}>
+              <Link href={`/${game.id}/config`}>
+                <Button primary floated="right">
+                  設定
+                </Button>
               </Link>
             </div>
-          </div>
-        </div>
+          </Card.Content>
+        </Card>
       ))}
-    </div>
+    </Card.Group>
   );
 };
 

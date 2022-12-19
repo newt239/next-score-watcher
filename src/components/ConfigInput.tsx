@@ -1,5 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
+import { Form, Input } from "semantic-ui-react";
 
 import db, {
   gameDBProps,
@@ -37,30 +38,27 @@ const ConfigInput: React.FC<{ props: InputProps }> = ({ props }) => {
   }
   const inputValue = () => {
     if (props.type === "game") {
-      console.log("a");
       return game[props.input_id] as string;
     } else if (props.type === "player") {
       return players.find((player) => player.id === props.id)?.name as string;
     }
   };
   return (
-    <div className="form-control">
+    <Form.Field>
       <label
-        className="label"
         htmlFor={`${props.type}_${props.input_id}${
           props.type === "player" && "_" + props.id
         }`}
       >
-        <span className="label-text">{props.label}</span>
+        {props.label}
       </label>
-      <input
+      <Input
         id={`${props.type}_${props.input_id}${
           props.type === "player" && "_" + props.id
         }`}
         type="text"
         placeholder={props.placehodler}
         value={inputValue()}
-        className="input w-full max-w-xs"
         onChange={(v) => {
           if (props.type === "game") {
             db.games.update(Number(game_id), {
@@ -73,7 +71,7 @@ const ConfigInput: React.FC<{ props: InputProps }> = ({ props }) => {
           }
         }}
       />
-    </div>
+    </Form.Field>
   );
 };
 

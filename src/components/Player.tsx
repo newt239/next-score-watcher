@@ -42,6 +42,7 @@ const Player: React.FC<PlayerProps> = ({ player, index }) => {
           display: "flex",
           writingMode: "vertical-rl",
           fontSize: "clamp(8vh, 2rem, 8vw)",
+          fontWeight: 800,
           height: "50vh",
           margin: "auto",
         }}

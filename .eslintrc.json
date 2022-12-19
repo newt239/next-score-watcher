@@ -1,12 +1,11 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "plugin:tailwindcss/recommended",
     "plugin:import/recommended",
     "plugin:import/warnings",
     "prettier"
   ],
-  "plugins": ["tailwindcss"],
+  "plugins": [],
   "rules": {
     "import/prefer-default-export": "off",
     "react-hooks/exhaustive-deps": "off",

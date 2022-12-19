@@ -4,6 +4,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Button, Container, Form } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
@@ -60,78 +61,87 @@ const Config: NextPage = () => {
   return (
     <div>
       <main>
-        <h2>形式設定</h2>
-        <ConfigInput
-          props={{
-            type: "game",
-            input_id: "name",
-            label: "ゲーム名",
-            placehodler: "",
-            required: true,
-          }}
-        />
-        <ConfigNumberInput
-          props={{
-            type: "game",
-            input_id: "count",
-            label: "プレイヤー人数",
-            min: 1,
-            max: 5,
-          }}
-        />
-        {game.type === "nomx" && (
-          <>
-            <ConfigNumberInput
-              props={{
-                type: "game",
-                input_id: "win_point",
-                label: "勝ち抜け正解数",
-                min: 1,
-                max: 30,
-              }}
-            />
-            <ConfigNumberInput
-              props={{
-                type: "game",
-                input_id: "lose_point",
-                label: "失格誤答数",
-                min: 1,
-                max: 30,
-              }}
-            />
-          </>
-        )}
-        <h2>プレイヤー設定</h2>
-        {players?.map((player, i) => (
-          <div key={player.id}>
+        <Container>
+          <Form>
+            <h2>形式設定</h2>
             <ConfigInput
               props={{
-                type: "player",
+                type: "game",
                 input_id: "name",
-                id: Number(player.id),
-                label: "プレイヤー名",
-                placehodler: `プレイヤー${i}`,
+                label: "ゲーム名",
+                placehodler: "",
                 required: true,
               }}
             />
-            <ConfigInput
+            <ConfigNumberInput
               props={{
-                type: "player",
-                input_id: "belong",
-                id: Number(player.id),
-                label: "所属",
-                placehodler: `〇〇高校`,
-                required: true,
+                type: "game",
+                input_id: "count",
+                label: "プレイヤー人数",
+                min: 1,
+                max: 5,
               }}
             />
-          </div>
-        ))}
-        <Link href={`/${game_id}/board`} className="btn">
-          ゲーム開始
-        </Link>
-        <Link href="/" className="btn">
-          ホームに戻る
-        </Link>
+            {game.type === "nomx" && (
+              <>
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "win_point",
+                    label: "勝ち抜け正解数",
+                    min: 1,
+                    max: 30,
+                  }}
+                />
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "lose_point",
+                    label: "失格誤答数",
+                    min: 1,
+                    max: 30,
+                  }}
+                />
+              </>
+            )}
+            <h2>プレイヤー設定</h2>
+            {players?.map((player, i) => (
+              <div key={player.id}>
+                <h3>プレイヤー {i + 1}</h3>
+                <div>
+                  <ConfigInput
+                    props={{
+                      type: "player",
+                      input_id: "name",
+                      id: Number(player.id),
+                      label: "プレイヤー名",
+                      placehodler: `プレイヤー${i + 1}`,
+                      required: true,
+                    }}
+                  />
+                  <ConfigInput
+                    props={{
+                      type: "player",
+                      input_id: "belong",
+                      id: Number(player.id),
+                      label: "所属",
+                      placehodler: `〇〇高校`,
+                      required: true,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+            <div style={{ marginTop: "1rem" }}>
+              <Link href={`/${game_id}/board`}>
+                <Button primary>ゲーム開始</Button>
+              </Link>
+              <Link href="/">
+                <Button>ホームに戻る</Button>
+              </Link>
+            </div>
+          </Form>
+        </Container>
       </main>
     </div>
   );

@@ -1,4 +1,5 @@
 import router from "next/router";
+import { Button, Card } from "semantic-ui-react";
 
 import db, { gameDBProps, Rule } from "#/utils/db";
 import state from "#/utils/state";
@@ -28,17 +29,19 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
     }
   };
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
-      <div className="card-body">
-        <h2 className="card-title">{rule.name}</h2>
-        <p>{rule.description}</p>
-        <div className="card-actions justify-end">
-          <button onClick={createGame} className="btn-primary btn">
+    <Card>
+      <Card.Content>
+        <Card.Header>{rule.name}</Card.Header>
+        <Card.Description>{rule.description}</Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <div>
+          <Button floated="right" primary onClick={createGame}>
             新規作成
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
+      </Card.Content>
+    </Card>
   );
 };
 
