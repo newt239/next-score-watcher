@@ -1,5 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
+import { Card } from "semantic-ui-react";
 
 import PlayerScore from "./PlayerScore";
 
@@ -26,18 +27,22 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
   if (!game || !players || !logs) {
     return null;
   }
+  const colorState =
+    score &&
+    (score.state === "win"
+      ? "#db2828"
+      : score.state == "lose"
+      ? "#2185d0"
+      : undefined);
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor:
-          score?.state === "win"
-            ? "red"
-            : score?.state === "lose"
-            ? "blue"
-            : undefined,
+        backgroundColor: colorState,
+        color: colorState && "white",
+        width: "10vw",
       }}
     >
       <div style={{ display: "flex", justifyContent: "center" }}>

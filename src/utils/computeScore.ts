@@ -1,4 +1,4 @@
-import db, { ComputedScoreDBProps, GameDBProps } from "./db";
+import db, { ComputedScoreDBProps, GameDBProps, States, Variants } from "./db";
 
 const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
@@ -11,7 +11,7 @@ const computeScore = async (game_id: number) => {
       game_id,
       player_id: Number(player.id),
       state: "playing",
-      score: 0,
+      score: player.initial_correct - player.initial_wrong,
       correct: player.initial_correct,
       wrong: player.initial_wrong,
       last_correct: 0,
@@ -48,14 +48,50 @@ const computeScore = async (game_id: number) => {
       }
     });
   });
-  // TODO: 最後に評価順 (order) を計算し state を算出
+  // 評価順 ( order ) を計算
+  const playerOrderList = insertDataList
+    .sort((a, b) => {
+      // スコアを比較
+      if (a.score > b.score) return -1;
+      else if (b.score > a.score) return 1;
+      // 最後に正解した問題番号で比較  TODO: 複数人が正解となるパターン＆判定勝ち
+      if (b.last_correct > a.last_correct) return -1;
+      else if (a.last_correct > b.last_correct) return 1;
+      // 正答数を比較
+      if (a.correct > b.correct) return -1;
+      else if (b.correct > a.correct) return 1;
+      // 誤答数を比較
+      if (a.wrong > b.wrong) return -1;
+      else if (b.wrong > a.wrong) return 1;
+      // 必要に応じて評価基準を追加
+      else return 0;
+    })
+    .map((score) => score.player_id);
+  insertDataList = insertDataList.map((insertData) => {
+    const order = playerOrderList.findIndex(
+      (score) => score === insertData.player_id
+    );
+    return {
+      ...insertData,
+      order,
+    };
+  });
+  // order をもとに state を算出
+  insertDataList = insertDataList.map((insertData) => {
+    const [state, text] = getState(game, insertData, gameLogList.length);
+    return {
+      ...insertData,
+      state: state as States,
+      text,
+    };
+  });
   db.computed_scores.bulkPut(insertDataList);
 };
 
 const getScore = (
   game: GameDBProps,
   playerState: ComputedScoreDBProps,
-  variant: "correct" | "wrong" | "through"
+  variant: Variants
 ) => {
   if (variant === "through") return playerState.score;
   switch (game.rule) {
@@ -80,21 +116,32 @@ const getState = (
   switch (game.rule) {
     case "normal":
       if (game.limit && quiz_position >= game.limit) {
-        return "win"; // TODO: 勝ち抜け人数を設定する
+        return ["win", indicator(playerState.order)];
       }
     case "nomx":
       if (game.limit && quiz_position >= game.limit) {
-        return "win";
+        return ["win", indicator(playerState.order)];
       }
       if (game.lose_point && playerState.wrong >= game.lose_point) {
-        return "lose";
+        return ["lose", "LOSE"];
       }
       if (game.win_point && playerState.correct >= game.win_point) {
-        return "win";
+        return ["win", indicator(playerState.order)];
       }
   }
 
-  return "playing";
+  return ["playing", String(playerState.score)];
+};
+
+const indicator = (i: number) => {
+  i = Math.abs(i) + 1;
+  var cent = i % 100;
+  if (cent >= 10 && cent <= 20) return `${i}st`;
+  var dec = i % 10;
+  if (dec === 1) return `${i}st`;
+  if (dec === 2) return `${i}nd`;
+  if (dec === 3) return `${i}rd`;
+  return `${i}th`;
 };
 
 export default computeScore;

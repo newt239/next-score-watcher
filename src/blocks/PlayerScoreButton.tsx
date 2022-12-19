@@ -1,0 +1,38 @@
+import { Button } from "semantic-ui-react";
+
+import { States, Variants } from "#/utils/db";
+
+type PlayerScoreButtonProps = {
+  variant?: Variants;
+  state: States;
+  children: JSX.Element | JSX.Element[] | string | number;
+  onClick: () => void;
+};
+
+const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
+  variant,
+  state,
+  children,
+  onClick,
+}) => {
+  return (
+    <Button
+      circular
+      color={
+        variant === "correct" ? "red" : variant === "wrong" ? "blue" : undefined
+      }
+      style={{
+        fontSize: "2rem",
+        width: "100%",
+        aspectRatio: "1 / 1",
+        padding: 0,
+        margin: "auto",
+      }}
+      onClick={onClick}
+    >
+      {children}
+    </Button>
+  );
+};
+
+export default PlayerScoreButton;

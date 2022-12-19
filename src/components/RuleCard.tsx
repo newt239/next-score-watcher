@@ -1,11 +1,11 @@
 import router from "next/router";
 import { Button, Card } from "semantic-ui-react";
 
-import db, { Rule } from "#/utils/db";
+import db, { Rules } from "#/utils/db";
 import state from "#/utils/state";
 
 export type RuleCardProps = {
-  id: Rule;
+  id: Rules;
   name: string;
   description: string;
 };
@@ -15,12 +15,10 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
     try {
       const game_id = await db.games.put({
         name: state.rules[rule.id].name,
-        count: 1,
+        count: state.rules[rule.id].count,
         rule: rule.id,
         correct_me: 1,
         wrong_me: -1,
-        correct_other: 0,
-        wrong_other: 0,
         started: false,
       });
       router.push(`/${game_id}/config`);

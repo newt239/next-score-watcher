@@ -1,27 +1,33 @@
-import { Button } from "semantic-ui-react";
+import PlayerScoreButton from "#/blocks/PlayerScoreButton";
+import db, { ComputedScoreDBProps, Rules } from "#/utils/db";
 
-import db, { ComputedScoreDBProps, Rule } from "#/utils/db";
-
-type PlayerProps = {
-  rule: Rule;
+type PlayerScoreProps = {
+  rule: Rules;
   game_id: number;
   player_id: number;
   score: ComputedScoreDBProps;
 };
 
-const PlayerScore: React.FC<PlayerProps> = ({
+const PlayerScore: React.FC<PlayerScoreProps> = ({
   rule,
   game_id,
   player_id,
   score,
 }) => {
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "70%",
+        gap: 5,
+        margin: 5,
+      }}
+    >
       {rule === "normal" && (
-        <Button
-          circular
-          color="red"
-          style={{ fontSize: "2rem", aspectRatio: "1 / 1", margin: 5 }}
+        <PlayerScoreButton
+          variant="correct"
+          state={score.state}
           onClick={async () => {
             try {
               await db.logs.put({
@@ -35,14 +41,13 @@ const PlayerScore: React.FC<PlayerProps> = ({
           }}
         >
           {score.score}
-        </Button>
+        </PlayerScoreButton>
       )}
       {rule === "nomx" && (
         <>
-          <Button
-            circular
-            color="red"
-            style={{ fontSize: "2rem", aspectRatio: "1 / 1", margin: 5 }}
+          <PlayerScoreButton
+            variant="correct"
+            state={score.state}
             onClick={async () => {
               try {
                 await db.logs.put({
@@ -55,12 +60,11 @@ const PlayerScore: React.FC<PlayerProps> = ({
               }
             }}
           >
-            {score.correct}
-          </Button>
-          <Button
-            circular
-            color="blue"
-            style={{ fontSize: "2rem", aspectRatio: "1 / 1", margin: 5 }}
+            {score.state === "win" ? score.text : score.correct}
+          </PlayerScoreButton>
+          <PlayerScoreButton
+            variant="wrong"
+            state={score.state}
             onClick={async () => {
               try {
                 await db.logs.put({
@@ -73,8 +77,8 @@ const PlayerScore: React.FC<PlayerProps> = ({
               }
             }}
           >
-            {score.wrong}
-          </Button>
+            {score.state === "lose" ? score.text : score.wrong}
+          </PlayerScoreButton>
         </>
       )}
     </div>
