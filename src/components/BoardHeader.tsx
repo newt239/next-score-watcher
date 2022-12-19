@@ -31,7 +31,7 @@ const BoardHeader: React.FC = () => {
         }}
       >
         <Header as="h2">{game.name}</Header>
-        <p>{state.rules[game.type].name}</p>
+        <p>{state.rules[game.rule].name}</p>
       </Menu.Item>
       <Menu.Item style={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
         <div style={{ padding: 2, minWidth: 50 }}>Q {logs.length + 1}</div>

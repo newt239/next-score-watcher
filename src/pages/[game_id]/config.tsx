@@ -82,7 +82,7 @@ const Config: NextPage = () => {
                 max: 5,
               }}
             />
-            {game.type === "nomx" && (
+            {game.rule === "nomx" && (
               <>
                 <ConfigNumberInput
                   props={{

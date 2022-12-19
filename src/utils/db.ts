@@ -8,7 +8,7 @@ export type gameDBProps = {
   id?: number;
   name: string;
   count: number;
-  type: Rule;
+  rule: Rule;
   correct_me: number;
   wrong_me: number;
   correct_other: number;
@@ -36,18 +36,37 @@ export type logDBProps = {
   variant: string;
 };
 
+export type ComputedScoreDBProps = {
+  id: string;
+  game_id: number;
+  player_id: number;
+  end: boolean;
+  score: number;
+  correct: number;
+  wrong: number;
+  last_correct: number;
+  last_wrong: number;
+  odd_score: number;
+  even_score: number;
+  order: number;
+  text: string;
+};
+
 export interface ScoreWatcherDBTables extends DexieDatabase {
   games: Table<gameDBProps>;
   players: Table<playerDBProps>;
   logs: Table<logDBProps>;
+  computed_scores: Table<ComputedScoreDBProps>;
 }
 
 const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(1).stores({
   games:
-    "++id, type, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, started",
+    "++id, rule, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, started",
   players: "++id, game_id, name, belong, initial_correct, initial_wrong",
   logs: "++id, game_id, player_id, variant",
+  computed_scores:
+    "++id, game_id, player_id, end, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, order, text",
 });
 db.open()
   .then((r) => console.log(r))

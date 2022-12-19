@@ -17,7 +17,6 @@ const Home: NextPage = () => {
       <main>
         <Container>
           <h1>Next Score Watcher</h1>
-          <h2>作成したゲーム一覧</h2>
           <GameList />
           <h2>形式一覧</h2>
           <Card.Group>

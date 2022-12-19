@@ -16,7 +16,7 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
       const game_id = await db.games.put({
         name: state.rules[rule.id].name,
         count: 1,
-        type: rule.id,
+        rule: rule.id,
         correct_me: 1,
         wrong_me: -1,
         correct_other: 0,
@@ -35,11 +35,9 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
         <Card.Description>{rule.description}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <div>
-          <Button floated="right" primary onClick={createGame}>
-            新規作成
-          </Button>
-        </div>
+        <Button floated="right" primary onClick={createGame}>
+          新規作成
+        </Button>
       </Card.Content>
     </Card>
   );
