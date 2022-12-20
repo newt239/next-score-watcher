@@ -42,17 +42,26 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         alignItems: "center",
         backgroundColor: colorState,
         color: colorState && "white",
-        width: "10vw",
+        width: "max(8vh, 8vw)",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div>{player.belong}</div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: 5,
+        }}
+      >
         <div>{index + 1}</div>
+        <div>{player.belong !== "" ? player.belong : "_"}</div>
       </div>
       <div
         style={{
           display: "flex",
           writingMode: "vertical-rl",
+          textOrientation: "upright",
           fontSize: "clamp(8vh, 2rem, 8vw)",
           fontWeight: 800,
           height: "50vh",
