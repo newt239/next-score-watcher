@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Container, Form } from "semantic-ui-react";
+import { Button, Container, Form, Select } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
+import LoadQuiz from "#/components/LoadQuiz";
 import db from "#/utils/db";
 
 const Config: NextPage = () => {
@@ -18,6 +19,11 @@ const Config: NextPage = () => {
     () => db.players.where({ game_id: Number(game_id) }).toArray(),
     []
   );
+  const quizes = useLiveQuery(
+    () => db.quizes.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
+  const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
   const updatePlayerCount = async () => {
     if (game) {
       const players = await db.players
@@ -123,6 +129,23 @@ const Config: NextPage = () => {
                 </div>
               </div>
             ))}
+            <h2>問題設定</h2>
+            {quizes ? (
+              <Form.Field>
+                <label>セット名</label>
+                <Select
+                  options={quizsetList.map((quiz) => {
+                    return { value: quiz, text: quiz };
+                  })}
+                  onChange={(e) => {
+                    console.log(e);
+                    db.games.update(Number(game_id), {});
+                  }}
+                />
+              </Form.Field>
+            ) : (
+              <div>データベースが見つかりません。</div>
+            )}
             <div style={{ marginTop: "1rem" }}>
               <Link href={`/${game_id}/board`}>
                 <Button primary>ゲーム開始</Button>

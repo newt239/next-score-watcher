@@ -17,6 +17,10 @@ const BoardHeader: React.FC = () => {
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
   );
+  const quizes = useLiveQuery(
+    () => db.quizes.where({ quizset_name: game?.quizset_name }).toArray(),
+    []
+  );
   if (!game || !players || !logs) {
     return null;
   }
@@ -34,18 +38,21 @@ const BoardHeader: React.FC = () => {
       </Menu.Item>
       <Menu.Item style={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
         <div style={{ padding: 2, minWidth: 50 }}>Q {logs.length + 1}</div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: 2,
-            borderColor: "green.500",
-            borderLeftWidth: 2,
-          }}
-        >
-          <div>問題文</div>
-          <div>答え</div>
-        </div>
+        {quizes &&
+          game.quizset_name &&
+          quizes.length <= game.quizset_offset + logs.length && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: 2,
+                borderLeftWidth: 2,
+              }}
+            >
+              <div>{quizes[game.quizset_offset + logs.length - 1].q}</div>
+              <div>{quizes[game.quizset_offset + logs.length - 1].a}</div>
+            </div>
+          )}
       </Menu.Item>
       <Menu.Item>
         <Button.Group>

@@ -20,6 +20,7 @@ const RuleCard: React.FC<RuleCardProps> = (rule) => {
         correct_me: 1,
         wrong_me: -1,
         started: false,
+        quizset_offset: 0,
       });
       router.push(`/${game_id}/config`);
     } catch (err) {

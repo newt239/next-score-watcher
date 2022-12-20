@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Card, Container } from "semantic-ui-react";
 
 import GameList from "#/components/GameList";
+import LoadQuiz from "#/components/LoadQuiz";
 import RuleCard from "#/components/RuleCard";
 import state from "#/utils/state";
 
@@ -31,6 +32,8 @@ const Home: NextPage = () => {
               )
             )}
           </Card.Group>
+          <h2>問題の読み込み</h2>
+          <LoadQuiz />
         </Container>
       </main>
     </div>

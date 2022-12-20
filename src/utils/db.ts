@@ -18,6 +18,8 @@ export type GameDBProps = {
   win_through?: number;
   limit?: number;
   started: boolean;
+  quizset_name?: string;
+  quizset_offset: number;
 };
 
 export type PlayerDBProps = {
@@ -54,22 +56,33 @@ export type ComputedScoreDBProps = {
   text: string; // 画面上に表示するための文字
 };
 
+export type QuizDBProps = {
+  id?: number;
+  index: number;
+  q: string;
+  a: string;
+  set_name: string;
+};
+
 export interface ScoreWatcherDBTables extends DexieDatabase {
   games: Table<GameDBProps>;
   players: Table<PlayerDBProps>;
   logs: Table<LogDBProps>;
   computed_scores: Table<ComputedScoreDBProps>;
+  quizes: Table<QuizDBProps>;
 }
 
 const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(1).stores({
   games:
-    "++id, rule, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, started",
+    "++id, rule, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, started, quizset_name, quizset_offset",
   players: "++id, game_id, name, belong, initial_correct, initial_wrong",
   logs: "++id, game_id, player_id, variant",
   computed_scores:
-    "++id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, order, text",
+    "id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, order, text",
+  quizes: "++id, index, q, a, set_name",
 });
+
 db.open()
   .then((r) => console.log("open score_watcher database"))
   .catch((r) => console.log(r));
