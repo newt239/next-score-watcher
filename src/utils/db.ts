@@ -7,7 +7,7 @@ export type Rules = "normal" | "nomx";
 export type GameDBProps = {
   id?: number;
   name: string;
-  count: number;
+  count: number; // プレイヤーの人数
   rule: Rules;
   correct_me: number;
   wrong_me: number;

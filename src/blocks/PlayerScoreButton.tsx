@@ -22,6 +22,9 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         variant === "correct" ? "red" : variant === "wrong" ? "blue" : undefined
       }
       style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         fontSize: "clamp(5vh, 2rem, 5vw)",
         width: "100%",
         aspectRatio: "1 / 1",

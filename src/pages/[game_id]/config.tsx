@@ -51,6 +51,9 @@ const Config: NextPage = () => {
   if (!game) {
     return null;
   }
+  const deleteGame = () => {
+    db.games.delete(Number(game.id)).then(() => router.push("/"));
+  };
   return (
     <div>
       <main>
@@ -154,6 +157,9 @@ const Config: NextPage = () => {
               <Link href="/">
                 <Button>ホームに戻る</Button>
               </Link>
+              <Button color="red" onClick={deleteGame}>
+                ゲームを削除
+              </Button>
               <Link href={`/${game_id}/board`}>
                 <Button primary>ゲーム開始</Button>
               </Link>
