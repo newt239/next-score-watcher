@@ -295,6 +295,71 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
         </>
       )}
+      {game.rule === "squarex" && (
+        <>
+          <PlayerScoreButton
+            variant={
+              score.state === "win"
+                ? "correct"
+                : score.state === "lose"
+                ? "wrong"
+                : "through"
+            }
+            state={score.state}
+          >
+            {score.text}
+          </PlayerScoreButton>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+          >
+            <PlayerScoreButton variant="through" state={score.state}>
+              {score.odd_score}
+            </PlayerScoreButton>
+            ×
+            <PlayerScoreButton variant="through" state={score.state}>
+              {score.even_score}
+            </PlayerScoreButton>
+          </div>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+          >
+            <PlayerScoreButton
+              variant="correct"
+              state={score.state}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: game.id!,
+                    player_id,
+                    variant: "correct",
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              ○
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              variant="wrong"
+              state={score.state}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: game.id!,
+                    player_id,
+                    variant: "wrong",
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              ×
+            </PlayerScoreButton>
+          </div>
+        </>
+      )}
     </div>
   );
 };

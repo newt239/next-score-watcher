@@ -8,7 +8,8 @@ export type RuleNames =
   | "nbyn"
   | "nupdown"
   | "swedishx"
-  | "attacksurvival";
+  | "attacksurvival"
+  | "squarex";
 
 export type GameDBProps = {
   id?: number;

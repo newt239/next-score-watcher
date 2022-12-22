@@ -37,6 +37,8 @@ const RuleList: React.FC = () => {
           putData.wrong_me = rules[rule].wrong_me;
           putData.correct_other = rules[rule].correct_other;
           putData.wrong_other = rules[rule].wrong_other;
+        case "squarex":
+          putData.win_point = rules[rule].win_point;
       }
       const game_id = await db.games.put(putData);
       router.push(`/${game_id}/config`);

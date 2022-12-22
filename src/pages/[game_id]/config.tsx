@@ -180,6 +180,17 @@ const Config: NextPage = () => {
                 />
               </>
             )}
+            {["squarex"].indexOf(game.rule) !== -1 && (
+              <ConfigNumberInput
+                props={{
+                  type: "game",
+                  input_id: "win_point",
+                  label: "X",
+                  min: 1,
+                  max: 100,
+                }}
+              />
+            )}
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (
               <div key={player.id} style={{ marginTop: "1rem" }}>

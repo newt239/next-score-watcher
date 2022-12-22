@@ -28,23 +28,47 @@ const computeScore = async (game_id: number) => {
   gameLogList.map((log, quiz_position) => {
     insertDataList = insertDataList.map((playerState) => {
       if (playerState.player_id === log.player_id) {
-        const score = getScore(game, playerState, log.variant);
+        const editedPlayerState =
+          game.rule === "squarex"
+            ? quiz_position % 2 === 0
+              ? {
+                  ...playerState,
+                  odd_score:
+                    playerState.odd_score +
+                    (log.variant === "correct"
+                      ? 1
+                      : log.variant === "wrong"
+                      ? -1
+                      : 0),
+                }
+              : {
+                  ...playerState,
+                  even_score:
+                    playerState.even_score +
+                    (log.variant === "correct"
+                      ? 1
+                      : log.variant === "wrong"
+                      ? -1
+                      : 0),
+                }
+            : playerState;
+        const score = getScore(game, editedPlayerState, log.variant);
         if (log.variant === "correct") {
           return {
-            ...playerState,
-            correct: playerState.correct + 1,
+            ...editedPlayerState,
+            correct: editedPlayerState.correct + 1,
             last_correct: quiz_position, // 0-indexed
             score,
           };
         } else if (log.variant === "wrong") {
           return {
-            ...playerState,
-            wrong: playerState.wrong + 1,
+            ...editedPlayerState,
+            wrong: editedPlayerState.wrong + 1,
             last_wrong: quiz_position, // 0-indexed
             score,
           };
         } else {
-          return playerState;
+          return editedPlayerState;
         }
       } else {
         if (game.rule === "attacksurvival") {
@@ -133,6 +157,8 @@ const getScore = (
         playerState.score +
         (variant === "wrong" ? game.wrong_me : game.correct_me)
       );
+    case "squarex":
+      return playerState.odd_score * playerState.even_score;
   }
   return playerState.score;
 };
@@ -178,6 +204,10 @@ const getState = (
     case "attacksurvival":
       if (playerState.score <= 0) {
         return ["lose", "LOSE"];
+      }
+    case "squarex":
+      if (playerState.score >= game.win_point!) {
+        return ["win", indicator(playerState.order)];
       }
   }
 
