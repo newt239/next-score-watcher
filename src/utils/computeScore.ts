@@ -109,9 +109,12 @@ const getScore = (
       return playerState.correct * ((game.win_point || 5) - playerState.wrong);
     case "nupdown":
       return variant === "wrong" ? 0 : playerState.score + 1;
-    default:
-      return playerState.score;
+    case "swedishx":
+      return variant === "wrong"
+        ? playerState.score - playerState.wrong - 1
+        : playerState.score + 1;
   }
+  return playerState.score;
 };
 
 const getState = (
@@ -145,6 +148,10 @@ const getState = (
         return ["win", indicator(playerState.order)];
       }
     case "nupdown":
+      if (playerState.score >= game.win_point!) {
+        return ["win", indicator(playerState.order)];
+      }
+    case "swedishx":
       if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }

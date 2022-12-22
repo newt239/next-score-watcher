@@ -100,7 +100,7 @@ const Config: NextPage = () => {
                 />
               </>
             )}
-            {["nbyn", "nupdown"].indexOf(game.rule) && (
+            {["nbyn", "nupdown", "swedishx"].indexOf(game.rule) && (
               <ConfigNumberInput
                 props={{
                   type: "game",
@@ -111,7 +111,7 @@ const Config: NextPage = () => {
                 }}
               />
             )}
-            {game.rule === "nomx" && (
+            {game.rule === "nupdown" && (
               <ConfigNumberInput
                 props={{
                   type: "game",

@@ -22,4 +22,9 @@ export const rules = {
     win_point: 5,
     lose_point: 2,
   },
+  swedishx: {
+    name: "SwedishX",
+    description: "1回の正答で+1,n回目の誤答で-nでXを目指す形式です。",
+    win_point: 5,
+  },
 };

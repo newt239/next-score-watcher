@@ -28,6 +28,8 @@ const RuleList: React.FC = () => {
         case "nupdown":
           putData.win_point = rules[rule].win_point;
           putData.lose_point = rules[rule].lose_point;
+        case "swedishx":
+          putData.win_point = rules[rule].win_point;
       }
       const game_id = await db.games.put(putData);
       router.push(`/${game_id}/config`);
