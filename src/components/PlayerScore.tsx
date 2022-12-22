@@ -1,16 +1,14 @@
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
-import db, { ComputedScoreDBProps, Rules } from "#/utils/db";
+import db, { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 
 type PlayerScoreProps = {
-  rule: Rules;
-  game_id: number;
+  game: GameDBProps;
   player_id: number;
   score: ComputedScoreDBProps;
 };
 
 const PlayerScore: React.FC<PlayerScoreProps> = ({
-  rule,
-  game_id,
+  game,
   player_id,
   score,
 }) => {
@@ -24,14 +22,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         margin: 5,
       }}
     >
-      {rule === "normal" && (
+      {game.rule === "normal" && (
         <PlayerScoreButton
           variant="correct"
           state={score.state}
           onClick={async () => {
             try {
               await db.logs.put({
-                game_id,
+                game_id: game.id!,
                 player_id,
                 variant: "correct",
               });
@@ -43,7 +41,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           {score.score}
         </PlayerScoreButton>
       )}
-      {rule === "nomx" && (
+      {game.rule === "nomx" && (
         <>
           <PlayerScoreButton
             variant="correct"
@@ -51,7 +49,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             onClick={async () => {
               try {
                 await db.logs.put({
-                  game_id: Number(game_id),
+                  game_id: game.id!,
                   player_id: Number(player_id),
                   variant: "correct",
                 });
@@ -68,7 +66,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             onClick={async () => {
               try {
                 await db.logs.put({
-                  game_id: Number(game_id),
+                  game_id: game.id!,
                   player_id: Number(player_id),
                   variant: "wrong",
                 });
@@ -79,6 +77,62 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.state === "lose" ? score.text : score.wrong}
           </PlayerScoreButton>
+        </>
+      )}
+      {game.rule === "nbyn" && (
+        <>
+          <PlayerScoreButton
+            variant={
+              score.state === "win"
+                ? "correct"
+                : score.state === "lose"
+                ? "wrong"
+                : "through"
+            }
+            state={score.state}
+          >
+            {score.state !== "playing"
+              ? score.text
+              : score.correct * (game.win_point! - score.wrong)}
+          </PlayerScoreButton>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+          >
+            <PlayerScoreButton
+              variant="correct"
+              state={score.state}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: game.id!,
+                    player_id: Number(player_id),
+                    variant: "correct",
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              {score.correct}
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              variant="wrong"
+              state={score.state}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: game.id!,
+                    player_id: Number(player_id),
+                    variant: "wrong",
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              {game.win_point! - score.wrong}
+            </PlayerScoreButton>
+          </div>
         </>
       )}
     </div>

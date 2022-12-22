@@ -100,6 +100,19 @@ const Config: NextPage = () => {
                 />
               </>
             )}
+            {game.rule === "nbyn" && (
+              <>
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "win_point",
+                    label: "N",
+                    min: 1,
+                    max: 10,
+                  }}
+                />
+              </>
+            )}
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (
               <div key={player.id} style={{ marginTop: "1rem" }}>

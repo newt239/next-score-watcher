@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { ChangeEvent } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { Form, Input } from "semantic-ui-react";

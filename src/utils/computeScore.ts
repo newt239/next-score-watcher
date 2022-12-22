@@ -105,6 +105,10 @@ const getScore = (
         playerState.score +
         (variant === "correct" ? game.correct_me : game.wrong_me)
       );
+    case "nbyn":
+      return playerState.correct * ((game.win_point || 5) - playerState.wrong);
+    default:
+      return playerState.score;
   }
 };
 
@@ -113,19 +117,33 @@ const getState = (
   playerState: ComputedScoreDBProps,
   quiz_position: number
 ) => {
+  if (game.limit && quiz_position >= game.limit) {
+    // 出題数が限定問題数を超えたとき
+    if (!game.win_through || playerState.order < game.win_through) {
+      // グループ内順位が勝ち抜け上限人数より小さいとき
+      return ["win", indicator(playerState.order)];
+    } else {
+      return ["lose", "LOSE"];
+    }
+  }
   switch (game.rule) {
-    case "normal":
-      if (game.limit && quiz_position >= game.limit) {
-        return ["win", indicator(playerState.order)];
-      }
     case "nomx":
-      if (game.limit && quiz_position >= game.limit) {
-        return ["win", indicator(playerState.order)];
-      }
-      if (game.lose_point && playerState.wrong >= game.lose_point) {
+      if (playerState.wrong >= game.lose_point!) {
+        // 失格誤答数より多く誤答したとき
         return ["lose", "LOSE"];
       }
-      if (game.win_point && playerState.correct >= game.win_point) {
+      if (playerState.correct >= game.win_point!) {
+        return ["win", indicator(playerState.order)];
+      }
+    case "nbyn":
+      if (playerState.wrong >= game.win_point!) {
+        // Nより多く誤答したとき
+        return ["lose", "LOSE"];
+      }
+      if (
+        playerState.correct * (game.win_point! - playerState.wrong) >=
+        game.win_point! ** 2
+      ) {
         return ["win", indicator(playerState.order)];
       }
   }

@@ -43,7 +43,6 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         alignItems: "center",
         backgroundColor: colorState,
         color: colorState && "white",
-        width: "max(8vh, 8vw)",
       }}
     >
       <div
@@ -72,12 +71,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         {player.name}
       </div>
       {score ? (
-        <PlayerScore
-          rule={game.rule}
-          game_id={Number(game.id)}
-          player_id={Number(player.id)}
-          score={score}
-        />
+        <PlayerScore game={game} player_id={Number(player.id)} score={score} />
       ) : (
         <div>ERR!</div>
       )}

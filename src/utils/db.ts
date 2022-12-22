@@ -2,13 +2,13 @@ import Dexie, { Table } from "dexie";
 
 export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 
-export type Rules = "normal" | "nomx";
+export type RuleNames = "normal" | "nomx" | "nbyn";
 
 export type GameDBProps = {
   id?: number;
   name: string;
   count: number; // プレイヤーの人数
-  rule: Rules;
+  rule: RuleNames;
   correct_me: number;
   wrong_me: number;
   correct_other?: number;

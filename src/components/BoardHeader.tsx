@@ -5,7 +5,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Button, Dropdown, Header, Menu } from "semantic-ui-react";
 
 import db, { QuizDBProps } from "#/utils/db";
-import state from "#/utils/state";
+import { rules } from "#/utils/state";
 
 const BoardHeader: React.FC = () => {
   const router = useRouter();
@@ -50,7 +50,7 @@ const BoardHeader: React.FC = () => {
         <Header as="h2" style={{ margin: 0, fontSize: "2rem" }}>
           {game.name}
         </Header>
-        <p>{state.rules[game.rule].name}</p>
+        <p>{rules[game.rule].name}</p>
       </Menu.Menu>
       <Menu.Menu>
         第

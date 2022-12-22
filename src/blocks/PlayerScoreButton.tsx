@@ -6,7 +6,7 @@ type PlayerScoreButtonProps = {
   variant?: Variants;
   state: States;
   children: JSX.Element | JSX.Element[] | string | number;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
@@ -19,7 +19,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     <Button
       circular
       color={
-        variant === "correct" ? "red" : variant === "wrong" ? "blue" : undefined
+        variant === "correct" ? "red" : variant === "wrong" ? "blue" : "green"
       }
       style={{
         display: "flex",
@@ -27,6 +27,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         alignItems: "center",
         fontSize: "clamp(5vh, 2rem, 5vw)",
         width: "100%",
+        minWidth: 50,
         aspectRatio: "1 / 1",
         padding: 0,
         margin: "auto",
