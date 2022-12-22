@@ -3,17 +3,19 @@ import { useRouter } from "next/router";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Form, Input } from "semantic-ui-react";
 
-import db, { GameDBProps } from "#/utils/db";
+import db, { PlayerDBProps } from "#/utils/db";
 
-type ConfigInputProps = {
-  input_id: keyof GameDBProps;
+type PlayerConfigInputProps = {
+  input_id: keyof PlayerDBProps;
+  player_id: number;
   label: string;
   placehodler: string;
   required: boolean;
 };
 
-const ConfigInput: React.FC<ConfigInputProps> = ({
+const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
   input_id,
+  player_id,
   label,
   placehodler,
   required,
@@ -29,18 +31,20 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
     return null;
   }
   const inputValue = () => {
-    return game[input_id] as string;
+    return (players.find((player) => player.id === player_id) as PlayerDBProps)[
+      input_id
+    ] as string;
   };
   return (
     <Form.Field>
-      <label htmlFor={`game_${input_id}`}>{label}</label>
+      <label htmlFor={`player_${input_id}${player_id}`}>{label}</label>
       <Input
-        id={`game_${input_id}`}
+        id={`player_${input_id}${player_id}`}
         type="text"
         placeholder={placehodler}
         value={inputValue()}
         onChange={(v) => {
-          db.games.update(Number(game_id), {
+          db.players.update(player_id, {
             [input_id]: v.target.value as string,
           });
         }}
@@ -49,4 +53,4 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   );
 };
 
-export default ConfigInput;
+export default PlayerConfigInput;

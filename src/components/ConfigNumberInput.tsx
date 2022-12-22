@@ -1,30 +1,22 @@
 import { useRouter } from "next/router";
-import { ChangeEvent } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { Form, Input } from "semantic-ui-react";
 
-import db, { GameDBProps, PlayerDBProps } from "#/utils/db";
+import db, { GameDBProps } from "#/utils/db";
 
-type NumberInputProps =
-  | {
-      type: "game";
-      input_id: keyof GameDBProps;
-      label: string;
-      min: number;
-      max: number;
-    }
-  | {
-      type: "player";
-      input_id: keyof PlayerDBProps;
-      id: number;
-      label: string;
-      min: number;
-      max: number;
-    };
+type ConfigNumberInputProps = {
+  input_id: keyof GameDBProps;
+  label: string;
+  min?: number;
+  max?: number;
+};
 
-const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
-  props,
+const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
+  input_id,
+  label,
+  min = 1,
+  max = 10,
 }) => {
   const router = useRouter();
   const { game_id } = router.query;
@@ -37,42 +29,22 @@ const ConfigNumberInput: React.FC<{ props: NumberInputProps }> = ({
     return null;
   }
   const inputValue = () => {
-    if (props.type === "game") {
-      return game[props.input_id] as string;
-    } else if (props.type === "player") {
-      return (
-        players.find((player) => player.id === props.id) as PlayerDBProps
-      )[props.input_id] as string;
-    }
+    return game[input_id] as string;
   };
 
   return (
     <Form.Field>
-      <label
-        htmlFor={`${props.type}_${props.input_id}${
-          props.type === "player" && "_" + props.id
-        }`}
-      >
-        {props.label}
-      </label>
+      <label htmlFor={`game_${input_id}`}>{label}</label>
       <Input
-        id={`${props.type}_${props.input_id}${
-          props.type === "player" && "_" + props.id
-        }`}
+        id={`game_${input_id}`}
         type="number"
         value={inputValue()}
-        min={props.min}
-        max={props.max}
+        min={min}
+        max={max}
         onChange={(v) => {
-          if (props.type === "game") {
-            db.games.update(Number(game_id), {
-              [props.input_id]: v.target.value as string,
-            });
-          } else if (props.type === "player") {
-            db.players.update(Number(props.id), {
-              [props.input_id]: v.target.value as string,
-            });
-          }
+          db.games.update(Number(game_id), {
+            [input_id]: v.target.value as string,
+          });
         }}
       />
     </Form.Field>

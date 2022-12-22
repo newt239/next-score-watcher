@@ -8,6 +8,7 @@ import { Button, Container, Form, Select } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
+import PlayerConfigInput from "#/components/PlayerConfigInput";
 import db from "#/utils/db";
 
 const Config: NextPage = () => {
@@ -61,160 +62,91 @@ const Config: NextPage = () => {
           <Form>
             <h2>形式設定</h2>
             <ConfigInput
-              props={{
-                type: "game",
-                input_id: "name",
-                label: "ゲーム名",
-                placehodler: "",
-                required: true,
-              }}
+              input_id="name"
+              label="ゲーム名"
+              placehodler="〇〇大会"
+              required
             />
             <ConfigNumberInput
-              props={{
-                type: "game",
-                input_id: "count",
-                label: "プレイヤー人数",
-                min: 1,
-                max: 5,
-              }}
+              input_id="count"
+              label="プレイヤー人数"
+              max={5}
             />
             {game.rule === "nomx" && (
               <>
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "win_point",
-                    label: "勝ち抜け正解数",
-                    min: 1,
-                    max: 30,
-                  }}
+                  input_id="win_point"
+                  label="勝ち抜け正解数"
+                  max={30}
                 />
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "lose_point",
-                    label: "失格誤答数",
-                    min: 1,
-                    max: 30,
-                  }}
+                  input_id="lose_point"
+                  label="失格誤答数"
+                  max={30}
                 />
               </>
             )}
             {["nbyn", "nupdown", "swedishx"].indexOf(game.rule) !== -1 && (
-              <ConfigNumberInput
-                props={{
-                  type: "game",
-                  input_id: "win_point",
-                  label: "N",
-                  min: 1,
-                  max: 10,
-                }}
-              />
+              <ConfigNumberInput input_id="win_point" label="N" max={10} />
             )}
             {game.rule === "nupdown" && (
-              <ConfigNumberInput
-                props={{
-                  type: "game",
-                  input_id: "lose_point",
-                  label: "失格誤答数",
-                  min: 1,
-                  max: 10,
-                }}
-              />
+              <ConfigNumberInput input_id="lose_point" label="失格誤答数" />
             )}
             {game.rule === "attacksurvival" && (
               <>
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "win_point",
-                    label: "初期値",
-                    min: 1,
-                    max: 30,
-                  }}
+                  input_id="win_point"
+                  label="初期値"
+                  max={30}
                 />
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "win_through",
-                    label: "勝ち抜け人数",
-                    min: 1,
-                    max: game.count,
-                  }}
+                  input_id="win_through"
+                  label="勝ち抜け人数"
+                  max={game.count}
                 />
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "correct_me",
-                    label: "自分が正答",
-                    min: -10,
-                    max: 10,
-                  }}
+                  input_id="correct_me"
+                  label="自分が正答"
+                  min={-10}
                 />
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "wrong_me",
-                    label: "自分が誤答",
-                    min: -10,
-                    max: 10,
-                  }}
+                  input_id="wrong_me"
+                  label="自分が誤答"
+                  min={-10}
                 />
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "correct_other",
-                    label: "他人が正答",
-                    min: -10,
-                    max: 10,
-                  }}
+                  input_id="correct_other"
+                  label="他人が正答"
+                  min={-10}
                 />
                 <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "wrong_other",
-                    label: "他人が誤答",
-                    min: -10,
-                    max: 10,
-                  }}
+                  input_id="wrong_other"
+                  label="他人が誤答"
+                  min={-10}
                 />
               </>
             )}
             {["squarex"].indexOf(game.rule) !== -1 && (
-              <ConfigNumberInput
-                props={{
-                  type: "game",
-                  input_id: "win_point",
-                  label: "X",
-                  min: 1,
-                  max: 100,
-                }}
-              />
+              <ConfigNumberInput input_id="win_point" label="X" max={100} />
             )}
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (
               <div key={player.id} style={{ marginTop: "1rem" }}>
                 <h3>プレイヤー {i + 1}</h3>
                 <div>
-                  <ConfigInput
-                    props={{
-                      type: "player",
-                      input_id: "name",
-                      id: Number(player.id),
-                      label: "プレイヤー名",
-                      placehodler: `プレイヤー${i + 1}`,
-                      required: true,
-                    }}
+                  <PlayerConfigInput
+                    input_id="name"
+                    player_id={player.id!}
+                    label="プレイヤー名"
+                    placehodler={`プレイヤー${i + 1}`}
+                    required
                   />
-                  <ConfigInput
-                    props={{
-                      type: "player",
-                      input_id: "belong",
-                      id: Number(player.id),
-                      label: "所属",
-                      placehodler: `〇〇高校`,
-                      required: true,
-                    }}
+                  <PlayerConfigInput
+                    input_id="belong"
+                    player_id={player.id!}
+                    label="所属"
+                    placehodler="〇〇高校"
+                    required
                   />
                 </div>
               </div>

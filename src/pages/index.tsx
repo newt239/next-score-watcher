@@ -16,7 +16,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Container>
+        <Container style={{ padding: "1rem" }}>
           <h1>Next Score Watcher</h1>
           <GameList />
           <h2>形式一覧</h2>
