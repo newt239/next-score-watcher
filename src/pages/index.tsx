@@ -1,5 +1,6 @@
-import { NextPage } from "next";
 import Head from "next/head";
+
+import { NextPage } from "next";
 import { Card, Container } from "semantic-ui-react";
 
 import GameList from "#/components/GameList";

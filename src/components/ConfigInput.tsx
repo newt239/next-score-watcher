@@ -1,5 +1,6 @@
-import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
+
+import { useLiveQuery } from "dexie-react-hooks";
 import { Form, Input } from "semantic-ui-react";
 
 import db, { GameDBProps, PlayerDBProps } from "#/utils/db";

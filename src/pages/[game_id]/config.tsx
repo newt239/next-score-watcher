@@ -1,9 +1,9 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { ChangeEvent, useEffect } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { NextPage } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { Button, Container, Form, Select } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";

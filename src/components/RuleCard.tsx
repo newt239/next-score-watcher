@@ -1,4 +1,5 @@
 import router from "next/router";
+
 import { Button, Card } from "semantic-ui-react";
 
 import db, { Rules } from "#/utils/db";
