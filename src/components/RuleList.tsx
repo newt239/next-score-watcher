@@ -25,6 +25,9 @@ const RuleList: React.FC = () => {
           putData.lose_point = rules[rule].lose_point;
         case "nbyn":
           putData.win_point = rules[rule].win_point;
+        case "nupdown":
+          putData.win_point = rules[rule].win_point;
+          putData.lose_point = rules[rule].lose_point;
       }
       const game_id = await db.games.put(putData);
       router.push(`/${game_id}/config`);
@@ -41,7 +44,7 @@ const RuleList: React.FC = () => {
             <Card.Description>{rules[id].description}</Card.Description>
           </Card.Content>
           <Card.Content extra>
-            <Button primary onClick={() => createGame(id)}>
+            <Button primary floated="right" onClick={() => createGame(id)}>
               新規作成
             </Button>
           </Card.Content>

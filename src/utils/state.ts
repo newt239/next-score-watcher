@@ -15,4 +15,11 @@ export const rules = {
       "正答数と誤答数2つの変数を持ち、それぞれの初期値は0とNです。2つの変数の積がN ** 2に達したら勝ち抜けの形式です。",
     win_point: 5,
   },
+  nupdown: {
+    name: "Nupdown",
+    description:
+      "N回正解で勝ち抜けですが、途中で一度でも誤答すると0に戻る形式です。",
+    win_point: 5,
+    lose_point: 2,
+  },
 };

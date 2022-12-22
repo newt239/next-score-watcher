@@ -100,18 +100,27 @@ const Config: NextPage = () => {
                 />
               </>
             )}
-            {game.rule === "nbyn" && (
-              <>
-                <ConfigNumberInput
-                  props={{
-                    type: "game",
-                    input_id: "win_point",
-                    label: "N",
-                    min: 1,
-                    max: 10,
-                  }}
-                />
-              </>
+            {["nbyn", "nupdown"].indexOf(game.rule) && (
+              <ConfigNumberInput
+                props={{
+                  type: "game",
+                  input_id: "win_point",
+                  label: "N",
+                  min: 1,
+                  max: 10,
+                }}
+              />
+            )}
+            {game.rule === "nomx" && (
+              <ConfigNumberInput
+                props={{
+                  type: "game",
+                  input_id: "lose_point",
+                  label: "失格誤答数",
+                  min: 1,
+                  max: 10,
+                }}
+              />
             )}
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (

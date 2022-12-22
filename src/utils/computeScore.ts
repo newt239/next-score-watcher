@@ -107,6 +107,8 @@ const getScore = (
       );
     case "nbyn":
       return playerState.correct * ((game.win_point || 5) - playerState.wrong);
+    case "nupdown":
+      return variant === "wrong" ? 0 : playerState.score + 1;
     default:
       return playerState.score;
   }
@@ -126,24 +128,24 @@ const getState = (
       return ["lose", "LOSE"];
     }
   }
+  if (game.lose_point && playerState.wrong >= game.lose_point) {
+    // 失格誤答数より多く誤答したとき
+    return ["lose", "LOSE"];
+  }
   switch (game.rule) {
     case "nomx":
-      if (playerState.wrong >= game.lose_point!) {
-        // 失格誤答数より多く誤答したとき
-        return ["lose", "LOSE"];
-      }
       if (playerState.correct >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
     case "nbyn":
-      if (playerState.wrong >= game.win_point!) {
-        // Nより多く誤答したとき
-        return ["lose", "LOSE"];
-      }
       if (
         playerState.correct * (game.win_point! - playerState.wrong) >=
         game.win_point! ** 2
       ) {
+        return ["win", indicator(playerState.order)];
+      }
+    case "nupdown":
+      if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
   }
