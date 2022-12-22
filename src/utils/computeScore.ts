@@ -5,6 +5,7 @@ const computeScore = async (game_id: number) => {
   if (!game) return;
   const playerList = await db.players.where({ game_id: game_id }).toArray();
   const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
+  await db.games.update(game_id, { started: gameLogList.length !== 0 });
   let insertDataList: ComputedScoreDBProps[] = playerList.map((player) => {
     return {
       id: `${game_id}_${player.id}`,

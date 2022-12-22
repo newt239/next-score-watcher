@@ -9,8 +9,8 @@ type PlayerConfigInputProps = {
   input_id: keyof PlayerDBProps;
   player_id: number;
   label: string;
-  placehodler: string;
-  required: boolean;
+  placehodler?: string;
+  number?: boolean;
 };
 
 const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
@@ -18,7 +18,7 @@ const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
   player_id,
   label,
   placehodler,
-  required,
+  number = false,
 }) => {
   const router = useRouter();
   const { game_id } = router.query;
@@ -38,17 +38,34 @@ const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
   return (
     <Form.Field>
       <label htmlFor={`player_${input_id}${player_id}`}>{label}</label>
-      <Input
-        id={`player_${input_id}${player_id}`}
-        type="text"
-        placeholder={placehodler}
-        value={inputValue()}
-        onChange={(v) => {
-          db.players.update(player_id, {
-            [input_id]: v.target.value as string,
-          });
-        }}
-      />
+      {!number ? (
+        <Input
+          id={`player_${input_id}${player_id}`}
+          type="text"
+          placeholder={placehodler}
+          value={inputValue()}
+          onChange={(v) => {
+            db.players.update(player_id, {
+              [input_id]: v.target.value as string,
+            });
+          }}
+          disabled={game.started}
+        />
+      ) : (
+        <Input
+          id={`player_${input_id}${player_id}`}
+          type="number"
+          value={inputValue()}
+          min={1}
+          max={10}
+          onChange={(v) => {
+            db.games.update(player_id, {
+              [input_id]: v.target.value as string,
+            });
+          }}
+          disabled={game.started}
+        />
+      )}
     </Form.Field>
   );
 };

@@ -1,17 +1,15 @@
 import { Button } from "semantic-ui-react";
 
-import { States, Variants } from "#/utils/db";
+import { Variants } from "#/utils/db";
 
 type PlayerScoreButtonProps = {
   variant?: Variants;
-  state: States;
   children: JSX.Element | JSX.Element[] | string | number;
   onClick?: () => void;
 };
 
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   variant,
-  state,
   children,
   onClick,
 }) => {

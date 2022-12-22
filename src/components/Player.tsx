@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { Card } from "semantic-ui-react";
 
 import PlayerScore from "./PlayerScore";
 

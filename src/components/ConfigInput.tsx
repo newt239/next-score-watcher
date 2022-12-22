@@ -9,14 +9,12 @@ type ConfigInputProps = {
   input_id: keyof GameDBProps;
   label: string;
   placehodler: string;
-  required: boolean;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
   input_id,
   label,
   placehodler,
-  required,
 }) => {
   const router = useRouter();
   const { game_id } = router.query;
@@ -44,6 +42,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
             [input_id]: v.target.value as string,
           });
         }}
+        disabled={game.started}
       />
     </Form.Field>
   );

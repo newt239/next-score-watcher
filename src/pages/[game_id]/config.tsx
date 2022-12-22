@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { Button, Container, Form, Select } from "semantic-ui-react";
+import { Button, Container, Form, Message, Select } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
@@ -59,6 +59,11 @@ const Config: NextPage = () => {
     <div>
       <main>
         <Container style={{ padding: "1rem" }}>
+          {game.started && (
+            <Message warning>
+              <p>ゲームは開始済みです。設定の変更はできません。</p>
+            </Message>
+          )}
           <Form>
             <h2>形式設定</h2>
             <div
@@ -72,7 +77,6 @@ const Config: NextPage = () => {
                 input_id="name"
                 label="ゲーム名"
                 placehodler="〇〇大会"
-                required
               />
               <ConfigNumberInput
                 input_id="count"
@@ -154,15 +158,23 @@ const Config: NextPage = () => {
                     player_id={player.id!}
                     label="プレイヤー名"
                     placehodler={`プレイヤー${i + 1}`}
-                    required
                   />
                   <PlayerConfigInput
                     input_id="belong"
                     player_id={player.id!}
                     label="所属"
                     placehodler="〇〇高校"
-                    required
                   />
+                  {["normal", "nomx", "nbyn", "nupdown", "swedishx"].includes(
+                    game.rule
+                  ) && (
+                    <PlayerConfigInput
+                      number
+                      input_id="initial_correct"
+                      player_id={player.id!}
+                      label="初期正答ポイント"
+                    />
+                  )}
                 </div>
               </div>
             ))}

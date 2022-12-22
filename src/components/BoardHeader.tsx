@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { Button, Dropdown, Header, Menu } from "semantic-ui-react";
+import { Dropdown, Header, Menu } from "semantic-ui-react";
 
 import db, { QuizDBProps } from "#/utils/db";
 import { rules } from "#/utils/state";

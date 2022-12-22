@@ -25,7 +25,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "normal" && (
         <PlayerScoreButton
           variant="correct"
-          state={score.state}
           onClick={async () => {
             try {
               await db.logs.put({
@@ -45,7 +44,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         <>
           <PlayerScoreButton
             variant="correct"
-            state={score.state}
             onClick={async () => {
               try {
                 await db.logs.put({
@@ -62,7 +60,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <PlayerScoreButton
             variant="wrong"
-            state={score.state}
             onClick={async () => {
               try {
                 await db.logs.put({
@@ -89,7 +86,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "wrong"
                 : "through"
             }
-            state={score.state}
           >
             {score.text}
           </PlayerScoreButton>
@@ -98,7 +94,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             <PlayerScoreButton
               variant="correct"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -115,7 +110,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
             <PlayerScoreButton
               variant="wrong"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -143,7 +137,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "wrong"
                 : "through"
             }
-            state={score.state}
           >
             {score.text}
           </PlayerScoreButton>
@@ -152,7 +145,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             <PlayerScoreButton
               variant="correct"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -169,7 +161,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
             <PlayerScoreButton
               variant="wrong"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -197,7 +188,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "wrong"
                 : "through"
             }
-            state={score.state}
           >
             {score.text}
           </PlayerScoreButton>
@@ -206,7 +196,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             <PlayerScoreButton
               variant="correct"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -223,7 +212,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
             <PlayerScoreButton
               variant="wrong"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -251,7 +239,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "wrong"
                 : "through"
             }
-            state={score.state}
           >
             {score.text}
           </PlayerScoreButton>
@@ -260,7 +247,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             <PlayerScoreButton
               variant="correct"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -277,7 +263,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
             <PlayerScoreButton
               variant="wrong"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -305,18 +290,17 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "wrong"
                 : "through"
             }
-            state={score.state}
           >
             {score.text}
           </PlayerScoreButton>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton variant="through" state={score.state}>
+            <PlayerScoreButton variant="through">
               {score.odd_score}
             </PlayerScoreButton>
             ×
-            <PlayerScoreButton variant="through" state={score.state}>
+            <PlayerScoreButton variant="through">
               {score.even_score}
             </PlayerScoreButton>
           </div>
@@ -325,7 +309,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             <PlayerScoreButton
               variant="correct"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -342,7 +325,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
             <PlayerScoreButton
               variant="wrong"
-              state={score.state}
               onClick={async () => {
                 try {
                   await db.logs.put({

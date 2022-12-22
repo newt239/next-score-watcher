@@ -46,6 +46,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
             [input_id]: v.target.value as string,
           });
         }}
+        disabled={game.started}
       />
     </Form.Field>
   );

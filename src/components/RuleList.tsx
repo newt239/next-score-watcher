@@ -46,8 +46,7 @@ const RuleList: React.FC = () => {
           putData.win_point = rules[rule].win_point;
           break;
       }
-      const game_id = await db.games.put(putData);
-      router.push(`/${game_id}/config`);
+      router.push(`/${await db.games.put(putData)}/config`);
     } catch (err) {
       console.log(err);
     }
