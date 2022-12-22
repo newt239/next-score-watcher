@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
+
 import { useLiveQuery } from "dexie-react-hooks";
 import { useRouter } from "next/router";
 import { Button, Header, Menu } from "semantic-ui-react";
 
-import db from "#/utils/db";
+import db, { QuizDBProps } from "#/utils/db";
 import state from "#/utils/state";
 
 const BoardHeader: React.FC = () => {
@@ -17,10 +19,17 @@ const BoardHeader: React.FC = () => {
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
   );
-  const quizes = useLiveQuery(
-    () => db.quizes.where({ quizset_name: game?.quizset_name }).toArray(),
-    []
-  );
+  const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
+  useEffect(() => {
+    const getQuizList = async () => {
+      if (game?.quizset_name) {
+        setQuizList(
+          await db.quizes.where({ set_name: game.quizset_name }).toArray()
+        );
+      }
+    };
+    getQuizList();
+  }, [game]);
   if (!game || !players || !logs) {
     return null;
   }
@@ -33,14 +42,16 @@ const BoardHeader: React.FC = () => {
           alignItems: "flex-start",
         }}
       >
-        <Header as="h2">{game.name}</Header>
+        <Header as="h2" style={{ margin: 0 }}>
+          {game.name}
+        </Header>
         <p>{state.rules[game.rule].name}</p>
       </Menu.Item>
       <Menu.Item style={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
         <div style={{ padding: 2, minWidth: 50 }}>Q {logs.length + 1}</div>
-        {quizes &&
-          game.quizset_name &&
-          quizes.length <= game.quizset_offset + logs.length && (
+        {game.quizset_name &&
+          quizList.length >= logs.length + game.quizset_offset &&
+          logs.length !== 0 && (
             <div
               style={{
                 display: "flex",
@@ -49,8 +60,10 @@ const BoardHeader: React.FC = () => {
                 borderLeftWidth: 2,
               }}
             >
-              <div>{quizes[game.quizset_offset + logs.length - 1].q}</div>
-              <div>{quizes[game.quizset_offset + logs.length - 1].a}</div>
+              <div>{quizList[game.quizset_offset + logs.length - 1].q}</div>
+              <div style={{ textAlign: "right", color: "red" }}>
+                {quizList[game.quizset_offset + logs.length - 1].a}
+              </div>
             </div>
           )}
       </Menu.Item>

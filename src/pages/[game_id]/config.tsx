@@ -8,7 +8,6 @@ import { Button, Container, Form, Select } from "semantic-ui-react";
 
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
-import LoadQuiz from "#/components/LoadQuiz";
 import db from "#/utils/db";
 
 const Config: NextPage = () => {
@@ -19,10 +18,7 @@ const Config: NextPage = () => {
     () => db.players.where({ game_id: Number(game_id) }).toArray(),
     []
   );
-  const quizes = useLiveQuery(
-    () => db.quizes.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
+  const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
   const updatePlayerCount = async () => {
     if (game) {
@@ -58,7 +54,7 @@ const Config: NextPage = () => {
   return (
     <div>
       <main>
-        <Container>
+        <Container style={{ padding: "1rem" }}>
           <Form>
             <h2>形式設定</h2>
             <ConfigInput
@@ -103,7 +99,7 @@ const Config: NextPage = () => {
             )}
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (
-              <div key={player.id}>
+              <div key={player.id} style={{ marginTop: "1rem" }}>
                 <h3>プレイヤー {i + 1}</h3>
                 <div>
                   <ConfigInput
@@ -134,24 +130,32 @@ const Config: NextPage = () => {
               <Form.Field>
                 <label>セット名</label>
                 <Select
+                  value={game.quizset_name}
                   options={quizsetList.map((quiz) => {
                     return { value: quiz, text: quiz };
                   })}
-                  onChange={(e) => {
-                    console.log(e);
-                    db.games.update(Number(game_id), {});
+                  onChange={(e, data) => {
+                    db.games.update(Number(game_id), {
+                      quizset_name: data.value,
+                    });
                   }}
                 />
               </Form.Field>
             ) : (
               <div>データベースが見つかりません。</div>
             )}
-            <div style={{ marginTop: "1rem" }}>
-              <Link href={`/${game_id}/board`}>
-                <Button primary>ゲーム開始</Button>
-              </Link>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                marginTop: "1rem",
+              }}
+            >
               <Link href="/">
                 <Button>ホームに戻る</Button>
+              </Link>
+              <Link href={`/${game_id}/board`}>
+                <Button primary>ゲーム開始</Button>
               </Link>
             </div>
           </Form>
