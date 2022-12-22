@@ -1,12 +1,11 @@
+import { NextPage } from "next";
 import Head from "next/head";
 
-import { NextPage } from "next";
-import { Card, Container } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 
 import GameList from "#/components/GameList";
 import LoadQuiz from "#/components/LoadQuiz";
-import RuleCard from "#/components/RuleCard";
-import state from "#/utils/state";
+import RuleList from "#/components/RuleList";
 
 const Home: NextPage = () => {
   return (
@@ -21,18 +20,7 @@ const Home: NextPage = () => {
           <h1>Next Score Watcher</h1>
           <GameList />
           <h2>形式一覧</h2>
-          <Card.Group>
-            {(Object.keys(state.rules) as (keyof typeof state.rules)[]).map(
-              (id) => (
-                <RuleCard
-                  key={id}
-                  id={id}
-                  name={state.rules[id].name}
-                  description={state.rules[id].description}
-                />
-              )
-            )}
-          </Card.Group>
+          <RuleList />
           <h2>問題の読み込み</h2>
           <LoadQuiz />
         </Container>

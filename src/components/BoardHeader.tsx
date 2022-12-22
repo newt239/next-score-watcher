@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { Button, Header, Menu } from "semantic-ui-react";
+import { Button, Dropdown, Header, Menu } from "semantic-ui-react";
 
 import db, { QuizDBProps } from "#/utils/db";
 import state from "#/utils/state";
@@ -34,30 +34,45 @@ const BoardHeader: React.FC = () => {
     return null;
   }
   return (
-    <Menu>
-      <Menu.Item
+    <Menu
+      attached="top"
+      style={{
+        alignItems: "center",
+      }}
+    >
+      <Menu.Menu
         style={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
+          padding: "1rem",
         }}
       >
-        <Header as="h2" style={{ margin: 0 }}>
+        <Header as="h2" style={{ margin: 0, fontSize: "2rem" }}>
           {game.name}
         </Header>
         <p>{state.rules[game.rule].name}</p>
-      </Menu.Item>
-      <Menu.Item style={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
-        <div style={{ padding: 2, minWidth: 50 }}>Q {logs.length + 1}</div>
+      </Menu.Menu>
+      <Menu.Menu>
+        第
+        <span style={{ fontSize: "2rem", fontWeight: 800 }}>
+          {logs.length + 1}
+        </span>
+        問
+      </Menu.Menu>
+      <Menu.Menu
+        style={{
+          flexGrow: 1,
+          padding: "1rem",
+        }}
+      >
         {game.quizset_name &&
           quizList.length >= logs.length + game.quizset_offset &&
           logs.length !== 0 && (
             <div
               style={{
+                flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
-                padding: 2,
-                borderLeftWidth: 2,
               }}
             >
               <div>{quizList[game.quizset_offset + logs.length - 1].q}</div>
@@ -66,43 +81,43 @@ const BoardHeader: React.FC = () => {
               </div>
             </div>
           )}
-      </Menu.Item>
-      <Menu.Item>
-        <Button.Group>
-          <Button
-            primary
-            onClick={async () => {
-              try {
-                await db.logs.put({
-                  game_id: Number(game_id),
-                  player_id: -1,
-                  variant: "through",
-                });
-              } catch (e) {
-                console.log(e);
-              }
-            }}
-          >
-            スルー
-          </Button>
-          <Button
-            primary
-            disabled={logs.length === 0}
-            onClick={async () => {
-              try {
-                await db.logs.delete(Number(logs[logs.length - 1].id));
-              } catch (err) {
-                console.log(err);
-              }
-            }}
-          >
-            一つ戻す
-          </Button>
-          <Button primary onClick={() => router.push(`/${game.id}/config`)}>
-            設定
-          </Button>
-        </Button.Group>
-      </Menu.Item>
+      </Menu.Menu>
+      <Menu.Menu position="right">
+        <Dropdown item icon="configure" simple style={{ flexGrow: 1 }}>
+          <Dropdown.Menu direction="left">
+            <Dropdown.Item
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: Number(game_id),
+                    player_id: -1,
+                    variant: "through",
+                  });
+                } catch (e) {
+                  console.log(e);
+                }
+              }}
+            >
+              スルー
+            </Dropdown.Item>
+            <Dropdown.Item
+              disabled={logs.length === 0}
+              onClick={async () => {
+                try {
+                  await db.logs.delete(Number(logs[logs.length - 1].id));
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              一つ戻す
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => router.push(`/${game.id}/config`)}>
+              設定
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Menu.Menu>
     </Menu>
   );
 };

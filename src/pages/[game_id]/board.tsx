@@ -1,8 +1,8 @@
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { NextPage } from "next";
 
 import BoardHeader from "#/components/BoardHeader";
 import Player from "#/components/Player";

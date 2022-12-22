@@ -56,7 +56,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         }}
       >
         <div>{index + 1}</div>
-        <div>{player.belong !== "" ? player.belong : "_"}</div>
+        <div>{player.belong !== "" ? player.belong : "―――――"}</div>
       </div>
       <div
         style={{
