@@ -168,6 +168,7 @@ const getState = (
   playerState: ComputedScoreDBProps,
   quiz_position: number
 ) => {
+  console.log(game);
   if (game.limit && quiz_position >= game.limit) {
     // 出題数が限定問題数を超えたとき
     if (!game.win_through || playerState.order < game.win_through) {
@@ -186,6 +187,7 @@ const getState = (
       if (playerState.correct >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
+      break;
     case "nbyn":
       if (
         playerState.correct * (game.win_point! - playerState.wrong) >=
@@ -193,22 +195,27 @@ const getState = (
       ) {
         return ["win", indicator(playerState.order)];
       }
+      break;
     case "nupdown":
       if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
+      break;
     case "swedishx":
       if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
+      break;
     case "attacksurvival":
       if (playerState.score <= 0) {
         return ["lose", "LOSE"];
       }
+      break;
     case "squarex":
       if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
+      break;
   }
 
   return ["playing", String(playerState.score)];

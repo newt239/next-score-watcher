@@ -61,79 +61,94 @@ const Config: NextPage = () => {
         <Container style={{ padding: "1rem" }}>
           <Form>
             <h2>形式設定</h2>
-            <ConfigInput
-              input_id="name"
-              label="ゲーム名"
-              placehodler="〇〇大会"
-              required
-            />
-            <ConfigNumberInput
-              input_id="count"
-              label="プレイヤー人数"
-              max={5}
-            />
-            {game.rule === "nomx" && (
-              <>
-                <ConfigNumberInput
-                  input_id="win_point"
-                  label="勝ち抜け正解数"
-                  max={30}
-                />
-                <ConfigNumberInput
-                  input_id="lose_point"
-                  label="失格誤答数"
-                  max={30}
-                />
-              </>
-            )}
-            {["nbyn", "nupdown", "swedishx"].indexOf(game.rule) !== -1 && (
-              <ConfigNumberInput input_id="win_point" label="N" max={10} />
-            )}
-            {game.rule === "nupdown" && (
-              <ConfigNumberInput input_id="lose_point" label="失格誤答数" />
-            )}
-            {game.rule === "attacksurvival" && (
-              <>
-                <ConfigNumberInput
-                  input_id="win_point"
-                  label="初期値"
-                  max={30}
-                />
-                <ConfigNumberInput
-                  input_id="win_through"
-                  label="勝ち抜け人数"
-                  max={game.count}
-                />
-                <ConfigNumberInput
-                  input_id="correct_me"
-                  label="自分が正答"
-                  min={-10}
-                />
-                <ConfigNumberInput
-                  input_id="wrong_me"
-                  label="自分が誤答"
-                  min={-10}
-                />
-                <ConfigNumberInput
-                  input_id="correct_other"
-                  label="他人が正答"
-                  min={-10}
-                />
-                <ConfigNumberInput
-                  input_id="wrong_other"
-                  label="他人が誤答"
-                  min={-10}
-                />
-              </>
-            )}
-            {["squarex"].indexOf(game.rule) !== -1 && (
-              <ConfigNumberInput input_id="win_point" label="X" max={100} />
-            )}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "1rem",
+              }}
+            >
+              <ConfigInput
+                input_id="name"
+                label="ゲーム名"
+                placehodler="〇〇大会"
+                required
+              />
+              <ConfigNumberInput
+                input_id="count"
+                label="プレイヤー人数"
+                max={5}
+              />
+              {["nomx"].includes(game.rule) && (
+                <>
+                  <ConfigNumberInput
+                    input_id="win_point"
+                    label="勝ち抜け正解数"
+                    max={30}
+                  />
+                  <ConfigNumberInput
+                    input_id="lose_point"
+                    label="失格誤答数"
+                    max={30}
+                  />
+                </>
+              )}
+              {["nbyn", "nupdown", "swedishx"].includes(game.rule) && (
+                <ConfigNumberInput input_id="win_point" label="N" max={10} />
+              )}
+              {["nupdown"].includes(game.rule) && (
+                <ConfigNumberInput input_id="lose_point" label="失格誤答数" />
+              )}
+              {["attacksurvival"].includes(game.rule) && (
+                <>
+                  <ConfigNumberInput
+                    input_id="win_point"
+                    label="初期値"
+                    max={30}
+                  />
+                  <ConfigNumberInput
+                    input_id="win_through"
+                    label="勝ち抜け人数"
+                    max={game.count}
+                  />
+                  <ConfigNumberInput
+                    input_id="correct_me"
+                    label="自分が正答"
+                    min={-10}
+                  />
+                  <ConfigNumberInput
+                    input_id="wrong_me"
+                    label="自分が誤答"
+                    min={-10}
+                  />
+                  <ConfigNumberInput
+                    input_id="correct_other"
+                    label="他人が正答"
+                    min={-10}
+                  />
+                  <ConfigNumberInput
+                    input_id="wrong_other"
+                    label="他人が誤答"
+                    min={-10}
+                  />
+                </>
+              )}
+              {["squarex"].includes(game.rule) && (
+                <ConfigNumberInput input_id="win_point" label="X" max={100} />
+              )}
+            </div>
+
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (
               <div key={player.id} style={{ marginTop: "1rem" }}>
                 <h3>プレイヤー {i + 1}</h3>
-                <div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                    gap: "1rem",
+                  }}
+                >
                   <PlayerConfigInput
                     input_id="name"
                     player_id={player.id!}
@@ -151,6 +166,7 @@ const Config: NextPage = () => {
                 </div>
               </div>
             ))}
+
             <h2>問題設定</h2>
             {quizes ? (
               <Form.Field>
@@ -165,6 +181,7 @@ const Config: NextPage = () => {
                       quizset_name: data.value,
                     });
                   }}
+                  style={{ width: 200 }}
                 />
               </Form.Field>
             ) : (

@@ -35,9 +35,9 @@ const BoardHeader: React.FC = () => {
   }
   return (
     <Menu
-      attached="top"
       style={{
         alignItems: "center",
+        height: "15vh",
       }}
     >
       <Menu.Menu
@@ -45,6 +45,7 @@ const BoardHeader: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           padding: "1rem",
+          height: "100%",
         }}
       >
         <Header as="h2" style={{ margin: 0, fontSize: "2rem" }}>
@@ -52,7 +53,13 @@ const BoardHeader: React.FC = () => {
         </Header>
         <p>{rules[game.rule].name}</p>
       </Menu.Menu>
-      <Menu.Menu>
+      <Menu.Menu
+        style={{
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         第
         <span style={{ fontSize: "2rem", fontWeight: 800 }}>
           {logs.length + 1}
@@ -63,6 +70,7 @@ const BoardHeader: React.FC = () => {
         style={{
           flexGrow: 1,
           padding: "1rem",
+          height: "100%",
         }}
       >
         {game.quizset_name &&
@@ -73,6 +81,7 @@ const BoardHeader: React.FC = () => {
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
+                overflowY: "hidden",
               }}
             >
               <div>{quizList[game.quizset_offset + logs.length - 1].q}</div>
@@ -82,7 +91,7 @@ const BoardHeader: React.FC = () => {
             </div>
           )}
       </Menu.Menu>
-      <Menu.Menu position="right">
+      <Menu.Menu position="right" style={{ height: "100%" }}>
         <Dropdown item icon="configure" simple style={{ flexGrow: 1 }}>
           <Dropdown.Menu direction="left">
             <Dropdown.Item

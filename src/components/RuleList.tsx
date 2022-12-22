@@ -6,7 +6,7 @@ import db, { GameDBProps, RuleNames } from "#/utils/db";
 import { rules } from "#/utils/state";
 
 const RuleList: React.FC = () => {
-  const ruleNameList = Object.keys(rules) as (keyof typeof rules)[];
+  const ruleNameList = Object.keys(rules) as RuleNames[];
 
   const createGame = async (rule: RuleNames) => {
     try {
@@ -23,13 +23,17 @@ const RuleList: React.FC = () => {
         case "nomx":
           putData.win_point = rules[rule].win_point;
           putData.lose_point = rules[rule].lose_point;
+          break;
         case "nbyn":
           putData.win_point = rules[rule].win_point;
+          break;
         case "nupdown":
           putData.win_point = rules[rule].win_point;
           putData.lose_point = rules[rule].lose_point;
+          break;
         case "swedishx":
           putData.win_point = rules[rule].win_point;
+          break;
         case "attacksurvival":
           putData.win_point = rules[rule].win_point;
           putData.win_through = rules[rule].win_through;
@@ -37,8 +41,10 @@ const RuleList: React.FC = () => {
           putData.wrong_me = rules[rule].wrong_me;
           putData.correct_other = rules[rule].correct_other;
           putData.wrong_other = rules[rule].wrong_other;
+          break;
         case "squarex":
           putData.win_point = rules[rule].win_point;
+          break;
       }
       const game_id = await db.games.put(putData);
       router.push(`/${game_id}/config`);
