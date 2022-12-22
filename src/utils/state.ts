@@ -27,4 +27,14 @@ export const rules = {
     description: "1回の正答で+1,n回目の誤答で-nでXを目指す形式です。",
     win_point: 5,
   },
+  attacksurvival: {
+    name: "Attack Survival",
+    description: "アタックサバイバル",
+    win_point: 15, // 初期値
+    win_through: 3,
+    correct_me: 0,
+    wrong_me: -2,
+    correct_other: -1,
+    wrong_other: 0,
+  },
 };

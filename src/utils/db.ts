@@ -2,7 +2,13 @@ import Dexie, { Table } from "dexie";
 
 export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 
-export type RuleNames = "normal" | "nomx" | "nbyn" | "nupdown" | "swedishx";
+export type RuleNames =
+  | "normal"
+  | "nomx"
+  | "nbyn"
+  | "nupdown"
+  | "swedishx"
+  | "attacksurvival";
 
 export type GameDBProps = {
   id?: number;

@@ -11,7 +11,10 @@ const computeScore = async (game_id: number) => {
       game_id,
       player_id: Number(player.id),
       state: "playing",
-      score: player.initial_correct - player.initial_wrong,
+      score:
+        game.rule === "attacksurvival"
+          ? game.win_point!
+          : player.initial_correct - player.initial_wrong, // TODO: ここ間違ってるので直す
       correct: player.initial_correct,
       wrong: player.initial_wrong,
       last_correct: 0,
@@ -44,6 +47,18 @@ const computeScore = async (game_id: number) => {
           return playerState;
         }
       } else {
+        if (game.rule === "attacksurvival") {
+          return {
+            ...playerState,
+            score:
+              playerState.score +
+              (log.variant === "correct"
+                ? game.correct_other!
+                : log.variant === "wrong"
+                ? game.wrong_other!
+                : 0),
+          };
+        }
         return playerState;
       }
     });
@@ -113,6 +128,11 @@ const getScore = (
       return variant === "wrong"
         ? playerState.score - playerState.wrong - 1
         : playerState.score + 1;
+    case "attacksurvival":
+      return (
+        playerState.score +
+        (variant === "wrong" ? game.wrong_me : game.correct_me)
+      );
   }
   return playerState.score;
 };
@@ -154,6 +174,10 @@ const getState = (
     case "swedishx":
       if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
+      }
+    case "attacksurvival":
+      if (playerState.score <= 0) {
+        return ["lose", "LOSE"];
       }
   }
 

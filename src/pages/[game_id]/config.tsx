@@ -100,7 +100,7 @@ const Config: NextPage = () => {
                 />
               </>
             )}
-            {["nbyn", "nupdown", "swedishx"].indexOf(game.rule) && (
+            {["nbyn", "nupdown", "swedishx"].indexOf(game.rule) !== -1 && (
               <ConfigNumberInput
                 props={{
                   type: "game",
@@ -121,6 +121,64 @@ const Config: NextPage = () => {
                   max: 10,
                 }}
               />
+            )}
+            {game.rule === "attacksurvival" && (
+              <>
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "win_point",
+                    label: "初期値",
+                    min: 1,
+                    max: 30,
+                  }}
+                />
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "win_through",
+                    label: "勝ち抜け人数",
+                    min: 1,
+                    max: game.count,
+                  }}
+                />
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "correct_me",
+                    label: "自分が正答",
+                    min: -10,
+                    max: 10,
+                  }}
+                />
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "wrong_me",
+                    label: "自分が誤答",
+                    min: -10,
+                    max: 10,
+                  }}
+                />
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "correct_other",
+                    label: "他人が正答",
+                    min: -10,
+                    max: 10,
+                  }}
+                />
+                <ConfigNumberInput
+                  props={{
+                    type: "game",
+                    input_id: "wrong_other",
+                    label: "他人が誤答",
+                    min: -10,
+                    max: 10,
+                  }}
+                />
+              </>
             )}
             <h2>プレイヤー設定</h2>
             {players?.map((player, i) => (

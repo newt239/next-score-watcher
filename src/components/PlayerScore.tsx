@@ -241,6 +241,60 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
         </>
       )}
+      {game.rule === "attacksurvival" && (
+        <>
+          <PlayerScoreButton
+            variant={
+              score.state === "win"
+                ? "correct"
+                : score.state === "lose"
+                ? "wrong"
+                : "through"
+            }
+            state={score.state}
+          >
+            {score.text}
+          </PlayerScoreButton>
+          <div
+            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+          >
+            <PlayerScoreButton
+              variant="correct"
+              state={score.state}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: game.id!,
+                    player_id,
+                    variant: "correct",
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              {`${score.correct}○`}
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              variant="wrong"
+              state={score.state}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    game_id: game.id!,
+                    player_id,
+                    variant: "wrong",
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
+            >
+              {`${score.wrong}×`}
+            </PlayerScoreButton>
+          </div>
+        </>
+      )}
     </div>
   );
 };
