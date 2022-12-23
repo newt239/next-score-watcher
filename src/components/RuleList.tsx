@@ -16,8 +16,6 @@ const RuleList: React.FC = () => {
         rule,
         correct_me: 1,
         wrong_me: -1,
-        started: false,
-        quizset_offset: 0,
       };
       switch (rule) {
         case "nomx":
