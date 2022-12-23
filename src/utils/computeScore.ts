@@ -2,10 +2,11 @@ import db, { ComputedScoreDBProps, GameDBProps, States, Variants } from "./db";
 
 const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
-  if (!game) return;
+  if (!game) return [];
   const playerList = await db.players.where({ game_id: game_id }).toArray();
   const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
   await db.games.update(game_id, { started: gameLogList.length !== 0 });
+  const congratulationsList: [number, string][] = [];
   let insertDataList: ComputedScoreDBProps[] = playerList.map((player) => {
     return {
       id: `${game_id}_${player.id}`,
@@ -119,6 +120,9 @@ const computeScore = async (game_id: number) => {
   // order をもとに state を算出
   insertDataList = insertDataList.map((insertData) => {
     const [state, text] = getState(game, insertData, gameLogList.length);
+    if (state === "win" && insertData.state !== "win") {
+      congratulationsList.push([insertData.player_id!, text]);
+    }
     return {
       ...insertData,
       state: state as States,
@@ -126,6 +130,7 @@ const computeScore = async (game_id: number) => {
     };
   });
   db.computed_scores.bulkPut(insertDataList);
+  return congratulationsList;
 };
 
 const getScore = (
@@ -161,7 +166,6 @@ const getScore = (
     case "squarex":
       return playerState.odd_score * playerState.even_score;
   }
-  return playerState.score;
 };
 
 const getState = (

@@ -37,15 +37,15 @@ const BoardHeader: React.FC = () => {
     <Menu
       style={{
         alignItems: "center",
-        height: "15vh",
+        height: "10vh",
       }}
     >
       <Menu.Menu
         style={{
           display: "flex",
           flexDirection: "column",
-          padding: "1rem",
           height: "100%",
+          margin: "1rem",
         }}
       >
         <Header as="h2" style={{ margin: 0, fontSize: "2rem" }}>

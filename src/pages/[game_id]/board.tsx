@@ -1,11 +1,12 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 
 import BoardHeader from "#/components/BoardHeader";
 import Player from "#/components/Player";
+import WinModal from "#/components/WinModal";
 import computeScore from "#/utils/computeScore";
 import db from "#/utils/db";
 
@@ -25,9 +26,27 @@ const Board: NextPage = () => {
     () => db.computed_scores.where({ game_id: Number(game_id) }).toArray(),
     []
   );
+  const [winThroughPeople, setWinThroughPeople] = useState<[string, string][]>(
+    []
+  );
 
   useEffect(() => {
-    computeScore(Number(game_id));
+    computeScore(Number(game_id)).then((newWinThroughPeople) => {
+      if (newWinThroughPeople.length !== 0) {
+        setWinThroughPeople(
+          newWinThroughPeople.map((winThroughPlayer) => {
+            const playerName = players?.find(
+              (player) => player.id! === winThroughPlayer[0]
+            )?.name;
+            if (playerName) {
+              return [playerName, winThroughPlayer[1]];
+            } else {
+              return [`player_id: ${winThroughPlayer[0]}`, winThroughPlayer[1]];
+            }
+          })
+        );
+      }
+    });
   }, [logs]);
 
   if (!game || !players || !computed_scores) {
@@ -58,6 +77,10 @@ const Board: NextPage = () => {
             />
           ))}
         </div>
+        <WinModal
+          winTroughPeople={winThroughPeople}
+          onClose={() => setWinThroughPeople([])}
+        />
       </main>
     </div>
   );
