@@ -173,7 +173,6 @@ const getState = (
   playerState: ComputedScoreDBProps,
   quiz_position: number
 ) => {
-  console.log(game);
   if (game.limit && quiz_position >= game.limit) {
     // 出題数が限定問題数を超えたとき
     if (!game.win_through || playerState.order < game.win_through) {
