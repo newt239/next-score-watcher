@@ -38,6 +38,7 @@ const BoardHeader: React.FC = () => {
       style={{
         alignItems: "center",
         height: "10vh",
+        padding: 0,
       }}
     >
       <Menu.Menu

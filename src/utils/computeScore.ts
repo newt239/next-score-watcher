@@ -120,7 +120,7 @@ const computeScore = async (game_id: number) => {
   // order をもとに state を算出
   insertDataList = insertDataList.map((insertData) => {
     const [state, text] = getState(game, insertData, gameLogList.length);
-    if (state === "win" && insertData.state !== "win") {
+    if (state === "win" && insertData.last_correct + 1 === gameLogList.length) {
       congratulationsList.push([insertData.player_id!, text]);
     }
     return {
