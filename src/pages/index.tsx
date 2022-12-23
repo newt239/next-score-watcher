@@ -6,6 +6,7 @@ import { Container } from "semantic-ui-react";
 import GameList from "#/components/GameList";
 import LoadQuiz from "#/components/LoadQuiz";
 import RuleList from "#/components/RuleList";
+import UpdateModal from "#/components/UpdateModal";
 
 const Home: NextPage = () => {
   return (
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
           <h2>問題の読み込み</h2>
           <LoadQuiz />
         </Container>
+        <UpdateModal />
       </main>
     </div>
   );

@@ -1,35 +1,25 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
+import { useLiveQuery } from "dexie-react-hooks";
 import { Button, Card, Form, Input, Table, TextArea } from "semantic-ui-react";
 
-import db from "#/utils/db";
-
-type QuizDataProps = {
-  index: number;
-  q: string;
-  a: string;
-};
+import db, { QuizDBProps } from "#/utils/db";
 
 const LoadQuiz: React.FC = () => {
-  const localQuizData = localStorage.getItem("quizData");
-  const initialQuizData: QuizDataProps[] = localQuizData
-    ? JSON.parse(localQuizData)
-    : [];
-  const [quizData, setQuizData] = useState<QuizDataProps[]>([]);
+  const initialQuizData = useLiveQuery(() => db.quizes.toArray(), []);
+  const [quizData, setQuizData] = useState<QuizDBProps[]>([]);
   const [rawQuizText, setRawQuizText] = useState(
-    initialQuizData.map((quiz) => `${quiz.q} ${quiz.a}\n`).join("")
+    initialQuizData
+      ? initialQuizData.map((quiz) => `${quiz.q} ${quiz.a}\n`).join("")
+      : ""
   );
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
-  const [quizsetName, setQuizsetName] = useState<string>("test");
-
-  useEffect(() => {
-    localStorage.setItem("quizData", JSON.stringify(quizData));
-  }, [quizData]);
+  const [quizSet, setQuizset] = useState<string>("test");
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length !== 0) {
       const quizRaw = e.target.value.split("\n");
-      let dataArray: QuizDataProps[] = [];
+      let dataArray: QuizDBProps[] = [];
       for (let i = 0; i < quizRaw.length; i++) {
         dataArray.push({
           index: Number(
@@ -37,6 +27,7 @@ const LoadQuiz: React.FC = () => {
           ),
           q: quizRaw[i].split(separateType === "comma" ? "," : "\t")[1],
           a: quizRaw[i].split(separateType === "comma" ? "," : "\t")[2],
+          set_name: quizSet,
         });
       }
       setRawQuizText(e.target.value);
@@ -47,7 +38,7 @@ const LoadQuiz: React.FC = () => {
     db.quizes
       .bulkPut(
         quizData.map((quiz) => {
-          return { ...quiz, set_name: quizsetName };
+          return { ...quiz, set_name: quizSet };
         })
       )
       .then(() => {
@@ -60,9 +51,9 @@ const LoadQuiz: React.FC = () => {
       <Form.Field>
         <label>セット名</label>
         <Input
-          value={quizsetName}
+          value={quizSet}
           onChange={(e) => {
-            setQuizsetName(e.target.value as string);
+            setQuizset(e.target.value as string);
           }}
         />
       </Form.Field>

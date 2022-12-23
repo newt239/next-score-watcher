@@ -22,9 +22,9 @@ const BoardHeader: React.FC = () => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   useEffect(() => {
     const getQuizList = async () => {
-      if (game?.quizset_name) {
+      if (game?.quiz_set) {
         setQuizList(
-          await db.quizes.where({ set_name: game.quizset_name }).toArray()
+          await db.quizes.where({ set_name: game.quiz_set }).toArray()
         );
       }
     };
@@ -73,8 +73,8 @@ const BoardHeader: React.FC = () => {
           height: "100%",
         }}
       >
-        {game.quizset_name &&
-          quizList.length >= logs.length + game.quizset_offset &&
+        {game.quiz_set &&
+          quizList.length >= logs.length &&
           logs.length !== 0 && (
             <div
               style={{
@@ -84,9 +84,9 @@ const BoardHeader: React.FC = () => {
                 overflowY: "hidden",
               }}
             >
-              <div>{quizList[game.quizset_offset + logs.length - 1].q}</div>
+              <div>{quizList[logs.length - 1].q}</div>
               <div style={{ textAlign: "right", color: "red" }}>
-                {quizList[game.quizset_offset + logs.length - 1].a}
+                {quizList[logs.length - 1].a}
               </div>
             </div>
           )}

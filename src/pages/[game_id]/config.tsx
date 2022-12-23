@@ -19,6 +19,10 @@ const Config: NextPage = () => {
     () => db.players.where({ game_id: Number(game_id) }).toArray(),
     []
   );
+  const logs = useLiveQuery(
+    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
   const updatePlayerCount = async () => {
@@ -49,7 +53,7 @@ const Config: NextPage = () => {
   useEffect(() => {
     updatePlayerCount();
   }, [game]);
-  if (!game) {
+  if (!game || !players || !logs) {
     return null;
   }
   const deleteGame = () => {
@@ -59,7 +63,7 @@ const Config: NextPage = () => {
     <div>
       <main>
         <Container style={{ padding: "1rem" }}>
-          {game.started && (
+          {logs.length === 0 && (
             <Message warning>
               <p>ゲームは開始済みです。設定の変更はできません。</p>
             </Message>
@@ -184,7 +188,7 @@ const Config: NextPage = () => {
               <Form.Field>
                 <label>セット名</label>
                 <Select
-                  value={game.quizset_name}
+                  value={game.quiz_set}
                   options={quizsetList.map((quiz) => {
                     return { value: quiz, text: quiz };
                   })}
