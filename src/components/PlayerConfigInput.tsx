@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { ChangeEvent } from "react";
 
 import { useLiveQuery } from "dexie-react-hooks";
 import { Form, Input } from "semantic-ui-react";
@@ -27,7 +28,11 @@ const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
     () => db.players.where({ game_id: Number(game_id) }).toArray(),
     []
   );
-  if (!game || !players) {
+  const logs = useLiveQuery(
+    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
+  if (!game || !players || !logs) {
     return null;
   }
   const inputValue = () => {
@@ -35,36 +40,24 @@ const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
       input_id
     ] as string;
   };
+  const props = {
+    id: `player_${input_id}${player_id}`,
+    value: inputValue(),
+    onChange: (v: ChangeEvent<HTMLInputElement>) => {
+      db.players.update(player_id, {
+        [input_id]: v.target.value as string,
+      });
+    },
+    disabled: logs.length !== 0,
+  };
+
   return (
     <Form.Field>
       <label htmlFor={`player_${input_id}${player_id}`}>{label}</label>
       {!number ? (
-        <Input
-          id={`player_${input_id}${player_id}`}
-          type="text"
-          placeholder={placehodler}
-          value={inputValue()}
-          onChange={(v) => {
-            db.players.update(player_id, {
-              [input_id]: v.target.value as string,
-            });
-          }}
-          disabled={game.started}
-        />
+        <Input type="text" placeholder={placehodler} {...props} />
       ) : (
-        <Input
-          id={`player_${input_id}${player_id}`}
-          type="number"
-          value={inputValue()}
-          min={1}
-          max={10}
-          onChange={(v) => {
-            db.games.update(player_id, {
-              [input_id]: v.target.value as string,
-            });
-          }}
-          disabled={game.started}
-        />
+        <Input type="number" min={1} max={10} {...props} />
       )}
     </Form.Field>
   );

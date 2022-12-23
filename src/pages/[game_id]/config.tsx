@@ -63,7 +63,7 @@ const Config: NextPage = () => {
     <div>
       <main>
         <Container style={{ padding: "1rem" }}>
-          {logs.length === 0 && (
+          {logs.length !== 0 && (
             <Message warning>
               <p>ゲームは開始済みです。設定の変更はできません。</p>
             </Message>

@@ -46,7 +46,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
             [input_id]: v.target.value as string,
           });
         }}
-        disabled={logs.length === 0}
+        disabled={logs.length !== 0}
       />
     </Form.Field>
   );

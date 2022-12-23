@@ -25,7 +25,11 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
     () => db.players.where({ game_id: Number(game_id) }).toArray(),
     []
   );
-  if (!game || !players) {
+  const logs = useLiveQuery(
+    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
+  if (!game || !players || !logs) {
     return null;
   }
   const inputValue = () => {
@@ -46,7 +50,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
             [input_id]: v.target.value as string,
           });
         }}
-        disabled={game.started}
+        disabled={logs.length !== 0}
       />
     </Form.Field>
   );

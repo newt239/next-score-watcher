@@ -1,24 +1,44 @@
 import { Button } from "semantic-ui-react";
 
-import { Variants } from "#/utils/db";
+import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
-  variant?: Variants;
+  variant: "correct" | "wrong" | "green";
   children: JSX.Element | JSX.Element[] | string | number;
-  onClick?: () => void;
+  text?: boolean;
+  game_id: number;
+  player_id: number;
 };
 
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   variant,
   children,
-  onClick,
+  text = false,
+  game_id,
+  player_id,
 }) => {
+  const color =
+    variant === "correct" ? "red" : variant === "wrong" ? "blue" : variant;
+
+  const handleClick = async () => {
+    if (variant !== "green") {
+      try {
+        await db.logs.put({
+          game_id,
+          player_id,
+          variant: "correct",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <Button
       circular
-      color={
-        variant === "correct" ? "red" : variant === "wrong" ? "blue" : "green"
-      }
+      basic={text}
+      color={color}
       style={{
         display: "flex",
         justifyContent: "center",
@@ -30,7 +50,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         padding: 0,
         margin: "auto",
       }}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {children}
     </Button>

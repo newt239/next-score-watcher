@@ -12,6 +12,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   player_id,
   score,
 }) => {
+  const props = { game_id: game.id!, player_id: player_id };
   return (
     <div
       style={{
@@ -23,55 +24,16 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       }}
     >
       {game.rule === "normal" && (
-        <PlayerScoreButton
-          variant="correct"
-          onClick={async () => {
-            try {
-              await db.logs.put({
-                game_id: game.id!,
-                player_id,
-                variant: "correct",
-              });
-            } catch (err) {
-              console.log(err);
-            }
-          }}
-        >
+        <PlayerScoreButton variant="correct" {...props}>
           {score.score}
         </PlayerScoreButton>
       )}
       {game.rule === "nomx" && (
         <>
-          <PlayerScoreButton
-            variant="correct"
-            onClick={async () => {
-              try {
-                await db.logs.put({
-                  game_id: game.id!,
-                  player_id: Number(player_id),
-                  variant: "correct",
-                });
-              } catch (err) {
-                console.log(err);
-              }
-            }}
-          >
+          <PlayerScoreButton variant="correct" {...props}>
             {score.state === "win" ? score.text : score.correct}
           </PlayerScoreButton>
-          <PlayerScoreButton
-            variant="wrong"
-            onClick={async () => {
-              try {
-                await db.logs.put({
-                  game_id: game.id!,
-                  player_id: Number(player_id),
-                  variant: "wrong",
-                });
-              } catch (err) {
-                console.log(err);
-              }
-            }}
-          >
+          <PlayerScoreButton variant="wrong" {...props}>
             {score.state === "lose" ? score.text : score.wrong}
           </PlayerScoreButton>
         </>
@@ -84,44 +46,19 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "correct"
                 : score.state === "lose"
                 ? "wrong"
-                : "through"
+                : "green"
             }
+            {...props}
           >
             {score.text}
           </PlayerScoreButton>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton
-              variant="correct"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id: Number(player_id),
-                    variant: "correct",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="correct" {...props}>
               {score.correct}
             </PlayerScoreButton>
-            <PlayerScoreButton
-              variant="wrong"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id: Number(player_id),
-                    variant: "wrong",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="wrong" {...props}>
               {game.win_point! - score.wrong}
             </PlayerScoreButton>
           </div>
@@ -135,44 +72,19 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "correct"
                 : score.state === "lose"
                 ? "wrong"
-                : "through"
+                : "green"
             }
+            {...props}
           >
             {score.text}
           </PlayerScoreButton>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton
-              variant="correct"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "correct",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="correct" {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton
-              variant="wrong"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "wrong",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="wrong" {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -186,44 +98,19 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "correct"
                 : score.state === "lose"
                 ? "wrong"
-                : "through"
+                : "green"
             }
+            {...props}
           >
             {score.text}
           </PlayerScoreButton>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton
-              variant="correct"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "correct",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="correct" {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton
-              variant="wrong"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "wrong",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="wrong" {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -237,44 +124,19 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "correct"
                 : score.state === "lose"
                 ? "wrong"
-                : "through"
+                : "green"
             }
+            {...props}
           >
             {score.text}
           </PlayerScoreButton>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton
-              variant="correct"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "correct",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="correct" {...props}>
               {`${score.correct}○`}
             </PlayerScoreButton>
-            <PlayerScoreButton
-              variant="wrong"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "wrong",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="wrong" {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -288,55 +150,35 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "correct"
                 : score.state === "lose"
                 ? "wrong"
-                : "through"
+                : "green"
             }
+            {...props}
           >
             {score.text}
           </PlayerScoreButton>
           <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "1rem",
+            }}
           >
-            <PlayerScoreButton variant="through">
+            <PlayerScoreButton variant="green" text {...props}>
               {score.odd_score}
             </PlayerScoreButton>
             ×
-            <PlayerScoreButton variant="through">
+            <PlayerScoreButton variant="green" text {...props}>
               {score.even_score}
             </PlayerScoreButton>
           </div>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton
-              variant="correct"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "correct",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="correct" {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton
-              variant="wrong"
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    game_id: game.id!,
-                    player_id,
-                    variant: "wrong",
-                  });
-                } catch (err) {
-                  console.log(err);
-                }
-              }}
-            >
+            <PlayerScoreButton variant="wrong" {...props}>
               ×
             </PlayerScoreButton>
           </div>
