@@ -1,7 +1,16 @@
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db, { PlayerDBProps } from "#/utils/db";
@@ -40,24 +49,40 @@ const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
       input_id
     ] as string;
   };
-  const props = {
-    id: `player_${input_id}${player_id}`,
-    value: inputValue(),
-    onChange: (v: ChangeEvent<HTMLInputElement>) => {
-      db.players.update(player_id, {
-        [input_id]: v.target.value as string,
-      });
-    },
-    disabled: logs.length !== 0,
-  };
 
   return (
     <FormControl pt={5}>
       <FormLabel>{label}</FormLabel>
       {!number ? (
-        <Input type="text" placeholder={placehodler} {...props} />
+        <Input
+          type="text"
+          value={inputValue()}
+          placeholder={placehodler}
+          onChange={(v) => {
+            db.players.update(player_id, {
+              [input_id]: v.target.value as string,
+            });
+          }}
+          disabled={logs.length !== 0}
+        />
       ) : (
-        <Input type="number" min={1} max={10} {...props} />
+        <NumberInput
+          value={inputValue()}
+          min={1}
+          max={10}
+          onChange={(s) =>
+            db.players.update(player_id, {
+              [input_id]: s,
+            })
+          }
+          isDisabled={logs.length !== 0}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
       )}
     </FormControl>
   );

@@ -55,6 +55,7 @@ const Board: NextPage = () => {
   if (!game || !players || !computed_scores) {
     return null;
   }
+
   if (!isLargerThan500) {
     return (
       <Box p={5}>

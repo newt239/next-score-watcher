@@ -1,11 +1,11 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "white";
   children: JSX.Element | JSX.Element[] | string | number;
-  text?: boolean;
+  filled?: boolean;
   game_id: number;
   player_id: number;
 };
@@ -13,7 +13,7 @@ type PlayerScoreButtonProps = {
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   color,
   children,
-  text = false,
+  filled = false,
   game_id,
   player_id,
 }) => {
@@ -34,7 +34,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   return (
     <Button
       variant="unstyled"
-      color={color}
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -44,8 +43,10 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         minWidth: 100,
         aspectRatio: "1 / 1",
         margin: "auto",
+        mb: 3,
         cursor: "pointer",
-        backgroundColor: "white",
+        backgroundColor: filled ? color : "white",
+        color: filled ? "white" : color,
         borderRadius: 0,
       }}
       onClick={handleClick}

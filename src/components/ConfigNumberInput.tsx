@@ -1,6 +1,15 @@
 import { useRouter } from "next/router";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db, { GameDBProps } from "#/utils/db";
@@ -39,19 +48,23 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   return (
     <FormControl pt={5}>
       <FormLabel>{label}</FormLabel>
-      <Input
-        id={`game_${input_id}`}
-        type="number"
+      <NumberInput
         value={inputValue()}
         min={min}
         max={max}
-        onChange={(v) => {
+        onChange={(s) => {
           db.games.update(Number(game_id), {
-            [input_id]: v.target.value as string,
+            [input_id]: s,
           });
         }}
-        disabled={logs.length !== 0}
-      />
+        isDisabled={logs.length !== 0}
+      >
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
     </FormControl>
   );
 };

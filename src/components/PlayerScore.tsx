@@ -21,6 +21,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         width: "100%",
         gap: 5,
         margin: 5,
+        backgroundColor: "white",
       }}
     >
       {game.rule === "normal" && (
@@ -154,13 +155,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               justifyContent: "center",
               alignItems: "center",
               gap: "1rem",
+              color: "black",
             }}
           >
-            <PlayerScoreButton color="green" text {...props}>
+            <PlayerScoreButton color="green" filled {...props}>
               {score.odd_score}
             </PlayerScoreButton>
             ×
-            <PlayerScoreButton color="green" text {...props}>
+            <PlayerScoreButton color="green" filled {...props}>
               {score.even_score}
             </PlayerScoreButton>
           </div>

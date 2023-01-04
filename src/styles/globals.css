@@ -12,7 +12,6 @@ a {
 * {
   box-sizing: border-box;
   cursor: default;
-  user-select: none;
   font-family: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
     sans-serif;
