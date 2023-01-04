@@ -150,7 +150,7 @@ const Config: NextPage = () => {
 
         <H2>プレイヤー設定</H2>
         {players?.map((player, i) => (
-          <div key={player.id} style={{ marginTop: "1rem" }}>
+          <div key={player.id}>
             <H3>プレイヤー {i + 1}</H3>
             <div
               style={{

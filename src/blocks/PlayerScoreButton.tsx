@@ -35,8 +35,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   };
 
   return (
-    <Button
-      colorScheme={color}
+    <div
       style={{
         display: "flex",
         justifyContent: "center",
@@ -48,11 +47,14 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         aspectRatio: "1 / 1",
         padding: 0,
         margin: "auto",
+        color: "white",
+        backgroundColor: color,
+        cursor: "pointer",
       }}
       onClick={handleClick}
     >
       {children}
-    </Button>
+    </div>
   );
 };
 
