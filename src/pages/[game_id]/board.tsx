@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { Container } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import BoardHeader from "#/components/BoardHeader";
@@ -54,34 +55,30 @@ const Board: NextPage = () => {
   }
   return (
     <div>
-      <main>
-        <div style={{ padding: "1rem" }}>
-          <BoardHeader />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-evenly",
-            marginTop: 5,
-          }}
-        >
-          {players?.map((player, i) => (
-            <Player
-              player={player}
-              key={i}
-              index={i}
-              score={computed_scores.find(
-                (score) => score.player_id === player.id
-              )}
-            />
-          ))}
-        </div>
-        <WinModal
-          winTroughPeople={winThroughPeople}
-          onClose={() => setWinThroughPeople([])}
-        />
-      </main>
+      <BoardHeader />
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-evenly",
+          marginTop: 5,
+        }}
+      >
+        {players?.map((player, i) => (
+          <Player
+            player={player}
+            key={i}
+            index={i}
+            score={computed_scores.find(
+              (score) => score.player_id === player.id
+            )}
+          />
+        ))}
+      </div>
+      <WinModal
+        winTroughPeople={winThroughPeople}
+        onClose={() => setWinThroughPeople([])}
+      />
     </div>
   );
 };

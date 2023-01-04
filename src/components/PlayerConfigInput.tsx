@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { ChangeEvent } from "react";
 
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Form, Input } from "semantic-ui-react";
 
 import db, { PlayerDBProps } from "#/utils/db";
 
@@ -52,14 +52,14 @@ const PlayerConfigInput: React.FC<PlayerConfigInputProps> = ({
   };
 
   return (
-    <Form.Field>
-      <label htmlFor={`player_${input_id}${player_id}`}>{label}</label>
+    <FormControl pt={5}>
+      <FormLabel>{label}</FormLabel>
       {!number ? (
         <Input type="text" placeholder={placehodler} {...props} />
       ) : (
         <Input type="number" min={1} max={10} {...props} />
       )}
-    </Form.Field>
+    </FormControl>
   );
 };
 

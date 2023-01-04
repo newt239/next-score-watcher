@@ -60,6 +60,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         style={{
           display: "flex",
           writingMode: "vertical-rl",
+          whiteSpace: "nowrap",
           textOrientation: "upright",
           fontSize: "clamp(8vh, 2rem, 8vw)",
           fontWeight: 800,

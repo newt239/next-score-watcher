@@ -1,7 +1,16 @@
 import router from "next/router";
 
-import { Button, Card } from "semantic-ui-react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  SimpleGrid,
+  Box,
+  Button,
+} from "@chakra-ui/react";
 
+import H2 from "#/blocks/H2";
 import db, { GameDBProps, RuleNames } from "#/utils/db";
 import { rules } from "#/utils/state";
 
@@ -50,21 +59,26 @@ const RuleList: React.FC = () => {
     }
   };
   return (
-    <Card.Group>
-      {ruleNameList.map((id) => (
-        <Card key={id}>
-          <Card.Content>
-            <Card.Header>{rules[id].name}</Card.Header>
-            <Card.Description>{rules[id].description}</Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <Button primary floated="right" onClick={() => createGame(id)}>
-              新規作成
-            </Button>
-          </Card.Content>
-        </Card>
-      ))}
-    </Card.Group>
+    <Box pt={5}>
+      <H2>形式一覧</H2>
+      <SimpleGrid
+        pt={5}
+        spacing={5}
+        templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+      >
+        {ruleNameList.map((id) => (
+          <Card key={id} variant="filled">
+            <CardHeader>{rules[id].name}</CardHeader>
+            <CardBody>{rules[id].description}</CardBody>
+            <CardFooter sx={{ justifyContent: "flex-end" }}>
+              <Button colorScheme="blue" onClick={() => createGame(id)}>
+                新規作成
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </SimpleGrid>
+    </Box>
   );
 };
 

@@ -1,34 +1,52 @@
-import Link from "next/link";
-
+import {
+  Box,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Button, Card } from "semantic-ui-react";
 
+import H2 from "#/blocks/H2";
+import LinkButton from "#/blocks/LinkButton";
 import db from "#/utils/db";
+import { rules } from "#/utils/state";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray());
+
   if (!games || games.length === 0) return null;
   return (
-    <>
-      <h2>作成したゲーム一覧</h2>
-      <Card.Group>
-        {games.map((game) => (
-          <Card key={game.id}>
-            <Card.Content>
-              <Card.Header>{game.name}</Card.Header>
-              <Card.Description>{game.rule}</Card.Description>
-              <div style={{ marginTop: "1rem" }}>
-                <Link href={`/${game.id}/config`}>
-                  <Button primary floated="right">
-                    設定
-                  </Button>
-                </Link>
-              </div>
-            </Card.Content>
-          </Card>
-        ))}
-      </Card.Group>
-    </>
+    <Box pt={5}>
+      <H2>作成したゲーム一覧</H2>
+      <TableContainer pt={5}>
+        <Table variant="simple" size="sm">
+          <Thead>
+            <Tr>
+              <Th>大会名</Th>
+              <Th>形式</Th>
+              <Th>人数</Th>
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {games.map((game) => (
+              <Tr key={game.id}>
+                <Td>{game.name}</Td>
+                <Td>{rules[game.rule].name}</Td>
+                <Td>{game.count}</Td>
+                <Td sx={{ textAlign: "right" }}>
+                  <LinkButton href={`/${game.id}/config`}>設定</LinkButton>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 };
 

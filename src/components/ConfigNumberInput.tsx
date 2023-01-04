@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Form, Input } from "semantic-ui-react";
 
 import db, { GameDBProps } from "#/utils/db";
 
@@ -37,8 +37,8 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   };
 
   return (
-    <Form.Field>
-      <label htmlFor={`game_${input_id}`}>{label}</label>
+    <FormControl pt={5}>
+      <FormLabel>{label}</FormLabel>
       <Input
         id={`game_${input_id}`}
         type="number"
@@ -52,7 +52,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
         }}
         disabled={logs.length !== 0}
       />
-    </Form.Field>
+    </FormControl>
   );
 };
 

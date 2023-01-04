@@ -1,8 +1,32 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
+  Radio,
+  RadioGroup,
+  Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Textarea,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Button, Card, Form, Input, Table, TextArea } from "semantic-ui-react";
 
+import H2 from "#/blocks/H2";
+import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
 const LoadQuiz: React.FC = () => {
@@ -15,18 +39,22 @@ const LoadQuiz: React.FC = () => {
   );
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const [quizSet, setQuizset] = useState<string>("test");
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length !== 0) {
       const quizRaw = e.target.value.split("\n");
       let dataArray: QuizDBProps[] = [];
       for (let i = 0; i < quizRaw.length; i++) {
+        const index = Number(
+          quizRaw[i].split(separateType === "comma" ? "," : "\t")[0]
+        );
+        const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
+        const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[2];
         dataArray.push({
-          index: Number(
-            quizRaw[i].split(separateType === "comma" ? "," : "\t")[0]
-          ),
-          q: quizRaw[i].split(separateType === "comma" ? "," : "\t")[1],
-          a: quizRaw[i].split(separateType === "comma" ? "," : "\t")[2],
+          index,
+          q,
+          a,
           set_name: quizSet,
         });
       }
@@ -34,85 +62,30 @@ const LoadQuiz: React.FC = () => {
       setQuizData(dataArray);
     }
   };
-  const addQuizes = () => {
-    db.quizes
-      .bulkPut(
-        quizData.map((quiz) => {
-          return { ...quiz, set_name: quizSet };
-        })
-      )
-      .then(() => {
-        setQuizData([]);
-        setRawQuizText("");
-      });
-  };
+
+  useEffect(() => {
+    db.quizes.bulkPut(
+      quizData.map((quiz) => {
+        return { ...quiz, set_name: quizSet };
+      })
+    );
+  }, [quizData]);
+
   return (
-    <Form>
-      <Form.Field>
-        <label>セット名</label>
-        <Input
-          value={quizSet}
-          onChange={(e) => {
-            setQuizset(e.target.value as string);
-          }}
-        />
-      </Form.Field>
-      <Form.Field>
-        <div style={{ display: "flex", gap: 5 }}>
-          <TextArea
-            placeholder="1列目を問題番号(半角数字)、2列目を問題文、3列目を答えにしてCSV形式で貼り付けてください"
-            value={rawQuizText}
-            onChange={handleChange}
-            style={{ maxWidth: "50vw" }}
-          />
-          {quizData.length === 0 ? (
-            <Card style={{ margin: 0, width: "100%" }}>
-              <Card.Content>ここに問題文が表示されます</Card.Content>
-            </Card>
-          ) : (
-            <Table style={{ margin: 0 }}>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell></Table.HeaderCell>
-                  <Table.HeaderCell>問題文</Table.HeaderCell>
-                  <Table.HeaderCell>答え</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {quizData.map((quiz, i) => (
-                  <Table.Row key={i}>
-                    <Table.Cell>{i + 1}</Table.Cell>
-                    <Table.Cell>{quiz.q}</Table.Cell>
-                    <Table.Cell>{quiz.a}</Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
-          )}
-        </div>
-      </Form.Field>
-      <Form.Field
-        style={{ display: "flex", justifyContent: "flex-end", gap: 5 }}
-      >
-        <Button.Group>
-          <Button
-            primary={separateType === "comma"}
-            onClick={() => setSparateType("comma")}
-          >
-            ,
-          </Button>
-          <Button
-            primary={separateType === "tab"}
-            onClick={() => setSparateType("tab")}
-          >
-            Tab
-          </Button>
-        </Button.Group>
-        <Button primary disabled={quizData.length === 0} onClick={addQuizes}>
-          追加
+    <Box pt={5}>
+      <H2>問題の読み込み</H2>
+      <Flex py={5} gap={3} alignItems="center">
+        <Button
+          size="sm"
+          colorScheme="green"
+          disabled={quizData.length === 0}
+          onClick={() => setDrawerOpen(true)}
+        >
+          プレビュー
         </Button>
         <Button
-          primary
+          size="sm"
+          colorScheme="red"
           disabled={quizData.length === 0}
           onClick={() => {
             setQuizData([]);
@@ -121,8 +94,59 @@ const LoadQuiz: React.FC = () => {
         >
           リセット
         </Button>
-      </Form.Field>
-    </Form>
+        <RadioGroup
+          onChange={(e) => setSparateType(e as "tab" | "comma")}
+          value={separateType}
+        >
+          <Stack direction="row">
+            <Radio value="comma">カンマ区切り</Radio>
+            <Radio value="tab">タブ区切り</Radio>
+          </Stack>
+        </RadioGroup>
+      </Flex>
+      <Textarea
+        placeholder="1列目を問題文、2列目を答えにしてCSV形式で貼り付けてください"
+        value={rawQuizText}
+        onChange={handleChange}
+        size="sm"
+        resize="vertical"
+        mb={100}
+      />
+      <Drawer
+        isOpen={drawerOpen}
+        placement="right"
+        onClose={() => setDrawerOpen(false)}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>問題プレビュー</DrawerHeader>
+          <DrawerBody>
+            <H3>{quizSet}</H3>
+            <TableContainer>
+              <Table variant="simple" size="sm">
+                <Thead>
+                  <Tr>
+                    <Th>n</Th>
+                    <Th>問題文</Th>
+                    <Th>答え</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {quizData.map((quiz, i) => (
+                    <Tr key={i}>
+                      <Td>{quiz.index}</Td>
+                      <Td>{quiz.q}</Td>
+                      <Td>{quiz.a}</Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </Box>
   );
 };
 

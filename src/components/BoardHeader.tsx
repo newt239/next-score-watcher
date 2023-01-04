@@ -1,9 +1,19 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { SettingsIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Dropdown, Header, Menu } from "semantic-ui-react";
 
+import H2 from "#/blocks/H2";
 import db, { QuizDBProps } from "#/utils/db";
 import { rules } from "#/utils/state";
 
@@ -34,40 +44,33 @@ const BoardHeader: React.FC = () => {
     return null;
   }
   return (
-    <Menu
-      style={{
+    <Flex
+      sx={{
         alignItems: "center",
+        gap: 5,
         height: "10vh",
-        padding: 0,
+        px: 5,
+        borderBottom: "1px solid black",
       }}
     >
-      <Menu.Menu
+      <Box
         style={{
           display: "flex",
           flexDirection: "column",
           height: "100%",
-          margin: "1rem",
         }}
       >
-        <Header as="h2" style={{ margin: 0, fontSize: "2rem" }}>
-          {game.name}
-        </Header>
+        <H2 sx={{ pt: 0 }}>{game.name}</H2>
         <p>{rules[game.rule].name}</p>
-      </Menu.Menu>
-      <Menu.Menu
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      </Box>
+      <Box>
         第
         <span style={{ fontSize: "2rem", fontWeight: 800 }}>
           {logs.length + 1}
         </span>
         問
-      </Menu.Menu>
-      <Menu.Menu
+      </Box>
+      <Box
         style={{
           flexGrow: 1,
           padding: "1rem",
@@ -91,11 +94,12 @@ const BoardHeader: React.FC = () => {
               </div>
             </div>
           )}
-      </Menu.Menu>
-      <Menu.Menu position="right" style={{ height: "100%" }}>
-        <Dropdown item icon="configure" simple style={{ flexGrow: 1 }}>
-          <Dropdown.Menu direction="left">
-            <Dropdown.Item
+      </Box>
+      <Box>
+        <Menu>
+          <MenuButton as={IconButton} icon={<SettingsIcon />} />
+          <MenuList>
+            <MenuItem
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -109,8 +113,8 @@ const BoardHeader: React.FC = () => {
               }}
             >
               スルー
-            </Dropdown.Item>
-            <Dropdown.Item
+            </MenuItem>
+            <MenuItem
               disabled={logs.length === 0}
               onClick={async () => {
                 try {
@@ -121,14 +125,14 @@ const BoardHeader: React.FC = () => {
               }}
             >
               一つ戻す
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => router.push(`/${game.id}/config`)}>
+            </MenuItem>
+            <MenuItem onClick={() => router.push(`/${game.id}/config`)}>
               設定
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </Menu.Menu>
-    </Menu>
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
+    </Flex>
   );
 };
 

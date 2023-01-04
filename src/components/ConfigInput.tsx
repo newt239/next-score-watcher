@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Form, Input } from "semantic-ui-react";
 
 import db, { GameDBProps } from "#/utils/db";
 
@@ -34,8 +34,8 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
     return game[input_id] as string;
   };
   return (
-    <Form.Field>
-      <label htmlFor={`game_${input_id}`}>{label}</label>
+    <FormControl pt={5}>
+      <FormLabel>{label}</FormLabel>
       <Input
         id={`game_${input_id}`}
         type="text"
@@ -48,7 +48,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
         }}
         disabled={logs.length !== 0}
       />
-    </Form.Field>
+    </FormControl>
   );
 };
 

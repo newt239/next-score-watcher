@@ -10,9 +10,13 @@
     "format": "prettier --write \"./src/**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.15",
+    "@chakra-ui/react": "^2.4.6",
     "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "dexie": "^3.2.2",
     "dexie-react-hooks": "^1.1.1",
+    "framer-motion": "^8.1.5",
     "moment": "^2.29.4",
     "next": "13.0.7",
     "react": "18.2.0",
