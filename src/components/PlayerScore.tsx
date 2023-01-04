@@ -5,12 +5,14 @@ type PlayerScoreProps = {
   game: GameDBProps;
   player_id: number;
   score: ComputedScoreDBProps;
+  qn: number;
 };
 
 const PlayerScore: React.FC<PlayerScoreProps> = ({
   game,
   player_id,
   score,
+  qn,
 }) => {
   const props = {
     game_id: game.id!,
@@ -192,7 +194,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             }
             {...props}
           >
-            {score.text}
+            {score.isIncapacity || qn === score.last_wrong + 1
+              ? "LOCKED"
+              : score.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" {...props}>

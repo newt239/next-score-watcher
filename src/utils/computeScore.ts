@@ -314,16 +314,27 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           case "wrong":
             const newWrong = playerState.wrong + 1;
             if (stage === 1 && newWrong === 1) {
-              return { ...playerState, wrong: 0 };
+              return { ...playerState, wrong: 0, last_wrong: qn };
             } else if (stage === newWrong + 1) {
-              return { ...playerState, isIncapacity: true };
+              return {
+                ...playerState,
+                isIncapacity: true,
+                last_wrong: qn,
+                state: "lose",
+              };
             } else {
-              return { ...playerState, wrong: newWrong };
+              return { ...playerState, wrong: newWrong, last_wrong: qn };
             }
         }
       } else {
         if (isResetTiming) {
-          return { ...playerState, correct: 0, wrong: 0, isIncapacity: false };
+          return {
+            ...playerState,
+            correct: 0,
+            wrong: 0,
+            isIncapacity: false,
+            state: "playing",
+          };
         } else {
           return playerState;
         }

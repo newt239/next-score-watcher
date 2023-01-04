@@ -131,7 +131,12 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
       <PlayerName />
 
       {score ? (
-        <PlayerScore game={game} player_id={Number(player.id)} score={score} />
+        <PlayerScore
+          game={game}
+          player_id={Number(player.id)}
+          score={score}
+          qn={logs.length}
+        />
       ) : (
         <div>ERR!</div>
       )}
