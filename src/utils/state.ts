@@ -43,4 +43,8 @@ export const rules = {
       "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
     win_point: 16,
   },
+  z: {
+    name: "Z",
+    description: "Z",
+  },
 };

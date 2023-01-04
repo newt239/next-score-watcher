@@ -180,6 +180,30 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
         </>
       )}
+      {game.rule === "z" && (
+        <>
+          <PlayerScoreButton
+            color={
+              score.state === "win"
+                ? "red"
+                : score.state === "lose"
+                ? "blue"
+                : "green"
+            }
+            {...props}
+          >
+            {score.text}
+          </PlayerScoreButton>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <PlayerScoreButton color="red" {...props}>
+              {`${score.correct}○`}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" {...props}>
+              {`${score.wrong}×`}
+            </PlayerScoreButton>
+          </div>
+        </>
+      )}
     </div>
   );
 };

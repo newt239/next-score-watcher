@@ -9,7 +9,8 @@ export type RuleNames =
   | "nupdown"
   | "swedishx"
   | "attacksurvival"
-  | "squarex";
+  | "squarex"
+  | "z";
 
 export type GameDBProps = {
   id?: number;
@@ -57,6 +58,9 @@ export type ComputedScoreDBProps = {
   last_wrong: number; // 最後に誤答した問題番号
   odd_score: number; // 奇数問目のスコア
   even_score: number; // 偶数問目のスコア
+  stage: number;
+  win_qn: number;
+  isIncapacity: boolean;
   order: number; // プレイヤー同士の評価順
   text: string; // 画面上に表示するための文字
 };

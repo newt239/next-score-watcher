@@ -9,6 +9,7 @@ import {
   Box,
   Button,
 } from "@chakra-ui/react";
+import { CirclePlus } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -53,6 +54,8 @@ const RuleList: React.FC = () => {
           break;
         case "squarex":
           putData.win_point = rules[rule].win_point;
+        case "z":
+          putData.win_point = 10;
           break;
       }
       router.push(`/${await db.games.put(putData)}/config`);
@@ -60,6 +63,7 @@ const RuleList: React.FC = () => {
       console.log(err);
     }
   };
+
   return (
     <Box pt={5}>
       <H2>形式一覧</H2>
@@ -75,8 +79,12 @@ const RuleList: React.FC = () => {
             </CardHeader>
             <CardBody>{rules[id].description}</CardBody>
             <CardFooter sx={{ justifyContent: "flex-end" }}>
-              <Button colorScheme="blue" onClick={() => createGame(id)}>
-                新規作成
+              <Button
+                leftIcon={<CirclePlus />}
+                colorScheme="blue"
+                onClick={() => createGame(id)}
+              >
+                作る
               </Button>
             </CardFooter>
           </Card>

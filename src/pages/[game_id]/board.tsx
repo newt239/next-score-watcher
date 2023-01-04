@@ -41,22 +41,27 @@ const Board: NextPage = () => {
   const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   useEffect(() => {
-    computeScore(Number(game_id)).then((newWinThroughPeople) => {
-      if (newWinThroughPeople.length !== 0) {
+    const executeComputeScore = async () => {
+      const result = await computeScore(Number(game_id));
+      if (result.congratulationsList.length !== 0) {
         setWinThroughPeople(
-          newWinThroughPeople.map((winThroughPlayer) => {
+          result.congratulationsList.map((congratulationPlayer) => {
             const playerName = playerList?.find(
-              (player) => player.id! === winThroughPlayer[0]
+              (player) => player.id! === congratulationPlayer[0]
             )?.name;
             if (playerName) {
-              return [playerName, winThroughPlayer[1]];
+              return [playerName, congratulationPlayer[1]];
             } else {
-              return [`player_id: ${winThroughPlayer[0]}`, winThroughPlayer[1]];
+              return [
+                `player_id: ${congratulationPlayer[0]}`,
+                congratulationPlayer[1],
+              ];
             }
           })
         );
       }
-    });
+    };
+    executeComputeScore();
   }, [logs]);
 
   if (!game || !playerList || !computed_scores) {

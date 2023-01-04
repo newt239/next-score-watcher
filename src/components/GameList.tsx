@@ -9,6 +9,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { AdjustmentsHorizontal, PlayerPlay } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
@@ -39,7 +40,12 @@ const GameList: React.FC = () => {
                 <Td>{rules[game.rule].name}</Td>
                 <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>
-                  <LinkButton href={`/${game.id}/config`}>設定</LinkButton>
+                  <LinkButton
+                    icon={<AdjustmentsHorizontal />}
+                    href={`/${game.id}/config`}
+                  >
+                    設定
+                  </LinkButton>
                 </Td>
               </Tr>
             ))}
