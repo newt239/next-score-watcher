@@ -5,6 +5,7 @@ import { Container } from "@chakra-ui/react";
 
 import GameList from "#/components/GameList";
 import Header from "#/components/Header";
+import LoadPlayer from "#/components/LoadPlayer";
 import LoadQuiz from "#/components/LoadQuiz";
 import RuleList from "#/components/RuleList";
 import UpdateModal from "#/components/UpdateModal";
@@ -22,6 +23,7 @@ const Home: NextPage = () => {
         <GameList />
         <RuleList />
         <LoadQuiz />
+        <LoadPlayer />
       </Container>
       <UpdateModal />
     </div>

@@ -10,16 +10,23 @@ import Header from "#/components/Header";
 import Player from "#/components/Player";
 import WinModal from "#/components/WinModal";
 import computeScore from "#/utils/computeScore";
-import db from "#/utils/db";
+import db, { PlayerDBProps } from "#/utils/db";
 
 const Board: NextPage = () => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(
-    () => db.players.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
+  const playerList = useLiveQuery(() => db.players.toArray(), []);
+  const [players, setPlayers] = useState<PlayerDBProps[]>([]);
+
+  useEffect(() => {
+    if (playerList) {
+      setPlayers(
+        playerList.filter((player) => game?.players.includes(Number(player.id)))
+      );
+    }
+  }, [playerList]);
+
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
@@ -38,7 +45,7 @@ const Board: NextPage = () => {
       if (newWinThroughPeople.length !== 0) {
         setWinThroughPeople(
           newWinThroughPeople.map((winThroughPlayer) => {
-            const playerName = players?.find(
+            const playerName = playerList?.find(
               (player) => player.id! === winThroughPlayer[0]
             )?.name;
             if (playerName) {
@@ -52,7 +59,7 @@ const Board: NextPage = () => {
     });
   }, [logs]);
 
-  if (!game || !players || !computed_scores) {
+  if (!game || !playerList || !computed_scores) {
     return null;
   }
 
@@ -78,7 +85,7 @@ const Board: NextPage = () => {
           marginTop: 5,
         }}
       >
-        {players?.map((player, i) => (
+        {players.map((player, i) => (
           <Player
             player={player}
             key={i}

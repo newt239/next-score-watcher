@@ -1213,10 +1213,22 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.191.tgz#09511e7f7cba275acd8b419ddac8da9a6a79e2fa"
   integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
 
+"@types/node@*":
+  version "18.11.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.18.tgz#8dfb97f0da23c2293e554c5a50d61ef134d7697f"
+  integrity sha512-DHQpWGjyQKSHj3ebjFI/wRKcqQcdR+MoFBygntYOZytCqNfkd2ZC4ARDJ2DQqhjH5p85Nnd3jhUJIXrszFX/JA==
+
 "@types/node@^18.11.17":
   version "18.11.17"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.17.tgz#5c009e1d9c38f4a2a9d45c0b0c493fe6cdb4bcb5"
   integrity sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==
+
+"@types/papaparse@^5.3.1":
+  version "5.3.7"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.3.7.tgz#8d3bf9e62ac2897df596f49d9ca59a15451aa247"
+  integrity sha512-f2HKmlnPdCvS0WI33WtCs5GD7X1cxzzS/aduaxSu3I7TbhWlENjSPs6z5TaB9K0J+BH1jbmqTaM+ja5puis4wg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1285,6 +1297,18 @@
   dependencies:
     "@typescript-eslint/types" "5.47.0"
     eslint-visitor-keys "^3.3.0"
+
+"@use-gesture/core@10.2.23":
+  version "10.2.23"
+  resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.23.tgz#ed5892e86b4ad537613b6ab83111ca58341e40c0"
+  integrity sha512-Ynap/Uh6RX1Vgn3zNmFTyKapapdf7Av+GzAe6h+RsBZaxMF1z3cK6aohHPJP6T1hLrPyH/yehxa7RBqyESG9RA==
+
+"@use-gesture/react@^10.2.11":
+  version "10.2.23"
+  resolved "https://registry.yarnpkg.com/@use-gesture/react/-/react-10.2.23.tgz#744f7fb68e904721a2bf3d8bffd40e446b86c82a"
+  integrity sha512-anj9j3Lm4l+/s60Jv1FD2m13r+T+aYstSHUT62hTugojM64LPe9XatfEVHRyWOrGjRU2buQhlm03xN8oxkg/OQ==
+  dependencies:
+    "@use-gesture/core" "10.2.23"
 
 "@zag-js/element-size@0.3.0":
   version "0.3.0"
@@ -1406,6 +1430,11 @@ ast-types-flow@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/ast-types-flow/-/ast-types-flow-0.0.7.tgz#f70b735c6bca1a5c9c22d982c3e39e7feba3bdad"
   integrity sha512-eBvWn1lvIApYMhzQMsu9ciLfkBY499mFZlNqG+/9WR7PVlroQw0vG30cOQQbaKz3sCEc44TAOu2ykzqXSNnwag==
+
+attr-accept@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-2.2.2.tgz#646613809660110749e92f2c10833b70968d929b"
+  integrity sha512-7prDjvt9HmqiZ0cl5CRjtS84sEyhsHP2coDkaZKRKVfCDo9s7iw7ChVmar78Gu9pC4SoR/28wFu/G5JJhTnqEg==
 
 axe-core@^4.4.3:
   version "4.6.1"
@@ -1658,6 +1687,11 @@ emoji-regex@^9.2.2:
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-9.2.2.tgz#840c8803b0d8047f4ff0cf963176b32d4ef3ed72"
   integrity sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==
+
+encoding-japanese@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/encoding-japanese/-/encoding-japanese-2.0.0.tgz#fa0226e5469e7b5b69a04fea7d5481bd1fa56936"
+  integrity sha512-++P0RhebUC8MJAwJOsT93dT+5oc5oPImp1HubZpAuCZ5kTLnhuuBhKHj2jJeO/Gj93idPBWmIuQ9QWMe5rX3pQ==
 
 enhanced-resolve@^5.10.0:
   version "5.12.0"
@@ -1985,6 +2019,13 @@ file-entry-cache@^6.0.1:
   integrity sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==
   dependencies:
     flat-cache "^3.0.4"
+
+file-selector@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.5.0.tgz#21c7126dc9728b31a2742d91cab20d55e67e4fb4"
+  integrity sha512-s8KNnmIDTBoD0p9uJ9uD0XY38SCeBOtj0UMXyQSLg1Ypfrfj8+dAvwsLjYQkQ2GjhVtp2HrnF5cJzMhBjfD8HA==
+  dependencies:
+    tslib "^2.0.3"
 
 fill-range@^7.0.1:
   version "7.0.1"
@@ -2702,6 +2743,11 @@ p-locate@^5.0.0:
   dependencies:
     p-limit "^3.0.2"
 
+papaparse@^5.3.0, papaparse@^5.3.1, papaparse@^5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.3.2.tgz#d1abed498a0ee299f103130a6109720404fbd467"
+  integrity sha512-6dNZu0Ki+gyV0eBsFKJhYr+MdQYAzFUGlBMNj3GNrmHxmz1lfRa24CjFObPXtjcetlOv5Ad299MhIK0znp3afw==
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"
@@ -2799,6 +2845,15 @@ react-clientside-effect@^1.2.6:
   dependencies:
     "@babel/runtime" "^7.12.13"
 
+react-csv-importer@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-csv-importer/-/react-csv-importer-0.8.0.tgz#0eaecac7a2b969fbbe00cc3ac155a4940b64f7f6"
+  integrity sha512-U22+dMuUZnFmwfe1BqDEZnoUzKOkIF83xsNoUQg9g13GhcaA26gibbwFPSqo//iBHljtahC/4IOBJu3UjhffpA==
+  dependencies:
+    "@use-gesture/react" "^10.2.11"
+    papaparse "^5.3.0"
+    react-dropzone "^12.1.0"
+
 react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -2806,6 +2861,15 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-dropzone@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-12.1.0.tgz#e097b37e9da6f9e324efc757b7434ebc6f3dc2cb"
+  integrity sha512-iBYHA1rbopIvtzokEX4QubO6qk5IF/x3BtKGu74rF2JkQDXnwC4uO/lHKpaw4PJIV6iIAYOlwLv2FpiGyqHNog==
+  dependencies:
+    attr-accept "^2.2.2"
+    file-selector "^0.5.0"
+    prop-types "^15.8.1"
 
 react-fast-compare@3.2.0:
   version "3.2.0"
@@ -2828,6 +2892,14 @@ react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-papaparse@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-papaparse/-/react-papaparse-4.1.0.tgz#09e1cdae55a0f3e36650aaf7ff9bb5ee2aed164a"
+  integrity sha512-sGJqK+OE2rVVQPxQUCCDW2prLIglv9kTdizhNe2awXvKo0gLShmhpRN3BwA+ujw5M2gSJ/KGNEwtgII0OsLgkg==
+  dependencies:
+    "@types/papaparse" "^5.3.1"
+    papaparse "^5.3.1"
 
 react-remove-scroll-bar@^2.3.3:
   version "2.3.4"

@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import router from "next/router";
-import { useEffect } from "react";
+import { useState } from "react";
 
 import {
   Container,
@@ -11,6 +11,23 @@ import {
   FormControl,
   FormLabel,
   Select,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  Checkbox,
+  UnorderedList,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -25,45 +42,16 @@ import db from "#/utils/db";
 
 const Config: NextPage = () => {
   const { game_id } = router.query;
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(
-    () => db.players.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
+  const players = useLiveQuery(() => db.players.toArray(), []);
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
   );
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
-  const updatePlayerCount = async () => {
-    if (game) {
-      const players = await db.players
-        .where({ game_id: game.id })
-        .reverse()
-        .toArray();
-      if (players.length < game.count) {
-        for (let i = players.length + 1; i <= game.count; i++) {
-          await db.players.put({
-            game_id: Number(game.id),
-            name: `プレイヤー${i}`,
-            belong: "",
-            initial_correct: 0,
-            initial_wrong: 0,
-          });
-        }
-      } else {
-        players.forEach((player, i) => {
-          if (i < players.length - game.count) {
-            db.players.delete(Number(player.id)).catch((e) => console.log(e));
-          }
-        });
-      }
-    }
-  };
-  useEffect(() => {
-    updatePlayerCount();
-  }, [game]);
+
   if (!game || !players || !logs) {
     return null;
   }
@@ -89,10 +77,9 @@ const Config: NextPage = () => {
         >
           <ConfigInput
             input_id="name"
-            label="ゲーム名"
+            label="ラウンド名"
             placehodler="〇〇大会"
           />
-          <ConfigNumberInput input_id="count" label="プレイヤー人数" max={5} />
           {["nomx"].includes(game.rule) && (
             <>
               <ConfigNumberInput
@@ -119,7 +106,7 @@ const Config: NextPage = () => {
               <ConfigNumberInput
                 input_id="win_through"
                 label="勝ち抜け人数"
-                max={game.count}
+                max={game.players.length}
               />
               <ConfigNumberInput
                 input_id="correct_me"
@@ -149,41 +136,70 @@ const Config: NextPage = () => {
         </div>
 
         <H2>プレイヤー設定</H2>
-        {players?.map((player, i) => (
-          <div key={player.id}>
-            <H3>プレイヤー {i + 1}</H3>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                gap: "1rem",
-              }}
-            >
-              <PlayerConfigInput
-                input_id="name"
-                player_id={player.id!}
-                label="プレイヤー名"
-                placehodler={`プレイヤー${i + 1}`}
-              />
-              <PlayerConfigInput
-                input_id="belong"
-                player_id={player.id!}
-                label="所属"
-                placehodler="〇〇高校"
-              />
-              {["normal", "nomx", "nbyn", "nupdown", "swedishx"].includes(
-                game.rule
-              ) && (
-                <PlayerConfigInput
-                  number
-                  input_id="initial_correct"
-                  player_id={player.id!}
-                  label="初期正答ポイント"
-                />
-              )}
-            </div>
-          </div>
-        ))}
+        <Button
+          onClick={() => setDrawerOpen(true)}
+          size="sm"
+          colorScheme="green"
+        >
+          選択する
+        </Button>
+        <Drawer
+          isOpen={drawerOpen}
+          placement="right"
+          onClose={() => setDrawerOpen(false)}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>プレイヤー選択</DrawerHeader>
+            <DrawerBody>
+              <TableContainer>
+                <Table variant="simple" size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th></Th>
+                      <Th>プレイヤー名</Th>
+                      <Th>所属</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {players.map((player, i) => (
+                      <Tr key={i}>
+                        <Td>
+                          <Checkbox
+                            onChange={async (e) => {
+                              if (game.players.includes(Number(player.id))) {
+                                await db.games.update(Number(game.id), {
+                                  players: game.players.filter(
+                                    (player_id) => player_id != player.id
+                                  ),
+                                });
+                              } else {
+                                await db.games.update(Number(game.id), {
+                                  players: [...game.players, Number(player.id)],
+                                });
+                              }
+                            }}
+                            isChecked={game.players.includes(Number(player.id))}
+                          />
+                        </Td>
+                        <Td>{player.name}</Td>
+                        <Td>{player.belong}</Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+        <UnorderedList>
+          {game.players.map((player_id) => (
+            <ListItem key={player_id}>
+              {players.find((player) => player.id === player_id)?.name}
+            </ListItem>
+          ))}
+        </UnorderedList>
 
         <H2>問題設定</H2>
         {quizes ? (

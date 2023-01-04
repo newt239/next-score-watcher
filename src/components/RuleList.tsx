@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
+import H3 from "#/blocks/H3";
 import db, { GameDBProps, RuleNames } from "#/utils/db";
 import { rules } from "#/utils/state";
 
@@ -21,7 +22,7 @@ const RuleList: React.FC = () => {
     try {
       const putData: GameDBProps = {
         name: rules[rule].name,
-        count: 3,
+        players: [],
         rule,
         correct_me: 1,
         wrong_me: -1,
@@ -68,7 +69,9 @@ const RuleList: React.FC = () => {
       >
         {ruleNameList.map((id) => (
           <Card key={id} variant="filled">
-            <CardHeader>{rules[id].name}</CardHeader>
+            <CardHeader>
+              <H3 sx={{ p: 0 }}>{rules[id].name}</H3>
+            </CardHeader>
             <CardBody>{rules[id].description}</CardBody>
             <CardFooter sx={{ justifyContent: "flex-end" }}>
               <Button colorScheme="blue" onClick={() => createGame(id)}>

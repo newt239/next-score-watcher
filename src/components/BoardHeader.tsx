@@ -21,10 +21,6 @@ const BoardHeader: React.FC = () => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(
-    () => db.players.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
@@ -40,7 +36,7 @@ const BoardHeader: React.FC = () => {
     };
     getQuizList();
   }, [game]);
-  if (!game || !players || !logs) {
+  if (!game || !logs) {
     return null;
   }
   return (
@@ -106,6 +102,7 @@ const BoardHeader: React.FC = () => {
                     game_id: Number(game_id),
                     player_id: -1,
                     variant: "through",
+                    system: false,
                   });
                 } catch (e) {
                   console.log(e);

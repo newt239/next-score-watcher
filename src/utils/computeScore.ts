@@ -3,22 +3,18 @@ import db, { ComputedScoreDBProps, GameDBProps, States, Variants } from "./db";
 const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
   if (!game) return [];
-  const playerList = await db.players.where({ game_id: game_id }).toArray();
   const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
   await db.games.update(game_id, { started: gameLogList.length !== 0 });
   const congratulationsList: [number, string][] = [];
-  let insertDataList: ComputedScoreDBProps[] = playerList.map((player) => {
+  let insertDataList: ComputedScoreDBProps[] = game.players.map((player_id) => {
     return {
-      id: `${game_id}_${player.id}`,
+      id: `${game_id}_${player_id}`,
       game_id,
-      player_id: Number(player.id),
+      player_id: Number(player_id),
       state: "playing",
-      score:
-        game.rule === "attacksurvival"
-          ? game.win_point!
-          : player.initial_correct - player.initial_wrong, // TODO: ここ間違ってるので直す
-      correct: player.initial_correct,
-      wrong: player.initial_wrong,
+      score: game.rule === "attacksurvival" ? game.win_point! : 0, // TODO: ここ間違ってるので直す
+      correct: 0,
+      wrong: 0,
       last_correct: 0,
       last_wrong: 0,
       odd_score: 0,

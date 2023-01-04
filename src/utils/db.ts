@@ -14,7 +14,7 @@ export type RuleNames =
 export type GameDBProps = {
   id?: number;
   name: string;
-  count: number; // プレイヤーの人数
+  players: number[];
   rule: RuleNames;
   correct_me: number;
   wrong_me: number;
@@ -29,11 +29,9 @@ export type GameDBProps = {
 
 export type PlayerDBProps = {
   id?: number;
-  game_id: number;
   name: string;
   belong: string;
-  initial_correct: number;
-  initial_wrong: number;
+  tags: string[];
 };
 
 export type Variants = "correct" | "wrong" | "through";
@@ -42,6 +40,7 @@ export type LogDBProps = {
   game_id: number;
   player_id: number;
   variant: Variants;
+  system: boolean;
 };
 
 export type States = "win" | "lose" | "playing";
@@ -80,9 +79,9 @@ export interface ScoreWatcherDBTables extends DexieDatabase {
 const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(1).stores({
   games:
-    "++id, rule, name, count, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz_set",
-  players: "++id, game_id, name, belong, initial_correct, initial_wrong",
-  logs: "++id, game_id, player_id, variant",
+    "++id, rule, name, players, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz_set",
+  players: "++id, name, belong, tags",
+  logs: "++id, game_id, player_id, variant, system",
   computed_scores:
     "id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, order, text",
   quizes: "++id, index, q, a, set_name",

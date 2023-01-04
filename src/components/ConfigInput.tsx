@@ -19,10 +19,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(
-    () => db.players.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
+  const players = useLiveQuery(() => db.players.toArray(), []);
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []

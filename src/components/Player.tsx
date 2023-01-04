@@ -15,15 +15,11 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(
-    () => db.players.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
   );
-  if (!game || !players || !logs) {
+  if (!game || !logs) {
     return null;
   }
   const colorState =

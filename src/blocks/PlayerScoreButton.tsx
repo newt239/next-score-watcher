@@ -24,6 +24,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           game_id,
           player_id,
           variant: "correct",
+          system: true,
         });
       } catch (err) {
         console.log(err);

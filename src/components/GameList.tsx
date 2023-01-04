@@ -26,7 +26,7 @@ const GameList: React.FC = () => {
         <Table variant="simple" size="sm">
           <Thead>
             <Tr>
-              <Th>大会名</Th>
+              <Th>ラウンド名</Th>
               <Th>形式</Th>
               <Th>人数</Th>
               <Th></Th>
@@ -37,7 +37,7 @@ const GameList: React.FC = () => {
               <Tr key={game.id}>
                 <Td>{game.name}</Td>
                 <Td>{rules[game.rule].name}</Td>
-                <Td>{game.count}</Td>
+                <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>
                   <LinkButton href={`/${game.id}/config`}>設定</LinkButton>
                 </Td>
