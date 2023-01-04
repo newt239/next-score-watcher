@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -15,6 +14,13 @@ import {
   Switch,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import {
+  AdjustmentsHorizontal,
+  ArrowBackUp,
+  Comet,
+  HandClick,
+  Settings,
+} from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import db, { QuizDBProps } from "#/utils/db";
@@ -99,9 +105,10 @@ const BoardHeader: React.FC = () => {
       </Box>
       <Box>
         <Menu closeOnSelect={false}>
-          <MenuButton as={IconButton} icon={<SettingsIcon />} />
+          <MenuButton as={IconButton} icon={<Settings />} />
           <MenuList>
             <MenuItem
+              icon={<Comet />}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -118,6 +125,7 @@ const BoardHeader: React.FC = () => {
               スルー
             </MenuItem>
             <MenuItem
+              icon={<ArrowBackUp />}
               disabled={logs.length === 0}
               onClick={async () => {
                 if (logs.length !== 0) {
@@ -128,6 +136,7 @@ const BoardHeader: React.FC = () => {
               一つ戻す
             </MenuItem>
             <MenuItem
+              icon={<HandClick />}
               onClick={async () =>
                 await db.games.update(Number(game.id), {
                   editable: !game.editable,
@@ -145,7 +154,10 @@ const BoardHeader: React.FC = () => {
                 <Switch isChecked={game.editable} />
               </FormControl>
             </MenuItem>
-            <MenuItem onClick={() => router.push(`/${game.id}/config`)}>
+            <MenuItem
+              icon={<AdjustmentsHorizontal />}
+              onClick={() => router.push(`/${game.id}/config`)}
+            >
               設定
             </MenuItem>
           </MenuList>

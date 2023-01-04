@@ -12,6 +12,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { AlertCircle, PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
@@ -148,10 +149,11 @@ const Config: NextPage = () => {
 
         <Box sx={{ textAlign: "right", pt: 5 }}>
           <ButtonGroup spacing={5}>
-            <Button colorScheme="red" onClick={deleteGame}>
+            <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
               ゲームを削除
             </Button>
             <LinkButton
+              icon={<PlayerPlay />}
               href={`/${game_id}/board`}
               disabled={game.players.length === 0}
             >

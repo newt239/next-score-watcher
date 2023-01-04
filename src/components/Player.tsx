@@ -1,24 +1,21 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { EditIcon } from "@chakra-ui/icons";
 import {
   Popover,
-  PopoverAnchor,
   Stack,
   PopoverTrigger,
-  Button,
   PopoverContent,
   PopoverBody,
   RadioGroup,
   Radio,
   IconButton,
-  useDisclosure,
   Box,
   PopoverArrow,
   PopoverHeader,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { Edit } from "tabler-icons-react";
 
 import PlayerScore from "#/components/PlayerScore";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
@@ -37,7 +34,6 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
   );
-  const { onOpen, onClose, isOpen } = useDisclosure();
   const [editableState, setEditableState] = useState<States>("playing");
 
   if (!game || !logs || !score) {
@@ -84,7 +80,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
                 variant="ghost"
                 colorScheme={getColor(score.state)}
                 color={getColor(score.state) && "white"}
-                icon={<EditIcon />}
+                icon={<Edit />}
                 aria-label="override player state"
               />
             </PopoverTrigger>
