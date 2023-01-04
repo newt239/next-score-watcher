@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 
-import { Container } from "semantic-ui-react";
+import { Container } from "@chakra-ui/react";
 
 import GameList from "#/components/GameList";
 import Header from "#/components/Header";

@@ -2,8 +2,7 @@ import { useRouter } from "next/router";
 
 import { useLiveQuery } from "dexie-react-hooks";
 
-import PlayerScore from "./PlayerScore";
-
+import PlayerScore from "#/components/PlayerScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 
 type PlayerProps = {

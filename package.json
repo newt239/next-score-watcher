@@ -1,6 +1,6 @@
 {
   "name": "next-score-watcher",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,9 +20,7 @@
     "moment": "^2.29.4",
     "next": "13.0.7",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "semantic-ui-css": "^2.5.0",
-    "semantic-ui-react": "^2.1.4"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

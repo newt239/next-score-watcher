@@ -1,4 +1,4 @@
-import { Button } from "semantic-ui-react";
+import { Button } from "@chakra-ui/react";
 
 import db from "#/utils/db";
 
@@ -36,9 +36,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 
   return (
     <Button
-      circular
-      basic={text}
-      color={color}
+      colorScheme={color}
       style={{
         display: "flex",
         justifyContent: "center",
@@ -46,6 +44,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         fontSize: "clamp(5vh, 2rem, 5vw)",
         width: "100%",
         minWidth: 50,
+        borderRadius: "50%",
         aspectRatio: "1 / 1",
         padding: 0,
         margin: "auto",

@@ -1,7 +1,15 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Button, Modal } from "semantic-ui-react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@chakra-ui/react";
 
 import db from "#/utils/db";
 
@@ -24,10 +32,11 @@ const UpdateModal: React.FC = () => {
     });
   };
   return (
-    <Modal open={modalOpen}>
-      <Modal.Header>新しいバージョンがあります</Modal.Header>
-      <Modal.Content>
-        <Modal.Description>
+    <Modal isOpen={modalOpen} onClose={update}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>新しいバージョンがあります</ModalHeader>
+        <ModalBody>
           <p>
             現在 v.{currentVersion} を使用中です。 v.{latestVersion}{" "}
             にアップデートします。
@@ -35,13 +44,13 @@ const UpdateModal: React.FC = () => {
           <p>
             ※アップデートすると保存されたゲームやクイズデータが削除されます。
           </p>
-        </Modal.Description>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={update} positive>
-          アップデート
-        </Button>
-      </Modal.Actions>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" onClick={update}>
+            アップデート
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };

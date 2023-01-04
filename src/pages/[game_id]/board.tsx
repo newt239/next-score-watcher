@@ -2,7 +2,6 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Container } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import BoardHeader from "#/components/BoardHeader";

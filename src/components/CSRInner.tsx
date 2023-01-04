@@ -1,4 +1,6 @@
-const CSRInner = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
+import { ReactNode } from "react";
+
+const CSRInner = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
 };
 

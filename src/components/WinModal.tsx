@@ -1,4 +1,12 @@
-import { Button, Modal } from "semantic-ui-react";
+import {
+  Modal,
+  Button,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
 
 type WinModalProps = {
   onClose: () => void;
@@ -6,18 +14,23 @@ type WinModalProps = {
 };
 const WinModal: React.FC<WinModalProps> = ({ onClose, winTroughPeople }) => {
   return (
-    <Modal open={winTroughPeople.length !== 0} onClose={onClose}>
-      <Modal.Header>Congratulations!</Modal.Header>
-      <Modal.Content>
-        {winTroughPeople.map((player) => (
-          <div key={player[0]} style={{ display: "flex" }}>
-            <div>{player[1]}</div>: <div>{player[0]}</div>
-          </div>
-        ))}
-      </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={onClose}>閉じる</Button>
-      </Modal.Actions>
+    <Modal isOpen={winTroughPeople.length !== 0} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Congratulations!</ModalHeader>
+        <ModalBody>
+          {winTroughPeople.map((player) => (
+            <div key={player[0]} style={{ display: "flex" }}>
+              <div>{player[1]}</div>: <div>{player[0]}</div>
+            </div>
+          ))}
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" onClick={onClose}>
+            閉じる
+          </Button>
+        </ModalFooter>
+      </ModalContent>
     </Modal>
   );
 };
