@@ -194,15 +194,30 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             }
             {...props}
           >
-            {score.isIncapacity || qn === score.last_wrong + 1
+            {score.isIncapacity ||
+            (qn === score.last_wrong + 1 && score.stage === 1)
               ? "LOCKED"
               : score.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
+            <PlayerScoreButton
+              color="red"
+              disabled={
+                score.isIncapacity ||
+                (qn === score.last_wrong + 1 && score.stage === 1)
+              }
+              {...props}
+            >
               {`${score.correct}○`}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" {...props}>
+            <PlayerScoreButton
+              color="blue"
+              disabled={
+                score.isIncapacity ||
+                (qn === score.last_wrong + 1 && score.stage === 1)
+              }
+              {...props}
+            >
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>

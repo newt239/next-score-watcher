@@ -14,6 +14,7 @@ type PlayerScoreButtonProps = {
   game_id: number;
   player_id: number;
   editable: boolean;
+  disabled?: boolean;
 };
 
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
@@ -23,6 +24,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   game_id,
   player_id,
   editable,
+  disabled,
 }) => {
   const handleClick = async () => {
     if (color !== "green") {
@@ -85,6 +87,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             borderRadius: 0,
           }}
           onClick={handleClick}
+          disabled={disabled}
         >
           {children}
         </Button>

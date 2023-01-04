@@ -259,7 +259,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       player_id,
       score: 0,
       last_correct: 0,
-      last_wrong: 0,
+      last_wrong: -100,
       odd_score: 0,
       even_score: 0,
       correct: 0,
