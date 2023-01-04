@@ -25,6 +25,7 @@ export type GameDBProps = {
   win_through?: number;
   limit?: number;
   quiz_set?: string;
+  editable: boolean;
 };
 
 export type PlayerDBProps = {
@@ -79,7 +80,7 @@ export interface ScoreWatcherDBTables extends DexieDatabase {
 const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(1).stores({
   games:
-    "++id, rule, name, players, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz_set",
+    "++id, rule, name, players, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz_set, editable",
   players: "++id, name, belong, tags",
   logs: "++id, game_id, player_id, variant, system",
   computed_scores:

@@ -12,7 +12,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   player_id,
   score,
 }) => {
-  const props = { game_id: game.id!, player_id: player_id };
+  const props = {
+    game_id: game.id!,
+    player_id: player_id,
+    editable: game.editable,
+  };
   return (
     <div
       style={{

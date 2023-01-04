@@ -5,11 +5,14 @@ import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
+  FormControl,
+  FormLabel,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Switch,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -26,6 +29,7 @@ const BoardHeader: React.FC = () => {
     []
   );
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
+
   useEffect(() => {
     const getQuizList = async () => {
       if (game?.quiz_set) {
@@ -36,9 +40,11 @@ const BoardHeader: React.FC = () => {
     };
     getQuizList();
   }, [game]);
+
   if (!game || !logs) {
     return null;
   }
+
   return (
     <Flex
       sx={{
@@ -92,7 +98,7 @@ const BoardHeader: React.FC = () => {
           )}
       </Box>
       <Box>
-        <Menu>
+        <Menu closeOnSelect={false}>
           <MenuButton as={IconButton} icon={<SettingsIcon />} />
           <MenuList>
             <MenuItem
@@ -114,14 +120,30 @@ const BoardHeader: React.FC = () => {
             <MenuItem
               disabled={logs.length === 0}
               onClick={async () => {
-                try {
+                if (logs.length !== 0) {
                   await db.logs.delete(Number(logs[logs.length - 1].id));
-                } catch (err) {
-                  console.log(err);
                 }
               }}
             >
               一つ戻す
+            </MenuItem>
+            <MenuItem
+              onClick={async () =>
+                await db.games.update(Number(game.id), {
+                  editable: !game.editable,
+                })
+              }
+            >
+              <FormControl
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <FormLabel mb="0">スコアの手動更新</FormLabel>
+                <Switch isChecked={game.editable} />
+              </FormControl>
             </MenuItem>
             <MenuItem onClick={() => router.push(`/${game.id}/config`)}>
               設定

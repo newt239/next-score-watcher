@@ -26,6 +26,7 @@ const RuleList: React.FC = () => {
         rule,
         correct_me: 1,
         wrong_me: -1,
+        editable: false,
       };
       switch (rule) {
         case "nomx":
