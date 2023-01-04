@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
   Button,
   Editable,
@@ -10,7 +8,7 @@ import {
 import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
-  color: "red" | "blue" | "green" | "white";
+  color: "red" | "blue" | "green";
   children: string | number;
   filled?: boolean;
   game_id: number;
@@ -32,7 +30,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         await db.logs.put({
           game_id,
           player_id,
-          variant: "correct",
+          variant: color === "red" ? "correct" : "wrong",
           system: true,
         });
       } catch (err) {

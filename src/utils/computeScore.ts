@@ -12,7 +12,7 @@ const computeScore = async (game_id: number) => {
       game_id,
       player_id: Number(player_id),
       state: "playing",
-      score: game.rule === "attacksurvival" ? game.win_point! : 0, // TODO: ここ間違ってるので直す
+      score: game.rule === "attacksurvival" ? game.win_point! : 0,
       correct: 0,
       wrong: 0,
       last_correct: 0,
