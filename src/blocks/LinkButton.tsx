@@ -7,6 +7,7 @@ interface LinkButtonProps {
   href: string;
   variant?: "ghost" | "outline" | "solid" | "link" | "unstyled";
   children: ReactNode;
+  disabled?: boolean;
   sx?: SystemStyleObject;
 }
 
@@ -14,6 +15,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
   href,
   variant,
   children,
+  disabled,
   sx,
 }) => {
   const router = useRouter();
@@ -22,6 +24,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
       onClick={() => router.push(href)}
       variant={variant}
       colorScheme="blue"
+      disabled={disabled}
       sx={sx}
     >
       {children}

@@ -22,11 +22,9 @@
     "next": "13.0.7",
     "papaparse": "^5.3.2",
     "react": "18.2.0",
-    "react-csv-importer": "^0.8.0",
-    "react-data-table-component": "^7.5.3",
     "react-dom": "18.2.0",
-    "react-papaparse": "^4.1.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

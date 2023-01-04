@@ -35,9 +35,11 @@ const Config: NextPage = () => {
   if (!game || !players || !logs) {
     return null;
   }
+
   const deleteGame = () => {
     db.games.delete(Number(game.id)).then(() => router.push("/"));
   };
+
   return (
     <Container maxW={1000} p={5}>
       <Header />
@@ -115,11 +117,11 @@ const Config: NextPage = () => {
           )}
         </div>
 
-        <H2>プレイヤー設定</H2>
         <SelectPlayer
           game_id={Number(game.id)}
           playerList={players}
           players={game.players}
+          disabled={logs.length !== 0}
         />
 
         <H2>問題設定</H2>
@@ -149,7 +151,12 @@ const Config: NextPage = () => {
             <Button colorScheme="red" onClick={deleteGame}>
               ゲームを削除
             </Button>
-            <LinkButton href={`/${game_id}/board`}>ゲーム開始</LinkButton>
+            <LinkButton
+              href={`/${game_id}/board`}
+              disabled={game.players.length === 0}
+            >
+              ゲーム開始
+            </LinkButton>
           </ButtonGroup>
         </Box>
       </Box>
