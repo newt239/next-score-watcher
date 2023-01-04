@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import router from "next/router";
-import { useState } from "react";
 
 import {
   Container,
@@ -11,38 +10,19 @@ import {
   FormControl,
   FormLabel,
   Select,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  Checkbox,
-  UnorderedList,
-  List,
-  ListItem,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import LinkButton from "#/blocks/LinkButton";
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
 import Header from "#/components/Header";
-import PlayerConfigInput from "#/components/PlayerConfigInput";
+import SelectPlayer from "#/components/SelectPlayer";
 import db from "#/utils/db";
 
 const Config: NextPage = () => {
   const { game_id } = router.query;
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
   const players = useLiveQuery(() => db.players.toArray(), []);
   const logs = useLiveQuery(
@@ -136,70 +116,11 @@ const Config: NextPage = () => {
         </div>
 
         <H2>プレイヤー設定</H2>
-        <Button
-          onClick={() => setDrawerOpen(true)}
-          size="sm"
-          colorScheme="green"
-        >
-          選択する
-        </Button>
-        <Drawer
-          isOpen={drawerOpen}
-          placement="right"
-          onClose={() => setDrawerOpen(false)}
-        >
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>プレイヤー選択</DrawerHeader>
-            <DrawerBody>
-              <TableContainer>
-                <Table variant="simple" size="sm">
-                  <Thead>
-                    <Tr>
-                      <Th></Th>
-                      <Th>プレイヤー名</Th>
-                      <Th>所属</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {players.map((player, i) => (
-                      <Tr key={i}>
-                        <Td>
-                          <Checkbox
-                            onChange={async (e) => {
-                              if (game.players.includes(Number(player.id))) {
-                                await db.games.update(Number(game.id), {
-                                  players: game.players.filter(
-                                    (player_id) => player_id != player.id
-                                  ),
-                                });
-                              } else {
-                                await db.games.update(Number(game.id), {
-                                  players: [...game.players, Number(player.id)],
-                                });
-                              }
-                            }}
-                            isChecked={game.players.includes(Number(player.id))}
-                          />
-                        </Td>
-                        <Td>{player.name}</Td>
-                        <Td>{player.belong}</Td>
-                      </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
-        <UnorderedList>
-          {game.players.map((player_id) => (
-            <ListItem key={player_id}>
-              {players.find((player) => player.id === player_id)?.name}
-            </ListItem>
-          ))}
-        </UnorderedList>
+        <SelectPlayer
+          game_id={Number(game.id)}
+          playerList={players}
+          players={game.players}
+        />
 
         <H2>問題設定</H2>
         {quizes ? (
