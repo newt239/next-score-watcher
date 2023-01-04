@@ -18,22 +18,22 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       style={{
         display: "flex",
         flexDirection: "column",
-        width: "70%",
+        width: "100%",
         gap: 5,
         margin: 5,
       }}
     >
       {game.rule === "normal" && (
-        <PlayerScoreButton variant="correct" {...props}>
+        <PlayerScoreButton color="red" {...props}>
           {score.score}
         </PlayerScoreButton>
       )}
       {game.rule === "nomx" && (
         <>
-          <PlayerScoreButton variant="correct" {...props}>
+          <PlayerScoreButton color="red" {...props}>
             {score.state === "win" ? score.text : score.correct}
           </PlayerScoreButton>
-          <PlayerScoreButton variant="wrong" {...props}>
+          <PlayerScoreButton color="blue" {...props}>
             {score.state === "lose" ? score.text : score.wrong}
           </PlayerScoreButton>
         </>
@@ -41,11 +41,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nbyn" && (
         <>
           <PlayerScoreButton
-            variant={
+            color={
               score.state === "win"
-                ? "correct"
+                ? "red"
                 : score.state === "lose"
-                ? "wrong"
+                ? "blue"
                 : "green"
             }
             {...props}
@@ -55,10 +55,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton variant="correct" {...props}>
+            <PlayerScoreButton color="red" {...props}>
               {score.correct}
             </PlayerScoreButton>
-            <PlayerScoreButton variant="wrong" {...props}>
+            <PlayerScoreButton color="blue" {...props}>
               {game.win_point! - score.wrong}
             </PlayerScoreButton>
           </div>
@@ -67,11 +67,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nupdown" && (
         <>
           <PlayerScoreButton
-            variant={
+            color={
               score.state === "win"
-                ? "correct"
+                ? "red"
                 : score.state === "lose"
-                ? "wrong"
+                ? "blue"
                 : "green"
             }
             {...props}
@@ -81,10 +81,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton variant="correct" {...props}>
+            <PlayerScoreButton color="red" {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton variant="wrong" {...props}>
+            <PlayerScoreButton color="blue" {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -93,11 +93,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "swedishx" && (
         <>
           <PlayerScoreButton
-            variant={
+            color={
               score.state === "win"
-                ? "correct"
+                ? "red"
                 : score.state === "lose"
-                ? "wrong"
+                ? "blue"
                 : "green"
             }
             {...props}
@@ -107,10 +107,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton variant="correct" {...props}>
+            <PlayerScoreButton color="red" {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton variant="wrong" {...props}>
+            <PlayerScoreButton color="blue" {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -119,11 +119,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "attacksurvival" && (
         <>
           <PlayerScoreButton
-            variant={
+            color={
               score.state === "win"
-                ? "correct"
+                ? "red"
                 : score.state === "lose"
-                ? "wrong"
+                ? "blue"
                 : "green"
             }
             {...props}
@@ -133,10 +133,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton variant="correct" {...props}>
+            <PlayerScoreButton color="red" {...props}>
               {`${score.correct}○`}
             </PlayerScoreButton>
-            <PlayerScoreButton variant="wrong" {...props}>
+            <PlayerScoreButton color="blue" {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -145,11 +145,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "squarex" && (
         <>
           <PlayerScoreButton
-            variant={
+            color={
               score.state === "win"
-                ? "correct"
+                ? "red"
                 : score.state === "lose"
-                ? "wrong"
+                ? "blue"
                 : "green"
             }
             {...props}
@@ -164,21 +164,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               gap: "1rem",
             }}
           >
-            <PlayerScoreButton variant="green" text {...props}>
+            <PlayerScoreButton color="green" text {...props}>
               {score.odd_score}
             </PlayerScoreButton>
             ×
-            <PlayerScoreButton variant="green" text {...props}>
+            <PlayerScoreButton color="green" text {...props}>
               {score.even_score}
             </PlayerScoreButton>
           </div>
           <div
             style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
           >
-            <PlayerScoreButton variant="correct" {...props}>
+            <PlayerScoreButton color="red" {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton variant="wrong" {...props}>
+            <PlayerScoreButton color="blue" {...props}>
               ×
             </PlayerScoreButton>
           </div>

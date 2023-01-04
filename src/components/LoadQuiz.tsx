@@ -11,6 +11,9 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  FormControl,
+  FormLabel,
+  Input,
   Radio,
   RadioGroup,
   Stack,
@@ -104,14 +107,24 @@ const LoadQuiz: React.FC = () => {
           </Stack>
         </RadioGroup>
       </Flex>
-      <Textarea
-        placeholder="1列目を問題文、2列目を答えにしてCSV形式で貼り付けてください"
-        value={rawQuizText}
-        onChange={handleChange}
-        size="sm"
-        resize="vertical"
-        mb={100}
-      />
+      <FormControl pt={5}>
+        <FormLabel>セット名</FormLabel>
+        <Input
+          type="text"
+          placeholder="test"
+          value={quizSet}
+          onChange={(v) => setQuizset(v.target.value)}
+        />
+      </FormControl>
+      <Box py={5}>
+        <Textarea
+          placeholder="1列目を問題文、2列目を答えにしてCSV形式で貼り付けてください"
+          value={rawQuizText}
+          onChange={handleChange}
+          size="sm"
+          resize="vertical"
+        />
+      </Box>
       <Drawer
         isOpen={drawerOpen}
         placement="right"
