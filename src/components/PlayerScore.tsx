@@ -52,9 +52,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.text}
           </PlayerScoreButton>
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
-          >
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" {...props}>
               {score.correct}
             </PlayerScoreButton>
@@ -78,9 +76,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.text}
           </PlayerScoreButton>
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
-          >
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" {...props}>
               ○
             </PlayerScoreButton>
@@ -104,9 +100,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.text}
           </PlayerScoreButton>
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
-          >
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" {...props}>
               ○
             </PlayerScoreButton>
@@ -130,9 +124,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.text}
           </PlayerScoreButton>
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
-          >
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" {...props}>
               {`${score.correct}○`}
             </PlayerScoreButton>
@@ -172,9 +164,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               {score.even_score}
             </PlayerScoreButton>
           </div>
-          <div
-            style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
-          >
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" {...props}>
               ○
             </PlayerScoreButton>

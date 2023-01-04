@@ -2,9 +2,11 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { Alert, Box, useMediaQuery } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import BoardHeader from "#/components/BoardHeader";
+import Header from "#/components/Header";
 import Player from "#/components/Player";
 import WinModal from "#/components/WinModal";
 import computeScore from "#/utils/computeScore";
@@ -29,6 +31,7 @@ const Board: NextPage = () => {
   const [winThroughPeople, setWinThroughPeople] = useState<[string, string][]>(
     []
   );
+  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
 
   useEffect(() => {
     computeScore(Number(game_id)).then((newWinThroughPeople) => {
@@ -52,6 +55,17 @@ const Board: NextPage = () => {
   if (!game || !players || !computed_scores) {
     return null;
   }
+  if (!isLargerThan500) {
+    return (
+      <Box p={5}>
+        <Header />
+        <Alert colorScheme="red">
+          この画面幅での表示には対応していません。画面幅500px以上の端末をご利用ください。
+        </Alert>
+      </Box>
+    );
+  }
+
   return (
     <div>
       <BoardHeader />
