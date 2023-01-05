@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import { useState } from "react";
 
 import {
@@ -6,7 +7,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Alert,
   Box,
   Button,
   Checkbox,
@@ -32,13 +32,13 @@ import {
   Stack,
   InputGroup,
   InputLeftElement,
+  Link,
 } from "@chakra-ui/react";
 import { Filter } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
-
 interface SelectPlayerProps {
   game_id: number;
   playerList: PlayerDBProps[];
@@ -100,11 +100,6 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
             <DrawerCloseButton />
             <DrawerHeader>プレイヤー選択</DrawerHeader>
             <DrawerBody>
-              {playerList.length === 0 && (
-                <Alert colorScheme="red">
-                  トップページから一括でプレイヤー情報を登録できます。
-                </Alert>
-              )}
               <Accordion defaultIndex={[1]} allowMultiple>
                 <AccordionItem>
                   <H3 sx={{ pt: 0 }}>
@@ -163,6 +158,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                         placeholder="氏名で検索"
                       />
                     </InputGroup>
+                    {playerList.length === 0 && (
+                      <Box py={3}>
+                        <NextLink href="/player" passHref>
+                          <Link>プレイヤー管理</Link>
+                        </NextLink>
+                        ページから一括でプレイヤー情報を登録できます。
+                      </Box>
+                    )}
                     <TableContainer pt={3}>
                       <Table variant="simple" size="sm">
                         <Thead>
