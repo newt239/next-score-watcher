@@ -43,9 +43,9 @@ const BoardPage: NextPage = () => {
   useEffect(() => {
     const executeComputeScore = async () => {
       const result = await computeScore(Number(game_id));
-      if (result.congratulationsList.length !== 0) {
+      if (result.winThroughList.length !== 0) {
         setWinThroughPeople(
-          result.congratulationsList.map((congratulationPlayer) => {
+          result.winThroughList.map((congratulationPlayer) => {
             const playerName = playerList?.find(
               (player) => player.id! === congratulationPlayer[0]
             )?.name;
@@ -96,7 +96,8 @@ const BoardPage: NextPage = () => {
             key={i}
             index={i}
             score={computed_scores.find(
-              (score) => score.player_id === player.id
+              (score) =>
+                score.game_id === game.id && score.player_id === player.id
             )}
           />
         ))}

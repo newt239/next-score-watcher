@@ -81,7 +81,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             aspectRatio: "1 / 1",
             margin: "auto",
             mb: 3,
-            cursor: "pointer",
+            cursor: color === "green" ? "default" : "pointer",
             backgroundColor: filled ? color : "white",
             color: filled ? "white" : color,
             borderRadius: 0,

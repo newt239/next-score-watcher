@@ -8,42 +8,38 @@ import db, {
 
 const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
-  if (!game) return { scoreList: undefined, congratulationsList: [] };
+  if (!game) return { scoreList: undefined, winThroughList: [] };
   const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
-  const congratulationsList: [number, string][] = [];
+
+  let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
+    return {
+      game_id,
+      player_id,
+      state: "playing",
+      score: game.rule === "attacksurvival" ? game.win_point! : 0,
+      correct: 0,
+      wrong: 0,
+      last_correct: 10000,
+      last_wrong: -10000,
+      odd_score: 0,
+      even_score: 0,
+      stage: 0,
+      isIncapacity: false,
+      order: 0,
+      text: "",
+    };
+  });
+
   if (game.rule === "z") {
     return await z(game, gameLogList);
   }
   if (game.rule === "freezx") {
     return await freezx(game, gameLogList);
   }
-  let insertDataList: ComputedScoreDBProps[] = game.players.map((player_id) => {
-    return {
-      id: `${game_id}_${player_id}`,
-      game_id,
-      player_id: Number(player_id),
-      state: "playing",
-      score:
-        game.rule === "attacksurvival"
-          ? game.win_point!
-          : game.rule === "z"
-          ? 1
-          : 0,
-      correct: 0,
-      wrong: 0,
-      last_correct: 0,
-      last_wrong: 0,
-      odd_score: 0,
-      even_score: 0,
-      stage: 0,
-      win_qn: 10000,
-      isIncapacity: false,
-      order: 0,
-      text: game.rule === "z" ? "Stage 1" : "unknown",
-    };
-  });
+
+  const winThroughList: [number, string][] = [];
   gameLogList.map((log, quiz_position) => {
-    insertDataList = insertDataList.map((playerState) => {
+    playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         const editedPlayerState =
           game.rule === "squarex"
@@ -105,7 +101,7 @@ const computeScore = async (game_id: number) => {
     });
   });
   // 評価順 ( order ) を計算
-  const playerOrderList = insertDataList
+  const playerOrderList = playersState
     .sort((a, b) => {
       // スコアを比較
       if (a.score > b.score) return -1;
@@ -123,7 +119,7 @@ const computeScore = async (game_id: number) => {
       else return 0;
     })
     .map((score) => score.player_id);
-  insertDataList = insertDataList.map((insertData) => {
+  playersState = playersState.map((insertData) => {
     const order = playerOrderList.findIndex(
       (score) => score === insertData.player_id
     );
@@ -133,10 +129,10 @@ const computeScore = async (game_id: number) => {
     };
   });
   // order をもとに state を算出
-  insertDataList = insertDataList.map((insertData) => {
+  playersState = playersState.map((insertData) => {
     const [state, text] = getState(game, insertData, gameLogList.length);
     if (state === "win" && insertData.last_correct + 1 === gameLogList.length) {
-      congratulationsList.push([insertData.player_id!, text]);
+      winThroughList.push([insertData.player_id!, text]);
     }
     return {
       ...insertData,
@@ -144,8 +140,8 @@ const computeScore = async (game_id: number) => {
       text,
     };
   });
-  await db.computed_scores.bulkPut(insertDataList);
-  return { scoreList: insertDataList, congratulationsList };
+  await db.computed_scores.bulkPut(playersState);
+  return { scoreList: playersState, winThroughList };
 };
 
 const getScore = (
@@ -245,10 +241,9 @@ const getState = (
 };
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const congratulationsList: [number, string][] = [];
+  const winThroughList: [number, string][] = [];
   let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
     return {
-      id: `${game.id}_${player_id}`,
       game_id: game.id!,
       player_id,
       score: 0,
@@ -287,7 +282,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 ...playerState,
                 correct: 0,
                 stage: 5,
-                win_qn: qn,
+                last_correct: qn,
                 state: "win",
                 isIncapacity: false,
               };
@@ -337,9 +332,12 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   });
   const playerOrderList = playersState
     .sort((pre, cur) => {
-      // 勝ち抜けた問題番号の若さを比較
-      if (pre.win_qn < cur.win_qn) return -1;
-      else if (cur.win_qn < pre.win_qn) return 1;
+      // 勝ち抜けているかどうか
+      if (pre.state === "win" && cur.state !== "win") return -1;
+      else if (pre.state !== "win" && cur.state === "win") return 1;
+      // 最後に正解した問題番号の若さを比較
+      if (pre.last_correct < cur.last_correct) return -1;
+      else if (cur.last_correct < pre.last_correct) return 1;
       // ステージを比較
       if (pre.stage > cur.stage) return -1;
       else if (cur.stage > pre.stage) return 1;
@@ -361,24 +359,27 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win"
         ? indicator(order)
         : `Stage ${playerState.stage}`;
-    if (playerState.win_qn + 1 === gameLogList.length) {
-      congratulationsList.push([playerState.player_id, text]);
+    if (
+      playerState.state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      winThroughList.push([playerState.player_id, text]);
     }
     return { ...playerState, order, text };
   });
   await db.computed_scores.bulkPut(playersState);
-  return { scoreList: playersState, congratulationsList };
+  return { scoreList: playersState, winThroughList };
 };
 
 const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const congratulationsList: [number, string][] = [];
+  const winThroughList: [number, string][] = [];
   let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
     return {
       id: `${game.id}_${player_id}`,
       game_id: game.id!,
       player_id,
       score: 0,
-      last_correct: 0,
+      last_correct: 10000,
       last_wrong: -10000,
       odd_score: 0,
       even_score: 0,
@@ -387,7 +388,6 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       stage: 1,
       order: 0,
       text: "",
-      win_qn: 10000,
       state: "playing",
       isIncapacity: false,
     };
@@ -427,9 +427,12 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   });
   const playerOrderList = playersState
     .sort((pre, cur) => {
-      // 勝ち抜けた問題番号の若さを比較
-      if (pre.win_qn < cur.win_qn) return -1;
-      else if (cur.win_qn < pre.win_qn) return 1;
+      // 勝ち抜けているかどうか
+      if (pre.state === "win" && cur.state !== "win") return -1;
+      else if (pre.state !== "win" && cur.state === "win") return 1;
+      // 最後に正解した問題番号の若さを比較
+      if (pre.last_correct < cur.last_correct) return -1;
+      else if (cur.last_correct < pre.last_correct) return 1;
       // 正答数を比較
       if (pre.correct > cur.correct) return -1;
       else if (cur.correct > pre.correct) return 1;
@@ -452,13 +455,16 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         : remainIncapacity > 0
         ? `${remainIncapacity} PASS`
         : `${playerState.correct}○`;
-    if (playerState.win_qn + 1 === gameLogList.length) {
-      congratulationsList.push([playerState.player_id, text]);
+    if (
+      playerState.state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      winThroughList.push([playerState.player_id, text]);
     }
-    return { ...playerState, order, text };
+    return { ...playerState, order, text, isIncapacity: remainIncapacity > 0 };
   });
   await db.computed_scores.bulkPut(playersState);
-  return { scoreList: playersState, congratulationsList };
+  return { scoreList: playersState, winThroughList };
 };
 
 const indicator = (i: number) => {

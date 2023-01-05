@@ -48,7 +48,7 @@ export type LogDBProps = {
 
 export type States = "win" | "lose" | "playing";
 export type ComputedScoreDBProps = {
-  id: string; // ${game_id}_${player_id}
+  id?: string;
   game_id: number;
   player_id: number;
   state: States;
@@ -60,7 +60,6 @@ export type ComputedScoreDBProps = {
   odd_score: number; // 奇数問目のスコア
   even_score: number; // 偶数問目のスコア
   stage: number;
-  win_qn: number;
   isIncapacity: boolean;
   order: number; // プレイヤー同士の評価順
   text: string; // 画面上に表示するための文字
