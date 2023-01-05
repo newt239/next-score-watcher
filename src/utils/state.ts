@@ -47,4 +47,9 @@ export const rules = {
     name: "Z",
     description: "Z",
   },
+  freezx: {
+    name: "freez X",
+    description: "X問正解で勝ち抜け、N回目の誤答でN回休み。",
+    win_point: 7,
+  },
 };

@@ -54,8 +54,12 @@ const RuleList: React.FC = () => {
           break;
         case "squarex":
           putData.win_point = rules[rule].win_point;
+          break;
         case "z":
           putData.win_point = 10;
+          break;
+        case "freezx":
+          putData.win_point = rules[rule].win_point;
           break;
       }
       router.push(`/${await db.games.put(putData)}/config`);

@@ -76,8 +76,11 @@ const ConfigPage: NextPageWithLayout = () => {
               />
             </>
           )}
-          {["nbyn", "nupdown", "swedishx"].includes(game.rule) && (
+          {["nbyn", "nupdown"].includes(game.rule) && (
             <ConfigNumberInput input_id="win_point" label="N" max={10} />
+          )}
+          {["squarex", "swedishx", "freezx"].includes(game.rule) && (
+            <ConfigNumberInput input_id="win_point" label="X" max={100} />
           )}
           {["nupdown"].includes(game.rule) && (
             <ConfigNumberInput input_id="lose_point" label="失格誤答数" />
@@ -111,9 +114,6 @@ const ConfigPage: NextPageWithLayout = () => {
                 min={-10}
               />
             </>
-          )}
-          {["squarex"].includes(game.rule) && (
-            <ConfigNumberInput input_id="win_point" label="X" max={100} />
           )}
         </div>
 

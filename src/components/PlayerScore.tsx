@@ -223,6 +223,16 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
         </>
       )}
+      {game.rule === "freezx" && (
+        <>
+          <PlayerScoreButton color="red" {...props}>
+            {score.text}
+          </PlayerScoreButton>
+          <PlayerScoreButton color="blue" {...props}>
+            {`${score.wrong}×`}
+          </PlayerScoreButton>
+        </>
+      )}
     </div>
   );
 };

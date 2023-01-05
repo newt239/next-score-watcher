@@ -10,7 +10,8 @@ export type RuleNames =
   | "swedishx"
   | "attacksurvival"
   | "squarex"
-  | "z";
+  | "z"
+  | "freezx";
 
 export type GameDBProps = {
   id?: number;
