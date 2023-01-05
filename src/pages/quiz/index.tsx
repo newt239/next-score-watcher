@@ -2,8 +2,8 @@ import { NextPageWithLayout } from "next";
 import Head from "next/head";
 
 import H2 from "#/blocks/H2";
-import LoadQuiz from "#/components/LoadQuiz";
-import QuizTable from "#/components/QuizTable";
+import LoadQuiz from "#/components/quiz/LoadQuiz";
+import QuizTable from "#/components/quiz/QuizTable";
 import { Layout } from "#/layouts/Layout";
 
 const QuizPage: NextPageWithLayout = () => {

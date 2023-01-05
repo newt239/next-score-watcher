@@ -17,7 +17,7 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { Edit } from "tabler-icons-react";
 
-import PlayerScore from "#/components/PlayerScore";
+import PlayerScore from "#/components/board/PlayerScore";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
 interface PlayerProps {

@@ -4,9 +4,9 @@ import Head from "next/head";
 import { Grid } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
-import CreatePlayer from "#/components/CreatePlayer";
-import LoadPlayer from "#/components/LoadPlayer";
-import PlayerTable from "#/components/PlayerTable";
+import CreatePlayer from "#/components/player/CreatePlayer";
+import LoadPlayer from "#/components/player/LoadPlayer";
+import PlayerTable from "#/components/player/PlayerTable";
 import { Layout } from "#/layouts/Layout";
 
 const PlayerPage: NextPageWithLayout = () => {

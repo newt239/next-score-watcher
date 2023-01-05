@@ -16,9 +16,9 @@ import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
-import ConfigInput from "#/components/ConfigInput";
-import ConfigNumberInput from "#/components/ConfigNumberInput";
-import SelectPlayer from "#/components/SelectPlayer";
+import ConfigInput from "#/components/config/ConfigInput";
+import ConfigNumberInput from "#/components/config/ConfigNumberInput";
+import SelectPlayer from "#/components/config/SelectPlayer";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 

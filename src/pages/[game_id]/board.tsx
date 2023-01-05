@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 import { Alert, Box, useMediaQuery } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import BoardHeader from "#/components/BoardHeader";
 import Header from "#/components/Header";
-import Player from "#/components/Player";
-import WinModal from "#/components/WinModal";
+import BoardHeader from "#/components/board/BoardHeader";
+import Player from "#/components/board/Player";
+import WinModal from "#/components/board/WinModal";
 import computeScore from "#/utils/computeScore";
 import db, { PlayerDBProps } from "#/utils/db";
 
