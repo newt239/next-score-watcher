@@ -1,35 +1,14 @@
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEventHandler } from "react";
 
-import {
-  Box,
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
-  Flex,
-  Input,
-  Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  useToast,
-  Tr,
-} from "@chakra-ui/react";
+import { Alert, Box, Input, Stack, useToast } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { InfoCircle } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
-import db, { PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
 
 const LoadPlayer: React.FC = () => {
   const players = useLiveQuery(() => db.players.toArray(), []);
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const toast = useToast();
 
   const fileReader = new FileReader();
@@ -78,43 +57,14 @@ const LoadPlayer: React.FC = () => {
     <Box>
       <H3>ファイルから読み込み</H3>
       <Stack>
+        <Alert status="info" my={5} gap={3}>
+          <InfoCircle />
+          CSV形式(カンマ区切り)で 1列目に氏名、2列目に所属を入力してください。
+        </Alert>
         <Box py={5}>
           <Input type="file" accept=".csv" onChange={handleOnChange} />
         </Box>
       </Stack>
-      <Drawer
-        isOpen={drawerOpen}
-        placement="right"
-        onClose={() => setDrawerOpen(false)}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>プレイヤー一覧</DrawerHeader>
-          <DrawerBody>
-            <TableContainer>
-              <Table variant="simple" size="sm">
-                <Thead>
-                  <Tr>
-                    <Th></Th>
-                    <Th>プレイヤー名</Th>
-                    <Th>所属</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {players.map((player, i) => (
-                    <Tr key={i}>
-                      <Td>{i + 1}</Td>
-                      <Td>{player.name}</Td>
-                      <Td>{player.belong}</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
     </Box>
   );
 };

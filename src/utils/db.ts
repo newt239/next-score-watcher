@@ -67,7 +67,6 @@ export type ComputedScoreDBProps = {
 
 export type QuizDBProps = {
   id?: number;
-  index: number;
   q: string;
   a: string;
   set_name: string;
@@ -89,7 +88,7 @@ db.version(1).stores({
   logs: "++id, game_id, player_id, variant, system",
   computed_scores:
     "id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, order, text",
-  quizes: "++id, index, q, a, set_name",
+  quizes: "++id, q, a, set_name",
 });
 
 db.open()
