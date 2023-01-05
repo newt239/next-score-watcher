@@ -21,20 +21,40 @@ import {
   IconButton,
   TagLabel,
   TagRightIcon,
+  Checkbox,
+  filter,
+  Box,
+  HStack,
+  useToast,
+  Text,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import DataTable from "react-data-table-component";
-import { Filter, InfoCircle, Tags, Trash, X } from "tabler-icons-react";
+import {
+  Filter,
+  InfoCircle,
+  MoodCry,
+  Tags,
+  Trash,
+  X,
+} from "tabler-icons-react";
 
 import EditPlayertagsModal from "./EditPlayerTagsModal";
 
+import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
 
 const PlayerTable: React.FC = () => {
   const players = useLiveQuery(() => db.players.toArray(), []);
   const [filterText, setFilterText] = useState<string>("");
   const filteredPlayers = players
-    ? players.filter((item) => item.name && item.name.includes(filterText))
+    ? players.filter(
+        (item) =>
+          item.name &&
+          (item.name.includes(filterText) ||
+            item.belong.includes(filterText) ||
+            item.tags.join("").includes(filterText))
+      )
     : [];
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,38 +66,50 @@ const PlayerTable: React.FC = () => {
   const [selectedPlayers, setSelectedPlayers] = useState<PlayerDBProps[]>([]);
   const [editPlayerTagsModal, setEditPlayerTagsModal] =
     useState<boolean>(false);
+  const toast = useToast();
 
   const SubHeaderComponent = () => {
     return (
-      <Flex sx={{ alignItems: "center", justifyContent: "flex-end", gap: 5 }}>
+      <HStack sx={{ gap: 3 }}>
         {selectedPlayers.length !== 0 && (
-          <>
-            <IconButton
+          <HStack>
+            <Button
               onClick={async () => {
                 await db.players.bulkDelete(
                   selectedPlayers.map((player) => player.id!)
                 );
+                toast({
+                  title: `${selectedPlayers.length} 人のプレイヤーを削除しました`,
+                  description: selectedPlayers
+                    .map((player) => `${player.name}(${player.belong})`)
+                    .join(",")
+                    .slice(0, 20),
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                });
+                setSelectedPlayers([]);
               }}
               colorScheme="red"
               size="sm"
-              aria-label="削除"
+              leftIcon={<Trash />}
             >
-              <Trash />
-            </IconButton>
-            <IconButton
+              削除
+            </Button>
+            <Button
               onClick={() => setEditPlayerTagsModal(true)}
               colorScheme="green"
               size="sm"
-              aria-label="タグの編集"
+              leftIcon={<Tags />}
             >
-              <Tags />
-            </IconButton>
+              タグの編集
+            </Button>
             <EditPlayertagsModal
               selectedPlayers={selectedPlayers}
               isOpen={editPlayerTagsModal}
               onClose={() => setEditPlayerTagsModal(false)}
             />
-          </>
+          </HStack>
         )}
         <InputGroup>
           <InputLeftElement pointerEvents="none">
@@ -86,10 +118,10 @@ const PlayerTable: React.FC = () => {
           <Input
             value={filterText}
             onChange={(e) => setFilterText(e.target.value)}
-            placeholder="氏名で検索"
+            placeholder="氏名・所属・タグで検索"
           />
         </InputGroup>
-      </Flex>
+      </HStack>
     );
   };
 
@@ -133,11 +165,11 @@ const PlayerTable: React.FC = () => {
   };
 
   return (
-    <>
-      <Alert status="info" my={5}>
+    <Box>
+      <H3>プレイヤー一覧</H3>
+      <Alert status="info" variant="solid" my={5} gap={3}>
         <InfoCircle /> ダブルクリックで氏名及び所属を編集できます。
       </Alert>
-
       <DataTable
         columns={columns}
         data={filteredPlayers}
@@ -148,6 +180,13 @@ const PlayerTable: React.FC = () => {
         striped
         selectableRows
         dense
+        pointerOnHover
+        noDataComponent={
+          <HStack py={5}>
+            <MoodCry />
+            <Text>データがありません。</Text>
+          </HStack>
+        }
       />
       <Modal
         initialFocusRef={initialRef}
@@ -205,7 +244,7 @@ const PlayerTable: React.FC = () => {
           )}
         </ModalContent>
       </Modal>
-    </>
+    </Box>
   );
 };
 

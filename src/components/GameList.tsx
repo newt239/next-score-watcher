@@ -42,6 +42,7 @@ const GameList: React.FC = () => {
                 <Td sx={{ textAlign: "right" }}>
                   <LinkButton
                     icon={<AdjustmentsHorizontal />}
+                    size="sm"
                     href={`/${game.id}/config`}
                   >
                     設定

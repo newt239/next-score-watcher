@@ -9,6 +9,7 @@ interface LinkButtonProps {
   children: ReactNode;
   disabled?: boolean;
   icon?: ReactElement;
+  size?: "xs" | "sm" | "md" | "lg";
   sx?: SystemStyleObject;
 }
 
@@ -17,6 +18,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
   variant,
   children,
   icon,
+  size,
   disabled,
   sx,
 }) => {
@@ -28,6 +30,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
       variant={variant}
       colorScheme="blue"
       disabled={disabled}
+      size={size}
       sx={sx}
     >
       {children}

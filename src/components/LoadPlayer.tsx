@@ -11,22 +11,26 @@ import {
   DrawerOverlay,
   Flex,
   Input,
+  Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
+  useToast,
   Tr,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import H2 from "#/blocks/H2";
+import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
 
 const LoadPlayer: React.FC = () => {
   const players = useLiveQuery(() => db.players.toArray(), []);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const toast = useToast();
 
   const fileReader = new FileReader();
 
@@ -36,7 +40,15 @@ const LoadPlayer: React.FC = () => {
       fileReader.onload = (ev) => {
         const csvOutput = ev.target?.result;
         if (typeof csvOutput === "string") {
-          csvFileToArray(csvOutput);
+          csvFileToArray(csvOutput).then((row) => {
+            toast({
+              title: "データをインポートしました",
+              description: `${files[0].name}から${row}件のプレイヤーデータを読み込みました`,
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+          });
         }
       };
       fileReader.readAsText(files[0], "Shift_JIS");
@@ -55,6 +67,7 @@ const LoadPlayer: React.FC = () => {
         };
       })
     );
+    return csvRows.length;
   };
 
   if (!players) {
@@ -62,19 +75,13 @@ const LoadPlayer: React.FC = () => {
   }
 
   return (
-    <Box pt={5}>
-      <H2>プレイヤーの読み込み</H2>
-      <Flex py={5} gap={3} alignItems="center">
-        <Input type="file" accept=".csv" onChange={handleOnChange} p={0} />
-        <Button
-          size="sm"
-          colorScheme="green"
-          disabled={players.length === 0}
-          onClick={() => setDrawerOpen(true)}
-        >
-          プレビュー
-        </Button>
-      </Flex>
+    <Box>
+      <H3>ファイルから読み込み</H3>
+      <Stack>
+        <Box py={5}>
+          <Input type="file" accept=".csv" onChange={handleOnChange} />
+        </Box>
+      </Stack>
       <Drawer
         isOpen={drawerOpen}
         placement="right"

@@ -19,7 +19,6 @@ const HomePage: NextPageWithLayout = () => {
       <GameList />
       <RuleList />
       <LoadQuiz />
-      <LoadPlayer />
       <UpdateModal />
     </>
   );
