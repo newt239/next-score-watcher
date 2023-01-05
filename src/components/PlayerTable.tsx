@@ -1,11 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { ReactNode, useMemo, useRef, useState } from "react";
 
 import {
   Input,
   InputGroup,
   InputLeftElement,
   Tag,
-  Box,
   useDisclosure,
   Button,
   FormControl,
@@ -18,10 +17,16 @@ import {
   ModalOverlay,
   Modal,
   Alert,
+  Flex,
+  IconButton,
+  TagLabel,
+  TagRightIcon,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import DataTable from "react-data-table-component";
-import { Filter, InfoCircle } from "tabler-icons-react";
+import { Filter, InfoCircle, Tags, Trash, X } from "tabler-icons-react";
+
+import EditPlayertagsModal from "./EditPlayerTagsModal";
 
 import db, { PlayerDBProps } from "#/utils/db";
 
@@ -38,10 +43,42 @@ const PlayerTable: React.FC = () => {
   const [currentPlayer, setCurrentPlayer] = useState<PlayerDBProps | null>(
     null
   );
+  const [selectedPlayers, setSelectedPlayers] = useState<PlayerDBProps[]>([]);
+  const [editPlayerTagsModal, setEditPlayerTagsModal] =
+    useState<boolean>(false);
 
-  const SubHeaderComponentMemo = useMemo(() => {
+  const SubHeaderComponent = () => {
     return (
-      <Box>
+      <Flex sx={{ alignItems: "center", justifyContent: "flex-end", gap: 5 }}>
+        {selectedPlayers.length !== 0 && (
+          <>
+            <IconButton
+              onClick={async () => {
+                await db.players.bulkDelete(
+                  selectedPlayers.map((player) => player.id!)
+                );
+              }}
+              colorScheme="red"
+              size="sm"
+              aria-label="削除"
+            >
+              <Trash />
+            </IconButton>
+            <IconButton
+              onClick={() => setEditPlayerTagsModal(true)}
+              colorScheme="green"
+              size="sm"
+              aria-label="タグの編集"
+            >
+              <Tags />
+            </IconButton>
+            <EditPlayertagsModal
+              selectedPlayers={selectedPlayers}
+              isOpen={editPlayerTagsModal}
+              onClose={() => setEditPlayerTagsModal(false)}
+            />
+          </>
+        )}
         <InputGroup>
           <InputLeftElement pointerEvents="none">
             <Filter />
@@ -52,9 +89,9 @@ const PlayerTable: React.FC = () => {
             placeholder="氏名で検索"
           />
         </InputGroup>
-      </Box>
+      </Flex>
     );
-  }, [filterText]);
+  };
 
   const columns = [
     {
@@ -67,8 +104,26 @@ const PlayerTable: React.FC = () => {
     },
     {
       name: "タグ",
-      selector: (row: PlayerDBProps) =>
-        row.tags.map((tag) => <Tag key={tag}>{tag}</Tag>).join(""),
+      selctor: (row: PlayerDBProps) => row.belong,
+      cell: (row: PlayerDBProps) => (
+        <div>
+          {row.tags.map((tag, i) => (
+            <Tag key={i} colorScheme="green">
+              <TagLabel>{tag}</TagLabel>
+              <TagRightIcon
+                sx={{ cursor: "pointer" }}
+                onClick={async () => {
+                  await db.players.update(row.id!, {
+                    tags: row.tags.filter((playerTag) => playerTag !== tag),
+                  });
+                }}
+              >
+                <X />
+              </TagRightIcon>
+            </Tag>
+          ))}
+        </div>
+      ),
     },
   ];
 
@@ -82,12 +137,14 @@ const PlayerTable: React.FC = () => {
       <Alert status="info" my={5}>
         <InfoCircle /> ダブルクリックで氏名及び所属を編集できます。
       </Alert>
+
       <DataTable
         columns={columns}
         data={filteredPlayers}
         subHeader
-        subHeaderComponent={SubHeaderComponentMemo}
+        subHeaderComponent={SubHeaderComponent()}
         onRowDoubleClicked={handleClick}
+        onSelectedRowsChange={(e) => setSelectedPlayers(e.selectedRows)}
         striped
         selectableRows
         dense
