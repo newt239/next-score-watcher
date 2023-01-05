@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from "next";
+import Head from "next/head";
 import router from "next/router";
 
 import {
-  Container,
   Alert,
   Box,
   Button,
@@ -43,6 +43,9 @@ const ConfigPage: NextPageWithLayout = () => {
 
   return (
     <>
+      <Head>
+        <title>ゲーム設定</title>
+      </Head>
       {logs.length !== 0 && (
         <Alert status="error">
           ゲームは開始済みです。設定の変更はできません。

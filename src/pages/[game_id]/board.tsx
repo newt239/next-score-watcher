@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -16,6 +17,14 @@ const BoardPage: NextPage = () => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
+  const logs = useLiveQuery(
+    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
+  const computed_scores = useLiveQuery(
+    () => db.computed_scores.where({ game_id: Number(game_id) }).toArray(),
+    []
+  );
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
 
@@ -27,14 +36,6 @@ const BoardPage: NextPage = () => {
     }
   }, [playerList]);
 
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
-  const computed_scores = useLiveQuery(
-    () => db.computed_scores.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
   const [winThroughPeople, setWinThroughPeople] = useState<[string, string][]>(
     []
   );
@@ -64,7 +65,7 @@ const BoardPage: NextPage = () => {
     executeComputeScore();
   }, [logs]);
 
-  if (!game || !playerList || !computed_scores) {
+  if (!game || !computed_scores || !logs) {
     return null;
   }
 
@@ -80,7 +81,10 @@ const BoardPage: NextPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <Head>
+        <title>ゲーム画面</title>
+      </Head>
       <BoardHeader />
       <div
         style={{
@@ -99,6 +103,7 @@ const BoardPage: NextPage = () => {
               (score) =>
                 score.game_id === game.id && score.player_id === player.id
             )}
+            qn={logs.length}
           />
         ))}
       </div>
@@ -106,7 +111,7 @@ const BoardPage: NextPage = () => {
         winTroughPeople={winThroughPeople}
         onClose={() => setWinThroughPeople([])}
       />
-    </div>
+    </>
   );
 };
 

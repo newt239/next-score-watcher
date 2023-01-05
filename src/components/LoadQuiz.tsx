@@ -9,14 +9,11 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { useLiveQuery } from "dexie-react-hooks";
-import { InfoCircle } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
 import db from "#/utils/db";
 
 const LoadQuiz: React.FC = () => {
-  const quizes = useLiveQuery(() => db.players.toArray(), []);
   const [setName, setSetName] = useState<string>("");
   const toast = useToast();
 
@@ -58,16 +55,11 @@ const LoadQuiz: React.FC = () => {
     return csvRows.length;
   };
 
-  if (!quizes) {
-    return null;
-  }
-
   return (
     <Box>
       <H3>ファイルから読み込み</H3>
       <Stack>
-        <Alert status="info" my={5} gap={3}>
-          <InfoCircle />
+        <Alert status="info" my={3}>
           CSV形式(カンマ区切り)で 1列目に問題文、2列目に答えを入力してください。
         </Alert>
         <FormControl>

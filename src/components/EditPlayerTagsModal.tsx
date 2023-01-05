@@ -30,6 +30,7 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
   const [newTagName, setNewTagName] = useState<string>("");
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+
   return (
     <>
       <Modal

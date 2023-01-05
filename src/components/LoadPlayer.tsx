@@ -1,14 +1,11 @@
 import { ChangeEventHandler } from "react";
 
 import { Alert, Box, Input, Stack, useToast } from "@chakra-ui/react";
-import { useLiveQuery } from "dexie-react-hooks";
-import { InfoCircle } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
 import db from "#/utils/db";
 
 const LoadPlayer: React.FC = () => {
-  const players = useLiveQuery(() => db.players.toArray(), []);
   const toast = useToast();
 
   const fileReader = new FileReader();
@@ -49,16 +46,11 @@ const LoadPlayer: React.FC = () => {
     return csvRows.length;
   };
 
-  if (!players) {
-    return null;
-  }
-
   return (
     <Box>
       <H3>ファイルから読み込み</H3>
       <Stack>
-        <Alert status="info" my={5} gap={3}>
-          <InfoCircle />
+        <Alert status="info" my={3}>
           CSV形式(カンマ区切り)で 1列目に氏名、2列目に所属を入力してください。
         </Alert>
         <Box py={5}>

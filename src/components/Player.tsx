@@ -24,19 +24,16 @@ interface PlayerProps {
   player: PlayerDBProps;
   index: number;
   score: ComputedScoreDBProps | undefined;
+  qn: number;
 }
 
-const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
+const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
   const [editableState, setEditableState] = useState<States>("playing");
 
-  if (!game || !logs || !score) {
+  if (!game || !score) {
     return null;
   }
 
@@ -135,7 +132,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
           game={game}
           player_id={Number(player.id)}
           score={score}
-          qn={logs.length}
+          qn={qn}
         />
       ) : (
         <div>ERR!</div>

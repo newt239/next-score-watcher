@@ -19,6 +19,7 @@ type ConfigNumberInputProps = {
   label: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
 };
 
 const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
@@ -26,16 +27,12 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   label,
   min = 1,
   max = 10,
+  disabled,
 }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(() => db.players.toArray(), []);
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
-  if (!game || !players || !logs) {
+  if (!game) {
     return null;
   }
   const inputValue = () => {
@@ -54,7 +51,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
             [input_id]: s,
           });
         }}
-        isDisabled={logs.length !== 0}
+        isDisabled={disabled}
       >
         <NumberInputField />
         <NumberInputStepper>

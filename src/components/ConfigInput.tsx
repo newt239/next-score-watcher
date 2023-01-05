@@ -9,22 +9,19 @@ type ConfigInputProps = {
   input_id: keyof GameDBProps;
   label: string;
   placehodler: string;
+  disabled?: boolean;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
   input_id,
   label,
   placehodler,
+  disabled,
 }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const players = useLiveQuery(() => db.players.toArray(), []);
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
-    []
-  );
-  if (!game || !players || !logs) {
+  if (!game) {
     return null;
   }
   const inputValue = () => {
@@ -43,7 +40,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
             [input_id]: v.target.value as string,
           });
         }}
-        disabled={logs.length !== 0}
+        disabled={disabled}
       />
     </FormControl>
   );
