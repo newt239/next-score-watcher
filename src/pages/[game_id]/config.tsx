@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { NextPageWithLayout } from "next";
 import router from "next/router";
 
 import {
@@ -12,17 +12,17 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AlertCircle, PlayerPlay, Trash } from "tabler-icons-react";
+import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
 import ConfigInput from "#/components/ConfigInput";
 import ConfigNumberInput from "#/components/ConfigNumberInput";
-import Header from "#/components/Header";
 import SelectPlayer from "#/components/SelectPlayer";
+import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
-const Config: NextPage = () => {
+const Config: NextPageWithLayout = () => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
   const players = useLiveQuery(() => db.players.toArray(), []);
@@ -42,8 +42,7 @@ const Config: NextPage = () => {
   };
 
   return (
-    <Container maxW={1000} p={5}>
-      <Header />
+    <>
       {logs.length !== 0 && (
         <Alert status="error">
           ゲームは開始済みです。設定の変更はできません。
@@ -162,8 +161,10 @@ const Config: NextPage = () => {
           </ButtonGroup>
         </Box>
       </Box>
-    </Container>
+    </>
   );
 };
+
+Config.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default Config;
