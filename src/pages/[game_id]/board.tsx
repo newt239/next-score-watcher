@@ -12,7 +12,7 @@ import WinModal from "#/components/WinModal";
 import computeScore from "#/utils/computeScore";
 import db, { PlayerDBProps } from "#/utils/db";
 
-const Board: NextPage = () => {
+const BoardPage: NextPage = () => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
@@ -109,4 +109,4 @@ const Board: NextPage = () => {
   );
 };
 
-export default Board;
+export default BoardPage;

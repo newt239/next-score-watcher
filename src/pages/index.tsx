@@ -1,17 +1,14 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
 
-import { Container } from "@chakra-ui/react";
-
 import GameList from "#/components/GameList";
-import Header from "#/components/Header";
 import LoadPlayer from "#/components/LoadPlayer";
 import LoadQuiz from "#/components/LoadQuiz";
 import RuleList from "#/components/RuleList";
 import UpdateModal from "#/components/UpdateModal";
 import { Layout } from "#/layouts/Layout";
 
-const Home: NextPageWithLayout = () => {
+const HomePage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -28,6 +25,6 @@ const Home: NextPageWithLayout = () => {
   );
 };
 
-Home.getLayout = (page) => <Layout>{page}</Layout>;
+HomePage.getLayout = (page) => <Layout>{page}</Layout>;
 
-export default Home;
+export default HomePage;

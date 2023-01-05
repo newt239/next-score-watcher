@@ -32,7 +32,7 @@ const Header: React.FC = () => {
         }}
       >
         <NextLink href="/">ホーム</NextLink>
-        <NextLink href="/players">プレイヤー管理</NextLink>
+        <NextLink href="/player">プレイヤー管理</NextLink>
       </Flex>
     );
   };

@@ -22,7 +22,7 @@ import SelectPlayer from "#/components/SelectPlayer";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
-const Config: NextPageWithLayout = () => {
+const ConfigPage: NextPageWithLayout = () => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
   const players = useLiveQuery(() => db.players.toArray(), []);
@@ -165,6 +165,6 @@ const Config: NextPageWithLayout = () => {
   );
 };
 
-Config.getLayout = (page) => <Layout>{page}</Layout>;
+ConfigPage.getLayout = (page) => <Layout>{page}</Layout>;
 
-export default Config;
+export default ConfigPage;
