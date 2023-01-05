@@ -130,7 +130,6 @@ const QuizTable: React.FC = () => {
         dense
         pagination
         paginationRowsPerPageOptions={[10, 50, 100, 500, 1000, 3000]}
-        pointerOnHover
         noDataComponent={
           <HStack py={5}>
             <MoodCry />

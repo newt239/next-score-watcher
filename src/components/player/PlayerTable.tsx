@@ -176,7 +176,8 @@ const PlayerTable: React.FC = () => {
         striped
         selectableRows
         dense
-        pointerOnHover
+        pagination
+        paginationRowsPerPageOptions={[10, 50, 100, 500, 1000, 3000]}
         noDataComponent={
           <HStack py={5}>
             <MoodCry />
