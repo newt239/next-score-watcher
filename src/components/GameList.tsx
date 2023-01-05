@@ -22,7 +22,7 @@ const GameList: React.FC = () => {
   if (!games || games.length === 0) return null;
   return (
     <Box pt={5}>
-      <H2>作成したゲーム一覧</H2>
+      <H2>作成したゲーム</H2>
       <TableContainer pt={5}>
         <Table variant="simple" size="sm">
           <Thead>
