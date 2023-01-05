@@ -2,8 +2,6 @@ import { NextPageWithLayout } from "next";
 import Head from "next/head";
 
 import GameList from "#/components/GameList";
-import LoadPlayer from "#/components/LoadPlayer";
-import LoadQuiz from "#/components/LoadQuiz";
 import RuleList from "#/components/RuleList";
 import UpdateModal from "#/components/UpdateModal";
 import { Layout } from "#/layouts/Layout";
@@ -18,7 +16,6 @@ const HomePage: NextPageWithLayout = () => {
       </Head>
       <GameList />
       <RuleList />
-      <LoadQuiz />
       <UpdateModal />
     </>
   );

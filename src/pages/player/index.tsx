@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "next";
 
-import { Flex, Grid, HStack } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
 import CreatePlayer from "#/components/CreatePlayer";

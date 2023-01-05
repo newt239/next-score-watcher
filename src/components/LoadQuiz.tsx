@@ -27,7 +27,6 @@ import {
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
@@ -75,7 +74,7 @@ const LoadQuiz: React.FC = () => {
 
   return (
     <Box pt={5}>
-      <H2>問題の読み込み</H2>
+      <H3>問題の読み込み</H3>
       <Flex py={5} gap={3} alignItems="center">
         <Button
           size="sm"
