@@ -1,22 +1,56 @@
-import { ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 
 import {
   Alert,
   Box,
+  Button,
+  Flex,
   FormControl,
   FormLabel,
+  Grid,
+  HStack,
   Input,
+  Radio,
+  RadioGroup,
   Stack,
   Text,
+  Textarea,
   useToast,
 } from "@chakra-ui/react";
 
 import H3 from "#/blocks/H3";
-import db from "#/utils/db";
+import db, { QuizDBProps } from "#/utils/db";
 
 const LoadQuiz: React.FC = () => {
-  const [setName, setSetName] = useState<string>("");
+  const [setName, setSetName] = useState<string>("テスト");
   const toast = useToast();
+  const [rawQuizText, setRawQuizText] = useState("");
+  const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
+
+  const handleClick = async () => {
+    if (rawQuizText !== "") {
+      const quizRaw = rawQuizText.split("\n");
+      let dataArray: QuizDBProps[] = [];
+      for (let i = 0; i < quizRaw.length; i++) {
+        const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
+        const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
+        dataArray.push({
+          q,
+          a,
+          set_name: setName,
+        });
+      }
+      await db.quizes.bulkPut(dataArray);
+      toast({
+        title: "データをインポートしました",
+        description: `直接入力から${dataArray.length}件の問題を読み込みました`,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      setRawQuizText("");
+    }
+  };
 
   const fileReader = new FileReader();
 
@@ -58,7 +92,7 @@ const LoadQuiz: React.FC = () => {
 
   return (
     <Box>
-      <H3>ファイルから読み込み</H3>
+      <H3>問題の読み込み</H3>
       <Stack gap={3} py={3}>
         <Text>
           CSV形式(カンマ区切り)で 1列目に問題文、2列目に答えを入力してください。
@@ -72,14 +106,45 @@ const LoadQuiz: React.FC = () => {
             onChange={(e) => setSetName(e.target.value)}
           />
         </FormControl>
-        <Box py={5}>
-          <Input
-            type="file"
-            accept=".csv"
-            onChange={handleOnChange}
-            disabled={setName === ""}
-          />
-        </Box>
+        <Grid py={5} gap={5} templateColumns="repeat(2, 1fr)">
+          <FormControl>
+            <FormLabel>ファイルから読み込み</FormLabel>
+            <Input
+              type="file"
+              accept=".csv"
+              onChange={handleOnChange}
+              disabled={setName === ""}
+            />
+          </FormControl>
+          <Box>
+            <FormControl>
+              <FormLabel>直接貼り付け</FormLabel>
+              <Textarea
+                disabled={setName === ""}
+                value={rawQuizText}
+                onChange={(e) => setRawQuizText(e.target.value)}
+              />
+            </FormControl>
+            <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
+              <RadioGroup
+                onChange={(e) => setSparateType(e as "tab" | "comma")}
+                value={separateType}
+              >
+                <Stack direction="row">
+                  <Radio value="comma">カンマ区切り</Radio>
+                  <Radio value="tab">タブ区切り</Radio>
+                </Stack>
+              </RadioGroup>
+              <Button
+                colorScheme="blue"
+                onClick={handleClick}
+                disabled={rawQuizText === ""}
+              >
+                追加
+              </Button>
+            </HStack>
+          </Box>
+        </Grid>
       </Stack>
     </Box>
   );
