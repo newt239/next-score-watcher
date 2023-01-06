@@ -30,22 +30,26 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
           borderRadius: "1rem",
         }}
       >
-        {logs
-          .slice()
-          .reverse()
-          .map((log, i) => {
-            const player = players.find((p) => p.id === log.player_id);
-            if (!player) return null;
-            if (log.variant === "through")
-              return <Box>Q{logs.length - i}: 問題がスルーされました。</Box>;
-            return (
-              <Box key={log.id}>
-                Q{logs.length - i}: {player.name} が{" "}
-                {log.variant === "correct" ? "正解" : "誤答"}
-                しました。
-              </Box>
-            );
-          })}
+        {logs.length !== 0 ? (
+          logs
+            .slice()
+            .reverse()
+            .map((log, i) => {
+              const player = players.find((p) => p.id === log.player_id);
+              if (!player) return null;
+              if (log.variant === "through")
+                return <Box>Q{logs.length - i}: 問題がスルーされました。</Box>;
+              return (
+                <Box key={log.id}>
+                  Q{logs.length - i}: {player.name} が{" "}
+                  {log.variant === "correct" ? "正解" : "誤答"}
+                  しました。
+                </Box>
+              );
+            })
+        ) : (
+          <p>ここに試合のログが表示されます。</p>
+        )}
       </Stack>
     </Container>
   );
