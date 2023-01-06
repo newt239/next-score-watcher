@@ -99,7 +99,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader>プレイヤー選択</DrawerHeader>
-            <DrawerBody>
+            <DrawerBody p={0}>
               <Accordion defaultIndex={[1]} allowMultiple>
                 <AccordionItem>
                   <H3 sx={{ pt: 0 }}>

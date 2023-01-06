@@ -1,3 +1,5 @@
+import { theme, useColorMode } from "@chakra-ui/react";
+
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import db, { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 
@@ -14,6 +16,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   score,
   qn,
 }) => {
+  const { colorMode } = useColorMode();
   const props = {
     game_id: game.id!,
     player_id: player_id,
@@ -27,7 +30,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         width: "100%",
         gap: 5,
         margin: 5,
-        backgroundColor: "white",
+        backgroundColor:
+          colorMode === "light" ? "white" : theme.colors.gray[800],
       }}
     >
       {game.rule === "normal" && (
