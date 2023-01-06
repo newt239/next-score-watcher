@@ -34,7 +34,9 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
-  const [editableState, setEditableState] = useState<States>("playing");
+  const [editableState, setEditableState] = useState<States>(
+    score?.state || "playing"
+  );
 
   if (!game || !score) {
     return null;
@@ -55,6 +57,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "space-between",
         gap: 10,
         height: "50vh",
         margin: "auto",
@@ -80,7 +83,10 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
                 size="sm"
                 variant="ghost"
                 colorScheme={getColor(score.state)}
-                color={getColor(score.state) && "white"}
+                color={
+                  getColor(score.state) &&
+                  (colorMode === "light" ? "white" : theme.colors.gray[800])
+                }
                 icon={<Edit />}
                 aria-label="override player state"
               />
