@@ -11,6 +11,8 @@ import {
   Flex,
   IconButton,
   Spacer,
+  theme,
+  useColorMode,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
@@ -21,6 +23,7 @@ import Logo from "#/assets/logo.png";
 const Header: React.FC = () => {
   const [isLargerThan800] = useMediaQuery("(max-width: 800px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode } = useColorMode();
 
   const SubMenu: React.FC<{ vertical?: boolean }> = ({ vertical }) => {
     return (
@@ -52,10 +55,15 @@ const Header: React.FC = () => {
           zIndex: 10,
           backdropFilter: "blur(8px)",
           borderStyle: "solid",
-          borderColor: "rgb(231, 235, 240)",
           borderWidth: "0px 0px thin",
-          backgroundColor: "rgba(255, 255, 255, 0.5)",
-          color: "rgb(45, 56, 67)",
+          borderColor:
+            colorMode === "light"
+              ? "rgb(231, 235, 240)"
+              : "rgba(194, 224, 255, 0.08)",
+          backgroundColor:
+            colorMode === "light"
+              ? "rgba(255, 255, 255, 0.5)"
+              : "rgba(10, 25, 41, 0.7)",
         }}
       >
         <NextLink href="/">

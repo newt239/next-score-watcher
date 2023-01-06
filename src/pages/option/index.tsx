@@ -30,8 +30,9 @@ const OptionPage: NextPageWithLayout = () => {
         <TabList
           sx={{
             whiteSpace: "nowrap",
-            border: "none",
-            borderInlineEnd: `2px solid ${theme.colors.gray[200]}`,
+            borderInlineStartWidth: 0,
+            borderInlineEndWidth: 2,
+            borderInlineEndStyle: "solid",
           }}
         >
           <Tab
