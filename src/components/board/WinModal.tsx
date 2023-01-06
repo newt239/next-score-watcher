@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import {
   Modal,
   Button,
@@ -13,6 +15,7 @@ import {
   Center,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { useReward } from "react-rewards";
 
 type WinModalProps = {
   onClose: () => void;
@@ -24,6 +27,18 @@ const WinModal: React.FC<WinModalProps> = ({
   winTroughPeople,
   roundName,
 }) => {
+  const { reward } = useReward("reward", "confetti", {
+    elementCount: 100,
+    lifetime: 300,
+    zIndex: 10,
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      reward();
+    }, 1000);
+  }, [winTroughPeople.length]);
+
   return (
     <Modal isOpen={winTroughPeople.length !== 0} onClose={onClose} isCentered>
       <ModalOverlay backdropFilter="blur(10px)" />
@@ -32,8 +47,11 @@ const WinModal: React.FC<WinModalProps> = ({
         <ModalCloseButton />
         <ModalBody py={10}>
           {winTroughPeople.map((player) => (
-            <Stat key={player[0]} sx={{ textAlign: "center" }}>
-              <StatLabel sx={{ fontSize: "1.5rem" }}>{player[1]}</StatLabel>
+            <Stat key={player[0]} sx={{ textAlign: "center" }} onClick={reward}>
+              <StatLabel sx={{ fontSize: "1.5rem" }}>
+                <span id="reward" />
+                {player[1]}
+              </StatLabel>
               <StatNumber sx={{ fontSize: "2.5rem" }}>{player[0]}</StatNumber>
               {roundName && <StatHelpText>{roundName}</StatHelpText>}
             </Stat>
