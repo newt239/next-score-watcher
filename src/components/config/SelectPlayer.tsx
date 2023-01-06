@@ -148,55 +148,59 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                     </AccordionButton>
                   </H3>
                   <AccordionPanel pb={4}>
-                    <InputGroup>
-                      <InputLeftElement pointerEvents="none">
-                        <Filter />
-                      </InputLeftElement>
-                      <Input
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                        placeholder="氏名で検索"
-                      />
-                    </InputGroup>
-                    {playerList.length === 0 && (
+                    {playerList.length === 0 ? (
                       <Box py={3}>
                         <NextLink href="/player" passHref>
                           <Link>プレイヤー管理</Link>
                         </NextLink>
                         ページから一括でプレイヤー情報を登録できます。
                       </Box>
-                    )}
-                    <TableContainer pt={3}>
-                      <Table variant="simple" size="sm">
-                        <Thead>
-                          <Tr>
-                            <Th></Th>
-                            <Th>氏名</Th>
-                            <Th>所属</Th>
-                          </Tr>
-                        </Thead>
-                        <Tbody>
-                          {playerList
-                            .filter(
-                              (player) => player.name.indexOf(searchText) !== -1
-                            )
-                            .map((player, i) => (
-                              <Tr key={i}>
-                                <Td>
-                                  <Checkbox
-                                    onChange={() => onChangeHandler(player)}
-                                    isChecked={players.includes(
-                                      Number(player.id)
-                                    )}
-                                  />
-                                </Td>
-                                <Td>{player.name}</Td>
-                                <Td>{player.belong}</Td>
+                    ) : (
+                      <>
+                        <InputGroup>
+                          <InputLeftElement pointerEvents="none">
+                            <Filter />
+                          </InputLeftElement>
+                          <Input
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            placeholder="氏名で検索"
+                          />
+                        </InputGroup>
+                        <TableContainer pt={3}>
+                          <Table variant="simple" size="sm">
+                            <Thead>
+                              <Tr>
+                                <Th></Th>
+                                <Th>氏名</Th>
+                                <Th>所属</Th>
                               </Tr>
-                            ))}
-                        </Tbody>
-                      </Table>
-                    </TableContainer>
+                            </Thead>
+                            <Tbody>
+                              {playerList
+                                .filter(
+                                  (player) =>
+                                    player.name.indexOf(searchText) !== -1
+                                )
+                                .map((player, i) => (
+                                  <Tr key={i}>
+                                    <Td>
+                                      <Checkbox
+                                        onChange={() => onChangeHandler(player)}
+                                        isChecked={players.includes(
+                                          Number(player.id)
+                                        )}
+                                      />
+                                    </Td>
+                                    <Td>{player.name}</Td>
+                                    <Td>{player.belong}</Td>
+                                  </Tr>
+                                ))}
+                            </Tbody>
+                          </Table>
+                        </TableContainer>
+                      </>
+                    )}
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>
