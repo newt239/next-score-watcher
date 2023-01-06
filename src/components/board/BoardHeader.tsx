@@ -76,9 +76,16 @@ const BoardHeader: React.FC = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
           justifyContent: "center",
           minWidth: 200,
+          borderStyle: "solid",
+          borderWidth: "thin",
+          borderColor:
+            colorMode === "light"
+              ? "rgb(231, 235, 240)"
+              : "rgba(194, 224, 255, 0.08)",
+          borderRadius: "1rem",
+          padding: 3,
         }}
       >
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
