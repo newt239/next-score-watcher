@@ -1,5 +1,6 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
 import router from "next/router";
 
 import {
@@ -143,7 +144,7 @@ const ConfigPage: NextPageWithLayout = () => {
         />
 
         <H2>問題設定</H2>
-        {quizes ? (
+        {quizsetList.length !== 0 ? (
           <FormControl pt={5} width={200}>
             <FormLabel>セット名</FormLabel>
             <Select
@@ -161,7 +162,10 @@ const ConfigPage: NextPageWithLayout = () => {
             </Select>
           </FormControl>
         ) : (
-          <div>データベースが見つかりません。</div>
+          <Box p={3}>
+            <NextLink href="/quiz">問題管理</NextLink>
+            ページから問題データを読み込むことが出来ます。
+          </Box>
         )}
 
         <Box sx={{ textAlign: "right", pt: 5 }}>
