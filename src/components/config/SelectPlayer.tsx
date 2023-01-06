@@ -34,8 +34,12 @@ import {
   InputLeftElement,
   Link,
   useToast,
+  Flex,
+  TagLabel,
+  TagRightIcon,
+  Tag,
 } from "@chakra-ui/react";
-import { Filter, Plus } from "tabler-icons-react";
+import { Filter, Plus, X } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -177,41 +181,54 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                           <Input
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
-                            placeholder="氏名で検索"
+                            placeholder="氏名・所属・タグで検索"
                           />
                         </InputGroup>
-                        <TableContainer pt={3}>
-                          <Table variant="simple" size="sm">
-                            <Thead>
-                              <Tr>
-                                <Th></Th>
-                                <Th>氏名</Th>
-                                <Th>所属</Th>
-                              </Tr>
-                            </Thead>
-                            <Tbody>
-                              {playerList
-                                .filter(
-                                  (player) =>
-                                    player.name.indexOf(searchText) !== -1
-                                )
-                                .map((player, i) => (
-                                  <Tr key={i}>
-                                    <Td>
-                                      <Checkbox
-                                        onChange={() => onChangeHandler(player)}
-                                        isChecked={players.includes(
-                                          Number(player.id)
-                                        )}
-                                      />
-                                    </Td>
-                                    <Td>{player.name}</Td>
-                                    <Td>{player.belong}</Td>
-                                  </Tr>
-                                ))}
-                            </Tbody>
-                          </Table>
-                        </TableContainer>
+                        <Box pt={3}>
+                          {playerList
+                            .filter(
+                              (player) =>
+                                player.name.includes(searchText) ||
+                                player.belong.includes(searchText) ||
+                                player.tags.includes(searchText)
+                            )
+                            .map((player, i) => (
+                              <Flex key={i}>
+                                <Checkbox
+                                  onChange={() => onChangeHandler(player)}
+                                  isChecked={players.includes(
+                                    Number(player.id)
+                                  )}
+                                />
+                                <span>{player.name}</span>
+                                {player.belong !== "" && (
+                                  <span>, {player.belong}</span>
+                                )}
+                                {player.tags.length !== 0 && (
+                                  <span>
+                                    ,
+                                    {player.tags.map((tag, i) => (
+                                      <Tag key={i} colorScheme="green">
+                                        <TagLabel>{tag}</TagLabel>
+                                        <TagRightIcon
+                                          sx={{ cursor: "pointer" }}
+                                          onClick={async () => {
+                                            await db.players.update(game_id, {
+                                              tags: player.tags.filter(
+                                                (playerTag) => playerTag !== tag
+                                              ),
+                                            });
+                                          }}
+                                        >
+                                          <X />
+                                        </TagRightIcon>
+                                      </Tag>
+                                    ))}
+                                  </span>
+                                )}
+                              </Flex>
+                            ))}
+                        </Box>
                       </>
                     )}
                   </AccordionPanel>
