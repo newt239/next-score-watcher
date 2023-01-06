@@ -1,6 +1,6 @@
 {
   "name": "next-score-watcher",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
