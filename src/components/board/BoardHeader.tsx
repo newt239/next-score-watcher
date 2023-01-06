@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList,
   Switch,
+  theme,
   useColorMode,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -42,6 +43,8 @@ const BoardHeader: React.FC = () => {
   useEffect(() => {
     const getQuizList = async () => {
       if (game?.quiz_set) {
+        const a = await db.quizes.toArray();
+        console.log(a);
         setQuizList(
           await db.quizes.where({ set_name: game.quiz_set }).toArray()
         );
@@ -92,7 +95,7 @@ const BoardHeader: React.FC = () => {
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
         <p>{rules[game.rule].name}</p>
       </Box>
-      <Box>
+      <Box sx={{ whiteSpace: "nowrap" }}>
         第
         <span style={{ fontSize: "2rem", fontWeight: 800 }}>
           {logs.length + 1}
@@ -117,8 +120,10 @@ const BoardHeader: React.FC = () => {
                 overflowY: "hidden",
               }}
             >
-              <div>{quizList[logs.length - 1].q}</div>
-              <div style={{ textAlign: "right", color: "red" }}>
+              <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
+                {quizList[logs.length - 1].q}
+              </div>
+              <div style={{ textAlign: "right", color: theme.colors.red[500] }}>
                 {quizList[logs.length - 1].a}
               </div>
             </div>

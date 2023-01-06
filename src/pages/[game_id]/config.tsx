@@ -148,12 +148,13 @@ const ConfigPage: NextPageWithLayout = () => {
           <FormControl pt={5} width={200}>
             <FormLabel>セット名</FormLabel>
             <Select
-              onChange={(v) => {
-                db.games.update(Number(game_id), {
-                  quizset_name: v,
+              onChange={async (v) => {
+                await db.games.update(Number(game_id), {
+                  quiz_set: v.target.value,
                 });
               }}
             >
+              <option value="">問題を表示しない</option>
               {quizsetList.map((setName) => (
                 <option key={setName} value={setName}>
                   {setName}
