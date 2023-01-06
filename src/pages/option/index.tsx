@@ -23,7 +23,7 @@ const OptionPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>アプリ設定</title>
+        <title>アプリ設定 - Score Watcher</title>
       </Head>
       <H2>アプリ設定</H2>
       <Tabs orientation="vertical" sx={{ p: 5 }}>

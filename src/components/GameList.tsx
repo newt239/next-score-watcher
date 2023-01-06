@@ -1,5 +1,8 @@
+import NextLink from "next/link";
+
 import {
   Box,
+  Link,
   Table,
   TableContainer,
   Tbody,
@@ -9,7 +12,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal, PlayerPlay } from "tabler-icons-react";
+import { AdjustmentsHorizontal } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
@@ -36,7 +39,15 @@ const GameList: React.FC = () => {
           <Tbody>
             {games.map((game) => (
               <Tr key={game.id}>
-                <Td>{game.name}</Td>
+                <Td>
+                  {game.players.length !== 0 ? (
+                    <NextLink href={`/${game.id}/board`} passHref>
+                      {game.name}
+                    </NextLink>
+                  ) : (
+                    game.name
+                  )}
+                </Td>
                 <Td>{rules[game.rule].name}</Td>
                 <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>

@@ -92,6 +92,7 @@ const RuleList: React.FC = () => {
                 <Button
                   leftIcon={<CirclePlus />}
                   colorScheme="blue"
+                  size="sm"
                   onClick={() => createGame(id)}
                 >
                   作る

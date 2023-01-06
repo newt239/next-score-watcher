@@ -85,7 +85,7 @@ const BoardPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{game.name} - Score Watcher</title>
+        <title>Score Watcher</title>
       </Head>
       <BoardHeader />
       <div

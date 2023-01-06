@@ -34,7 +34,7 @@ import {
   InputLeftElement,
   Link,
 } from "@chakra-ui/react";
-import { Filter } from "tabler-icons-react";
+import { Filter, Plus } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -84,11 +84,11 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       <Box pt={5}>
         <Button
           onClick={() => setDrawerOpen(true)}
-          size="sm"
           colorScheme="green"
           disabled={disabled}
+          leftIcon={<Plus />}
         >
-          選択する
+          プレイヤーを選択
         </Button>
         <Drawer
           isOpen={drawerOpen}
