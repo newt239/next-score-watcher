@@ -6,30 +6,39 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  StatLabel,
+  Stat,
+  StatHelpText,
+  StatNumber,
+  Center,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 
 type WinModalProps = {
   onClose: () => void;
   winTroughPeople: [string, string][];
+  roundName?: string;
 };
-const WinModal: React.FC<WinModalProps> = ({ onClose, winTroughPeople }) => {
+const WinModal: React.FC<WinModalProps> = ({
+  onClose,
+  winTroughPeople,
+  roundName,
+}) => {
   return (
-    <Modal isOpen={winTroughPeople.length !== 0} onClose={onClose}>
-      <ModalOverlay />
+    <Modal isOpen={winTroughPeople.length !== 0} onClose={onClose} isCentered>
+      <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
         <ModalHeader>Congratulations!</ModalHeader>
-        <ModalBody>
+        <ModalCloseButton />
+        <ModalBody py={10}>
           {winTroughPeople.map((player) => (
-            <div key={player[0]} style={{ display: "flex" }}>
-              <div>{player[1]}</div>: <div>{player[0]}</div>
-            </div>
+            <Stat key={player[0]} sx={{ textAlign: "center" }}>
+              <StatLabel sx={{ fontSize: "1.5rem" }}>{player[1]}</StatLabel>
+              <StatNumber sx={{ fontSize: "2.5rem" }}>{player[0]}</StatNumber>
+              {roundName && <StatHelpText>{roundName}</StatHelpText>}
+            </Stat>
           ))}
         </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" onClick={onClose}>
-            閉じる
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

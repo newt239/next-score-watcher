@@ -256,7 +256,6 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       stage: 1,
       order: 0,
       text: "",
-      win_qn: 10000,
       state: "playing",
       isIncapacity: false,
     };
@@ -404,7 +403,7 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               return {
                 ...playerState,
                 correct: newCorrect,
-                win_qn: qn,
+                last_correct: qn,
                 state: "win",
               };
             } else {
@@ -455,6 +454,7 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         : remainIncapacity > 0
         ? `${remainIncapacity} PASS`
         : `${playerState.correct}○`;
+    console.log(playerState.state, playerState.last_correct);
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
