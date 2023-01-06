@@ -47,7 +47,7 @@ const ConfigPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ゲーム設定</title>
+        <title>{game.name} - Score Watcher</title>
       </Head>
       {logs.length !== 0 ? (
         <Alert status="error">

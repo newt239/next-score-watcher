@@ -367,7 +367,6 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     return { ...playerState, order, text };
   });
   await db.computed_scores.bulkPut(playersState);
-  console.log(playersState);
   return { scoreList: playersState, winThroughList };
 };
 
