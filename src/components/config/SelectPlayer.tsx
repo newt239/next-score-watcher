@@ -33,6 +33,7 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 import { Filter, Plus } from "tabler-icons-react";
 
@@ -52,6 +53,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   players,
   disabled,
 }) => {
+  const toast = useToast();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -76,6 +78,17 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       tags: [],
     });
     await db.games.update(game_id, { players: [...players, player_id] });
+    toast({
+      title: "プレイヤーを作成しました",
+      description: `${playerName}${
+        playerBelong !== "" ? " / " + playerBelong : ""
+      }`,
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+    setPlayerName("");
+    setPlayerBelong("");
   };
 
   return (
