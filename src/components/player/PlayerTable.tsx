@@ -24,6 +24,7 @@ import {
   useToast,
   Text,
   useColorMode,
+  theme,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import DataTable, { createTheme } from "react-data-table-component";
@@ -157,16 +158,20 @@ const PlayerTable: React.FC = () => {
     },
   ];
 
-  createTheme("solarized", {
+  createTheme("dark", {
     text: {
       primary: colorMode === "dark" && "white",
+      secondary: colorMode === "dark" && "white",
     },
     background: {
-      default: colorMode === "dark" && "black",
+      default: colorMode === "dark" && theme.colors.gray[800],
     },
     striped: {
-      default: colorMode === "dark" && "black",
+      default: colorMode === "dark" && theme.colors.gray[800],
       text: colorMode === "dark" && "white",
+    },
+    button: {
+      default: colorMode === "dark" && "white",
     },
   });
 
@@ -199,7 +204,7 @@ const PlayerTable: React.FC = () => {
             <Text>データがありません。</Text>
           </HStack>
         }
-        theme="solarized"
+        theme="dark"
       />
       <Modal
         initialFocusRef={initialRef}
