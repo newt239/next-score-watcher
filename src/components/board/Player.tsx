@@ -69,7 +69,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           writingMode: "vertical-rl",
           whiteSpace: "nowrap",
           textOrientation: "upright",
-          fontSize: "clamp(9vh, 2.5rem, 9vw)",
+          fontSize: `min(calc(45vh / ${player.name.length}), clamp(9vh, 2.5rem, 9vw))`,
           fontWeight: 800,
         }}
       >
@@ -112,6 +112,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
       )}
     </div>
   );
+
   return (
     <div
       style={{
