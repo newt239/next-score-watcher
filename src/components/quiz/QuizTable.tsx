@@ -23,6 +23,7 @@ import {
   Text,
   Textarea,
   useColorMode,
+  theme,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import DataTable, { createTheme } from "react-data-table-component";
@@ -55,8 +56,8 @@ const QuizTable: React.FC = () => {
           <HStack>
             <Button
               onClick={async () => {
-                await db.players.bulkDelete(
-                  selectedQuizes.map((player) => player.id!)
+                await db.quizes.bulkDelete(
+                  selectedQuizes.map((quiz) => quiz.id!)
                 );
                 toast({
                   title: `${selectedQuizes.length} 件の問題を削除しました`,
@@ -114,16 +115,20 @@ const QuizTable: React.FC = () => {
     onOpen();
   };
 
-  createTheme("solarized", {
+  createTheme("dark", {
     text: {
       primary: colorMode === "dark" && "white",
+      secondary: colorMode === "dark" && "white",
     },
     background: {
-      default: colorMode === "dark" && "black",
+      default: colorMode === "dark" && theme.colors.gray[800],
     },
     striped: {
-      default: colorMode === "dark" && "black",
+      default: colorMode === "dark" && theme.colors.gray[800],
       text: colorMode === "dark" && "white",
+    },
+    button: {
+      default: colorMode === "dark" && "white",
     },
   });
 
@@ -151,7 +156,7 @@ const QuizTable: React.FC = () => {
             <Text>データがありません。</Text>
           </HStack>
         }
-        theme="solarized"
+        theme="dark"
       />
       <Modal
         initialFocusRef={initialRef}
