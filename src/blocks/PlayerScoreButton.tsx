@@ -65,15 +65,15 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             width: "100%",
             minWidth: 100,
             margin: "auto",
-            mb: 3,
             backgroundColor: filled ? variantColor : defaultColor,
             color: filled ? defaultColor : variantColor,
             borderRadius: 0,
           }}
         >
-          <EditablePreview />
+          <EditablePreview sx={{ p: 0 }} />
           <EditableInput
             sx={{
+              p: 0,
               width: 100,
             }}
           />
@@ -88,9 +88,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             fontSize: "clamp(5vh, 2rem, 5vw)",
             width: "100%",
             minWidth: 100,
-            aspectRatio: "1 / 1",
             margin: "auto",
-            mb: 3,
             cursor: color === "green" ? "default" : "pointer",
             backgroundColor: filled ? variantColor : defaultColor,
             color: filled ? defaultColor : variantColor,

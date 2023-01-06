@@ -73,7 +73,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         {player.name}
       </Box>
       {game.editable && (
-        <Box sx={{ color: "black" }}>
+        <Box sx={{ color: colorMode === "light" ? "black" : "white" }}>
           <Popover>
             <PopoverTrigger>
               <IconButton
@@ -106,7 +106,6 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
       )}
     </div>
   );
-  console.log(score);
   return (
     <div
       style={{
