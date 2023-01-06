@@ -22,15 +22,17 @@ import {
   useToast,
   Text,
   Textarea,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import { Filter, InfoCircle, MoodCry, Trash } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
 const QuizTable: React.FC = () => {
+  const { colorMode } = useColorMode();
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const [filterText, setFilterText] = useState<string>("");
   const filteredquizes = quizes
@@ -112,6 +114,19 @@ const QuizTable: React.FC = () => {
     onOpen();
   };
 
+  createTheme("solarized", {
+    text: {
+      primary: colorMode === "dark" && "white",
+    },
+    background: {
+      default: colorMode === "dark" && "black",
+    },
+    striped: {
+      default: colorMode === "dark" && "black",
+      text: colorMode === "dark" && "white",
+    },
+  });
+
   return (
     <Box>
       <H3>問題一覧</H3>
@@ -136,6 +151,7 @@ const QuizTable: React.FC = () => {
             <Text>データがありません。</Text>
           </HStack>
         }
+        theme="solarized"
       />
       <Modal
         initialFocusRef={initialRef}

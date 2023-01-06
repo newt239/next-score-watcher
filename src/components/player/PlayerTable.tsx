@@ -23,9 +23,10 @@ import {
   HStack,
   useToast,
   Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import DataTable from "react-data-table-component";
+import DataTable, { createTheme } from "react-data-table-component";
 import {
   Filter,
   InfoCircle,
@@ -41,6 +42,7 @@ import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
 
 const PlayerTable: React.FC = () => {
+  const { colorMode } = useColorMode();
   const players = useLiveQuery(() => db.players.toArray(), []);
   const [filterText, setFilterText] = useState<string>("");
   const filteredPlayers = players
@@ -155,6 +157,19 @@ const PlayerTable: React.FC = () => {
     },
   ];
 
+  createTheme("solarized", {
+    text: {
+      primary: colorMode === "dark" && "white",
+    },
+    background: {
+      default: colorMode === "dark" && "black",
+    },
+    striped: {
+      default: colorMode === "dark" && "black",
+      text: colorMode === "dark" && "white",
+    },
+  });
+
   const handleClick = (row: PlayerDBProps) => {
     setCurrentPlayer(row);
     onOpen();
@@ -184,6 +199,7 @@ const PlayerTable: React.FC = () => {
             <Text>データがありません。</Text>
           </HStack>
         }
+        theme="solarized"
       />
       <Modal
         initialFocusRef={initialRef}

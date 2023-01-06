@@ -7,6 +7,7 @@ import {
   FormLabel,
   Input,
   Stack,
+  Text,
   useToast,
 } from "@chakra-ui/react";
 
@@ -58,10 +59,10 @@ const LoadQuiz: React.FC = () => {
   return (
     <Box>
       <H3>ファイルから読み込み</H3>
-      <Stack>
-        <Alert status="info" my={3}>
+      <Stack gap={3} py={3}>
+        <Text>
           CSV形式(カンマ区切り)で 1列目に問題文、2列目に答えを入力してください。
-        </Alert>
+        </Text>
         <FormControl>
           <FormLabel>セット名</FormLabel>
           <Input
