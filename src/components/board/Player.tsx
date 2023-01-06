@@ -66,7 +66,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           writingMode: "vertical-rl",
           whiteSpace: "nowrap",
           textOrientation: "upright",
-          fontSize: "clamp(8vh, 2rem, 8vw)",
+          fontSize: "clamp(9vh, 2.5rem, 9vw)",
           fontWeight: 800,
         }}
       >
@@ -114,7 +114,8 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         alignItems: "center",
         backgroundColor: getColor(score.state),
         color:
-          getColor(score.state) && (colorMode === "light" ? "white" : "dark"),
+          getColor(score.state) &&
+          (colorMode === "light" ? "white" : theme.colors.gray[800]),
         borderWidth: 1,
         borderStyle: "solid",
         borderColor:

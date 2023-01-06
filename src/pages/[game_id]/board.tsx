@@ -88,9 +88,10 @@ const BoardPage: NextPage = () => {
         <title>Score Watcher</title>
       </Head>
       <BoardHeader />
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
+          gap: "1rem",
           width: "100%",
           justifyContent: "space-evenly",
           marginTop: 10,
@@ -108,7 +109,7 @@ const BoardPage: NextPage = () => {
             qn={logs.length}
           />
         ))}
-      </div>
+      </Box>
       <WinModal
         winTroughPeople={winThroughPeople}
         onClose={() => setWinThroughPeople([])}
