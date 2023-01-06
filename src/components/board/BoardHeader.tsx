@@ -20,6 +20,7 @@ import {
   ArrowBackUp,
   Comet,
   HandClick,
+  Home,
   Settings,
 } from "tabler-icons-react";
 
@@ -179,6 +180,9 @@ const BoardHeader: React.FC = () => {
               onClick={() => router.push(`/${game.id}/config`)}
             >
               設定
+            </MenuItem>
+            <MenuItem icon={<Home />} onClick={() => router.push(`/`)}>
+              ホームに戻る
             </MenuItem>
           </MenuList>
         </Menu>

@@ -2,17 +2,14 @@ import { useEffect } from "react";
 
 import {
   Modal,
-  Button,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   StatLabel,
   Stat,
   StatHelpText,
   StatNumber,
-  Center,
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { useReward } from "react-rewards";
