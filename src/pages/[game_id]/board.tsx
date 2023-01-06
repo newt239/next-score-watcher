@@ -8,6 +8,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import Header from "#/components/Header";
 import BoardHeader from "#/components/board/BoardHeader";
+import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
 import computeScore from "#/utils/computeScore";
@@ -110,6 +111,7 @@ const BoardPage: NextPage = () => {
           />
         ))}
       </Box>
+      <GameLogs players={players} logs={logs} />
       <WinModal
         winTroughPeople={winThroughPeople}
         onClose={() => setWinThroughPeople([])}
