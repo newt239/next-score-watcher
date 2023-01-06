@@ -162,7 +162,16 @@ const getScore = (
         (variant === "correct" ? game.correct_me : game.wrong_me)
       );
     case "nbyn":
-      return playerState.correct * ((game.win_point || 5) - playerState.wrong);
+      if (variant === "correct") {
+        return (
+          (playerState.correct + 1) *
+          ((game.win_point || 5) - playerState.wrong)
+        );
+      } else {
+        return (
+          playerState.correct * ((game.win_point || 5) - playerState.wrong - 1)
+        );
+      }
     case "nupdown":
       return variant === "wrong" ? 0 : playerState.score + 1;
     case "swedishx":
@@ -208,6 +217,9 @@ const getState = (
       }
       break;
     case "nbyn":
+      if (playerState.wrong >= game.win_point!) {
+        return ["lose", "LOSE"];
+      }
       if (
         playerState.correct * (game.win_point! - playerState.wrong) >=
         game.win_point! ** 2
