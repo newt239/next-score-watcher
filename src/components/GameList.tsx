@@ -14,7 +14,7 @@ import { AdjustmentsHorizontal, PlayerPlay } from "tabler-icons-react";
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
 import db from "#/utils/db";
-import { rules } from "#/utils/state";
+import { rules } from "#/utils/rules";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray());

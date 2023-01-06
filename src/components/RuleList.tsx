@@ -14,7 +14,7 @@ import { CirclePlus } from "tabler-icons-react";
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import db, { GameDBProps, RuleNames } from "#/utils/db";
-import { rules } from "#/utils/state";
+import { rules } from "#/utils/rules";
 
 const RuleList: React.FC = () => {
   const ruleNameList = Object.keys(rules) as RuleNames[];
@@ -76,23 +76,30 @@ const RuleList: React.FC = () => {
         spacing={5}
         templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
       >
-        {ruleNameList.map((id) => (
-          <Card key={id} variant="filled">
-            <CardHeader>
-              <H3 sx={{ p: 0 }}>{rules[id].name}</H3>
-            </CardHeader>
-            <CardBody>{rules[id].description}</CardBody>
-            <CardFooter sx={{ justifyContent: "flex-end" }}>
-              <Button
-                leftIcon={<CirclePlus />}
-                colorScheme="blue"
-                onClick={() => createGame(id)}
-              >
-                作る
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+        {ruleNameList.map((id) => {
+          const description = rules[id].description;
+          return (
+            <Card key={id} variant="filled">
+              <CardHeader>
+                <H3 sx={{ p: 0 }}>{rules[id].name}</H3>
+              </CardHeader>
+              <CardBody>
+                {`${description.slice(0, 50)}${
+                  description.length > 50 ? "..." : ""
+                }`}
+              </CardBody>
+              <CardFooter sx={{ justifyContent: "flex-end" }}>
+                <Button
+                  leftIcon={<CirclePlus />}
+                  colorScheme="blue"
+                  onClick={() => createGame(id)}
+                >
+                  作る
+                </Button>
+              </CardFooter>
+            </Card>
+          );
+        })}
       </SimpleGrid>
     </Box>
   );

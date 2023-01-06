@@ -24,7 +24,7 @@ import {
 
 import H2 from "#/blocks/H2";
 import db, { QuizDBProps } from "#/utils/db";
-import { rules } from "#/utils/state";
+import { rules } from "#/utils/rules";
 
 const BoardHeader: React.FC = () => {
   const router = useRouter();

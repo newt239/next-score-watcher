@@ -5,6 +5,7 @@ import router from "next/router";
 import {
   Alert,
   AlertDescription,
+  AlertIcon,
   AlertTitle,
   Box,
   Button,
@@ -23,7 +24,7 @@ import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
-import { rules } from "#/utils/state";
+import { rules } from "#/utils/rules";
 const ConfigPage: NextPageWithLayout = () => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
@@ -54,8 +55,15 @@ const ConfigPage: NextPageWithLayout = () => {
         </Alert>
       ) : (
         <Alert status="info" variant="solid">
-          <AlertTitle>{rules[game.rule].name}</AlertTitle>
-          <AlertDescription>{rules[game.rule].description}</AlertDescription>
+          <AlertIcon />
+          <Box>
+            <AlertTitle>{rules[game.rule].name}</AlertTitle>
+            <AlertDescription>
+              {rules[game.rule].description.split("\n").map((p) => (
+                <p key={p}>{p}</p>
+              ))}
+            </AlertDescription>
+          </Box>
         </Alert>
       )}
       <Box>
