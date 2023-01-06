@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList,
   Switch,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import {
@@ -27,6 +28,7 @@ import db, { QuizDBProps } from "#/utils/db";
 import { rules } from "#/utils/rules";
 
 const BoardHeader: React.FC = () => {
+  const { colorMode } = useColorMode();
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
@@ -56,16 +58,27 @@ const BoardHeader: React.FC = () => {
       sx={{
         alignItems: "center",
         gap: 5,
-        height: "10vh",
+        height: "15vh",
         px: 5,
-        borderBottom: "1px solid black",
+        borderStyle: "solid",
+        borderWidth: "0px 0px thin",
+        borderColor:
+          colorMode === "light"
+            ? "rgb(231, 235, 240)"
+            : "rgba(194, 224, 255, 0.08)",
+        backgroundColor:
+          colorMode === "light"
+            ? "rgba(255, 255, 255, 0.5)"
+            : "rgba(10, 25, 41, 0.7)",
       }}
     >
       <Box
-        style={{
+        sx={{
           display: "flex",
           flexDirection: "column",
           height: "100%",
+          justifyContent: "center",
+          minWidth: 200,
         }}
       >
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
@@ -105,7 +118,7 @@ const BoardHeader: React.FC = () => {
       </Box>
       <Box>
         <Menu closeOnSelect={false}>
-          <MenuButton as={IconButton} icon={<Settings />} />
+          <MenuButton as={IconButton} icon={<Settings />} variant="outline" />
           <MenuList>
             <MenuItem
               icon={<Comet />}

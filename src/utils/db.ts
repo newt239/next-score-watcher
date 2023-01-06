@@ -87,7 +87,7 @@ db.version(1).stores({
   players: "++id, name, belong, tags",
   logs: "++id, game_id, player_id, variant, system",
   computed_scores:
-    "id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, order, text",
+    "++id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, stage, isIncapacity, order, text",
   quizes: "++id, q, a, set_name",
 });
 

@@ -1,4 +1,4 @@
-import { theme, useColorMode } from "@chakra-ui/react";
+import { Box, theme, useColorMode } from "@chakra-ui/react";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import db, { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
@@ -23,15 +23,20 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
     editable: game.editable,
   };
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "column",
-        width: "100%",
+        alignItems: "center",
         gap: 5,
-        margin: 5,
+        py: 5,
+        m: 1,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
+        borderBottomRadius: "calc(1rem - 1px)",
       }}
     >
       {game.rule === "normal" && (
@@ -240,7 +245,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

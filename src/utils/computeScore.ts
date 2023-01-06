@@ -454,7 +454,6 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         : remainIncapacity > 0
         ? `${remainIncapacity} PASS`
         : `${playerState.correct}○`;
-    console.log(playerState.state, playerState.last_correct);
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

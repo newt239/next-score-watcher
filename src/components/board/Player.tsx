@@ -13,6 +13,8 @@ import {
   Box,
   PopoverArrow,
   PopoverHeader,
+  useColorMode,
+  theme,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Edit } from "tabler-icons-react";
@@ -28,6 +30,7 @@ interface PlayerProps {
 }
 
 const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
+  const { colorMode } = useColorMode();
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(Number(game_id)));
@@ -40,9 +43,9 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const getColor = (state: States) => {
     const newState = game.editable ? editableState : state;
     return newState === "win"
-      ? "#db2828"
+      ? theme.colors.red[500]
       : newState == "lose"
-      ? "#2185d0"
+      ? theme.colors.blue[500]
       : undefined;
   };
 
@@ -55,6 +58,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         gap: 10,
         height: "50vh",
         margin: "auto",
+        paddingTop: 10,
       }}
     >
       <Box
@@ -110,7 +114,14 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         flexDirection: "column",
         alignItems: "center",
         backgroundColor: getColor(score.state),
-        color: getColor(score.state) && "white",
+        color:
+          getColor(score.state) && (colorMode === "light" ? "white" : "dark"),
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor:
+          getColor(score.state) &&
+          (colorMode === "light" ? "white" : theme.colors.gray[800]),
+        borderRadius: "1rem",
       }}
     >
       <div
@@ -120,6 +131,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           alignItems: "center",
           justifyContent: "center",
           paddingTop: 5,
+          fontWeight: 800,
         }}
       >
         <div>{index + 1}</div>

@@ -9,7 +9,12 @@ interface H2Props {
 
 const H2: React.FC<H2Props> = ({ children, sx }) => {
   return (
-    <Heading as="h2" size="lg" pt={5} sx={sx}>
+    <Heading
+      as="h2"
+      size="lg"
+      pt={5}
+      sx={{ ...sx, fontFamily: "BIZ UDPGothic, sans-serif" }}
+    >
       {children}
     </Heading>
   );

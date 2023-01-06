@@ -91,7 +91,7 @@ const BoardPage: NextPage = () => {
           display: "flex",
           width: "100%",
           justifyContent: "space-evenly",
-          marginTop: 5,
+          marginTop: 10,
         }}
       >
         {players.map((player, i) => (

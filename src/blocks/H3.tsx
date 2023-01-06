@@ -9,7 +9,12 @@ interface H3Props {
 
 const H3: React.FC<H3Props> = ({ children, sx }) => {
   return (
-    <Heading as="h3" size="md" pt={5} sx={sx}>
+    <Heading
+      as="h3"
+      size="md"
+      pt={5}
+      sx={{ ...sx, fontFamily: "BIZ UDPGothic, sans-serif" }}
+    >
       {children}
     </Heading>
   );

@@ -30,6 +30,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
+  const variantColor =
+    color === "red"
+      ? theme.colors.red[500]
+      : color === "blue"
+      ? theme.colors.blue[500]
+      : theme.colors.green[500];
   const handleClick = async () => {
     if (color !== "green") {
       try {
@@ -60,8 +66,8 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             minWidth: 100,
             margin: "auto",
             mb: 3,
-            backgroundColor: filled ? color : defaultColor,
-            color: filled ? defaultColor : color,
+            backgroundColor: filled ? variantColor : defaultColor,
+            color: filled ? defaultColor : variantColor,
             borderRadius: 0,
           }}
         >
@@ -86,8 +92,8 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             margin: "auto",
             mb: 3,
             cursor: color === "green" ? "default" : "pointer",
-            backgroundColor: filled ? color : defaultColor,
-            color: filled ? defaultColor : color,
+            backgroundColor: filled ? variantColor : defaultColor,
+            color: filled ? defaultColor : variantColor,
             borderRadius: 0,
           }}
           onClick={handleClick}
