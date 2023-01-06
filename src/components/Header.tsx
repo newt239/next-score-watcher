@@ -34,6 +34,7 @@ const Header: React.FC = () => {
         <NextLink href="/">ホーム</NextLink>
         <NextLink href="/quiz">問題管理</NextLink>
         <NextLink href="/player">プレイヤー管理</NextLink>
+        <NextLink href="/option">アプリ設定</NextLink>
       </Flex>
     );
   };
