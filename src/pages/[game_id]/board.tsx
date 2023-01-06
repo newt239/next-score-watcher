@@ -11,7 +11,7 @@ import BoardHeader from "#/components/board/BoardHeader";
 import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
 import computeScore from "#/utils/computeScore";
-import db, { PlayerDBProps } from "#/utils/db";
+import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 
 const BoardPage: NextPage = () => {
   const router = useRouter();
@@ -21,6 +21,7 @@ const BoardPage: NextPage = () => {
     () => db.logs.where({ game_id: Number(game_id) }).toArray(),
     []
   );
+  const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
   const computed_scores = useLiveQuery(
     () => db.computed_scores.where({ game_id: Number(game_id) }).toArray(),
     []
@@ -44,6 +45,7 @@ const BoardPage: NextPage = () => {
   useEffect(() => {
     const executeComputeScore = async () => {
       const result = await computeScore(Number(game_id));
+      setScores(result.scoreList);
       if (result.winThroughList.length !== 0) {
         setWinThroughPeople(
           result.winThroughList.map((congratulationPlayer) => {
@@ -99,7 +101,7 @@ const BoardPage: NextPage = () => {
             player={player}
             key={i}
             index={i}
-            score={computed_scores.find(
+            score={scores.find(
               (score) =>
                 score.game_id === game.id && score.player_id === player.id
             )}

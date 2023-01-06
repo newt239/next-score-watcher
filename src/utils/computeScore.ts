@@ -8,7 +8,7 @@ import db, {
 
 const computeScore = async (game_id: number) => {
   const game = await db.games.get(game_id);
-  if (!game) return { scoreList: undefined, winThroughList: [] };
+  if (!game) return { scoreList: [], winThroughList: [] };
   const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
 
   let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
@@ -367,6 +367,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     return { ...playerState, order, text };
   });
   await db.computed_scores.bulkPut(playersState);
+  console.log(playersState);
   return { scoreList: playersState, winThroughList };
 };
 

@@ -106,7 +106,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
       )}
     </div>
   );
-
+  console.log(score);
   return (
     <div
       style={{
