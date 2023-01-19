@@ -53,17 +53,10 @@ const CreatePlayer: React.FC = () => {
         </FormControl>
         <FormControl>
           <FormLabel>サブテキスト</FormLabel>
-          <NumberInput
+          <Input
             value={playerOrder}
-            onChange={(v) => setPlayerOrder(v)}
+            onChange={(v) => setPlayerOrder(v.target.value)}
           />
-          <NumberInput>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
         </FormControl>
         <FormControl>
           <FormLabel>所属</FormLabel>

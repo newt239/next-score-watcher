@@ -81,7 +81,6 @@ const BoardHeader: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          minWidth: 200,
           borderStyle: "solid",
           borderWidth: "thin",
           borderColor:

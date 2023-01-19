@@ -141,8 +141,12 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           fontWeight: 800,
         }}
       >
-        <div>{index + 1}</div>
-        <div>{player.belong !== "" ? player.belong : "―――――"}</div>
+        {player.text === "" ? (
+          <div style={{ opacity: 0.3 }}>{index + 1}</div>
+        ) : (
+          <div>{player.text}</div>
+        )}
+        <div>{player.belong === "" ? "―――――" : player.belong}</div>
       </div>
       <PlayerName />
 
