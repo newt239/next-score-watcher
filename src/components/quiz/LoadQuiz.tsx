@@ -13,6 +13,11 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
   Textarea,
   useToast,
@@ -94,9 +99,6 @@ const LoadQuiz: React.FC = () => {
     <Box>
       <H3>問題の読み込み</H3>
       <Stack gap={3} py={3}>
-        <Text>
-          CSV形式(カンマ区切り)で 1列目に問題文、2列目に答えを入力してください。
-        </Text>
         <FormControl>
           <FormLabel>セット名</FormLabel>
           <Input
@@ -106,45 +108,58 @@ const LoadQuiz: React.FC = () => {
             onChange={(e) => setSetName(e.target.value)}
           />
         </FormControl>
-        <Grid py={5} gap={5} templateColumns="repeat(2, 1fr)">
-          <FormControl>
-            <FormLabel>ファイルから読み込み</FormLabel>
-            <Input
-              type="file"
-              accept=".csv"
-              onChange={handleOnChange}
-              disabled={setName === ""}
-            />
-          </FormControl>
-          <Box>
-            <FormControl>
-              <FormLabel>直接貼り付け</FormLabel>
-              <Textarea
-                disabled={setName === ""}
-                value={rawQuizText}
-                onChange={(e) => setRawQuizText(e.target.value)}
-              />
-            </FormControl>
-            <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
-              <RadioGroup
-                onChange={(e) => setSparateType(e as "tab" | "comma")}
-                value={separateType}
-              >
-                <Stack direction="row">
-                  <Radio value="comma">カンマ区切り</Radio>
-                  <Radio value="tab">タブ区切り</Radio>
-                </Stack>
-              </RadioGroup>
-              <Button
-                colorScheme="blue"
-                onClick={handleClick}
-                disabled={rawQuizText === ""}
-              >
-                追加
-              </Button>
-            </HStack>
-          </Box>
-        </Grid>
+        <Text>
+          CSV形式(カンマ区切り)で 1列目に問題文、2列目に答えを入力してください。
+        </Text>
+        <Tabs isFitted variant="enclosed">
+          <TabList mb="1em">
+            <Tab>直接貼り付け</Tab>
+            <Tab>ファイルから読み込み</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Box>
+                <FormControl>
+                  <FormLabel>直接貼り付け</FormLabel>
+                  <Textarea
+                    disabled={setName === ""}
+                    value={rawQuizText}
+                    onChange={(e) => setRawQuizText(e.target.value)}
+                  />
+                </FormControl>
+                <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
+                  <RadioGroup
+                    onChange={(e) => setSparateType(e as "tab" | "comma")}
+                    value={separateType}
+                  >
+                    <Stack direction="row">
+                      <Radio value="comma">カンマ区切り</Radio>
+                      <Radio value="tab">タブ区切り</Radio>
+                    </Stack>
+                  </RadioGroup>
+                  <Button
+                    colorScheme="blue"
+                    onClick={handleClick}
+                    disabled={rawQuizText === ""}
+                  >
+                    追加
+                  </Button>
+                </HStack>
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              <FormControl>
+                <FormLabel>ファイルから読み込み</FormLabel>
+                <Input
+                  type="file"
+                  accept=".csv"
+                  onChange={handleOnChange}
+                  disabled={setName === ""}
+                />
+              </FormControl>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Stack>
     </Box>
   );
