@@ -16,10 +16,7 @@ const PlayerPage: NextPageWithLayout = () => {
         <title>プレイヤー管理 - Score Watcher</title>
       </Head>
       <H2>プレイヤー管理</H2>
-      <Grid py={5} gap={5} templateColumns="repeat(2, 1fr)">
-        <CreatePlayer />
-        <LoadPlayer />
-      </Grid>
+      <LoadPlayer />
       <PlayerTable />
     </>
   );

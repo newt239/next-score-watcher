@@ -8,12 +8,18 @@ import {
   FormLabel,
   Grid,
   useToast,
+  NumberInput,
+  NumberInputField,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInputStepper,
 } from "@chakra-ui/react";
 
 import H3 from "#/blocks/H3";
 import db from "#/utils/db";
 
 const CreatePlayer: React.FC = () => {
+  const [playerOrder, setPlayerOrder] = useState<string>("0");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const toast = useToast();
@@ -21,17 +27,18 @@ const CreatePlayer: React.FC = () => {
   const addNewPlayer = async () => {
     await db.players.put({
       name: playerName,
+      text: playerOrder,
       belong: playerBelong,
       tags: [],
     });
     toast({
       title: "ユーザーを作成しました",
-      description: `${playerName}・${playerBelong}`,
+      description: `${playerOrder}・${playerBelong}`,
       status: "success",
       duration: 9000,
       isClosable: true,
     });
-    setPlayerName("");
+    setPlayerOrder("");
     setPlayerBelong("");
   };
 
@@ -51,6 +58,20 @@ const CreatePlayer: React.FC = () => {
           />
         </FormControl>
         <FormControl>
+          <FormLabel>サブテキスト</FormLabel>
+          <NumberInput
+            value={playerOrder}
+            onChange={(v) => setPlayerOrder(v)}
+          />
+          <NumberInput>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+        <FormControl>
           <FormLabel>所属</FormLabel>
           <Input
             value={playerBelong}
@@ -62,7 +83,7 @@ const CreatePlayer: React.FC = () => {
         <Button
           colorScheme="blue"
           onClick={addNewPlayer}
-          disabled={playerName === ""}
+          disabled={playerOrder === ""}
         >
           追加
         </Button>

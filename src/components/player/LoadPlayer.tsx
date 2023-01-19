@@ -1,14 +1,63 @@
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, useState } from "react";
 
-import { Box, Input, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  Radio,
+  RadioGroup,
+  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Textarea,
+  useToast,
+} from "@chakra-ui/react";
+
+import CreatePlayer from "./CreatePlayer";
 
 import H3 from "#/blocks/H3";
-import db from "#/utils/db";
+import db, { PlayerDBProps } from "#/utils/db";
 
 const LoadPlayer: React.FC = () => {
   const toast = useToast();
+  const [rawQuizText, setRawQuizText] = useState("");
+  const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
 
   const fileReader = new FileReader();
+
+  const handleClick = async () => {
+    if (rawQuizText !== "") {
+      const playerRaw = rawQuizText.split("\n");
+      let dataArray: PlayerDBProps[] = [];
+      for (let i = 0; i < playerRaw.length; i++) {
+        const name = playerRaw[i].split(
+          separateType === "comma" ? "," : "\t"
+        )[0];
+        const text = playerRaw[i].split(
+          separateType === "comma" ? "," : "\t"
+        )[1];
+        const belong = playerRaw[i].split(
+          separateType === "comma" ? "," : "\t"
+        )[2];
+        dataArray.push({ name, text, belong, tags: [] });
+      }
+      await db.players.bulkPut(dataArray);
+      toast({
+        title: "データをインポートしました",
+        description: `直接入力から${dataArray.length}件の問題を読み込みました`,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+      setRawQuizText("");
+    }
+  };
 
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = e.target.files;
@@ -38,7 +87,8 @@ const LoadPlayer: React.FC = () => {
         const values = row.split(",");
         return {
           name: values[0],
-          belong: values[1],
+          text: values[1],
+          belong: values[2],
           tags: [],
         };
       })
@@ -48,15 +98,54 @@ const LoadPlayer: React.FC = () => {
 
   return (
     <Box>
-      <H3>ファイルから読み込み</H3>
-      <Stack gap={3} py={3}>
-        <Text>
-          CSV形式(カンマ区切り)で 1列目に氏名、2列目に所属を入力してください。
-        </Text>
-        <Box>
-          <Input type="file" accept=".csv" onChange={handleOnChange} />
-        </Box>
-      </Stack>
+      <H3>プレイヤーの読み込み</H3>
+      <Tabs isFitted variant="enclosed" pt={5}>
+        <TabList mb="1em">
+          <Tab>新規追加</Tab>
+          <Tab>貼り付け</Tab>
+          <Tab>インポート</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <CreatePlayer />
+          </TabPanel>
+          <TabPanel>
+            <Box>
+              <FormControl>
+                <FormLabel>直接貼り付け</FormLabel>
+                <Textarea
+                  value={rawQuizText}
+                  onChange={(e) => setRawQuizText(e.target.value)}
+                />
+              </FormControl>
+              <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
+                <RadioGroup
+                  onChange={(e) => setSparateType(e as "tab" | "comma")}
+                  value={separateType}
+                >
+                  <Stack direction="row">
+                    <Radio value="comma">カンマ区切り</Radio>
+                    <Radio value="tab">タブ区切り</Radio>
+                  </Stack>
+                </RadioGroup>
+                <Button
+                  colorScheme="blue"
+                  onClick={handleClick}
+                  disabled={rawQuizText === ""}
+                >
+                  追加
+                </Button>
+              </HStack>
+            </Box>
+          </TabPanel>
+          <TabPanel>
+            <FormControl>
+              <FormLabel>インポート</FormLabel>
+              <Input type="file" accept=".csv" onChange={handleOnChange} />
+            </FormControl>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Box>
   );
 };
