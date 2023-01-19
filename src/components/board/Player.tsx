@@ -33,7 +33,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const { colorMode } = useColorMode();
   const router = useRouter();
   const { game_id } = router.query;
-  const game = useLiveQuery(() => db.games.get(Number(game_id)));
+  const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>(
     score?.state || "playing"
   );
@@ -151,12 +151,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
       <PlayerName />
 
       {score ? (
-        <PlayerScore
-          game={game}
-          player_id={Number(player.id)}
-          score={score}
-          qn={qn}
-        />
+        <PlayerScore game={game} player_id={player.id} score={score} qn={qn} />
       ) : (
         <div>ERR!</div>
       )}

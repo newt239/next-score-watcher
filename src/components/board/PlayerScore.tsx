@@ -1,11 +1,11 @@
 import { Box, theme, useColorMode } from "@chakra-ui/react";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
-import db, { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
+import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 
 type PlayerScoreProps = {
   game: GameDBProps;
-  player_id: number;
+  player_id: string;
   score: ComputedScoreDBProps;
   qn: number;
 };
@@ -18,7 +18,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const props = {
-    game_id: game.id!,
+    game_id: game.id,
     player_id: player_id,
     editable: game.editable,
   };

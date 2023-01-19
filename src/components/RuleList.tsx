@@ -9,6 +9,7 @@ import {
   Box,
   Button,
 } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
@@ -22,6 +23,7 @@ const RuleList: React.FC = () => {
   const createGame = async (rule: RuleNames) => {
     try {
       const putData: GameDBProps = {
+        id: nanoid(6),
         name: rules[rule].name,
         players: [],
         rule,

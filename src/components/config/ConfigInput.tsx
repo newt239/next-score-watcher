@@ -20,7 +20,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 }) => {
   const router = useRouter();
   const { game_id } = router.query;
-  const game = useLiveQuery(() => db.games.get(Number(game_id)));
+  const game = useLiveQuery(() => db.games.get(game_id as string));
   if (!game) {
     return null;
   }

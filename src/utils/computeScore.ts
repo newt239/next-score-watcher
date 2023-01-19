@@ -6,15 +6,15 @@ import db, {
   Variants,
 } from "./db";
 
-const computeScore = async (game_id: number) => {
+const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
   if (!game) return { scoreList: [], winThroughList: [] };
   const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
 
-  let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
+  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
       game_id,
-      player_id,
+      player_id: gamePlayer.id,
       state: "playing",
       score: game.rule === "attacksurvival" ? game.win_point! : 0,
       correct: 0,
@@ -37,7 +37,7 @@ const computeScore = async (game_id: number) => {
     return await freezx(game, gameLogList);
   }
 
-  const winThroughList: [number, string][] = [];
+  const winThroughList: [string, string][] = [];
   gameLogList.map((log, quiz_position) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -132,7 +132,7 @@ const computeScore = async (game_id: number) => {
   playersState = playersState.map((insertData) => {
     const [state, text] = getState(game, insertData, gameLogList.length);
     if (state === "win" && insertData.last_correct + 1 === gameLogList.length) {
-      winThroughList.push([insertData.player_id!, text]);
+      winThroughList.push([insertData.player_id, text]);
     }
     return {
       ...insertData,
@@ -253,11 +253,11 @@ const getState = (
 };
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const winThroughList: [number, string][] = [];
-  let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
+  const winThroughList: [string, string][] = [];
+  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
-      game_id: game.id!,
-      player_id,
+      game_id: game.id,
+      player_id: gamePlayer.id,
       score: 0,
       last_correct: 0,
       last_wrong: -100,
@@ -383,12 +383,12 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
 };
 
 const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const winThroughList: [number, string][] = [];
-  let playersState: ComputedScoreDBProps[] = game.players.map((player_id) => {
+  const winThroughList: [string, string][] = [];
+  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
-      id: `${game.id}_${player_id}`,
-      game_id: game.id!,
-      player_id,
+      id: `${game.id}_${gamePlayer.id}`,
+      game_id: game.id,
+      player_id: gamePlayer.id,
       score: 0,
       last_correct: 10000,
       last_wrong: -10000,

@@ -1,6 +1,7 @@
 import { ChangeEventHandler } from "react";
 
 import { FormControl, FormLabel, Input, useToast } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
 
@@ -36,6 +37,7 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       csvRows.map((row) => {
         const values = row.split(",");
         return {
+          id: nanoid(),
           q: values[0],
           a: values[1],
           set_name: setName,

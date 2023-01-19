@@ -13,10 +13,14 @@ export type RuleNames =
   | "z"
   | "freezx";
 
+export type GameDBPlayerProps = {
+  id: string;
+};
+
 export type GameDBProps = {
-  id?: number;
+  id: string;
   name: string;
-  players: number[];
+  players: GameDBPlayerProps[];
   rule: RuleNames;
   correct_me: number;
   wrong_me: number;
@@ -31,7 +35,7 @@ export type GameDBProps = {
 };
 
 export type PlayerDBProps = {
-  id?: number;
+  id: string;
   name: string;
   text: string;
   belong: string;
@@ -40,9 +44,9 @@ export type PlayerDBProps = {
 
 export type Variants = "correct" | "wrong" | "through";
 export type LogDBProps = {
-  id?: number;
-  game_id: number;
-  player_id: number;
+  id: string;
+  game_id: string;
+  player_id: string;
   variant: Variants;
   system: boolean;
 };
@@ -50,8 +54,8 @@ export type LogDBProps = {
 export type States = "win" | "lose" | "playing";
 export type ComputedScoreDBProps = {
   id?: string;
-  game_id: number;
-  player_id: number;
+  game_id: string;
+  player_id: string;
   state: States;
   score: number;
   correct: number; // 正解数
@@ -67,7 +71,7 @@ export type ComputedScoreDBProps = {
 };
 
 export type QuizDBProps = {
-  id?: number;
+  id: string;
   q: string;
   a: string;
   set_name: string;
@@ -84,12 +88,12 @@ export interface ScoreWatcherDBTables extends DexieDatabase {
 const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(1).stores({
   games:
-    "++id, rule, name, players, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz_set, editable",
-  players: "++id, name, belong, text, tags",
-  logs: "++id, game_id, player_id, variant, system",
+    "id, rule, name, players, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz_set, editable",
+  players: "id, name, belong, text, tags",
+  logs: "id, game_id, player_id, variant, system",
+  quizes: "id, q, a, set_name",
   computed_scores:
     "++id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, stage, isIncapacity, order, text",
-  quizes: "++id, q, a, set_name",
 });
 
 db.open()

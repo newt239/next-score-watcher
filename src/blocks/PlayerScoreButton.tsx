@@ -6,6 +6,7 @@ import {
   theme,
   useColorMode,
 } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
 
@@ -13,8 +14,8 @@ type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green";
   children: string | number;
   filled?: boolean;
-  game_id: number;
-  player_id: number;
+  game_id: string;
+  player_id: string;
   editable: boolean;
   disabled?: boolean;
 };
@@ -40,6 +41,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     if (color !== "green") {
       try {
         await db.logs.put({
+          id: nanoid(),
           game_id,
           player_id,
           variant: color === "red" ? "correct" : "wrong",

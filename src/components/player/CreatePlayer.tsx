@@ -14,6 +14,7 @@ import {
   NumberIncrementStepper,
   NumberInputStepper,
 } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
 
@@ -25,6 +26,7 @@ const CreatePlayer: React.FC = () => {
 
   const addNewPlayer = async () => {
     await db.players.put({
+      id: nanoid(),
       name: playerName,
       text: playerOrder,
       belong: playerBelong,

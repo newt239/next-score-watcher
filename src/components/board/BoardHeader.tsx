@@ -16,6 +16,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { nanoid } from "nanoid";
 import {
   AdjustmentsHorizontal,
   ArrowBackUp,
@@ -33,9 +34,9 @@ const BoardHeader: React.FC = () => {
   const { colorMode } = useColorMode();
   const router = useRouter();
   const { game_id } = router.query;
-  const game = useLiveQuery(() => db.games.get(Number(game_id)));
+  const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    () => db.logs.where({ game_id: game_id as string }).toArray(),
     []
   );
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
@@ -137,8 +138,9 @@ const BoardHeader: React.FC = () => {
               onClick={async () => {
                 try {
                   await db.logs.put({
-                    game_id: Number(game_id),
-                    player_id: -1,
+                    id: nanoid(),
+                    game_id: game_id as string,
+                    player_id: "-",
                     variant: "through",
                     system: false,
                   });

@@ -17,14 +17,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
   ListItem,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
   UnorderedList,
   FormControl,
   Input,
@@ -41,15 +34,16 @@ import {
   Tooltip,
   Icon,
 } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 import { Filter, InfoCircle, Plus, X } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
-import db, { PlayerDBProps } from "#/utils/db";
+import db, { GameDBPlayerProps, PlayerDBProps } from "#/utils/db";
 interface SelectPlayerProps {
-  game_id: number;
+  game_id: string;
   playerList: PlayerDBProps[];
-  players: number[];
+  players: GameDBPlayerProps[];
   disabled?: boolean;
 }
 
@@ -67,9 +61,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [searchText, setSearchText] = useState<string>("");
 
   const onChangeHandler = async (player: PlayerDBProps) => {
-    if (players.includes(Number(player.id))) {
+    if (players.map((gamePlayer) => gamePlayer.id).includes(player.id)) {
       await db.games.update(game_id, {
-        players: players.filter((player_id) => player_id != player.id),
+        players: players.filter(({ id }) => id != player.id),
       });
     } else {
       await db.games.update(game_id, {
@@ -80,12 +74,15 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
 
   const addNewPlayer = async () => {
     const player_id = await db.players.put({
+      id: nanoid(),
       name: playerName,
       text: playerText,
       belong: playerBelong,
       tags: [],
     });
-    await db.games.update(game_id, { players: [...players, player_id] });
+    await db.games.update(game_id, {
+      players: [...players, { id: player_id }],
+    });
     toast({
       title: "プレイヤーを作成しました",
       description: `${playerName}${
@@ -220,9 +217,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                               <Flex key={i}>
                                 <Checkbox
                                   onChange={() => onChangeHandler(player)}
-                                  isChecked={players.includes(
-                                    Number(player.id)
-                                  )}
+                                  isChecked={players
+                                    .map((gamePlayer) => gamePlayer.id)
+                                    .includes(player.id)}
                                 />
                                 <span>{player.name}</span>
                                 {player.belong !== "" && (
@@ -266,9 +263,12 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
             <Text>ここに選択したプレイヤーが表示されます。</Text>
           ) : (
             <UnorderedList>
-              {players.map((player_id) => (
-                <ListItem key={player_id}>
-                  {playerList.find((player) => player.id === player_id)?.name}
+              {players.map((gamePlayer) => (
+                <ListItem key={gamePlayer.id}>
+                  {
+                    playerList.find((player) => player.id === gamePlayer.id)
+                      ?.name
+                  }
                 </ListItem>
               ))}
             </UnorderedList>

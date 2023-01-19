@@ -17,14 +17,14 @@ import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 const BoardPage: NextPage = () => {
   const router = useRouter();
   const { game_id } = router.query;
-  const game = useLiveQuery(() => db.games.get(Number(game_id)));
+  const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    () => db.logs.where({ game_id: game_id as string }).toArray(),
     []
   );
   const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
   const computed_scores = useLiveQuery(
-    () => db.computed_scores.where({ game_id: Number(game_id) }).toArray(),
+    () => db.computed_scores.where({ game_id: game_id as string }).toArray(),
     []
   );
   const playerList = useLiveQuery(() => db.players.toArray(), []);
@@ -33,7 +33,9 @@ const BoardPage: NextPage = () => {
   useEffect(() => {
     if (playerList) {
       setPlayers(
-        playerList.filter((player) => game?.players.includes(Number(player.id)))
+        playerList.filter((player) =>
+          game?.players.map((gamePlayer) => gamePlayer.id).includes(player.id)
+        )
       );
     }
   }, [playerList]);
@@ -45,7 +47,7 @@ const BoardPage: NextPage = () => {
 
   useEffect(() => {
     const executeComputeScore = async () => {
-      const result = await computeScore(Number(game_id));
+      const result = await computeScore(game_id as string);
       setScores(result.scoreList);
       if (result.winThroughList.length !== 0) {
         setWinThroughPeople(

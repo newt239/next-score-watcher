@@ -6,7 +6,6 @@ import router from "next/router";
 import {
   Alert,
   AlertDescription,
-  AlertIcon,
   AlertTitle,
   Box,
   Button,
@@ -28,10 +27,10 @@ import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 const ConfigPage: NextPageWithLayout = () => {
   const { game_id } = router.query;
-  const game = useLiveQuery(() => db.games.get(Number(game_id)));
+  const game = useLiveQuery(() => db.games.get(game_id as string));
   const players = useLiveQuery(() => db.players.toArray(), []);
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: Number(game_id) }).toArray(),
+    () => db.logs.where({ game_id: game_id as string }).toArray(),
     []
   );
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
@@ -55,8 +54,7 @@ const ConfigPage: NextPageWithLayout = () => {
           ゲームは開始済みです。設定の変更はできません。
         </Alert>
       ) : (
-        <Alert status="info" variant="solid">
-          <AlertIcon />
+        <Alert status="info">
           <Box>
             <AlertTitle>{rules[game.rule].name}</AlertTitle>
             <AlertDescription>
@@ -137,7 +135,7 @@ const ConfigPage: NextPageWithLayout = () => {
         </div>
 
         <SelectPlayer
-          game_id={Number(game.id)}
+          game_id={game.id}
           playerList={players}
           players={game.players}
           disabled={logs.length !== 0}

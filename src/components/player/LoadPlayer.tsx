@@ -12,6 +12,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 
 import db, { PlayerDBProps } from "#/utils/db";
 
@@ -34,7 +35,7 @@ const LoadPlayer: React.FC = () => {
         const belong = playerRaw[i].split(
           separateType === "comma" ? "," : "\t"
         )[2];
-        dataArray.push({ name, text, belong, tags: [] });
+        dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
       }
       await db.players.bulkPut(dataArray);
       toast({

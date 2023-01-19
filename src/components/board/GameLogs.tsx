@@ -41,7 +41,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                 return <Box>Q{logs.length - i}: 問題がスルーされました。</Box>;
               return (
                 <Box key={log.id}>
-                  Q{logs.length - i}: {player.name} が{" "}
+                  Q{logs.length - i}: {player.name} が
                   {log.variant === "correct" ? "正解" : "誤答"}
                   しました。
                 </Box>

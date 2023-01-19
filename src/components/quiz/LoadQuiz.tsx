@@ -12,6 +12,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
+import { nanoid } from "nanoid";
 
 import db, { QuizDBProps } from "#/utils/db";
 
@@ -28,6 +29,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
         const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
         dataArray.push({
+          id: nanoid(),
           q,
           a,
           set_name: setName,
