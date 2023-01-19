@@ -11,7 +11,6 @@ import {
   Flex,
   IconButton,
   Spacer,
-  theme,
   useColorMode,
   useDisclosure,
   useMediaQuery,

@@ -38,8 +38,10 @@ import {
   TagLabel,
   TagRightIcon,
   Tag,
+  Tooltip,
+  Icon,
 } from "@chakra-ui/react";
-import { Filter, Plus, X } from "tabler-icons-react";
+import { Filter, InfoCircle, Plus, X } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -60,6 +62,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const toast = useToast();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
+  const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
 
@@ -78,6 +81,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const addNewPlayer = async () => {
     const player_id = await db.players.put({
       name: playerName,
+      text: playerText,
       belong: playerBelong,
       tags: [],
     });
@@ -137,6 +141,25 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                         />
                       </FormControl>
                       <FormControl>
+                        <FormLabel>
+                          サブテキスト
+                          <Tooltip
+                            hasArrow
+                            label="ex. ペーパー順位"
+                            bg="gray.300"
+                            color="black"
+                          >
+                            <Icon pl={1}>
+                              <InfoCircle />
+                            </Icon>
+                          </Tooltip>
+                        </FormLabel>
+                        <Input
+                          value={playerText}
+                          onChange={(v) => setPlayerText(v.target.value)}
+                        />
+                      </FormControl>
+                      <FormControl>
                         <FormLabel>所属</FormLabel>
                         <Input
                           value={playerBelong}
@@ -148,6 +171,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                           colorScheme="blue"
                           size="sm"
                           onClick={addNewPlayer}
+                          disabled={playerName === ""}
                         >
                           追加
                         </Button>
