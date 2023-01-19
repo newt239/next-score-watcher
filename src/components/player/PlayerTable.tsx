@@ -16,7 +16,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Modal,
-  Alert,
   TagLabel,
   TagRightIcon,
   Box,
@@ -28,14 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import DataTable, { createTheme } from "react-data-table-component";
-import {
-  Filter,
-  InfoCircle,
-  MoodCry,
-  Tags,
-  Trash,
-  X,
-} from "tabler-icons-react";
+import { Filter, MoodCry, Tags, Trash, X } from "tabler-icons-react";
 
 import EditPlayertagsModal from "./EditPlayerTagsModal";
 
@@ -183,9 +175,6 @@ const PlayerTable: React.FC = () => {
   return (
     <Box>
       <H3>プレイヤー一覧</H3>
-      <Alert status="info" variant="solid" my={5} gap={3}>
-        <InfoCircle /> ダブルクリックで氏名及び所属を編集できます。
-      </Alert>
       <DataTable
         columns={columns}
         data={filteredPlayers}

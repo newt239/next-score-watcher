@@ -15,7 +15,6 @@ import {
   NumberInputStepper,
 } from "@chakra-ui/react";
 
-import H3 from "#/blocks/H3";
 import db from "#/utils/db";
 
 const CreatePlayer: React.FC = () => {
@@ -44,12 +43,7 @@ const CreatePlayer: React.FC = () => {
 
   return (
     <Box>
-      <H3>新規作成</H3>
-      <Grid
-        py={5}
-        gap={5}
-        templateColumns="repeat(auto-fit, minmax(200px, 1fr))"
-      >
+      <Grid gap={5} templateColumns="repeat(auto-fit, minmax(200px, 1fr))">
         <FormControl>
           <FormLabel>氏名</FormLabel>
           <Input
@@ -79,11 +73,11 @@ const CreatePlayer: React.FC = () => {
           />
         </FormControl>
       </Grid>
-      <Box sx={{ textAlign: "right" }}>
+      <Box sx={{ textAlign: "right", pt: 3 }}>
         <Button
           colorScheme="blue"
           onClick={addNewPlayer}
-          disabled={playerOrder === ""}
+          disabled={playerName === ""}
         >
           追加
         </Button>
