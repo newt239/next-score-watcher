@@ -35,6 +35,8 @@ import {
   Icon,
   Card,
   CardBody,
+  useColorMode,
+  theme,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import {
@@ -74,6 +76,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   players,
   disabled,
 }) => {
+  const { colorMode } = useColorMode();
   const toast = useToast();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
@@ -84,11 +87,11 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const onChangeHandler = async (player: PlayerDBProps) => {
     if (players.map((gamePlayer) => gamePlayer.id).includes(player.id)) {
       await db.games.update(game_id, {
-        players: players.filter(({ id }) => id != player.id),
+        players: players.filter((gamePlayer) => gamePlayer.id != player.id),
       });
     } else {
       await db.games.update(game_id, {
-        players: [...players, Number(player.id)],
+        players: [...players, { id: player.id }],
       });
     }
   };
@@ -295,7 +298,18 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-        <Box pt={5}>
+        <Box
+          sx={{
+            p: 5,
+            my: 5,
+            backgroundColor:
+              colorMode === "dark" ? theme.colors.black : undefined,
+            border:
+              colorMode === "light"
+                ? `1px solid ${theme.colors.black[500]}`
+                : undefined,
+          }}
+        >
           {players.length === 0 ? (
             <Text>ここに選択したプレイヤーが表示されます。</Text>
           ) : (
