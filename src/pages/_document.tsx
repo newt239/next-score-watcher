@@ -1,4 +1,4 @@
-import NextDocument, { Html, Head, Main, NextScript } from "next/document";
+import NextDocument, { Head, Html, Main, NextScript } from "next/document";
 
 import { ColorModeScript } from "@chakra-ui/react";
 
@@ -8,12 +8,7 @@ export default class Document extends NextDocument {
   render() {
     return (
       <Html lang="ja">
-        <Head>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
+        <Head />
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
