@@ -47,6 +47,8 @@ import {
 } from "react-beautiful-dnd";
 import { Filter, InfoCircle, Plus, X } from "tabler-icons-react";
 
+import CompactPlayerTable from "./CompactPlayerTable";
+
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import db, { GameDBPlayerProps, PlayerDBProps } from "#/utils/db";
@@ -59,16 +61,15 @@ const reorder = (
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
   return result;
 };
 
-interface SelectPlayerProps {
+type SelectPlayerProps = {
   game_id: string;
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
   disabled?: boolean;
-}
+};
 
 const SelectPlayer: React.FC<SelectPlayerProps> = ({
   game_id,
@@ -82,19 +83,6 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
-  const [searchText, setSearchText] = useState<string>("");
-
-  const onChangeHandler = async (player: PlayerDBProps) => {
-    if (players.map((gamePlayer) => gamePlayer.id).includes(player.id)) {
-      await db.games.update(game_id, {
-        players: players.filter((gamePlayer) => gamePlayer.id != player.id),
-      });
-    } else {
-      await db.games.update(game_id, {
-        players: [...players, { id: player.id }],
-      });
-    }
-  };
 
   const addNewPlayer = async () => {
     const player_id = await db.players.put({
@@ -234,63 +222,11 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                         ページから一括でプレイヤー情報を登録できます。
                       </Box>
                     ) : (
-                      <>
-                        <InputGroup>
-                          <InputLeftElement pointerEvents="none">
-                            <Filter />
-                          </InputLeftElement>
-                          <Input
-                            value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            placeholder="氏名・所属・タグで検索"
-                          />
-                        </InputGroup>
-                        <Box pt={3}>
-                          {playerList
-                            .filter(
-                              (player) =>
-                                player.name.includes(searchText) ||
-                                player.belong.includes(searchText) ||
-                                player.tags.includes(searchText)
-                            )
-                            .map((player, i) => (
-                              <Flex key={i}>
-                                <Checkbox
-                                  onChange={() => onChangeHandler(player)}
-                                  isChecked={players
-                                    .map((gamePlayer) => gamePlayer.id)
-                                    .includes(player.id)}
-                                />
-                                <span>{player.name}</span>
-                                {player.belong !== "" && (
-                                  <span>, {player.belong}</span>
-                                )}
-                                {player.tags.length !== 0 && (
-                                  <span>
-                                    ,
-                                    {player.tags.map((tag, i) => (
-                                      <Tag key={i} colorScheme="green">
-                                        <TagLabel>{tag}</TagLabel>
-                                        <TagRightIcon
-                                          sx={{ cursor: "pointer" }}
-                                          onClick={async () => {
-                                            await db.players.update(game_id, {
-                                              tags: player.tags.filter(
-                                                (playerTag) => playerTag !== tag
-                                              ),
-                                            });
-                                          }}
-                                        >
-                                          <X />
-                                        </TagRightIcon>
-                                      </Tag>
-                                    ))}
-                                  </span>
-                                )}
-                              </Flex>
-                            ))}
-                        </Box>
-                      </>
+                      <CompactPlayerTable
+                        game_id={game_id}
+                        playerList={playerList}
+                        gamePlayers={players}
+                      />
                     )}
                   </AccordionPanel>
                 </AccordionItem>
