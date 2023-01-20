@@ -32,11 +32,15 @@ const BoardPage: NextPage = () => {
 
   useEffect(() => {
     if (playerList) {
-      setPlayers(
-        playerList.filter((player) =>
-          game?.players.map((gamePlayer) => gamePlayer.id).includes(player.id)
-        )
-      );
+      const gamePlayers = (
+        game?.players.map((gamePlayer) =>
+          playerList.find((player) => player.id === gamePlayer.id)
+        ) || []
+      )
+        // undefined が消えてくれないのでタイプガードを使う
+        // https://qiita.com/suin/items/cda9af4f4f1c53c05c6f
+        .filter((v): v is PlayerDBProps => v !== undefined);
+      setPlayers(gamePlayers);
     }
   }, [playerList]);
 

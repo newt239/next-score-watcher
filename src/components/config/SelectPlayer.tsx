@@ -33,13 +33,34 @@ import {
   Tag,
   Tooltip,
   Icon,
+  Card,
+  CardBody,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  type DropResult,
+} from "react-beautiful-dnd";
 import { Filter, InfoCircle, Plus, X } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import db, { GameDBPlayerProps, PlayerDBProps } from "#/utils/db";
+
+const reorder = (
+  list: GameDBPlayerProps[],
+  startIndex: number,
+  endIndex: number
+) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
 interface SelectPlayerProps {
   game_id: string;
   playerList: PlayerDBProps[];
@@ -94,6 +115,22 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     });
     setPlayerName("");
     setPlayerBelong("");
+  };
+
+  const onDragEnd = async (result: DropResult) => {
+    // ドロップ先がない
+    if (!result.destination) {
+      return;
+    }
+    // 配列の順序を入れ替える
+    let movedItems = reorder(
+      players, //　順序を入れ変えたい配列
+      result.source.index, // 元の配列の位置
+      result.destination.index // 移動先の配列の位置
+    );
+    await db.games.update(game_id, {
+      players: movedItems,
+    });
   };
 
   return (
@@ -262,16 +299,42 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
           {players.length === 0 ? (
             <Text>ここに選択したプレイヤーが表示されます。</Text>
           ) : (
-            <UnorderedList>
-              {players.map((gamePlayer) => (
-                <ListItem key={gamePlayer.id}>
-                  {
-                    playerList.find((player) => player.id === gamePlayer.id)
-                      ?.name
-                  }
-                </ListItem>
-              ))}
-            </UnorderedList>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="droppable" direction="horizontal">
+                {(provided) => (
+                  <Flex
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    gap={3}
+                  >
+                    {players.map((gamePlayer, index) => (
+                      <Draggable
+                        key={gamePlayer.id}
+                        draggableId={gamePlayer.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <Card
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <CardBody>
+                              {
+                                playerList.find(
+                                  (player) => player.id === gamePlayer.id
+                                )?.name
+                              }
+                            </CardBody>
+                          </Card>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </Flex>
+                )}
+              </Droppable>
+            </DragDropContext>
           )}
         </Box>
       </Box>
