@@ -1,10 +1,9 @@
-import { ReactNode, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Input,
   InputGroup,
   InputLeftElement,
-  Tag,
   useDisclosure,
   Button,
   FormControl,
@@ -16,148 +15,300 @@ import {
   ModalHeader,
   ModalOverlay,
   Modal,
-  Alert,
   Box,
   HStack,
   useToast,
   Text,
   Textarea,
-  useColorMode,
-  theme,
+  Flex,
+  IconButton,
+  Select,
+  TableContainer,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  Checkbox,
 } from "@chakra-ui/react";
+import {
+  createColumnHelper,
+  useReactTable,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  flexRender,
+  type ColumnDef,
+  type FilterFn,
+} from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import DataTable, { createTheme } from "react-data-table-component";
-import { Filter, InfoCircle, MoodCry, Trash } from "tabler-icons-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Filter,
+  Trash,
+} from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
 const QuizTable: React.FC = () => {
-  const { colorMode } = useColorMode();
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
-  const [filterText, setFilterText] = useState<string>("");
-  const filteredquizes = quizes
-    ? quizes.filter(
-        (item) => item.q.includes(filterText) || item.a.includes(filterText)
-      )
-    : [];
+  const [searchText, setSearchText] = useState<string>("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
   const [currentQuiz, setCurrentQuiz] = useState<QuizDBProps | null>(null);
-  const [selectedQuizes, setSelectedQuizes] = useState<QuizDBProps[]>([]);
+  const [selectedQuizes, setSelectedQuizes] = useState({});
   const toast = useToast();
 
-  const SubHeaderComponent = () => {
-    return (
-      <HStack sx={{ gap: 3 }}>
-        {selectedQuizes.length !== 0 && (
-          <HStack>
-            <Button
-              onClick={async () => {
-                await db.quizes.bulkDelete(
-                  selectedQuizes.map((quiz) => quiz.id!)
-                );
-                toast({
-                  title: `${selectedQuizes.length} 件の問題を削除しました`,
-                  description: selectedQuizes
-                    .map((quiz) => `${quiz.q} ／ ${quiz.a}`)
-                    .join(",")
-                    .slice(0, 20),
-                  status: "success",
-                  duration: 9000,
-                  isClosable: true,
-                });
-                setSelectedQuizes([]);
-              }}
-              colorScheme="red"
-              size="sm"
-              leftIcon={<Trash />}
-            >
-              削除
-            </Button>
-          </HStack>
-        )}
-        <InputGroup>
-          <InputLeftElement pointerEvents="none">
-            <Filter />
-          </InputLeftElement>
-          <Input
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-            placeholder="問題文・答えで検索"
-          />
-        </InputGroup>
-      </HStack>
-    );
-  };
-
-  const columns = [
-    {
-      name: "問題文",
-      selector: (row: QuizDBProps) => row.q,
-      maxWidth: "70vw",
-    },
-    {
-      name: "答え",
-      selector: (row: QuizDBProps) => row.a,
-      maxWidth: "30vw",
-    },
-    {
-      name: "セット名",
-      selector: (row: QuizDBProps) => row.set_name,
-    },
-  ];
-
-  const handleClick = (row: QuizDBProps) => {
+  const handleChange = (row: QuizDBProps) => {
     setCurrentQuiz(row);
     onOpen();
   };
 
-  createTheme("dark", {
-    text: {
-      primary: colorMode === "dark" && "white",
-      secondary: colorMode === "dark" && "white",
+  const fuzzyFilter: FilterFn<QuizDBProps> = (row) => {
+    const data = row.original;
+    return (
+      data.q?.includes(searchText) ||
+      data.a?.includes(searchText) ||
+      data.set_name?.includes(searchText)
+    );
+  };
+
+  const columnHelper = createColumnHelper<QuizDBProps>();
+  const columns: ColumnDef<QuizDBProps, any>[] = [
+    columnHelper.accessor("id", {
+      header: ({ table }) => {
+        return (
+          <Checkbox
+            onChange={() => table.toggleAllRowsSelected()}
+            isChecked={table.getIsAllRowsSelected()}
+            isIndeterminate={table.getIsSomeRowsSelected()}
+          />
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <Checkbox
+            onChange={() => row.toggleSelected()}
+            isChecked={row.getIsSelected()}
+          />
+        );
+      },
+    }),
+    columnHelper.accessor("q", {
+      header: "問題文",
+      cell: (info) => {
+        return (
+          <span
+            onClick={() => handleChange(info.row.original)}
+            style={{ maxWidth: 500 }}
+          >
+            {info.row.original.q}
+          </span>
+        );
+      },
+    }),
+    columnHelper.accessor("a", {
+      header: "答え",
+    }),
+    columnHelper.accessor("set_name", {
+      header: "セット名",
+    }),
+  ];
+
+  const table = useReactTable<QuizDBProps>({
+    data: quizes || [],
+    columns,
+    state: {
+      rowSelection: selectedQuizes,
+      globalFilter: searchText,
     },
-    background: {
-      default: colorMode === "dark" && theme.colors.gray[800],
-    },
-    striped: {
-      default: colorMode === "dark" && theme.colors.gray[800],
-      text: colorMode === "dark" && "white",
-    },
-    button: {
-      default: colorMode === "dark" && "white",
-    },
+    onRowSelectionChange: setSelectedQuizes,
+    globalFilterFn: fuzzyFilter,
+    onGlobalFilterChange: setSearchText,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
+
+  if (!quizes) return null;
 
   return (
     <Box>
       <H3>問題一覧</H3>
-      <Alert status="info" my={5} gap={3}>
-        <InfoCircle /> ダブルクリックで問題文・答え・セット名を編集できます。
-      </Alert>
-      <DataTable
-        columns={columns}
-        data={filteredquizes}
-        subHeader
-        subHeaderComponent={SubHeaderComponent()}
-        onRowDoubleClicked={handleClick}
-        onSelectedRowsChange={(e) => setSelectedQuizes(e.selectedRows)}
-        striped
-        selectableRows
-        dense
-        pagination
-        paginationRowsPerPageOptions={[10, 50, 100, 500, 1000, 3000]}
-        noDataComponent={
-          <HStack py={5}>
-            <MoodCry />
-            <Text>データがありません。</Text>
-          </HStack>
-        }
-        theme="dark"
-      />
+      {quizes.length === 0 ? (
+        <Box p={3}>
+          <Text>該当する問題データは見つかりませんでした。</Text>
+        </Box>
+      ) : (
+        <Box>
+          {
+            <Flex sx={{ py: 5, gap: 3, justifyContent: "flex-end" }}>
+              {table.getSelectedRowModel().rows.length !== 0 && (
+                <HStack>
+                  <Button
+                    onClick={async () => {
+                      await db.quizes.bulkDelete(
+                        table
+                          .getSelectedRowModel()
+                          .rows.map(({ original: quiz }) => quiz.id)
+                      );
+                      toast({
+                        title: `${
+                          table.getSelectedRowModel().rows.length
+                        } 件の問題を削除しました`,
+                        description: table
+                          .getSelectedRowModel()
+                          .rows.map(
+                            ({ original: quiz }) => `${quiz.q} ／ ${quiz.a}`
+                          )
+                          .join(",")
+                          .slice(0, 20),
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                      });
+                      setSelectedQuizes([]);
+                    }}
+                    colorScheme="red"
+                    size="sm"
+                    leftIcon={<Trash />}
+                  >
+                    削除
+                  </Button>
+                </HStack>
+              )}
+              <Box>
+                <InputGroup>
+                  <InputLeftElement pointerEvents="none">
+                    <Filter />
+                  </InputLeftElement>
+                  <Input
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder="問題文・答え・セット名で検索"
+                    sx={{ maxW: 300 }}
+                  />
+                </InputGroup>
+              </Box>
+            </Flex>
+          }
+          {table.getRowModel().rows.length === 0 ? (
+            <Box p={3}>
+              <Text>
+                「{searchText}」に一致する問題データは見つかりませんでした。
+              </Text>
+            </Box>
+          ) : (
+            <>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <Tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                          <Th key={header.id} colSpan={header.colSpan}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </Th>
+                        ))}
+                      </Tr>
+                    ))}
+                  </Thead>
+                  <Tbody>
+                    {table.getRowModel().rows.map((row) => {
+                      return (
+                        <Tr key={row.id}>
+                          {row.getVisibleCells().map((cell) => {
+                            return (
+                              <Td
+                                key={cell.id}
+                                maxW={cell.column.id === "q" ? 500 : 300}
+                                overflow="hidden"
+                              >
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </Td>
+                            );
+                          })}
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+              <Flex
+                sx={{
+                  py: 5,
+                  gap: 3,
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                <IconButton
+                  aria-label="最初のページに移動"
+                  icon={<ChevronsLeft />}
+                  size="xs"
+                  onClick={() => table.setPageIndex(0)}
+                  disabled={!table.getCanPreviousPage()}
+                />
+                <IconButton
+                  aria-label="1ページ戻る"
+                  icon={<ChevronLeft />}
+                  size="xs"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                />
+                <div>
+                  {table.getState().pagination.pageIndex + 1} /{" "}
+                  {table.getPageCount()}
+                </div>
+                <IconButton
+                  aria-label="1ページ進む"
+                  icon={<ChevronRight />}
+                  size="xs"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                />
+                <IconButton
+                  aria-label="最後のページに移動"
+                  icon={<ChevronsRight />}
+                  size="xs"
+                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                  disabled={!table.getCanNextPage()}
+                />
+                <Box>
+                  <Select
+                    size="sm"
+                    value={table.getState().pagination.pageSize}
+                    onChange={(e) => {
+                      table.setPageSize(Number(e.target.value));
+                    }}
+                  >
+                    {[10, 50, 100, 300].map((pageSize) => (
+                      <option key={pageSize} value={pageSize}>
+                        {pageSize}件
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
+              </Flex>
+            </>
+          )}
+        </Box>
+      )}
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -215,7 +366,7 @@ const QuizTable: React.FC = () => {
                   colorScheme="blue"
                   mr={3}
                   onClick={async () => {
-                    await db.quizes.update(currentQuiz.id!, currentQuiz);
+                    await db.quizes.update(currentQuiz.id, currentQuiz);
                     onClose();
                   }}
                 >

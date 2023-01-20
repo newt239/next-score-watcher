@@ -337,7 +337,7 @@ const PlayerTable: React.FC = () => {
                       table.setPageSize(Number(e.target.value));
                     }}
                   >
-                    {[10, 20, 30, 40, 50].map((pageSize) => (
+                    {[10, 50, 100, 200, 300].map((pageSize) => (
                       <option key={pageSize} value={pageSize}>
                         {pageSize}件
                       </option>
