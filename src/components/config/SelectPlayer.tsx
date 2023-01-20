@@ -234,9 +234,10 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
             </DrawerBody>
           </DrawerContent>
         </Drawer>
+        <Text pt={5}>ドラッグで並び替えできます。</Text>
         <Box
           sx={{
-            p: 5,
+            p: 3,
             my: 5,
             backgroundColor:
               colorMode === "dark" ? theme.colors.black : undefined,
