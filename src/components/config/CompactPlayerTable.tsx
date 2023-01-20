@@ -1,8 +1,7 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import {
   Box,
-  Button,
   Checkbox,
   HStack,
   IconButton,
@@ -107,7 +106,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       header: "タグ",
       cell: (info) => {
         return info.row.original.tags.map((tag, tagi) => (
-          <Tag key={tagi} colorScheme="green">
+          <Tag key={tagi} colorScheme="green" size="sm">
             {tag}
           </Tag>
         ));
@@ -119,9 +118,9 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   const table = useReactTable<PlayerDBProps>({
     data: playerList,
     columns,
-    getCoreRowModel: getCoreRowModel(),
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
+    getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     state: {

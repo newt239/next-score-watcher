@@ -8,18 +8,13 @@ import {
   FormLabel,
   Grid,
   useToast,
-  NumberInput,
-  NumberInputField,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInputStepper,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
 
 const CreatePlayer: React.FC = () => {
-  const [playerOrder, setPlayerOrder] = useState<string>("0");
+  const [playerOrder, setPlayerOrder] = useState<string>("");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const toast = useToast();
