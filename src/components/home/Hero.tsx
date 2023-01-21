@@ -1,4 +1,9 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Flex,
   Heading,
@@ -10,6 +15,7 @@ import {
   Tabs,
   Text,
   theme,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
@@ -21,6 +27,8 @@ type FeatureProps = {
   description: string;
 };
 const Hero: React.FC = () => {
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
   const features: FeatureProps[] = [
     {
       title: "基本機能",
@@ -50,49 +58,75 @@ const Hero: React.FC = () => {
       </Box>
       <Box>
         <H2>主な機能</H2>
-        <Tabs
-          isManual
-          variant="soft-rounded"
-          orientation="vertical"
-          sx={{ pt: 5 }}
-        >
-          <TabList sx={{ whiteSpace: "nowrap" }}>
+        {!isLargerThan700 ? (
+          <Accordion defaultIndex={[0]} allowMultiple pt={5}>
             {features.map((feature) => (
-              <Tab
-                key={feature.title}
-                sx={{
-                  justifyContent: "flex-start",
-                  borderRadius: "1rem 0 0 1rem",
-                }}
-              >
-                {feature.title}
-              </Tab>
+              <AccordionItem key={feature.title}>
+                <h2>
+                  <AccordionButton>
+                    <Box as="span" flex="1" textAlign="left">
+                      {feature.title}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4}>
+                  <Image
+                    src={"images/" + feature.image}
+                    alt={feature.description}
+                    sx={{ borderRadius: "1rem" }}
+                  />
+                  <Text pt={3}>{feature.description}</Text>
+                </AccordionPanel>
+              </AccordionItem>
             ))}
-          </TabList>
-          <TabPanels
-            sx={{
-              border: `3px solid ${theme.colors.blue[100]}`,
-              borderRadius: "0 1rem 1rem 0",
-            }}
+          </Accordion>
+        ) : (
+          <Tabs
+            isManual
+            variant="soft-rounded"
+            orientation="vertical"
+            sx={{ pt: 5 }}
           >
-            {features.map((feature) => (
-              <TabPanel key={feature.title}>
-                <H3 sx={{ pt: 0 }}>{feature.title}</H3>
-                <Flex sx={{ p: 3, gap: 3 }}>
-                  <Box w="70%">
-                    <Image
-                      src={"images/" + feature.image}
-                      alt={feature.description}
-                    />
-                  </Box>
-                  <Box w="30%">
-                    <Text>{feature.description}</Text>
-                  </Box>
-                </Flex>
-              </TabPanel>
-            ))}
-          </TabPanels>
-        </Tabs>
+            <TabList sx={{ whiteSpace: "nowrap" }}>
+              {features.map((feature) => (
+                <Tab
+                  key={feature.title}
+                  sx={{
+                    justifyContent: "flex-start",
+                    borderRadius: "1rem 0 0 1rem",
+                  }}
+                >
+                  {feature.title}
+                </Tab>
+              ))}
+            </TabList>
+            <TabPanels
+              sx={{
+                border: `3px solid ${theme.colors.blue[100]}`,
+                borderRadius: "0 1rem 1rem 0",
+              }}
+            >
+              {features.map((feature) => (
+                <TabPanel key={feature.title}>
+                  <H3 sx={{ pt: 0 }}>{feature.title}</H3>
+                  <Flex sx={{ p: 3, gap: 3 }}>
+                    <Box w="70%">
+                      <Image
+                        src={"images/" + feature.image}
+                        alt={feature.description}
+                        sx={{ borderRadius: "1rem" }}
+                      />
+                    </Box>
+                    <Box w="30%">
+                      <Text>{feature.description}</Text>
+                    </Box>
+                  </Flex>
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
+        )}
       </Box>
     </Box>
   );
