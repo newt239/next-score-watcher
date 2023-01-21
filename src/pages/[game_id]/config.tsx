@@ -41,7 +41,7 @@ const ConfigPage: NextPageWithLayout = () => {
   }
 
   const deleteGame = () => {
-    db.games.delete(Number(game.id)).then(() => router.push("/"));
+    db.games.delete(game.id).then(() => router.push("/"));
   };
 
   return (
@@ -147,7 +147,7 @@ const ConfigPage: NextPageWithLayout = () => {
             <FormLabel>セット名</FormLabel>
             <Select
               onChange={async (v) => {
-                await db.games.update(Number(game_id), {
+                await db.games.update(game_id as string, {
                   quiz_set: v.target.value,
                 });
               }}

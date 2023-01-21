@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import { useDebounce } from "#/hooks/useDebounce";
 import db, { GameDBProps } from "#/utils/db";
 
 type ConfigInputProps = {
@@ -21,12 +23,17 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
-  if (!game) {
-    return null;
-  }
-  const inputValue = () => {
-    return game[input_id] as string;
-  };
+  const [inputText, setInputText] = useState<string>("");
+  const debouncedInputText = useDebounce(inputText, 500);
+
+  useEffect(() => {
+    db.games.update(game_id as string, {
+      [input_id]: inputText,
+    });
+  }, [debouncedInputText]);
+
+  if (!game) return null;
+
   return (
     <FormControl pt={5}>
       <FormLabel>{label}</FormLabel>
@@ -34,12 +41,8 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
         id={`game_${input_id}`}
         type="text"
         placeholder={placehodler}
-        value={inputValue()}
-        onChange={(v) => {
-          db.games.update(Number(game_id), {
-            [input_id]: v.target.value as string,
-          });
-        }}
+        value={inputText}
+        onChange={(v) => setInputText(v.target.value)}
         disabled={disabled}
       />
     </FormControl>

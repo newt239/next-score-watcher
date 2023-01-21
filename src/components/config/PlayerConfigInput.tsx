@@ -16,7 +16,7 @@ import db, { PlayerDBProps } from "#/utils/db";
 
 type PlayerConfigInputProps = {
   input_id: keyof PlayerDBProps;
-  player_id: number;
+  player_id: string;
   label: string;
   placehodler?: string;
   number?: boolean;

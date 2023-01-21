@@ -1,9 +1,10 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
 
-import GameList from "#/components/GameList";
-import RuleList from "#/components/RuleList";
-import UpdateModal from "#/components/UpdateModal";
+import GameList from "#/components/home/GameList";
+import Hero from "#/components/home/Hero";
+import RuleList from "#/components/home/RuleList";
+import UpdateModal from "#/components/home/UpdateModal";
 import { Layout } from "#/layouts/Layout";
 
 const HomePage: NextPageWithLayout = () => {
@@ -17,6 +18,7 @@ const HomePage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Hero />
       <GameList />
       <RuleList />
       <UpdateModal />

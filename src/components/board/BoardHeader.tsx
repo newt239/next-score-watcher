@@ -156,7 +156,7 @@ const BoardHeader: React.FC = () => {
               disabled={logs.length === 0}
               onClick={async () => {
                 if (logs.length !== 0) {
-                  await db.logs.delete(Number(logs[logs.length - 1].id));
+                  await db.logs.delete(logs[logs.length - 1].id);
                 }
               }}
             >
