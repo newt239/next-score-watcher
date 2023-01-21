@@ -147,6 +147,7 @@ const ConfigPage: NextPageWithLayout = () => {
           <FormControl pt={5} width={200}>
             <FormLabel>セット名</FormLabel>
             <Select
+              defaultValue={game.quiz_set || ""}
               onChange={async (v) => {
                 await db.games.update(game_id as string, {
                   quiz_set: v.target.value,
