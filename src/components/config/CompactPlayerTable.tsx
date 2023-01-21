@@ -59,7 +59,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       });
     } else {
       await db.games.update(game_id, {
-        players: [...gamePlayers, { id: player.id }],
+        players: [
+          ...gamePlayers,
+          {
+            id: player.id,
+            name: player.name,
+            initial_correct: 0,
+            initial_wrong: 0,
+          },
+        ],
       });
     }
   };

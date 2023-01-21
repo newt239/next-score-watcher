@@ -47,7 +47,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
         min={min}
         max={max}
         onChange={(s) => {
-          db.games.update(Number(game_id), {
+          db.games.update(game_id as string, {
             [input_id]: s,
           });
         }}

@@ -20,7 +20,7 @@ import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
 import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
-import { GetRuleStringByType, rules } from "#/utils/rules";
+import { GetRuleStringByType } from "#/utils/rules";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray());

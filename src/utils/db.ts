@@ -15,6 +15,9 @@ export type RuleNames =
 
 export type GameDBPlayerProps = {
   id: string;
+  name: string;
+  initial_correct: number;
+  initial_wrong: number;
 };
 
 export type GameDBProps = {

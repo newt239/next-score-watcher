@@ -16,27 +16,28 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  ListItem,
   Text,
-  UnorderedList,
   FormControl,
   Input,
   FormLabel,
   Stack,
-  InputGroup,
-  InputLeftElement,
   Link,
   useToast,
   Flex,
-  TagLabel,
-  TagRightIcon,
-  Tag,
   Tooltip,
   Icon,
   Card,
   CardBody,
   useColorMode,
   theme,
+  IconButton,
+  Tr,
+  TableContainer,
+  Tbody,
+  Thead,
+  Th,
+  Td,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import {
@@ -45,13 +46,21 @@ import {
   Droppable,
   type DropResult,
 } from "react-beautiful-dnd";
-import { Filter, InfoCircle, Plus, X } from "tabler-icons-react";
+import {
+  DotsVertical,
+  InfoCircle,
+  Plus,
+  Settings,
+  Table,
+  X,
+} from "tabler-icons-react";
 
 import CompactPlayerTable from "./CompactPlayerTable";
+import InitialPointConfig from "./InitialPointConfig";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
-import db, { GameDBPlayerProps, PlayerDBProps } from "#/utils/db";
+import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
 
 const reorder = (
   list: GameDBPlayerProps[],
@@ -66,6 +75,7 @@ const reorder = (
 
 type SelectPlayerProps = {
   game_id: string;
+  rule_name: RuleNames;
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
   disabled?: boolean;
@@ -73,16 +83,19 @@ type SelectPlayerProps = {
 
 const SelectPlayer: React.FC<SelectPlayerProps> = ({
   game_id,
+  rule_name,
   playerList,
   players,
   disabled,
 }) => {
   const { colorMode } = useColorMode();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
 
   const addNewPlayer = async () => {
     const player_id = await db.players.put({
@@ -93,7 +106,15 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       tags: [],
     });
     await db.games.update(game_id, {
-      players: [...players, { id: player_id }],
+      players: [
+        ...players,
+        {
+          id: player_id,
+          name: playerName,
+          initial_correct: 0,
+          initial_wrong: 0,
+        },
+      ],
     });
     toast({
       title: "プレイヤーを作成しました",
@@ -271,11 +292,26 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             {...provided.dragHandleProps}
                           >
                             <CardBody>
-                              {
-                                playerList.find(
-                                  (player) => player.id === gamePlayer.id
-                                )?.name
-                              }
+                              <Flex sx={{ gap: 3, alignItems: "center" }}>
+                                <Box>
+                                  <Text size="xl">{gamePlayer.name}</Text>
+                                </Box>
+                                <InitialPointConfig
+                                  onClose={onClose}
+                                  isOpen={isOpen}
+                                  onClick={() => {
+                                    setCurrentPlayerIndex(index);
+                                    onOpen();
+                                  }}
+                                  game_id={game_id}
+                                  players={players}
+                                  index={currentPlayerIndex}
+                                  correct={["normal", "nomx"].includes(
+                                    rule_name
+                                  )}
+                                  wrong={["normal", "nomx"].includes(rule_name)}
+                                />
+                              </Flex>
                             </CardBody>
                           </Card>
                         )}

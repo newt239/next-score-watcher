@@ -136,6 +136,7 @@ const ConfigPage: NextPageWithLayout = () => {
 
         <SelectPlayer
           game_id={game.id}
+          rule_name={game.rule}
           playerList={players}
           players={game.players}
           disabled={logs.length !== 0}
