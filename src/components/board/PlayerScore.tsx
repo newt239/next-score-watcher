@@ -69,11 +69,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {score.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
-              {score.correct}
+            <PlayerScoreButton color="red" compact {...props}>
+              {score.correct}○
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" {...props}>
-              {game.win_point! - score.wrong}
+            <PlayerScoreButton color="blue" compact {...props}>
+              {game.win_point! - score.wrong}×
             </PlayerScoreButton>
           </div>
         </>
@@ -93,10 +93,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {score.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
+            <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" {...props}>
+            <PlayerScoreButton color="blue" compact {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -117,10 +117,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {score.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
+            <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" {...props}>
+            <PlayerScoreButton color="blue" compact {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -141,10 +141,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {score.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
+            <PlayerScoreButton color="red" compact {...props}>
               {`${score.correct}○`}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" {...props}>
+            <PlayerScoreButton color="blue" compact {...props}>
               {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
@@ -175,7 +175,13 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             <PlayerScoreButton color="green" filled compact {...props}>
               {score.odd_score}
             </PlayerScoreButton>
-            ×
+            <span
+              style={{
+                color: colorMode === "light" ? theme.colors.gray[800] : "white",
+              }}
+            >
+              ×
+            </span>
             <PlayerScoreButton color="green" filled compact {...props}>
               {score.even_score}
             </PlayerScoreButton>
@@ -239,7 +245,12 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="blue" rounded {...props}>
+          <PlayerScoreButton
+            disabled={score.isIncapacity}
+            color="blue"
+            rounded
+            {...props}
+          >
             {`${score.wrong}×`}
           </PlayerScoreButton>
         </>

@@ -98,7 +98,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             alignItems: "center",
             fontSize: "clamp(5vh, 2rem, 5vw)",
             width: "100%",
-            minWidth: compact ? 50 : 100,
+            minWidth: compact ? 70 : 100,
             margin: "auto",
             cursor: color === "green" ? "default" : "pointer",
             backgroundColor: filled ? variantColor : defaultColor,

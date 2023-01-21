@@ -9,7 +9,9 @@ import db, {
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
   if (!game) return { scoreList: [], winThroughList: [] };
-  const gameLogList = await db.logs.where({ game_id: game_id }).toArray();
+  const gameLogList = await db.logs
+    .where({ game_id: game_id })
+    .sortBy("timestamp");
 
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
@@ -474,7 +476,7 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win"
         ? indicator(order)
         : remainIncapacity > 0
-        ? `${remainIncapacity} PASS`
+        ? `~${remainIncapacity}~`
         : `${playerState.correct}○`;
     if (
       playerState.state === "win" &&
