@@ -11,13 +11,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import db from "#/utils/db";
-
 const UpdateModal: React.FC = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const currentVersion = localStorage.getItem("VERSION");
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
+
   useEffect(() => {
     if (!currentVersion) {
       localStorage.setItem("VERSION", latestVersion!);
@@ -25,12 +24,12 @@ const UpdateModal: React.FC = () => {
       setModalOpen(true);
     }
   }, []);
+
   const update = () => {
     localStorage.setItem("VERSION", latestVersion!);
-    db.delete().then(() => {
-      router.reload();
-    });
+    router.reload();
   };
+
   return (
     <Modal isOpen={modalOpen} onClose={update}>
       <ModalOverlay />
@@ -40,9 +39,6 @@ const UpdateModal: React.FC = () => {
           <p>
             現在 v.{currentVersion} を使用中です。 v.{latestVersion}{" "}
             にアップデートします。
-          </p>
-          <p>
-            ※アップデートすると保存されたゲームやクイズデータが削除されます。
           </p>
         </ModalBody>
         <ModalFooter>
