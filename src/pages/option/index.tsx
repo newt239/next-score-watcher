@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
 import router from "next/router";
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 import {
   AlertDialog,
@@ -31,7 +31,7 @@ const OptionPage: NextPageWithLayout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef();
+  const cancelRef = useRef(null);
 
   const deleteAppData = () => {
     localStorage.setItem("VERSION", latestVersion!);

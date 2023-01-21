@@ -28,7 +28,7 @@ import {
 
 import H2 from "#/blocks/H2";
 import db, { QuizDBProps } from "#/utils/db";
-import { rules } from "#/utils/rules";
+import { GetRuleStringByType } from "#/utils/rules";
 
 const BoardHeader: React.FC = () => {
   const { colorMode } = useColorMode();
@@ -93,7 +93,7 @@ const BoardHeader: React.FC = () => {
         }}
       >
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
-        <p>{rules[game.rule].name}</p>
+        <p>{GetRuleStringByType(game)}</p>
       </Box>
       <Box sx={{ whiteSpace: "nowrap" }}>
         第

@@ -1,3 +1,5 @@
+import { GameDBProps } from "./db";
+
 export const rules = {
   normal: {
     name: "スコア計算",
@@ -54,4 +56,29 @@ export const rules = {
     description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
     win_point: 7,
   },
+};
+
+export const GetRuleStringByType = (game: GameDBProps): string => {
+  switch (game.rule) {
+    case "normal":
+      return "count";
+    case "nomx":
+      return `${game.win_point}o${game.lose_point}x`;
+    case "nbyn":
+      return `${game.win_point}by${game.win_point}`;
+    case "nupdown":
+      return `${game.win_point}updown`;
+    case "swedishx":
+      return `Swedish${game.win_point}`;
+    case "attacksurvival":
+      return "アタックサバイバル";
+    case "squarex":
+      return `Square${game.win_point}`;
+    case "z":
+      return "Z";
+    case "freezx":
+      return `freez${game.win_point}`;
+    default:
+      return "unknown";
+  }
 };
