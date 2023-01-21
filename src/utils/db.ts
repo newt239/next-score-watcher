@@ -49,6 +49,7 @@ export type LogDBProps = {
   player_id: string;
   variant: Variants;
   system: boolean;
+  timestamp: string;
 };
 
 export type States = "win" | "lose" | "playing";

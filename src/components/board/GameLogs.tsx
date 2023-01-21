@@ -1,4 +1,5 @@
 import { Box, Container, Stack, useColorMode } from "@chakra-ui/react";
+import { cdate } from "cdate";
 import { History } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
@@ -40,10 +41,18 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
               if (log.variant === "through")
                 return <Box>Q{logs.length - i}: 問題がスルーされました。</Box>;
               return (
-                <Box key={log.id}>
+                <Box
+                  key={log.id}
+                  title={cdate(log.timestamp).format(
+                    "YYYY年MM月DD日 HH時MM分ss秒"
+                  )}
+                >
                   Q{logs.length - i}: {player.name} が
                   {log.variant === "correct" ? "正解" : "誤答"}
                   しました。
+                  <span style={{ opacity: 0.3 }}>
+                    {cdate(log.timestamp).format("HH:MM:ss")}
+                  </span>
                 </Box>
               );
             })

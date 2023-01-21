@@ -15,6 +15,7 @@ import {
   theme,
   useColorMode,
 } from "@chakra-ui/react";
+import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import {
@@ -36,7 +37,7 @@ const BoardHeader: React.FC = () => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).toArray(),
+    () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
@@ -143,6 +144,7 @@ const BoardHeader: React.FC = () => {
                     player_id: "-",
                     variant: "through",
                     system: false,
+                    timestamp: cdate().text(),
                   });
                 } catch (e) {
                   console.log(e);

@@ -6,6 +6,7 @@ import {
   theme,
   useColorMode,
 } from "@chakra-ui/react";
+import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
@@ -46,6 +47,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           player_id,
           variant: color === "red" ? "correct" : "wrong",
           system: true,
+          timestamp: cdate().text(),
         });
       } catch (err) {
         console.log(err);
