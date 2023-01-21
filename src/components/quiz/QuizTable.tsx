@@ -56,7 +56,10 @@ import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
 const QuizTable: React.FC = () => {
-  const quizes = useLiveQuery(() => db.quizes.toArray(), []);
+  const quizes = useLiveQuery(
+    () => db.quizes.orderBy("set_name").sortBy("n"),
+    []
+  );
   const [searchText, setSearchText] = useState<string>("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -100,6 +103,9 @@ const QuizTable: React.FC = () => {
           />
         );
       },
+    }),
+    columnHelper.accessor("n", {
+      header: "No.",
     }),
     columnHelper.accessor("q", {
       header: "問題文",

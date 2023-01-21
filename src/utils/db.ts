@@ -73,6 +73,7 @@ export type ComputedScoreDBProps = {
 
 export type QuizDBProps = {
   id: string;
+  n: number;
   q: string;
   a: string;
   set_name: string;

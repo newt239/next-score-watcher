@@ -48,7 +48,7 @@ const BoardHeader: React.FC = () => {
         const a = await db.quizes.toArray();
         console.log(a);
         setQuizList(
-          await db.quizes.where({ set_name: game.quiz_set }).toArray()
+          await db.quizes.where({ set_name: game.quiz_set }).sortBy("n")
         );
       }
     };

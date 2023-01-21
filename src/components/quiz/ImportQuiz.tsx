@@ -4,6 +4,7 @@ import { FormControl, FormLabel, Input, useToast } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
+import str2num from "#/utils/str2num";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();
@@ -38,8 +39,9 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         const values = row.split(",");
         return {
           id: nanoid(),
-          q: values[0],
-          a: values[1],
+          n: str2num(values[0]),
+          q: values[1],
+          a: values[2],
           set_name: setName,
         };
       })

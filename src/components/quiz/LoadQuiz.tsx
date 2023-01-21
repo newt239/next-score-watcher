@@ -15,6 +15,7 @@ import {
 import { nanoid } from "nanoid";
 
 import db, { QuizDBProps } from "#/utils/db";
+import str2num from "#/utils/str2num";
 
 const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();
@@ -26,10 +27,12 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       const quizRaw = rawQuizText.split("\n");
       let dataArray: QuizDBProps[] = [];
       for (let i = 0; i < quizRaw.length; i++) {
-        const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
-        const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
+        const n = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
+        const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
+        const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[2];
         dataArray.push({
           id: nanoid(),
+          n: str2num(n),
           q,
           a,
           set_name: setName,
@@ -47,6 +50,11 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
     }
   };
 
+  const joinString = separateType === "tab" ? "	" : ",";
+  const placeholderText = `1${joinString}選挙において、支持する政党や候補者が一定していない有権者が持つ票のことを、漢字３文字で何というでしょう？${joinString}浮動票
+2${joinString}1989年、小学校1・2年生の理科と社会に代わって導入された科目は何でしょう？${joinString}生活〈科〉
+  `;
+
   return (
     <Box>
       <FormControl>
@@ -55,9 +63,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           disabled={setName === ""}
           value={rawQuizText}
           onChange={(e) => setRawQuizText(e.target.value)}
-          placeholder={`選挙において、支持する政党や候補者が一定していない有権者が持つ票のことを、漢字３文字で何というでしょう？${
-            separateType === "tab" ? "	" : ","
-          }浮動票`}
+          placeholder={placeholderText}
         />
       </FormControl>
       <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
