@@ -309,7 +309,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                   correct={["normal", "nomx"].includes(
                                     rule_name
                                   )}
-                                  wrong={["normal", "nomx"].includes(rule_name)}
+                                  wrong={["nomx"].includes(rule_name)}
                                 />
                               </Flex>
                             </CardBody>

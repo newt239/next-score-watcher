@@ -29,7 +29,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         flexDirection: "column",
         alignItems: "center",
         m: 1,
-        gap: 1,
+        py: 3,
+        gap: 3,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
@@ -46,10 +47,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nomx" && (
         <>
           <PlayerScoreButton color="red" {...props}>
-            {score.state === "win" ? score.text : score.correct}
+            {score.state === "win" ? score.text : `${score.correct}○`}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
-            {score.state === "lose" ? score.text : score.wrong}
+            {score.state === "lose" ? score.text : `${score.wrong}×`}
           </PlayerScoreButton>
         </>
       )}

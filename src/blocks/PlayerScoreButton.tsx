@@ -1,4 +1,7 @@
+import { ReactNode } from "react";
+
 import {
+  Box,
   Button,
   Editable,
   EditableInput,
@@ -13,7 +16,7 @@ import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green";
-  children: string | number;
+  children: ReactNode;
   filled?: boolean;
   compact?: boolean;
   rounded?: boolean;
@@ -60,7 +63,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   };
 
   return (
-    <>
+    <Box>
       {editable ? (
         <Editable
           defaultValue={String(children)}
@@ -108,7 +111,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           {children}
         </Button>
       )}
-    </>
+    </Box>
   );
 };
 
