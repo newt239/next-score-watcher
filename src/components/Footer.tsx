@@ -15,6 +15,7 @@ const Footer: React.FC = () => {
         }}
       >
         <Box>© newt 2023</Box>
+        <Box>v{localStorage.getItem("VERSION")}</Box>
         <NextLink
           href="https://github.com/newt239/next-score-watcher"
           passHref
