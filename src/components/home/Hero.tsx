@@ -46,6 +46,17 @@ const Hero: React.FC = () => {
       image: "score-watcher_feature_winthrough.webp",
       description: "プレイヤーが勝ち抜けると、画面中央で大きく表示されます。",
     },
+    {
+      title: "スコアの手動更新",
+      image: "score-watcher_feature_editable.gif",
+      description:
+        "プログラムが想定外の挙動をしたときも大丈夫。プレイヤーのスコアや背景の色を自由に変更できるモードを搭載しています。",
+    },
+    {
+      title: "カラーモード",
+      image: "score-watcher_feature_colormode.webp",
+      description: "暗い会場でも見やすいダークモードでの表示に対応しています。",
+    },
   ];
 
   return (

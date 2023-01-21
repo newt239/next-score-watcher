@@ -3,8 +3,8 @@ import { ChangeEventHandler } from "react";
 import { FormControl, FormLabel, Input, useToast } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 
+import { str2num } from "#/utils/commonFunctions";
 import db from "#/utils/db";
-import str2num from "#/utils/str2num";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();

@@ -2,6 +2,8 @@ import NextLink from "next/link";
 
 import {
   Box,
+  Button,
+  HStack,
   Link,
   Table,
   TableContainer,
@@ -12,10 +14,11 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal } from "tabler-icons-react";
+import { AdjustmentsHorizontal, Copy } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
+import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
 import { GetRuleStringByType, rules } from "#/utils/rules";
 
@@ -51,13 +54,29 @@ const GameList: React.FC = () => {
                 <Td>{GetRuleStringByType(game)}</Td>
                 <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>
-                  <LinkButton
-                    icon={<AdjustmentsHorizontal />}
-                    size="sm"
-                    href={`/${game.id}/config`}
-                  >
-                    設定
-                  </LinkButton>
+                  <HStack sx={{ justifyContent: "flex-end" }}>
+                    <LinkButton
+                      icon={<AdjustmentsHorizontal />}
+                      size="sm"
+                      href={`/${game.id}/config`}
+                    >
+                      設定
+                    </LinkButton>
+                    <Button
+                      onClick={() =>
+                        createGame(
+                          game.rule,
+                          game,
+                          `${game.name}のコピー`,
+                          "copy"
+                        )
+                      }
+                      size="sm"
+                      leftIcon={<Copy />}
+                    >
+                      コピーを作成
+                    </Button>
+                  </HStack>
                 </Td>
               </Tr>
             ))}

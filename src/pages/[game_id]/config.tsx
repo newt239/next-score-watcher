@@ -28,7 +28,7 @@ import { rules } from "#/utils/rules";
 const ConfigPage: NextPageWithLayout = () => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
-  const players = useLiveQuery(() => db.players.toArray(), []);
+  const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: game_id as string }).toArray(),
     []

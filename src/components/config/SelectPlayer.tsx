@@ -115,7 +115,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     }
     // 配列の順序を入れ替える
     let movedItems = reorder(
-      players, //　順序を入れ変えたい配列
+      players, // 順序を入れ変えたい配列
       result.source.index, // 元の配列の位置
       result.destination.index // 移動先の配列の位置
     );

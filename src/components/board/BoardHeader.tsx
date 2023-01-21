@@ -89,6 +89,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               : "rgba(194, 224, 255, 0.08)",
           borderRadius: "1rem",
           padding: 3,
+          whiteSpace: "nowrap",
         }}
       >
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
