@@ -6,9 +6,13 @@ import "#/styles/globals.css";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
+import { usePageView } from "#/hooks/usePageView";
+
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const CSR = dynamic(() => import("#/components/CSRInner"), { ssr: false });
+  usePageView();
+
   return (
     <>
       <Head>
