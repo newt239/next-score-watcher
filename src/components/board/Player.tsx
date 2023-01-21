@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Popover,
@@ -34,13 +34,15 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
-  const [editableState, setEditableState] = useState<States>(
-    score?.state || "playing"
-  );
+  const [editableState, setEditableState] = useState<States>("playing");
 
-  if (!game || !score) {
-    return null;
-  }
+  useEffect(() => {
+    if (score) {
+      setEditableState(score.state || "playing");
+    }
+  }, [score]);
+
+  if (!game || !score) return null;
 
   const getColor = (state: States) => {
     const newState = game.editable ? editableState : state;

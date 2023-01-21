@@ -16,7 +16,6 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
-import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import {
   AdjustmentsHorizontal,
@@ -28,23 +27,22 @@ import {
 } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import db, { QuizDBProps } from "#/utils/db";
+import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
 import { GetRuleStringByType } from "#/utils/rules";
 
-const BoardHeader: React.FC = () => {
+type BoardHeaderProps = {
+  game: GameDBProps;
+  logs: LogDBProps[];
+};
+
+const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const { colorMode } = useColorMode();
   const router = useRouter();
-  const { game_id } = router.query;
-  const game = useLiveQuery(() => db.games.get(game_id as string));
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
-    []
-  );
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   useEffect(() => {
     const getQuizList = async () => {
-      if (game?.quiz_set) {
+      if (game.quiz_set) {
         const a = await db.quizes.toArray();
         console.log(a);
         setQuizList(
@@ -140,7 +138,7 @@ const BoardHeader: React.FC = () => {
                 try {
                   await db.logs.put({
                     id: nanoid(),
-                    game_id: game_id as string,
+                    game_id: game.id,
                     player_id: "-",
                     variant: "through",
                     system: false,
@@ -167,7 +165,7 @@ const BoardHeader: React.FC = () => {
             <MenuItem
               icon={<HandClick />}
               onClick={async () =>
-                await db.games.update(Number(game.id), {
+                await db.games.update(game.id, {
                   editable: !game.editable,
                 })
               }

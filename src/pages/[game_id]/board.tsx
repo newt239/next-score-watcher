@@ -19,7 +19,7 @@ const BoardPage: NextPage = () => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).toArray(),
+    () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
   const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
@@ -94,7 +94,7 @@ const BoardPage: NextPage = () => {
       <Head>
         <title>Score Watcher</title>
       </Head>
-      <BoardHeader />
+      <BoardHeader game={game} logs={logs} />
       <Box
         sx={{
           display: "flex",

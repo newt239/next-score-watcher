@@ -17,7 +17,7 @@ import { AdjustmentsHorizontal } from "tabler-icons-react";
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
 import db from "#/utils/db";
-import { rules } from "#/utils/rules";
+import { GetRuleStringByType, rules } from "#/utils/rules";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray());
@@ -48,7 +48,7 @@ const GameList: React.FC = () => {
                     game.name
                   )}
                 </Td>
-                <Td>{rules[game.rule].name}</Td>
+                <Td>{GetRuleStringByType(game)}</Td>
                 <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>
                   <LinkButton

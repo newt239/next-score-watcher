@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
   const features: FeatureProps[] = [
     {
       title: "基本機能",
-      image: "score-watcher_feature_basic.png",
+      image: "score-watcher_feature_basic.webp",
       description:
         "得点表示に不可欠なスコアの表示・勝ち抜け or 敗退の表示に加え、問題文の表示にも対応しています。",
     },
@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
     },
     {
       title: "勝ち抜けを表示",
-      image: "score-watcher_feature_winthrough.png",
+      image: "score-watcher_feature_winthrough.webp",
       description: "プレイヤーが勝ち抜けると、画面中央で大きく表示されます。",
     },
   ];

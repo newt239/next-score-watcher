@@ -5,10 +5,10 @@ import { History } from "tabler-icons-react";
 import H3 from "#/blocks/H3";
 import { LogDBProps, PlayerDBProps } from "#/utils/db";
 
-interface GameLogsProps {
+type GameLogsProps = {
   players: PlayerDBProps[];
   logs: LogDBProps[];
-}
+};
 
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
