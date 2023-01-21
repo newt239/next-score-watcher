@@ -15,6 +15,8 @@ type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green";
   children: string | number;
   filled?: boolean;
+  compact?: boolean;
+  rounded?: boolean;
   game_id: string;
   player_id: string;
   editable: boolean;
@@ -25,6 +27,8 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   color,
   children,
   filled = false,
+  compact = false,
+  rounded = false,
   game_id,
   player_id,
   editable,
@@ -91,12 +95,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             alignItems: "center",
             fontSize: "clamp(5vh, 2rem, 5vw)",
             width: "100%",
-            minWidth: 100,
+            minWidth: compact ? 50 : 100,
             margin: "auto",
             cursor: color === "green" ? "default" : "pointer",
             backgroundColor: filled ? variantColor : defaultColor,
             color: filled ? defaultColor : variantColor,
-            borderRadius: 0,
+            borderRadius: rounded ? "calc(1rem - 1px)" : 0,
           }}
           onClick={handleClick}
           disabled={disabled}

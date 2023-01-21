@@ -41,7 +41,7 @@ export const rules = {
     wrong_other: 0,
   },
   squarex: {
-    name: "Square X",
+    name: "SquareX",
     description:
       "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
     win_point: 16,

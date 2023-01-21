@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Alert, Box, useMediaQuery } from "@chakra-ui/react";
+import { Alert, Box, theme, useMediaQuery } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import Header from "#/components/Header";
@@ -95,13 +95,28 @@ const BoardPage: NextPage = () => {
         <title>Score Watcher</title>
       </Head>
       <BoardHeader game={game} logs={logs} />
+      {game.rule === "squarex" && (
+        <Box sx={{ textAlign: "center" }}>
+          次の問題では
+          <span
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: 800,
+              color: theme.colors.green[500],
+            }}
+          >
+            {logs.length % 2 === 1 ? "＞＞右側＞＞" : "＜＜左側＜＜"}
+          </span>
+          の変数が変動します
+        </Box>
+      )}
       <Box
         sx={{
           display: "flex",
           gap: "1rem",
           width: "100%",
           justifyContent: "space-evenly",
-          marginTop: 10,
+          marginTop: 3,
         }}
       >
         {players.map((player, i) => (

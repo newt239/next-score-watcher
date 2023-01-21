@@ -28,9 +28,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 5,
-        py: 5,
         m: 1,
+        gap: 1,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
@@ -170,22 +169,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               justifyContent: "center",
               alignItems: "center",
               gap: "1rem",
-              color: "black",
             }}
           >
-            <PlayerScoreButton color="green" filled {...props}>
+            <PlayerScoreButton color="green" filled compact {...props}>
               {score.odd_score}
             </PlayerScoreButton>
             ×
-            <PlayerScoreButton color="green" filled {...props}>
+            <PlayerScoreButton color="green" filled compact {...props}>
               {score.even_score}
             </PlayerScoreButton>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
+            <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" {...props}>
+            <PlayerScoreButton color="blue" compact {...props}>
               ×
             </PlayerScoreButton>
           </div>
@@ -240,7 +238,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="blue" {...props}>
+          <PlayerScoreButton color="blue" rounded {...props}>
             {`${score.wrong}×`}
           </PlayerScoreButton>
         </>
