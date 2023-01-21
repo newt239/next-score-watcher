@@ -27,9 +27,17 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   const debouncedInputText = useDebounce(inputText, 500);
 
   useEffect(() => {
-    db.games.update(game_id as string, {
-      [input_id]: inputText,
-    });
+    if (game) {
+      setInputText(game[input_id] as string);
+    }
+  }, [game]);
+
+  useEffect(() => {
+    if (inputText !== "") {
+      db.games.update(game_id as string, {
+        [input_id]: inputText,
+      });
+    }
   }, [debouncedInputText]);
 
   if (!game) return null;
