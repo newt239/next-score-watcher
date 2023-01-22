@@ -26,6 +26,7 @@ type FeatureProps = {
   image: string;
   description: string;
 };
+
 const Hero: React.FC = () => {
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 

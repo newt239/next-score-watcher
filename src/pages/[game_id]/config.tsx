@@ -1,6 +1,5 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
-import NextLink from "next/link";
 import router from "next/router";
 
 import {
@@ -10,9 +9,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  FormControl,
-  FormLabel,
-  Select,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
@@ -37,9 +33,7 @@ const ConfigPage: NextPageWithLayout = () => {
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
 
-  if (!game || !players || !logs) {
-    return null;
-  }
+  if (!game || !players || !logs) return null;
 
   const deleteGame = () => {
     db.games.delete(game.id).then(() => router.push("/"));

@@ -16,11 +16,11 @@ import {
 
 import db, { PlayerDBProps } from "#/utils/db";
 
-interface EditPlayertagsModalProps {
+type EditPlayertagsModalProps = {
   selectedPlayers: PlayerDBProps[];
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
 const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
   selectedPlayers,

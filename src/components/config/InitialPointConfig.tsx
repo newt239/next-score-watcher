@@ -30,6 +30,7 @@ type InitialPointConfigModalProps = {
   correct: boolean;
   wrong: boolean;
 };
+
 const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
   onClose,
   isOpen,

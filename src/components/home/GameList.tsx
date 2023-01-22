@@ -13,7 +13,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal, Copy } from "tabler-icons-react";
+import { AdjustmentsHorizontal, Copy, Link } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
@@ -44,7 +44,7 @@ const GameList: React.FC = () => {
                 <Td>
                   {game.players.length !== 0 ? (
                     <NextLink href={`/${game.id}/board`} passHref>
-                      {game.name}
+                      <Button variant="link">{game.name}</Button>
                     </NextLink>
                   ) : (
                     game.name
@@ -54,13 +54,6 @@ const GameList: React.FC = () => {
                 <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>
                   <HStack sx={{ justifyContent: "flex-end" }}>
-                    <LinkButton
-                      icon={<AdjustmentsHorizontal />}
-                      size="sm"
-                      href={`/${game.id}/config`}
-                    >
-                      設定
-                    </LinkButton>
                     <Button
                       onClick={() =>
                         createGame(
@@ -75,6 +68,13 @@ const GameList: React.FC = () => {
                     >
                       複製
                     </Button>
+                    <LinkButton
+                      icon={<AdjustmentsHorizontal />}
+                      size="sm"
+                      href={`/${game.id}/config`}
+                    >
+                      設定
+                    </LinkButton>
                   </HStack>
                 </Td>
               </Tr>

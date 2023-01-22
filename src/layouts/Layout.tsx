@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import { Center, Container } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 
 import Footer from "#/components/Footer";
 import Header from "#/components/Header";
