@@ -22,6 +22,7 @@ import LinkButton from "#/blocks/LinkButton";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
+import SelectQuizset from "#/components/config/SelectQuizSet";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
@@ -142,32 +143,11 @@ const ConfigPage: NextPageWithLayout = () => {
           disabled={logs.length !== 0}
         />
 
-        <H2>問題設定</H2>
-        {quizsetList.length !== 0 ? (
-          <FormControl pt={5} width={200}>
-            <FormLabel>セット名</FormLabel>
-            <Select
-              defaultValue={game.quiz_set || ""}
-              onChange={async (v) => {
-                await db.games.update(game_id as string, {
-                  quiz_set: v.target.value,
-                });
-              }}
-            >
-              <option value="">問題を表示しない</option>
-              {quizsetList.map((setName) => (
-                <option key={setName} value={setName}>
-                  {setName}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-        ) : (
-          <Box p={3}>
-            <NextLink href="/quiz">問題管理</NextLink>
-            ページから問題データを読み込むことが出来ます。
-          </Box>
-        )}
+        <SelectQuizset
+          game_id={game.id}
+          default_quizset={game.quiz_set || ""}
+          quizset_names={quizsetList}
+        />
 
         <Box sx={{ textAlign: "right", pt: 5 }}>
           <ButtonGroup spacing={5}>

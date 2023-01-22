@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   HStack,
   Radio,
@@ -58,13 +59,17 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   return (
     <Box>
       <FormControl>
-        <FormLabel>直接貼り付け</FormLabel>
+        <FormLabel>
+          Excelやスプレッドシートからコピーし、まとめてインポートできます。
+        </FormLabel>
         <Textarea
           disabled={setName === ""}
           value={rawQuizText}
           onChange={(e) => setRawQuizText(e.target.value)}
           placeholder={placeholderText}
+          height={100}
         />
+        <FormHelperText>A列: 問題番号、 B列: 問題文 C列: 答え</FormHelperText>
       </FormControl>
       <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
         <RadioGroup

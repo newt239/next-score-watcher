@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   HStack,
   Radio,
@@ -52,7 +53,9 @@ const LoadPlayer: React.FC = () => {
   return (
     <Box>
       <FormControl>
-        <FormLabel>直接貼り付け</FormLabel>
+        <FormLabel>
+          Excelやスプレッドシートからコピーし、まとめてインポートできます。
+        </FormLabel>
         <Textarea
           value={rawPlayerText}
           onChange={(e) => setRawPlayerText(e.target.value)}
@@ -60,7 +63,11 @@ const LoadPlayer: React.FC = () => {
             ",",
             separateType === "tab" ? "	" : ","
           )}
+          height={100}
         />
+        <FormHelperText>
+          A列: 氏名、 B列: サブテキスト、 C列: 所属
+        </FormHelperText>
       </FormControl>
       <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
         <RadioGroup

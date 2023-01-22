@@ -1,5 +1,6 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import {
   Alert,
@@ -7,13 +8,14 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
-  CloseButton,
+  Button,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { ArrowBackUp } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -24,11 +26,26 @@ import PlayerTable from "#/components/player/PlayerTable";
 import { Layout } from "#/layouts/Layout";
 
 const PlayerPage: NextPageWithLayout = () => {
+  const router = useRouter();
+  const { from } = router.query;
+
   return (
     <>
       <Head>
         <title>プレイヤー管理 - Score Watcher</title>
       </Head>
+      {typeof from === "string" && (
+        <Box>
+          <Button
+            colorScheme="green"
+            variant="link"
+            onClick={() => router.push({ pathname: `/${from}/config` })}
+            leftIcon={<ArrowBackUp />}
+          >
+            設定に戻る
+          </Button>
+        </Box>
+      )}
       <H2>プレイヤー管理</H2>
       <Box>
         <H3>プレイヤーの読み込み</H3>
@@ -43,9 +60,9 @@ const PlayerPage: NextPageWithLayout = () => {
         </Alert>
         <Tabs isFitted variant="enclosed" pt={5}>
           <TabList mb="1em">
-            <Tab>新規追加</Tab>
-            <Tab>貼り付け</Tab>
-            <Tab>インポート</Tab>
+            <Tab>個別に追加</Tab>
+            <Tab>まとめて貼り付け</Tab>
+            <Tab>ファイルからインポート</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

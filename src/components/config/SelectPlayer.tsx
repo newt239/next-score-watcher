@@ -1,4 +1,5 @@
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import {
@@ -52,6 +53,7 @@ import {
   Plus,
   Settings,
   Table,
+  Upload,
   X,
 } from "tabler-icons-react";
 
@@ -90,6 +92,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const toast = useToast();
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
@@ -149,181 +152,200 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     <>
       <H2>プレイヤー設定</H2>
       <Box pt={5}>
-        <Button
-          onClick={() => setDrawerOpen(true)}
-          colorScheme="green"
-          disabled={disabled}
-          leftIcon={<Plus />}
-        >
-          プレイヤーを選択
-        </Button>
-        <Drawer
-          isOpen={drawerOpen}
-          placement="right"
-          onClose={() => setDrawerOpen(false)}
-        >
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>プレイヤー選択</DrawerHeader>
-            <DrawerBody p={0}>
-              <Accordion defaultIndex={[1]} allowMultiple>
-                <AccordionItem>
-                  <H3 sx={{ pt: 0 }}>
-                    <AccordionButton>
-                      <Box as="span" flex="1" textAlign="left">
-                        新しく追加
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </H3>
-                  <AccordionPanel pb={4}>
-                    <Stack spacing={3}>
-                      <FormControl>
-                        <FormLabel>氏名</FormLabel>
-                        <Input
-                          value={playerName}
-                          onChange={(v) => setPlayerName(v.target.value)}
-                        />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>
-                          サブテキスト
-                          <Tooltip
-                            hasArrow
-                            label="ex. ペーパー順位"
-                            bg="gray.300"
-                            color="black"
-                          >
-                            <Icon pl={1}>
-                              <InfoCircle />
-                            </Icon>
-                          </Tooltip>
-                        </FormLabel>
-                        <Input
-                          value={playerText}
-                          onChange={(v) => setPlayerText(v.target.value)}
-                        />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>所属</FormLabel>
-                        <Input
-                          value={playerBelong}
-                          onChange={(v) => setPlayerBelong(v.target.value)}
-                        />
-                      </FormControl>
-                      <Box sx={{ textAlign: "right" }}>
-                        <Button
-                          colorScheme="blue"
-                          size="sm"
-                          onClick={addNewPlayer}
-                          disabled={playerName === ""}
-                        >
-                          追加
-                        </Button>
-                      </Box>
-                    </Stack>
-                  </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem>
-                  <H3 sx={{ pt: 0 }}>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        データベースから追加
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </H3>
-                  <AccordionPanel pb={4}>
-                    {playerList.length === 0 ? (
-                      <Box py={3}>
-                        <NextLink href="/player" passHref>
-                          <Link>プレイヤー管理</Link>
-                        </NextLink>
-                        ページから一括でプレイヤー情報を登録できます。
-                      </Box>
-                    ) : (
-                      <CompactPlayerTable
-                        game_id={game_id}
-                        playerList={playerList}
-                        gamePlayers={players}
-                      />
-                    )}
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </DrawerBody>
-          </DrawerContent>
-        </Drawer>
-        <Text pt={5}>ドラッグで並び替えできます。</Text>
-        <Box
-          sx={{
-            p: 3,
-            my: 5,
-            backgroundColor:
-              colorMode === "dark" ? theme.colors.black : undefined,
-            border:
-              colorMode === "light"
-                ? `1px solid ${theme.colors.black[500]}`
-                : undefined,
-          }}
-        >
-          {players.length === 0 ? (
-            <Text>ここに選択したプレイヤーが表示されます。</Text>
-          ) : (
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable" direction="horizontal">
-                {(provided) => (
-                  <Flex
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    gap={3}
-                  >
-                    {players.map((gamePlayer, index) => (
-                      <Draggable
-                        key={gamePlayer.id}
-                        draggableId={gamePlayer.id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <Card
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <CardBody>
-                              <Flex sx={{ gap: 3, alignItems: "center" }}>
-                                <Box>
-                                  <Text size="xl">{gamePlayer.name}</Text>
-                                </Box>
-                                <InitialPointConfig
-                                  onClose={onClose}
-                                  isOpen={isOpen}
-                                  onClick={() => {
-                                    setCurrentPlayerIndex(index);
-                                    onOpen();
-                                  }}
-                                  game_id={game_id}
-                                  players={players}
-                                  index={currentPlayerIndex}
-                                  correct={["normal", "nomx"].includes(
-                                    rule_name
-                                  )}
-                                  wrong={["nomx"].includes(rule_name)}
-                                />
-                              </Flex>
-                            </CardBody>
-                          </Card>
+        {playerList.length === 0 ? (
+          <>
+            <Button
+              onClick={() =>
+                router.push({
+                  pathname: "/player",
+                  query: { from: game_id },
+                })
+              }
+              colorScheme="green"
+              leftIcon={<Upload />}
+            >
+              プレイヤーデータの読み込み
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={() => setDrawerOpen(true)}
+              colorScheme="green"
+              disabled={disabled}
+              leftIcon={<Plus />}
+            >
+              プレイヤーを選択
+            </Button>
+            <Drawer
+              isOpen={drawerOpen}
+              placement="right"
+              onClose={() => setDrawerOpen(false)}
+            >
+              <DrawerOverlay />
+              <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerHeader>プレイヤー選択</DrawerHeader>
+                <DrawerBody p={0}>
+                  <Accordion defaultIndex={[1]} allowMultiple>
+                    <AccordionItem>
+                      <H3 sx={{ pt: 0 }}>
+                        <AccordionButton>
+                          <Box as="span" flex="1" textAlign="left">
+                            新しく追加
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </H3>
+                      <AccordionPanel pb={4}>
+                        <Stack spacing={3}>
+                          <FormControl>
+                            <FormLabel>氏名</FormLabel>
+                            <Input
+                              value={playerName}
+                              onChange={(v) => setPlayerName(v.target.value)}
+                            />
+                          </FormControl>
+                          <FormControl>
+                            <FormLabel>
+                              サブテキスト
+                              <Tooltip
+                                hasArrow
+                                label="ex. ペーパー順位"
+                                bg="gray.300"
+                                color="black"
+                              >
+                                <Icon pl={1}>
+                                  <InfoCircle />
+                                </Icon>
+                              </Tooltip>
+                            </FormLabel>
+                            <Input
+                              value={playerText}
+                              onChange={(v) => setPlayerText(v.target.value)}
+                            />
+                          </FormControl>
+                          <FormControl>
+                            <FormLabel>所属</FormLabel>
+                            <Input
+                              value={playerBelong}
+                              onChange={(v) => setPlayerBelong(v.target.value)}
+                            />
+                          </FormControl>
+                          <Box sx={{ textAlign: "right" }}>
+                            <Button
+                              colorScheme="blue"
+                              size="sm"
+                              onClick={addNewPlayer}
+                              disabled={playerName === ""}
+                            >
+                              追加
+                            </Button>
+                          </Box>
+                        </Stack>
+                      </AccordionPanel>
+                    </AccordionItem>
+                    <AccordionItem>
+                      <H3 sx={{ pt: 0 }}>
+                        <AccordionButton>
+                          <Box flex="1" textAlign="left">
+                            データベースから追加
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </H3>
+                      <AccordionPanel pb={4}>
+                        {playerList.length === 0 ? (
+                          <Box py={3}>
+                            <NextLink href="/player" passHref>
+                              <Link>プレイヤー管理</Link>
+                            </NextLink>
+                            ページから一括でプレイヤー情報を登録できます。
+                          </Box>
+                        ) : (
+                          <CompactPlayerTable
+                            game_id={game_id}
+                            playerList={playerList}
+                            gamePlayers={players}
+                          />
                         )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </Flex>
-                )}
-              </Droppable>
-            </DragDropContext>
-          )}
-        </Box>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
+                </DrawerBody>
+              </DrawerContent>
+            </Drawer>
+            <Text pt={5}>ドラッグで並び替えできます。</Text>
+            <Box
+              sx={{
+                p: 3,
+                my: 5,
+                backgroundColor:
+                  colorMode === "dark" ? theme.colors.black : undefined,
+                border:
+                  colorMode === "light"
+                    ? `1px solid ${theme.colors.black[500]}`
+                    : undefined,
+              }}
+            >
+              {players.length === 0 ? (
+                <Text>ここに選択したプレイヤーが表示されます。</Text>
+              ) : (
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId="droppable" direction="horizontal">
+                    {(provided) => (
+                      <Flex
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        gap={3}
+                      >
+                        {players.map((gamePlayer, index) => (
+                          <Draggable
+                            key={gamePlayer.id}
+                            draggableId={gamePlayer.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Card
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <CardBody>
+                                  <Flex sx={{ gap: 3, alignItems: "center" }}>
+                                    <Box>
+                                      <Text size="xl">{gamePlayer.name}</Text>
+                                    </Box>
+                                    <InitialPointConfig
+                                      onClose={onClose}
+                                      isOpen={isOpen}
+                                      onClick={() => {
+                                        setCurrentPlayerIndex(index);
+                                        onOpen();
+                                      }}
+                                      game_id={game_id}
+                                      players={players}
+                                      index={currentPlayerIndex}
+                                      correct={["normal", "nomx"].includes(
+                                        rule_name
+                                      )}
+                                      wrong={["nomx"].includes(rule_name)}
+                                    />
+                                  </Flex>
+                                </CardBody>
+                              </Card>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </Flex>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              )}
+            </Box>
+          </>
+        )}
       </Box>
     </>
   );

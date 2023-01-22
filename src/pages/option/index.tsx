@@ -95,11 +95,9 @@ const OptionPage: NextPageWithLayout = () => {
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               アプリを初期化します
             </AlertDialogHeader>
-
             <AlertDialogBody>
               この操作は取り消せません。本当に初期化してよろしいですか？
             </AlertDialogBody>
-
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>
                 やめる
