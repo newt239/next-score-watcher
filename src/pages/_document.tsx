@@ -10,6 +10,25 @@ export default class Document extends NextDocument {
     return (
       <Html lang="ja">
         <Head>
+          <meta name="theme-color" content="#28A745" />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="icons/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="icons/favicon-16x16.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            type="image/png"
+            href="/apple-touch-icon.png"
+          />
+          <link rel="manifest" href="/manifest.json" />
           {GA_ID && (
             <>
               <script
