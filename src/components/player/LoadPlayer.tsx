@@ -50,6 +50,11 @@ const LoadPlayer: React.FC = () => {
     }
   };
 
+  const joinString = separateType === "tab" ? "	" : ",";
+  const placeholderText = `越山識${joinString}24th${joinString}文蔵高校
+深見真理${joinString}9th${joinString}文蔵高校
+  `;
+
   return (
     <Box>
       <FormControl>
@@ -59,10 +64,7 @@ const LoadPlayer: React.FC = () => {
         <Textarea
           value={rawPlayerText}
           onChange={(e) => setRawPlayerText(e.target.value)}
-          placeholder={"越山識,24th,文蔵高校".replaceAll(
-            ",",
-            separateType === "tab" ? "	" : ","
-          )}
+          placeholder={placeholderText}
           height={100}
         />
         <FormHelperText>

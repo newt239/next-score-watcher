@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import {
   Box,
+  Button,
   Checkbox,
   HStack,
   IconButton,
@@ -30,6 +32,7 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import {
+  ArrowNarrowRight,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
@@ -50,6 +53,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   playerList,
   gamePlayers,
 }) => {
+  const router = useRouter();
   const [searchText, setSearchText] = useState<string>("");
 
   const onChangeHandler = async (player: PlayerDBProps) => {
@@ -193,39 +197,41 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                 })}
               </Tbody>
             </Table>
-            <HStack>
-              <IconButton
-                aria-label="最初のページに移動"
-                icon={<ChevronsLeft />}
-                size="xs"
-                onClick={() => table.setPageIndex(0)}
-                disabled={!table.getCanPreviousPage()}
-              />
-              <IconButton
-                aria-label="1ページ戻る"
-                icon={<ChevronLeft />}
-                size="xs"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              />
-              <div>
-                {table.getState().pagination.pageIndex + 1} /{" "}
-                {table.getPageCount()}
-              </div>
-              <IconButton
-                aria-label="1ページ進む"
-                icon={<ChevronRight />}
-                size="xs"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              />
-              <IconButton
-                aria-label="最後のページに移動"
-                icon={<ChevronsRight />}
-                size="xs"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
-              />
+          </TableContainer>
+          <HStack pt={3}>
+            <IconButton
+              aria-label="最初のページに移動"
+              icon={<ChevronsLeft />}
+              size="xs"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            />
+            <IconButton
+              aria-label="1ページ戻る"
+              icon={<ChevronLeft />}
+              size="xs"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            />
+            <div>
+              {table.getState().pagination.pageIndex + 1} /{" "}
+              {table.getPageCount()}
+            </div>
+            <IconButton
+              aria-label="1ページ進む"
+              icon={<ChevronRight />}
+              size="xs"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            />
+            <IconButton
+              aria-label="最後のページに移動"
+              icon={<ChevronsRight />}
+              size="xs"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            />
+            <Box>
               <Select
                 size="sm"
                 value={table.getState().pagination.pageSize}
@@ -239,8 +245,20 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                   </option>
                 ))}
               </Select>
-            </HStack>
-          </TableContainer>
+            </Box>
+          </HStack>
+          <Box sx={{ pt: 3, textAlign: "right" }}>
+            <Button
+              colorScheme="green"
+              variant="link"
+              onClick={() =>
+                router.push({ pathname: `/player`, query: { from: game_id } })
+              }
+              rightIcon={<ArrowNarrowRight />}
+            >
+              詳細設定
+            </Button>
+          </Box>
         </Box>
       )}
     </>

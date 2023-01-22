@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Box,
@@ -17,7 +17,14 @@ const CreatePlayer: React.FC = () => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing || e.key !== "Enter") return;
+    if (!playerName) return;
+    addNewPlayer();
+  };
 
   const addNewPlayer = async () => {
     await db.players.put({
@@ -34,8 +41,10 @@ const CreatePlayer: React.FC = () => {
       duration: 9000,
       isClosable: true,
     });
+    setPlayerName("");
     setPlayerOrder("");
     setPlayerBelong("");
+    nameInputRef.current?.focus();
   };
 
   return (
@@ -46,6 +55,9 @@ const CreatePlayer: React.FC = () => {
           <Input
             value={playerName}
             onChange={(v) => setPlayerName(v.target.value)}
+            placeholder="越山識"
+            ref={nameInputRef}
+            onKeyDown={handleKeyDown}
           />
         </FormControl>
         <FormControl>
@@ -53,6 +65,8 @@ const CreatePlayer: React.FC = () => {
           <Input
             value={playerOrder}
             onChange={(v) => setPlayerOrder(v.target.value)}
+            placeholder="24th"
+            onKeyDown={handleKeyDown}
           />
         </FormControl>
         <FormControl>
@@ -60,6 +74,8 @@ const CreatePlayer: React.FC = () => {
           <Input
             value={playerBelong}
             onChange={(v) => setPlayerBelong(v.target.value)}
+            placeholder="文蔵高校"
+            onKeyDown={handleKeyDown}
           />
         </FormControl>
       </Grid>

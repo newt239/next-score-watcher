@@ -18,10 +18,11 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   quizset_names,
 }) => {
   const router = useRouter();
+
   return (
     <>
       <H2>問題設定</H2>
-      <Box pt={5}>
+      <Box py={5}>
         {quizset_names.length !== 0 ? (
           <FormControl pt={5} width={200}>
             <FormLabel>セット名</FormLabel>
@@ -53,7 +54,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
               colorScheme="green"
               leftIcon={<Upload />}
             >
-              問題データを読み込み
+              問題データを読み込む
             </Button>
           </Box>
         )}

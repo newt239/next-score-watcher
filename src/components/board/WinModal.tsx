@@ -19,6 +19,7 @@ type WinModalProps = {
   winTroughPeople: [string, string][];
   roundName?: string;
 };
+
 const WinModal: React.FC<WinModalProps> = ({
   onClose,
   winTroughPeople,

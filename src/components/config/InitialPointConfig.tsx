@@ -45,6 +45,7 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
     <>
       <IconButton
         onClick={onClick}
+        variant="ghost"
         size="xs"
         aria-label="初期値の変更"
         icon={<Settings />}

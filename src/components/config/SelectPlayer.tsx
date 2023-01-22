@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Accordion,
@@ -10,7 +10,6 @@ import {
   AccordionPanel,
   Box,
   Button,
-  Checkbox,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -31,13 +30,6 @@ import {
   CardBody,
   useColorMode,
   theme,
-  IconButton,
-  Tr,
-  TableContainer,
-  Tbody,
-  Thead,
-  Th,
-  Td,
   useDisclosure,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -47,15 +39,7 @@ import {
   Droppable,
   type DropResult,
 } from "react-beautiful-dnd";
-import {
-  DotsVertical,
-  InfoCircle,
-  Plus,
-  Settings,
-  Table,
-  Upload,
-  X,
-} from "tabler-icons-react";
+import { InfoCircle, Plus, Upload } from "tabler-icons-react";
 
 import CompactPlayerTable from "./CompactPlayerTable";
 import InitialPointConfig from "./InitialPointConfig";
@@ -99,6 +83,13 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing || e.key !== "Enter") return;
+    if (!playerName) return;
+    addNewPlayer();
+  };
 
   const addNewPlayer = async () => {
     const player_id = await db.players.put({
@@ -129,7 +120,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       isClosable: true,
     });
     setPlayerName("");
+    setPlayerText("");
     setPlayerBelong("");
+    nameInputRef.current?.focus();
   };
 
   const onDragEnd = async (result: DropResult) => {
@@ -151,7 +144,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   return (
     <>
       <H2>プレイヤー設定</H2>
-      <Box pt={5}>
+      <Box py={5}>
         {playerList.length === 0 ? (
           <>
             <Button
@@ -164,7 +157,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
               colorScheme="green"
               leftIcon={<Upload />}
             >
-              プレイヤーデータの読み込み
+              プレイヤーデータを読み込む
             </Button>
           </>
         ) : (
@@ -187,7 +180,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 <DrawerCloseButton />
                 <DrawerHeader>プレイヤー選択</DrawerHeader>
                 <DrawerBody p={0}>
-                  <Accordion defaultIndex={[1]} allowMultiple>
+                  <Accordion defaultIndex={1}>
                     <AccordionItem>
                       <H3 sx={{ pt: 0 }}>
                         <AccordionButton>
@@ -204,6 +197,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             <Input
                               value={playerName}
                               onChange={(v) => setPlayerName(v.target.value)}
+                              placeholder="越山識"
+                              ref={nameInputRef}
+                              onKeyDown={handleKeyDown}
                             />
                           </FormControl>
                           <FormControl>
@@ -223,6 +219,8 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             <Input
                               value={playerText}
                               onChange={(v) => setPlayerText(v.target.value)}
+                              placeholder="24th"
+                              onKeyDown={handleKeyDown}
                             />
                           </FormControl>
                           <FormControl>
@@ -230,6 +228,8 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             <Input
                               value={playerBelong}
                               onChange={(v) => setPlayerBelong(v.target.value)}
+                              placeholder="文蔵高校"
+                              onKeyDown={handleKeyDown}
                             />
                           </FormControl>
                           <Box sx={{ textAlign: "right" }}>
@@ -275,17 +275,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 </DrawerBody>
               </DrawerContent>
             </Drawer>
-            <Text pt={5}>ドラッグで並び替えできます。</Text>
             <Box
               sx={{
                 p: 3,
                 my: 5,
                 backgroundColor:
-                  colorMode === "dark" ? theme.colors.black : undefined,
-                border:
-                  colorMode === "light"
-                    ? `1px solid ${theme.colors.black[500]}`
-                    : undefined,
+                  colorMode === "dark"
+                    ? theme.colors.black
+                    : theme.colors.gray[500],
               }}
             >
               {players.length === 0 ? (
@@ -310,6 +307,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
+                                variant="filled"
                               >
                                 <CardBody>
                                   <Flex sx={{ gap: 3, alignItems: "center" }}>

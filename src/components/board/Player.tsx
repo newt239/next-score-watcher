@@ -22,12 +22,12 @@ import { Edit } from "tabler-icons-react";
 import PlayerScore from "#/components/board/PlayerScore";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
-interface PlayerProps {
+type PlayerProps = {
   player: PlayerDBProps;
   index: number;
   score: ComputedScoreDBProps | undefined;
   qn: number;
-}
+};
 
 const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const { colorMode } = useColorMode();

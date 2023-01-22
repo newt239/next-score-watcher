@@ -74,7 +74,7 @@ const GameList: React.FC = () => {
                       size="sm"
                       leftIcon={<Copy />}
                     >
-                      コピーを作成
+                      複製
                     </Button>
                   </HStack>
                 </Td>
