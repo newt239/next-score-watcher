@@ -1,5 +1,6 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
 import router from "next/router";
 import { useRef } from "react";
 
@@ -19,9 +20,17 @@ import {
   FormLabel,
   Stack,
   Switch,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Tr,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import { Layout } from "#/layouts/Layout";
@@ -109,6 +118,58 @@ const OptionPage: NextPageWithLayout = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+      <H2>お問い合わせ</H2>
+      <Box py={5}>
+        <Text>
+          <NextLink href="https://forms.gle/y6S1xxbnMhcAF5Tj7" passHref target="_blank">
+            <Button variant="link" rightIcon={<ExternalLink />}>
+              こちらの Google フォーム
+            </Button>
+          </NextLink>
+          からお願いします。
+        </Text>
+      </Box>
+      <H2>アプリ情報</H2>
+      <Container py={5}>
+        <TableContainer>
+          <Table>
+            <Tbody>
+              <Tr>
+                <Th>バージョン</Th>
+                <Td isNumeric>v{localStorage.getItem("VERSION")}</Td>
+              </Tr>
+              <Tr>
+                <Th>開発者</Th>
+                <Td isNumeric>
+                  <NextLink
+                    href="https://twitter.com/newt239"
+                    passHref
+                    target="_blank"
+                  >
+                    <Button variant="link" rightIcon={<ExternalLink />}>
+                      newt239
+                    </Button>
+                  </NextLink>
+                </Td>
+              </Tr>
+              <Tr>
+                <Th>リポジトリ</Th>
+                <Td isNumeric>
+                  <NextLink
+                    href="https://github.com/newt239/next-score-watcher"
+                    passHref
+                    target="_blank"
+                  >
+                    <Button variant="link" rightIcon={<ExternalLink />}>
+                      newt239/next-score-watcher
+                    </Button>
+                  </NextLink>
+                </Td>
+              </Tr>
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Container>
     </>
   );
 };
