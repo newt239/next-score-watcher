@@ -29,6 +29,18 @@ export default class Document extends NextDocument {
             href="/apple-touch-icon.png"
           />
           <link rel="manifest" href="/manifest.json" />
+          <meta property="og:title" content="Score Watcher" />
+          <meta
+            property="og:description"
+            content="クイズ大会におけるプレイヤーの得点状況を可視化します。"
+          />
+          <meta
+            property="og:image"
+            content="https://score-watcher.newt239.dev/score-watcher-ogp.webp"
+          />
+          <meta property="og:url" content="https://score-watcher.newt239.dev" />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="Score Watcher" />
           {GA_ID && (
             <>
               <script
