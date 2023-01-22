@@ -1,7 +1,8 @@
 {
+    "lang": "ja",
     "theme_color": "#28A745",
     "background_color": "#28A745",
-    "display": "browser",
+    "display": "standalone",
     "scope": "/",
     "start_url": "/",
     "name": "Score Watcher",
@@ -27,6 +28,29 @@
             "src": "icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "score-watcher_feature_basic.webp",
+            "sizes": "1280x720",
+            "type": "image/webp",
+            "platform": "wide",
+            "label": "基本機能"
+        },
+        {
+            "src": "score-watcher_feature_winthrough.webp",
+            "sizes": "1280x720",
+            "type": "image/webp",
+            "platform": "wide",
+            "label": "勝ち抜け時のポップアップ表示"
+        },
+        {
+            "src": "score-watcher_feature_colormode.webp",
+            "sizes": "1280x720",
+            "type": "image/webp",
+            "platform": "wide",
+            "label": "カラーモードの変更"
         }
     ]
 }
