@@ -2,6 +2,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 
 import {
+  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -24,19 +25,26 @@ const Header: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
 
+  const linkList: { text: string; path: string }[] = [
+    { text: "ホーム", path: "/" },
+    { text: "プレイヤー管理", path: "/player" },
+    { text: "問題管理", path: "/quiz" },
+    { text: "アプリ設定", path: "/option" },
+  ];
+
   const SubMenu: React.FC<{ vertical?: boolean }> = ({ vertical }) => {
     return (
       <Flex
         sx={{
-          gap: 5,
           flexDirection: vertical ? "column" : "row",
           fontWeight: 800,
         }}
       >
-        <NextLink href="/">ホーム</NextLink>
-        <NextLink href="/quiz">問題管理</NextLink>
-        <NextLink href="/player">プレイヤー管理</NextLink>
-        <NextLink href="/option">アプリ設定</NextLink>
+        {linkList.map((link) => (
+          <NextLink key={link.path} href={link.path}>
+            <Button variant="ghost">{link.text}</Button>
+          </NextLink>
+        ))}
       </Flex>
     );
   };
@@ -93,7 +101,7 @@ const Header: React.FC = () => {
           </>
         ) : (
           <SubMenu />
-        )}{" "}
+        )}
       </Flex>
       <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
