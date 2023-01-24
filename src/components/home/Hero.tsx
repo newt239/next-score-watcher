@@ -23,7 +23,7 @@ import H3 from "#/blocks/H3";
 
 type FeatureProps = {
   title: string;
-  image: string;
+  image?: string;
   description: string;
 };
 
@@ -57,6 +57,11 @@ const Hero: React.FC = () => {
       title: "カラーモード",
       image: "score-watcher_feature_colormode.webp",
       description: "暗い会場でも見やすいダークモードでの表示に対応しています。",
+    },
+    {
+      title: "オフライン対応",
+      description:
+        "一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。",
     },
   ];
 
@@ -121,19 +126,25 @@ const Hero: React.FC = () => {
             >
               {features.map((feature) => (
                 <TabPanel key={feature.title}>
-                  <H3 sx={{ pt: 0 }}>{feature.title}</H3>
-                  <Flex sx={{ p: 3, gap: 3 }}>
-                    <Box w="70%">
-                      <Image
-                        src={"images/" + feature.image}
-                        alt={feature.description}
-                        sx={{ borderRadius: "1rem" }}
-                      />
-                    </Box>
-                    <Box w="30%">
+                  <H3 sx={{ pt: 0 }}>{feature.title}</H3>{" "}
+                  {feature.image ? (
+                    <Flex sx={{ p: 3, gap: 3 }}>
+                      <Box w="70%">
+                        <Image
+                          src={"images/" + feature.image}
+                          alt={feature.description}
+                          sx={{ borderRadius: "1rem" }}
+                        />
+                      </Box>
+                      <Box w="30%">
+                        <Text>{feature.description}</Text>
+                      </Box>
+                    </Flex>
+                  ) : (
+                    <Box sx={{ p: 3 }}>
                       <Text>{feature.description}</Text>
                     </Box>
-                  </Flex>
+                  )}
                 </TabPanel>
               ))}
             </TabPanels>
