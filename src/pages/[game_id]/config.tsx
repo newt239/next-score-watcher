@@ -35,8 +35,9 @@ const ConfigPage: NextPageWithLayout = () => {
 
   if (!game || !players || !logs) return null;
 
-  const deleteGame = () => {
-    db.games.delete(game.id).then(() => router.push("/"));
+  const deleteGame = async () => {
+    await db.games.delete(game.id);
+    router.push("/");
   };
 
   return (

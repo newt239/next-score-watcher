@@ -3,6 +3,7 @@ import router from "next/router";
 import { nanoid } from "nanoid";
 
 import db, { RuleNames, GameDBProps } from "./db";
+import { event } from "./gtag";
 import { rules } from "./rules";
 
 export const createGame = async (
@@ -21,8 +22,9 @@ export const createGame = async (
     return;
   }
   try {
+    const game_id = nanoid(6);
     const putData: GameDBProps = {
-      id: nanoid(6),
+      id: game_id,
       name: name ? name : rules[rule_name].name,
       players: [],
       rule: rule_name,
@@ -63,6 +65,7 @@ export const createGame = async (
         putData.win_point = rules[rule_name].win_point;
         break;
     }
+    event({ action: rule_name, category: "create_game", label: game_id });
     router.push(`/${await db.games.put(putData)}/config`);
   } catch (err) {
     console.log(err);

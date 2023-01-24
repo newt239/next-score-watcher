@@ -1,9 +1,15 @@
 import NextLink from "next/link";
+import router from "next/router";
 
 import {
   Box,
   Button,
   HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Table,
   TableContainer,
   Tbody,
@@ -13,7 +19,13 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal, Copy, Link } from "tabler-icons-react";
+import {
+  AdjustmentsHorizontal,
+  Chalkboard,
+  Copy,
+  DotsCircleHorizontal,
+  Trash,
+} from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import LinkButton from "#/blocks/LinkButton";
@@ -54,27 +66,53 @@ const GameList: React.FC = () => {
                 <Td>{game.players.length}</Td>
                 <Td sx={{ textAlign: "right" }}>
                   <HStack sx={{ justifyContent: "flex-end" }}>
-                    <Button
-                      onClick={() =>
-                        createGame(
-                          game.rule,
-                          game,
-                          `${game.name}のコピー`,
-                          "copy"
-                        )
-                      }
-                      size="sm"
-                      leftIcon={<Copy />}
-                    >
-                      複製
-                    </Button>
                     <LinkButton
                       icon={<AdjustmentsHorizontal />}
-                      size="sm"
                       href={`/${game.id}/config`}
+                      size="sm"
+                      variant="ghost"
                     >
-                      設定
+                      開く
                     </LinkButton>
+                    <Menu>
+                      <MenuButton
+                        as={IconButton}
+                        aria-label="Options"
+                        icon={<DotsCircleHorizontal />}
+                        size="sm"
+                        variant="ghost"
+                      />
+                      <MenuList>
+                        <MenuItem
+                          icon={<Copy />}
+                          onClick={() =>
+                            createGame(
+                              game.rule,
+                              game,
+                              `${game.name}のコピー`,
+                              "copy"
+                            )
+                          }
+                        >
+                          コピーを作成
+                        </MenuItem>
+                        {game.players.length !== 0 && (
+                          <MenuItem
+                            icon={<Chalkboard />}
+                            onClick={() => router.push(`/${game.id}/board`)}
+                          >
+                            得点画面を開く
+                          </MenuItem>
+                        )}
+                        <MenuItem
+                          icon={<Trash />}
+                          color="red.500"
+                          onClick={async () => await db.games.delete(game.id)}
+                        >
+                          ゲームを削除
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
                   </HStack>
                 </Td>
               </Tr>
