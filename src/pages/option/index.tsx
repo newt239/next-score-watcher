@@ -173,7 +173,11 @@ const OptionPage: NextPageWithLayout = () => {
             passHref
             target="_blank"
           >
-            <Button variant="link" rightIcon={<ExternalLink />}>
+            <Button
+              variant="link"
+              colorScheme="blue"
+              rightIcon={<ExternalLink />}
+            >
               こちらの Google フォーム
             </Button>
           </NextLink>
@@ -187,7 +191,9 @@ const OptionPage: NextPageWithLayout = () => {
             <Tbody>
               <Tr>
                 <Th>バージョン</Th>
-                <Td isNumeric>v{localStorage.getItem("VERSION")}</Td>
+                <Td isNumeric>
+                  v{localStorage.getItem("scorewatcher-version")}
+                </Td>
               </Tr>
               <Tr>
                 <Th>開発者</Th>
@@ -197,7 +203,11 @@ const OptionPage: NextPageWithLayout = () => {
                     passHref
                     target="_blank"
                   >
-                    <Button variant="link" rightIcon={<ExternalLink />}>
+                    <Button
+                      variant="link"
+                      colorScheme="blue"
+                      rightIcon={<ExternalLink />}
+                    >
                       newt239
                     </Button>
                   </NextLink>
@@ -211,7 +221,11 @@ const OptionPage: NextPageWithLayout = () => {
                     passHref
                     target="_blank"
                   >
-                    <Button variant="link" rightIcon={<ExternalLink />}>
+                    <Button
+                      variant="link"
+                      colorScheme="blue"
+                      rightIcon={<ExternalLink />}
+                    >
                       newt239/next-score-watcher
                     </Button>
                   </NextLink>
