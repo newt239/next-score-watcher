@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { useReward } from "react-rewards";
 
+import { getItem } from "#/hooks/useConfig";
+
 type WinModalProps = {
   onClose: () => void;
   winTroughPeople: [string, string][];
@@ -38,7 +40,13 @@ const WinModal: React.FC<WinModalProps> = ({
   }, [winTroughPeople.length]);
 
   return (
-    <Modal isOpen={winTroughPeople.length !== 0} onClose={onClose} isCentered>
+    <Modal
+      isOpen={
+        getItem("winthrough-popup") === "on" && winTroughPeople.length !== 0
+      }
+      onClose={onClose}
+      isCentered
+    >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
         <ModalHeader>Congratulations!</ModalHeader>

@@ -151,7 +151,6 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         <div>{player.belong === "" ? "―――――" : player.belong}</div>
       </div>
       <PlayerName />
-
       {score ? (
         <PlayerScore game={game} player_id={player.id} score={score} qn={qn} />
       ) : (

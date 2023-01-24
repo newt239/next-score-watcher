@@ -2,7 +2,7 @@ import { NextPageWithLayout } from "next";
 import Head from "next/head";
 import NextLink from "next/link";
 import router from "next/router";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   AlertDialog,
@@ -33,11 +33,15 @@ import {
 import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
+import { getItem, setItem } from "#/hooks/useConfig";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
 const OptionPage: NextPageWithLayout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const [winthroughPopup, setWinthroughPopup] = useState(
+    getItem("winthrough-popup")
+  );
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
@@ -48,6 +52,10 @@ const OptionPage: NextPageWithLayout = () => {
       router.reload();
     });
   };
+
+  useEffect(() => {
+    setItem("winthrough-popup", winthroughPopup);
+  }, [winthroughPopup]);
 
   return (
     <>
@@ -72,6 +80,25 @@ const OptionPage: NextPageWithLayout = () => {
               size="lg"
               isChecked={colorMode === "dark"}
               onChange={() => toggleColorMode()}
+            />
+          </FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormLabel htmlFor="winthrough-popup" sx={{ flexGrow: 1 }}>
+              勝ち抜け時のポップアップ表示
+            </FormLabel>
+            <Switch
+              id="winthrough-popup"
+              size="lg"
+              isChecked={winthroughPopup === "on"}
+              onChange={() =>
+                setWinthroughPopup(winthroughPopup === "on" ? "off" : "on")
+              }
             />
           </FormControl>
           <FormControl>
@@ -121,7 +148,11 @@ const OptionPage: NextPageWithLayout = () => {
       <H2>お問い合わせ</H2>
       <Box py={5}>
         <Text>
-          <NextLink href="https://forms.gle/y6S1xxbnMhcAF5Tj7" passHref target="_blank">
+          <NextLink
+            href="https://forms.gle/y6S1xxbnMhcAF5Tj7"
+            passHref
+            target="_blank"
+          >
             <Button variant="link" rightIcon={<ExternalLink />}>
               こちらの Google フォーム
             </Button>

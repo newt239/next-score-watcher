@@ -46,7 +46,7 @@ const ConfigPage: NextPageWithLayout = () => {
       </Head>
       {logs.length !== 0 ? (
         <Alert status="error">
-          ゲームは開始済みです。設定の変更はできません。
+          ゲームは開始済みです。一部の設定は変更できません。
         </Alert>
       ) : (
         <Alert status="info">
