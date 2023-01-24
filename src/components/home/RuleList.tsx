@@ -12,7 +12,7 @@ import { CirclePlus } from "tabler-icons-react";
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import { createGame } from "#/utils/commonFunctions";
-import db, { RuleNames } from "#/utils/db";
+import { RuleNames } from "#/utils/db";
 import { rules } from "#/utils/rules";
 
 const RuleList: React.FC = () => {

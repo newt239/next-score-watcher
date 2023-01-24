@@ -28,7 +28,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        m: 1,
         py: 3,
         gap: 3,
         backgroundColor:

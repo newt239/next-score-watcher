@@ -18,6 +18,7 @@ const computeScore = async (game_id: string) => {
       game_id,
       player_id: gamePlayer.id,
       state: "playing",
+      reachState: "playing",
       score: game.rule === "attacksurvival" ? game.win_point! : 0,
       correct: gamePlayer.initial_correct,
       wrong: gamePlayer.initial_wrong,
@@ -43,6 +44,7 @@ const computeScore = async (game_id: string) => {
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
+        // 自分のアクション
         const editedPlayerState =
           game.rule === "squarex"
             ? qn % 2 === 0
@@ -86,6 +88,7 @@ const computeScore = async (game_id: string) => {
           return editedPlayerState;
         }
       } else {
+        // 他人のアクション
         if (game.rule === "attacksurvival") {
           return {
             ...playerState,
@@ -139,18 +142,36 @@ const computeScore = async (game_id: string) => {
     };
   });
   // order をもとに state を算出
-  playersState = playersState.map((insertData) => {
-    const [state, text] = getState(game, insertData, gameLogList.length);
-    if (state === "win" && insertData.last_correct + 1 === gameLogList.length) {
-      winThroughList.push([insertData.player_id, text]);
+  playersState = playersState.map((playerState) => {
+    const [state, text] = getState(game, playerState, gameLogList.length);
+    if (
+      state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      // 最近のアクションでプレイヤーが勝ち抜けていればリストに追加
+      winThroughList.push([playerState.player_id, text]);
+    }
+    let reachState: States = "playing";
+    switch (game.rule) {
+      case "normal":
+        break;
+      case "nomx":
+        if (playerState.wrong + 1 === game.lose_point!) {
+          reachState = "lose";
+        } else if (playerState.correct + 1 === game.win_point!) {
+          reachState = "win";
+        }
+        break;
+      case "nbyn":
+        break;
     }
     return {
-      ...insertData,
-      state: state as States,
+      ...playerState,
+      state: state,
+      reachState,
       text,
     };
   });
-  await db.computed_scores.bulkPut(playersState);
   return { scoreList: playersState, winThroughList };
 };
 
@@ -206,7 +227,7 @@ const getState = (
   game: GameDBProps,
   playerState: ComputedScoreDBProps,
   quiz_position: number
-) => {
+): [state: States, text: string] => {
   if (game.limit && quiz_position >= game.limit) {
     // 出題数が限定問題数を超えたとき
     if (!game.win_through || playerState.order < game.win_through) {
@@ -268,6 +289,8 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     return {
       game_id: game.id,
       player_id: gamePlayer.id,
+      state: "playing",
+      reachState: "playing",
       score: 0,
       last_correct: 0,
       last_wrong: -100,
@@ -278,7 +301,6 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       stage: 1,
       order: 0,
       text: "",
-      state: "playing",
       isIncapacity: false,
     };
   });
@@ -390,7 +412,6 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     }
     return { ...playerState, order, text };
   });
-  await db.computed_scores.bulkPut(playersState);
   return { scoreList: playersState, winThroughList };
 };
 
@@ -401,6 +422,8 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       id: `${game.id}_${gamePlayer.id}`,
       game_id: game.id,
       player_id: gamePlayer.id,
+      state: "playing",
+      reachState: "playing",
       score: 0,
       last_correct: 10000,
       last_wrong: -10000,
@@ -411,7 +434,6 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       stage: 1,
       order: 0,
       text: "",
-      state: "playing",
       isIncapacity: false,
     };
   });
@@ -486,7 +508,6 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     }
     return { ...playerState, order, text, isIncapacity: remainIncapacity > 0 };
   });
-  await db.computed_scores.bulkPut(playersState);
   return { scoreList: playersState, winThroughList };
 };
 

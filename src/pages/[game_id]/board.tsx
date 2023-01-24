@@ -23,10 +23,6 @@ const BoardPage: NextPage = () => {
     []
   );
   const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
-  const computed_scores = useLiveQuery(
-    () => db.computed_scores.where({ game_id: game_id as string }).toArray(),
-    []
-  );
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
 
@@ -74,7 +70,7 @@ const BoardPage: NextPage = () => {
     executeComputeScore();
   }, [logs]);
 
-  if (!game || !computed_scores || !logs) {
+  if (!game || !logs) {
     return null;
   }
 

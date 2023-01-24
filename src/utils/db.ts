@@ -61,6 +61,7 @@ export type ComputedScoreDBProps = {
   game_id: string;
   player_id: string;
   state: States;
+  reachState: States;
   score: number;
   correct: number; // 正解数
   wrong: number; // 誤答数
@@ -98,7 +99,7 @@ db.version(1).stores({
   logs: "id, game_id, player_id, variant, system",
   quizes: "id, q, a, set_name",
   computed_scores:
-    "++id, game_id, player_id, state, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, stage, isIncapacity, order, text",
+    "++id, game_id, player_id, state, reachState, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, stage, isIncapacity, order, text",
 });
 
 db.open()

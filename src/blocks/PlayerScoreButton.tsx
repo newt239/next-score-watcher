@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 
 import {
-  Box,
   Button,
   Editable,
   EditableInput,
@@ -63,7 +62,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   };
 
   return (
-    <Box>
+    <div>
       {editable ? (
         <Editable
           defaultValue={String(children)}
@@ -111,7 +110,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           {children}
         </Button>
       )}
-    </Box>
+    </div>
   );
 };
 

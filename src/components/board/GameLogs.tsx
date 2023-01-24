@@ -1,4 +1,4 @@
-import { Box, Container, Stack, useColorMode } from "@chakra-ui/react";
+import { Box, Container, Stack, theme, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { History } from "tabler-icons-react";
 
@@ -27,8 +27,8 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
           borderWidth: 3,
           borderColor:
             colorMode === "light"
-              ? "rgb(231, 235, 240)"
-              : "rgba(194, 224, 255, 0.08)",
+              ? theme.colors.gray[50]
+              : theme.colors.gray[700],
           p: 3,
           mb: 10,
           borderRadius: "1rem",
@@ -53,7 +53,14 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                   Q{logs.length - i}: {player.name} が
                   {log.variant === "correct" ? "正解" : "誤答"}
                   しました。
-                  <span style={{ opacity: 0.3 }}>
+                  <span
+                    style={{
+                      color:
+                        colorMode === "light"
+                          ? theme.colors.gray[50]
+                          : theme.colors.gray[700],
+                    }}
+                  >
                     {cdate(log.timestamp).format("HH:MM:ss")}
                   </span>
                 </Box>

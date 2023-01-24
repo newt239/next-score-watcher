@@ -69,12 +69,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         borderWidth: "0px 0px thin",
         borderColor:
           colorMode === "light"
-            ? "rgb(231, 235, 240)"
-            : "rgba(194, 224, 255, 0.08)",
+            ? theme.colors.gray[300]
+            : theme.colors.gray[500],
         backgroundColor:
           colorMode === "light"
-            ? "rgba(255, 255, 255, 0.5)"
-            : "rgba(10, 25, 41, 0.7)",
+            ? theme.colors.gray[50]
+            : theme.colors.gray[700],
       }}
     >
       <Box
@@ -86,8 +86,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           borderWidth: "thin",
           borderColor:
             colorMode === "light"
-              ? "rgb(231, 235, 240)"
-              : "rgba(194, 224, 255, 0.08)",
+              ? theme.colors.gray[300]
+              : theme.colors.gray[500],
           borderRadius: "1rem",
           padding: 3,
           whiteSpace: "nowrap",
@@ -138,7 +138,17 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       )}
       <Box>
         <Menu closeOnSelect={false}>
-          <MenuButton as={IconButton} icon={<Settings />} variant="outline" />
+          <MenuButton
+            as={IconButton}
+            icon={<Settings />}
+            variant="outline"
+            sx={{
+              borderColor:
+                colorMode === "light"
+                  ? theme.colors.gray[300]
+                  : theme.colors.gray[500],
+            }}
+          />
           <MenuList>
             <MenuItem
               icon={<Comet />}

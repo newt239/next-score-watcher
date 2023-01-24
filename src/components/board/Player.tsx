@@ -125,11 +125,14 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         color:
           getColor(score.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: 1,
+        borderWidth: 5,
         borderStyle: "solid",
         borderColor:
-          getColor(score.state) &&
-          (colorMode === "light" ? "white" : theme.colors.gray[800]),
+          getColor(score.state) ||
+          getColor(score.reachState) ||
+          (colorMode === "dark"
+            ? theme.colors.gray[700]
+            : theme.colors.gray[50]),
         borderRadius: "1rem",
       }}
     >
