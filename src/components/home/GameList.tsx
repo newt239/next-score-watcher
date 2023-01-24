@@ -70,6 +70,7 @@ const GameList: React.FC = () => {
                       icon={<AdjustmentsHorizontal />}
                       href={`/${game.id}/config`}
                       size="sm"
+                      colorScheme="green"
                       variant="ghost"
                     >
                       開く

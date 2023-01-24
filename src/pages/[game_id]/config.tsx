@@ -129,7 +129,6 @@ const ConfigPage: NextPageWithLayout = () => {
             </>
           )}
         </div>
-
         <SelectPlayer
           game_id={game.id}
           rule_name={game.rule}
@@ -137,13 +136,11 @@ const ConfigPage: NextPageWithLayout = () => {
           players={game.players}
           disabled={logs.length !== 0}
         />
-
         <SelectQuizset
           game_id={game.id}
           default_quizset={game.quiz_set || ""}
           quizset_names={quizsetList}
         />
-
         <Box sx={{ textAlign: "right", pt: 5 }}>
           <ButtonGroup spacing={5}>
             <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
@@ -151,6 +148,7 @@ const ConfigPage: NextPageWithLayout = () => {
             </Button>
             <LinkButton
               icon={<PlayerPlay />}
+              colorScheme="green"
               href={`/${game_id}/board`}
               disabled={game.players.length === 0}
             >

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { ReactElement, ReactNode } from "react";
 
-import { Button, SystemStyleObject } from "@chakra-ui/react";
+import { Button, SystemStyleObject, ThemingProps } from "@chakra-ui/react";
 
 interface LinkButtonProps {
   href: string;
@@ -10,6 +10,7 @@ interface LinkButtonProps {
   disabled?: boolean;
   icon?: ReactElement;
   size?: "xs" | "sm" | "md" | "lg";
+  colorScheme?: ThemingProps["colorScheme"];
   sx?: SystemStyleObject;
 }
 
@@ -20,6 +21,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
   icon,
   size,
   disabled,
+  colorScheme,
   sx,
 }) => {
   const router = useRouter();
@@ -28,7 +30,7 @@ const LinkButton: React.FC<LinkButtonProps> = ({
       leftIcon={icon}
       onClick={() => router.push(href)}
       variant={variant}
-      colorScheme="blue"
+      colorScheme={colorScheme}
       disabled={disabled}
       size={size}
       sx={sx}

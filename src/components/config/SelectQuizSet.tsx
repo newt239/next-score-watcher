@@ -51,7 +51,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                   query: { from: game_id },
                 })
               }
-              colorScheme="green"
+              colorScheme="blue"
               leftIcon={<Upload />}
             >
               問題データを読み込む

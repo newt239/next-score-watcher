@@ -14,6 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import { CirclePlus } from "tabler-icons-react";
 
 import { str2num } from "#/utils/commonFunctions";
 import db, { QuizDBProps } from "#/utils/db";
@@ -83,6 +84,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         </RadioGroup>
         <Button
           colorScheme="blue"
+          leftIcon={<CirclePlus />}
           onClick={handleClick}
           disabled={rawQuizText === ""}
         >

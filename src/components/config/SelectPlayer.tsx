@@ -154,8 +154,8 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                   query: { from: game_id },
                 })
               }
-              colorScheme="green"
               leftIcon={<Upload />}
+              colorScheme="blue"
             >
               プレイヤーデータを読み込む
             </Button>
@@ -164,7 +164,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
           <>
             <Button
               onClick={() => setDrawerOpen(true)}
-              colorScheme="green"
+              colorScheme="blue"
               disabled={disabled}
               leftIcon={<Plus />}
             >

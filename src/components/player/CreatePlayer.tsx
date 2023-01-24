@@ -10,6 +10,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import { CirclePlus } from "tabler-icons-react";
 
 import db from "#/utils/db";
 
@@ -82,6 +83,7 @@ const CreatePlayer: React.FC = () => {
       <Box sx={{ textAlign: "right", pt: 3 }}>
         <Button
           colorScheme="blue"
+          leftIcon={<CirclePlus />}
           onClick={addNewPlayer}
           disabled={playerName === ""}
         >
