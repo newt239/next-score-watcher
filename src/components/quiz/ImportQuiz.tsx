@@ -41,16 +41,18 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const csvFileToArray = async (raw: string) => {
     const csvRows = raw.split("\n");
     await db.quizes.bulkPut(
-      csvRows.map((row) => {
-        const values = row.split(",");
-        return {
-          id: nanoid(),
-          n: str2num(values[0]),
-          q: values[1],
-          a: values[2],
-          set_name: setName,
-        };
-      })
+      csvRows
+        .map((row) => {
+          const values = row.split(",");
+          return {
+            id: nanoid(),
+            n: str2num(values[0]),
+            q: values[1] || "",
+            a: values[2] || "",
+            set_name: setName,
+          };
+        })
+        .filter((row) => row.q !== "")
     );
     return csvRows.length;
   };

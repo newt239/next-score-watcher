@@ -32,12 +32,10 @@ const LoadPlayer: React.FC = () => {
         const name = playerRaw[i].split(
           separateType === "comma" ? "," : "\t"
         )[0];
-        const text = playerRaw[i].split(
-          separateType === "comma" ? "," : "\t"
-        )[1];
-        const belong = playerRaw[i].split(
-          separateType === "comma" ? "," : "\t"
-        )[2];
+        const text =
+          playerRaw[i].split(separateType === "comma" ? "," : "\t")[1] || "";
+        const belong =
+          playerRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
         if (name !== "") {
           dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
         }

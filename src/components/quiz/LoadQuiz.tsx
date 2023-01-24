@@ -31,8 +31,10 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       let dataArray: QuizDBProps[] = [];
       for (let i = 0; i < quizRaw.length; i++) {
         const n = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
-        const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
-        const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[2];
+        const q =
+          quizRaw[i].split(separateType === "comma" ? "," : "\t")[1] || "";
+        const a =
+          quizRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
         if (n !== "") {
           dataArray.push({
             id: nanoid(),

@@ -40,16 +40,18 @@ const ImportPlayer: React.FC = () => {
   const csvFileToArray = async (raw: string) => {
     const csvRows = raw.split("\n");
     await db.players.bulkPut(
-      csvRows.map((row) => {
-        const values = row.split(",");
-        return {
-          id: nanoid(),
-          name: values[0],
-          text: values[1],
-          belong: values[2],
-          tags: [],
-        };
-      })
+      csvRows
+        .map((row) => {
+          const values = row.split(",");
+          return {
+            id: nanoid(),
+            name: values[0] || "",
+            text: values[1] || "",
+            belong: values[2] || "",
+            tags: [],
+          };
+        })
+        .filter((row) => row.name !== "")
     );
     return csvRows.length;
   };
