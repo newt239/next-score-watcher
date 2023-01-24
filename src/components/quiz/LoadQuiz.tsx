@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Box,
@@ -23,6 +23,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();
   const [rawQuizText, setRawQuizText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleClick = async () => {
     if (rawQuizText !== "") {
@@ -32,23 +33,28 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         const n = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
         const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1];
         const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[2];
-        dataArray.push({
-          id: nanoid(),
-          n: str2num(n),
-          q,
-          a,
-          set_name: setName,
-        });
+        if (n !== "") {
+          dataArray.push({
+            id: nanoid(),
+            n: str2num(n),
+            q,
+            a,
+            set_name: setName,
+          });
+        }
       }
       await db.quizes.bulkPut(dataArray);
-      toast({
-        title: "データをインポートしました",
-        description: `直接入力から${dataArray.length}件の問題を読み込みました`,
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
+      if (dataArray.length !== 0) {
+        toast({
+          title: "データをインポートしました",
+          description: `直接入力から${dataArray.length}件の問題を読み込みました`,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
       setRawQuizText("");
+      textareaRef.current?.focus();
     }
   };
 
@@ -69,6 +75,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           onChange={(e) => setRawQuizText(e.target.value)}
           placeholder={placeholderText}
           height={100}
+          ref={textareaRef}
         />
         <FormHelperText>A列: 問題番号、 B列: 問題文 C列: 答え</FormHelperText>
       </FormControl>

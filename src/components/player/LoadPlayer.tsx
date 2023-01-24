@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Box,
@@ -22,6 +22,7 @@ const LoadPlayer: React.FC = () => {
   const toast = useToast();
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleClick = async () => {
     if (rawPlayerText !== "") {
@@ -37,17 +38,22 @@ const LoadPlayer: React.FC = () => {
         const belong = playerRaw[i].split(
           separateType === "comma" ? "," : "\t"
         )[2];
-        dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
+        if (name !== "") {
+          dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
+        }
       }
       await db.players.bulkPut(dataArray);
-      toast({
-        title: "データをインポートしました",
-        description: `直接入力から${dataArray.length}件の問題を読み込みました`,
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
+      if (dataArray.length !== 0) {
+        toast({
+          title: "データをインポートしました",
+          description: `直接入力から${dataArray.length}件の問題を読み込みました`,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
       setRawPlayerText("");
+      textareaRef.current?.focus();
     }
   };
 
@@ -67,6 +73,7 @@ const LoadPlayer: React.FC = () => {
           onChange={(e) => setRawPlayerText(e.target.value)}
           placeholder={placeholderText}
           height={100}
+          ref={textareaRef}
         />
         <FormHelperText>
           A列: 氏名、 B列: サブテキスト、 C列: 所属

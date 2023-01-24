@@ -33,6 +33,14 @@ import {
   Select,
   Flex,
   Checkbox,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -62,12 +70,19 @@ import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
 
 const PlayerTable: React.FC = () => {
-  const players = useLiveQuery(() => db.players.toArray(), []);
+  const games = useLiveQuery(() => db.games.toArray(), []);
+  const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
   const [searchText, setSearchText] = useState<string>("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+  const {
+    isOpen: alertIsOpen,
+    onOpen: alertOnOpen,
+    onClose: alertOnClose,
+  } = useDisclosure();
+  const alertCancelRef = useRef(null);
   const [currentPlayer, setCurrentPlayer] = useState<PlayerDBProps | null>(
     null
   );
@@ -167,7 +182,38 @@ const PlayerTable: React.FC = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if (!players) return null;
+  if (!games || !players) return null;
+
+  const deletePlayerList = table
+    .getSelectedRowModel()
+    .rows.map(({ original: player }) => player.id);
+  const affectedGameList = games.filter((game) =>
+    game.players
+      .map((gamePlayer) => deletePlayerList.includes(gamePlayer.id))
+      .includes(true)
+  );
+
+  const deletePlayers = async () => {
+    await db.players.bulkDelete(deletePlayerList);
+    await db.logs.where("player_id").anyOf(deletePlayerList).delete();
+    await db.games
+      .where("id")
+      .anyOf(affectedGameList.map((game) => game.id))
+      .modify({ players: [] });
+    toast({
+      title: `${deletePlayerList.length} 人のプレイヤーを削除しました`,
+      description: table
+        .getSelectedRowModel()
+        .rows.map(({ original: player }) => player.name)
+        .join(", ")
+        .slice(0, 20),
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+    setSelectedPlayers([]);
+    alertOnClose();
+  };
 
   return (
     <Box>
@@ -183,30 +229,7 @@ const PlayerTable: React.FC = () => {
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button
-                    onClick={async () => {
-                      await db.players.bulkDelete(
-                        table
-                          .getSelectedRowModel()
-                          .rows.map(({ original: player }) => player.id)
-                      );
-                      toast({
-                        title: `${
-                          table.getSelectedRowModel().rows.length
-                        } 人のプレイヤーを削除しました`,
-                        description: table
-                          .getSelectedRowModel()
-                          .rows.map(
-                            ({ original: player }) =>
-                              `${player.name}(${player.belong})`
-                          )
-                          .join(",")
-                          .slice(0, 20),
-                        status: "success",
-                        duration: 9000,
-                        isClosable: true,
-                      });
-                      setSelectedPlayers([]);
-                    }}
+                    onClick={alertOnOpen}
                     colorScheme="red"
                     size="sm"
                     leftIcon={<Trash />}
@@ -405,6 +428,42 @@ const PlayerTable: React.FC = () => {
           )}
         </ModalContent>
       </Modal>
+      <AlertDialog
+        isOpen={alertIsOpen}
+        leastDestructiveRef={alertCancelRef}
+        onClose={alertOnClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              プレイヤーを削除します
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              選択中のプレイヤー{deletePlayerList.length}
+              人を削除します。
+              {affectedGameList.length !== 0 && (
+                <>
+                  この操作により、以下{affectedGameList.length}
+                  件のゲームの進行状況がリセットされます。
+                  <UnorderedList>
+                    {affectedGameList.map((game) => (
+                      <ListItem key={game.id}>{game.name}</ListItem>
+                    ))}
+                  </UnorderedList>
+                </>
+              )}
+            </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button ref={alertCancelRef} onClick={alertOnClose}>
+                やめる
+              </Button>
+              <Button colorScheme="red" onClick={deletePlayers} ml={3}>
+                削除する
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 };

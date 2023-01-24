@@ -169,13 +169,6 @@ const QuizTable: React.FC = () => {
                         title: `${
                           table.getSelectedRowModel().rows.length
                         } 件の問題を削除しました`,
-                        description: table
-                          .getSelectedRowModel()
-                          .rows.map(
-                            ({ original: quiz }) => `${quiz.q} ／ ${quiz.a}`
-                          )
-                          .join(",")
-                          .slice(0, 20),
                         status: "success",
                         duration: 9000,
                         isClosable: true,
