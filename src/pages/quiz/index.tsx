@@ -27,7 +27,7 @@ import { Layout } from "#/layouts/Layout";
 const QuizPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { from } = router.query;
-  const [setName, setSetName] = useState<string>("テスト");
+  const [setName, setSetName] = useState<string>("セット1");
 
   return (
     <>

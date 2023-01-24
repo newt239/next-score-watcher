@@ -40,12 +40,14 @@ const ConfigPage: NextPageWithLayout = () => {
     router.push("/");
   };
 
+  const disabled = logs.length !== 0;
+
   return (
     <>
       <Head>
         <title>Score Watcher</title>
       </Head>
-      {logs.length !== 0 ? (
+      {disabled ? (
         <Alert status="error">
           ゲームは開始済みです。一部の設定は変更できません。
         </Alert>
@@ -81,50 +83,76 @@ const ConfigPage: NextPageWithLayout = () => {
                 input_id="win_point"
                 label="勝ち抜け正解数"
                 max={30}
+                disabled={disabled}
               />
               <ConfigNumberInput
                 input_id="lose_point"
                 label="失格誤答数"
                 max={30}
+                disabled={disabled}
               />
             </>
           )}
           {["nbyn", "nupdown"].includes(game.rule) && (
-            <ConfigNumberInput input_id="win_point" label="N" max={10} />
+            <ConfigNumberInput
+              input_id="win_point"
+              label="N"
+              max={10}
+              disabled={disabled}
+            />
           )}
           {["squarex", "swedishx", "freezx"].includes(game.rule) && (
-            <ConfigNumberInput input_id="win_point" label="X" max={100} />
+            <ConfigNumberInput
+              input_id="win_point"
+              label="X"
+              max={100}
+              disabled={disabled}
+            />
           )}
           {["nupdown"].includes(game.rule) && (
-            <ConfigNumberInput input_id="lose_point" label="失格誤答数" />
+            <ConfigNumberInput
+              input_id="lose_point"
+              label="失格誤答数"
+              disabled={disabled}
+            />
           )}
           {["attacksurvival"].includes(game.rule) && (
             <>
-              <ConfigNumberInput input_id="win_point" label="初期値" max={30} />
+              <ConfigNumberInput
+                input_id="win_point"
+                label="初期値"
+                max={30}
+                disabled={disabled}
+              />
               <ConfigNumberInput
                 input_id="win_through"
                 label="勝ち抜け人数"
                 max={game.players.length}
+                disabled={disabled}
               />
               <ConfigNumberInput
                 input_id="correct_me"
                 label="自分が正答"
                 min={-10}
+                disabled={disabled}
               />
               <ConfigNumberInput
                 input_id="wrong_me"
                 label="自分が誤答"
                 min={-10}
+                disabled={disabled}
               />
               <ConfigNumberInput
                 input_id="correct_other"
                 label="他人が正答"
                 min={-10}
+                disabled={disabled}
               />
               <ConfigNumberInput
                 input_id="wrong_other"
                 label="他人が誤答"
                 min={-10}
+                disabled={disabled}
               />
             </>
           )}
@@ -134,7 +162,7 @@ const ConfigPage: NextPageWithLayout = () => {
           rule_name={game.rule}
           playerList={players}
           players={game.players}
-          disabled={logs.length !== 0}
+          disabled={disabled}
         />
         <SelectQuizset
           game_id={game.id}

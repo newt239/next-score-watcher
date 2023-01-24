@@ -29,6 +29,7 @@ type InitialPointConfigModalProps = {
   index: number;
   correct: boolean;
   wrong: boolean;
+  disabled?: boolean;
 };
 
 const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
@@ -40,6 +41,7 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
   index,
   correct,
   wrong,
+  disabled,
 }) => {
   if (!correct && !wrong) return null;
   return (
@@ -50,6 +52,7 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
         size="xs"
         aria-label="初期値の変更"
         icon={<Settings />}
+        disabled={disabled}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />

@@ -328,6 +328,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                         rule_name
                                       )}
                                       wrong={["nomx"].includes(rule_name)}
+                                      disabled={disabled}
                                     />
                                   </Flex>
                                 </CardBody>

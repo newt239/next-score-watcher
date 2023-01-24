@@ -44,7 +44,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 
   return (
     <FormControl pt={5}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel htmlFor={`game_${input_id}`}>{label}</FormLabel>
       <Input
         id={`game_${input_id}`}
         type="text"
