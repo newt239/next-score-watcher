@@ -55,6 +55,7 @@ const OptionPage: NextPageWithLayout = () => {
   };
 
   useEffect(() => {
+    console.log("a");
     setConfig("scorewatcher-winthrough-popup", winthroughPopup);
   }, [winthroughPopup]);
 
@@ -101,7 +102,7 @@ const OptionPage: NextPageWithLayout = () => {
               id="winthrough-popup"
               size="lg"
               isChecked={winthroughPopup}
-              onChange={() => setWinthroughPopup(winthroughPopup!)}
+              onChange={() => setWinthroughPopup((v) => !v)}
             />
           </FormControl>
           <FormControl
@@ -118,7 +119,7 @@ const OptionPage: NextPageWithLayout = () => {
               id="show-logs"
               size="lg"
               isChecked={showLogs}
-              onChange={() => setShowLogs(showLogs!)}
+              onChange={() => setShowLogs((v) => !v)}
             />
           </FormControl>
           <FormControl>
