@@ -1,4 +1,4 @@
-import { Box, Container, Stack, theme, useColorMode } from "@chakra-ui/react";
+import { Box, Stack, theme, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { History } from "tabler-icons-react";
 
@@ -13,10 +13,9 @@ type GameLogsProps = {
 
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
-  if (!getConfig("scorewatcher-show-logs")) return null;
 
   return (
-    <Container mt="10vh">
+    <Box mt="10vh">
       <H3 sx={{ display: "flex", gap: 3, p: 3 }}>
         <History />
         ログ
@@ -70,7 +69,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
           <p>ここに試合のログが表示されます。</p>
         )}
       </Stack>
-    </Container>
+    </Box>
   );
 };
 

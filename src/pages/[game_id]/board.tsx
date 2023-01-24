@@ -3,14 +3,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Alert, Box, theme, useMediaQuery } from "@chakra-ui/react";
+import { Alert, Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import Header from "#/components/Header";
+import AnswerPlayerTable from "#/components/board/AnswerPlayerTable";
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
+import { getConfig } from "#/hooks/useBooleanConfig";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 
@@ -128,7 +130,12 @@ const BoardPage: NextPage = () => {
           />
         ))}
       </Box>
-      <GameLogs players={players} logs={logs} />
+      {getConfig("scorewatcher-show-logs") && (
+        <Flex sx={{ justifyContent: "center", gap: 10 }}>
+          <GameLogs players={players} logs={logs} />
+          <AnswerPlayerTable players={players} logs={logs} />
+        </Flex>
+      )}
       <WinModal
         winTroughPeople={winThroughPeople}
         onClose={() => setWinThroughPeople([])}
