@@ -33,29 +33,34 @@ import {
 import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import { getItem, setItem } from "#/hooks/useConfig";
+import { getConfig, setConfig } from "#/hooks/useBooleanConfig";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
 const OptionPage: NextPageWithLayout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [winthroughPopup, setWinthroughPopup] = useState(
-    getItem("winthrough-popup")
+  const [winthroughPopup, setWinthroughPopup] = useState<boolean>(
+    getConfig("scorewatcher-winthrough-popup")
   );
+  const [showLogs, setShowLogs] = useState(getConfig("scorewatcher-show-logs"));
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
   const deleteAppData = () => {
-    localStorage.setItem("VERSION", latestVersion!);
+    localStorage.setItem("scorewatcher-version", latestVersion!);
     db.delete().then(() => {
       router.reload();
     });
   };
 
   useEffect(() => {
-    setItem("winthrough-popup", winthroughPopup);
+    setConfig("scorewatcher-winthrough-popup", winthroughPopup);
   }, [winthroughPopup]);
+
+  useEffect(() => {
+    setConfig("scorewatcher-show-logs", showLogs);
+  }, [showLogs]);
 
   return (
     <>
@@ -90,15 +95,30 @@ const OptionPage: NextPageWithLayout = () => {
             }}
           >
             <FormLabel htmlFor="winthrough-popup" sx={{ flexGrow: 1 }}>
-              勝ち抜け時のポップアップ表示
+              勝ち抜け時にポップアップを表示
             </FormLabel>
             <Switch
               id="winthrough-popup"
               size="lg"
-              isChecked={winthroughPopup === "on"}
-              onChange={() =>
-                setWinthroughPopup(winthroughPopup === "on" ? "off" : "on")
-              }
+              isChecked={winthroughPopup}
+              onChange={() => setWinthroughPopup(winthroughPopup!)}
+            />
+          </FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormLabel htmlFor="show-logs" sx={{ flexGrow: 1 }}>
+              得点表示画面下にログを表示
+            </FormLabel>
+            <Switch
+              id="show-logs"
+              size="lg"
+              isChecked={showLogs}
+              onChange={() => setShowLogs(showLogs!)}
             />
           </FormControl>
           <FormControl>

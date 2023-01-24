@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useReward } from "react-rewards";
 
-import { getItem } from "#/hooks/useConfig";
+import { getConfig } from "#/hooks/useBooleanConfig";
 
 type WinModalProps = {
   onClose: () => void;
@@ -42,7 +42,8 @@ const WinModal: React.FC<WinModalProps> = ({
   return (
     <Modal
       isOpen={
-        getItem("winthrough-popup") === "on" && winTroughPeople.length !== 0
+        getConfig("scorewatcher-winthrough-popup") &&
+        winTroughPeople.length !== 0
       }
       onClose={onClose}
       isCentered

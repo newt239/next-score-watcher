@@ -3,6 +3,7 @@ import { cdate } from "cdate";
 import { History } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
+import { getConfig } from "#/hooks/useBooleanConfig";
 import { LogDBProps, PlayerDBProps } from "#/utils/db";
 
 type GameLogsProps = {
@@ -12,6 +13,8 @@ type GameLogsProps = {
 
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
+  if (!getConfig("scorewatcher-show-logs")) return null;
+
   return (
     <Container mt="10vh">
       <H3 sx={{ display: "flex", gap: 3, p: 3 }}>

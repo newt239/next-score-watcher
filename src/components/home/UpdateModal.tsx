@@ -14,19 +14,19 @@ import {
 const UpdateModal: React.FC = () => {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const currentVersion = localStorage.getItem("VERSION");
+  const currentVersion = localStorage.getItem("scorewatcher-version");
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
 
   useEffect(() => {
     if (!currentVersion) {
-      localStorage.setItem("VERSION", latestVersion!);
+      localStorage.setItem("scorewatcher-version", latestVersion!);
     } else if (currentVersion !== latestVersion) {
       setModalOpen(true);
     }
   }, []);
 
   const update = () => {
-    localStorage.setItem("VERSION", latestVersion!);
+    localStorage.setItem("scorewatcher-version", latestVersion!);
     router.reload();
   };
 
