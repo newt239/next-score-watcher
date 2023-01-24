@@ -60,6 +60,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   return (
     <Flex
       sx={{
+        justifyContent: "space-between",
         alignItems: "center",
         gap: 5,
         height: "15vh",
@@ -95,40 +96,46 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
         <p>{GetRuleStringByType(game)}</p>
       </Box>
-      <Box sx={{ whiteSpace: "nowrap" }}>
-        第
-        <span style={{ fontSize: "2rem", fontWeight: 800 }}>
-          {logs.length + 1}
-        </span>
-        問
-      </Box>
-      <Box
-        style={{
-          flexGrow: 1,
-          padding: "1rem",
-          height: "100%",
-        }}
-      >
-        {game.quiz_set &&
-          quizList.length >= logs.length &&
-          logs.length !== 0 && (
-            <div
-              style={{
-                flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                overflowY: "hidden",
-              }}
-            >
-              <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
-                {quizList[logs.length - 1].q}
-              </div>
-              <div style={{ textAlign: "right", color: theme.colors.red[500] }}>
-                {quizList[logs.length - 1].a}
-              </div>
-            </div>
-          )}
-      </Box>
+      {game.editable || (
+        <>
+          <Box sx={{ whiteSpace: "nowrap" }}>
+            第
+            <span style={{ fontSize: "2rem", fontWeight: 800 }}>
+              {logs.length + 1}
+            </span>
+            問
+          </Box>
+          <Box
+            style={{
+              flexGrow: 1,
+              padding: "1rem",
+              height: "100%",
+            }}
+          >
+            {game.quiz_set &&
+              quizList.length >= logs.length &&
+              logs.length !== 0 && (
+                <div
+                  style={{
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    overflowY: "hidden",
+                  }}
+                >
+                  <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
+                    {quizList[logs.length - 1].q}
+                  </div>
+                  <div
+                    style={{ textAlign: "right", color: theme.colors.red[500] }}
+                  >
+                    {quizList[logs.length - 1].a}
+                  </div>
+                </div>
+              )}
+          </Box>
+        </>
+      )}
       <Box>
         <Menu closeOnSelect={false}>
           <MenuButton as={IconButton} icon={<Settings />} variant="outline" />
