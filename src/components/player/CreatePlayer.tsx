@@ -14,7 +14,7 @@ import { CirclePlus } from "tabler-icons-react";
 
 import db from "#/utils/db";
 
-const CreatePlayer: React.FC = () => {
+const CreatePlayer: React.FC<{ from: string | undefined }> = ({ from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -28,13 +28,29 @@ const CreatePlayer: React.FC = () => {
   };
 
   const addNewPlayer = async () => {
-    await db.players.put({
+    const playerId = await db.players.put({
       id: nanoid(),
       name: playerName,
       text: playerOrder,
       belong: playerBelong,
       tags: [],
     });
+    if (from) {
+      const game = await db.games.get(from);
+      if (game) {
+        await db.games.update(from, {
+          players: [
+            ...game.players,
+            {
+              id: playerId,
+              name: playerName,
+              initial_correct: 0,
+              initial_wrong: 0,
+            },
+          ],
+        });
+      }
+    }
     toast({
       title: "ユーザーを作成しました",
       description: `${playerOrder}・${playerBelong}`,

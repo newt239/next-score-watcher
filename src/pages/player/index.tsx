@@ -57,7 +57,9 @@ const PlayerPage: NextPageWithLayout = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CreatePlayer />
+              <CreatePlayer
+                from={typeof from === "string" ? from : undefined}
+              />
             </TabPanel>
             <TabPanel>
               <LoadPlayer />
