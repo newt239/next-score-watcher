@@ -399,6 +399,18 @@ const PlayerTable: React.FC = () => {
                   />
                 </FormControl>
                 <FormControl mt={4}>
+                  <FormLabel>サブテキスト</FormLabel>
+                  <Input
+                    value={currentPlayer.text}
+                    onChange={(e) =>
+                      setCurrentPlayer({
+                        ...currentPlayer,
+                        text: e.target.value,
+                      })
+                    }
+                  />
+                </FormControl>
+                <FormControl mt={4}>
                   <FormLabel>所属</FormLabel>
                   <Input
                     value={currentPlayer.belong}
@@ -412,9 +424,11 @@ const PlayerTable: React.FC = () => {
                 </FormControl>
               </ModalBody>
               <ModalFooter>
+                <Button onClick={onClose} mr={3}>
+                  閉じる
+                </Button>
                 <Button
                   colorScheme="blue"
-                  mr={3}
                   onClick={async () => {
                     await db.players.update(currentPlayer.id!, currentPlayer);
                     onClose();
@@ -422,7 +436,6 @@ const PlayerTable: React.FC = () => {
                 >
                   保存
                 </Button>
-                <Button onClick={onClose}>閉じる</Button>
               </ModalFooter>
             </>
           )}
