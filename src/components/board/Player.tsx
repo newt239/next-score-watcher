@@ -1,24 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import {
-  Popover,
-  Stack,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  RadioGroup,
-  Radio,
-  IconButton,
-  Box,
-  PopoverArrow,
-  PopoverHeader,
-  useColorMode,
-  theme,
-} from "@chakra-ui/react";
+import { useColorMode, theme, useMediaQuery, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Edit } from "tabler-icons-react";
 
+import PlayerColorConfig from "./PlayerColorConfig";
+import PlayerHeader from "./PlayerHeader";
+
+import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
@@ -35,6 +24,8 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
+
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   useEffect(() => {
     if (score) {
@@ -53,79 +44,19 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
       : undefined;
   };
 
-  const PlayerName = () => (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 10,
-        height: "50vh",
-        margin: "auto",
-        paddingTop: 10,
-      }}
-    >
-      <Box
-        style={{
-          writingMode: "vertical-rl",
-          whiteSpace: "nowrap",
-          textOrientation: "upright",
-          fontSize: `min(calc(45vh / ${player.name.length}), clamp(9vh, 2.5rem, 9vw))`,
-          fontWeight: 800,
-        }}
-      >
-        {player.name}
-      </Box>
-      {game.editable && (
-        <Box sx={{ color: colorMode === "light" ? "black" : "white" }}>
-          <Popover>
-            <PopoverTrigger>
-              <IconButton
-                size="sm"
-                variant="ghost"
-                colorScheme={getColor(score.state)}
-                color={
-                  getColor(score.state) &&
-                  (colorMode === "light" ? "white" : theme.colors.gray[800])
-                }
-                icon={<Edit />}
-                aria-label="override player state"
-              />
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverHeader>背景色を変更</PopoverHeader>
-              <PopoverBody>
-                <RadioGroup
-                  value={editableState}
-                  onChange={(newState: States) => setEditableState(newState)}
-                >
-                  <Stack spacing={5} direction="row">
-                    <Radio value="playing">デフォルト</Radio>
-                    <Radio value="win">赤</Radio>
-                    <Radio value="lose">青</Radio>
-                  </Stack>
-                </RadioGroup>
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        </Box>
-      )}
-    </div>
-  );
-
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        flexDirection: isLargerThan700 ? "column" : "row",
+        justifyContent: "space-between",
+        alignItems: "stretch",
         backgroundColor: getColor(score.state),
         color:
           getColor(score.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
         borderWidth: 5,
+        p: isLargerThan700 ? undefined : 1,
         borderStyle: "solid",
         borderColor:
           getColor(score.state) ||
@@ -134,32 +65,30 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
         borderRadius: "1rem",
+        overflowX: isLargerThan700 ? undefined : "scroll",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingTop: 5,
-          fontWeight: 800,
-        }}
-      >
-        {player.text === "" ? (
-          <div style={{ opacity: 0.3 }}>{index + 1}</div>
-        ) : (
-          <div>{player.text}</div>
-        )}
-        <div>{player.belong === "" ? "―――――" : player.belong}</div>
+      <div>
+        <PlayerHeader index={index} text={player.text} belong={player.belong} />
+        <PlayerName playerName={player.name} />
       </div>
-      <PlayerName />
-      {score ? (
-        <PlayerScore game={game} player_id={player.id} score={score} qn={qn} />
-      ) : (
-        <div>ERR!</div>
+      {game.editable && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <PlayerColorConfig
+            colorState={getColor(score.state)}
+            editableState={editableState}
+            setEditableState={setEditableState}
+          />
+        </div>
       )}
-    </div>
+      <PlayerScore game={game} player_id={player.id} score={score} qn={qn} />
+    </Box>
   );
 };
 

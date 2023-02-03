@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { Alert, Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import Header from "#/components/Header";
 import AnswerPlayerTable from "#/components/board/AnswerPlayerTable";
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
@@ -45,7 +44,7 @@ const BoardPage: NextPage = () => {
   const [winThroughPeople, setWinThroughPeople] = useState<[string, string][]>(
     []
   );
-  const [isLargerThan500] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   useEffect(() => {
     const executeComputeScore = async () => {
@@ -72,20 +71,7 @@ const BoardPage: NextPage = () => {
     executeComputeScore();
   }, [logs]);
 
-  if (!game || !logs) {
-    return null;
-  }
-
-  if (!isLargerThan500) {
-    return (
-      <Box p={5}>
-        <Header />
-        <Alert colorScheme="red">
-          この画面幅での表示には対応していません。画面幅500px以上の端末をご利用ください。
-        </Alert>
-      </Box>
-    );
-  }
+  if (!game || !logs) return null;
 
   return (
     <>
@@ -111,10 +97,11 @@ const BoardPage: NextPage = () => {
       <Box
         sx={{
           display: "flex",
+          flexDirection: isLargerThan700 ? "row" : "column",
           gap: "1rem",
           width: "100%",
           justifyContent: "space-evenly",
-          marginTop: 3,
+          padding: 3,
         }}
       >
         {players.map((player, i) => (

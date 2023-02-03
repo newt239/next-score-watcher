@@ -1,4 +1,4 @@
-import { Box, theme, useColorMode } from "@chakra-ui/react";
+import { Box, theme, useColorMode, useMediaQuery } from "@chakra-ui/react";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
@@ -17,25 +17,31 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   qn,
 }) => {
   const { colorMode } = useColorMode();
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
   const props = {
     game_id: game.id,
     player_id: player_id,
     editable: game.editable,
   };
+
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
+        flexDirection: isLargerThan700 ? "column" : "row",
         alignItems: "center",
-        py: 3,
-        gap: 3,
+        py: isLargerThan700 ? 3 : undefined,
+        px: isLargerThan700 ? undefined : 1.5,
+        gap: isLargerThan700 ? 3 : 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
-        borderBottomRadius: "calc(1rem - 1px)",
+        borderRadius: isLargerThan700
+          ? "0 0 calc(1rem - 1px) calc(1rem - 1px)"
+          : "0 calc(1rem - 1px) calc(1rem - 1px) 0",
       }}
     >
       {game.rule === "normal" && (

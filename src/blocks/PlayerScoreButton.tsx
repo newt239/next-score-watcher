@@ -7,6 +7,7 @@ import {
   EditablePreview,
   theme,
   useColorMode,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
@@ -37,6 +38,8 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   disabled,
 }) => {
   const { colorMode } = useColorMode();
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
   const variantColor =
     color === "red"
@@ -70,10 +73,18 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontSize: "clamp(5vh, 2rem, 5vw)",
+            fontSize: isLargerThan700
+              ? "clamp(5vh, 2rem, 5vw)"
+              : "max(7vw, 1rem)",
             fontWeight: 800,
             width: "100%",
-            minWidth: 100,
+            minWidth: isLargerThan700
+              ? compact
+                ? 70
+                : 100
+              : compact
+              ? 35
+              : 50,
             margin: "auto",
             backgroundColor: filled ? variantColor : defaultColor,
             color: filled ? defaultColor : variantColor,
@@ -95,9 +106,17 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontSize: "clamp(5vh, 2rem, 5vw)",
+            fontSize: isLargerThan700
+              ? "clamp(5vh, 2rem, 5vw)"
+              : "max(7vw, 1rem)",
             width: "100%",
-            minWidth: compact ? 70 : 100,
+            minWidth: isLargerThan700
+              ? compact
+                ? 70
+                : 100
+              : compact
+              ? 35
+              : 50,
             margin: "auto",
             cursor: color === "green" ? "default" : "pointer",
             backgroundColor: filled ? variantColor : defaultColor,
