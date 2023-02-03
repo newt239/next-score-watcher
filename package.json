@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.4.6",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@next/font": "^13.1.6",
     "@tanstack/react-table": "^8.7.6",
     "cdate": "^0.0.4",
     "dexie": "^3.2.2",

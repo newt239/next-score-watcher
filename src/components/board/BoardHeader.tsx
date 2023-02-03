@@ -14,6 +14,7 @@ import {
   Switch,
   theme,
   useColorMode,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
@@ -39,6 +40,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const { colorMode } = useColorMode();
   const router = useRouter();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   useEffect(() => {
     const getQuizList = async () => {
@@ -64,7 +66,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         alignItems: "center",
         gap: 5,
         height: "15vh",
-        px: 5,
+        px: isLargerThan700 ? 5 : 2,
         borderStyle: "solid",
         borderWidth: "0px 0px thin",
         borderColor:
@@ -83,59 +85,65 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           flexDirection: "column",
           justifyContent: "center",
           borderStyle: "solid",
-          borderWidth: "thin",
+          borderWidth: isLargerThan700 ? "thin" : 0,
           borderColor:
             colorMode === "light"
               ? theme.colors.gray[300]
               : theme.colors.gray[500],
           borderRadius: "1rem",
-          padding: 3,
+          padding: isLargerThan700 ? 3 : undefined,
           whiteSpace: "nowrap",
+          maxWidth: "70vw",
+          overflowX: "hidden",
         }}
       >
         <H2 sx={{ pt: 0 }}>{game.name}</H2>
         <p>{GetRuleStringByType(game)}</p>
       </Box>
-      {game.editable || (
-        <>
-          <Box sx={{ whiteSpace: "nowrap" }}>
-            第
-            <span style={{ fontSize: "2rem", fontWeight: 800 }}>
-              {logs.length + 1}
-            </span>
-            問
-          </Box>
-          <Box
-            style={{
-              flexGrow: 1,
-              padding: "1rem",
-              height: "100%",
-            }}
-          >
-            {game.quiz_set &&
-              quizList.length >= logs.length &&
-              logs.length !== 0 && (
-                <div
-                  style={{
-                    flexGrow: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    overflowY: "hidden",
-                  }}
-                >
-                  <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
-                    {quizList[logs.length - 1].q}
-                  </div>
+      {game.editable ||
+        (isLargerThan700 && (
+          <>
+            <Box sx={{ whiteSpace: "nowrap" }}>
+              第
+              <span style={{ fontSize: "2rem", fontWeight: 800 }}>
+                {logs.length + 1}
+              </span>
+              問
+            </Box>
+            <Box
+              style={{
+                flexGrow: 1,
+                padding: "1rem",
+                height: "100%",
+              }}
+            >
+              {game.quiz_set &&
+                quizList.length >= logs.length &&
+                logs.length !== 0 && (
                   <div
-                    style={{ textAlign: "right", color: theme.colors.red[500] }}
+                    style={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      overflowY: "hidden",
+                    }}
                   >
-                    {quizList[logs.length - 1].a}
+                    <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
+                      {quizList[logs.length - 1].q}
+                    </div>
+                    <div
+                      style={{
+                        textAlign: "right",
+                        color: theme.colors.red[500],
+                      }}
+                    >
+                      {quizList[logs.length - 1].a}
+                    </div>
                   </div>
-                </div>
-              )}
-          </Box>
-        </>
-      )}
+                )}
+            </Box>
+          </>
+        ))}
       <Box>
         <Menu closeOnSelect={false}>
           <MenuButton

@@ -26,7 +26,7 @@ const AnswerPlayerTable: React.FC<GameLogsProps> = ({ players, logs }) => {
   if (!getConfig("scorewatcher-show-logs")) return null;
 
   return (
-    <Box mt="10vh">
+    <Box p={1}>
       <H3 sx={{ display: "flex", gap: 3, p: 3 }}>
         <Users />
         解答者一覧
@@ -40,29 +40,35 @@ const AnswerPlayerTable: React.FC<GameLogsProps> = ({ players, logs }) => {
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
           p: 3,
-          mb: 10,
           borderRadius: "1rem",
         }}
       >
-        <TableContainer>
-          <Table variant="simple" size="sm">
-            <Tbody>
-              {logs.map((log, qn) => (
-                <Tr key={log.id}>
-                  <Td>{qn + 1}.</Td>
-                  <Td>
-                    {
-                      players
-                        .find((p) => p.id === log.player_id)
-                        ?.name.split(" ")[0]
-                        .split("　")[0]
-                    }
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
+        {logs.length !== 0 ? (
+          <>
+            <p>コピーして Excel 等に貼り付けできます。</p>
+            <TableContainer>
+              <Table variant="simple" size="sm">
+                <Tbody>
+                  {logs.map((log, qn) => (
+                    <Tr key={log.id}>
+                      <Td>{qn + 1}.</Td>
+                      <Td>
+                        {
+                          players
+                            .find((p) => p.id === log.player_id)
+                            ?.name.split(" ")[0]
+                            .split("　")[0]
+                        }
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </>
+        ) : (
+          <p>ここに解答者の一覧が表示されます。</p>
+        )}
       </Box>
     </Box>
   );

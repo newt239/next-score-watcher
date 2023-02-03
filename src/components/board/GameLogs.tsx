@@ -15,7 +15,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
 
   return (
-    <Box mt="10vh">
+    <Box p={1}>
       <H3 sx={{ display: "flex", gap: 3, p: 3 }}>
         <History />
         ログ
@@ -29,7 +29,6 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
           p: 3,
-          mb: 10,
           borderRadius: "1rem",
         }}
       >

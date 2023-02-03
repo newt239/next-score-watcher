@@ -43,6 +43,9 @@ const OptionPage: NextPageWithLayout = () => {
     getConfig("scorewatcher-winthrough-popup")
   );
   const [showLogs, setShowLogs] = useState(getConfig("scorewatcher-show-logs"));
+  const [showPTString, setShowPTString] = useState(
+    getConfig("scorewatcher-show-pt-string")
+  );
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
@@ -55,13 +58,16 @@ const OptionPage: NextPageWithLayout = () => {
   };
 
   useEffect(() => {
-    console.log("a");
     setConfig("scorewatcher-winthrough-popup", winthroughPopup);
   }, [winthroughPopup]);
 
   useEffect(() => {
     setConfig("scorewatcher-show-logs", showLogs);
   }, [showLogs]);
+
+  useEffect(() => {
+    setConfig("scorewatcher-show-pt-string", showPTString);
+  }, [showPTString]);
 
   return (
     <>
@@ -103,6 +109,28 @@ const OptionPage: NextPageWithLayout = () => {
               size="lg"
               isChecked={winthroughPopup}
               onChange={() => setWinthroughPopup((v) => !v)}
+            />
+          </FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box>
+              <FormLabel htmlFor="show-pt-string" sx={{ flexGrow: 1 }}>
+                スコアに「pt」の文字列を付与する
+              </FormLabel>
+              <FormHelperText>
+                視聴者が数字の意味を理解しやすくなります。
+              </FormHelperText>
+            </Box>
+            <Switch
+              id="show-pt-string"
+              size="lg"
+              isChecked={showPTString}
+              onChange={() => setShowPTString((v) => !v)}
             />
           </FormControl>
           <FormControl

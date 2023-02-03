@@ -6,6 +6,8 @@ import db, {
   Variants,
 } from "./db";
 
+import { getConfig } from "#/hooks/useBooleanConfig";
+
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
   if (!game) return { scoreList: [], winThroughList: [] };
@@ -105,6 +107,7 @@ const computeScore = async (game_id: string) => {
       }
     });
   });
+
   // 評価順 ( order ) を計算
   const playerOrderList = playersState
     .sort((pre, cur) => {
@@ -141,6 +144,7 @@ const computeScore = async (game_id: string) => {
       order,
     };
   });
+
   // order をもとに state を算出
   playersState = playersState.map((playerState) => {
     const [state, text] = getState(game, playerState, gameLogList.length);
@@ -250,8 +254,7 @@ const getState = (
     case "nbyn":
       if (playerState.wrong >= game.win_point!) {
         return ["lose", "LOSE"];
-      }
-      if (
+      } else if (
         playerState.correct * (game.win_point! - playerState.wrong) >=
         game.win_point! ** 2
       ) {
@@ -280,7 +283,12 @@ const getState = (
       break;
   }
 
-  return ["playing", String(playerState.score)];
+  return [
+    "playing",
+    getConfig("scorewatcher-show-pt-string")
+      ? `${playerState.score}pt`
+      : String(playerState.score),
+  ];
 };
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {

@@ -60,6 +60,10 @@ export default class Document extends NextDocument {
               />
             </>
           )}
+          <link
+            href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Montserrat:wght@700&display=swap"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />

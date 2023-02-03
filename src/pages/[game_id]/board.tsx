@@ -26,6 +26,7 @@ const BoardPage: NextPage = () => {
   const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   useEffect(() => {
     if (playerList) {
@@ -44,7 +45,6 @@ const BoardPage: NextPage = () => {
   const [winThroughPeople, setWinThroughPeople] = useState<[string, string][]>(
     []
   );
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   useEffect(() => {
     const executeComputeScore = async () => {
@@ -118,7 +118,13 @@ const BoardPage: NextPage = () => {
         ))}
       </Box>
       {getConfig("scorewatcher-show-logs") && (
-        <Flex sx={{ justifyContent: "center", gap: 10 }}>
+        <Flex
+          sx={{
+            justifyContent: "center",
+            flexDirection: isLargerThan700 ? "row" : "column",
+            my: 10,
+          }}
+        >
           <GameLogs players={players} logs={logs} />
           <AnswerPlayerTable players={players} logs={logs} />
         </Flex>
