@@ -67,7 +67,9 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         disabled={setName === ""}
         height={100}
       />
-      <FormHelperText>1列: 問題番号、 2列: 問題文 3列: 答え</FormHelperText>
+      <FormHelperText>
+        1列目: 問題番号、 2列目: 問題文 3列目: 答え
+      </FormHelperText>
     </FormControl>
   );
 };

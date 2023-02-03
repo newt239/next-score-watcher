@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
       title: "基本機能",
       image: "score-watcher_feature_basic.webp",
       description:
-        "得点表示に不可欠なスコアの表示・勝ち抜け or 敗退の表示に加え、問題文の表示にも対応しています。",
+        "得点表示に不可欠なスコアの表示・勝ち抜け or 敗退の表示に加え、問題文の表示にも対応しています。得点表示画面はスマートフォンなどでも表示が可能です。",
     },
     {
       title: "一つ戻す",
@@ -76,7 +76,7 @@ const Hero: React.FC = () => {
       <Box>
         <H2>主な機能</H2>
         {!isLargerThan700 ? (
-          <Accordion defaultIndex={[0]} allowMultiple pt={5}>
+          <Accordion defaultIndex={0} pt={5}>
             {features.map((feature) => (
               <AccordionItem key={feature.title}>
                 <h2>
