@@ -42,7 +42,7 @@ import {
 import { InfoCircle, Plus, Upload } from "tabler-icons-react";
 
 import CompactPlayerTable from "./CompactPlayerTable";
-import InitialPointConfig from "./InitialPointConfig";
+import IndividualConfig from "./IndividualConfig";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -107,7 +107,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
           name: playerName,
           initial_correct: 0,
           initial_wrong: 0,
-        },
+          base_correct_point: 2,
+          base_wrong_point: -3,
+        } as GameDBPlayerProps,
       ],
     });
     toast({
@@ -314,7 +316,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                     <Box>
                                       <Text size="xl">{gamePlayer.name}</Text>
                                     </Box>
-                                    <InitialPointConfig
+                                    <IndividualConfig
                                       onClose={onClose}
                                       isOpen={isOpen}
                                       onClick={() => {
@@ -322,11 +324,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                         onOpen();
                                       }}
                                       game_id={game_id}
+                                      rule_name={rule_name}
                                       players={players}
                                       index={currentPlayerIndex}
-                                      correct={["normal", "nomx"].includes(
-                                        rule_name
-                                      )}
+                                      correct={[
+                                        "normal",
+                                        "nomx",
+                                        "various-fluctuations",
+                                      ].includes(rule_name)}
                                       wrong={["nomx"].includes(rule_name)}
                                       disabled={disabled}
                                     />

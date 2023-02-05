@@ -457,7 +457,7 @@ const PlayerTable: React.FC = () => {
               {affectedGameList.length !== 0 && (
                 <>
                   この操作により、以下{affectedGameList.length}
-                  件のゲームの進行状況がリセットされます。
+                  件のゲームのプレイヤーの選択状態及びログがリセットされます。
                   <UnorderedList>
                     {affectedGameList.map((game) => (
                       <ListItem key={game.id}>{game.name}</ListItem>

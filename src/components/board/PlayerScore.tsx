@@ -260,6 +260,47 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
+      {game.rule === "various-fluctuations" && (
+        <>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <PlayerScoreButton color="red" {...props}>
+              {score.correct}○
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              disabled={score.isIncapacity}
+              color="blue"
+              rounded
+              {...props}
+            >
+              {score.wrong}×
+            </PlayerScoreButton>
+          </div>
+          <PlayerScoreButton
+            color={score.state === "playing" ? "green" : "red"}
+            {...props}
+            disabled={score.state !== "playing"}
+            mini
+          >
+            {score.state === "playing" ? (
+              <>
+                {game.players.find((gamePlayer) => gamePlayer.id === player_id)
+                  ?.base_correct_point! > 0 && "+"}
+                {
+                  game.players.find((gamePlayer) => gamePlayer.id === player_id)
+                    ?.base_correct_point!
+                }{" "}
+                /{" "}
+                {
+                  game.players.find((gamePlayer) => gamePlayer.id === player_id)
+                    ?.base_wrong_point!
+                }
+              </>
+            ) : (
+              <>{score.text}</>
+            )}
+          </PlayerScoreButton>
+        </>
+      )}
     </Box>
   );
 };

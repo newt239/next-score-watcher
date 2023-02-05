@@ -71,7 +71,7 @@ const Hero: React.FC = () => {
         <Heading as="h1" size="2xl">
           Score Watcher
         </Heading>
-        <Text>競技クイズ大会用得点表示ソフト</Text>
+        <Text>競技クイズ用得点表示ソフト</Text>
       </Box>
       <Box>
         <H2>主な機能</H2>
@@ -88,11 +88,13 @@ const Hero: React.FC = () => {
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  <Image
-                    src={"images/" + feature.image}
-                    alt={feature.description}
-                    sx={{ borderRadius: "1rem" }}
-                  />
+                  {feature.image && (
+                    <Image
+                      src={"images/" + feature.image}
+                      alt={feature.description}
+                      sx={{ borderRadius: "1rem" }}
+                    />
+                  )}
                   <Text pt={3}>{feature.description}</Text>
                 </AccordionPanel>
               </AccordionItem>
@@ -126,7 +128,7 @@ const Hero: React.FC = () => {
             >
               {features.map((feature) => (
                 <TabPanel key={feature.title}>
-                  <H3 sx={{ pt: 0 }}>{feature.title}</H3>{" "}
+                  <H3 sx={{ pt: 0 }}>{feature.title}</H3>
                   {feature.image ? (
                     <Flex sx={{ p: 3, gap: 3 }}>
                       <Box w="70%">

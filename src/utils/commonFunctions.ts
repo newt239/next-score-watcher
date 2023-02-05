@@ -64,6 +64,9 @@ export const createGame = async (
       case "freezx":
         putData.win_point = rules[rule_name].win_point;
         break;
+      case "various-fluctuations":
+        putData.win_point = rules[rule_name].win_point;
+        break;
     }
     event({ action: rule_name, category: "create_game", label: game_id });
     router.push(`/${await db.games.put(putData)}/config`);

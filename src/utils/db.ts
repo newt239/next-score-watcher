@@ -11,13 +11,16 @@ export type RuleNames =
   | "attacksurvival"
   | "squarex"
   | "z"
-  | "freezx";
+  | "freezx"
+  | "various-fluctuations";
 
 export type GameDBPlayerProps = {
   id: string;
   name: string;
   initial_correct: number;
   initial_wrong: number;
+  base_correct_point: number;
+  base_wrong_point: number;
 };
 
 export type GameDBProps = {
@@ -57,7 +60,6 @@ export type LogDBProps = {
 
 export type States = "win" | "lose" | "playing";
 export type ComputedScoreDBProps = {
-  id?: string;
   game_id: string;
   player_id: string;
   state: States;

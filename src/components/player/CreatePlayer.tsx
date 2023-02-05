@@ -12,7 +12,7 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import db from "#/utils/db";
+import db, { GameDBPlayerProps } from "#/utils/db";
 
 const CreatePlayer: React.FC<{ from: string | undefined }> = ({ from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
@@ -46,7 +46,9 @@ const CreatePlayer: React.FC<{ from: string | undefined }> = ({ from }) => {
               name: playerName,
               initial_correct: 0,
               initial_wrong: 0,
-            },
+              base_correct_point: 2,
+              base_wrong_point: -3,
+            } as GameDBPlayerProps,
           ],
         });
       }

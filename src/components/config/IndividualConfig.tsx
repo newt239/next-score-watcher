@@ -18,13 +18,14 @@ import {
 } from "@chakra-ui/react";
 import { Settings } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps } from "#/utils/db";
+import db, { GameDBPlayerProps, GameDBProps, RuleNames } from "#/utils/db";
 
 type InitialPointConfigModalProps = {
   onClose: () => void;
   isOpen: boolean;
   onClick: () => void;
   game_id: string;
+  rule_name: RuleNames;
   players: GameDBPlayerProps[];
   index: number;
   correct: boolean;
@@ -32,11 +33,12 @@ type InitialPointConfigModalProps = {
   disabled?: boolean;
 };
 
-const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
+const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   onClose,
   isOpen,
   onClick,
   game_id,
+  rule_name,
   players,
   index,
   correct,
@@ -44,6 +46,7 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
   disabled,
 }) => {
   if (!correct && !wrong) return null;
+  console.log(players[index]);
   return (
     <>
       <IconButton
@@ -57,7 +60,7 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{players[index].name}の初期ポイント</ModalHeader>
+          <ModalHeader>個人設定: {players[index].name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {correct && (
@@ -65,11 +68,11 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
                 <FormLabel>初期正答数</FormLabel>
                 <NumberInput
                   value={players[index].initial_correct}
-                  onChange={(s) => {
+                  onChange={(s, n) => {
                     db.games.update(game_id, {
                       players: players.map((gamePlayer, pi) =>
                         pi === index
-                          ? { ...gamePlayer, initial_correct: s }
+                          ? { ...gamePlayer, initial_correct: n }
                           : gamePlayer
                       ),
                     });
@@ -88,11 +91,39 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
                 <FormLabel>初期誤答数</FormLabel>
                 <NumberInput
                   value={players[index].initial_wrong}
-                  onChange={(s) => {
+                  onChange={(s, n) => {
                     db.games.update(game_id, {
                       players: players.map((gamePlayer, pi) =>
                         pi === index
-                          ? { ...gamePlayer, initial_wrong: s }
+                          ? { ...gamePlayer, initial_wrong: n }
+                          : gamePlayer
+                      ),
+                    });
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            )}
+            {rule_name === "various-fluctuations" && (
+              <FormControl pt={3}>
+                <FormLabel>N</FormLabel>
+                <NumberInput
+                  value={players[index].base_correct_point}
+                  min={2}
+                  onChange={(s, n) => {
+                    db.games.update(game_id, {
+                      players: players.map((gamePlayer, pi) =>
+                        pi === index
+                          ? {
+                              ...gamePlayer,
+                              base_correct_point: n,
+                              base_wrong_point: -n * (n - 2),
+                            }
                           : gamePlayer
                       ),
                     });
@@ -116,4 +147,4 @@ const InitialPointConfig: React.FC<InitialPointConfigModalProps> = ({
   );
 };
 
-export default InitialPointConfig;
+export default IndividualConfig;

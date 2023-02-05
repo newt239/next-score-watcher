@@ -19,6 +19,7 @@ type PlayerScoreButtonProps = {
   children: ReactNode;
   filled?: boolean;
   compact?: boolean;
+  mini?: boolean;
   rounded?: boolean;
   game_id: string;
   player_id: string;
@@ -31,6 +32,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   children,
   filled = false,
   compact = false,
+  mini = false,
   rounded = false,
   game_id,
   player_id,
@@ -48,7 +50,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       ? theme.colors.blue[500]
       : theme.colors.green[500];
   const handleClick = async () => {
-    if (color !== "green") {
+    if (color !== "green" && !disabled) {
       try {
         await db.logs.put({
           id: nanoid(),
@@ -63,7 +65,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       }
     }
   };
-
   return (
     <div>
       {editable ? (
@@ -75,7 +76,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             alignItems: "center",
             fontSize: isLargerThan700
               ? "clamp(5vh, 2rem, 5vw)"
-              : "max(7vw, 1rem)",
+              : "max(5vw, 1rem)",
             fontWeight: 800,
             width: "100%",
             minWidth: isLargerThan700
@@ -118,13 +119,13 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
               ? 35
               : 50,
             margin: "auto",
-            cursor: color === "green" ? "default" : "pointer",
+            cursor:
+              color === "green" ? "default" : disabled ? "default" : "pointer",
             backgroundColor: filled ? variantColor : defaultColor,
             color: filled ? defaultColor : variantColor,
             borderRadius: rounded ? "calc(1rem - 1px)" : 0,
           }}
           onClick={handleClick}
-          disabled={disabled}
         >
           {children}
         </Button>

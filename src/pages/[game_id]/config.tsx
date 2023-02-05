@@ -93,6 +93,14 @@ const ConfigPage: NextPageWithLayout = () => {
               />
             </>
           )}
+          {["various-fluctuations"].includes(game.rule) && (
+            <ConfigNumberInput
+              input_id="win_point"
+              label="勝ち抜けポイント"
+              max={1000}
+              disabled={disabled}
+            />
+          )}
           {["nbyn", "nupdown"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="win_point"

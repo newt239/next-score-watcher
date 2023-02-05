@@ -41,6 +41,9 @@ const computeScore = async (game_id: string) => {
   if (game.rule === "freezx") {
     return await freezx(game, gameLogList);
   }
+  if (game.rule === "various-fluctuations") {
+    return await variousFluctuations(game, gameLogList);
+  }
 
   const winThroughList: [string, string][] = [];
   gameLogList.map((log, qn) => {
@@ -162,11 +165,21 @@ const computeScore = async (game_id: string) => {
       case "nomx":
         if (playerState.wrong + 1 === game.lose_point!) {
           reachState = "lose";
-        } else if (playerState.correct + 1 === game.win_point!) {
+        }
+        if (playerState.correct + 1 === game.win_point!) {
           reachState = "win";
         }
         break;
       case "nbyn":
+        if (playerState.wrong + 1 === game.win_point!) {
+          reachState = "lose";
+        }
+        if (
+          (playerState.correct + 1) * (game.win_point! - playerState.wrong) ===
+          game.win_point! ** 2
+        ) {
+          reachState = "win";
+        }
         break;
     }
     return {
@@ -220,9 +233,7 @@ const getScore = (
       );
     case "squarex":
       return playerState.odd_score * playerState.even_score;
-    case "z":
-      return playerState.correct;
-    case "freezx":
+    default:
       return playerState.correct;
   }
 };
@@ -427,7 +438,6 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   const winThroughList: [string, string][] = [];
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
-      id: `${game.id}_${gamePlayer.id}`,
       game_id: game.id,
       player_id: gamePlayer.id,
       state: "playing",
@@ -508,6 +518,118 @@ const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         : remainIncapacity > 0
         ? `~${remainIncapacity}~`
         : `${playerState.correct}○`;
+    if (
+      playerState.state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      winThroughList.push([playerState.player_id, text]);
+    }
+    return { ...playerState, order, text, isIncapacity: remainIncapacity > 0 };
+  });
+  return { scoreList: playersState, winThroughList };
+};
+
+const variousFluctuations = async (
+  game: GameDBProps,
+  gameLogList: LogDBProps[]
+) => {
+  const winThroughList: [string, string][] = [];
+  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
+    return {
+      game_id: game.id,
+      player_id: gamePlayer.id,
+      state: "playing",
+      reachState: "playing",
+      score: 0,
+      last_correct: 10000,
+      last_wrong: -10000,
+      order: 0,
+      text: "",
+      odd_score: 0,
+      even_score: 0,
+      correct: 0,
+      wrong: 0,
+      stage: 1,
+      isIncapacity: false,
+    };
+  });
+  gameLogList.map((log, qn) => {
+    playersState = playersState.map((playerState) => {
+      if (playerState.player_id === log.player_id) {
+        switch (log.variant) {
+          case "through":
+            return playerState;
+          case "correct":
+            const correct_point = game.players.find(
+              (gamePlayer) => gamePlayer.id === playerState.player_id
+            )?.base_correct_point!;
+            const newCorrect = playerState.correct + correct_point;
+            if (newCorrect >= game.win_point!) {
+              return {
+                ...playerState,
+                correct: newCorrect,
+                last_correct: qn,
+                state: "win",
+              };
+            } else if (newCorrect + correct_point >= game.win_point!) {
+              return {
+                ...playerState,
+                correct: newCorrect,
+                last_correct: qn,
+                reachState: "win",
+              };
+            } else {
+              return {
+                ...playerState,
+                correct: newCorrect,
+              };
+            }
+          case "wrong":
+            return {
+              ...playerState,
+              wrong:
+                playerState.wrong +
+                (game.players.find(
+                  (gamePlayer) => gamePlayer.id === playerState.player_id
+                )?.base_wrong_point || 1),
+              last_wrong: qn,
+            };
+        }
+      } else {
+        return playerState;
+      }
+    });
+  });
+  const playerOrderList = playersState
+    .sort((pre, cur) => {
+      // 勝ち抜けているかどうか
+      if (pre.state === "win" && cur.state !== "win") return -1;
+      else if (pre.state !== "win" && cur.state === "win") return 1;
+      // 最後に正解した問題番号の若さを比較
+      if (pre.last_correct < cur.last_correct) return -1;
+      else if (cur.last_correct < pre.last_correct) return 1;
+      // 正答数を比較
+      if (pre.correct > cur.correct) return -1;
+      else if (cur.correct > pre.correct) return 1;
+      // 誤答数を比較
+      if (pre.wrong < cur.wrong) return -1;
+      else if (cur.wrong < pre.wrong) return 1;
+      // 必要に応じて評価基準を追加
+      else return 0;
+    })
+    .map((score) => score.player_id);
+  playersState = playersState.map((playerState) => {
+    const order = playerOrderList.findIndex(
+      (score) => score === playerState.player_id
+    );
+    const remainIncapacity =
+      playerState.wrong - (gameLogList.length - playerState.last_wrong - 1);
+    const text =
+      playerState.state === "win"
+        ? indicator(order)
+        : playerState.state === "lose"
+        ? "LOSE"
+        : "";
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
