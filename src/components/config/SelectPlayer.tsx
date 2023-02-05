@@ -116,9 +116,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     });
     toast({
       title: "プレイヤーを作成しました",
-      description: `${playerName}${
-        playerBelong !== "" ? " / " + playerBelong : ""
-      }`,
+      description: playerName,
       status: "success",
       duration: 9000,
       isClosable: true,

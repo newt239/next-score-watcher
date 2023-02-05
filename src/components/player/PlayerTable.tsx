@@ -202,7 +202,7 @@ const PlayerTable: React.FC = () => {
       .anyOf(affectedGameList.map((game) => game.id))
       .modify({ players: [] });
     toast({
-      title: `${deletePlayerList.length} 人のプレイヤーを削除しました`,
+      title: `${deletePlayerList.length}人のプレイヤーを削除しました`,
       description: table
         .getSelectedRowModel()
         .rows.map(({ original: player }) => player.name)

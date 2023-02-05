@@ -14,7 +14,7 @@ import { CirclePlus } from "tabler-icons-react";
 
 import db, { GameDBPlayerProps } from "#/utils/db";
 
-const CreatePlayer: React.FC<{ from: string | undefined }> = ({ from }) => {
+const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -54,8 +54,8 @@ const CreatePlayer: React.FC<{ from: string | undefined }> = ({ from }) => {
       }
     }
     toast({
-      title: "ユーザーを作成しました",
-      description: `${playerOrder}・${playerBelong}`,
+      title: "プレイヤーを作成しました",
+      description: playerName,
       status: "success",
       duration: 9000,
       isClosable: true,
