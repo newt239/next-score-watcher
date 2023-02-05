@@ -30,17 +30,33 @@ export default class Document extends NextDocument {
           />
           <link rel="manifest" href="/manifest.json" />
           <meta property="og:title" content="Score Watcher" />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="Score Watcher" />
           <meta
             property="og:description"
-            content="クイズ大会におけるプレイヤーの得点状況を可視化します。"
+            content="競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。"
           />
           <meta
             property="og:image"
             content="https://score-watcher.newt239.dev/score-watcher-ogp.webp"
           />
           <meta property="og:url" content="https://score-watcher.newt239.dev" />
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="Score Watcher" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Score Watcher" />
+          <meta
+            name="twitter:description"
+            content="競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。"
+          />
+          <meta
+            name="twitter:image"
+            content="https://score-watcher.newt239.dev/score-watcher-ogp.webp"
+          />
+          <meta name="twitter:site" content="@newt239" />
+          <meta name="twitter:creator" content="@newt239" />
+          <meta
+            name="twitter:domain"
+            content="score-watcher.newt239.dev"
+          ></meta>
           {GA_ID && (
             <>
               <script
