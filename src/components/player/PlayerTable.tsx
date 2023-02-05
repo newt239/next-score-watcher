@@ -58,6 +58,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  DeviceFloppy,
   Filter,
   Tags,
   Trash,
@@ -242,7 +243,7 @@ const PlayerTable: React.FC = () => {
                     size="sm"
                     leftIcon={<Tags />}
                   >
-                    タグの編集
+                    タグを追加
                   </Button>
                   <EditPlayertagsModal
                     selectedPlayers={table
@@ -381,7 +382,7 @@ const PlayerTable: React.FC = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>プレイヤー情報の更新</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton aria-label="閉じる" />
           {currentPlayer && (
             <>
               <ModalBody pb={6}>
@@ -424,11 +425,9 @@ const PlayerTable: React.FC = () => {
                 </FormControl>
               </ModalBody>
               <ModalFooter>
-                <Button onClick={onClose} mr={3}>
-                  閉じる
-                </Button>
                 <Button
                   colorScheme="blue"
+                  leftIcon={<DeviceFloppy />}
                   onClick={async () => {
                     await db.players.update(currentPlayer.id!, currentPlayer);
                     onClose();
@@ -470,7 +469,12 @@ const PlayerTable: React.FC = () => {
               <Button ref={alertCancelRef} onClick={alertOnClose}>
                 やめる
               </Button>
-              <Button colorScheme="red" onClick={deletePlayers} ml={3}>
+              <Button
+                colorScheme="red"
+                leftIcon={<Trash />}
+                onClick={deletePlayers}
+                ml={3}
+              >
                 削除する
               </Button>
             </AlertDialogFooter>

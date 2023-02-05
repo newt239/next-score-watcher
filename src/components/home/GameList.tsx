@@ -16,6 +16,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import {
   AdjustmentsHorizontal,
@@ -32,7 +33,10 @@ import db from "#/utils/db";
 import { GetRuleStringByType } from "#/utils/rules";
 
 const GameList: React.FC = () => {
-  const games = useLiveQuery(() => db.games.toArray());
+  const games = useLiveQuery(
+    () => db.games.orderBy("last_open").reverse().toArray(),
+    []
+  );
   const logs = useLiveQuery(() => db.logs.toArray(), []);
 
   if (!games || games.length === 0) return null;
@@ -47,6 +51,7 @@ const GameList: React.FC = () => {
               <Th>形式</Th>
               <Th>人数</Th>
               <Th>進行状況</Th>
+              <Th>最終閲覧</Th>
               <Th></Th>
             </Tr>
           </Thead>
@@ -59,13 +64,13 @@ const GameList: React.FC = () => {
                 eachGameLogs.length === 0
                   ? "設定中"
                   : `${eachGameLogs.length}問目`;
-
               return (
                 <Tr key={game.id}>
                   <Td>{game.name}</Td>
                   <Td>{GetRuleStringByType(game)}</Td>
                   <Td>{game.players.length}</Td>
                   <Td>{gameState}</Td>
+                  <Td>{cdate(game.last_open).format("MM/DD HH:MM")}</Td>
                   <Td sx={{ textAlign: "right" }}>
                     <HStack sx={{ justifyContent: "flex-end" }}>
                       <LinkButton

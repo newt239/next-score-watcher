@@ -16,9 +16,9 @@ import {
   ModalFooter,
   IconButton,
 } from "@chakra-ui/react";
-import { Settings } from "tabler-icons-react";
+import { DeviceFloppy, Settings } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps, GameDBProps, RuleNames } from "#/utils/db";
+import db, { GameDBPlayerProps, RuleNames } from "#/utils/db";
 
 type InitialPointConfigModalProps = {
   onClose: () => void;
@@ -61,7 +61,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>個人設定: {players[index].name}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton aria-label="閉じる" />
           <ModalBody>
             {correct && (
               <FormControl pt={3}>
@@ -114,7 +114,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 <FormLabel>N</FormLabel>
                 <NumberInput
                   value={players[index].base_correct_point}
-                  min={2}
+                  min={3}
                   onChange={(s, n) => {
                     db.games.update(game_id, {
                       players: players.map((gamePlayer, pi) =>
@@ -122,7 +122,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                           ? {
                               ...gamePlayer,
                               base_correct_point: n,
-                              base_wrong_point: -n * (n - 2),
+                              base_wrong_point: Math.min(-n * (n - 2), -3),
                             }
                           : gamePlayer
                       ),
@@ -139,7 +139,13 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             )}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>閉じる</Button>
+            <Button
+              colorScheme="blue"
+              leftIcon={<DeviceFloppy />}
+              onClick={onClose}
+            >
+              保存
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -3,7 +3,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { Alert, Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
+import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import AnswerPlayerTable from "#/components/board/AnswerPlayerTable";
@@ -27,6 +28,10 @@ const BoardPage: NextPage = () => {
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
+  useEffect(() => {
+    db.games.update(game_id as string, { last_open: cdate().text() });
+  }, []);
 
   useEffect(() => {
     if (playerList) {
@@ -120,7 +125,7 @@ const BoardPage: NextPage = () => {
       {getConfig("scorewatcher-show-logs") && (
         <Flex
           sx={{
-            justifyContent: "center",
+            justifyContent: "space-evenly",
             flexDirection: isLargerThan700 ? "row" : "column",
             my: 10,
           }}

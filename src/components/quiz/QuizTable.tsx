@@ -48,6 +48,7 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
+  DeviceFloppy,
   Filter,
   Trash,
 } from "tabler-icons-react";
@@ -317,7 +318,7 @@ const QuizTable: React.FC = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>編集</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton aria-label="閉じる" />
           {currentQuiz && (
             <>
               <ModalBody pb={6}>
@@ -363,7 +364,7 @@ const QuizTable: React.FC = () => {
               <ModalFooter>
                 <Button
                   colorScheme="blue"
-                  mr={3}
+                  leftIcon={<DeviceFloppy />}
                   onClick={async () => {
                     await db.quizes.update(currentQuiz.id, currentQuiz);
                     onClose();
@@ -371,7 +372,6 @@ const QuizTable: React.FC = () => {
                 >
                   保存
                 </Button>
-                <Button onClick={onClose}>閉じる</Button>
               </ModalFooter>
             </>
           )}

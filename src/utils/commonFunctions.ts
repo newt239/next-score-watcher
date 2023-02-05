@@ -1,5 +1,6 @@
 import router from "next/router";
 
+import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
 import db, { RuleNames, GameDBProps } from "./db";
@@ -31,6 +32,7 @@ export const createGame = async (
       correct_me: 1,
       wrong_me: -1,
       editable: false,
+      last_open: cdate().text(),
     };
     switch (rule_name) {
       case "nomx":

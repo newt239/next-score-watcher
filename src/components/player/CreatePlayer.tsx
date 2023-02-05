@@ -46,7 +46,7 @@ const CreatePlayer: React.FC<{ from: string | undefined }> = ({ from }) => {
               name: playerName,
               initial_correct: 0,
               initial_wrong: 0,
-              base_correct_point: 2,
+              base_correct_point: 3,
               base_wrong_point: -3,
             } as GameDBPlayerProps,
           ],

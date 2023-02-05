@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   Modal,
 } from "@chakra-ui/react";
+import { DeviceFloppy } from "tabler-icons-react";
 
 import db, { PlayerDBProps } from "#/utils/db";
 
@@ -41,11 +42,11 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>タグの編集</ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader>タグの追加</ModalHeader>
+          <ModalCloseButton aria-label="閉じる" />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>新規追加</FormLabel>
+              <FormLabel>新しいタグの名前</FormLabel>
               <Input
                 ref={initialRef}
                 value={newTagName}
@@ -54,11 +55,9 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose} mr={3}>
-              閉じる
-            </Button>
             <Button
               colorScheme="blue"
+              leftIcon={<DeviceFloppy />}
               disabled={newTagName === ""}
               onClick={async () => {
                 await db.players.bulkPut(

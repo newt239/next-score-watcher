@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import {
   FormControl,
   FormLabel,
-  Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -32,23 +31,19 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   const router = useRouter();
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
-  if (!game) {
-    return null;
-  }
-  const inputValue = () => {
-    return game[input_id] as string;
-  };
+
+  if (!game) return null;
 
   return (
     <FormControl pt={5}>
       <FormLabel>{label}</FormLabel>
       <NumberInput
-        value={inputValue()}
+        value={game[input_id] as number}
         min={min}
         max={max}
-        onChange={(s) => {
+        onChange={(s, n) => {
           db.games.update(game_id as string, {
-            [input_id]: s,
+            [input_id]: n,
           });
         }}
         isDisabled={disabled}

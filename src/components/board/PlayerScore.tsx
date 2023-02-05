@@ -283,8 +283,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {score.state === "playing" ? (
               <>
-                {game.players.find((gamePlayer) => gamePlayer.id === player_id)
-                  ?.base_correct_point! > 0 && "+"}
+                +
                 {
                   game.players.find((gamePlayer) => gamePlayer.id === player_id)
                     ?.base_correct_point!

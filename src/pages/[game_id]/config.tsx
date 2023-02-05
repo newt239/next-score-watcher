@@ -1,6 +1,7 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
 import router from "next/router";
+import { useEffect } from "react";
 
 import {
   Alert,
@@ -8,8 +9,10 @@ import {
   AlertTitle,
   Box,
   Button,
-  ButtonGroup,
+  Flex,
+  useMediaQuery,
 } from "@chakra-ui/react";
+import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
@@ -23,6 +26,7 @@ import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 const ConfigPage: NextPageWithLayout = () => {
+  const [isLargerThan400] = useMediaQuery("(min-width: 400px)");
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
@@ -32,6 +36,10 @@ const ConfigPage: NextPageWithLayout = () => {
   );
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
+
+  useEffect(() => {
+    db.games.update(game_id as string, { last_open: cdate().text() });
+  }, []);
 
   if (!game || !players || !logs) return null;
 
@@ -98,6 +106,7 @@ const ConfigPage: NextPageWithLayout = () => {
               input_id="win_point"
               label="勝ち抜けポイント"
               max={1000}
+              min={3}
               disabled={disabled}
             />
           )}
@@ -177,21 +186,26 @@ const ConfigPage: NextPageWithLayout = () => {
           default_quizset={game.quiz_set || ""}
           quizset_names={quizsetList}
         />
-        <Box sx={{ textAlign: "right", pt: 5 }}>
-          <ButtonGroup spacing={5}>
-            <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
-              ゲームを削除
-            </Button>
-            <LinkButton
-              icon={<PlayerPlay />}
-              colorScheme="green"
-              href={`/${game_id}/board`}
-              disabled={game.players.length === 0}
-            >
-              ゲーム開始
-            </LinkButton>
-          </ButtonGroup>
-        </Box>
+        <Flex
+          sx={{
+            flexDirection: isLargerThan400 ? "row" : "column-reverse",
+            justifyContent: "space-between",
+            pt: 20,
+            gap: 5,
+          }}
+        >
+          <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
+            ゲームを削除
+          </Button>
+          <LinkButton
+            icon={<PlayerPlay />}
+            colorScheme="green"
+            href={`/${game_id}/board`}
+            disabled={game.players.length === 0}
+          >
+            ゲーム開始
+          </LinkButton>
+        </Flex>
       </Box>
     </>
   );
