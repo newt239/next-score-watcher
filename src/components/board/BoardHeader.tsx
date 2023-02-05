@@ -65,7 +65,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         justifyContent: "space-between",
         alignItems: "center",
         gap: 5,
-        height: "15vh",
+        height: isLargerThan700 ? "15vh" : "10vh",
         px: isLargerThan700 ? 5 : 2,
         borderStyle: "solid",
         borderWidth: "0px 0px thin",

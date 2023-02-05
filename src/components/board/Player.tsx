@@ -1,7 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { useColorMode, theme, useMediaQuery, Box } from "@chakra-ui/react";
+import {
+  useColorMode,
+  theme,
+  useMediaQuery,
+  Box,
+  Flex,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "./PlayerColorConfig";
@@ -45,8 +51,8 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
   };
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         flexDirection: isLargerThan700 ? "column" : "row",
         justifyContent: "space-between",
@@ -55,8 +61,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         color:
           getColor(score.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: 5,
-        p: isLargerThan700 ? undefined : 1,
+        borderWidth: isLargerThan700 ? 3 : 1,
         borderStyle: "solid",
         borderColor:
           getColor(score.state) ||
@@ -66,12 +71,19 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
             : theme.colors.gray[50]),
         borderRadius: "1rem",
         overflowX: isLargerThan700 ? undefined : "scroll",
+        overflowY: "hidden",
       }}
     >
-      <div>
+      <Flex
+        sx={{
+          flexGrow: 1,
+          flexDirection: "column",
+          paddingLeft: isLargerThan700 ? undefined : "0.5rem",
+        }}
+      >
         <PlayerHeader index={index} text={player.text} belong={player.belong} />
         <PlayerName playerName={player.name} />
-      </div>
+      </Flex>
       {game.editable && (
         <div
           style={{
@@ -88,7 +100,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         </div>
       )}
       <PlayerScore game={game} player_id={player.id} score={score} qn={qn} />
-    </Box>
+    </div>
   );
 };
 

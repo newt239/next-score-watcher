@@ -15,19 +15,20 @@ const PlayerName: React.FC<PlayerNameProps> = ({ playerName }) => {
         alignItems: "center",
         justifyContent: "space-between",
         height: isLargerThan700 ? "50vh" : undefined,
-        width: isLargerThan700 ? undefined : "40vw",
-        margin: "auto",
       }}
     >
       <Box
         style={{
           writingMode: isLargerThan700 ? "vertical-rl" : "horizontal-tb",
           whiteSpace: "nowrap",
+          overflowX: "hidden",
+          textOverflow: "ellipsis",
           textOrientation: "upright",
-          fontSize: `min(calc(${isLargerThan700 ? "45vh" : "30vw"} / ${
-            playerName.length
-          }), clamp(9vh, 2.5rem, 9vw))`,
+          fontSize: isLargerThan700
+            ? `min(calc(45vh / ${playerName.length}), clamp(9vh, 2.5rem, 9vw))`
+            : "1.5rem",
           fontWeight: 800,
+          width: isLargerThan700 ? undefined : "max(40vw, 120px)",
         }}
       >
         {playerName}

@@ -87,7 +87,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
               ? 35
               : 50,
             margin: "auto",
-            backgroundColor: filled ? variantColor : defaultColor,
+            backgroundColor: filled ? variantColor : "transparent",
             color: filled ? defaultColor : variantColor,
             borderRadius: 0,
           }}
@@ -107,9 +107,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontSize: isLargerThan700
-              ? "clamp(5vh, 2rem, 5vw)"
-              : "max(7vw, 1rem)",
+            fontSize: isLargerThan700 ? "clamp(1rem, 5vw, 2rem)" : "1rem",
             width: "100%",
             minWidth: isLargerThan700
               ? compact
@@ -121,7 +119,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
             margin: "auto",
             cursor:
               color === "green" ? "default" : disabled ? "default" : "pointer",
-            backgroundColor: filled ? variantColor : defaultColor,
+            backgroundColor: filled ? variantColor : "transparent",
             color: filled ? defaultColor : variantColor,
             borderRadius: rounded ? "calc(1rem - 1px)" : 0,
           }}

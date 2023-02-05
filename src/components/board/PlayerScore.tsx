@@ -27,12 +27,15 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
 
   return (
     <Box
-      sx={{
+      style={{
         display: "flex",
         flexDirection: isLargerThan700 ? "column" : "row",
         alignItems: "center",
-        py: isLargerThan700 ? 3 : undefined,
-        px: isLargerThan700 ? undefined : 1.5,
+        justifyContent: "space-evenly",
+        paddingTop: isLargerThan700 ? 3 : undefined,
+        paddingBottom: isLargerThan700 ? 3 : undefined,
+        paddingLeft: isLargerThan700 ? undefined : "0.5rem",
+        paddingRight: isLargerThan700 ? undefined : "0.5rem",
         gap: isLargerThan700 ? 3 : 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
@@ -40,8 +43,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         borderStyle: "solid",
         borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
         borderRadius: isLargerThan700
-          ? "0 0 calc(1rem - 1px) calc(1rem - 1px)"
-          : "0 calc(1rem - 1px) calc(1rem - 1px) 0",
+          ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
+          : "0 calc(1rem - 2px) calc(1rem - 2px) 0",
       }}
     >
       {game.rule === "normal" && (
@@ -263,23 +266,17 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "various-fluctuations" && (
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="red" {...props}>
+            <PlayerScoreButton color="red" compact {...props}>
               {score.correct}○
             </PlayerScoreButton>
-            <PlayerScoreButton
-              disabled={score.isIncapacity}
-              color="blue"
-              rounded
-              {...props}
-            >
+            <PlayerScoreButton color="blue" compact rounded {...props}>
               {score.wrong}×
             </PlayerScoreButton>
           </div>
           <PlayerScoreButton
             color={score.state === "playing" ? "green" : "red"}
-            {...props}
             disabled={score.state !== "playing"}
-            mini
+            {...props}
           >
             {score.state === "playing" ? (
               <>

@@ -18,7 +18,6 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            paddingTop: 5,
             fontWeight: 800,
             whiteSpace: "nowrap",
           }}
@@ -33,14 +32,18 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
       ) : (
         <div
           style={{
-            fontSize: "3vw",
+            fontSize: "0.8rem",
+            lineHeight: "0.8rem",
             fontWeight: 800,
+            paddingTop: 5,
             whiteSpace: "nowrap",
-            width: "40vw",
             overflowX: "hidden",
             textOverflow: "ellipsis",
           }}
         >
+          {text === "" && belong === "" && (
+            <span style={{ opacity: 0.3 }}>Player{index + 1}</span>
+          )}
           <span>{text !== "" && text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
