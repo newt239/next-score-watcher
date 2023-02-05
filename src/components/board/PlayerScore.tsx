@@ -267,10 +267,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
-              {score.correct}○
+              {`${score.correct}○`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact rounded {...props}>
-              {score.wrong}×
+              {`${score.wrong}×`}
             </PlayerScoreButton>
           </div>
           <PlayerScoreButton
@@ -278,22 +278,13 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             disabled={score.state !== "playing"}
             {...props}
           >
-            {score.state === "playing" ? (
-              <>
-                +
-                {
-                  game.players.find((gamePlayer) => gamePlayer.id === player_id)
-                    ?.base_correct_point!
-                }{" "}
-                /{" "}
-                {
-                  game.players.find((gamePlayer) => gamePlayer.id === player_id)
-                    ?.base_wrong_point!
-                }
-              </>
-            ) : (
-              <>{score.text}</>
-            )}
+            {score.state === "playing"
+              ? `+${game.players.find(
+                  (gamePlayer) => gamePlayer.id === player_id
+                )?.base_correct_point!} / ${game.players.find(
+                  (gamePlayer) => gamePlayer.id === player_id
+                )?.base_wrong_point!}`
+              : score.text}
           </PlayerScoreButton>
         </>
       )}

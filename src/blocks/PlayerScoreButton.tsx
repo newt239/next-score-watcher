@@ -5,6 +5,7 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
+  SystemStyleObject,
   theme,
   useColorMode,
   useMediaQuery,
@@ -49,6 +50,20 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       : color === "blue"
       ? theme.colors.blue[500]
       : theme.colors.green[500];
+  const ButtonCssStyle: SystemStyleObject = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: isLargerThan700 ? "clamp(4vh, 2rem, 4vw)" : "max(3vw, 1rem)",
+    fontWeight: 800,
+    width: "100%",
+    minWidth: isLargerThan700 ? (compact ? 70 : 100) : compact ? 35 : 50,
+    margin: "auto",
+    backgroundColor: filled ? variantColor : "transparent",
+    color: filled ? defaultColor : variantColor,
+    whiteSpace: "nowrap",
+  };
+
   const handleClick = async () => {
     if (color !== "green" && !disabled) {
       try {
@@ -65,33 +80,11 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       }
     }
   };
+
   return (
     <div>
       {editable ? (
-        <Editable
-          defaultValue={String(children)}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: isLargerThan700
-              ? "clamp(5vh, 2rem, 5vw)"
-              : "max(5vw, 1rem)",
-            fontWeight: 800,
-            width: "100%",
-            minWidth: isLargerThan700
-              ? compact
-                ? 70
-                : 100
-              : compact
-              ? 35
-              : 50,
-            margin: "auto",
-            backgroundColor: filled ? variantColor : "transparent",
-            color: filled ? defaultColor : variantColor,
-            borderRadius: 0,
-          }}
-        >
+        <Editable defaultValue={children?.toString()} sx={ButtonCssStyle}>
           <EditablePreview sx={{ p: 0 }} />
           <EditableInput
             sx={{
@@ -101,30 +94,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           />
         </Editable>
       ) : (
-        <Button
-          variant="unstyled"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: isLargerThan700 ? "clamp(1rem, 5vw, 2rem)" : "1rem",
-            width: "100%",
-            minWidth: isLargerThan700
-              ? compact
-                ? 70
-                : 100
-              : compact
-              ? 35
-              : 50,
-            margin: "auto",
-            cursor:
-              color === "green" ? "default" : disabled ? "default" : "pointer",
-            backgroundColor: filled ? variantColor : "transparent",
-            color: filled ? defaultColor : variantColor,
-            borderRadius: rounded ? "calc(1rem - 1px)" : 0,
-          }}
-          onClick={handleClick}
-        >
+        <Button variant="unstyled" sx={ButtonCssStyle} onClick={handleClick}>
           {children}
         </Button>
       )}
