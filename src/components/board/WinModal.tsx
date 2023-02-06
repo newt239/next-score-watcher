@@ -36,7 +36,7 @@ const WinModal: React.FC<WinModalProps> = ({
   useEffect(() => {
     setTimeout(() => {
       reward();
-    }, 1000);
+    }, 500);
   }, [winTroughPeople.length]);
 
   return (

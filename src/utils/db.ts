@@ -96,7 +96,6 @@ export interface ScoreWatcherDBTables extends DexieDatabase {
   games: Table<GameDBProps>;
   players: Table<PlayerDBProps>;
   logs: Table<LogDBProps>;
-  computed_scores: Table<ComputedScoreDBProps>;
   quizes: Table<QuizDBProps>;
 }
 
@@ -107,12 +106,8 @@ db.version(1).stores({
   players: "id, name, belong, text, tags",
   logs: "id, game_id, player_id, variant, system",
   quizes: "id, q, a, set_name",
-  computed_scores:
-    "++id, game_id, player_id, state, reachState, score, correct, wrong, last_correct, last_wrong, odd_score, even_score, stage, isIncapacity, order, text",
 });
 
-db.open()
-  .then((r) => console.log("open score_watcher database"))
-  .catch((r) => console.log(r));
+db.open().catch((r) => console.log(r));
 
 export default db;

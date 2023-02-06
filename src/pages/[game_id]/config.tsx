@@ -53,7 +53,7 @@ const ConfigPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Score Watcher</title>
+        <title>ゲーム設定 - Score Watcher</title>
       </Head>
       {disabled ? (
         <Alert status="error">

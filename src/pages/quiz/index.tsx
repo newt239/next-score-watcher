@@ -32,7 +32,7 @@ const QuizPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>問題管理</title>
+        <title>問題管理 - Score Watcher</title>
       </Head>
       {typeof from === "string" && (
         <Box>

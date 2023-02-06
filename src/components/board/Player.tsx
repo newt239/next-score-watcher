@@ -82,7 +82,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
         }}
       >
         <PlayerHeader index={index} text={player.text} belong={player.belong} />
-        <PlayerName playerName={player.name} />
+        <PlayerName player_name={player.name} />
       </Flex>
       {game.editable && (
         <div

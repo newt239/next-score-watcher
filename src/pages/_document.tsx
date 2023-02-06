@@ -10,7 +10,16 @@ export default class Document extends NextDocument {
     return (
       <Html lang="ja">
         <Head>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
           <meta name="theme-color" content="#28A745" />
+          <meta
+            name="description"
+            content="競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。"
+          />
+          <link rel="icon" href="/favicon.ico" />
           <link
             rel="icon"
             type="image/png"

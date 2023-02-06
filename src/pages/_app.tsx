@@ -14,16 +14,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   usePageView();
 
   return (
-    <>
-      <Head>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <CSR>
-        <ChakraProvider>
-          {getLayout(<Component {...pageProps} />)}
-        </ChakraProvider>
-      </CSR>
-    </>
+    <CSR>
+      <ChakraProvider>{getLayout(<Component {...pageProps} />)}</ChakraProvider>
+    </CSR>
   );
 }
 MyApp.getInitialProps = async () => ({ pageProps: {} });

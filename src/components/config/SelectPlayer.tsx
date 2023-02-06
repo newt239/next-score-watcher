@@ -31,8 +31,6 @@ import {
   useColorMode,
   theme,
   useDisclosure,
-  UnorderedList,
-  ListItem,
   useMediaQuery,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";

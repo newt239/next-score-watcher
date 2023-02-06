@@ -24,8 +24,8 @@ type ConfigNumberInputProps = {
 const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   input_id,
   label,
-  min = 1,
-  max = 10,
+  min = 0,
+  max = 100,
   disabled,
 }) => {
   const router = useRouter();

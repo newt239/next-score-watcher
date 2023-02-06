@@ -1,10 +1,10 @@
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
 type PlayerNameProps = {
-  playerName: string;
+  player_name: string;
 };
 
-const PlayerName: React.FC<PlayerNameProps> = ({ playerName }) => {
+const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   return (
@@ -25,13 +25,13 @@ const PlayerName: React.FC<PlayerNameProps> = ({ playerName }) => {
           textOverflow: "ellipsis",
           textOrientation: "upright",
           fontSize: isLargerThan700
-            ? `min(calc(45vh / ${playerName.length}), clamp(9vh, 2.5rem, 9vw))`
+            ? `min(calc(45vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
             : "1.5rem",
           fontWeight: 800,
           width: isLargerThan700 ? undefined : "max(40vw, 120px)",
         }}
       >
-        {playerName}
+        {player_name}
       </Box>
     </div>
   );

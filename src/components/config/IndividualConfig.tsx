@@ -16,11 +16,7 @@ import {
   ModalFooter,
   IconButton,
 } from "@chakra-ui/react";
-import {
-  AdjustmentsHorizontal,
-  DeviceFloppy,
-  Settings,
-} from "tabler-icons-react";
+import { AdjustmentsHorizontal, DeviceFloppy } from "tabler-icons-react";
 
 import db, { GameDBPlayerProps, RuleNames } from "#/utils/db";
 

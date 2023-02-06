@@ -12,11 +12,6 @@ const HomePage: NextPageWithLayout = () => {
     <>
       <Head>
         <title>Score Watcher</title>
-        <meta
-          name="description"
-          content="競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。"
-        />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
       <GameList />

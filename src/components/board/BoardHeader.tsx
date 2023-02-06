@@ -62,9 +62,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       sx={{
         justifyContent: "space-between",
         alignItems: "center",
-        gap: 5,
+        gap: 3,
         height: isLargerThan700 ? "15vh" : "10vh",
-        px: isLargerThan700 ? 5 : 2,
+        px: 3,
         borderStyle: "solid",
         borderWidth: "0px 0px thin",
         borderColor:
@@ -110,7 +110,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           <>
             <Box sx={{ whiteSpace: "nowrap" }}>
               第
-              <span style={{ fontSize: "2rem", fontWeight: 800 }}>
+              <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
                 {logs.length + 1}
               </span>
               問
@@ -135,6 +135,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                     style={{
                       textAlign: "right",
                       color: theme.colors.red[500],
+                      fontWeight: 800,
                     }}
                   >
                     {quizList[game.quiz.offset + logs.length - 1].a}
