@@ -86,20 +86,12 @@ const ConfigPage: NextPageWithLayout = () => {
             placehodler="〇〇大会"
           />
           {["nomx", "nomx-ad"].includes(game.rule) && (
-            <>
-              <ConfigNumberInput
-                input_id="win_point"
-                label="勝ち抜け正解数"
-                max={30}
-                disabled={disabled}
-              />
-              <ConfigNumberInput
-                input_id="lose_point"
-                label="失格誤答数"
-                max={30}
-                disabled={disabled}
-              />
-            </>
+            <ConfigNumberInput
+              input_id="win_point"
+              label="勝ち抜け正解数"
+              max={30}
+              disabled={disabled}
+            />
           )}
           {["various-fluctuations"].includes(game.rule) && (
             <ConfigNumberInput
@@ -126,10 +118,11 @@ const ConfigPage: NextPageWithLayout = () => {
               disabled={disabled}
             />
           )}
-          {["nupdown"].includes(game.rule) && (
+          {["nomx", "nomx-ad", "nbyn", "nupdown"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="lose_point"
               label="失格誤答数"
+              max={100}
               disabled={disabled}
             />
           )}

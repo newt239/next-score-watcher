@@ -25,8 +25,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
     editable: game.editable,
   };
 
-  console.log({ last_correct: player.last_correct, qn });
-
   return (
     <Box
       style={{
@@ -91,16 +89,22 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "blue"
                 : "green"
             }
+            filled={player.state === "playing"}
             {...props}
           >
             {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
+            <PlayerScoreButton color="green" compact {...props}>
+              {`${player.correct}×${game.win_point! - player.wrong}`}
+            </PlayerScoreButton>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
               {player.correct}○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {game.win_point! - player.wrong}×
+              {player.wrong}×
             </PlayerScoreButton>
           </div>
         </>

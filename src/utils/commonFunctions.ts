@@ -45,6 +45,7 @@ export const createGame = async (
         break;
       case "nbyn":
         putData.win_point = rules[rule_name].win_point;
+        putData.lose_point = rules[rule_name].lose_point;
         break;
       case "nupdown":
         putData.win_point = rules[rule_name].win_point;

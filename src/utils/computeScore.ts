@@ -173,7 +173,7 @@ const computeScore = async (game_id: string) => {
         }
         break;
       case "nbyn":
-        if (playerState.wrong + 1 === game.win_point!) {
+        if (playerState.wrong + 1 === game.lose_point!) {
           reachState = "lose";
         }
         if (
@@ -214,13 +214,10 @@ const getScore = (
     case "nbyn":
       if (variant === "correct") {
         return (
-          (playerState.correct + 1) *
-          ((game.win_point || 5) - playerState.wrong)
+          (playerState.correct + 1) * (game.win_point! - playerState.wrong)
         );
       } else {
-        return (
-          playerState.correct * ((game.win_point || 5) - playerState.wrong - 1)
-        );
+        return playerState.correct * (game.win_point! - playerState.wrong - 1);
       }
     case "nupdown":
       return variant === "wrong" ? 0 : playerState.score + 1;
