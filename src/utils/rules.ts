@@ -51,8 +51,8 @@ export const rules = {
     description:
       "各プレイヤーはステージ1に立った状態でゲームを開始します。\nいずれかのプレイヤーがステージをクリアしたとき、全員の正解数と誤答数および失格状態をリセットし、ステージをクリアしたプレイヤーはステージを1進めます。\n各ステージの内容は次の通りです:\n・ステージ1:1回の正解でクリアです。誤答すると1問の間、解答権が剥奪されます\n・ステージ2:2回の正解でクリアです。1問の誤答で失格となります\n・ステージ3:3回の正解でクリアです。2間の誤答で失格となります\n・ステージ4:4回の正解でクリアです。3問の誤答で失格となります\nステージ5に到達すれば勝ち抜けです。既定の人数が勝ち抜けたときゲームを終了します。",
   },
-  freezx: {
-    name: "freezX",
+  freezex: {
+    name: "freezeX",
     description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
     win_point: 7,
   },
@@ -82,7 +82,7 @@ export const GetRuleStringByType = (game: GameDBProps): string => {
       return `Square${game.win_point}`;
     case "z":
       return "Z";
-    case "freezx":
+    case "freezex":
       return `freez${game.win_point}`;
     case "various-fluctuations":
       return `Various Fluctuations`;

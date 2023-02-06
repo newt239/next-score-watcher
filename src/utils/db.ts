@@ -11,7 +11,7 @@ export type RuleNames =
   | "attacksurvival"
   | "squarex"
   | "z"
-  | "freezx"
+  | "freezex"
   | "various-fluctuations";
 
 export type GameDBPlayerProps = {

@@ -245,7 +245,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
         </>
       )}
-      {game.rule === "freezx" && (
+      {game.rule === "freezex" && (
         <>
           <PlayerScoreButton
             color={score.isIncapacity ? "green" : "red"}

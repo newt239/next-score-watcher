@@ -38,8 +38,8 @@ const computeScore = async (game_id: string) => {
   if (game.rule === "z") {
     return await z(game, gameLogList);
   }
-  if (game.rule === "freezx") {
-    return await freezx(game, gameLogList);
+  if (game.rule === "freezex") {
+    return await freezex(game, gameLogList);
   }
   if (game.rule === "various-fluctuations") {
     return await variousFluctuations(game, gameLogList);
@@ -434,7 +434,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   return { scoreList: playersState, winThroughList };
 };
 
-const freezx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   const winThroughList: [string, string][] = [];
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
