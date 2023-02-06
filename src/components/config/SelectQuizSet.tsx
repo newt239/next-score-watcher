@@ -1,20 +1,32 @@
 import { useRouter } from "next/router";
 
-import { Box, Button, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Select,
+} from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import db from "#/utils/db";
+import db, { GameDBQuizProps } from "#/utils/db";
 
 type SelectQuizsetProps = {
   game_id: string;
-  default_quizset: string;
+  game_quiz: GameDBQuizProps | undefined;
   quizset_names: string[];
 };
 
 const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   game_id,
-  default_quizset,
+  game_quiz,
   quizset_names,
 }) => {
   const router = useRouter();
@@ -24,24 +36,52 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
       <H2>問題設定</H2>
       <Box py={5}>
         {quizset_names.length !== 0 ? (
-          <FormControl pt={5} width={200}>
-            <FormLabel>セット名</FormLabel>
-            <Select
-              defaultValue={default_quizset}
-              onChange={async (v) => {
-                await db.games.update(game_id as string, {
-                  quiz_set: v.target.value,
-                });
-              }}
-            >
-              <option value="">問題を表示しない</option>
-              {quizset_names.map((setname) => (
-                <option key={setname} value={setname}>
-                  {setname}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          <Flex sx={{ gap: 5 }}>
+            <FormControl pt={5} width={200}>
+              <FormLabel>セット名</FormLabel>
+              <Select
+                defaultValue={game_quiz?.set_name || ""}
+                onChange={async (v) => {
+                  await db.games.update(game_id as string, {
+                    quiz: {
+                      set_name: v.target.value,
+                      offset: game_quiz?.offset || 0,
+                    } as GameDBQuizProps,
+                  });
+                }}
+              >
+                <option value="">問題を表示しない</option>
+                {quizset_names.map((setname) => (
+                  <option key={setname} value={setname}>
+                    {setname}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            {game_quiz && game_quiz.set_name !== "" && (
+              <FormControl pt={5} width={200}>
+                <FormLabel>オフセット</FormLabel>
+                <NumberInput
+                  value={game_quiz.offset}
+                  min={0}
+                  onChange={(s, n) => {
+                    db.games.update(game_id as string, {
+                      quiz: {
+                        set_name: game_quiz.set_name,
+                        offset: n,
+                      } as GameDBQuizProps,
+                    });
+                  }}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            )}
+          </Flex>
         ) : (
           <Box>
             <Button

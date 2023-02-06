@@ -20,8 +20,6 @@ type PlayerScoreButtonProps = {
   children: ReactNode;
   filled?: boolean;
   compact?: boolean;
-  mini?: boolean;
-  rounded?: boolean;
   game_id: string;
   player_id: string;
   editable: boolean;
@@ -33,8 +31,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   children,
   filled = false,
   compact = false,
-  mini = false,
-  rounded = false,
   game_id,
   player_id,
   editable,

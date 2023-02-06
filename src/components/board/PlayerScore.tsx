@@ -279,7 +279,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton
             disabled={player.isIncapacity}
             color="blue"
-            rounded
             {...props}
           >
             {`${player.wrong}×`}

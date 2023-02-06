@@ -44,11 +44,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   useEffect(() => {
     const getQuizList = async () => {
-      if (game.quiz_set) {
-        const a = await db.quizes.toArray();
-        console.log(a);
+      if (game.quiz) {
         setQuizList(
-          await db.quizes.where({ set_name: game.quiz_set }).sortBy("n")
+          await db.quizes.where({ set_name: game.quiz.set_name }).sortBy("n")
         );
       }
     };
@@ -117,7 +115,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 height: "100%",
               }}
             >
-              {game.quiz_set &&
+              {game.quiz &&
                 quizList.length >= logs.length &&
                 logs.length !== 0 && (
                   <div
@@ -129,7 +127,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                     }}
                   >
                     <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
-                      {quizList[logs.length - 1].q}
+                      {quizList[game.quiz.offset + logs.length - 1].q}
                     </div>
                     <div
                       style={{
@@ -137,7 +135,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                         color: theme.colors.red[500],
                       }}
                     >
-                      {quizList[logs.length - 1].a}
+                      {quizList[game.quiz.offset + logs.length - 1].a}
                     </div>
                   </div>
                 )}

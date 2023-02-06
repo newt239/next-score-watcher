@@ -176,7 +176,7 @@ const ConfigPage: NextPageWithLayout = () => {
         />
         <SelectQuizset
           game_id={game.id}
-          default_quizset={game.quiz_set || ""}
+          game_quiz={game.quiz}
           quizset_names={quizsetList}
         />
         <Flex

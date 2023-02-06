@@ -355,19 +355,19 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                   </DragDropContext>
                 )}
               </Box>
-              <Box
-                sx={{
-                  p: 3,
-                  borderStyle: "solid",
-                  borderWidth: 1,
-                  borderColor:
-                    colorMode === "dark"
-                      ? theme.colors.black
-                      : theme.colors.gray[500],
-                }}
-              >
-                <UnorderedList>
-                  {rule_name === "various-fluctuations" && (
+              {rule_name === "various-fluctuations" && (
+                <Box
+                  sx={{
+                    p: 3,
+                    borderStyle: "solid",
+                    borderWidth: 1,
+                    borderColor:
+                      colorMode === "dark"
+                        ? theme.colors.black
+                        : theme.colors.gray[500],
+                  }}
+                >
+                  <UnorderedList>
                     <ListItem>
                       各プレイヤーの変動値Nはプレイヤー名横の
                       <Settings
@@ -378,9 +378,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       />
                       から設定できます。
                     </ListItem>
-                  )}
-                </UnorderedList>
-              </Box>
+                  </UnorderedList>
+                </Box>
+              )}
             </Box>
           </>
         )}
