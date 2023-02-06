@@ -563,35 +563,38 @@ const variousFluctuations = async (
             const correct_point = game.players.find(
               (gamePlayer) => gamePlayer.id === playerState.player_id
             )?.base_correct_point!;
-            const newCorrect = playerState.correct + correct_point;
-            if (newCorrect >= game.win_point!) {
+            const newScore = playerState.score + correct_point;
+            if (newScore >= game.win_point!) {
               return {
                 ...playerState,
-                correct: newCorrect,
+                correct: playerState.correct + 1,
+                score: newScore,
                 last_correct: qn,
                 state: "win",
               };
-            } else if (newCorrect + correct_point >= game.win_point!) {
+            } else if (newScore + correct_point >= game.win_point!) {
               return {
                 ...playerState,
-                correct: newCorrect,
+                correct: playerState.correct + 1,
+                score: newScore,
                 last_correct: qn,
                 reachState: "win",
               };
             } else {
               return {
                 ...playerState,
-                correct: newCorrect,
+                correct: playerState.correct + 1,
+                score: newScore,
               };
             }
           case "wrong":
+            const wrong_point = game.players.find(
+              (gamePlayer) => gamePlayer.id === playerState.player_id
+            )?.base_wrong_point!;
             return {
               ...playerState,
-              wrong:
-                playerState.wrong +
-                (game.players.find(
-                  (gamePlayer) => gamePlayer.id === playerState.player_id
-                )?.base_wrong_point || 1),
+              wrong: playerState.wrong + 1,
+              score: playerState.score + wrong_point,
               last_wrong: qn,
             };
         }
