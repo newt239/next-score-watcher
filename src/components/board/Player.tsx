@@ -69,7 +69,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
-        borderRadius: "1rem",
+        borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
         overflowX: isLargerThan700 ? undefined : "scroll",
         overflowY: "hidden",
       }}

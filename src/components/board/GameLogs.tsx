@@ -35,7 +35,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
           p: 3,
-          borderRadius: "1rem",
+          borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
           whiteSpace: "nowrap",
           overflowX: "hidden",
         }}

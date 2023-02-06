@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Table,
   TableContainer,
   Tbody,
@@ -8,6 +7,7 @@ import {
   theme,
   Tr,
   useColorMode,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { Users } from "tabler-icons-react";
 
@@ -22,6 +22,7 @@ type GameLogsProps = {
 
 const AnswerPlayerTable: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   if (!getConfig("scorewatcher-show-logs")) return null;
 
@@ -40,7 +41,7 @@ const AnswerPlayerTable: React.FC<GameLogsProps> = ({ players, logs }) => {
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
           p: 3,
-          borderRadius: "1rem",
+          borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
         }}
       >
         {logs.length !== 0 ? (

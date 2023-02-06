@@ -90,12 +90,19 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               : theme.colors.gray[500],
           borderRadius: "1rem",
           padding: isLargerThan700 ? 3 : undefined,
-          whiteSpace: "nowrap",
           maxWidth: "70vw",
-          overflowX: "hidden",
         }}
       >
-        <H2 sx={{ pt: 0 }}>{game.name}</H2>
+        <H2
+          sx={{
+            pt: 0,
+            whiteSpace: "nowrap",
+            overflowX: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {game.name}
+        </H2>
         <p>{GetRuleStringByType(game)}</p>
       </Box>
       {game.editable ||
@@ -108,38 +115,32 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               </span>
               問
             </Box>
-            <Box
-              style={{
-                flexGrow: 1,
-                padding: "1rem",
-                height: "100%",
-              }}
-            >
-              {game.quiz &&
-                quizList.length >= logs.length &&
-                logs.length !== 0 && (
+            {game.quiz &&
+              quizList.length >= logs.length &&
+              logs.length !== 0 && (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    height: "100%",
+                    py: 3,
+                  }}
+                >
+                  <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
+                    {quizList[game.quiz.offset + logs.length - 1].q}
+                  </div>
                   <div
                     style={{
-                      flexGrow: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      overflowY: "hidden",
+                      textAlign: "right",
+                      color: theme.colors.red[500],
                     }}
                   >
-                    <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
-                      {quizList[game.quiz.offset + logs.length - 1].q}
-                    </div>
-                    <div
-                      style={{
-                        textAlign: "right",
-                        color: theme.colors.red[500],
-                      }}
-                    >
-                      {quizList[game.quiz.offset + logs.length - 1].a}
-                    </div>
+                    {quizList[game.quiz.offset + logs.length - 1].a}
                   </div>
-                )}
-            </Box>
+                </Box>
+              )}
           </>
         ))}
       <Box>

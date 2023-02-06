@@ -16,7 +16,11 @@ import {
   ModalFooter,
   IconButton,
 } from "@chakra-ui/react";
-import { DeviceFloppy, Settings } from "tabler-icons-react";
+import {
+  AdjustmentsHorizontal,
+  DeviceFloppy,
+  Settings,
+} from "tabler-icons-react";
 
 import db, { GameDBPlayerProps, RuleNames } from "#/utils/db";
 
@@ -51,10 +55,9 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
     <>
       <IconButton
         onClick={onClick}
-        variant="ghost"
         size="xs"
         aria-label="初期値の変更"
-        icon={<Settings />}
+        icon={<AdjustmentsHorizontal />}
         disabled={disabled}
       />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>

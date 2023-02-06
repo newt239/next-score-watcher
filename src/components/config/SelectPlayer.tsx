@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   Accordion,
@@ -33,6 +33,7 @@ import {
   useDisclosure,
   UnorderedList,
   ListItem,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import {
@@ -86,6 +87,8 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
+
+  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== "Enter") return;
@@ -277,111 +280,106 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 </DrawerBody>
               </DrawerContent>
             </Drawer>
-            <Box
-              sx={{
-                my: 5,
-              }}
-            >
+            {players.length !== 0 && (
               <Box
                 sx={{
+                  mt: 5,
                   p: 3,
                   backgroundColor:
                     colorMode === "dark"
-                      ? theme.colors.black
-                      : theme.colors.gray[500],
+                      ? theme.colors.gray[600]
+                      : theme.colors.gray[300],
                 }}
               >
-                {players.length === 0 ? (
-                  <Text>ここに選択したプレイヤーが表示されます。</Text>
-                ) : (
-                  <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable" direction="horizontal">
-                      {(provided) => (
-                        <Flex
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          gap={3}
-                        >
-                          {players.map((gamePlayer, index) => (
-                            <Draggable
-                              key={gamePlayer.id}
-                              draggableId={gamePlayer.id}
-                              index={index}
-                            >
-                              {(provided, snapshot) => (
-                                <Card
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  variant="filled"
-                                >
-                                  <CardBody>
-                                    <Flex sx={{ gap: 3, alignItems: "center" }}>
-                                      <Box>
-                                        <Text size="xl">{gamePlayer.name}</Text>
-                                      </Box>
-                                      <IndividualConfig
-                                        onClose={onClose}
-                                        isOpen={isOpen}
-                                        onClick={() => {
-                                          setCurrentPlayerIndex(index);
-                                          onOpen();
-                                        }}
-                                        game_id={game_id}
-                                        rule_name={rule_name}
-                                        players={players}
-                                        index={currentPlayerIndex}
-                                        correct={[
-                                          "normal",
-                                          "nomx",
-                                          "nomx-ad",
-                                          "various-fluctuations",
-                                        ].includes(rule_name)}
-                                        wrong={["nomx", "nomx-ad"].includes(
-                                          rule_name
-                                        )}
-                                        disabled={disabled}
-                                      />
-                                    </Flex>
-                                  </CardBody>
-                                </Card>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </Flex>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
-                )}
-              </Box>
-              {rule_name === "various-fluctuations" && (
-                <Box
-                  sx={{
-                    p: 3,
-                    borderStyle: "solid",
-                    borderWidth: 1,
-                    borderColor:
-                      colorMode === "dark"
-                        ? theme.colors.black
-                        : theme.colors.gray[500],
-                  }}
-                >
-                  <UnorderedList>
-                    <ListItem>
-                      各プレイヤーの変動値Nはプレイヤー名横の
-                      <Settings
-                        style={{
-                          display: "inline-block",
-                          verticalAlign: "-0.3rem",
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable
+                    droppableId="droppable"
+                    direction={isLargerThan700 ? "horizontal" : "vertical"}
+                  >
+                    {(provided) => (
+                      <Flex
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        sx={{
+                          flexDirection: isLargerThan700 ? "row" : "column",
+                          gap: 3,
                         }}
-                      />
-                      から設定できます。
-                    </ListItem>
-                  </UnorderedList>
-                </Box>
-              )}
-            </Box>
+                      >
+                        {players.map((gamePlayer, index) => (
+                          <Draggable
+                            key={gamePlayer.id}
+                            draggableId={gamePlayer.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => (
+                              <Card
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                bgColor={
+                                  colorMode === "dark"
+                                    ? theme.colors.gray[700]
+                                    : theme.colors.gray[200]
+                                }
+                              >
+                                <CardBody>
+                                  <Flex
+                                    sx={{
+                                      flexDirection: isLargerThan700
+                                        ? "column"
+                                        : "row",
+                                      gap: 3,
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      height: "100%",
+                                    }}
+                                  >
+                                    <Box
+                                      sx={{
+                                        writingMode: isLargerThan700
+                                          ? "vertical-rl"
+                                          : "horizontal-tb",
+                                        whiteSpace: "nowrap",
+                                        textOrientation: "upright",
+                                      }}
+                                    >
+                                      <Text size="xl">{gamePlayer.name}</Text>
+                                    </Box>
+                                    <IndividualConfig
+                                      onClose={onClose}
+                                      isOpen={isOpen}
+                                      onClick={() => {
+                                        setCurrentPlayerIndex(index);
+                                        onOpen();
+                                      }}
+                                      game_id={game_id}
+                                      rule_name={rule_name}
+                                      players={players}
+                                      index={currentPlayerIndex}
+                                      correct={[
+                                        "normal",
+                                        "nomx",
+                                        "nomx-ad",
+                                        "various-fluctuations",
+                                      ].includes(rule_name)}
+                                      wrong={["nomx", "nomx-ad"].includes(
+                                        rule_name
+                                      )}
+                                      disabled={disabled}
+                                    />
+                                  </Flex>
+                                </CardBody>
+                              </Card>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </Flex>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </Box>
+            )}
           </>
         )}
       </Box>
