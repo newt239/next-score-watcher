@@ -334,9 +334,12 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                         correct={[
                                           "normal",
                                           "nomx",
+                                          "nomx-ad",
                                           "various-fluctuations",
                                         ].includes(rule_name)}
-                                        wrong={["nomx"].includes(rule_name)}
+                                        wrong={["nomx", "nomx-ad"].includes(
+                                          rule_name
+                                        )}
                                         disabled={disabled}
                                       />
                                     </Flex>

@@ -35,6 +35,10 @@ const computeScore = async (game_id: string) => {
     };
   });
 
+  if (game.rule === "nomx-ad") {
+    return await nomxAd(game, gameLogList);
+  }
+
   if (game.rule === "z") {
     return await z(game, gameLogList);
   }
@@ -117,25 +121,23 @@ const computeScore = async (game_id: string) => {
       // 勝ち抜けているかどうか
       if (pre.state === "win" && cur.state !== "win") return -1;
       else if (pre.state !== "win" && cur.state === "win") return 1;
-      else {
-        // 最後に正解した問題番号の若さを比較
-        if (pre.last_correct < cur.last_correct) return -1;
-        else if (cur.last_correct < pre.last_correct) return 1;
-        // スコアを比較
-        if (pre.score > cur.score) return -1;
-        else if (cur.score > pre.score) return 1;
-        // 最後に正解した問題番号で比較  TODO: 複数人が正解となるパターン＆判定勝ち
-        if (cur.last_correct > pre.last_correct) return -1;
-        else if (pre.last_correct > cur.last_correct) return 1;
-        // 正答数を比較
-        if (pre.correct > cur.correct) return -1;
-        else if (cur.correct > pre.correct) return 1;
-        // 誤答数を比較
-        if (pre.wrong > cur.wrong) return -1;
-        else if (cur.wrong > pre.wrong) return 1;
-        // 必要に応じて評価基準を追加
-        else return 0;
-      }
+      // 最後に正解した問題番号の若さを比較
+      else if (pre.last_correct < cur.last_correct) return -1;
+      else if (cur.last_correct < pre.last_correct) return 1;
+      // スコアを比較
+      if (pre.score > cur.score) return -1;
+      else if (cur.score > pre.score) return 1;
+      // 最後に正解した問題番号で比較  TODO: 複数人が正解となるパターン＆判定勝ち
+      if (cur.last_correct > pre.last_correct) return -1;
+      else if (pre.last_correct > cur.last_correct) return 1;
+      // 正答数を比較
+      if (pre.correct > cur.correct) return -1;
+      else if (cur.correct > pre.correct) return 1;
+      // 誤答数を比較
+      if (pre.wrong > cur.wrong) return -1;
+      else if (cur.wrong > pre.wrong) return 1;
+      // 必要に応じて評価基準を追加
+      else return 0;
     })
     .map((score) => score.player_id);
   playersState = playersState.map((insertData) => {
@@ -300,6 +302,101 @@ const getState = (
       ? `${playerState.score}pt`
       : String(playerState.score),
   ];
+};
+
+const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+  const winThroughList: [string, string][] = [];
+  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
+    return {
+      game_id: game.id,
+      player_id: gamePlayer.id,
+      state: "playing",
+      reachState: "playing",
+      score: 0,
+      last_correct: -100,
+      last_wrong: -100,
+      odd_score: 0,
+      even_score: 0,
+      correct: 0,
+      wrong: 0,
+      stage: 1,
+      order: 0,
+      text: "",
+      isIncapacity: false,
+    };
+  });
+  gameLogList.map((log, qn) => {
+    playersState = playersState.map((playerState) => {
+      if (playerState.player_id === log.player_id) {
+        switch (log.variant) {
+          case "through":
+            return playerState;
+          case "correct":
+            const newScore =
+              playerState.score + (playerState.last_correct === qn - 1 ? 2 : 1);
+            if (newScore >= game.win_point!) {
+              return {
+                ...playerState,
+                correct: playerState.correct + 1,
+                score: newScore,
+                last_correct: qn,
+                state: "win",
+              };
+            } else {
+              return {
+                ...playerState,
+                correct: playerState.correct + 1,
+                score: newScore,
+                last_correct: qn,
+              };
+            }
+          case "wrong":
+            return {
+              ...playerState,
+              wrong: playerState.wrong + 1,
+              last_wrong: qn,
+            };
+        }
+      } else {
+        return playerState;
+      }
+    });
+  });
+  const playerOrderList = playersState
+    .sort((pre, cur) => {
+      // 勝ち抜けているかどうか
+      if (pre.state === "win" && cur.state !== "win") return -1;
+      else if (pre.state !== "win" && cur.state === "win") return 1;
+      // 最後に正解した問題番号の若さを比較
+      if (pre.last_correct < cur.last_correct) return -1;
+      else if (cur.last_correct < pre.last_correct) return 1;
+      // ステージを比較
+      if (pre.stage > cur.stage) return -1;
+      else if (cur.stage > pre.stage) return 1;
+      // 正答数を比較
+      if (pre.correct > cur.correct) return -1;
+      else if (cur.correct > pre.correct) return 1;
+      // 誤答数を比較
+      if (pre.wrong < cur.wrong) return -1;
+      else if (cur.wrong < pre.wrong) return 1;
+      // 必要に応じて評価基準を追加
+      else return 0;
+    })
+    .map((score) => score.player_id);
+  playersState = playersState.map((playerState) => {
+    const order = playerOrderList.findIndex(
+      (score) => score === playerState.player_id
+    );
+    const text = playerState.state === "win" ? indicator(order) : "";
+    if (
+      playerState.state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      winThroughList.push([playerState.player_id, text]);
+    }
+    return { ...playerState, order, text };
+  });
+  return { scoreList: playersState, winThroughList };
 };
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {

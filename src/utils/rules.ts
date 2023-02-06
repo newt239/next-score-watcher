@@ -11,6 +11,12 @@ export const rules = {
     win_point: 7,
     lose_point: 3,
   },
+  "nomx-ad": {
+    name: "連答つきNoMx",
+    description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
+    win_point: 7,
+    lose_point: 3,
+  },
   nbyn: {
     name: "NbyN",
     description:
@@ -70,6 +76,8 @@ export const GetRuleStringByType = (game: GameDBProps): string => {
       return "カウンター";
     case "nomx":
       return `${game.win_point}o${game.lose_point}x`;
+    case "nomx-ad":
+      return `連答つき${game.win_point}o${game.lose_point}x`;
     case "nbyn":
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":

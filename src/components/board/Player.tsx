@@ -99,7 +99,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           />
         </div>
       )}
-      <PlayerScore game={game} player_id={player.id} score={score} qn={qn} />
+      <PlayerScore game={game} player_id={player.id} player={score} qn={qn} />
     </div>
   );
 };

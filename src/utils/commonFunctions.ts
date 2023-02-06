@@ -39,6 +39,10 @@ export const createGame = async (
         putData.win_point = rules[rule_name].win_point;
         putData.lose_point = rules[rule_name].lose_point;
         break;
+      case "nomx-ad":
+        putData.win_point = rules[rule_name].win_point;
+        putData.lose_point = rules[rule_name].lose_point;
+        break;
       case "nbyn":
         putData.win_point = rules[rule_name].win_point;
         break;

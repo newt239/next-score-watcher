@@ -85,7 +85,7 @@ const ConfigPage: NextPageWithLayout = () => {
             label="ラウンド名"
             placehodler="〇〇大会"
           />
-          {["nomx"].includes(game.rule) && (
+          {["nomx", "nomx-ad"].includes(game.rule) && (
             <>
               <ConfigNumberInput
                 input_id="win_point"

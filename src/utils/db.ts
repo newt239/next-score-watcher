@@ -5,6 +5,7 @@ export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 export type RuleNames =
   | "normal"
   | "nomx"
+  | "nomx-ad"
   | "nbyn"
   | "nupdown"
   | "swedishx"
