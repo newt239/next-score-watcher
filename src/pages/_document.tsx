@@ -10,10 +10,6 @@ export default class Document extends NextDocument {
     return (
       <Html lang="ja">
         <Head>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
           <meta name="theme-color" content="#28A745" />
           <meta
             name="description"

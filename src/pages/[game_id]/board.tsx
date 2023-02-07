@@ -47,30 +47,25 @@ const BoardPage: NextPage = () => {
     }
   }, [playerList]);
 
-  const [winThroughPeople, setWinThroughPeople] = useState<[string, string][]>(
-    []
-  );
+  const [winThroughPlayer, setWinThroughPlayer] = useState<{
+    name: string;
+    text: string;
+  }>({ name: "", text: "" });
 
   useEffect(() => {
     const executeComputeScore = async () => {
       const result = await computeScore(game_id as string);
       setScores(result.scoreList);
-      if (result.winThroughList.length !== 0) {
-        setWinThroughPeople(
-          result.winThroughList.map((congratulationPlayer) => {
-            const playerName = playerList?.find(
-              (player) => player.id! === congratulationPlayer[0]
-            )?.name;
-            if (playerName) {
-              return [playerName, congratulationPlayer[1]];
-            } else {
-              return [
-                `player_id: ${congratulationPlayer[0]}`,
-                congratulationPlayer[1],
-              ];
-            }
-          })
-        );
+      if (result.winThroughPlayer) {
+        const playerName = playerList?.find(
+          (player) => player.id! === result.winThroughPlayer.player_id
+        )?.name;
+        if (playerName) {
+          setWinThroughPlayer({
+            name: playerName,
+            text: result.winThroughPlayer.text,
+          });
+        }
       }
     };
     executeComputeScore();
@@ -135,8 +130,9 @@ const BoardPage: NextPage = () => {
         </Flex>
       )}
       <WinModal
-        winTroughPeople={winThroughPeople}
-        onClose={() => setWinThroughPeople([])}
+        winTroughPlayer={winThroughPlayer}
+        onClose={() => setWinThroughPlayer({ name: "", text: "" })}
+        roundName={game.name}
       />
     </>
   );

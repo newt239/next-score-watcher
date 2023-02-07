@@ -8,9 +8,12 @@ import db, {
 
 import { getConfig } from "#/hooks/useBooleanConfig";
 
+export type winThroughPlayerProps = { player_id: string; text: string } | null;
+
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
-  if (!game) return { scoreList: [], winThroughList: [] };
+  if (!game)
+    return { scoreList: [], winThroughPlayer: { player_id: "", text: "" } };
   const gameLogList = await db.logs
     .where({ game_id: game_id })
     .sortBy("timestamp");
@@ -49,7 +52,10 @@ const computeScore = async (game_id: string) => {
     return await variousFluctuations(game, gameLogList);
   }
 
-  const winThroughList: [string, string][] = [];
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -158,7 +164,7 @@ const computeScore = async (game_id: string) => {
       playerState.last_correct + 1 === gameLogList.length
     ) {
       // 最近のアクションでプレイヤーが勝ち抜けていればリストに追加
-      winThroughList.push([playerState.player_id, text]);
+      winThroughPlayer = { player_id: playerState.player_id, text };
     }
     let reachState: States = "playing";
     switch (game.rule) {
@@ -191,7 +197,7 @@ const computeScore = async (game_id: string) => {
       text,
     };
   });
-  return { scoreList: playersState, winThroughList };
+  return { scoreList: playersState, winThroughPlayer };
 };
 
 const getScore = (
@@ -302,7 +308,10 @@ const getState = (
 };
 
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const winThroughList: [string, string][] = [];
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
       game_id: game.id,
@@ -389,15 +398,18 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughList.push([playerState.player_id, text]);
+      winThroughPlayer = { player_id: playerState.player_id, text };
     }
     return { ...playerState, order, text };
   });
-  return { scoreList: playersState, winThroughList };
+  return { scoreList: playersState, winThroughPlayer };
 };
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const winThroughList: [string, string][] = [];
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
       game_id: game.id,
@@ -521,15 +533,18 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughList.push([playerState.player_id, text]);
+      winThroughPlayer = { player_id: playerState.player_id, text };
     }
     return { ...playerState, order, text };
   });
-  return { scoreList: playersState, winThroughList };
+  return { scoreList: playersState, winThroughPlayer };
 };
 
 const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  const winThroughList: [string, string][] = [];
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
       game_id: game.id,
@@ -616,18 +631,21 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughList.push([playerState.player_id, text]);
+      winThroughPlayer = { player_id: playerState.player_id, text };
     }
     return { ...playerState, order, text, isIncapacity: remainIncapacity > 0 };
   });
-  return { scoreList: playersState, winThroughList };
+  return { scoreList: playersState, winThroughPlayer };
 };
 
 const variousFluctuations = async (
   game: GameDBProps,
   gameLogList: LogDBProps[]
 ) => {
-  const winThroughList: [string, string][] = [];
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
   let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
     return {
       game_id: game.id,
@@ -731,11 +749,11 @@ const variousFluctuations = async (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughList.push([playerState.player_id, text]);
+      winThroughPlayer = { player_id: playerState.player_id, text };
     }
     return { ...playerState, order, text, isIncapacity: remainIncapacity > 0 };
   });
-  return { scoreList: playersState, winThroughList };
+  return { scoreList: playersState, winThroughPlayer };
 };
 
 const indicator = (i: number) => {

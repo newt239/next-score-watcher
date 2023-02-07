@@ -18,13 +18,13 @@ import { getConfig } from "#/hooks/useBooleanConfig";
 
 type WinModalProps = {
   onClose: () => void;
-  winTroughPeople: [string, string][];
+  winTroughPlayer: { name: string; text: string };
   roundName?: string;
 };
 
 const WinModal: React.FC<WinModalProps> = ({
   onClose,
-  winTroughPeople,
+  winTroughPlayer,
   roundName,
 }) => {
   const { reward } = useReward("reward", "confetti", {
@@ -37,13 +37,15 @@ const WinModal: React.FC<WinModalProps> = ({
     setTimeout(() => {
       reward();
     }, 500);
-  }, [winTroughPeople.length]);
+  }, [winTroughPlayer]);
+
+  if (winTroughPlayer.name === "") return null;
 
   return (
     <Modal
       isOpen={
         getConfig("scorewatcher-winthrough-popup") &&
-        winTroughPeople.length !== 0
+        winTroughPlayer.name !== ""
       }
       onClose={onClose}
       isCentered
@@ -53,16 +55,20 @@ const WinModal: React.FC<WinModalProps> = ({
         <ModalHeader>Congratulations!</ModalHeader>
         <ModalCloseButton />
         <ModalBody py={10}>
-          {winTroughPeople.map((player) => (
-            <Stat key={player[0]} sx={{ textAlign: "center" }} onClick={reward}>
-              <StatLabel sx={{ fontSize: "1.5rem" }}>
-                <span id="reward" />
-                {player[1]}
-              </StatLabel>
-              <StatNumber sx={{ fontSize: "2.5rem" }}>{player[0]}</StatNumber>
-              {roundName && <StatHelpText>{roundName}</StatHelpText>}
-            </Stat>
-          ))}
+          <Stat
+            key={winTroughPlayer.text}
+            sx={{ textAlign: "center" }}
+            onClick={reward}
+          >
+            <StatLabel sx={{ fontSize: "1.5rem" }}>
+              <span id="reward" />
+              {winTroughPlayer.text}
+            </StatLabel>
+            <StatNumber sx={{ fontSize: "2.5rem" }}>
+              {winTroughPlayer.name}
+            </StatNumber>
+            {roundName && <StatHelpText>{roundName}</StatHelpText>}
+          </Stat>
         </ModalBody>
       </ModalContent>
     </Modal>

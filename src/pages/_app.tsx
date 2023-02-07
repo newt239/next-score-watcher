@@ -15,6 +15,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <CSR>
+      <Head>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <ChakraProvider>{getLayout(<Component {...pageProps} />)}</ChakraProvider>
     </CSR>
   );
