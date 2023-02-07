@@ -98,7 +98,7 @@ const GameList: React.FC = () => {
                     <Td>{GetRuleStringByType(game)}</Td>
                     <Td>{game.players.length}</Td>
                     <Td>{gameState}</Td>
-                    <Td>{cdate(game.last_open).format("MM/DD HH:MM")}</Td>
+                    <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>
                     <Td sx={{ textAlign: "right" }}>
                       <HStack sx={{ justifyContent: "flex-end" }}>
                         <LinkButton

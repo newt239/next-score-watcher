@@ -35,7 +35,7 @@ const AnswerPlayerTable: React.FC<GameLogsProps> = ({ players, logs }) => {
       <Box
         sx={{
           borderStyle: "solid",
-          borderWidth: 3,
+          borderWidth: isLargerThan700 ? 3 : 1,
           borderColor:
             colorMode === "light"
               ? theme.colors.gray[50]

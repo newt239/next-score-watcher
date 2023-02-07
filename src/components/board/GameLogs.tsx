@@ -29,7 +29,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
       <Stack
         sx={{
           borderStyle: "solid",
-          borderWidth: 3,
+          borderWidth: isLargerThan700 ? 3 : 1,
           borderColor:
             colorMode === "light"
               ? theme.colors.gray[50]
@@ -53,7 +53,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                 <div
                   key={log.id}
                   title={cdate(log.timestamp).format(
-                    "YYYY年MM月DD日 HH時MM分ss秒"
+                    "YYYY年MM月DD日 HH時mm分ss秒"
                   )}
                 >
                   Q{logs.length - i}: {player.name} が
@@ -68,7 +68,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                             : theme.colors.gray[700],
                       }}
                     >
-                      {cdate(log.timestamp).format("HH:MM:ss")}
+                      {cdate(log.timestamp).format("HH:mm:ss")}
                     </span>
                   )}
                 </div>

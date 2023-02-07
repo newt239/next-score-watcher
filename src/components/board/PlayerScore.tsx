@@ -44,7 +44,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
         borderRadius: isLargerThan700
           ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
-          : "0 calc(1rem - 2px) calc(1rem - 2px) 0",
+          : "0 calc(0.5rem - 2px) calc(0.5rem - 2px) 0",
       }}
     >
       {game.rule === "normal" && (
