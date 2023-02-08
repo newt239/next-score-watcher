@@ -1,6 +1,7 @@
 import { Box, theme, useColorMode, useMediaQuery } from "@chakra-ui/react";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
+import { numberSign } from "#/utils/commonFunctions";
 import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 
 type PlayerScoreProps = {
@@ -55,27 +56,33 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nomx" && (
         <>
           <PlayerScoreButton color="red" {...props}>
-            {player.state === "win" ? player.text : `${player.correct}○`}
+            {player.state === "win"
+              ? player.text
+              : `${player.correct}${numberSign("correct")}`}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
-            {player.state === "lose" ? player.text : `${player.wrong}×`}
+            {player.state === "lose"
+              ? player.text
+              : `${player.wrong}${numberSign("wrong")}`}
           </PlayerScoreButton>
         </>
       )}
       {game.rule === "nomx-ad" && (
         <>
           <PlayerScoreButton color="green" disabled {...props}>
-            {player.state === "win" ? player.text : `${player.score}pt`}
+            {player.state === "win"
+              ? player.text
+              : `${player.score}${numberSign("pt")}`}
           </PlayerScoreButton>
           <PlayerScoreButton
             color="red"
             filled={player.last_correct + 1 === qn}
             {...props}
           >
-            {`${player.correct}○`}
+            {`${player.correct}${numberSign("correct")}`}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
-            {`${player.wrong}×`}
+            {`${player.wrong}${numberSign("wrong")}`}
           </PlayerScoreButton>
         </>
       )}
@@ -101,10 +108,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
-              {player.correct}○
+              {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {player.wrong}×
+              {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
         </>
@@ -128,7 +135,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               ○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}×`}
+              {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
         </>
@@ -152,7 +159,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               ○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}×`}
+              {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
         </>
@@ -173,10 +180,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
-              {`${player.correct}○`}
+              {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}×`}
+              {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
         </>
@@ -253,7 +260,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               }
               {...props}
             >
-              {`${player.correct}○`}
+              {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton
               color="blue"
@@ -263,7 +270,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               }
               {...props}
             >
-              {`${player.wrong}×`}
+              {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
         </>
@@ -281,7 +288,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             color="blue"
             {...props}
           >
-            {`${player.wrong}×`}
+            {`${player.wrong}${numberSign("wrong")}`}
           </PlayerScoreButton>
         </>
       )}
@@ -296,10 +303,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
-              {`${player.correct}○`}
+              {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}×`}
+              {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
           <PlayerScoreButton

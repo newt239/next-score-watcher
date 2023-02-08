@@ -226,7 +226,7 @@ const PlayerTable: React.FC = () => {
       ) : (
         <Box>
           {
-            <Flex sx={{ py: 5, gap: 3, justifyContent: "flex-end" }}>
+            <Flex sx={{ pb: 5, gap: 3, justifyContent: "flex-end" }}>
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button

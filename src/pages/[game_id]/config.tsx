@@ -55,22 +55,21 @@ const ConfigPage: NextPageWithLayout = () => {
       <Head>
         <title>ゲーム設定 - Score Watcher</title>
       </Head>
-      {disabled ? (
+      {disabled && (
         <Alert status="error">
           ゲームは開始済みです。一部の設定は変更できません。
         </Alert>
-      ) : (
-        <Alert status="info">
-          <Box>
-            <AlertTitle>{rules[game.rule].name}</AlertTitle>
-            <AlertDescription>
-              {rules[game.rule].description.split("\n").map((p) => (
-                <p key={p}>{p}</p>
-              ))}
-            </AlertDescription>
-          </Box>
-        </Alert>
       )}
+      <Alert status="info">
+        <Box>
+          <AlertTitle>{rules[game.rule].name}</AlertTitle>
+          <AlertDescription>
+            {rules[game.rule].description.split("\n").map((p) => (
+              <p key={p}>{p}</p>
+            ))}
+          </AlertDescription>
+        </Box>
+      </Alert>
       <Box>
         <H2>形式設定</H2>
         <div

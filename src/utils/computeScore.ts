@@ -301,7 +301,7 @@ const getState = (
 
   return [
     "playing",
-    getConfig("scorewatcher-show-pt-string")
+    getConfig("scorewatcher-show-sign-string")
       ? `${playerState.score}pt`
       : String(playerState.score),
   ];

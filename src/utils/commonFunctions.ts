@@ -7,6 +7,8 @@ import db, { RuleNames, GameDBProps } from "./db";
 import { event } from "./gtag";
 import { rules } from "./rules";
 
+import { getConfig } from "#/hooks/useBooleanConfig";
+
 export const createGame = async (
   rule_name: RuleNames,
   game?: GameDBProps,
@@ -79,6 +81,21 @@ export const createGame = async (
     router.push(`/${await db.games.put(putData)}/config`);
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const numberSign = (type: "correct" | "wrong" | "pt") => {
+  if (getConfig("scorewatcher-show-sign-string")) {
+    switch (type) {
+      case "correct":
+        return "○";
+      case "wrong":
+        return "✕";
+      case "pt":
+        return "pt";
+    }
+  } else {
+    return "";
   }
 };
 
