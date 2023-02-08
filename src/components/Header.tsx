@@ -2,6 +2,7 @@ import Image from "next/image";
 import NextLink from "next/link";
 
 import {
+  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -73,20 +74,22 @@ const Header: React.FC = () => {
               : "rgba(10, 25, 41, 0.7)",
         }}
       >
-        <NextLink href="/">
-          <Image
-            src={Logo}
-            style={{
-              maxHeight: "10vh",
-              maxWidth: "300px",
-              height: "auto",
-              width: "auto",
-              margin: "auto",
-              cursor: "pointer",
-            }}
-            alt="app logo"
-          />
-        </NextLink>
+        <Box sx={{ transition: "all 0.2s ease-out" }} _hover={{ opacity: 0.5 }}>
+          <NextLink href="/">
+            <Image
+              src={Logo}
+              style={{
+                maxHeight: "10vh",
+                maxWidth: "300px",
+                height: "auto",
+                width: "auto",
+                margin: "auto",
+                cursor: "pointer",
+              }}
+              alt="app logo"
+            />
+          </NextLink>
+        </Box>
         <Spacer />
         {isLargerThan800 ? (
           <>
