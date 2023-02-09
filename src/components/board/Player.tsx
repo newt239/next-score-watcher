@@ -22,9 +22,16 @@ type PlayerProps = {
   index: number;
   score: ComputedScoreDBProps | undefined;
   qn: number;
+  last_correct_player_id: string;
 };
 
-const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
+const Player: React.FC<PlayerProps> = ({
+  player,
+  index,
+  score,
+  qn,
+  last_correct_player_id,
+}) => {
   const { colorMode } = useColorMode();
   const router = useRouter();
   const { game_id } = router.query;
@@ -99,7 +106,13 @@ const Player: React.FC<PlayerProps> = ({ player, index, score, qn }) => {
           />
         </div>
       )}
-      <PlayerScore game={game} player_id={player.id} player={score} qn={qn} />
+      <PlayerScore
+        game={game}
+        player_id={player.id}
+        player={score}
+        qn={qn}
+        isLastCorrectPlayer={last_correct_player_id === player.id && qn !== 0}
+      />
     </div>
   );
 };

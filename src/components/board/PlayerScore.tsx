@@ -9,6 +9,7 @@ type PlayerScoreProps = {
   player_id: string;
   player: ComputedScoreDBProps;
   qn: number;
+  isLastCorrectPlayer: boolean;
 };
 
 const PlayerScore: React.FC<PlayerScoreProps> = ({
@@ -16,6 +17,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   player_id,
   player,
   qn,
+  isLastCorrectPlayer,
 }) => {
   const { colorMode } = useColorMode();
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -76,7 +78,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <PlayerScoreButton
             color="red"
-            filled={player.last_correct + 1 === qn}
+            filled={isLastCorrectPlayer}
             {...props}
           >
             {`${player.correct}${numberSign("correct")}`}

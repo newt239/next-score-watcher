@@ -207,27 +207,13 @@ const getScore = (
         playerState.score +
         (variant === "correct" ? game.correct_me : game.wrong_me)
       );
-    case "nbyn":
-      if (variant === "correct") {
-        return (
-          (playerState.correct + 1) * (game.win_point! - playerState.wrong)
-        );
-      } else {
-        return playerState.correct * (game.win_point! - playerState.wrong - 1);
-      }
     case "nupdown":
       return variant === "wrong" ? 0 : playerState.score + 1;
-    case "swedish10":
-      return variant === "wrong"
-        ? playerState.score - playerState.wrong - 1
-        : playerState.score + 1;
     case "attacksurvival":
       return (
         playerState.score +
         (variant === "wrong" ? game.wrong_me : game.correct_me)
       );
-    case "squarex":
-      return playerState.odd_score * playerState.even_score;
     default:
       return playerState.correct;
   }
