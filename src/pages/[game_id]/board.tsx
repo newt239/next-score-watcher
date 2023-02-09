@@ -114,8 +114,8 @@ const BoardPage: NextPage = () => {
                 score.game_id === game.id && score.player_id === player.id
             )}
             qn={logs.length}
-            last_correct_player_id={
-              scores.sort((a, b) => a.last_correct - b.last_correct)[0]
+            last_correct_player={
+              scores.sort((a, b) => b.last_correct - a.last_correct)[0]
                 .player_id
             }
           />

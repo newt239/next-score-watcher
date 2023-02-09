@@ -1,13 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import {
-  useColorMode,
-  theme,
-  useMediaQuery,
-  Box,
-  Flex,
-} from "@chakra-ui/react";
+import { useColorMode, theme, useMediaQuery, Flex } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "./PlayerColorConfig";
@@ -22,7 +16,7 @@ type PlayerProps = {
   index: number;
   score: ComputedScoreDBProps | undefined;
   qn: number;
-  last_correct_player_id: string;
+  last_correct_player: string;
 };
 
 const Player: React.FC<PlayerProps> = ({
@@ -30,7 +24,7 @@ const Player: React.FC<PlayerProps> = ({
   index,
   score,
   qn,
-  last_correct_player_id,
+  last_correct_player,
 }) => {
   const { colorMode } = useColorMode();
   const router = useRouter();
@@ -57,6 +51,8 @@ const Player: React.FC<PlayerProps> = ({
       : undefined;
   };
 
+  console.log(score.last_wrong);
+
   return (
     <div
       style={{
@@ -79,6 +75,7 @@ const Player: React.FC<PlayerProps> = ({
         borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
         overflowX: isLargerThan700 ? undefined : "scroll",
         overflowY: "hidden",
+        transition: "all 0.2s ease",
       }}
     >
       <Flex
@@ -111,7 +108,11 @@ const Player: React.FC<PlayerProps> = ({
         player_id={player.id}
         player={score}
         qn={qn}
-        isLastCorrectPlayer={last_correct_player_id === player.id && qn !== 0}
+        isLastCorrectPlayer={
+          last_correct_player === player.id &&
+          qn !== 0 &&
+          score.last_wrong + 1 !== qn
+        }
       />
     </div>
   );

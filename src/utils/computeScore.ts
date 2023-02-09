@@ -176,7 +176,7 @@ const getInitialPlayersState = (game: GameDBProps) => {
         score: game.rule === "attacksurvival" ? game.win_point! : 0,
         correct: gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
-        last_correct: 10000,
+        last_correct: -10000,
         last_wrong: -10000,
         odd_score: 0,
         even_score: 0,
@@ -290,17 +290,16 @@ const getSortedPlayerOrderList = (playersState: ComputedScoreDBProps[]) =>
       if (pre.state === "win" && cur.state !== "win") return -1;
       else if (pre.state !== "win" && cur.state === "win") return 1;
       // 最後に正解した問題番号の若さを比較
-      else if (pre.last_correct < cur.last_correct) return -1;
-      else if (cur.last_correct < pre.last_correct) return 1;
+      else if (pre.state === "win" && cur.state !== "win") {
+        if (pre.last_correct < cur.last_correct) return -1;
+        else if (cur.last_correct < pre.last_correct) return 1;
+      }
       // ステージを比較
       if (pre.stage > cur.stage) return -1;
       else if (cur.stage > pre.stage) return 1;
       // スコアを比較
       if (pre.score > cur.score) return -1;
       else if (cur.score > pre.score) return 1;
-      // 最後に正解した問題番号で比較  TODO: 複数人が正解となるパターン＆判定勝ち
-      if (cur.last_correct > pre.last_correct) return -1;
-      else if (pre.last_correct > cur.last_correct) return 1;
       // 正答数を比較
       if (pre.correct > cur.correct) return -1;
       else if (cur.correct > pre.correct) return 1;
@@ -343,7 +342,7 @@ const nbyn = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         } else if (log.variant === "wrong") {
           const newWrong = playerState.wrong + 1;
           const newScore = playerState.correct * (game.win_point! - newWrong);
-          if (newWrong >= game.win_point!) {
+          if (newWrong >= game.lose_point!) {
             return {
               ...playerState,
               wrong: newWrong,
@@ -504,6 +503,7 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             }
           case "wrong":
             const newWrong = playerState.wrong + 1;
+            last_correct_player = "";
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
