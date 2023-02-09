@@ -64,7 +64,11 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
           <ModalBody>
             {correct && (
               <FormControl pt={3}>
-                <FormLabel>初期正答数</FormLabel>
+                <FormLabel>
+                  {rule_name === "various-fluctuations"
+                    ? "初期ポイント"
+                    : "初期正答数"}
+                </FormLabel>
                 <NumberInput
                   value={players[index].initial_correct}
                   onChange={(s, n) => {

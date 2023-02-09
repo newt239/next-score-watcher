@@ -173,8 +173,14 @@ const getInitialPlayersState = (game: GameDBProps) => {
         player_id: gamePlayer.id,
         state: "playing",
         reachState: "playing",
-        score: game.rule === "attacksurvival" ? game.win_point! : 0,
-        correct: gamePlayer.initial_correct,
+        score:
+          game.rule === "attacksurvival"
+            ? game.win_point!
+            : game.rule === "various-fluctuations"
+            ? gamePlayer.initial_correct
+            : 0,
+        correct:
+          game.rule === "various-fluctuations" ? 0 : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
         last_correct: -10000,
         last_wrong: -10000,
