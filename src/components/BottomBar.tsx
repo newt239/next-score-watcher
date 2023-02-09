@@ -23,6 +23,7 @@ const BottomBar = () => {
         transition: "all 0.5s ease",
         whiteSpace: "nowrap",
         boxShadow: "0 5px 10px 0 black",
+        zIndex: 100,
       }}
     >
       <NextLink href="/" style={{ width: "25%", textAlign: "center" }}>
