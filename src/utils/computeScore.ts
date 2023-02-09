@@ -23,6 +23,12 @@ const computeScore = async (game_id: string) => {
   if (game.rule === "nomx-ad") {
     return await nomxAd(game, gameLogList);
   }
+  if (game.rule === "nbyn") {
+    return await nbyn(game, gameLogList);
+  }
+  if (game.rule === "squarex") {
+    return await squarex(game, gameLogList);
+  }
   if (game.rule === "z") {
     return await z(game, gameLogList);
   }
@@ -40,48 +46,45 @@ const computeScore = async (game_id: string) => {
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
-        // 自分のアクション
-        const editedPlayerState =
-          game.rule === "squarex"
-            ? qn % 2 === 0
-              ? {
-                  ...playerState,
-                  odd_score:
-                    playerState.odd_score +
-                    (log.variant === "correct"
-                      ? 1
-                      : log.variant === "wrong"
-                      ? -1
-                      : 0),
-                }
-              : {
-                  ...playerState,
-                  even_score:
-                    playerState.even_score +
-                    (log.variant === "correct"
-                      ? 1
-                      : log.variant === "wrong"
-                      ? -1
-                      : 0),
-                }
-            : playerState;
-        const score = getScore(game, editedPlayerState, log.variant);
-        if (log.variant === "correct") {
-          return {
-            ...editedPlayerState,
-            correct: editedPlayerState.correct + 1,
-            last_correct: qn, // 0-indexed
-            score,
-          };
-        } else if (log.variant === "wrong") {
-          return {
-            ...editedPlayerState,
-            wrong: editedPlayerState.wrong + 1,
-            last_wrong: qn, // 0-indexed
-            score,
-          };
-        } else {
-          return editedPlayerState;
+        const score = getScore(game, playerState, log.variant);
+        switch (log.variant) {
+          case "through":
+            return playerState;
+          case "correct":
+            if (score >= game.win_point!) {
+              return {
+                ...playerState,
+                correct: playerState.correct + 1,
+                score,
+                last_correct: qn,
+                state: "win",
+              };
+            } else {
+              return {
+                ...playerState,
+                correct: playerState.correct + 1,
+                score,
+                last_correct: qn,
+              };
+            }
+          case "wrong":
+            const newWrong = playerState.wrong + 1;
+            if (newWrong >= game.lose_point!) {
+              return {
+                ...playerState,
+                wrong: newWrong,
+                score,
+                last_wrong: qn,
+                state: "lose",
+              };
+            } else {
+              return {
+                ...playerState,
+                wrong: newWrong,
+                score,
+                last_wrong: qn,
+              };
+            }
         }
       } else {
         // 他人のアクション
@@ -319,6 +322,78 @@ const getSortedPlayerOrderList = (playersState: ComputedScoreDBProps[]) =>
     })
     .map((score) => score.player_id);
 
+const nbyn = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
+  let playersState = getInitialPlayersState(game);
+  gameLogList.map((log, qn) => {
+    playersState = playersState.map((playerState) => {
+      if (playerState.player_id === log.player_id) {
+        if (log.variant === "correct") {
+          const newCorrect = playerState.correct + 1;
+          const newScore = newCorrect * (game.win_point! - playerState.wrong);
+          if (newScore >= game.win_point! ** 2) {
+            return {
+              ...playerState,
+              correct: newCorrect,
+              score: newScore,
+              last_correct: qn,
+              state: "win",
+            };
+          } else {
+            return {
+              ...playerState,
+              correct: playerState.correct + 1,
+              score: newScore,
+              last_correct: qn,
+            };
+          }
+        } else if (log.variant === "wrong") {
+          const newWrong = playerState.wrong + 1;
+          const newScore = playerState.correct * (game.win_point! - newWrong);
+          if (newWrong >= game.win_point!) {
+            return {
+              ...playerState,
+              wrong: newWrong,
+              score: newScore,
+              last_wrong: qn,
+              state: "lose",
+            };
+          } else {
+            return {
+              ...playerState,
+              wrong: newWrong,
+              score: newScore,
+              last_wrong: qn,
+            };
+          }
+        } else {
+          return playerState;
+        }
+      } else {
+        return playerState;
+      }
+    });
+  });
+  const playerOrderList = getSortedPlayerOrderList(playersState);
+  playersState = playersState.map((playerState) => {
+    const order = playerOrderList.findIndex(
+      (score) => score === playerState.player_id
+    );
+    const text = playerState.state === "win" ? indicator(order) : "";
+    if (
+      playerState.state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      winThroughPlayer = { player_id: playerState.player_id, text };
+    }
+    return { ...playerState, order, text };
+  });
+  return { scoreList: playersState, winThroughPlayer };
+};
+
 // TODO: 連答時+2ptとランプ
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let winThroughPlayer: { player_id: string; text: string } = {
@@ -370,6 +445,71 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
               };
             }
+        }
+      } else {
+        return playerState;
+      }
+    });
+  });
+  const playerOrderList = getSortedPlayerOrderList(playersState);
+  playersState = playersState.map((playerState) => {
+    const order = playerOrderList.findIndex(
+      (score) => score === playerState.player_id
+    );
+    const text = playerState.state === "win" ? indicator(order) : "";
+    if (
+      playerState.state === "win" &&
+      playerState.last_correct + 1 === gameLogList.length
+    ) {
+      winThroughPlayer = { player_id: playerState.player_id, text };
+    }
+    return { ...playerState, order, text };
+  });
+  return { scoreList: playersState, winThroughPlayer };
+};
+
+const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+  let winThroughPlayer: { player_id: string; text: string } = {
+    player_id: "",
+    text: "",
+  };
+  let playersState = getInitialPlayersState(game);
+  gameLogList.map((log, qn) => {
+    playersState = playersState.map((playerState) => {
+      if (playerState.player_id === log.player_id) {
+        let newOddScore = playerState.odd_score;
+        let newEvenScore = playerState.even_score;
+        switch (log.variant) {
+          case "through":
+            return playerState;
+          case "correct":
+            if (qn % 2 === 0) {
+              newOddScore++;
+            } else {
+              newEvenScore++;
+            }
+            if (newOddScore * newEvenScore >= game.win_point!) {
+              return {
+                ...playerState,
+                correct: playerState.correct + 1,
+                score: newOddScore * newEvenScore,
+                odd_score: newOddScore,
+                even_score: newEvenScore,
+                last_correct: qn,
+                state: "win",
+              };
+            } else {
+              return {
+                ...playerState,
+                correct: playerState.correct + 1,
+                score: newOddScore * newEvenScore,
+                odd_score: newOddScore,
+                even_score: newEvenScore,
+                last_correct: qn,
+              };
+            }
+          case "wrong":
+            return playerState;
         }
       } else {
         return playerState;
