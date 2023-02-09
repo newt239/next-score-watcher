@@ -51,8 +51,6 @@ const Player: React.FC<PlayerProps> = ({
       : undefined;
   };
 
-  console.log(score.last_wrong);
-
   return (
     <div
       style={{
@@ -111,7 +109,7 @@ const Player: React.FC<PlayerProps> = ({
         isLastCorrectPlayer={
           last_correct_player === player.id &&
           qn !== 0 &&
-          score.last_wrong + 1 !== qn
+          score.last_wrong < score.last_correct
         }
       />
     </div>

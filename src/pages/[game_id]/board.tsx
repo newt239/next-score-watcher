@@ -115,8 +115,10 @@ const BoardPage: NextPage = () => {
             )}
             qn={logs.length}
             last_correct_player={
-              scores.sort((a, b) => b.last_correct - a.last_correct)[0]
-                .player_id
+              scores.length !== 0
+                ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
+                    .player_id
+                : ""
             }
           />
         ))}
