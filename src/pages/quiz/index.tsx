@@ -48,7 +48,7 @@ const QuizPage: NextPageWithLayout = () => {
       )}
       <H2>問題管理</H2>
       <Box>
-        <H3>プレイヤーの読み込み</H3>
+        <H3>問題の読み込み</H3>
         <FormControl py={5}>
           <FormLabel>セット名</FormLabel>
           <Input
