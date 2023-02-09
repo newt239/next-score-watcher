@@ -18,30 +18,11 @@ const computeScore = async (game_id: string) => {
     .where({ game_id: game_id })
     .sortBy("timestamp");
 
-  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
-    return {
-      game_id,
-      player_id: gamePlayer.id,
-      state: "playing",
-      reachState: "playing",
-      score: game.rule === "attacksurvival" ? game.win_point! : 0,
-      correct: gamePlayer.initial_correct,
-      wrong: gamePlayer.initial_wrong,
-      last_correct: 10000,
-      last_wrong: -10000,
-      odd_score: 0,
-      even_score: 0,
-      stage: 0,
-      isIncapacity: false,
-      order: 0,
-      text: "",
-    };
-  });
+  let playersState: ComputedScoreDBProps[] = getInitialPlayersState(game);
 
   if (game.rule === "nomx-ad") {
     return await nomxAd(game, gameLogList);
   }
-
   if (game.rule === "z") {
     return await z(game, gameLogList);
   }
@@ -122,30 +103,7 @@ const computeScore = async (game_id: string) => {
   });
 
   // 評価順 ( order ) を計算
-  const playerOrderList = playersState
-    .sort((pre, cur) => {
-      // 勝ち抜けているかどうか
-      if (pre.state === "win" && cur.state !== "win") return -1;
-      else if (pre.state !== "win" && cur.state === "win") return 1;
-      // 最後に正解した問題番号の若さを比較
-      else if (pre.last_correct < cur.last_correct) return -1;
-      else if (cur.last_correct < pre.last_correct) return 1;
-      // スコアを比較
-      if (pre.score > cur.score) return -1;
-      else if (cur.score > pre.score) return 1;
-      // 最後に正解した問題番号で比較  TODO: 複数人が正解となるパターン＆判定勝ち
-      if (cur.last_correct > pre.last_correct) return -1;
-      else if (pre.last_correct > cur.last_correct) return 1;
-      // 正答数を比較
-      if (pre.correct > cur.correct) return -1;
-      else if (cur.correct > pre.correct) return 1;
-      // 誤答数を比較
-      if (pre.wrong > cur.wrong) return -1;
-      else if (cur.wrong > pre.wrong) return 1;
-      // 必要に応じて評価基準を追加
-      else return 0;
-    })
-    .map((score) => score.player_id);
+  const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((insertData) => {
     const order = playerOrderList.findIndex(
       (score) => score === insertData.player_id
@@ -198,6 +156,31 @@ const computeScore = async (game_id: string) => {
     };
   });
   return { scoreList: playersState, winThroughPlayer };
+};
+
+const getInitialPlayersState = (game: GameDBProps) => {
+  const initialPlayersState = game.players.map(
+    (gamePlayer): ComputedScoreDBProps => {
+      return {
+        game_id: game.id,
+        player_id: gamePlayer.id,
+        state: "playing",
+        reachState: "playing",
+        score: game.rule === "attacksurvival" ? game.win_point! : 0,
+        correct: gamePlayer.initial_correct,
+        wrong: gamePlayer.initial_wrong,
+        last_correct: 10000,
+        last_wrong: -10000,
+        odd_score: 0,
+        even_score: 0,
+        stage: 1,
+        isIncapacity: false,
+        order: 0,
+        text: "",
+      };
+    }
+  );
+  return initialPlayersState;
 };
 
 const getScore = (
@@ -307,30 +290,41 @@ const getState = (
   ];
 };
 
+const getSortedPlayerOrderList = (playersState: ComputedScoreDBProps[]) =>
+  playersState
+    .sort((pre, cur) => {
+      // 勝ち抜けているかどうか
+      if (pre.state === "win" && cur.state !== "win") return -1;
+      else if (pre.state !== "win" && cur.state === "win") return 1;
+      // 最後に正解した問題番号の若さを比較
+      else if (pre.last_correct < cur.last_correct) return -1;
+      else if (cur.last_correct < pre.last_correct) return 1;
+      // ステージを比較
+      if (pre.stage > cur.stage) return -1;
+      else if (cur.stage > pre.stage) return 1;
+      // スコアを比較
+      if (pre.score > cur.score) return -1;
+      else if (cur.score > pre.score) return 1;
+      // 最後に正解した問題番号で比較  TODO: 複数人が正解となるパターン＆判定勝ち
+      if (cur.last_correct > pre.last_correct) return -1;
+      else if (pre.last_correct > cur.last_correct) return 1;
+      // 正答数を比較
+      if (pre.correct > cur.correct) return -1;
+      else if (cur.correct > pre.correct) return 1;
+      // 誤答数を比較
+      if (pre.wrong > cur.wrong) return -1;
+      else if (cur.wrong > pre.wrong) return 1;
+      // 必要に応じて評価基準を追加
+      else return 0;
+    })
+    .map((score) => score.player_id);
+
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let winThroughPlayer: { player_id: string; text: string } = {
     player_id: "",
     text: "",
   };
-  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
-    return {
-      game_id: game.id,
-      player_id: gamePlayer.id,
-      state: "playing",
-      reachState: "playing",
-      score: 0,
-      last_correct: -100,
-      last_wrong: -100,
-      odd_score: 0,
-      even_score: 0,
-      correct: gamePlayer.initial_correct,
-      wrong: gamePlayer.initial_wrong,
-      stage: 1,
-      order: 0,
-      text: "",
-      isIncapacity: false,
-    };
-  });
+  let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -368,27 +362,7 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       }
     });
   });
-  const playerOrderList = playersState
-    .sort((pre, cur) => {
-      // 勝ち抜けているかどうか
-      if (pre.state === "win" && cur.state !== "win") return -1;
-      else if (pre.state !== "win" && cur.state === "win") return 1;
-      // 最後に正解した問題番号の若さを比較
-      if (pre.last_correct < cur.last_correct) return -1;
-      else if (cur.last_correct < pre.last_correct) return 1;
-      // ステージを比較
-      if (pre.stage > cur.stage) return -1;
-      else if (cur.stage > pre.stage) return 1;
-      // 正答数を比較
-      if (pre.correct > cur.correct) return -1;
-      else if (cur.correct > pre.correct) return 1;
-      // 誤答数を比較
-      if (pre.wrong < cur.wrong) return -1;
-      else if (cur.wrong < pre.wrong) return 1;
-      // 必要に応じて評価基準を追加
-      else return 0;
-    })
-    .map((score) => score.player_id);
+  const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
@@ -410,25 +384,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     player_id: "",
     text: "",
   };
-  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
-    return {
-      game_id: game.id,
-      player_id: gamePlayer.id,
-      state: "playing",
-      reachState: "playing",
-      score: 0,
-      correct: gamePlayer.initial_correct,
-      wrong: gamePlayer.initial_wrong,
-      last_correct: 0,
-      last_wrong: -100,
-      odd_score: 0,
-      even_score: 0,
-      stage: 1,
-      order: 0,
-      text: "",
-      isIncapacity: false,
-    };
-  });
+  let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     const lastCorrectPlayer = playersState.find(
       (playerState) => playerState.player_id === log.player_id
@@ -498,29 +454,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       }
     });
   });
-  const playerOrderList = playersState
-    .sort((pre, cur) => {
-      // 勝ち抜けているかどうか
-      if (pre.state === "win" && cur.state !== "win") return -1;
-      else if (pre.state !== "win" && cur.state === "win") return 1;
-      else {
-        // 最後に正解した問題番号の若さを比較
-        if (pre.last_correct < cur.last_correct) return -1;
-        else if (cur.last_correct < pre.last_correct) return 1;
-        // ステージを比較
-        if (pre.stage > cur.stage) return -1;
-        else if (cur.stage > pre.stage) return 1;
-        // 正答数を比較
-        if (pre.correct > cur.correct) return -1;
-        else if (cur.correct > pre.correct) return 1;
-        // 誤答数を比較
-        if (pre.wrong < cur.wrong) return -1;
-        else if (cur.wrong < pre.wrong) return 1;
-        // 必要に応じて評価基準を追加
-        else return 0;
-      }
-    })
-    .map((score) => score.player_id);
+  const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
@@ -545,25 +479,7 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     player_id: "",
     text: "",
   };
-  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
-    return {
-      game_id: game.id,
-      player_id: gamePlayer.id,
-      state: "playing",
-      reachState: "playing",
-      score: 0,
-      correct: gamePlayer.initial_correct,
-      wrong: gamePlayer.initial_wrong,
-      last_correct: 10000,
-      last_wrong: -10000,
-      odd_score: 0,
-      even_score: 0,
-      stage: 1,
-      order: 0,
-      text: "",
-      isIncapacity: false,
-    };
-  });
+  let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -597,24 +513,7 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       }
     });
   });
-  const playerOrderList = playersState
-    .sort((pre, cur) => {
-      // 勝ち抜けているかどうか
-      if (pre.state === "win" && cur.state !== "win") return -1;
-      else if (pre.state !== "win" && cur.state === "win") return 1;
-      // 最後に正解した問題番号の若さを比較
-      if (pre.last_correct < cur.last_correct) return -1;
-      else if (cur.last_correct < pre.last_correct) return 1;
-      // 正答数を比較
-      if (pre.correct > cur.correct) return -1;
-      else if (cur.correct > pre.correct) return 1;
-      // 誤答数を比較
-      if (pre.wrong < cur.wrong) return -1;
-      else if (cur.wrong < pre.wrong) return 1;
-      // 必要に応じて評価基準を追加
-      else return 0;
-    })
-    .map((score) => score.player_id);
+  const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
@@ -646,25 +545,7 @@ const variousFluctuations = async (
     player_id: "",
     text: "",
   };
-  let playersState: ComputedScoreDBProps[] = game.players.map((gamePlayer) => {
-    return {
-      game_id: game.id,
-      player_id: gamePlayer.id,
-      state: "playing",
-      reachState: "playing",
-      score: 0,
-      correct: gamePlayer.initial_correct,
-      wrong: gamePlayer.initial_wrong,
-      last_correct: 10000,
-      last_wrong: -10000,
-      order: 0,
-      text: "",
-      odd_score: 0,
-      even_score: 0,
-      stage: 1,
-      isIncapacity: false,
-    };
-  });
+  let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -715,24 +596,7 @@ const variousFluctuations = async (
       }
     });
   });
-  const playerOrderList = playersState
-    .sort((pre, cur) => {
-      // 勝ち抜けているかどうか
-      if (pre.state === "win" && cur.state !== "win") return -1;
-      else if (pre.state !== "win" && cur.state === "win") return 1;
-      // 最後に正解した問題番号の若さを比較
-      if (pre.last_correct < cur.last_correct) return -1;
-      else if (cur.last_correct < pre.last_correct) return 1;
-      // 正答数を比較
-      if (pre.correct > cur.correct) return -1;
-      else if (cur.correct > pre.correct) return 1;
-      // 誤答数を比較
-      if (pre.wrong < cur.wrong) return -1;
-      else if (cur.wrong < pre.wrong) return 1;
-      // 必要に応じて評価基準を追加
-      else return 0;
-    })
-    .map((score) => score.player_id);
+  const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
