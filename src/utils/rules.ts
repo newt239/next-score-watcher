@@ -31,10 +31,11 @@ export const rules = {
     win_point: 5,
     lose_point: 2,
   },
-  swedishx: {
-    name: "SwedishX",
-    description: "1回の正答で+1,n回目の誤答で-nでXを目指す形式です。",
-    win_point: 5,
+  swedish10: {
+    name: "Swedish10",
+    description: "1回の正答で+1,n回目の誤答で-nで10を目指す形式です。",
+    win_point: 10,
+    lose_point: 10,
   },
   attacksurvival: {
     name: "Attack Survival",
@@ -83,8 +84,8 @@ export const GetRuleStringByType = (game: GameDBProps): string => {
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":
       return `${game.win_point}updown`;
-    case "swedishx":
-      return `Swedish${game.win_point}`;
+    case "swedish10":
+      return `Swedish10`;
     case "attacksurvival":
       return "アタックサバイバル";
     case "squarex":

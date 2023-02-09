@@ -109,7 +109,7 @@ const ConfigPage: NextPageWithLayout = () => {
               disabled={disabled}
             />
           )}
-          {["squarex", "swedishx", "freezex"].includes(game.rule) && (
+          {["squarex", "freezex"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="win_point"
               label="X"

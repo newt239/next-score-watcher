@@ -140,7 +140,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </div>
         </>
       )}
-      {game.rule === "swedishx" && (
+      {game.rule === "swedish10" && (
         <>
           <PlayerScoreButton
             color={
@@ -150,6 +150,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 ? "blue"
                 : "green"
             }
+            disabled
             {...props}
           >
             {player.text}

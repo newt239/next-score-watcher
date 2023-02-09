@@ -8,7 +8,7 @@ export type RuleNames =
   | "nomx-ad"
   | "nbyn"
   | "nupdown"
-  | "swedishx"
+  | "swedish10"
   | "attacksurvival"
   | "squarex"
   | "z"
