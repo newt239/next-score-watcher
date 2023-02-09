@@ -11,18 +11,16 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
-  IconButton,
   Spacer,
   useColorMode,
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { Menu2 } from "tabler-icons-react";
 
 import Logo from "#/assets/logo.png";
 
 const Header: React.FC = () => {
-  const [isLargerThan800] = useMediaQuery("(max-width: 800px)");
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode } = useColorMode();
 
@@ -54,8 +52,9 @@ const Header: React.FC = () => {
     <>
       <Flex
         sx={{
-          py: 3,
-          px: "5vw",
+          p: 3,
+          maxW: 1000,
+          margin: "auto",
           alignItems: "center",
           position: "sticky",
           top: 0,
@@ -79,10 +78,10 @@ const Header: React.FC = () => {
             <Image
               src={Logo}
               style={{
-                maxHeight: "10vh",
-                maxWidth: "300px",
                 height: "auto",
                 width: "auto",
+                maxHeight: "7vh",
+                maxWidth: "300px",
                 margin: "auto",
                 cursor: "pointer",
               }}
@@ -90,20 +89,11 @@ const Header: React.FC = () => {
             />
           </NextLink>
         </Box>
-        <Spacer />
-        {isLargerThan800 ? (
+        {isLargerThan800 && (
           <>
-            <IconButton
-              variant="outline"
-              size="md"
-              onClick={onOpen}
-              aria-label="open drawer"
-            >
-              <Menu2 />
-            </IconButton>
+            <Spacer />
+            <SubMenu />
           </>
-        ) : (
-          <SubMenu />
         )}
       </Flex>
       <Drawer placement="right" onClose={onClose} isOpen={isOpen}>
