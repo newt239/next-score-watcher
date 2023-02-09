@@ -99,9 +99,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 : "green"
             }
             filled={player.state === "playing"}
+            disabled
             {...props}
           >
-            {player.score}
+            {player.state === "win" ? player.text : player.score}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="green" compact {...props}>

@@ -176,11 +176,12 @@ const getInitialPlayersState = (game: GameDBProps) => {
         score:
           game.rule === "attacksurvival"
             ? game.win_point!
-            : game.rule === "various-fluctuations"
+            : ["nomx-ad", "various-fluctuations"].includes(game.rule)
             ? gamePlayer.initial_correct
             : 0,
-        correct:
-          game.rule === "various-fluctuations" ? 0 : gamePlayer.initial_correct,
+        correct: ["nomx-ad", "various-fluctuations"].includes(game.rule)
+          ? 0
+          : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
         last_correct: -10000,
         last_wrong: -10000,
