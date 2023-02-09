@@ -290,7 +290,7 @@ const getSortedPlayerOrderList = (playersState: ComputedScoreDBProps[]) =>
       if (pre.state === "win" && cur.state !== "win") return -1;
       else if (pre.state !== "win" && cur.state === "win") return 1;
       // 最後に正解した問題番号の若さを比較
-      else if (pre.state === "win" && cur.state !== "win") {
+      else if (pre.state === "win" && cur.state === "win") {
         if (pre.last_correct < cur.last_correct) return -1;
         else if (cur.last_correct < pre.last_correct) return 1;
       }
@@ -503,7 +503,9 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             }
           case "wrong":
             const newWrong = playerState.wrong + 1;
-            last_correct_player = "";
+            if (last_correct_player === playerState.player_id) {
+              last_correct_player = "";
+            }
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,

@@ -101,7 +101,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             filled={player.state === "playing"}
             {...props}
           >
-            {player.text}
+            {player.score}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="green" compact {...props}>
