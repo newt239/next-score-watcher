@@ -319,12 +319,14 @@ const getSortedPlayerOrderList = (playersState: ComputedScoreDBProps[]) =>
     })
     .map((score) => score.player_id);
 
+// TODO: 連答時+2ptとランプ
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let winThroughPlayer: { player_id: string; text: string } = {
     player_id: "",
     text: "",
   };
   let playersState = getInitialPlayersState(game);
+  let last_correct_player: string = "";
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -333,7 +335,9 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             return playerState;
           case "correct":
             const newScore =
-              playerState.score + (playerState.last_correct === qn - 1 ? 2 : 1);
+              playerState.score +
+              (last_correct_player === playerState.player_id ? 2 : 1);
+            last_correct_player = playerState.player_id;
             if (newScore >= game.win_point!) {
               return {
                 ...playerState,
@@ -351,11 +355,21 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               };
             }
           case "wrong":
-            return {
-              ...playerState,
-              wrong: playerState.wrong + 1,
-              last_wrong: qn,
-            };
+            const newWrong = playerState.wrong + 1;
+            if (newWrong >= game.lose_point!) {
+              return {
+                ...playerState,
+                wrong: newWrong,
+                last_wrong: qn,
+                state: "lose",
+              };
+            } else {
+              return {
+                ...playerState,
+                wrong: newWrong,
+                last_wrong: qn,
+              };
+            }
         }
       } else {
         return playerState;
