@@ -7,8 +7,6 @@ import db, {
   Variants,
 } from "./db";
 
-import { getConfig } from "#/hooks/useBooleanConfig";
-
 export type winThroughPlayerProps = { player_id: string; text: string } | null;
 
 const computeScore = async (game_id: string) => {
@@ -250,22 +248,7 @@ const getState = (
         return ["win", indicator(playerState.order)];
       }
       break;
-    case "nbyn":
-      if (playerState.wrong >= game.win_point!) {
-        return ["lose", "LOSE"];
-      } else if (
-        playerState.correct * (game.win_point! - playerState.wrong) >=
-        game.win_point! ** 2
-      ) {
-        return ["win", indicator(playerState.order)];
-      }
-      break;
     case "nupdown":
-      if (playerState.score >= game.win_point!) {
-        return ["win", indicator(playerState.order)];
-      }
-      break;
-    case "swedish10":
       if (playerState.score >= game.win_point!) {
         return ["win", indicator(playerState.order)];
       }
@@ -275,19 +258,9 @@ const getState = (
         return ["lose", "LOSE"];
       }
       break;
-    case "squarex":
-      if (playerState.score >= game.win_point!) {
-        return ["win", indicator(playerState.order)];
-      }
-      break;
   }
 
-  return [
-    "playing",
-    getConfig("scorewatcher-show-sign-string")
-      ? `${playerState.score}pt`
-      : String(playerState.score),
-  ];
+  return ["playing", `${playerState.score}${numberSign("pt")}`];
 };
 
 const getSortedPlayerOrderList = (playersState: ComputedScoreDBProps[]) =>
@@ -378,7 +351,12 @@ const nbyn = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
-    const text = playerState.state === "win" ? indicator(order) : "";
+    const text =
+      playerState.state === "win"
+        ? indicator(order)
+        : playerState.state === "lose"
+        ? "LOSE"
+        : `${playerState.correct}${numberSign("pt")}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
@@ -473,7 +451,6 @@ const swedish10 = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   return { scoreList: playersState, winThroughPlayer };
 };
 
-// TODO: 連答時+2ptとランプ
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let winThroughPlayer: { player_id: string; text: string } = {
     player_id: "",
@@ -538,7 +515,12 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
-    const text = playerState.state === "win" ? indicator(order) : "";
+    const text =
+      playerState.state === "win"
+        ? indicator(order)
+        : playerState.state === "lose"
+        ? "LOSE"
+        : `${playerState.score}${numberSign("pt")}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
@@ -603,7 +585,12 @@ const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
-    const text = playerState.state === "win" ? indicator(order) : "";
+    const text =
+      playerState.state === "win"
+        ? indicator(order)
+        : playerState.state === "lose"
+        ? "LOSE"
+        : `${playerState.score}${numberSign("pt")}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
@@ -640,7 +627,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             if (stage === 4 && newCorrect === 4) {
               return {
                 ...playerState,
-                correct: 0,
+                correct: newCorrect,
                 stage: 5,
                 last_correct: qn,
                 state: "win",
@@ -698,6 +685,10 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const text =
       playerState.state === "win"
         ? indicator(order)
+        : playerState.isIncapacity ||
+          (gameLogList.length === playerState.last_wrong + 1 &&
+            playerState.stage === 1)
+        ? "LOCKED"
         : `Stage ${playerState.stage}`;
     if (
       playerState.state === "win" &&
@@ -844,7 +835,7 @@ const variousFluctuations = async (
         ? indicator(order)
         : playerState.state === "lose"
         ? "LOSE"
-        : "";
+        : `${playerState.score}pt`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

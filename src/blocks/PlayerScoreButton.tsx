@@ -16,7 +16,7 @@ import { nanoid } from "nanoid";
 import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
-  color: "red" | "blue" | "green";
+  color: "red" | "blue" | "green" | "win" | "lose" | "playing";
   children: ReactNode;
   filled?: boolean;
   compact?: boolean;
@@ -40,12 +40,11 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
-  const variantColor =
-    color === "red"
-      ? theme.colors.red[500]
-      : color === "blue"
-      ? theme.colors.blue[500]
-      : theme.colors.green[500];
+  const variantColor = ["red", "win"].includes(color)
+    ? theme.colors.red[500]
+    : ["blue", "lose"].includes(color)
+    ? theme.colors.blue[500]
+    : theme.colors.green[500];
   const ButtonCssStyle: SystemStyleObject = {
     display: "flex",
     justifyContent: "center",

@@ -71,10 +71,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "nomx-ad" && (
         <>
-          <PlayerScoreButton color="green" disabled {...props}>
-            {player.state === "win"
-              ? player.text
-              : `${player.score}${numberSign("pt")}`}
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton
             color="red"
@@ -91,18 +89,12 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nbyn" && (
         <>
           <PlayerScoreButton
-            color={
-              player.state === "win"
-                ? "red"
-                : player.state === "lose"
-                ? "blue"
-                : "green"
-            }
+            color={player.state}
             filled={player.state === "playing"}
             disabled
             {...props}
           >
-            {player.state === "win" ? player.text : player.score}
+            {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="green" compact {...props}>
@@ -121,16 +113,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "nupdown" && (
         <>
-          <PlayerScoreButton
-            color={
-              player.state === "win"
-                ? "red"
-                : player.state === "lose"
-                ? "blue"
-                : "green"
-            }
-            {...props}
-          >
+          <PlayerScoreButton color={player.state} {...props}>
             {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -145,17 +128,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "swedish10" && (
         <>
-          <PlayerScoreButton
-            color={
-              player.state === "win"
-                ? "red"
-                : player.state === "lose"
-                ? "blue"
-                : "green"
-            }
-            disabled
-            {...props}
-          >
+          <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -170,16 +143,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "attacksurvival" && (
         <>
-          <PlayerScoreButton
-            color={
-              player.state === "win"
-                ? "red"
-                : player.state === "lose"
-                ? "blue"
-                : "green"
-            }
-            {...props}
-          >
+          <PlayerScoreButton color={player.state} {...props}>
             {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -194,40 +158,12 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "squarex" && (
         <>
-          <PlayerScoreButton
-            color={
-              player.state === "win"
-                ? "red"
-                : player.state === "lose"
-                ? "blue"
-                : "green"
-            }
-            {...props}
-          >
+          <PlayerScoreButton color={player.state} {...props}>
             {player.text}
           </PlayerScoreButton>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "1rem",
-            }}
-          >
-            <PlayerScoreButton color="green" filled compact {...props}>
-              {player.odd_score}
-            </PlayerScoreButton>
-            <span
-              style={{
-                color: colorMode === "light" ? theme.colors.gray[800] : "white",
-              }}
-            >
-              ×
-            </span>
-            <PlayerScoreButton color="green" filled compact {...props}>
-              {player.even_score}
-            </PlayerScoreButton>
-          </div>
+          <PlayerScoreButton color="green" filled {...props}>
+            {`${player.odd_score}×${player.even_score}`}
+          </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
               ○
@@ -241,19 +177,12 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "z" && (
         <>
           <PlayerScoreButton
-            color={
-              player.state === "win"
-                ? "red"
-                : player.state === "lose"
-                ? "blue"
-                : "green"
-            }
+            color={player.text === "LOCKED" ? "blue" : player.state}
+            filled={player.text === "LOCKED"}
+            disabled
             {...props}
           >
-            {player.isIncapacity ||
-            (qn === player.last_wrong + 1 && player.stage === 1)
-              ? "LOCKED"
-              : player.text}
+            {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton
@@ -298,12 +227,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "various-fluctuations" && (
         <>
-          <PlayerScoreButton
-            color={player.state === "playing" ? "green" : "red"}
-            disabled
-            {...props}
-          >
-            {player.state === "playing" ? `${player.score}pt` : player.text}
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
@@ -313,11 +238,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
           </div>
-          <PlayerScoreButton
-            color={player.state === "playing" ? "green" : "red"}
-            disabled
-            {...props}
-          >
+          <PlayerScoreButton color="green" disabled {...props}>
             {`+${game.players.find((gamePlayer) => gamePlayer.id === player_id)
               ?.base_correct_point!} / ${game.players.find(
               (gamePlayer) => gamePlayer.id === player_id
