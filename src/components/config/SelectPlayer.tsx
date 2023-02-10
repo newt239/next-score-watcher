@@ -40,7 +40,13 @@ import {
   Droppable,
   type DropResult,
 } from "react-beautiful-dnd";
-import { InfoCircle, Plus, Settings, Upload } from "tabler-icons-react";
+import {
+  CirclePlus,
+  InfoCircle,
+  Plus,
+  Settings,
+  Upload,
+} from "tabler-icons-react";
 
 import CompactPlayerTable from "./CompactPlayerTable";
 import IndividualConfig from "./IndividualConfig";
@@ -239,6 +245,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             <Button
                               colorScheme="blue"
                               size="sm"
+                              leftIcon={<CirclePlus />}
                               onClick={addNewPlayer}
                               disabled={playerName === ""}
                             >
@@ -344,7 +351,10 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                       <Text size="xl">{gamePlayer.name}</Text>
                                     </Box>
                                     <IndividualConfig
-                                      onClose={onClose}
+                                      onClose={() => {
+                                        setCurrentPlayerIndex(0);
+                                        onClose();
+                                      }}
                                       isOpen={isOpen}
                                       onClick={() => {
                                         setCurrentPlayerIndex(index);

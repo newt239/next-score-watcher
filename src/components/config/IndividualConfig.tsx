@@ -46,6 +46,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   disabled,
 }) => {
   if (!correct && !wrong) return null;
+  console.log(index);
 
   return (
     <>
