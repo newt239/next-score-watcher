@@ -628,7 +628,6 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               return {
                 ...playerState,
                 correct: newCorrect,
-                stage: 5,
                 last_correct: qn,
                 state: "win",
                 isIncapacity: false,
@@ -663,7 +662,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             }
         }
       } else {
-        if (isResetTiming) {
+        if (isResetTiming && playerState.state !== "win") {
           return {
             ...playerState,
             correct: 0,

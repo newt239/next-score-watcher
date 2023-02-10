@@ -90,7 +90,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           />
         </Editable>
       ) : (
-        <Button variant="unstyled" sx={ButtonCssStyle} onClick={handleClick}>
+        <Button
+          variant="unstyled"
+          sx={ButtonCssStyle}
+          _hover={{ opacity: disabled ? 1 : 0.5 }}
+          onClick={handleClick}
+        >
           {children}
         </Button>
       )}
