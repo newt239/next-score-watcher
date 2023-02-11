@@ -636,6 +636,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               return {
                 ...playerState,
                 correct: 0,
+                wrong: 0,
                 stage: playerState.stage + 1,
                 isIncapacity: false,
               };
