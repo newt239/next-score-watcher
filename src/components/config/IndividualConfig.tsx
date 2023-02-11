@@ -21,9 +21,9 @@ import { AdjustmentsHorizontal, DeviceFloppy } from "tabler-icons-react";
 import db, { GameDBPlayerProps, RuleNames } from "#/utils/db";
 
 type InitialPointConfigModalProps = {
-  onClose: () => void;
-  isOpen: boolean;
   onClick: () => void;
+  isOpen: boolean;
+  onClose: () => void;
   game_id: string;
   rule_name: RuleNames;
   players: GameDBPlayerProps[];
@@ -46,7 +46,6 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   disabled,
 }) => {
   if (!correct && !wrong) return null;
-  console.log(index);
 
   return (
     <>

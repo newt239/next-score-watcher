@@ -351,14 +351,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                       <Text size="xl">{gamePlayer.name}</Text>
                                     </Box>
                                     <IndividualConfig
-                                      onClose={() => {
-                                        setCurrentPlayerIndex(0);
-                                        onClose();
-                                      }}
-                                      isOpen={isOpen}
                                       onClick={() => {
                                         setCurrentPlayerIndex(index);
                                         onOpen();
+                                      }}
+                                      isOpen={isOpen}
+                                      onClose={() => {
+                                        setCurrentPlayerIndex(0);
+                                        onClose();
                                       }}
                                       game_id={game_id}
                                       rule_name={rule_name}

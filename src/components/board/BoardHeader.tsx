@@ -53,9 +53,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     getQuizList();
   }, [game]);
 
-  if (!game || !logs) {
-    return null;
-  }
+  if (!game || !logs) return null;
+
+  console.log(quizList);
 
   return (
     <Flex
@@ -115,33 +115,35 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               </span>
               問
             </Box>
-            {game.quiz &&
-              quizList.length >= logs.length &&
-              logs.length !== 0 && (
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    height: "100%",
-                    py: 3,
+            {game.quiz && quizList.length >= logs.length && (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  height: "100%",
+                  py: 3,
+                }}
+              >
+                <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
+                  {logs.length === 0
+                    ? "ここに問題文が表示されます"
+                    : quizList[game.quiz.offset + logs.length - 1].q}
+                </div>
+                <div
+                  style={{
+                    textAlign: "right",
+                    color: theme.colors.red[500],
+                    fontWeight: 800,
                   }}
                 >
-                  <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
-                    {quizList[game.quiz.offset + logs.length - 1].q}
-                  </div>
-                  <div
-                    style={{
-                      textAlign: "right",
-                      color: theme.colors.red[500],
-                      fontWeight: 800,
-                    }}
-                  >
-                    {quizList[game.quiz.offset + logs.length - 1].a}
-                  </div>
-                </Box>
-              )}
+                  {logs.length === 0
+                    ? "ここに答えが表示されます"
+                    : quizList[game.quiz.offset + logs.length - 1].a}
+                </div>
+              </Box>
+            )}
           </>
         ))}
       <Box>
