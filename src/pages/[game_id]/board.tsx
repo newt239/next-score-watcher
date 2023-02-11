@@ -7,7 +7,6 @@ import { Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import AnswerPlayerTable from "#/components/board/AnswerPlayerTable";
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";

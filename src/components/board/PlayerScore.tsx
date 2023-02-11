@@ -187,6 +187,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton
               color="red"
+              compact
               disabled={
                 player.isIncapacity ||
                 (qn === player.last_wrong + 1 && player.stage === 1)
@@ -197,6 +198,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
             <PlayerScoreButton
               color="blue"
+              compact
               disabled={
                 player.isIncapacity ||
                 (qn === player.last_wrong + 1 && player.stage === 1)
