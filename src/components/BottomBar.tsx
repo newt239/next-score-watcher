@@ -7,7 +7,6 @@ import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
 const BottomBar = () => {
   const { colorMode } = useColorMode();
   const router = useRouter();
-  console.log(router.pathname);
 
   return (
     <Box

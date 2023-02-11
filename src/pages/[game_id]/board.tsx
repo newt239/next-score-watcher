@@ -73,8 +73,6 @@ const BoardPage: NextPage = () => {
 
   if (!game || !logs) return null;
 
-  console.log(getConfig("scorewatcher-show-logs"));
-
   return (
     <>
       <Head>

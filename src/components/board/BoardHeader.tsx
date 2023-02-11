@@ -55,8 +55,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   if (!game || !logs) return null;
 
-  console.log(quizList);
-
   return (
     <Flex
       sx={{
