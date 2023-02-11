@@ -1,12 +1,20 @@
+import { useState } from "react";
+
 import {
   Box,
   Stack,
+  TableContainer,
+  Table,
+  Tbody,
+  Td,
   theme,
+  Tr,
   useColorMode,
   useMediaQuery,
+  Button,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
-import { History } from "tabler-icons-react";
+import { History, SortAscending, SortDescending } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
 import { LogDBProps, PlayerDBProps } from "#/utils/db";
@@ -19,14 +27,21 @@ type GameLogsProps = {
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const [reverse, setReverse] = useState<Boolean>(true);
 
   return (
-    <Box p={1}>
+    <Box
+      sx={{
+        p: 3,
+        my: 10,
+        maxW: "100vw",
+      }}
+    >
       <H3 sx={{ display: "flex", gap: 3, p: 3 }}>
         <History />
-        ログ
+        試合ログ
       </H3>
-      <Stack
+      <Box
         sx={{
           borderStyle: "solid",
           borderWidth: isLargerThan700 ? 3 : 1,
@@ -36,48 +51,58 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
               : theme.colors.gray[700],
           p: 3,
           borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
-          whiteSpace: "nowrap",
-          overflowX: "hidden",
         }}
       >
+        <Box sx={{ pb: 2 }}>
+          <Button
+            size="sm"
+            leftIcon={reverse ? <SortAscending /> : <SortDescending />}
+            onClick={() => setReverse((v) => !v)}
+          >
+            {reverse ? "降順" : "昇順"}
+          </Button>
+        </Box>
         {logs.length !== 0 ? (
-          logs
-            .slice()
-            .reverse()
-            .map((log, i) => {
-              const player = players.find((p) => p.id === log.player_id);
-              if (!player) return null;
-              if (log.variant === "through")
-                return <div>Q{logs.length - i}: 問題がスルーされました。</div>;
-              return (
-                <div
-                  key={log.id}
-                  title={cdate(log.timestamp).format(
-                    "YYYY年MM月DD日 HH時mm分ss秒"
-                  )}
-                >
-                  Q{logs.length - i}: {player.name} が
-                  {log.variant === "correct" ? "正解" : "誤答"}
-                  しました。
-                  {isLargerThan700 && (
-                    <span
-                      style={{
-                        color:
-                          colorMode === "light"
-                            ? theme.colors.gray[50]
-                            : theme.colors.gray[700],
-                      }}
-                    >
-                      {cdate(log.timestamp).format("HH:mm:ss")}
-                    </span>
-                  )}
-                </div>
-              );
-            })
+          <>
+            <TableContainer>
+              <Table variant="simple" size="sm">
+                <Tbody>
+                  {
+                    // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c
+                    (reverse ? logs.slice().reverse() : logs).map((log, qn) => {
+                      const player = players.find(
+                        (p) => p.id === log.player_id
+                      );
+                      return (
+                        <Tr key={log.id}>
+                          <Td>{reverse ? logs.length - qn + 1 : qn + 1}.</Td>
+                          <Td>{player ? player.name : "-"}</Td>
+                          <Td>
+                            {log.variant === "correct"
+                              ? "o"
+                              : log.variant === "wrong"
+                              ? "x"
+                              : "-"}
+                          </Td>
+                          <Td
+                            title={cdate(log.timestamp).format(
+                              "YYYY年MM月DD日 HH時mm分ss秒"
+                            )}
+                          >
+                            {cdate(log.timestamp).format("HH:mm:ss")}
+                          </Td>
+                        </Tr>
+                      );
+                    })
+                  }
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </>
         ) : (
-          <p>ここに試合のログが表示されます。</p>
+          <p>ここに解答者の一覧が表示されます。</p>
         )}
-      </Stack>
+      </Box>
     </Box>
   );
 };

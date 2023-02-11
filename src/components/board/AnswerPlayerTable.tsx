@@ -27,7 +27,7 @@ const AnswerPlayerTable: React.FC<GameLogsProps> = ({ players, logs }) => {
   if (!getConfig("scorewatcher-show-logs")) return null;
 
   return (
-    <Box p={1}>
+    <Box sx={{ p: 1 }}>
       <H3 sx={{ display: "flex", gap: 3, p: 3 }}>
         <Users />
         解答者一覧

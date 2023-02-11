@@ -124,15 +124,8 @@ const BoardPage: NextPage = () => {
         ))}
       </Box>
       {getConfig("scorewatcher-show-logs") && (
-        <Flex
-          sx={{
-            justifyContent: "space-evenly",
-            flexDirection: isLargerThan700 ? "row" : "column",
-            my: 10,
-          }}
-        >
+        <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={players} logs={logs} />
-          <AnswerPlayerTable players={players} logs={logs} />
         </Flex>
       )}
       <WinModal
