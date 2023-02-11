@@ -356,7 +356,7 @@ const nbyn = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         ? indicator(order)
         : playerState.state === "lose"
         ? "LOSE"
-        : `${playerState.correct}${numberSign("pt")}`;
+        : `${playerState.score}${numberSign("pt")}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
