@@ -143,7 +143,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "attacksurvival" && (
         <>
-          <PlayerScoreButton color={player.state} {...props}>
+          <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
