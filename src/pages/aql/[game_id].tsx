@@ -219,7 +219,7 @@ const AQLPage: NextPage = () => {
                     flexDirection: "column",
                     gap: 3,
                     borderStyle: "solid",
-                    borderWidth: 1,
+                    borderWidth: 2,
                     borderColor:
                       wrong === 1
                         ? "blue.500"
@@ -233,7 +233,7 @@ const AQLPage: NextPage = () => {
                         ? "blue.500"
                         : colorMode === "dark"
                         ? theme.colors.gray[800]
-                        : theme.colors.gray[300],
+                        : "white",
                   }}
                 >
                   <div>No. {position === "left" ? n + 1 : n - 4}</div>
