@@ -41,12 +41,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
   const variantColor = ["red", "win"].includes(color)
-    ? theme.colors.red[500]
+    ? theme.colors.red[colorMode === "light" ? 600 : 300]
     : ["blue", "lose"].includes(color)
-    ? theme.colors.blue[500]
+    ? theme.colors.blue[colorMode === "light" ? 600 : 300]
     : colorMode === "light"
-    ? theme.colors.green[500]
-    : theme.colors.yellow[500];
+    ? theme.colors.green[600]
+    : theme.colors.yellow[300];
   const ButtonCssStyle: SystemStyleObject = {
     display: isLargerThan700 ? "inline" : "block",
     fontSize:
