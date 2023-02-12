@@ -29,7 +29,7 @@ import {
 
 import H2 from "#/blocks/H2";
 import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
-import { GetRuleStringByType } from "#/utils/rules";
+import { getRuleStringByType } from "#/utils/rules";
 
 type BoardHeaderProps = {
   game: GameDBProps;
@@ -100,7 +100,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         >
           {game.name}
         </H2>
-        <p>{GetRuleStringByType(game)}</p>
+        <p>{getRuleStringByType(game)}</p>
       </Box>
       {game.editable ||
         (isLargerThan700 && (

@@ -75,7 +75,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                       );
                       return (
                         <Tr key={log.id}>
-                          <Td>{reverse ? logs.length - qn + 1 : qn + 1}.</Td>
+                          <Td>{reverse ? logs.length - qn : qn + 1}.</Td>
                           <Td>{player ? player.name : "-"}</Td>
                           <Td>
                             {log.variant === "correct"

@@ -72,7 +72,7 @@ export const rules = {
   },
 };
 
-export const GetRuleStringByType = (game: GameDBProps): string => {
+export const getRuleStringByType = (game: GameDBProps): string => {
   switch (game.rule) {
     case "normal":
       return "カウンター";

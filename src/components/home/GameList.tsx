@@ -34,7 +34,7 @@ import {
 import H2 from "#/blocks/H2";
 import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
-import { GetRuleStringByType } from "#/utils/rules";
+import { getRuleStringByType } from "#/utils/rules";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(
@@ -95,7 +95,7 @@ const GameList: React.FC = () => {
                 return (
                   <Tr key={game.id}>
                     <Td>{game.name}</Td>
-                    <Td>{GetRuleStringByType(game)}</Td>
+                    <Td>{getRuleStringByType(game)}</Td>
                     <Td>{game.players.length}</Td>
                     <Td>{gameState}</Td>
                     <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>

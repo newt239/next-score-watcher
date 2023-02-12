@@ -14,6 +14,7 @@ import WinModal from "#/components/board/WinModal";
 import { getConfig } from "#/hooks/useBooleanConfig";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
+import { getRuleStringByType } from "#/utils/rules";
 
 const BoardPage: NextPage = () => {
   const router = useRouter();
@@ -130,7 +131,7 @@ const BoardPage: NextPage = () => {
       <WinModal
         winTroughPlayer={winThroughPlayer}
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
-        roundName={game.name}
+        roundName={getRuleStringByType(game)}
       />
     </>
   );
