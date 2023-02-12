@@ -3,30 +3,19 @@ import { useEffect, useState } from "react";
 
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormLabel,
   IconButton,
-  Kbd,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Switch,
   theme,
   useColorMode,
   useDisclosure,
   useMediaQuery,
-  Stack,
-  HStack,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
@@ -40,6 +29,8 @@ import {
   Settings,
   Number,
 } from "tabler-icons-react";
+
+import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import H2 from "#/blocks/H2";
 import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
@@ -263,68 +254,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           </Menu>
         </Box>
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>ショートカットキー一覧</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            ※まず画面中央付近をクリックしフォーカスを移動させてください。
-            <Stack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>1</Kbd>
-                </span>
-                <span>1番目のプレイヤーの正答</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>2</Kbd>
-                </span>
-                <span>2番目のプレイヤーの正答</span>
-              </HStack>
-              <div style={{ margin: "auto", marginTop: "0.5rem" }}>
-                ～～～～～
-              </div>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>0</Kbd>
-                </span>
-                <span>10番目のプレイヤーの正答</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>shift</Kbd> + <Kbd>1</Kbd>
-                </span>
-                <span>1番目のプレイヤーの誤答</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>{"<"}</Kbd>
-                </span>
-                <span>一つ戻す</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>{">"}</Kbd>
-                </span>
-                <span>スルー</span>
-              </HStack>
-            </Stack>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                onClose();
-                document.getElementById("players-area")?.focus();
-              }}
-            >
-              閉じる
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

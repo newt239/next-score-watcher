@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 
 import {
   Button,
@@ -142,6 +142,38 @@ const AQLPage: NextPage = () => {
   };
 
   const gameState = getGameState();
+
+  const keyboardShortcutHandler = async (
+    event: KeyboardEvent<HTMLDivElement>
+  ) => {
+    if (game) {
+      if (event.code.startsWith("Digit")) {
+        const playerIndex = Number(event.code[5]);
+        if (gameState.scores[playerIndex === 0 ? 9 : playerIndex - 1].wrong < 2)
+          await db.logs.put({
+            id: nanoid(),
+            game_id: game.id,
+            player_id: playerIndex === 0 ? String(9) : String(playerIndex - 1),
+            variant: event.shiftKey ? "wrong" : "correct",
+            system: true,
+            timestamp: cdate().text(),
+          });
+      } else if (event.code === "Comma") {
+        if (logs.length !== 0) {
+          await db.logs.delete(logs[logs.length - 1].id);
+        }
+      } else if (event.code === "Period") {
+        await db.logs.put({
+          id: nanoid(),
+          game_id: game.id,
+          player_id: "-",
+          variant: "through",
+          system: false,
+          timestamp: cdate().text(),
+        });
+      }
+    }
+  };
 
   const EachGroup: React.FC<{ position: "left" | "right" }> = ({
     position,
@@ -311,6 +343,8 @@ const AQLPage: NextPage = () => {
           justifyContent: "space-around",
           flexDirection: isLargerThan800 ? "row" : "column",
         }}
+        tabIndex={-1}
+        onKeyDown={keyboardShortcutHandler}
       >
         <EachGroup position="left" />
         <EachGroup position="right" />

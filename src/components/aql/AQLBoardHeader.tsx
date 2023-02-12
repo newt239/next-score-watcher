@@ -15,17 +15,22 @@ import {
   useColorMode,
   useMediaQuery,
   Switch,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 import {
+  AdjustmentsHorizontal,
   ArrowBackUp,
   Comet,
+  Command,
   Home,
   Number,
   PlayerStop,
   Settings,
 } from "tabler-icons-react";
+
+import ShortcutGuideModal from "../board/ShortcutGuideModal";
 
 import H2 from "#/blocks/H2";
 import db, { LogDBProps, QuizDBProps } from "#/utils/db";
@@ -53,6 +58,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const [showQn, setShowQn] = useState<boolean>(true);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const getQuizList = async () => {
@@ -235,6 +241,14 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   <Switch isChecked={end} />
                 </FormControl>
               </MenuItem>
+              {isLargerThan700 && (
+                <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
+                  ショートカットを確認
+                </MenuItem>
+              )}
+              <NextLink href={`/aql`}>
+                <MenuItem icon={<AdjustmentsHorizontal />}>AQL設定</MenuItem>
+              </NextLink>
               <NextLink href="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
               </NextLink>
@@ -242,6 +256,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           </Menu>
         </Box>
       </Flex>
+      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
