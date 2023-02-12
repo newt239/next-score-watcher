@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import { useRef, useState } from "react";
 
 import {
@@ -60,6 +61,7 @@ import {
   ChevronsRight,
   DeviceFloppy,
   Filter,
+  InfoCircle,
   Tags,
   Trash,
   X,
@@ -164,6 +166,23 @@ const PlayerTable: React.FC = () => {
             </TagRightIcon>
           </Tag>
         ));
+      },
+    }),
+    columnHelper.accessor("id", {
+      header: "",
+      cell: (info) => {
+        return (
+          <NextLink href={`/player/${info.row.original.id}`}>
+            <Button
+              colorScheme="green"
+              variant="ghost"
+              size="xs"
+              leftIcon={<InfoCircle />}
+            >
+              詳細
+            </Button>
+          </NextLink>
+        );
       },
     }),
   ];
