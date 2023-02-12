@@ -1,5 +1,6 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 import {
@@ -36,14 +37,15 @@ const PlayerPage: NextPageWithLayout = () => {
       </Head>
       {typeof from === "string" && (
         <Box>
-          <Button
-            colorScheme="green"
-            variant="link"
-            onClick={() => router.push({ pathname: `/${from}/config` })}
-            leftIcon={<ArrowBackUp />}
-          >
-            設定に戻る
-          </Button>
+          <NextLink href={`/${from}/config`}>
+            <Button
+              colorScheme="green"
+              variant="ghost"
+              leftIcon={<ArrowBackUp />}
+            >
+              設定に戻る
+            </Button>
+          </NextLink>
         </Box>
       )}
       <H2>プレイヤー管理</H2>

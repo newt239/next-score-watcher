@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import NextLink from "next/link";
 import { useEffect, useState } from "react";
 
 import {
@@ -38,7 +38,6 @@ type BoardHeaderProps = {
 
 const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const { colorMode } = useColorMode();
-  const router = useRouter();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
@@ -207,15 +206,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 <Switch isChecked={game.editable} />
               </FormControl>
             </MenuItem>
-            <MenuItem
-              icon={<AdjustmentsHorizontal />}
-              onClick={() => router.push(`/${game.id}/config`)}
-            >
-              設定
-            </MenuItem>
-            <MenuItem icon={<Home />} onClick={() => router.push(`/`)}>
-              ホームに戻る
-            </MenuItem>
+            <NextLink href={`/${game.id}/config`}>
+              <MenuItem icon={<AdjustmentsHorizontal />}>設定</MenuItem>
+            </NextLink>
+            <NextLink href="/">
+              <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
+            </NextLink>
           </MenuList>
         </Menu>
       </Box>

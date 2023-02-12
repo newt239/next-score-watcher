@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 import {
@@ -84,18 +85,11 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           </Flex>
         ) : (
           <Box>
-            <Button
-              onClick={() =>
-                router.push({
-                  pathname: "/quiz",
-                  query: { from: game_id },
-                })
-              }
-              colorScheme="blue"
-              leftIcon={<Upload />}
-            >
-              問題データを読み込む
-            </Button>
+            <NextLink href={`/quiz?from=${game_id}`}>
+              <Button colorScheme="blue" leftIcon={<Upload />}>
+                問題データを読み込む
+              </Button>
+            </NextLink>
           </Box>
         )}
       </Box>

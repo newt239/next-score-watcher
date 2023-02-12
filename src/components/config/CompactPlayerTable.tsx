@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -250,16 +251,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Box>
           </HStack>
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <Button
-              colorScheme="green"
-              variant="link"
-              onClick={() =>
-                router.push({ pathname: `/player`, query: { from: game_id } })
-              }
-              rightIcon={<ArrowNarrowRight />}
-            >
-              詳細設定
-            </Button>
+            <NextLink href={`/player?from=${game_id}`}>
+              <Button
+                colorScheme="green"
+                variant="ghost"
+                rightIcon={<ArrowNarrowRight />}
+              >
+                詳細設定
+              </Button>
+            </NextLink>
           </Box>
         </Box>
       )}
