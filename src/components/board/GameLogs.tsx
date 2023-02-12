@@ -17,10 +17,10 @@ import { cdate } from "cdate";
 import { History, SortAscending, SortDescending } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
-import { LogDBProps, PlayerDBProps } from "#/utils/db";
+import { LogDBProps } from "#/utils/db";
 
 type GameLogsProps = {
-  players: PlayerDBProps[];
+  players: { id: string; name: string }[];
   logs: LogDBProps[];
 };
 
