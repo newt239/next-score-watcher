@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState, KeyboardEvent } from "react";
 
 import {
-  Box,
   Button,
   Flex,
   theme,
@@ -39,6 +39,7 @@ const AQLPage: NextPage = () => {
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
+  const [end, setEnd] = useState<boolean>(false);
   const { colorMode } = useColorMode();
 
   if (!game || !logs) return null;
@@ -142,6 +143,38 @@ const AQLPage: NextPage = () => {
 
   const gameState = getGameState();
 
+  const keyboardShortcutHandler = async (
+    event: KeyboardEvent<HTMLDivElement>
+  ) => {
+    if (game) {
+      if (event.code.startsWith("Digit")) {
+        const playerIndex = Number(event.code[5]);
+        if (gameState.scores[playerIndex === 0 ? 9 : playerIndex - 1].wrong < 2)
+          await db.logs.put({
+            id: nanoid(),
+            game_id: game.id,
+            player_id: playerIndex === 0 ? String(9) : String(playerIndex - 1),
+            variant: event.shiftKey ? "wrong" : "correct",
+            system: true,
+            timestamp: cdate().text(),
+          });
+      } else if (event.code === "Comma") {
+        if (logs.length !== 0) {
+          await db.logs.delete(logs[logs.length - 1].id);
+        }
+      } else if (event.code === "Period") {
+        await db.logs.put({
+          id: nanoid(),
+          game_id: game.id,
+          player_id: "-",
+          variant: "through",
+          system: false,
+          timestamp: cdate().text(),
+        });
+      }
+    }
+  };
+
   const EachGroup: React.FC<{ position: "left" | "right" }> = ({
     position,
   }) => {
@@ -158,7 +191,7 @@ const AQLPage: NextPage = () => {
     } else if (opposePoint >= 200) {
       state = "lose";
     } else {
-      if (logs.length >= 40) {
+      if (end) {
         if (point > opposePoint) {
           state = "win";
         } else if (opposePoint > point) {
@@ -185,7 +218,7 @@ const AQLPage: NextPage = () => {
         sx={{
           flexDirection: "column",
           textAlign: "center",
-          fontSize: "max(1.5rem, 2vw)",
+          fontSize: "max(1.5rem, 1.5vw)",
           backgroundColor:
             state === "win"
               ? "red.500"
@@ -196,9 +229,26 @@ const AQLPage: NextPage = () => {
           borderRadius: "1rem",
         }}
       >
-        <div>{position === "left" ? game.left_team : game.right_team}</div>
-        <div style={{ fontSize: "4.5rem" }}>
-          {point}
+        <div
+          style={{
+            color:
+              state !== "playing" && colorMode === "light"
+                ? "white"
+                : undefined,
+          }}
+        >
+          {position === "left" ? game.left_team : game.right_team}
+        </div>
+        <div
+          style={{
+            fontSize: "4.5rem",
+            color:
+              state !== "playing" && colorMode === "light"
+                ? "white"
+                : undefined,
+          }}
+        >
+          {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
         </div>
         <Flex sx={{ justifyContent: "space-between", gap: 1 }}>
@@ -221,7 +271,9 @@ const AQLPage: NextPage = () => {
                     borderStyle: "solid",
                     borderWidth: 2,
                     borderColor:
-                      wrong === 1
+                      state !== "playing"
+                        ? undefined
+                        : wrong === 1
                         ? "blue.500"
                         : reachState
                         ? "red.500"
@@ -229,19 +281,25 @@ const AQLPage: NextPage = () => {
                     borderRadius: "1rem",
                     p: 2,
                     backgroundColor:
-                      wrong === 2
+                      state !== "playing"
+                        ? colorMode === "dark"
+                          ? theme.colors.gray[800]
+                          : "white"
+                        : wrong === 2
                         ? "blue.500"
                         : colorMode === "dark"
                         ? theme.colors.gray[800]
                         : "white",
                   }}
                 >
-                  <div>No. {position === "left" ? n + 1 : n - 4}</div>
+                  <div>No.{position === "left" ? n + 1 : n - 4}</div>
                   <div style={{ fontSize: "3rem", fontWeight: 800 }}>
                     {gameState.scores[n].score}
                   </div>
                   <Button
                     onClick={() => onClickHandler("correct", n)}
+                    colorScheme="red"
+                    variant="ghost"
                     sx={{ color: "red.500" }}
                     disabled={wrong === 2}
                   >
@@ -249,6 +307,8 @@ const AQLPage: NextPage = () => {
                   </Button>
                   <Button
                     onClick={() => onClickHandler("wrong", n)}
+                    colorScheme="blue"
+                    variant="ghost"
                     sx={{ color: "blue.500" }}
                     disabled={wrong === 2}
                   >
@@ -266,7 +326,7 @@ const AQLPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>AQL rule - Score Watcher</title>
+        <title>AQL Rule - Score Watcher</title>
       </Head>
       <AQLBoardHeader
         name={game.name}
@@ -274,6 +334,8 @@ const AQLPage: NextPage = () => {
         logs={logs}
         quiz_set={game.quiz.set_name}
         quiz_offset={game.quiz.offset}
+        end={end}
+        onEndChange={() => setEnd((v) => !v)}
       />
       <Flex
         sx={{
@@ -281,6 +343,8 @@ const AQLPage: NextPage = () => {
           justifyContent: "space-around",
           flexDirection: isLargerThan800 ? "row" : "column",
         }}
+        tabIndex={-1}
+        onKeyDown={keyboardShortcutHandler}
       >
         <EachGroup position="left" />
         <EachGroup position="right" />

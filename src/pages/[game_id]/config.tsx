@@ -25,6 +25,7 @@ import SelectQuizset from "#/components/config/SelectQuizSet";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
+
 const ConfigPage: NextPageWithLayout = () => {
   const [isLargerThan400] = useMediaQuery("(min-width: 400px)");
   const { game_id } = router.query;

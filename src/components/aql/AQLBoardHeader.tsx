@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
+  FormControl,
+  FormLabel,
   IconButton,
   Menu,
   MenuButton,
@@ -11,12 +13,24 @@ import {
   MenuList,
   theme,
   useColorMode,
-  useDisclosure,
   useMediaQuery,
+  Switch,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
-import { ArrowBackUp, Comet, Home, Settings } from "tabler-icons-react";
+import {
+  AdjustmentsHorizontal,
+  ArrowBackUp,
+  Comet,
+  Command,
+  Home,
+  Number,
+  PlayerStop,
+  Settings,
+} from "tabler-icons-react";
+
+import ShortcutGuideModal from "../board/ShortcutGuideModal";
 
 import H2 from "#/blocks/H2";
 import db, { LogDBProps, QuizDBProps } from "#/utils/db";
@@ -27,6 +41,8 @@ type AQLBoardHeaderProps = {
   logs: LogDBProps[];
   quiz_set?: string;
   quiz_offset: number;
+  end: boolean;
+  onEndChange: () => void;
 };
 
 const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
@@ -35,10 +51,13 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   logs,
   quiz_set,
   quiz_offset,
+  end,
+  onEndChange,
 }) => {
   const { colorMode } = useColorMode();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const [showQn, setShowQn] = useState<boolean>(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -103,13 +122,15 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
         </Box>
         {isLargerThan700 && (
           <>
-            <Box sx={{ whiteSpace: "nowrap" }}>
-              第
-              <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                {logs.length + 1}
-              </span>
-              問
-            </Box>
+            {showQn && (
+              <Box sx={{ whiteSpace: "nowrap" }}>
+                第
+                <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
+                  {logs.length + 1}
+                </span>
+                問
+              </Box>
+            )}
             {quiz_set && quizList.length > logs.length && (
               <Box
                 sx={{
@@ -196,6 +217,38 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               >
                 一つ戻す
               </MenuItem>
+              <MenuItem icon={<Number />} onClick={() => setShowQn((v) => !v)}>
+                <FormControl
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormLabel mb="0">問題番号を表示</FormLabel>
+                  <Switch isChecked={showQn} />
+                </FormControl>
+              </MenuItem>
+              <MenuItem icon={<PlayerStop />} onClick={onEndChange}>
+                <FormControl
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormLabel mb="0">試合を終了</FormLabel>
+                  <Switch isChecked={end} />
+                </FormControl>
+              </MenuItem>
+              {isLargerThan700 && (
+                <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
+                  ショートカットを確認
+                </MenuItem>
+              )}
+              <NextLink href={`/aql`}>
+                <MenuItem icon={<AdjustmentsHorizontal />}>AQL設定</MenuItem>
+              </NextLink>
               <NextLink href="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
               </NextLink>
@@ -203,6 +256,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           </Menu>
         </Box>
       </Flex>
+      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

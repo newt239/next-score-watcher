@@ -3,36 +3,19 @@ import { useEffect, useState } from "react";
 
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormLabel,
   IconButton,
-  Kbd,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Switch,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Table,
   theme,
-  Tr,
   useColorMode,
   useDisclosure,
   useMediaQuery,
-  Stack,
-  HStack,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
@@ -44,7 +27,10 @@ import {
   HandClick,
   Home,
   Settings,
+  Number,
 } from "tabler-icons-react";
+
+import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import H2 from "#/blocks/H2";
 import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
@@ -60,6 +46,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [showQn, setShowQn] = useState<boolean>(true);
 
   useEffect(() => {
     const getQuizList = async () => {
@@ -126,13 +113,15 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         {game.editable ||
           (isLargerThan700 && (
             <>
-              <Box sx={{ whiteSpace: "nowrap" }}>
-                第
-                <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                  {logs.length + 1}
-                </span>
-                問
-              </Box>
+              {showQn && (
+                <Box sx={{ whiteSpace: "nowrap" }}>
+                  第
+                  <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
+                    {logs.length + 1}
+                  </span>
+                  問
+                </Box>
+              )}
               {game.quiz && quizList.length > logs.length && (
                 <Box
                   sx={{
@@ -238,6 +227,18 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   <Switch isChecked={game.editable} />
                 </FormControl>
               </MenuItem>
+              <MenuItem icon={<Number />} onClick={() => setShowQn((v) => !v)}>
+                <FormControl
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormLabel mb="0">問題番号を表示</FormLabel>
+                  <Switch isChecked={showQn} />
+                </FormControl>
+              </MenuItem>
               {isLargerThan700 && (
                 <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
                   ショートカットを確認
@@ -253,68 +254,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           </Menu>
         </Box>
       </Flex>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>ショートカットキー一覧</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            ※まず画面中央付近をクリックしフォーカスを移動させてください。
-            <Stack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>1</Kbd>
-                </span>
-                <span>1番目のプレイヤーの正答</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>2</Kbd>
-                </span>
-                <span>2番目のプレイヤーの正答</span>
-              </HStack>
-              <div style={{ margin: "auto", marginTop: "0.5rem" }}>
-                ～～～～～
-              </div>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>0</Kbd>
-                </span>
-                <span>10番目のプレイヤーの正答</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>shift</Kbd> + <Kbd>1</Kbd>
-                </span>
-                <span>1番目のプレイヤーの誤答</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>{"<"}</Kbd>
-                </span>
-                <span>一つ戻す</span>
-              </HStack>
-              <HStack sx={{ justifyContent: "space-between" }}>
-                <span>
-                  <Kbd>{">"}</Kbd>
-                </span>
-                <span>スルー</span>
-              </HStack>
-            </Stack>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              onClick={() => {
-                onClose();
-                document.getElementById("players-area")?.focus();
-              }}
-            >
-              閉じる
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
