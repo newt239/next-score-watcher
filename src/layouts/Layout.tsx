@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-import { Box, Container, Spacer, useMediaQuery } from "@chakra-ui/react";
+import { Box, Container, useMediaQuery } from "@chakra-ui/react";
 
 import BottomBar from "#/components/BottomBar";
 import Footer from "#/components/Footer";

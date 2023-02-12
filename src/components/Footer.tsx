@@ -1,4 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
+
 const Footer: React.FC = () => {
   return (
     <>

@@ -3,8 +3,6 @@ import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
-import { info } from "console";
-
 import {
   Box,
   Button,
