@@ -1,13 +1,13 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 
 import { Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
+import { nanoid } from "nanoid";
 
-import AnswerPlayerTable from "#/components/board/AnswerPlayerTable";
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";
@@ -15,6 +15,7 @@ import WinModal from "#/components/board/WinModal";
 import { getConfig } from "#/hooks/useBooleanConfig";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
+import { getRuleStringByType } from "#/utils/rules";
 
 const BoardPage: NextPage = () => {
   const router = useRouter();
@@ -73,6 +74,39 @@ const BoardPage: NextPage = () => {
 
   if (!game || !logs) return null;
 
+  const keyboardShortcutHandler = async (
+    event: KeyboardEvent<HTMLDivElement>
+  ) => {
+    if (game) {
+      if (event.code.startsWith("Digit")) {
+        const playerIndex = Number(event.code[5]);
+        if (playerIndex <= players.length) {
+          await db.logs.put({
+            id: nanoid(),
+            game_id: game.id,
+            player_id: players[playerIndex === 0 ? 9 : playerIndex - 1].id,
+            variant: event.shiftKey ? "wrong" : "correct",
+            system: true,
+            timestamp: cdate().text(),
+          });
+        }
+      } else if (event.code === "Comma") {
+        if (logs.length !== 0) {
+          await db.logs.delete(logs[logs.length - 1].id);
+        }
+      } else if (event.code === "Period") {
+        await db.logs.put({
+          id: nanoid(),
+          game_id: game.id,
+          player_id: "-",
+          variant: "through",
+          system: false,
+          timestamp: cdate().text(),
+        });
+      }
+    }
+  };
+
   return (
     <>
       <Head>
@@ -94,8 +128,9 @@ const BoardPage: NextPage = () => {
           の変数が変動します
         </Box>
       )}
-      <Box
-        sx={{
+      <div
+        id="players-area"
+        style={{
           display: "flex",
           flexDirection: isLargerThan700 ? "row" : "column",
           gap: "1rem",
@@ -103,6 +138,8 @@ const BoardPage: NextPage = () => {
           justifyContent: "space-evenly",
           padding: 3,
         }}
+        tabIndex={-1}
+        onKeyDown={keyboardShortcutHandler}
       >
         {players.map((player, i) => (
           <Player
@@ -122,23 +159,16 @@ const BoardPage: NextPage = () => {
             }
           />
         ))}
-      </Box>
+      </div>
       {getConfig("scorewatcher-show-logs") && (
-        <Flex
-          sx={{
-            justifyContent: "space-evenly",
-            flexDirection: isLargerThan700 ? "row" : "column",
-            my: 10,
-          }}
-        >
+        <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={players} logs={logs} />
-          <AnswerPlayerTable players={players} logs={logs} />
         </Flex>
       )}
       <WinModal
         winTroughPlayer={winThroughPlayer}
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
-        roundName={game.name}
+        roundName={getRuleStringByType(game)}
       />
     </>
   );

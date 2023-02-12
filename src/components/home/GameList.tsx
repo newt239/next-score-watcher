@@ -1,4 +1,4 @@
-import router from "next/router";
+import NextLink from "next/link";
 import { useState } from "react";
 
 import {
@@ -19,6 +19,7 @@ import {
   Select,
   FormControl,
   Flex,
+  Button,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -31,10 +32,9 @@ import {
 } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import LinkButton from "#/blocks/LinkButton";
 import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
-import { GetRuleStringByType } from "#/utils/rules";
+import { getRuleStringByType } from "#/utils/rules";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(
@@ -95,21 +95,22 @@ const GameList: React.FC = () => {
                 return (
                   <Tr key={game.id}>
                     <Td>{game.name}</Td>
-                    <Td>{GetRuleStringByType(game)}</Td>
+                    <Td>{getRuleStringByType(game)}</Td>
                     <Td>{game.players.length}</Td>
                     <Td>{gameState}</Td>
                     <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>
                     <Td sx={{ textAlign: "right" }}>
                       <HStack sx={{ justifyContent: "flex-end" }}>
-                        <LinkButton
-                          icon={<AdjustmentsHorizontal />}
-                          href={`/${game.id}/config`}
-                          size="sm"
-                          colorScheme="green"
-                          variant="ghost"
-                        >
-                          開く
-                        </LinkButton>
+                        <NextLink href={`/${game.id}/config`}>
+                          <Button
+                            size="sm"
+                            colorScheme="green"
+                            variant="ghost"
+                            leftIcon={<AdjustmentsHorizontal />}
+                          >
+                            開く
+                          </Button>
+                        </NextLink>
                         <Menu>
                           <MenuButton
                             as={IconButton}
@@ -133,12 +134,11 @@ const GameList: React.FC = () => {
                               コピーを作成
                             </MenuItem>
                             {game.players.length !== 0 && (
-                              <MenuItem
-                                icon={<Chalkboard />}
-                                onClick={() => router.push(`/${game.id}/board`)}
-                              >
-                                得点画面を開く
-                              </MenuItem>
+                              <NextLink href={`/${game.id}/board`}>
+                                <MenuItem icon={<Chalkboard />}>
+                                  得点画面を開く
+                                </MenuItem>
+                              </NextLink>
                             )}
                             <MenuItem
                               icon={<Trash />}

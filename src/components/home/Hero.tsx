@@ -105,6 +105,7 @@ const Hero: React.FC = () => {
             isManual
             variant="soft-rounded"
             orientation="vertical"
+            colorScheme="green"
             sx={{ pt: 5 }}
           >
             <TabList sx={{ whiteSpace: "nowrap" }}>
@@ -122,7 +123,7 @@ const Hero: React.FC = () => {
             </TabList>
             <TabPanels
               sx={{
-                border: `3px solid ${theme.colors.blue[100]}`,
+                border: `3px solid ${theme.colors.green[100]}`,
                 borderRadius: "0 1rem 1rem 0",
               }}
             >

@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import NextLink from "next/link";
 import { useState } from "react";
 
 import {
@@ -53,7 +53,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   playerList,
   gamePlayers,
 }) => {
-  const router = useRouter();
   const [searchText, setSearchText] = useState<string>("");
 
   const onChangeHandler = async (player: PlayerDBProps) => {
@@ -106,6 +105,13 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     }),
     columnHelper.accessor("name", {
       header: "氏名",
+      cell: (info) => {
+        return (
+          <div onClick={() => onChangeHandler(info.row.original)}>
+            {info.row.original.name}
+          </div>
+        );
+      },
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("text", {
@@ -250,16 +256,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Box>
           </HStack>
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <Button
-              colorScheme="green"
-              variant="link"
-              onClick={() =>
-                router.push({ pathname: `/player`, query: { from: game_id } })
-              }
-              rightIcon={<ArrowNarrowRight />}
-            >
-              詳細設定
-            </Button>
+            <NextLink href={`/player?from=${game_id}`}>
+              <Button
+                colorScheme="green"
+                variant="ghost"
+                rightIcon={<ArrowNarrowRight />}
+              >
+                詳細設定
+              </Button>
+            </NextLink>
           </Box>
         </Box>
       )}

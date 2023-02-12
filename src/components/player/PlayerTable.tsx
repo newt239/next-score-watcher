@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import { useRef, useState } from "react";
 
 import {
@@ -60,6 +61,7 @@ import {
   ChevronsRight,
   DeviceFloppy,
   Filter,
+  InfoCircle,
   Tags,
   Trash,
   X,
@@ -166,6 +168,23 @@ const PlayerTable: React.FC = () => {
         ));
       },
     }),
+    columnHelper.accessor("id", {
+      header: "",
+      cell: (info) => {
+        return (
+          <NextLink href={`/player/${info.row.original.id}`}>
+            <Button
+              colorScheme="green"
+              variant="ghost"
+              size="xs"
+              leftIcon={<InfoCircle />}
+            >
+              詳細
+            </Button>
+          </NextLink>
+        );
+      },
+    }),
   ];
 
   const table = useReactTable<PlayerDBProps>({
@@ -221,7 +240,7 @@ const PlayerTable: React.FC = () => {
       <H3>プレイヤー一覧</H3>
       {players.length === 0 ? (
         <Box p={3}>
-          <Text>該当するプレイヤーは見つかりませんでした。</Text>
+          <Text>プレイヤーが登録されていません。</Text>
         </Box>
       ) : (
         <Box>

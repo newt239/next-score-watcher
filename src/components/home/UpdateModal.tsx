@@ -9,7 +9,10 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  Link,
+  Icon,
 } from "@chakra-ui/react";
+import { ExternalLink } from "tabler-icons-react";
 
 const UpdateModal: React.FC = () => {
   const router = useRouter();
@@ -39,6 +42,20 @@ const UpdateModal: React.FC = () => {
           <p>
             現在 v.{currentVersion} を使用中です。 v.{latestVersion}{" "}
             にアップデートします。
+          </p>
+          <p>
+            詳細は
+            <Link
+              href="https://github.com/newt239/next-score-watcher/releases"
+              isExternal
+              color="blue.500"
+            >
+              リリースノート
+              <Icon>
+                <ExternalLink />
+              </Icon>
+            </Link>
+            をご確認ください。
           </p>
         </ModalBody>
         <ModalFooter>

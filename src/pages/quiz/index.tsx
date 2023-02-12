@@ -58,7 +58,7 @@ const QuizPage: NextPageWithLayout = () => {
             onChange={(e) => setSetName(e.target.value)}
           />
         </FormControl>
-        <Tabs isFitted variant="enclosed" pt={5}>
+        <Tabs isFitted variant="enclosed" colorScheme="green" pt={5}>
           <TabList mb="1em">
             <Tab>まとめて貼り付け</Tab>
             <Tab>ファイルからインポート</Tab>

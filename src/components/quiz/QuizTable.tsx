@@ -151,7 +151,7 @@ const QuizTable: React.FC = () => {
       <H3>問題一覧</H3>
       {quizes.length === 0 ? (
         <Box p={3}>
-          <Text>該当する問題データは見つかりませんでした。</Text>
+          <Text>問題が登録されていません。</Text>
         </Box>
       ) : (
         <Box>

@@ -19,7 +19,7 @@ import { getConfig } from "#/hooks/useBooleanConfig";
 type WinModalProps = {
   onClose: () => void;
   winTroughPlayer: { name: string; text: string };
-  roundName?: string;
+  roundName: string;
 };
 
 const WinModal: React.FC<WinModalProps> = ({
@@ -67,7 +67,7 @@ const WinModal: React.FC<WinModalProps> = ({
             <StatNumber sx={{ fontSize: "2.5rem" }}>
               {winTroughPlayer.name}
             </StatNumber>
-            {roundName && <StatHelpText>{roundName}</StatHelpText>}
+            <StatHelpText>{roundName}</StatHelpText>
           </Stat>
         </ModalBody>
       </ModalContent>
