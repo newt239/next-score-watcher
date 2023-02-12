@@ -158,7 +158,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "squarex" && (
         <>
-          <PlayerScoreButton color={player.state} compact disabled {...props}>
+          <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton color="green" filled disabled {...props}>

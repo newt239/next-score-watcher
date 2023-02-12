@@ -48,6 +48,9 @@ const OptionPage: NextPageWithLayout = () => {
   const [showSignString, setShowSignString] = useState(
     getConfig("scorewatcher-show-sign-string")
   );
+  const [reversePlayerInfo, setReversePlayerInfo] = useState(
+    getConfig("scorewatcher-reverse-player-info", false)
+  );
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
@@ -70,6 +73,10 @@ const OptionPage: NextPageWithLayout = () => {
   useEffect(() => {
     setConfig("scorewatcher-show-sign-string", showSignString);
   }, [showSignString]);
+
+  useEffect(() => {
+    setConfig("scorewatcher-reverse-player-info", reversePlayerInfo);
+  }, [reversePlayerInfo]);
 
   return (
     <>
@@ -150,6 +157,23 @@ const OptionPage: NextPageWithLayout = () => {
               size="lg"
               isChecked={showLogs}
               onChange={() => setShowLogs((v) => !v)}
+            />
+          </FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormLabel htmlFor="reverse-player-info" sx={{ flexGrow: 1 }}>
+              スコアを名前の前に表示
+            </FormLabel>
+            <Switch
+              id="reverse-player-info"
+              size="lg"
+              isChecked={reversePlayerInfo}
+              onChange={() => setReversePlayerInfo((v) => !v)}
             />
           </FormControl>
           <FormControl>

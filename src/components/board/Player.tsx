@@ -9,6 +9,7 @@ import PlayerHeader from "./PlayerHeader";
 
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
+import { getConfig } from "#/hooks/useBooleanConfig";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
 type PlayerProps = {
@@ -47,6 +48,14 @@ const Player: React.FC<PlayerProps> = ({
     state: game.editable ? editableState : score.state,
   };
 
+  const flexDirection = isLargerThan700
+    ? getConfig("scorewatcher-reverse-player-info", false)
+      ? "column-reverse"
+      : "column"
+    : getConfig("scorewatcher-reverse-player-info", false)
+    ? "row-reverse"
+    : "row";
+
   const getColor = (state: States) => {
     return state === "win"
       ? theme.colors.red[500]
@@ -59,7 +68,7 @@ const Player: React.FC<PlayerProps> = ({
     <div
       style={{
         display: "flex",
-        flexDirection: isLargerThan700 ? "column" : "row",
+        flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
         minWidth: "10vw",
@@ -84,7 +93,9 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          flexDirection: "column",
+          flexDirection: getConfig("scorewatcher-reverse-player-info", false)
+            ? "column-reverse"
+            : "column",
           paddingLeft: isLargerThan700 ? undefined : "0.5rem",
         }}
       >
