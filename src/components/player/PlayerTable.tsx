@@ -221,7 +221,7 @@ const PlayerTable: React.FC = () => {
       <H3>プレイヤー一覧</H3>
       {players.length === 0 ? (
         <Box p={3}>
-          <Text>該当するプレイヤーは見つかりませんでした。</Text>
+          <Text>プレイヤーが登録されていません。</Text>
         </Box>
       ) : (
         <Box>
