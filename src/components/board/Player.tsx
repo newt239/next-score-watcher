@@ -96,6 +96,7 @@ const Player: React.FC<PlayerProps> = ({
           flexDirection: getConfig("scorewatcher-reverse-player-info", false)
             ? "column-reverse"
             : "column",
+          alignItems: "center",
           paddingLeft: isLargerThan700 ? undefined : "0.5rem",
         }}
       >

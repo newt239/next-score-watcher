@@ -24,6 +24,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             justifyContent: "center",
             fontWeight: 800,
             whiteSpace: "nowrap",
+            maxWidth: 100,
           }}
         >
           {text === "" ? (
@@ -43,6 +44,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
+            maxWidth: 100,
           }}
         >
           {text === "" && belong === "" && (
