@@ -158,18 +158,18 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "squarex" && (
         <>
-          <PlayerScoreButton color={player.state} {...props}>
+          <PlayerScoreButton color={player.state} compact disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="green" filled {...props}>
+          <PlayerScoreButton color="green" filled disabled {...props}>
             {`${player.odd_score}×${player.even_score}`}
           </PlayerScoreButton>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <PlayerScoreButton color="red" compact {...props}>
-              ○
+              {`${player.correct}○`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              ×
+              {`${player.wrong}✕`}
             </PlayerScoreButton>
           </div>
         </>

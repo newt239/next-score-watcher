@@ -133,7 +133,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 </span>
                 問
               </Box>
-              {game.quiz && quizList.length >= logs.length && (
+              {game.quiz && quizList.length > logs.length && (
                 <Box
                   sx={{
                     flexGrow: 1,
@@ -141,10 +141,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                     flexDirection: "column",
                     justifyContent: "space-between",
                     height: "100%",
-                    py: 3,
+                    fontSize: "1.5rem",
+                    lineHeight: "1.5rem",
+                    overflow: "hidden",
                   }}
                 >
-                  <div style={{ maxHeight: "8vh", overflow: "hidden" }}>
+                  <div style={{ maxHeight: "8vh" }}>
                     {logs.length === 0
                       ? "ここに問題文が表示されます"
                       : quizList[game.quiz.offset + logs.length - 1].q}
@@ -156,9 +158,18 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                       fontWeight: 800,
                     }}
                   >
-                    {logs.length === 0
-                      ? "ここに答えが表示されます"
-                      : quizList[game.quiz.offset + logs.length - 1].a}
+                    <span
+                      style={{
+                        backgroundColor:
+                          colorMode === "light"
+                            ? theme.colors.gray[50]
+                            : theme.colors.gray[700],
+                      }}
+                    >
+                      {logs.length === 0
+                        ? "ここに答えが表示されます"
+                        : quizList[game.quiz.offset + logs.length - 1].a}
+                    </span>
                   </div>
                 </Box>
               )}
