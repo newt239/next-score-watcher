@@ -41,7 +41,7 @@ const RuleList: React.FC = () => {
               <CardFooter sx={{ justifyContent: "flex-end" }}>
                 <Button
                   leftIcon={<CirclePlus />}
-                  colorScheme="blue"
+                  colorScheme="green"
                   size="sm"
                   onClick={() => createGame(rule_name)}
                 >

@@ -51,7 +51,7 @@ const PlayerPage: NextPageWithLayout = () => {
       <H2>プレイヤー管理</H2>
       <Box>
         <H3>プレイヤーの読み込み</H3>
-        <Tabs isFitted variant="enclosed" pt={5}>
+        <Tabs isFitted variant="enclosed" colorScheme="green" pt={5}>
           <TabList mb="1em">
             <Tab>個別に追加</Tab>
             <Tab>まとめて貼り付け</Tab>
