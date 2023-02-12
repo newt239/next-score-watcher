@@ -62,6 +62,7 @@ const Player: React.FC<PlayerProps> = ({
         flexDirection: isLargerThan700 ? "column" : "row",
         justifyContent: "space-between",
         alignItems: "stretch",
+        minWidth: "10vw",
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -87,24 +88,27 @@ const Player: React.FC<PlayerProps> = ({
           paddingLeft: isLargerThan700 ? undefined : "0.5rem",
         }}
       >
-        <PlayerHeader index={index} text={player.text} belong={player.belong} />
+        {game.editable ? (
+          <div
+            style={{
+              margin: isLargerThan700 ? "auto" : undefined,
+            }}
+          >
+            <PlayerColorConfig
+              colorState={getColor(editedScore.state)}
+              editableState={editableState}
+              setEditableState={setEditableState}
+            />
+          </div>
+        ) : (
+          <PlayerHeader
+            index={index}
+            text={player.text}
+            belong={player.belong}
+          />
+        )}
         <PlayerName player_name={player.name} />
       </Flex>
-      {game.editable && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <PlayerColorConfig
-            colorState={getColor(editedScore.state)}
-            editableState={editableState}
-            setEditableState={setEditableState}
-          />
-        </div>
-      )}
       <PlayerScore
         game={game}
         player_id={player.id}

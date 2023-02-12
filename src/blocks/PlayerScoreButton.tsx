@@ -17,7 +17,7 @@ import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
-  children: ReactNode;
+  children: string | number;
   filled?: boolean;
   compact?: boolean;
   game_id: string;
@@ -46,18 +46,26 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     ? theme.colors.blue[500]
     : theme.colors.green[500];
   const ButtonCssStyle: SystemStyleObject = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: isLargerThan700 ? "clamp(4vh, 2rem, 4vw)" : "max(3vw, 1rem)",
+    display: isLargerThan700 ? "inline" : "block",
+    fontSize:
+      isLargerThan700 && compact
+        ? "2.5vw"
+        : `max(1rem, min(calc(12vw / ${children.toString().length}), 3.5vw))`,
+    lineHeight: isLargerThan700 ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
-    width: "100%",
-    minWidth: isLargerThan700 ? (compact ? 70 : 100) : compact ? 35 : 50,
+    width: isLargerThan700
+      ? "100%"
+      : compact
+      ? "max(2.5rem, 7vw)"
+      : "max(5rem, 14vw)",
+    maxW: isLargerThan700 ? (compact ? "4.5vw" : "9.5vw") : "max(5rem, 14vw)",
+    height: !editable && isLargerThan700 ? "100%" : undefined,
     margin: "auto",
+    textAlign: "center",
     backgroundColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
-    cursor: disabled || color === "green" ? "default" : "pointer",
+    cursor: disabled || color === "green" || editable ? "default" : "pointer",
   };
 
   const handleClick = async () => {
@@ -78,14 +86,13 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   };
 
   return (
-    <div>
+    <>
       {editable ? (
         <Editable defaultValue={children?.toString()} sx={ButtonCssStyle}>
           <EditablePreview sx={{ p: 0 }} />
           <EditableInput
             sx={{
               p: 0,
-              width: 100,
             }}
           />
         </Editable>
@@ -99,7 +106,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           {children}
         </Button>
       )}
-    </div>
+    </>
   );
 };
 
