@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 import router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -15,15 +15,22 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
-import { CirclePlus, Upload } from "tabler-icons-react";
+import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
-import db, { GameDBQuizProps } from "#/utils/db";
+import db from "#/utils/db";
 
 export type AQLGameProps = {
   id: string;
@@ -49,6 +56,13 @@ const RuleList: React.FC = () => {
     new Set(quizes?.map((quiz) => quiz.set_name))
   );
 
+  const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
+  const [aqlGames, setAqlGames] = useState<AQLGameProps[]>(
+    aqlGamesRaw
+      ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games
+      : []
+  );
+
   const createAQLGame = () => {
     const game_id = nanoid(6);
     const newAqlGame: AQLGameProps = {
@@ -62,30 +76,71 @@ const RuleList: React.FC = () => {
       },
       last_open: cdate().text(),
     };
-    const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
-    if (aqlGamesRaw) {
-      const aqlGames: { games: AQLGameProps[] } = JSON.parse(aqlGamesRaw);
-      localStorage.setItem(
-        "scorewatcher-aql-games",
-        JSON.stringify({
-          games: [...aqlGames.games, newAqlGame],
-        })
-      );
+    if (aqlGames) {
+      setAqlGames([...aqlGames, newAqlGame]);
     } else {
-      localStorage.setItem(
-        "scorewatcher-aql-games",
-        JSON.stringify({
-          games: [newAqlGame],
-        })
-      );
+      setAqlGames([newAqlGame]);
     }
     router.push(`/aql/${game_id}`);
   };
+
+  useEffect(() => {
+    localStorage.setItem(
+      "scorewatcher-aql-games",
+      JSON.stringify({
+        games: aqlGames,
+      })
+    );
+  }, [aqlGames]);
 
   return (
     <Box pt={5}>
       <H2>その他の形式</H2>
       <H3>AQLルール</H3>
+      {aqlGames && aqlGames.length !== 0 && (
+        <TableContainer pt={5}>
+          <Table variant="simple" size="sm">
+            <Thead>
+              <Tr>
+                <Th>ラウンド名</Th>
+                <Th></Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {aqlGames.map((game, i) => {
+                return (
+                  <Tr key={game.id}>
+                    <Td>{game.name}</Td>
+                    <Td isNumeric>
+                      <NextLink href={`/aql/${game.id}`}>
+                        <Button
+                          size="sm"
+                          colorScheme="green"
+                          variant="ghost"
+                          leftIcon={<Chalkboard />}
+                        >
+                          開く
+                        </Button>
+                      </NextLink>
+                      <Button
+                        leftIcon={<Trash />}
+                        size="sm"
+                        colorScheme="red"
+                        variant="ghost"
+                        onClick={() =>
+                          setAqlGames(aqlGames.filter((game, n) => i !== n))
+                        }
+                      >
+                        削除
+                      </Button>
+                    </Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
       <Flex gap={3}>
         <FormControl pt={5}>
           <FormLabel>ラウンド名</FormLabel>
