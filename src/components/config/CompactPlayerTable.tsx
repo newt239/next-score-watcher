@@ -1,5 +1,4 @@
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 import {
@@ -54,7 +53,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   playerList,
   gamePlayers,
 }) => {
-  const router = useRouter();
   const [searchText, setSearchText] = useState<string>("");
 
   const onChangeHandler = async (player: PlayerDBProps) => {
@@ -107,6 +105,13 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     }),
     columnHelper.accessor("name", {
       header: "氏名",
+      cell: (info) => {
+        return (
+          <div onClick={() => onChangeHandler(info.row.original)}>
+            {info.row.original.name}
+          </div>
+        );
+      },
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("text", {
