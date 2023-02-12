@@ -42,11 +42,15 @@ const Player: React.FC<PlayerProps> = ({
 
   if (!game || !score) return null;
 
+  const editedScore: ComputedScoreDBProps = {
+    ...score,
+    state: game.editable ? editableState : score.state,
+  };
+
   const getColor = (state: States) => {
-    const newState = game.editable ? editableState : state;
-    return newState === "win"
+    return state === "win"
       ? theme.colors.red[500]
-      : newState == "lose"
+      : state == "lose"
       ? theme.colors.blue[500]
       : undefined;
   };
@@ -58,15 +62,15 @@ const Player: React.FC<PlayerProps> = ({
         flexDirection: isLargerThan700 ? "column" : "row",
         justifyContent: "space-between",
         alignItems: "stretch",
-        backgroundColor: getColor(score.state),
+        backgroundColor: getColor(editedScore.state),
         color:
-          getColor(score.state) &&
+          getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
         borderWidth: isLargerThan700 ? 3 : 1,
         borderStyle: "solid",
         borderColor:
-          getColor(score.state) ||
-          getColor(score.reachState) ||
+          getColor(editedScore.state) ||
+          getColor(editedScore.reachState) ||
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
@@ -95,7 +99,7 @@ const Player: React.FC<PlayerProps> = ({
           }}
         >
           <PlayerColorConfig
-            colorState={getColor(score.state)}
+            colorState={getColor(editedScore.state)}
             editableState={editableState}
             setEditableState={setEditableState}
           />
@@ -104,7 +108,7 @@ const Player: React.FC<PlayerProps> = ({
       <PlayerScore
         game={game}
         player_id={player.id}
-        player={score}
+        player={editedScore}
         qn={qn}
         isLastCorrectPlayer={
           last_correct_player === player.id &&
