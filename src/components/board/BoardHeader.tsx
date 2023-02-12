@@ -21,13 +21,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Switch,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Table,
   theme,
-  Tr,
   useColorMode,
   useDisclosure,
   useMediaQuery,
@@ -44,6 +38,7 @@ import {
   HandClick,
   Home,
   Settings,
+  Number,
 } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
@@ -60,6 +55,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [showQn, setShowQn] = useState<boolean>(true);
 
   useEffect(() => {
     const getQuizList = async () => {
@@ -126,13 +122,15 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         {game.editable ||
           (isLargerThan700 && (
             <>
-              <Box sx={{ whiteSpace: "nowrap" }}>
-                第
-                <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                  {logs.length + 1}
-                </span>
-                問
-              </Box>
+              {showQn && (
+                <Box sx={{ whiteSpace: "nowrap" }}>
+                  第
+                  <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
+                    {logs.length + 1}
+                  </span>
+                  問
+                </Box>
+              )}
               {game.quiz && quizList.length > logs.length && (
                 <Box
                   sx={{
@@ -236,6 +234,18 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 >
                   <FormLabel mb="0">スコアの手動更新</FormLabel>
                   <Switch isChecked={game.editable} />
+                </FormControl>
+              </MenuItem>
+              <MenuItem icon={<Number />} onClick={() => setShowQn((v) => !v)}>
+                <FormControl
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <FormLabel mb="0">問題番号を表示</FormLabel>
+                  <Switch isChecked={showQn} />
                 </FormControl>
               </MenuItem>
               {isLargerThan700 && (
