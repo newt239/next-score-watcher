@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
 import {
-  Box,
   Popover,
   PopoverTrigger,
   IconButton,
@@ -33,11 +32,11 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
   const { colorMode } = useColorMode();
 
   return (
-    <Box sx={{ color: colorMode === "light" ? "black" : "white" }}>
+    <>
       <Popover>
         <PopoverTrigger>
           <IconButton
-            size="sm"
+            size="xs"
             variant="ghost"
             colorScheme={colorState}
             color={
@@ -48,7 +47,9 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
             aria-label="override player state"
           />
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent
+          sx={{ color: colorMode === "light" ? "black" : "white" }}
+        >
           <PopoverArrow />
           <PopoverHeader>背景色を変更</PopoverHeader>
           <PopoverBody>
@@ -65,7 +66,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
           </PopoverBody>
         </PopoverContent>
       </Popover>
-    </Box>
+    </>
   );
 };
 

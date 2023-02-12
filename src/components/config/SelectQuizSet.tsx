@@ -1,5 +1,4 @@
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 
 import {
   Box,
@@ -30,8 +29,6 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   game_quiz,
   quizset_names,
 }) => {
-  const router = useRouter();
-
   return (
     <>
       <H2>問題設定</H2>

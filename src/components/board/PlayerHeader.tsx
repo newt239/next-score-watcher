@@ -1,5 +1,7 @@
 import { useMediaQuery } from "@chakra-ui/react";
 
+import { getConfig } from "#/hooks/useBooleanConfig";
+
 type PlayerHeaderProps = {
   index: number;
   text: string;
@@ -15,11 +17,14 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: getConfig("scorewatcher-reverse-player-info", false)
+              ? "column-reverse"
+              : "column",
             alignItems: "center",
             justifyContent: "center",
             fontWeight: 800,
             whiteSpace: "nowrap",
+            maxWidth: 100,
           }}
         >
           {text === "" ? (
@@ -39,6 +44,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
+            maxWidth: 100,
           }}
         >
           {text === "" && belong === "" && (

@@ -24,6 +24,7 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
           overflowX: "hidden",
           textOverflow: "ellipsis",
           textOrientation: "upright",
+          fontFamily: "BIZ UDGothic",
           fontSize: isLargerThan700
             ? `min(calc(45vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
             : "1.5rem",

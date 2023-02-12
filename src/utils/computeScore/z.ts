@@ -93,7 +93,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           (gameLogList.length === playerState.last_wrong + 1 &&
             playerState.stage === 1)
         ? "LOCKED"
-        : `Stage ${playerState.stage}`;
+        : `Stage${playerState.stage}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

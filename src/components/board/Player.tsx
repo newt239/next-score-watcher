@@ -9,6 +9,7 @@ import PlayerHeader from "./PlayerHeader";
 
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
+import { getConfig } from "#/hooks/useBooleanConfig";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
 type PlayerProps = {
@@ -47,6 +48,14 @@ const Player: React.FC<PlayerProps> = ({
     state: game.editable ? editableState : score.state,
   };
 
+  const flexDirection = isLargerThan700
+    ? getConfig("scorewatcher-reverse-player-info", false)
+      ? "column-reverse"
+      : "column"
+    : getConfig("scorewatcher-reverse-player-info", false)
+    ? "row-reverse"
+    : "row";
+
   const getColor = (state: States) => {
     return state === "win"
       ? theme.colors.red[500]
@@ -59,9 +68,10 @@ const Player: React.FC<PlayerProps> = ({
     <div
       style={{
         display: "flex",
-        flexDirection: isLargerThan700 ? "column" : "row",
+        flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
+        minWidth: "10vw",
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -83,28 +93,34 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          flexDirection: "column",
+          flexDirection: getConfig("scorewatcher-reverse-player-info", false)
+            ? "column-reverse"
+            : "column",
+          alignItems: "center",
           paddingLeft: isLargerThan700 ? undefined : "0.5rem",
         }}
       >
-        <PlayerHeader index={index} text={player.text} belong={player.belong} />
+        {game.editable ? (
+          <div
+            style={{
+              margin: isLargerThan700 ? "auto" : undefined,
+            }}
+          >
+            <PlayerColorConfig
+              colorState={getColor(editedScore.state)}
+              editableState={editableState}
+              setEditableState={setEditableState}
+            />
+          </div>
+        ) : (
+          <PlayerHeader
+            index={index}
+            text={player.text}
+            belong={player.belong}
+          />
+        )}
         <PlayerName player_name={player.name} />
       </Flex>
-      {game.editable && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <PlayerColorConfig
-            colorState={getColor(editedScore.state)}
-            editableState={editableState}
-            setEditableState={setEditableState}
-          />
-        </div>
-      )}
       <PlayerScore
         game={game}
         player_id={player.id}
