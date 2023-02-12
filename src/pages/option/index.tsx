@@ -18,6 +18,8 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Icon,
+  Link,
   Stack,
   Switch,
   Table,
@@ -197,19 +199,16 @@ const OptionPage: NextPageWithLayout = () => {
       <H2>お問い合わせ</H2>
       <Box py={5}>
         <Text>
-          <NextLink
+          <Link
             href="https://forms.gle/y6S1xxbnMhcAF5Tj7"
-            passHref
-            target="_blank"
+            isExternal
+            color="blue.500"
           >
-            <Button
-              variant="link"
-              colorScheme="blue"
-              rightIcon={<ExternalLink />}
-            >
-              こちらの Google フォーム
-            </Button>
-          </NextLink>
+            こちらの Google フォーム
+            <Icon>
+              <ExternalLink />
+            </Icon>
+          </Link>
           からお願いします。
         </Text>
       </Box>
@@ -227,37 +226,31 @@ const OptionPage: NextPageWithLayout = () => {
               <Tr>
                 <Th>開発者</Th>
                 <Td isNumeric>
-                  <NextLink
+                  <Link
                     href="https://twitter.com/newt239"
-                    passHref
-                    target="_blank"
+                    isExternal
+                    color="blue.500"
                   >
-                    <Button
-                      variant="link"
-                      colorScheme="blue"
-                      rightIcon={<ExternalLink />}
-                    >
-                      newt239
-                    </Button>
-                  </NextLink>
+                    newt239
+                    <Icon>
+                      <ExternalLink />
+                    </Icon>
+                  </Link>
                 </Td>
               </Tr>
               <Tr>
                 <Th>リポジトリ</Th>
                 <Td isNumeric>
-                  <NextLink
+                  <Link
                     href="https://github.com/newt239/next-score-watcher"
-                    passHref
-                    target="_blank"
+                    isExternal
+                    color="blue.500"
                   >
-                    <Button
-                      variant="link"
-                      colorScheme="blue"
-                      rightIcon={<ExternalLink />}
-                    >
-                      newt239/next-score-watcher
-                    </Button>
-                  </NextLink>
+                    newt239/next-score-watcher
+                    <Icon>
+                      <ExternalLink />
+                    </Icon>
+                  </Link>
                 </Td>
               </Tr>
             </Tbody>
