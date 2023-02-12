@@ -2,7 +2,14 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  theme,
+  useColorMode,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -19,6 +26,7 @@ type AQLPlayerStateProps = {
 };
 
 const AQLPage: NextPage = () => {
+  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
   const router = useRouter();
   const { game_id } = router.query;
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
@@ -176,9 +184,8 @@ const AQLPage: NextPage = () => {
       <Flex
         sx={{
           flexDirection: "column",
-          width: "45%",
           textAlign: "center",
-          fontSize: "1.5vw",
+          fontSize: "max(1.5rem, 2vw)",
           backgroundColor:
             state === "win"
               ? "red.500"
@@ -268,7 +275,13 @@ const AQLPage: NextPage = () => {
         quiz_set={game.quiz.set_name}
         quiz_offset={game.quiz.offset}
       />
-      <Flex sx={{ p: 5, justifyContent: "space-between" }}>
+      <Flex
+        sx={{
+          p: 5,
+          justifyContent: "space-around",
+          flexDirection: isLargerThan800 ? "row" : "column",
+        }}
+      >
         <EachGroup position="left" />
         <EachGroup position="right" />
       </Flex>

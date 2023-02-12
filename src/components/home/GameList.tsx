@@ -17,7 +17,6 @@ import {
   Thead,
   Tr,
   Select,
-  FormControl,
   Flex,
   Button,
 } from "@chakra-ui/react";
