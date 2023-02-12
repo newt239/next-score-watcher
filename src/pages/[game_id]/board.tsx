@@ -15,7 +15,6 @@ import WinModal from "#/components/board/WinModal";
 import { getConfig } from "#/hooks/useBooleanConfig";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
-import { event } from "#/utils/gtag";
 import { getRuleStringByType } from "#/utils/rules";
 
 const BoardPage: NextPage = () => {
@@ -130,6 +129,7 @@ const BoardPage: NextPage = () => {
         </Box>
       )}
       <div
+        id="players-area"
         style={{
           display: "flex",
           flexDirection: isLargerThan700 ? "row" : "column",
