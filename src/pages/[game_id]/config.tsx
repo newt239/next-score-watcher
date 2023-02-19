@@ -1,5 +1,6 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
 import router from "next/router";
 import { useEffect } from "react";
 
@@ -17,7 +18,6 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import LinkButton from "#/blocks/LinkButton";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
@@ -190,14 +190,17 @@ const ConfigPage: NextPageWithLayout = () => {
           <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
             ゲームを削除
           </Button>
-          <LinkButton
-            icon={<PlayerPlay />}
-            colorScheme="green"
-            href={`/${game_id}/board`}
-            disabled={game.players.length === 0}
-          >
-            ゲーム開始
-          </LinkButton>
+          {game.players.length === 0 ? (
+            <Button colorScheme="green" leftIcon={<PlayerPlay />} disabled>
+              ゲーム開始
+            </Button>
+          ) : (
+            <NextLink href={`/player`}>
+              <Button colorScheme="green" leftIcon={<PlayerPlay />}>
+                ゲーム開始
+              </Button>
+            </NextLink>
+          )}
         </Flex>
       </Box>
     </>
