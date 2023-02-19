@@ -215,7 +215,15 @@ const AQLPage: NextPageWithLayout = () => {
         ) : (
           <Box>
             <NextLink href="/quiz">
-              <Button colorScheme="blue" leftIcon={<Upload />}>
+              <Button
+                disabled={
+                  roundName === "" ||
+                  leftTeamName === "" ||
+                  rightTeamName === ""
+                }
+                colorScheme="blue"
+                leftIcon={<Upload />}
+              >
                 問題データを読み込む
               </Button>
             </NextLink>
