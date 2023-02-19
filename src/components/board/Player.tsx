@@ -1,7 +1,13 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { useColorMode, theme, useMediaQuery, Flex } from "@chakra-ui/react";
+import {
+  useColorMode,
+  theme,
+  useMediaQuery,
+  Flex,
+  Box,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "./PlayerColorConfig";
@@ -65,13 +71,12 @@ const Player: React.FC<PlayerProps> = ({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
+    <Flex
+      sx={{
         flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
-        minWidth: "10vw",
+        minW: "10vw",
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -96,13 +101,13 @@ const Player: React.FC<PlayerProps> = ({
           flexDirection: getConfig("scorewatcher-reverse-player-info", false)
             ? "column-reverse"
             : "column",
-          alignItems: "center",
+          alignItems: isLargerThan700 ? "center" : "flex-start",
           paddingLeft: isLargerThan700 ? undefined : "0.5rem",
         }}
       >
         {game.editable ? (
-          <div
-            style={{
+          <Box
+            sx={{
               margin: isLargerThan700 ? "auto" : undefined,
             }}
           >
@@ -111,7 +116,7 @@ const Player: React.FC<PlayerProps> = ({
               editableState={editableState}
               setEditableState={setEditableState}
             />
-          </div>
+          </Box>
         ) : (
           <PlayerHeader
             index={index}
@@ -132,7 +137,7 @@ const Player: React.FC<PlayerProps> = ({
           score.last_wrong < score.last_correct
         }
       />
-    </div>
+    </Flex>
   );
 };
 

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState, KeyboardEvent } from "react";
 
 import {
+  Box,
   Button,
   Flex,
   theme,
@@ -229,8 +230,8 @@ const AQLPage: NextPage = () => {
           borderRadius: "1rem",
         }}
       >
-        <div
-          style={{
+        <Box
+          sx={{
             color:
               state !== "playing" && colorMode === "light"
                 ? "white"
@@ -238,9 +239,9 @@ const AQLPage: NextPage = () => {
           }}
         >
           {position === "left" ? game.left_team : game.right_team}
-        </div>
-        <div
-          style={{
+        </Box>
+        <Box
+          sx={{
             fontSize: "4.5rem",
             color:
               state !== "playing" && colorMode === "light"
@@ -250,7 +251,7 @@ const AQLPage: NextPage = () => {
         >
           {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
-        </div>
+        </Box>
         <Flex sx={{ justifyContent: "space-between", gap: 1 }}>
           {(position === "left" ? [0, 1, 2, 3, 4] : [5, 6, 7, 8, 9]).map(
             (n) => {
@@ -292,10 +293,10 @@ const AQLPage: NextPage = () => {
                         : "white",
                   }}
                 >
-                  <div>No.{position === "left" ? n + 1 : n - 4}</div>
-                  <div style={{ fontSize: "3rem", fontWeight: 800 }}>
+                  <Box>No.{position === "left" ? n + 1 : n - 4}</Box>
+                  <Box sx={{ fontSize: "3rem", fontWeight: 800 }}>
                     {gameState.scores[n].score}
-                  </div>
+                  </Box>
                   <Button
                     onClick={() => onClickHandler("correct", n)}
                     colorScheme="red"

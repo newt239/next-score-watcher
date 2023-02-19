@@ -1,11 +1,8 @@
-import { ReactNode } from "react";
-
 import {
   Button,
   Editable,
   EditableInput,
   EditablePreview,
-  SystemStyleObject,
   theme,
   useColorMode,
   useMediaQuery,
@@ -47,7 +44,8 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     : colorMode === "light"
     ? theme.colors.green[600]
     : theme.colors.yellow[300];
-  const ButtonCssStyle: SystemStyleObject = {
+
+  const ButtonCssStyle = {
     display: isLargerThan700 ? "inline" : "block",
     fontSize:
       isLargerThan700 && compact

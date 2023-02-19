@@ -129,16 +129,15 @@ const BoardPage: NextPage = () => {
           }}
         />
       )}
-      <div
+      <Flex
         id="players-area"
-        style={{
-          display: "flex",
+        sx={{
           flexDirection: isLargerThan700 ? "row" : "column",
           gap: "1rem",
-          width: "100%",
+          w: "100%",
           justifyContent: "space-evenly",
-          padding: 3,
-          marginTop: 5,
+          p: 3,
+          mt: 5,
         }}
         tabIndex={-1}
         onKeyDown={keyboardShortcutHandler}
@@ -161,7 +160,7 @@ const BoardPage: NextPage = () => {
             }
           />
         ))}
-      </div>
+      </Flex>
       {getConfig("scorewatcher-show-logs") && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={players} logs={logs} />

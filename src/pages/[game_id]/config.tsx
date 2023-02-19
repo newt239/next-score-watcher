@@ -195,7 +195,7 @@ const ConfigPage: NextPageWithLayout = () => {
               ゲーム開始
             </Button>
           ) : (
-            <NextLink href={`/player`}>
+            <NextLink href={`/${game_id}/board`}>
               <Button colorScheme="green" leftIcon={<PlayerPlay />}>
                 ゲーム開始
               </Button>

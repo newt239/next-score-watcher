@@ -7,7 +7,6 @@ const H2: React.FC<HeadingProps> = (props) => {
       size="lg"
       pt={5}
       whiteSpace="nowrap"
-      overflowX="hidden"
       textOverflow="ellipsis"
       {...props}
     >

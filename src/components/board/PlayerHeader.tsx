@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import { getConfig } from "#/hooks/useBooleanConfig";
 
@@ -14,8 +14,8 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
   return (
     <>
       {isLargerThan700 ? (
-        <div
-          style={{
+        <Box
+          sx={{
             display: "flex",
             flexDirection: getConfig("scorewatcher-reverse-player-info", false)
               ? "column-reverse"
@@ -28,19 +28,19 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           }}
         >
           {text === "" ? (
-            <div style={{ opacity: 0.3 }}>{index + 1}</div>
+            <Box sx={{ opacity: 0.3 }}>{index + 1}</Box>
           ) : (
-            <div>{text}</div>
+            <Box>{text}</Box>
           )}
-          <div>{belong === "" ? "―――――" : belong}</div>
-        </div>
+          <Box>{belong === "" ? "―――――" : belong}</Box>
+        </Box>
       ) : (
-        <div
-          style={{
+        <Box
+          sx={{
             fontSize: "0.8rem",
             lineHeight: "0.8rem",
             fontWeight: 800,
-            paddingTop: 5,
+            pt: 1,
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
@@ -48,12 +48,12 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           }}
         >
           {text === "" && belong === "" && (
-            <span style={{ opacity: 0.3 }}>Player{index + 1}</span>
+            <Box sx={{ opacity: 0.3 }}>Player{index + 1}</Box>
           )}
           <span>{text !== "" && text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
-        </div>
+        </Box>
       )}
     </>
   );

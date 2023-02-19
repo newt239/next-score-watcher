@@ -135,20 +135,20 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   overflow: "hidden",
                 }}
               >
-                <div style={{ maxHeight: "8vh" }}>
+                <Box sx={{ maxHeight: "8vh" }}>
                   {logs.length === 0
                     ? "ここに問題文が表示されます"
                     : quizList[quiz_offset + logs.length - 1].q}
-                </div>
-                <div
-                  style={{
+                </Box>
+                <Box
+                  sx={{
                     textAlign: "right",
                     color: theme.colors.red[500],
                     fontWeight: 800,
                   }}
                 >
-                  <span
-                    style={{
+                  <Box
+                    sx={{
                       backgroundColor:
                         colorMode === "light"
                           ? theme.colors.gray[50]
@@ -158,8 +158,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                     {logs.length === 0
                       ? "ここに答えが表示されます"
                       : quizList[quiz_offset + logs.length - 1].a}
-                  </span>
-                </div>
+                  </Box>
+                </Box>
               </Box>
             )}
           </>
