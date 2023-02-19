@@ -184,7 +184,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 <DrawerBody p={0}>
                   <Accordion defaultIndex={1}>
                     <AccordionItem>
-                      <H3 sx={{ pt: 0 }}>
+                      <H3 pt={0}>
                         <AccordionButton>
                           <Box as="span" flex="1" textAlign="left">
                             新しく追加

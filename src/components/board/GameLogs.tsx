@@ -37,7 +37,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
         maxW: "100vw",
       }}
     >
-      <H3 sx={{ display: "flex", gap: 3, p: 3 }}>
+      <H3 display="flex" gap={3} p={3}>
         <History />
         試合ログ
       </H3>

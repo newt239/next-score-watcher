@@ -104,7 +104,7 @@ const Hero: React.FC = () => {
             >
               {features.map((feature) => (
                 <TabPanel key={feature.title}>
-                  <H3 sx={{ pt: 0 }}>{feature.title}</H3>
+                  <H3 pt={0}>{feature.title}</H3>
                   {feature.image ? (
                     <Flex sx={{ p: 3, gap: 3 }}>
                       <Box w="70%">
