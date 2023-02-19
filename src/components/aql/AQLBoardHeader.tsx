@@ -108,16 +108,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             maxWidth: "70vw",
           }}
         >
-          <H2
-            sx={{
-              pt: 0,
-              whiteSpace: "nowrap",
-              overflowX: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {name}
-          </H2>
+          <H2 pt={0}>{name}</H2>
           <p>AQL</p>
         </Box>
         {isLargerThan700 && (

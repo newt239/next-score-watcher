@@ -1,21 +1,17 @@
-import { ReactNode } from "react";
+import { Heading, HeadingProps } from "@chakra-ui/react";
 
-import { Heading, SystemStyleObject } from "@chakra-ui/react";
-
-interface H2Props {
-  children: ReactNode;
-  sx?: SystemStyleObject;
-}
-
-const H2: React.FC<H2Props> = ({ children, sx }) => {
+const H2: React.FC<HeadingProps> = (props) => {
   return (
     <Heading
       as="h2"
       size="lg"
       pt={5}
-      sx={{ ...sx, fontFamily: "BIZ UDPGothic, sans-serif" }}
+      whiteSpace="nowrap"
+      overflowX="hidden"
+      textOverflow="ellipsis"
+      {...props}
     >
-      {children}
+      {props.children}
     </Heading>
   );
 };

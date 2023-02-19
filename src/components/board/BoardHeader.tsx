@@ -98,16 +98,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             maxWidth: "70vw",
           }}
         >
-          <H2
-            sx={{
-              pt: 0,
-              whiteSpace: "nowrap",
-              overflowX: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {game.name}
-          </H2>
+          <H2 pt={0}>{game.name}</H2>
           <p>{getRuleStringByType(game)}</p>
         </Box>
         {game.editable ||
