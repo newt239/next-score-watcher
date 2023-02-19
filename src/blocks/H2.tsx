@@ -8,6 +8,7 @@ const H2: React.FC<HeadingProps> = (props) => {
       pt={5}
       whiteSpace="nowrap"
       textOverflow="ellipsis"
+      fontFamily="BIZ UDPGothic"
       {...props}
     >
       {props.children}

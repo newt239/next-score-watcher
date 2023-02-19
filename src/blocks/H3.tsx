@@ -7,8 +7,8 @@ const H3: React.FC<HeadingProps> = (props) => {
       size="md"
       pt={5}
       whiteSpace="nowrap"
-      overflowX="hidden"
       textOverflow="ellipsis"
+      fontFamily="BIZ UDPGothic"
       {...props}
     >
       {props.children}
