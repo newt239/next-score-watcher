@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { KeyboardEvent, useEffect, useState } from "react";
 
-import { Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, theme } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -13,6 +13,7 @@ import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
 import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
@@ -28,7 +29,7 @@ const BoardPage: NextPage = () => {
   const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
@@ -132,7 +133,7 @@ const BoardPage: NextPage = () => {
       <Flex
         id="players-area"
         sx={{
-          flexDirection: isLargerThan700 ? "row" : "column",
+          flexDirection: isDesktop ? "row" : "column",
           gap: "1rem",
           w: "100%",
           justifyContent: "space-evenly",

@@ -32,6 +32,7 @@ import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
@@ -65,6 +66,8 @@ const AQLPage: NextPageWithLayout = () => {
       ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games
       : []
   );
+
+  const isDesktop = useDeviceWidth();
 
   const createAQLGame = () => {
     const game_id = nanoid(6);
@@ -149,7 +152,7 @@ const AQLPage: NextPageWithLayout = () => {
         </>
       )}
       <H3>新規作成</H3>
-      <Flex gap={3}>
+      <Flex gap={3} direction={isDesktop ? "row" : "column"}>
         <FormControl pt={5}>
           <FormLabel>ラウンド名</FormLabel>
           <Input

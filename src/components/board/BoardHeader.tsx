@@ -15,7 +15,6 @@ import {
   theme,
   useColorMode,
   useDisclosure,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
@@ -33,6 +32,7 @@ import {
 import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import H2 from "#/blocks/H2";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
 
@@ -44,7 +44,8 @@ type BoardHeaderProps = {
 const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const { colorMode } = useColorMode();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
+  const desktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showQn, setShowQn] = useState<boolean>(true);
 
@@ -68,7 +69,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           justifyContent: "space-between",
           alignItems: "center",
           gap: 3,
-          height: isLargerThan700 ? "15vh" : "10vh",
+          height: desktop ? "15vh" : "10vh",
           px: 3,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
@@ -88,13 +89,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             flexDirection: "column",
             justifyContent: "center",
             borderStyle: "solid",
-            borderWidth: isLargerThan700 ? "thin" : 0,
+            borderWidth: desktop ? "thin" : 0,
             borderColor:
               colorMode === "light"
                 ? theme.colors.gray[300]
                 : theme.colors.gray[500],
             borderRadius: "1rem",
-            padding: isLargerThan700 ? 3 : undefined,
+            padding: desktop ? 3 : undefined,
             maxWidth: "70vw",
           }}
         >
@@ -102,7 +103,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           <p>{getRuleStringByType(game)}</p>
         </Box>
         {game.editable ||
-          (isLargerThan700 && (
+          (desktop && (
             <>
               {showQn && (
                 <Box sx={{ whiteSpace: "nowrap" }}>
@@ -230,7 +231,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   <Switch isChecked={showQn} />
                 </FormControl>
               </MenuItem>
-              {isLargerThan700 && (
+              {desktop && (
                 <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
                   ショートカットを確認
                 </MenuItem>

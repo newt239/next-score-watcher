@@ -15,11 +15,11 @@ import {
   Tabs,
   Text,
   theme,
-  useMediaQuery,
 } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 type FeatureProps = {
   title: string;
@@ -28,7 +28,7 @@ type FeatureProps = {
 };
 
 const Hero: React.FC = () => {
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
 
   const features: FeatureProps[] = [
     {
@@ -75,7 +75,7 @@ const Hero: React.FC = () => {
       </Box>
       <Box>
         <H2>主な機能</H2>
-        {isLargerThan700 ? (
+        {isDesktop ? (
           <Tabs
             isManual
             variant="soft-rounded"

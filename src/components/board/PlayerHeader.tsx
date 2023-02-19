@@ -1,6 +1,7 @@
-import { Box, useMediaQuery } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 type PlayerHeaderProps = {
   index: number;
@@ -9,11 +10,11 @@ type PlayerHeaderProps = {
 };
 
 const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
 
   return (
     <>
-      {isLargerThan700 ? (
+      {isDesktop ? (
         <Box
           sx={{
             display: "flex",

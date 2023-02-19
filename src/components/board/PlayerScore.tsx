@@ -1,12 +1,7 @@
-import {
-  Box,
-  Flex,
-  theme,
-  useColorMode,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/commonFunctions";
 import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 
@@ -26,7 +21,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   isLastCorrectPlayer,
 }) => {
   const { colorMode } = useColorMode();
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
 
   const props = {
     game_id: game.id,
@@ -37,18 +32,18 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   return (
     <Flex
       sx={{
-        flexDirection: isLargerThan700 ? "column" : "row",
+        flexDirection: isDesktop ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        py: isLargerThan700 ? 3 : undefined,
-        px: isLargerThan700 ? undefined : "0.5rem",
-        gap: isLargerThan700 ? 3 : 1.5,
+        py: isDesktop ? 3 : undefined,
+        px: isDesktop ? undefined : "0.5rem",
+        gap: isDesktop ? 3 : 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
-        borderRadius: isLargerThan700
+        borderRadius: isDesktop
           ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
           : "0 calc(0.5rem - 2px) calc(0.5rem - 2px) 0",
       }}

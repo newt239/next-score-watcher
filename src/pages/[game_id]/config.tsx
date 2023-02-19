@@ -11,7 +11,6 @@ import {
   Box,
   Button,
   Flex,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -22,12 +21,13 @@ import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 
 const ConfigPage: NextPageWithLayout = () => {
-  const [isLargerThan400] = useMediaQuery("(min-width: 400px)");
+  const isDesktop = useDeviceWidth(400);
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
@@ -181,7 +181,7 @@ const ConfigPage: NextPageWithLayout = () => {
         />
         <Flex
           sx={{
-            flexDirection: isLargerThan400 ? "row" : "column-reverse",
+            flexDirection: isDesktop ? "row" : "column-reverse",
             justifyContent: "space-between",
             pt: 20,
             gap: 5,

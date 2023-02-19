@@ -1,19 +1,13 @@
 import Image from "next/image";
 import NextLink from "next/link";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Spacer,
-  useColorMode,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Spacer, useColorMode } from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
-  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
+  const desktop = useDeviceWidth();
   const { colorMode } = useColorMode();
 
   const linkList: { text: string; path: string }[] = [
@@ -85,7 +79,7 @@ const Header: React.FC = () => {
             />
           </NextLink>
         </Box>
-        {isLargerThan800 && (
+        {desktop && (
           <>
             <Spacer />
             <SubMenu />

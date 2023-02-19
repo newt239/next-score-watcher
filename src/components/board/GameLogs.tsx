@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import {
   Box,
-  Stack,
   TableContainer,
   Table,
   Tbody,
@@ -10,13 +9,13 @@ import {
   theme,
   Tr,
   useColorMode,
-  useMediaQuery,
   Button,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { History, SortAscending, SortDescending } from "tabler-icons-react";
 
 import H3 from "#/blocks/H3";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { LogDBProps } from "#/utils/db";
 
 type GameLogsProps = {
@@ -26,7 +25,8 @@ type GameLogsProps = {
 
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
   const { colorMode } = useColorMode();
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
+  const desktop = useDeviceWidth();
   const [reverse, setReverse] = useState<Boolean>(true);
 
   return (
@@ -44,13 +44,13 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
       <Box
         sx={{
           borderStyle: "solid",
-          borderWidth: isLargerThan700 ? 3 : 1,
+          borderWidth: desktop ? 3 : 1,
           borderColor:
             colorMode === "light"
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
           p: 3,
-          borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
+          borderRadius: desktop ? "1rem" : "0.5rem",
         }}
       >
         <Box sx={{ pb: 2 }}>

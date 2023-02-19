@@ -1,13 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import {
-  useColorMode,
-  theme,
-  useMediaQuery,
-  Flex,
-  Box,
-} from "@chakra-ui/react";
+import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "./PlayerColorConfig";
@@ -16,6 +10,7 @@ import PlayerHeader from "./PlayerHeader";
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
 type PlayerProps = {
@@ -39,7 +34,7 @@ const Player: React.FC<PlayerProps> = ({
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
 
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const desktop = useDeviceWidth();
 
   useEffect(() => {
     if (score) {
@@ -54,7 +49,7 @@ const Player: React.FC<PlayerProps> = ({
     state: game.editable ? editableState : score.state,
   };
 
-  const flexDirection = isLargerThan700
+  const flexDirection = desktop
     ? getConfig("scorewatcher-reverse-player-info", false)
       ? "column-reverse"
       : "column"
@@ -81,7 +76,7 @@ const Player: React.FC<PlayerProps> = ({
         color:
           getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: isLargerThan700 ? 3 : 1,
+        borderWidth: desktop ? 3 : 1,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
@@ -89,8 +84,8 @@ const Player: React.FC<PlayerProps> = ({
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
-        borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
-        overflowX: isLargerThan700 ? undefined : "scroll",
+        borderRadius: desktop ? "1rem" : "0.5rem",
+        overflowX: desktop ? undefined : "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
       }}
@@ -101,14 +96,14 @@ const Player: React.FC<PlayerProps> = ({
           flexDirection: getConfig("scorewatcher-reverse-player-info", false)
             ? "column-reverse"
             : "column",
-          alignItems: isLargerThan700 ? "center" : "flex-start",
-          paddingLeft: isLargerThan700 ? undefined : "0.5rem",
+          alignItems: desktop ? "center" : "flex-start",
+          paddingLeft: desktop ? undefined : "0.5rem",
         }}
       >
         {game.editable ? (
           <Box
             sx={{
-              margin: isLargerThan700 ? "auto" : undefined,
+              margin: desktop ? "auto" : undefined,
             }}
           >
             <PlayerColorConfig

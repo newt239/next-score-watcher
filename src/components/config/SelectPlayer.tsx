@@ -31,7 +31,6 @@ import {
   useColorMode,
   theme,
   useDisclosure,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import {
@@ -53,6 +52,7 @@ import IndividualConfig from "./IndividualConfig";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
 
 const reorder = (
@@ -92,7 +92,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== "Enter") return;
@@ -292,14 +292,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 <DragDropContext onDragEnd={onDragEnd}>
                   <Droppable
                     droppableId="droppable"
-                    direction={isLargerThan700 ? "horizontal" : "vertical"}
+                    direction={isDesktop ? "horizontal" : "vertical"}
                   >
                     {(provided) => (
                       <Flex
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         sx={{
-                          flexDirection: isLargerThan700 ? "row" : "column",
+                          flexDirection: isDesktop ? "row" : "column",
                           gap: 3,
                         }}
                       >
@@ -323,7 +323,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                 <CardBody>
                                   <Flex
                                     sx={{
-                                      flexDirection: isLargerThan700
+                                      flexDirection: isDesktop
                                         ? "column"
                                         : "row",
                                       gap: 3,
@@ -334,7 +334,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                   >
                                     <Box
                                       sx={{
-                                        writingMode: isLargerThan700
+                                        writingMode: isDesktop
                                           ? "vertical-rl"
                                           : "horizontal-tb",
                                         whiteSpace: "nowrap",
