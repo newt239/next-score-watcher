@@ -11,9 +11,8 @@ import PlayerHeader from "./PlayerHeader";
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { getConfig } from "#/hooks/useLocalStorage";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
-import { verticalViewAtom } from "#/utils/jotai";
+import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
 
 type PlayerProps = {
   player: PlayerDBProps;
@@ -35,9 +34,9 @@ const Player: React.FC<PlayerProps> = ({
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
-
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom);
+  const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   useEffect(() => {
     if (score) {
@@ -54,10 +53,10 @@ const Player: React.FC<PlayerProps> = ({
 
   const flexDirection =
     !isVerticalView && isDesktop
-      ? getConfig("scorewatcher-reverse-player-info", false)
+      ? reversePlayerInfo
         ? "column-reverse"
         : "column"
-      : getConfig("scorewatcher-reverse-player-info", false)
+      : reversePlayerInfo
       ? "row-reverse"
       : "row";
 
@@ -98,9 +97,7 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          flexDirection: getConfig("scorewatcher-reverse-player-info", false)
-            ? "column-reverse"
-            : "column",
+          flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
         }}

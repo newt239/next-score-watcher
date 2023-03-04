@@ -1,6 +1,12 @@
 import { useId } from "react";
 
-import { FormControl, FormLabel, Switch } from "@chakra-ui/react";
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Switch,
+} from "@chakra-ui/react";
 
 type AppOptionSwitchProps = {
   title: string;
@@ -24,9 +30,12 @@ const AppOptionSwitch: React.FC<AppOptionSwitchProps> = ({
         justifyContent: "space-between",
       }}
     >
-      <FormLabel htmlFor={formId} sx={{ flexGrow: 1 }}>
-        {title}
-      </FormLabel>
+      <Box>
+        <FormLabel htmlFor={formId} sx={{ flexGrow: 1 }}>
+          {title}
+        </FormLabel>
+        {label && <FormHelperText>{label}</FormHelperText>}
+      </Box>
       <Switch id={formId} size="lg" isChecked={isChecked} onChange={onChange} />
     </FormControl>
   );

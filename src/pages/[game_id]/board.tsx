@@ -14,10 +14,9 @@ import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { getConfig } from "#/hooks/useLocalStorage";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
-import { verticalViewAtom } from "#/utils/jotai";
+import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 
 const BoardPage: NextPage = () => {
@@ -33,6 +32,7 @@ const BoardPage: NextPage = () => {
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
+  const showLogs = useAtomValue(showLogsAtom);
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
@@ -168,7 +168,7 @@ const BoardPage: NextPage = () => {
           />
         ))}
       </Flex>
-      {getConfig("scorewatcher-show-logs") && (
+      {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={players} logs={logs} />
         </Flex>

@@ -6,14 +6,15 @@ import { useState, KeyboardEvent } from "react";
 import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
 import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import { AQLGameProps } from "#/components/home/OtherRules";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { getConfig } from "#/hooks/useLocalStorage";
 import db from "#/utils/db";
+import { showLogsAtom } from "#/utils/jotai";
 
 type AQLPlayerStateProps = {
   score: number;
@@ -35,6 +36,7 @@ const AQLPage: NextPage = () => {
     []
   );
   const [end, setEnd] = useState<boolean>(false);
+  const showLogs = useAtomValue(showLogsAtom);
   const { colorMode } = useColorMode();
 
   if (!game || !logs) return null;
@@ -354,7 +356,7 @@ const AQLPage: NextPage = () => {
         <EachGroup position="left" />
         <EachGroup position="right" />
       </Flex>
-      {getConfig("scorewatcher-show-logs") && (
+      {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={getPlayerList()} logs={logs} />
         </Flex>

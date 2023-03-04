@@ -12,9 +12,10 @@ import {
   StatNumber,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { useAtomValue } from "jotai";
 import { useReward } from "react-rewards";
 
-import { getConfig } from "#/hooks/useLocalStorage";
+import { showWinthroughPopupAtom } from "#/utils/jotai";
 
 type WinModalProps = {
   onClose: () => void;
@@ -27,6 +28,7 @@ const WinModal: React.FC<WinModalProps> = ({
   winTroughPlayer,
   roundName,
 }) => {
+  const showWinthroughPopup = useAtomValue(showWinthroughPopupAtom);
   const { reward } = useReward("reward", "confetti", {
     elementCount: 100,
     lifetime: 300,
@@ -43,10 +45,7 @@ const WinModal: React.FC<WinModalProps> = ({
 
   return (
     <Modal
-      isOpen={
-        getConfig("scorewatcher-winthrough-popup") &&
-        winTroughPlayer.name !== ""
-      }
+      isOpen={showWinthroughPopup && winTroughPlayer.name !== ""}
       onClose={onClose}
       isCentered
     >

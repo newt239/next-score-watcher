@@ -2,8 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { getConfig } from "#/hooks/useLocalStorage";
-import { verticalViewAtom } from "#/utils/jotai";
+import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
 
 type PlayerHeaderProps = {
   index: number;
@@ -15,6 +14,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
   const isDesktop = useDeviceWidth();
   const isVerticalView =
     (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
+  const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   return (
     <>
@@ -22,9 +22,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: getConfig("scorewatcher-reverse-player-info", false)
-              ? "column-reverse"
-              : "column",
+            flexDirection: reversePlayerInfo ? "column-reverse" : "column",
             alignItems: "center",
             justifyContent: "center",
             fontWeight: 800,
