@@ -181,12 +181,8 @@ const OptionPage: NextPageWithLayout = () => {
       <H2>お問い合わせ</H2>
       <Box py={5}>
         <Text>
-          <Link
-            href="https://forms.gle/y6S1xxbnMhcAF5Tj7"
-            isExternal
-            color="blue.500"
-          >
-            こちらの Google フォーム
+          <Link href="https://twitter.com/newt239" isExternal color="blue.500">
+            開発者のTwitter
             <Icon>
               <ExternalLink />
             </Icon>
