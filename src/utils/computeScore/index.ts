@@ -7,6 +7,7 @@ import nomx from "./nomx";
 import nomxAd from "./nomx-ad";
 import normal from "./normal";
 import nupdown from "./nupdown";
+import ny from "./ny";
 import squarex from "./squarex";
 import swedish10 from "./swedish10";
 import variousFluctuations from "./various-fluctiations";
@@ -33,6 +34,8 @@ const computeScore = async (game_id: string) => {
       result = await nomx(game, gameLogList);
     case "nomx-ad":
       result = await nomxAd(game, gameLogList);
+    case "ny":
+      result = await ny(game, gameLogList);
     case "nbyn":
       result = await nbyn(game, gameLogList);
     case "nupdown":
