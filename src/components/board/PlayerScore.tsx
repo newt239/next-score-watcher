@@ -1,9 +1,12 @@
 import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { getConfig } from "#/hooks/useLocalStorage";
 import { numberSign } from "#/utils/commonFunctions";
 import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
+import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreProps = {
   game: GameDBProps;
@@ -22,6 +25,8 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
+  const isVerticalView =
+    (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
 
   const props = {
     game_id: game.id,
@@ -32,18 +37,18 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   return (
     <Flex
       sx={{
-        flexDirection: isDesktop ? "column" : "row",
+        flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        py: isDesktop ? 3 : undefined,
-        px: isDesktop ? undefined : "0.5rem",
-        gap: isDesktop ? 3 : 1.5,
+        py: !isVerticalView ? 3 : undefined,
+        px: !isVerticalView ? undefined : "0.5rem",
+        gap: !isVerticalView ? 3 : 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
-        borderRadius: isDesktop
+        borderRadius: !isVerticalView
           ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
           : "0 calc(0.5rem - 2px) calc(0.5rem - 2px) 0",
       }}

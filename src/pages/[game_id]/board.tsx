@@ -6,6 +6,7 @@ import { KeyboardEvent, useEffect, useState } from "react";
 import { Box, Flex, theme } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
 import BoardHeader from "#/components/board/BoardHeader";
@@ -16,6 +17,7 @@ import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { getConfig } from "#/hooks/useLocalStorage";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
+import { verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 
 const BoardPage: NextPage = () => {
@@ -30,6 +32,7 @@ const BoardPage: NextPage = () => {
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
+  const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
@@ -121,8 +124,8 @@ const BoardPage: NextPage = () => {
             writingMode: "vertical-rl",
             textOverflow: "ellipsis",
             textOrientation: "upright",
-            height: "100vh",
-            width: "1vw",
+            h: "100vh",
+            w: "1vw",
             backgroundColor: theme.colors.green[500],
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
@@ -133,10 +136,13 @@ const BoardPage: NextPage = () => {
       <Flex
         id="players-area"
         sx={{
-          flexDirection: isDesktop ? "row" : "column",
+          flexDirection: isDesktop && !isVerticalView ? "row" : "column",
+          justifyContent:
+            isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
+          flexWrap: isVerticalView ? "wrap" : "nowrap",
           gap: "1rem",
           w: "100%",
-          justifyContent: "space-evenly",
+          h: isVerticalView ? "75vh" : "auto",
           p: 3,
           mt: 5,
         }}

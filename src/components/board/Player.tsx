@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useAtomValue } from "jotai";
 
 import PlayerColorConfig from "./PlayerColorConfig";
 import PlayerHeader from "./PlayerHeader";
@@ -12,6 +13,7 @@ import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { getConfig } from "#/hooks/useLocalStorage";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
+import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerProps = {
   player: PlayerDBProps;
@@ -34,7 +36,8 @@ const Player: React.FC<PlayerProps> = ({
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
 
-  const desktop = useDeviceWidth();
+  const isDesktop = useDeviceWidth();
+  const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
 
   useEffect(() => {
     if (score) {
@@ -49,13 +52,14 @@ const Player: React.FC<PlayerProps> = ({
     state: game.editable ? editableState : score.state,
   };
 
-  const flexDirection = desktop
-    ? getConfig("scorewatcher-reverse-player-info", false)
-      ? "column-reverse"
-      : "column"
-    : getConfig("scorewatcher-reverse-player-info", false)
-    ? "row-reverse"
-    : "row";
+  const flexDirection =
+    !isVerticalView && isDesktop
+      ? getConfig("scorewatcher-reverse-player-info", false)
+        ? "column-reverse"
+        : "column"
+      : getConfig("scorewatcher-reverse-player-info", false)
+      ? "row-reverse"
+      : "row";
 
   const getColor = (state: States) => {
     return state === "win"
@@ -72,11 +76,12 @@ const Player: React.FC<PlayerProps> = ({
         justifyContent: "space-between",
         alignItems: "stretch",
         minW: "10vw",
+        w: isVerticalView ? "45vw" : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: desktop ? 3 : 1,
+        borderWidth: !isVerticalView ? 3 : 1,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
@@ -84,8 +89,8 @@ const Player: React.FC<PlayerProps> = ({
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
-        borderRadius: desktop ? "1rem" : "0.5rem",
-        overflowX: desktop ? undefined : "scroll",
+        borderRadius: !isVerticalView ? "1rem" : "0.5rem",
+        overflowX: !isVerticalView ? undefined : "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
       }}
@@ -96,14 +101,14 @@ const Player: React.FC<PlayerProps> = ({
           flexDirection: getConfig("scorewatcher-reverse-player-info", false)
             ? "column-reverse"
             : "column",
-          alignItems: desktop ? "center" : "flex-start",
-          paddingLeft: desktop ? undefined : "0.5rem",
+          alignItems: !isVerticalView ? "center" : "flex-start",
+          paddingLeft: !isVerticalView ? undefined : "0.5rem",
         }}
       >
         {game.editable ? (
           <Box
             sx={{
-              margin: desktop ? "auto" : undefined,
+              margin: !isVerticalView ? "auto" : undefined,
             }}
           >
             <PlayerColorConfig
