@@ -62,9 +62,9 @@ const Player: React.FC<PlayerProps> = ({
 
   const getColor = (state: States) => {
     return state === "win"
-      ? theme.colors.red[500]
+      ? theme.colors.red[colorMode === "light" ? 600 : 300]
       : state == "lose"
-      ? theme.colors.blue[500]
+      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
       : undefined;
   };
 
@@ -75,7 +75,7 @@ const Player: React.FC<PlayerProps> = ({
         justifyContent: "space-between",
         alignItems: "stretch",
         minW: "10vw",
-        w: isVerticalView && isDesktop ? "45vw" : undefined,
+        w: isVerticalView && isDesktop ? "48%" : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -89,7 +89,7 @@ const Player: React.FC<PlayerProps> = ({
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
         borderRadius: !isVerticalView && isDesktop ? "1rem" : "0.5rem",
-        overflowX: !isVerticalView && isDesktop ? undefined : "scroll",
+        overflowX: "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
       }}

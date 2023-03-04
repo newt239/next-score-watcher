@@ -145,6 +145,7 @@ const BoardPage: NextPage = () => {
           h: isVerticalView ? "75vh" : "auto",
           p: 3,
           mt: 5,
+          overflowX: "scroll",
         }}
         tabIndex={-1}
         onKeyDown={keyboardShortcutHandler}
