@@ -18,6 +18,7 @@ import {
   FormHelperText,
   FormLabel,
   Icon,
+  Input,
   Link,
   ListItem,
   Stack,
@@ -46,6 +47,7 @@ import {
   showSignStringAtom,
   showWinthroughPopupAtom,
   verticalViewAtom,
+  webhookUrlAtom,
 } from "#/utils/jotai";
 
 const OptionPage: NextPageWithLayout = () => {
@@ -58,6 +60,7 @@ const OptionPage: NextPageWithLayout = () => {
     reversePlayerInfoAtom
   );
   const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
+  const [WebhookUrl, setWebhookUrl] = useAtom(webhookUrlAtom);
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -110,6 +113,27 @@ const OptionPage: NextPageWithLayout = () => {
             isChecked={verticalView}
             onChange={() => setVerticalView((v) => !v)}
           />
+          <FormControl>
+            <Flex
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box>
+                <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
+                <FormHelperText>
+                  [β版]イベント発生時設定されたURLへPOSTリクエストを送信します。
+                </FormHelperText>
+              </Box>
+              <Input
+                value={WebhookUrl}
+                onChange={(v) => setWebhookUrl(v.target.value)}
+                placeholder="https://score-watcher.newt239.dev/api"
+                w="50%"
+              />
+            </Flex>
+          </FormControl>
           <FormControl>
             <Flex
               sx={{
