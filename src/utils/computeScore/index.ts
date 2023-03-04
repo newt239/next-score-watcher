@@ -23,32 +23,50 @@ const computeScore = async (game_id: string) => {
     .where({ game_id: game_id })
     .sortBy("timestamp");
 
+  let result: {
+    scoreList: ComputedScoreDBProps[];
+    winThroughPlayer: { player_id: string; text: string };
+  };
   switch (game.rule) {
     case "normal":
-      return await normal(game, gameLogList);
+      result = await normal(game, gameLogList);
     case "nomx":
-      return await nomx(game, gameLogList);
+      result = await nomx(game, gameLogList);
     case "nomx-ad":
-      return await nomxAd(game, gameLogList);
+      result = await nomxAd(game, gameLogList);
     case "ny":
-      return await ny(game, gameLogList);
+      result = await ny(game, gameLogList);
     case "nbyn":
-      return await nbyn(game, gameLogList);
+      result = await nbyn(game, gameLogList);
     case "nupdown":
-      return await nupdown(game, gameLogList);
+      result = await nupdown(game, gameLogList);
     case "swedish10":
-      return await swedish10(game, gameLogList);
+      result = await swedish10(game, gameLogList);
     case "attacksurvival":
-      return await attacksurvival(game, gameLogList);
+      result = await attacksurvival(game, gameLogList);
     case "squarex":
-      return await squarex(game, gameLogList);
+      result = await squarex(game, gameLogList);
     case "z":
-      return await z(game, gameLogList);
+      result = await z(game, gameLogList);
     case "freezex":
-      return await freezex(game, gameLogList);
+      result = await freezex(game, gameLogList);
     case "various-fluctuations":
-      return await variousFluctuations(game, gameLogList);
+      result = await variousFluctuations(game, gameLogList);
   }
+  const webhookUrl = localStorage.getItem("scorew-webhook-url");
+
+  if (webhookUrl) {
+    const postData = { ...result, game };
+    console.log(postData);
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
+  }
+  return result;
 };
 
 export const getInitialPlayersState = (game: GameDBProps) => {

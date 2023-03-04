@@ -135,7 +135,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   <div
                     style={{
                       textAlign: "right",
-                      color: theme.colors.red[500],
+                      color:
+                        theme.colors.red[colorMode === "light" ? 600 : 300],
                       fontWeight: 800,
                     }}
                   >
