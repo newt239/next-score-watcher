@@ -88,6 +88,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
+      {game.rule === "ny" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex>
+            <PlayerScoreButton color="red" compact {...props}>
+              {numberSign("correct")}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {numberSign("wrong")}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
       {game.rule === "nbyn" && (
         <>
           <PlayerScoreButton
@@ -98,11 +113,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex>
-            <PlayerScoreButton color="green" compact {...props}>
-              {`${player.correct}×${game.win_point! - player.wrong}`}
-            </PlayerScoreButton>
-          </Flex>
+          <PlayerScoreButton color="green" compact {...props}>
+            {`${player.correct}×${game.win_point! - player.wrong}`}
+          </PlayerScoreButton>
           <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               {`${player.correct}${numberSign("correct")}`}
