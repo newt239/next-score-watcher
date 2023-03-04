@@ -99,7 +99,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <Flex>
-            <PlayerScoreButton color="green" compact {...props}>
+            <PlayerScoreButton color="green" disabled {...props}>
               {`${player.correct}×${game.win_point! - player.wrong}`}
             </PlayerScoreButton>
           </Flex>

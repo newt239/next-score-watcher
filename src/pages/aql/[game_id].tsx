@@ -218,9 +218,9 @@ const AQLPage: NextPage = () => {
           fontSize: "max(1.5rem, 1.5vw)",
           backgroundColor:
             state === "win"
-              ? "red.500"
+              ? theme.colors.red[colorMode === "light" ? 600 : 300]
               : state === "lose"
-              ? "blue.500"
+              ? theme.colors.blue[colorMode === "light" ? 600 : 300]
               : undefined,
           p: 1,
           borderRadius: "1rem",
@@ -229,8 +229,8 @@ const AQLPage: NextPage = () => {
         <Box
           sx={{
             color:
-              state !== "playing" && colorMode === "light"
-                ? "white"
+              state !== "playing" && colorMode === "dark"
+                ? theme.colors.gray[800]
                 : undefined,
           }}
         >
@@ -240,8 +240,8 @@ const AQLPage: NextPage = () => {
           sx={{
             fontSize: "4.5rem",
             color:
-              state !== "playing" && colorMode === "light"
-                ? "white"
+              state !== "playing" && colorMode === "dark"
+                ? theme.colors.gray[800]
                 : undefined,
           }}
         >
@@ -280,9 +280,9 @@ const AQLPage: NextPage = () => {
                           ? theme.colors.gray[800]
                           : "white"
                         : wrong === 1
-                        ? "blue.500"
+                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
                         : reachState
-                        ? "red.500"
+                        ? theme.colors.red[colorMode === "light" ? 600 : 300]
                         : undefined,
                     borderRadius: "1rem",
                     p: 2,
@@ -292,7 +292,7 @@ const AQLPage: NextPage = () => {
                           ? theme.colors.gray[800]
                           : "white"
                         : wrong === 2
-                        ? "blue.500"
+                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
                         : colorMode === "dark"
                         ? theme.colors.gray[800]
                         : "white",
@@ -306,7 +306,10 @@ const AQLPage: NextPage = () => {
                     onClick={() => onClickHandler("correct", n)}
                     colorScheme="red"
                     variant="ghost"
-                    sx={{ color: "red.500" }}
+                    sx={{
+                      color:
+                        theme.colors.red[colorMode === "light" ? 600 : 300],
+                    }}
                     disabled={wrong === 2}
                   >
                     ○
@@ -315,7 +318,10 @@ const AQLPage: NextPage = () => {
                     onClick={() => onClickHandler("wrong", n)}
                     colorScheme="blue"
                     variant="ghost"
-                    sx={{ color: "blue.500" }}
+                    sx={{
+                      color:
+                        theme.colors.blue[colorMode === "light" ? 600 : 300],
+                    }}
                     disabled={wrong === 2}
                   >
                     {wrong !== 0 && wrong}✕
