@@ -1,5 +1,6 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
+import NextLink from "next/link";
 import router from "next/router";
 import { useEffect } from "react";
 
@@ -10,24 +11,23 @@ import {
   Box,
   Button,
   Flex,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import LinkButton from "#/blocks/LinkButton";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 
 const ConfigPage: NextPageWithLayout = () => {
-  const [isLargerThan400] = useMediaQuery("(min-width: 400px)");
+  const isDesktop = useDeviceWidth(400);
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
@@ -181,7 +181,7 @@ const ConfigPage: NextPageWithLayout = () => {
         />
         <Flex
           sx={{
-            flexDirection: isLargerThan400 ? "row" : "column-reverse",
+            flexDirection: isDesktop ? "row" : "column-reverse",
             justifyContent: "space-between",
             pt: 20,
             gap: 5,
@@ -190,14 +190,17 @@ const ConfigPage: NextPageWithLayout = () => {
           <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
             ゲームを削除
           </Button>
-          <LinkButton
-            icon={<PlayerPlay />}
-            colorScheme="green"
-            href={`/${game_id}/board`}
-            disabled={game.players.length === 0}
-          >
-            ゲーム開始
-          </LinkButton>
+          {game.players.length === 0 ? (
+            <Button colorScheme="green" leftIcon={<PlayerPlay />} disabled>
+              ゲーム開始
+            </Button>
+          ) : (
+            <NextLink href={`/${game_id}/board`}>
+              <Button colorScheme="green" leftIcon={<PlayerPlay />}>
+                ゲーム開始
+              </Button>
+            </NextLink>
+          )}
         </Flex>
       </Box>
     </>

@@ -13,7 +13,6 @@ import {
   MenuList,
   theme,
   useColorMode,
-  useMediaQuery,
   Switch,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -33,6 +32,7 @@ import {
 import ShortcutGuideModal from "../board/ShortcutGuideModal";
 
 import H2 from "#/blocks/H2";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { LogDBProps, QuizDBProps } from "#/utils/db";
 
 type AQLBoardHeaderProps = {
@@ -56,7 +56,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+
+  const desktop = useDeviceWidth();
   const [showQn, setShowQn] = useState<boolean>(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -78,7 +79,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           justifyContent: "space-between",
           alignItems: "center",
           gap: 3,
-          height: isLargerThan700 ? "15vh" : "10vh",
+          height: desktop ? "15vh" : "10vh",
           px: 3,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
@@ -98,29 +99,20 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             flexDirection: "column",
             justifyContent: "center",
             borderStyle: "solid",
-            borderWidth: isLargerThan700 ? "thin" : 0,
+            borderWidth: desktop ? "thin" : 0,
             borderColor:
               colorMode === "light"
                 ? theme.colors.gray[300]
                 : theme.colors.gray[500],
             borderRadius: "1rem",
-            padding: isLargerThan700 ? 3 : undefined,
+            padding: desktop ? 3 : undefined,
             maxWidth: "70vw",
           }}
         >
-          <H2
-            sx={{
-              pt: 0,
-              whiteSpace: "nowrap",
-              overflowX: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {name}
-          </H2>
+          <H2 pt={0}>{name}</H2>
           <p>AQL</p>
         </Box>
-        {isLargerThan700 && (
+        {desktop && (
           <>
             {showQn && (
               <Box sx={{ whiteSpace: "nowrap" }}>
@@ -144,20 +136,20 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   overflow: "hidden",
                 }}
               >
-                <div style={{ maxHeight: "8vh" }}>
+                <Box sx={{ maxHeight: "8vh" }}>
                   {logs.length === 0
                     ? "ここに問題文が表示されます"
                     : quizList[quiz_offset + logs.length - 1].q}
-                </div>
-                <div
-                  style={{
+                </Box>
+                <Box
+                  sx={{
                     textAlign: "right",
                     color: theme.colors.red[500],
                     fontWeight: 800,
                   }}
                 >
-                  <span
-                    style={{
+                  <Box
+                    sx={{
                       backgroundColor:
                         colorMode === "light"
                           ? theme.colors.gray[50]
@@ -167,8 +159,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                     {logs.length === 0
                       ? "ここに答えが表示されます"
                       : quizList[quiz_offset + logs.length - 1].a}
-                  </span>
-                </div>
+                  </Box>
+                </Box>
               </Box>
             )}
           </>
@@ -241,7 +233,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   <Switch isChecked={end} />
                 </FormControl>
               </MenuItem>
-              {isLargerThan700 && (
+              {desktop && (
                 <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
                   ショートカットを確認
                 </MenuItem>

@@ -3,18 +3,20 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { KeyboardEvent, useEffect, useState } from "react";
 
-import { Box, Flex, theme, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, theme } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
-import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
+import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 
 const BoardPage: NextPage = () => {
@@ -28,7 +30,9 @@ const BoardPage: NextPage = () => {
   const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
+  const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
+  const showLogs = useAtomValue(showLogsAtom);
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
@@ -120,8 +124,8 @@ const BoardPage: NextPage = () => {
             writingMode: "vertical-rl",
             textOverflow: "ellipsis",
             textOrientation: "upright",
-            height: "100vh",
-            width: "1vw",
+            h: "100vh",
+            w: "1vw",
             backgroundColor: theme.colors.green[500],
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
@@ -129,16 +133,18 @@ const BoardPage: NextPage = () => {
           }}
         />
       )}
-      <div
+      <Flex
         id="players-area"
-        style={{
-          display: "flex",
-          flexDirection: isLargerThan700 ? "row" : "column",
+        sx={{
+          flexDirection: isDesktop && !isVerticalView ? "row" : "column",
+          justifyContent:
+            isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
+          flexWrap: isVerticalView ? "wrap" : "nowrap",
           gap: "1rem",
-          width: "100%",
-          justifyContent: "space-evenly",
-          padding: 3,
-          marginTop: 5,
+          w: "100%",
+          h: isVerticalView ? "75vh" : "auto",
+          p: 3,
+          mt: 5,
         }}
         tabIndex={-1}
         onKeyDown={keyboardShortcutHandler}
@@ -161,8 +167,8 @@ const BoardPage: NextPage = () => {
             }
           />
         ))}
-      </div>
-      {getConfig("scorewatcher-show-logs") && (
+      </Flex>
+      {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={players} logs={logs} />
         </Flex>

@@ -3,22 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, KeyboardEvent } from "react";
 
-import {
-  Button,
-  Flex,
-  theme,
-  useColorMode,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
 import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import { AQLGameProps } from "#/components/home/OtherRules";
-import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import { showLogsAtom } from "#/utils/jotai";
 
 type AQLPlayerStateProps = {
   score: number;
@@ -26,7 +22,7 @@ type AQLPlayerStateProps = {
 };
 
 const AQLPage: NextPage = () => {
-  const [isLargerThan800] = useMediaQuery("(min-width: 800px)");
+  const isDesktop = useDeviceWidth(800);
   const router = useRouter();
   const { game_id } = router.query;
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
@@ -40,6 +36,7 @@ const AQLPage: NextPage = () => {
     []
   );
   const [end, setEnd] = useState<boolean>(false);
+  const showLogs = useAtomValue(showLogsAtom);
   const { colorMode } = useColorMode();
 
   if (!game || !logs) return null;
@@ -229,8 +226,8 @@ const AQLPage: NextPage = () => {
           borderRadius: "1rem",
         }}
       >
-        <div
-          style={{
+        <Box
+          sx={{
             color:
               state !== "playing" && colorMode === "light"
                 ? "white"
@@ -238,9 +235,9 @@ const AQLPage: NextPage = () => {
           }}
         >
           {position === "left" ? game.left_team : game.right_team}
-        </div>
-        <div
-          style={{
+        </Box>
+        <Box
+          sx={{
             fontSize: "4.5rem",
             color:
               state !== "playing" && colorMode === "light"
@@ -250,8 +247,14 @@ const AQLPage: NextPage = () => {
         >
           {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
-        </div>
-        <Flex sx={{ justifyContent: "space-between", gap: 1 }}>
+        </Box>
+        <Flex
+          sx={{
+            flexDirection: isDesktop ? "row" : "column",
+            justifyContent: "space-between",
+            gap: 1,
+          }}
+        >
           {(position === "left" ? [0, 1, 2, 3, 4] : [5, 6, 7, 8, 9]).map(
             (n) => {
               const reachState =
@@ -266,13 +269,16 @@ const AQLPage: NextPage = () => {
                 <Flex
                   key={n}
                   sx={{
-                    flexDirection: "column",
+                    flexDirection: isDesktop ? "column" : "row",
+                    alignItems: "center",
                     gap: 3,
                     borderStyle: "solid",
                     borderWidth: 2,
                     borderColor:
                       state !== "playing"
-                        ? undefined
+                        ? colorMode === "dark"
+                          ? theme.colors.gray[800]
+                          : "white"
                         : wrong === 1
                         ? "blue.500"
                         : reachState
@@ -292,10 +298,10 @@ const AQLPage: NextPage = () => {
                         : "white",
                   }}
                 >
-                  <div>No.{position === "left" ? n + 1 : n - 4}</div>
-                  <div style={{ fontSize: "3rem", fontWeight: 800 }}>
+                  <Box>No.{position === "left" ? n + 1 : n - 4}</Box>
+                  <Box sx={{ flexGrow: 1, fontSize: "3rem", fontWeight: 800 }}>
                     {gameState.scores[n].score}
-                  </div>
+                  </Box>
                   <Button
                     onClick={() => onClickHandler("correct", n)}
                     colorScheme="red"
@@ -340,8 +346,9 @@ const AQLPage: NextPage = () => {
       <Flex
         sx={{
           p: 5,
+          gap: 5,
           justifyContent: "space-around",
-          flexDirection: isLargerThan800 ? "row" : "column",
+          flexDirection: isDesktop ? "row" : "column",
         }}
         tabIndex={-1}
         onKeyDown={keyboardShortcutHandler}
@@ -349,7 +356,7 @@ const AQLPage: NextPage = () => {
         <EachGroup position="left" />
         <EachGroup position="right" />
       </Flex>
-      {getConfig("scorewatcher-show-logs") && (
+      {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs players={getPlayerList()} logs={logs} />
         </Flex>

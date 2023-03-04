@@ -33,26 +33,34 @@ import {
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import { getConfig, setConfig } from "#/hooks/useBooleanConfig";
+import AppOptionSwitch from "#/components/AppOptionSwitch";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
+import {
+  reversePlayerInfoAtom,
+  showLogsAtom,
+  showSignStringAtom,
+  showWinthroughPopupAtom,
+  verticalViewAtom,
+} from "#/utils/jotai";
 
 const OptionPage: NextPageWithLayout = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const [winthroughPopup, setWinthroughPopup] = useState<boolean>(
-    getConfig("scorewatcher-winthrough-popup")
+  const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
+    showWinthroughPopupAtom
   );
-  const [showLogs, setShowLogs] = useState(getConfig("scorewatcher-show-logs"));
-  const [showSignString, setShowSignString] = useState(
-    getConfig("scorewatcher-show-sign-string")
+  const [showLogs, setShowLogs] = useAtom(showLogsAtom);
+  const [showSignString, setShowSignString] = useAtom(showSignStringAtom);
+  const [reversePlayerInfo, setReversePlayerInfo] = useAtom(
+    reversePlayerInfoAtom
   );
-  const [reversePlayerInfo, setReversePlayerInfo] = useState(
-    getConfig("scorewatcher-reverse-player-info", false)
-  );
+  const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
+
+  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
@@ -63,22 +71,6 @@ const OptionPage: NextPageWithLayout = () => {
     });
   };
 
-  useEffect(() => {
-    setConfig("scorewatcher-winthrough-popup", winthroughPopup);
-  }, [winthroughPopup]);
-
-  useEffect(() => {
-    setConfig("scorewatcher-show-logs", showLogs);
-  }, [showLogs]);
-
-  useEffect(() => {
-    setConfig("scorewatcher-show-sign-string", showSignString);
-  }, [showSignString]);
-
-  useEffect(() => {
-    setConfig("scorewatcher-reverse-player-info", reversePlayerInfo);
-  }, [reversePlayerInfo]);
-
   return (
     <>
       <Head>
@@ -87,96 +79,37 @@ const OptionPage: NextPageWithLayout = () => {
       <H2>アプリ設定</H2>
       <Container py={5}>
         <Stack sx={{ gap: 5 }}>
-          <FormControl
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormLabel htmlFor="color-mode" sx={{ flexGrow: 1 }}>
-              ダークモード
-            </FormLabel>
-            <Switch
-              id="color-mode"
-              size="lg"
-              isChecked={colorMode === "dark"}
-              onChange={() => toggleColorMode()}
-            />
-          </FormControl>
-          <FormControl
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormLabel htmlFor="winthrough-popup" sx={{ flexGrow: 1 }}>
-              勝ち抜け時にポップアップを表示
-            </FormLabel>
-            <Switch
-              id="winthrough-popup"
-              size="lg"
-              isChecked={winthroughPopup}
-              onChange={() => setWinthroughPopup((v) => !v)}
-            />
-          </FormControl>
-          <FormControl
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <FormLabel htmlFor="show-sign-string" sx={{ flexGrow: 1 }}>
-                スコアに「○」「✕」「pt」の文字列を付与する
-              </FormLabel>
-              <FormHelperText>
-                視聴者が数字の意味を理解しやすくなります。
-              </FormHelperText>
-            </Box>
-            <Switch
-              id="show-pt-string"
-              size="lg"
-              isChecked={showSignString}
-              onChange={() => setShowSignString((v) => !v)}
-            />
-          </FormControl>
-          <FormControl
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormLabel htmlFor="show-logs" sx={{ flexGrow: 1 }}>
-              得点表示画面下にログを表示
-            </FormLabel>
-            <Switch
-              id="show-logs"
-              size="lg"
-              isChecked={showLogs}
-              onChange={() => setShowLogs((v) => !v)}
-            />
-          </FormControl>
-          <FormControl
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormLabel htmlFor="reverse-player-info" sx={{ flexGrow: 1 }}>
-              スコアを名前の前に表示
-            </FormLabel>
-            <Switch
-              id="reverse-player-info"
-              size="lg"
-              isChecked={reversePlayerInfo}
-              onChange={() => setReversePlayerInfo((v) => !v)}
-            />
-          </FormControl>
+          <AppOptionSwitch
+            title="ダークモード"
+            isChecked={colorMode === "dark"}
+            onChange={() => toggleColorMode()}
+          />
+          <AppOptionSwitch
+            title="勝ち抜け時にポップアップを表示"
+            isChecked={showWinthroughPopup}
+            onChange={() => showSetWinthroughPopup((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="スコアに「○」「✕」「pt」の文字列を付与する"
+            label="視聴者が数字の意味を理解しやすくなります。"
+            isChecked={showSignString}
+            onChange={() => setShowSignString((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="得点表示画面下にログを表示"
+            isChecked={showLogs}
+            onChange={() => setShowLogs((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="スコアを名前の前に表示"
+            isChecked={reversePlayerInfo}
+            onChange={() => setReversePlayerInfo((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="プレイヤーを垂直に並べる"
+            isChecked={verticalView}
+            onChange={() => setVerticalView((v) => !v)}
+          />
           <FormControl>
             <Flex
               sx={{
@@ -221,18 +154,6 @@ const OptionPage: NextPageWithLayout = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-      <H2>本ソフトのご利用にあたって</H2>
-      <UnorderedList py={5}>
-        <ListItem>
-          本ソフトはあくまで「得点表示ソフト」であり、問題やプレイヤー、試合記録の管理ソフトではありません。
-        </ListItem>
-        <ListItem>
-          データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。
-        </ListItem>
-        <ListItem>
-          本ソフトの開発者は本ソフトを使用したことにより生じる損害について、いかなる責任も負いません。
-        </ListItem>
-      </UnorderedList>
       <H2>お問い合わせ</H2>
       <Box py={5}>
         <Text>
