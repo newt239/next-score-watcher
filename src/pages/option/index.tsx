@@ -33,12 +33,14 @@ import {
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
-import { getConfig, setConfig } from "#/hooks/useBooleanConfig";
+import { getConfig, setConfig } from "#/hooks/useLocalStorage";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
+import { verticalViewAtom } from "#/utils/jotai";
 
 const OptionPage: NextPageWithLayout = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -52,6 +54,7 @@ const OptionPage: NextPageWithLayout = () => {
   const [reversePlayerInfo, setReversePlayerInfo] = useState(
     getConfig("scorewatcher-reverse-player-info", false)
   );
+  const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
@@ -139,7 +142,7 @@ const OptionPage: NextPageWithLayout = () => {
             <Switch
               id="show-pt-string"
               size="lg"
-              isChecked={showSignString}
+              isChecked={localStorage.getItem("scorewatcher-") === "yes"}
               onChange={() => setShowSignString((v) => !v)}
             />
           </FormControl>
@@ -175,6 +178,23 @@ const OptionPage: NextPageWithLayout = () => {
               size="lg"
               isChecked={reversePlayerInfo}
               onChange={() => setReversePlayerInfo((v) => !v)}
+            />
+          </FormControl>
+          <FormControl
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormLabel htmlFor="vertical-view" sx={{ flexGrow: 1 }}>
+              プレイヤーを垂直に並べる
+            </FormLabel>
+            <Switch
+              id="vertical-view"
+              size="lg"
+              isChecked={verticalView}
+              onChange={() => setVerticalView((v) => !v)}
             />
           </FormControl>
           <FormControl>

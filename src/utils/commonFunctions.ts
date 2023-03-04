@@ -7,7 +7,7 @@ import db, { RuleNames, GameDBProps } from "./db";
 import { event } from "./gtag";
 import { rules } from "./rules";
 
-import { getConfig } from "#/hooks/useBooleanConfig";
+import { getConfig } from "#/hooks/useLocalStorage";
 
 export const createGame = async (
   rule_name: RuleNames,

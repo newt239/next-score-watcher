@@ -11,8 +11,8 @@ import { nanoid } from "nanoid";
 import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import { AQLGameProps } from "#/components/home/OtherRules";
-import { getConfig } from "#/hooks/useBooleanConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { getConfig } from "#/hooks/useLocalStorage";
 import db from "#/utils/db";
 
 type AQLPlayerStateProps = {

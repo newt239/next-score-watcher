@@ -9,8 +9,8 @@ import PlayerHeader from "./PlayerHeader";
 
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
-import { getConfig } from "#/hooks/useBooleanConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { getConfig } from "#/hooks/useLocalStorage";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 
 type PlayerProps = {

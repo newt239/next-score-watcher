@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 
-import { getConfig } from "#/hooks/useBooleanConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { getConfig } from "#/hooks/useLocalStorage";
 
 type PlayerHeaderProps = {
   index: number;

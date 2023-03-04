@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useReward } from "react-rewards";
 
-import { getConfig } from "#/hooks/useBooleanConfig";
+import { getConfig } from "#/hooks/useLocalStorage";
 
 type WinModalProps = {
   onClose: () => void;
