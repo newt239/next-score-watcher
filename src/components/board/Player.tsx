@@ -1,16 +1,18 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { useColorMode, theme, useMediaQuery, Flex } from "@chakra-ui/react";
+import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useAtomValue } from "jotai";
 
 import PlayerColorConfig from "./PlayerColorConfig";
 import PlayerHeader from "./PlayerHeader";
 
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
-import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
+import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
 
 type PlayerProps = {
   player: PlayerDBProps;
@@ -32,8 +34,9 @@ const Player: React.FC<PlayerProps> = ({
   const { game_id } = router.query;
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
-
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
+  const isVerticalView = useAtomValue(verticalViewAtom);
+  const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   useEffect(() => {
     if (score) {
@@ -48,13 +51,14 @@ const Player: React.FC<PlayerProps> = ({
     state: game.editable ? editableState : score.state,
   };
 
-  const flexDirection = isLargerThan700
-    ? getConfig("scorewatcher-reverse-player-info", false)
-      ? "column-reverse"
-      : "column"
-    : getConfig("scorewatcher-reverse-player-info", false)
-    ? "row-reverse"
-    : "row";
+  const flexDirection =
+    !isVerticalView && isDesktop
+      ? reversePlayerInfo
+        ? "column-reverse"
+        : "column"
+      : reversePlayerInfo
+      ? "row-reverse"
+      : "row";
 
   const getColor = (state: States) => {
     return state === "win"
@@ -65,18 +69,18 @@ const Player: React.FC<PlayerProps> = ({
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
+    <Flex
+      sx={{
         flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
-        minWidth: "10vw",
+        minW: "10vw",
+        w: isVerticalView && isDesktop ? "45vw" : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: isLargerThan700 ? 3 : 1,
+        borderWidth: !isVerticalView && isDesktop ? 3 : 1,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
@@ -84,8 +88,8 @@ const Player: React.FC<PlayerProps> = ({
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
-        borderRadius: isLargerThan700 ? "1rem" : "0.5rem",
-        overflowX: isLargerThan700 ? undefined : "scroll",
+        borderRadius: !isVerticalView && isDesktop ? "1rem" : "0.5rem",
+        overflowX: !isVerticalView && isDesktop ? undefined : "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
       }}
@@ -93,17 +97,15 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          flexDirection: getConfig("scorewatcher-reverse-player-info", false)
-            ? "column-reverse"
-            : "column",
-          alignItems: "center",
-          paddingLeft: isLargerThan700 ? undefined : "0.5rem",
+          flexDirection: reversePlayerInfo ? "column-reverse" : "column",
+          alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
+          paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
         }}
       >
         {game.editable ? (
-          <div
-            style={{
-              margin: isLargerThan700 ? "auto" : undefined,
+          <Box
+            sx={{
+              margin: !isVerticalView && isDesktop ? "auto" : undefined,
             }}
           >
             <PlayerColorConfig
@@ -111,7 +113,7 @@ const Player: React.FC<PlayerProps> = ({
               editableState={editableState}
               setEditableState={setEditableState}
             />
-          </div>
+          </Box>
         ) : (
           <PlayerHeader
             index={index}
@@ -132,7 +134,7 @@ const Player: React.FC<PlayerProps> = ({
           score.last_wrong < score.last_correct
         }
       />
-    </div>
+    </Flex>
   );
 };
 

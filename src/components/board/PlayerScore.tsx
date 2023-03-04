@@ -1,8 +1,11 @@
-import { Box, theme, useColorMode, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/commonFunctions";
 import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
+import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreProps = {
   game: GameDBProps;
@@ -20,7 +23,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   isLastCorrectPlayer,
 }) => {
   const { colorMode } = useColorMode();
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
+  const isVerticalView =
+    (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
 
   const props = {
     game_id: game.id,
@@ -29,23 +34,20 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   };
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: isLargerThan700 ? "column" : "row",
+    <Flex
+      sx={{
+        flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        paddingTop: isLargerThan700 ? 3 : undefined,
-        paddingBottom: isLargerThan700 ? 3 : undefined,
-        paddingLeft: isLargerThan700 ? undefined : "0.5rem",
-        paddingRight: isLargerThan700 ? undefined : "0.5rem",
-        gap: isLargerThan700 ? 3 : 1.5,
+        py: !isVerticalView ? 3 : undefined,
+        px: !isVerticalView ? undefined : "0.5rem",
+        gap: !isVerticalView ? 3 : 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
-        borderRadius: isLargerThan700
+        borderRadius: !isVerticalView
           ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
           : "0 calc(0.5rem - 2px) calc(0.5rem - 2px) 0",
       }}
@@ -86,6 +88,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
+      {game.rule === "ny" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex>
+            <PlayerScoreButton color="red" compact {...props}>
+              {numberSign("correct")}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {numberSign("wrong")}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
       {game.rule === "nbyn" && (
         <>
           <PlayerScoreButton
@@ -96,19 +113,17 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <PlayerScoreButton color="green" compact {...props}>
-              {`${player.correct}×${game.win_point! - player.wrong}`}
-            </PlayerScoreButton>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <PlayerScoreButton color="green" compact {...props}>
+            {`${player.correct}×${game.win_point! - player.wrong}`}
+          </PlayerScoreButton>
+          <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
         </>
       )}
       {game.rule === "nupdown" && (
@@ -116,14 +131,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
         </>
       )}
       {game.rule === "swedish10" && (
@@ -131,14 +146,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
         </>
       )}
       {game.rule === "attacksurvival" && (
@@ -146,14 +161,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
         </>
       )}
       {game.rule === "squarex" && (
@@ -164,14 +179,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color="green" filled disabled {...props}>
             {`${player.odd_score}×${player.even_score}`}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               {`${player.correct}○`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {`${player.wrong}✕`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
         </>
       )}
       {game.rule === "z" && (
@@ -184,7 +199,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Flex>
             <PlayerScoreButton
               color="red"
               compact
@@ -207,7 +222,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             >
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
         </>
       )}
       {game.rule === "freezex" && (
@@ -232,14 +247,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Flex>
             <PlayerScoreButton color="red" compact {...props}>
               {`${player.correct}${numberSign("correct")}`}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {`${player.wrong}${numberSign("wrong")}`}
             </PlayerScoreButton>
-          </div>
+          </Flex>
           <PlayerScoreButton color="green" disabled {...props}>
             {`+${game.players.find((gamePlayer) => gamePlayer.id === player_id)
               ?.base_correct_point!} / ${game.players.find(
@@ -248,7 +263,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
-    </Box>
+    </Flex>
   );
 };
 

@@ -17,6 +17,12 @@ export const rules = {
     win_point: 7,
     lose_point: 3,
   },
+  ny: {
+    name: "NY",
+    description:
+      "正答でプラス1、誤答でマイナス1されNポイントを目指す形式です。",
+    win_point: 10,
+  },
   nbyn: {
     name: "NbyN",
     description:
@@ -80,6 +86,8 @@ export const getRuleStringByType = (game: GameDBProps): string => {
       return `${game.win_point}o${game.lose_point}x`;
     case "nomx-ad":
       return `連答つき${game.win_point}o${game.lose_point}x`;
+    case "ny":
+      return "NY";
     case "nbyn":
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":

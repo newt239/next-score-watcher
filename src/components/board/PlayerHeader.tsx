@@ -1,6 +1,8 @@
-import { useMediaQuery } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { useAtomValue } from "jotai";
 
-import { getConfig } from "#/hooks/useBooleanConfig";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
 
 type PlayerHeaderProps = {
   index: number;
@@ -9,17 +11,18 @@ type PlayerHeaderProps = {
 };
 
 const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const isDesktop = useDeviceWidth();
+  const isVerticalView =
+    (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
+  const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   return (
     <>
-      {isLargerThan700 ? (
-        <div
-          style={{
+      {!isVerticalView ? (
+        <Box
+          sx={{
             display: "flex",
-            flexDirection: getConfig("scorewatcher-reverse-player-info", false)
-              ? "column-reverse"
-              : "column",
+            flexDirection: reversePlayerInfo ? "column-reverse" : "column",
             alignItems: "center",
             justifyContent: "center",
             fontWeight: 800,
@@ -28,19 +31,19 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           }}
         >
           {text === "" ? (
-            <div style={{ opacity: 0.3 }}>{index + 1}</div>
+            <Box sx={{ opacity: 0.3 }}>{index + 1}</Box>
           ) : (
-            <div>{text}</div>
+            <Box>{text}</Box>
           )}
-          <div>{belong === "" ? "―――――" : belong}</div>
-        </div>
+          <Box>{belong === "" ? "―――――" : belong}</Box>
+        </Box>
       ) : (
-        <div
-          style={{
+        <Box
+          sx={{
             fontSize: "0.8rem",
             lineHeight: "0.8rem",
             fontWeight: 800,
-            paddingTop: 5,
+            pt: 1,
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
@@ -48,12 +51,12 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           }}
         >
           {text === "" && belong === "" && (
-            <span style={{ opacity: 0.3 }}>Player{index + 1}</span>
+            <Box sx={{ opacity: 0.3 }}>Player{index + 1}</Box>
           )}
           <span>{text !== "" && text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
-        </div>
+        </Box>
       )}
     </>
   );

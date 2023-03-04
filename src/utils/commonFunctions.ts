@@ -7,8 +7,6 @@ import db, { RuleNames, GameDBProps } from "./db";
 import { event } from "./gtag";
 import { rules } from "./rules";
 
-import { getConfig } from "#/hooks/useBooleanConfig";
-
 export const createGame = async (
   rule_name: RuleNames,
   game?: GameDBProps,
@@ -44,6 +42,9 @@ export const createGame = async (
       case "nomx-ad":
         putData.win_point = rules[rule_name].win_point;
         putData.lose_point = rules[rule_name].lose_point;
+        break;
+      case "ny":
+        putData.win_point = rules[rule_name].win_point;
         break;
       case "nbyn":
         putData.win_point = rules[rule_name].win_point;
@@ -86,7 +87,8 @@ export const createGame = async (
 };
 
 export const numberSign = (type: "correct" | "wrong" | "pt") => {
-  if (getConfig("scorewatcher-show-sign-string")) {
+  const showSignString = localStorage.getItem("scorew-show-sign-string");
+  if (showSignString === "true" || showSignString === null) {
     switch (type) {
       case "correct":
         return "○";

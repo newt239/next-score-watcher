@@ -60,6 +60,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   DeviceFloppy,
+  Edit,
   Filter,
   InfoCircle,
   Tags,
@@ -132,13 +133,6 @@ const PlayerTable: React.FC = () => {
     }),
     columnHelper.accessor("name", {
       header: "氏名",
-      cell: (info) => {
-        return (
-          <span onClick={() => handleChange(info.row.original)}>
-            {info.row.original.name}
-          </span>
-        );
-      },
     }),
     columnHelper.accessor("text", {
       header: "サブテキスト",
@@ -172,16 +166,27 @@ const PlayerTable: React.FC = () => {
       header: "",
       cell: (info) => {
         return (
-          <NextLink href={`/player/${info.row.original.id}`}>
-            <Button
-              colorScheme="green"
+          <>
+            <IconButton
+              onClick={() => handleChange(info.row.original)}
+              colorScheme="blue"
               variant="ghost"
               size="xs"
-              leftIcon={<InfoCircle />}
+              aria-label="プレイヤー情報を更新する"
             >
-              詳細
-            </Button>
-          </NextLink>
+              <Edit />
+            </IconButton>
+            <NextLink href={`/player/${info.row.original.id}`}>
+              <IconButton
+                colorScheme="green"
+                variant="ghost"
+                size="xs"
+                aria-label="プレイヤー情報を確認する"
+              >
+                <InfoCircle />
+              </IconButton>
+            </NextLink>
+          </>
         );
       },
     }),

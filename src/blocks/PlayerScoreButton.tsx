@@ -1,18 +1,15 @@
-import { ReactNode } from "react";
-
 import {
   Button,
   Editable,
   EditableInput,
   EditablePreview,
-  SystemStyleObject,
   theme,
   useColorMode,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
@@ -37,7 +34,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   disabled,
 }) => {
   const { colorMode } = useColorMode();
-  const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+  const desktop = useDeviceWidth();
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
   const variantColor = ["red", "win"].includes(color)
@@ -47,21 +44,18 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     : colorMode === "light"
     ? theme.colors.green[600]
     : theme.colors.yellow[300];
-  const ButtonCssStyle: SystemStyleObject = {
-    display: isLargerThan700 ? "inline" : "block",
+
+  const ButtonCssStyle = {
+    display: desktop ? "inline" : "block",
     fontSize:
-      isLargerThan700 && compact
+      desktop && compact
         ? "2.5vw"
         : `max(1rem, min(calc(12vw / ${children.toString().length}), 3.5vw))`,
-    lineHeight: isLargerThan700 ? "4vw" : "max(3vw, 1rem)",
+    lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
-    width: isLargerThan700
-      ? "100%"
-      : compact
-      ? "max(2.5rem, 7vw)"
-      : "max(5rem, 14vw)",
-    maxW: isLargerThan700 ? (compact ? "4.5vw" : "9.5vw") : "max(5rem, 14vw)",
-    height: !editable && isLargerThan700 ? "100%" : undefined,
+    width: desktop ? "100%" : compact ? "max(2.5rem, 7vw)" : "max(5rem, 14vw)",
+    maxW: desktop ? (compact ? "4.5vw" : "9.5vw") : "max(5rem, 14vw)",
+    height: !editable && desktop ? "100%" : undefined,
     margin: "auto",
     textAlign: "center",
     backgroundColor: filled ? variantColor : "transparent",

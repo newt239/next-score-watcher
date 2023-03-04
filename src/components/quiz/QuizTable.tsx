@@ -49,6 +49,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   DeviceFloppy,
+  Edit,
   Filter,
   Trash,
 } from "tabler-icons-react";
@@ -110,22 +111,30 @@ const QuizTable: React.FC = () => {
     }),
     columnHelper.accessor("q", {
       header: "問題文",
-      cell: (info) => {
-        return (
-          <span
-            onClick={() => handleChange(info.row.original)}
-            style={{ maxWidth: 500 }}
-          >
-            {info.row.original.q}
-          </span>
-        );
-      },
+      size: 500,
     }),
     columnHelper.accessor("a", {
       header: "答え",
+      size: 250,
     }),
     columnHelper.accessor("set_name", {
       header: "セット名",
+    }),
+    columnHelper.accessor("id", {
+      header: "",
+      cell: (info) => {
+        return (
+          <IconButton
+            onClick={() => handleChange(info.row.original)}
+            colorScheme="blue"
+            variant="ghost"
+            size="xs"
+            aria-label="問題情報を更新する"
+          >
+            <Edit />
+          </IconButton>
+        );
+      },
     }),
   ];
 
@@ -232,7 +241,7 @@ const QuizTable: React.FC = () => {
                           {row.getVisibleCells().map((cell) => {
                             return (
                               <Td
-                                key={cell.id}
+                                key={row.id + cell.id}
                                 maxW={cell.column.id === "q" ? 500 : 300}
                                 overflow="hidden"
                               >
