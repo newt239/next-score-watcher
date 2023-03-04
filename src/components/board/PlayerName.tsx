@@ -10,31 +10,32 @@ type PlayerNameProps = {
 
 const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
   const isDesktop = useDeviceWidth();
-  const isVerticalView =
-    (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
+  const isVerticalView = useAtomValue(verticalViewAtom);
 
   return (
     <Flex
       sx={{
         flexDirection: !isVerticalView ? "column" : "row",
-        alignItems: !isVerticalView ? "flex-start" : "center",
+        alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
         justifyContent: "space-between",
-        height: !isVerticalView ? "50vh" : undefined,
+        height: !isVerticalView && isDesktop ? "50vh" : undefined,
       }}
     >
       <Box
         sx={{
-          writingMode: !isVerticalView ? "vertical-rl" : "horizontal-tb",
+          writingMode:
+            !isVerticalView && isDesktop ? "vertical-rl" : "horizontal-tb",
           whiteSpace: "nowrap",
           overflowX: "hidden",
           textOverflow: "ellipsis",
           textOrientation: "upright",
           fontFamily: "BIZ UDGothic",
-          fontSize: !isVerticalView
-            ? `min(calc(45vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
-            : "2rem",
+          fontSize:
+            !isVerticalView && isDesktop
+              ? `min(calc(45vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
+              : "2rem",
           fontWeight: 800,
-          w: !isVerticalView ? undefined : "100%",
+          w: !isVerticalView && isDesktop ? undefined : "100%",
         }}
       >
         {player_name}

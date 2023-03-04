@@ -37,7 +37,7 @@ const Player: React.FC<PlayerProps> = ({
   const [editableState, setEditableState] = useState<States>("playing");
 
   const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
+  const isVerticalView = useAtomValue(verticalViewAtom);
 
   useEffect(() => {
     if (score) {
@@ -76,12 +76,12 @@ const Player: React.FC<PlayerProps> = ({
         justifyContent: "space-between",
         alignItems: "stretch",
         minW: "10vw",
-        w: isVerticalView ? "45vw" : undefined,
+        w: isVerticalView && isDesktop ? "45vw" : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: !isVerticalView ? 3 : 1,
+        borderWidth: !isVerticalView && isDesktop ? 3 : 1,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
@@ -89,8 +89,8 @@ const Player: React.FC<PlayerProps> = ({
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
-        borderRadius: !isVerticalView ? "1rem" : "0.5rem",
-        overflowX: !isVerticalView ? undefined : "scroll",
+        borderRadius: !isVerticalView && isDesktop ? "1rem" : "0.5rem",
+        overflowX: !isVerticalView && isDesktop ? undefined : "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
       }}
@@ -101,14 +101,14 @@ const Player: React.FC<PlayerProps> = ({
           flexDirection: getConfig("scorewatcher-reverse-player-info", false)
             ? "column-reverse"
             : "column",
-          alignItems: !isVerticalView ? "center" : "flex-start",
-          paddingLeft: !isVerticalView ? undefined : "0.5rem",
+          alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
+          paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
         }}
       >
         {game.editable ? (
           <Box
             sx={{
-              margin: !isVerticalView ? "auto" : undefined,
+              margin: !isVerticalView && isDesktop ? "auto" : undefined,
             }}
           >
             <PlayerColorConfig

@@ -37,6 +37,7 @@ import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
+import AppOptionSwitch from "#/components/AppOptionSwitch";
 import { getConfig, setConfig } from "#/hooks/useLocalStorage";
 import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
@@ -180,23 +181,11 @@ const OptionPage: NextPageWithLayout = () => {
               onChange={() => setReversePlayerInfo((v) => !v)}
             />
           </FormControl>
-          <FormControl
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FormLabel htmlFor="vertical-view" sx={{ flexGrow: 1 }}>
-              プレイヤーを垂直に並べる
-            </FormLabel>
-            <Switch
-              id="vertical-view"
-              size="lg"
-              isChecked={verticalView}
-              onChange={() => setVerticalView((v) => !v)}
-            />
-          </FormControl>
+          <AppOptionSwitch
+            title="プレイヤーを垂直に並べる"
+            isChecked={verticalView}
+            onChange={() => setVerticalView((v) => !v)}
+          />
           <FormControl>
             <Flex
               sx={{
