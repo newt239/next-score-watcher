@@ -46,21 +46,21 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     : theme.colors.yellow[300];
 
   const ButtonCssStyle = {
-    display: desktop ? "inline" : "block",
+    display: "block",
     fontSize:
       desktop && compact
         ? "2.5vw"
         : `max(1rem, min(calc(12vw / ${children.toString().length}), 3.5vw))`,
     lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
-    width: desktop ? "100%" : compact ? "max(2.5rem, 7vw)" : "max(5rem, 14vw)",
-    maxW: desktop ? (compact ? "4.5vw" : "9.5vw") : "max(5rem, 14vw)",
+    width: "100%",
     height: !editable && desktop ? "100%" : undefined,
     margin: "auto",
     textAlign: "center",
     backgroundColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
+    overflow: "hidden",
     cursor: disabled || color === "green" || editable ? "default" : "pointer",
   };
 

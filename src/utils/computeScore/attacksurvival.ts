@@ -22,21 +22,20 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           case "through":
             return playerState;
           case "correct":
-            const newCorrect = playerState.correct + 1;
-            if (newCorrect >= game.win_point!) {
+            if (newScore + game.wrong_me <= 0) {
               return {
                 ...playerState,
                 score: newScore,
-                correct: newCorrect,
-                last_correct: qn,
-                state: "win",
+                correct: playerState.correct + 1,
+                last_wrong: qn,
+                reachState: "lose",
               };
             } else {
               return {
                 ...playerState,
                 score: newScore,
-                correct: newCorrect,
-                last_correct: qn,
+                correct: playerState.correct + 1,
+                last_wrong: qn,
               };
             }
           case "wrong":
@@ -117,6 +116,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     }
     return { ...playerState, order, text };
   });
+
   return { scoreList: playersState, winThroughPlayer };
 };
 

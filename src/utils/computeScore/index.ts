@@ -30,31 +30,43 @@ const computeScore = async (game_id: string) => {
   switch (game.rule) {
     case "normal":
       result = await normal(game, gameLogList);
+      break;
     case "nomx":
       result = await nomx(game, gameLogList);
+      break;
     case "nomx-ad":
       result = await nomxAd(game, gameLogList);
+      break;
     case "ny":
       result = await ny(game, gameLogList);
+      break;
     case "nbyn":
       result = await nbyn(game, gameLogList);
+      break;
     case "nupdown":
       result = await nupdown(game, gameLogList);
+      break;
     case "swedish10":
       result = await swedish10(game, gameLogList);
+      break;
     case "attacksurvival":
       result = await attacksurvival(game, gameLogList);
+      break;
     case "squarex":
       result = await squarex(game, gameLogList);
+      break;
     case "z":
       result = await z(game, gameLogList);
+      break;
     case "freezex":
       result = await freezex(game, gameLogList);
+      break;
     case "various-fluctuations":
       result = await variousFluctuations(game, gameLogList);
+      break;
   }
-  const webhookUrl = localStorage.getItem("scorew-webhook-url");
 
+  const webhookUrl = localStorage.getItem("scorew-webhook-url");
   if (webhookUrl && webhookUrl.includes("http")) {
     const postData = { ...result, game, gameLogList };
     console.log(postData);
@@ -66,6 +78,7 @@ const computeScore = async (game_id: string) => {
       body: JSON.stringify(postData),
     });
   }
+
   return result;
 };
 

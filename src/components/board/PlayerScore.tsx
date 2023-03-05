@@ -1,4 +1,4 @@
-import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, HStack, theme, useColorMode } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
@@ -41,7 +41,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         justifyContent: "space-evenly",
         py: !isVerticalView ? 3 : undefined,
         px: !isVerticalView ? undefined : "0.5rem",
-        gap: !isVerticalView ? 3 : 1.5,
+        gap: 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
@@ -93,14 +93,14 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex>
+          <HStack>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct")}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {numberSign("wrong")}
             </PlayerScoreButton>
-          </Flex>
+          </HStack>
         </>
       )}
       {game.rule === "nbyn" && (
