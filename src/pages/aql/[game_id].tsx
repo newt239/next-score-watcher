@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, KeyboardEvent } from "react";
 
-import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
@@ -15,7 +15,7 @@ import { AQLGameProps } from "#/components/home/OtherRules";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showLogsAtom } from "#/utils/jotai";
-
+import { colors } from "#/utils/theme";
 type AQLPlayerStateProps = {
   score: number;
   wrong: number;
@@ -218,9 +218,9 @@ const AQLPage: NextPage = () => {
           fontSize: "max(1.5rem, 1.5vw)",
           backgroundColor:
             state === "win"
-              ? theme.colors.red[colorMode === "light" ? 600 : 300]
+              ? colors.red[colorMode]
               : state === "lose"
-              ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+              ? colors.blue[colorMode]
               : undefined,
           p: 1,
           borderRadius: "1rem",
@@ -230,7 +230,7 @@ const AQLPage: NextPage = () => {
           sx={{
             color:
               state !== "playing" && colorMode === "dark"
-                ? theme.colors.gray[800]
+                ? colors.gray[800]
                 : undefined,
           }}
         >
@@ -241,7 +241,7 @@ const AQLPage: NextPage = () => {
             fontSize: "4.5rem",
             color:
               state !== "playing" && colorMode === "dark"
-                ? theme.colors.gray[800]
+                ? colors.gray[800]
                 : undefined,
           }}
         >
@@ -277,24 +277,24 @@ const AQLPage: NextPage = () => {
                     borderColor:
                       state !== "playing"
                         ? colorMode === "dark"
-                          ? theme.colors.gray[800]
+                          ? colors.gray[800]
                           : "white"
                         : wrong === 1
-                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+                        ? colors.blue[colorMode]
                         : reachState
-                        ? theme.colors.red[colorMode === "light" ? 600 : 300]
+                        ? colors.red[colorMode]
                         : undefined,
                     borderRadius: "1rem",
                     p: 2,
                     backgroundColor:
                       state !== "playing"
                         ? colorMode === "dark"
-                          ? theme.colors.gray[800]
+                          ? colors.gray[800]
                           : "white"
                         : wrong === 2
-                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+                        ? colors.blue[colorMode]
                         : colorMode === "dark"
-                        ? theme.colors.gray[800]
+                        ? colors.gray[800]
                         : "white",
                   }}
                 >
@@ -307,8 +307,7 @@ const AQLPage: NextPage = () => {
                     colorScheme="red"
                     variant="ghost"
                     sx={{
-                      color:
-                        theme.colors.red[colorMode === "light" ? 600 : 300],
+                      color: colors.red[colorMode],
                     }}
                     disabled={wrong === 2}
                   >
@@ -319,8 +318,7 @@ const AQLPage: NextPage = () => {
                     colorScheme="blue"
                     variant="ghost"
                     sx={{
-                      color:
-                        theme.colors.blue[colorMode === "light" ? 600 : 300],
+                      color: colors.blue[colorMode],
                     }}
                     disabled={wrong === 2}
                   >

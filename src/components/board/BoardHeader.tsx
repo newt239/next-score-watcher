@@ -12,7 +12,6 @@ import {
   MenuItem,
   MenuList,
   Switch,
-  theme,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -35,6 +34,7 @@ import H2 from "#/blocks/H2";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
+import { colors } from "#/utils/theme";
 
 type BoardHeaderProps = {
   game: GameDBProps;
@@ -74,13 +74,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor:
-            colorMode === "light"
-              ? theme.colors.gray[300]
-              : theme.colors.gray[500],
+            colorMode === "light" ? colors.gray[300] : colors.gray[500],
           backgroundColor:
-            colorMode === "light"
-              ? theme.colors.gray[50]
-              : theme.colors.gray[700],
+            colorMode === "light" ? colors.gray[50] : colors.gray[700],
         }}
       >
         <Box
@@ -91,9 +87,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             borderStyle: "solid",
             borderWidth: desktop ? "thin" : 0,
             borderColor:
-              colorMode === "light"
-                ? theme.colors.gray[300]
-                : theme.colors.gray[500],
+              colorMode === "light" ? colors.gray[300] : colors.gray[500],
             borderRadius: "1rem",
             padding: desktop ? 3 : undefined,
             maxWidth: "70vw",
@@ -135,8 +129,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   <div
                     style={{
                       textAlign: "right",
-                      color:
-                        theme.colors.red[colorMode === "light" ? 600 : 300],
+                      color: colors.red[colorMode],
                       fontWeight: 800,
                     }}
                   >
@@ -144,8 +137,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                       style={{
                         backgroundColor:
                           colorMode === "light"
-                            ? theme.colors.gray[50]
-                            : theme.colors.gray[700],
+                            ? colors.gray[50]
+                            : colors.gray[700],
                       }}
                     >
                       {logs.length === 0
@@ -165,9 +158,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               variant="outline"
               sx={{
                 borderColor:
-                  colorMode === "light"
-                    ? theme.colors.gray[300]
-                    : theme.colors.gray[500],
+                  colorMode === "light" ? colors.gray[300] : colors.gray[500],
               }}
             />
             <MenuList>

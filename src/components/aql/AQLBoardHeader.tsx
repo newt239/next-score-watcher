@@ -11,7 +11,6 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  theme,
   useColorMode,
   Switch,
   useDisclosure,
@@ -34,6 +33,7 @@ import ShortcutGuideModal from "../board/ShortcutGuideModal";
 import H2 from "#/blocks/H2";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { LogDBProps, QuizDBProps } from "#/utils/db";
+import { colors } from "#/utils/theme";
 
 type AQLBoardHeaderProps = {
   name: string;
@@ -84,13 +84,9 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor:
-            colorMode === "light"
-              ? theme.colors.gray[300]
-              : theme.colors.gray[500],
+            colorMode === "light" ? colors.gray[300] : colors.gray[500],
           backgroundColor:
-            colorMode === "light"
-              ? theme.colors.gray[50]
-              : theme.colors.gray[700],
+            colorMode === "light" ? colors.gray[50] : colors.gray[700],
         }}
       >
         <Box
@@ -101,9 +97,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             borderStyle: "solid",
             borderWidth: desktop ? "thin" : 0,
             borderColor:
-              colorMode === "light"
-                ? theme.colors.gray[300]
-                : theme.colors.gray[500],
+              colorMode === "light" ? colors.gray[300] : colors.gray[500],
             borderRadius: "1rem",
             padding: desktop ? 3 : undefined,
             maxWidth: "70vw",
@@ -144,7 +138,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 <Box
                   sx={{
                     textAlign: "right",
-                    color: theme.colors.red[colorMode === "light" ? 600 : 300],
+                    color: colors.red[colorMode],
                     fontWeight: 800,
                   }}
                 >
@@ -152,8 +146,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                     sx={{
                       backgroundColor:
                         colorMode === "light"
-                          ? theme.colors.gray[50]
-                          : theme.colors.gray[700],
+                          ? colors.gray[50]
+                          : colors.gray[700],
                     }}
                   >
                     {logs.length === 0
@@ -173,9 +167,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               variant="outline"
               sx={{
                 borderColor:
-                  colorMode === "light"
-                    ? theme.colors.gray[300]
-                    : theme.colors.gray[500],
+                  colorMode === "light" ? colors.gray[300] : colors.gray[500],
               }}
             />
             <MenuList>

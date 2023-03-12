@@ -1,3 +1,10 @@
+* {
+  box-sizing: border-box;
+  font-family: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+    sans-serif;
+}
+
 html,
 body {
   padding: 0;
@@ -7,13 +14,6 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-  font-family: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, Segoe UI,
-    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-    sans-serif;
 }
 
 ::-webkit-scrollbar {

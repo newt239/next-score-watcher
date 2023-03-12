@@ -29,7 +29,6 @@ import {
   Card,
   CardBody,
   useColorMode,
-  theme,
   useDisclosure,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -39,13 +38,7 @@ import {
   Droppable,
   type DropResult,
 } from "react-beautiful-dnd";
-import {
-  CirclePlus,
-  InfoCircle,
-  Plus,
-  Settings,
-  Upload,
-} from "tabler-icons-react";
+import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
 
 import CompactPlayerTable from "./CompactPlayerTable";
 import IndividualConfig from "./IndividualConfig";
@@ -54,6 +47,7 @@ import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
+import { colors } from "#/utils/theme";
 
 const reorder = (
   list: GameDBPlayerProps[],
@@ -284,9 +278,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                   mt: 5,
                   p: 3,
                   backgroundColor:
-                    colorMode === "dark"
-                      ? theme.colors.gray[600]
-                      : theme.colors.gray[300],
+                    colorMode === "dark" ? colors.gray[600] : colors.gray[300],
                 }}
               >
                 <DragDropContext onDragEnd={onDragEnd}>
@@ -316,8 +308,8 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                                 {...provided.dragHandleProps}
                                 bgColor={
                                   colorMode === "dark"
-                                    ? theme.colors.gray[700]
-                                    : theme.colors.gray[200]
+                                    ? colors.gray[700]
+                                    : colors.gray[200]
                                 }
                               >
                                 <CardBody>

@@ -19,7 +19,7 @@ const RuleList: React.FC = () => {
   const ruleNameList = Object.keys(rules) as RuleNames[];
 
   return (
-    <Box pt={5}>
+    <>
       <H2>形式一覧</H2>
       <SimpleGrid
         pt={5}
@@ -54,7 +54,7 @@ const RuleList: React.FC = () => {
           );
         })}
       </SimpleGrid>
-    </Box>
+    </>
   );
 };
 

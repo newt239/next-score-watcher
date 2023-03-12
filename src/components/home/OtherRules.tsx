@@ -1,6 +1,6 @@
 import NextLink from "next/link";
 
-import { Box, Link, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Link, ListItem, UnorderedList } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
 
@@ -18,7 +18,7 @@ export type AQLGameProps = {
 
 const OtherRules: React.FC = () => {
   return (
-    <Box pt={5}>
+    <>
       <H2>その他の形式</H2>
       <UnorderedList pt={5}>
         <ListItem>
@@ -27,7 +27,7 @@ const OtherRules: React.FC = () => {
           </NextLink>
         </ListItem>
       </UnorderedList>
-    </Box>
+    </>
   );
 };
 
