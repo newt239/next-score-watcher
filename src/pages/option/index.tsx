@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
 import router from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 import {
   AlertDialog,
@@ -20,17 +20,13 @@ import {
   Icon,
   Input,
   Link,
-  ListItem,
   Stack,
-  Switch,
   Table,
   TableContainer,
   Tbody,
   Td,
-  Text,
   Th,
   Tr,
-  UnorderedList,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -178,18 +174,6 @@ const OptionPage: NextPageWithLayout = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-      <H2>お問い合わせ</H2>
-      <Box py={5}>
-        <Text>
-          <Link href="https://twitter.com/newt239" isExternal color="blue.500">
-            開発者のTwitter
-            <Icon>
-              <ExternalLink />
-            </Icon>
-          </Link>
-          からお願いします。
-        </Text>
-      </Box>
       <H2>アプリ情報</H2>
       <Container py={5}>
         <TableContainer>
