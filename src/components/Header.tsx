@@ -1,4 +1,4 @@
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useLocation } from "react-router-dom";
 
 import {
   Box,
@@ -13,6 +13,7 @@ import Logo from "#/assets/logo.png";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
+  const location = useLocation();
   const desktop = useDeviceWidth();
   const { colorMode } = useColorMode();
 
@@ -39,6 +40,12 @@ const Header: React.FC = () => {
       </Flex>
     );
   };
+
+  if (
+    location.pathname.includes("board") ||
+    location.pathname.includes("/aql/")
+  )
+    return null;
 
   return (
     <Box

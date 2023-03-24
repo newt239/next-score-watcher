@@ -8,6 +8,7 @@ import {
   AlertTitle,
   Box,
   Button,
+  Container,
   Tab,
   TabList,
   TabPanel,
@@ -26,7 +27,7 @@ import PlayerTable from "#/components/player/PlayerTable";
 const PlayerPage = () => {
   const { from } = useParams();
   return (
-    <>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       {typeof from === "string" && (
         <Box>
           <ReactLink to={`/${from}/config`}>
@@ -74,7 +75,7 @@ const PlayerPage = () => {
         </Alert>
       </Box>
       <PlayerTable />
-    </>
+    </Container>
   );
 };
 

@@ -21,6 +21,7 @@ import {
   NumberInputStepper,
   Select,
   Box,
+  Container,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -97,7 +98,7 @@ const AQLPage = () => {
     );
   }, [aqlGames]);
   return (
-    <>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       <H2>AQLルール</H2>
       {aqlGames && aqlGames.length !== 0 && (
         <>
@@ -234,7 +235,7 @@ const AQLPage = () => {
           作る
         </Button>
       </Box>
-    </>
+    </Container>
   );
 };
 

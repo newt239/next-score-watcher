@@ -47,7 +47,7 @@ const BoardPage = () => {
         .filter((v): v is PlayerDBProps => v !== undefined);
       setPlayers(gamePlayers);
     }
-  }, [playerList]);
+  }, [playerList, game]);
 
   const [winThroughPlayer, setWinThroughPlayer] = useState<{
     name: string;

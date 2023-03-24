@@ -12,8 +12,9 @@ import {
   FormControl,
   Box,
   Button,
+  Container,
 } from "@chakra-ui/react";
-import { ArrowBackUp, Layout } from "tabler-icons-react";
+import { ArrowBackUp } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
@@ -27,7 +28,7 @@ const QuizPage = () => {
   const [setName, setSetName] = useState<string>("セット1");
 
   return (
-    <>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       {typeof from === "string" && (
         <Box>
           <Button
@@ -68,7 +69,7 @@ const QuizPage = () => {
         </Tabs>
       </Box>
       <QuizTable />
-    </>
+    </Container>
   );
 };
 

@@ -9,6 +9,7 @@ import {
   Box,
   Button,
   Flex,
+  Container,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -51,7 +52,7 @@ const ConfigPage = () => {
   const disabled = logs.length !== 0;
 
   return (
-    <>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       {disabled && (
         <Alert status="error">
           ゲームは開始済みです。一部の設定は変更できません。
@@ -199,7 +200,7 @@ const ConfigPage = () => {
           )}
         </Flex>
       </Box>
-    </>
+    </Container>
   );
 };
 

@@ -19,7 +19,7 @@ type AQLPlayerStateProps = {
   wrong: number;
 };
 
-const AQLPage = () => {
+const AQLBoardPage = () => {
   const isDesktop = useDeviceWidth(800);
   const { game_id } = useParams();
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
@@ -365,4 +365,4 @@ const AQLPage = () => {
   );
 };
 
-export default AQLPage;
+export default AQLBoardPage;
