@@ -18,7 +18,7 @@ const UpdateModal: React.FC = () => {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const currentVersion = localStorage.getItem("scorewatcher-version");
-  const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
+  const latestVersion = import.meta.env.VITE_APP_VERSION;
 
   useEffect(() => {
     if (!currentVersion) {
@@ -30,7 +30,7 @@ const UpdateModal: React.FC = () => {
 
   const update = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);
-    router.reload();
+    navigate(0);
   };
 
   return (

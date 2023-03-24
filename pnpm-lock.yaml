@@ -24,12 +24,12 @@ specifiers:
   prettier: 2.8.1
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-ga4: ^2.1.0
   react-rewards: ^2.0.4
   react-router-dom: ^6.9.0
   tabler-icons-react: ^1.56.0
   typescript: ^4.9.3
   vite: ^4.2.0
-  vite-tsconfig-paths: ^4.0.7
 
 dependencies:
   '@chakra-ui/react': 2.5.3_u2ncbuhn2wsnc7epp3ngi7slxm
@@ -46,6 +46,7 @@ dependencies:
   nanoid: 4.0.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-ga4: 2.1.0
   react-rewards: 2.0.4_biqbaboplfbrettd7655fr4n2y
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
   tabler-icons-react: 1.56.0_react@18.2.0
@@ -62,7 +63,6 @@ devDependencies:
   prettier: 2.8.1
   typescript: 4.9.5
   vite: 4.2.1_@types+node@18.15.7
-  vite-tsconfig-paths: 4.0.7_27d6rnnqnnz33bvg4pqy2xno6y
 
 packages:
 
@@ -2584,10 +2584,6 @@ packages:
       define-properties: 1.2.0
     dev: true
 
-  /globrex/0.1.2:
-    resolution: {integrity: sha512-uHJgbwAMwNFf5mLst7IWLNg14x1CkeqglJb/K3doi4dw6q2IvAAmM/Y81kevy83wP+Sst+nutFTYOGg3d1lsxg==}
-    dev: true
-
   /gopd/1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
     dependencies:
@@ -3116,6 +3112,10 @@ packages:
       use-sidecar: 1.1.2_pmekkgnqduwlme35zpnqhenc34
     dev: false
 
+  /react-ga4/2.1.0:
+    resolution: {integrity: sha512-ZKS7PGNFqqMd3PJ6+C2Jtz/o1iU9ggiy8Y8nUeksgVuvNISbmrQtJiZNvC/TjDsqD0QlU5Wkgs7i+w9+OjHhhQ==}
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -3401,19 +3401,6 @@ packages:
     resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
     dev: false
 
-  /tsconfck/2.1.1_typescript@4.9.5:
-    resolution: {integrity: sha512-ZPCkJBKASZBmBUNqGHmRhdhM8pJYDdOXp4nRgj/O0JwUwsMq50lCDRQP/M5GBNAA0elPrq4gAeu4dkaVCuKWww==}
-    engines: {node: ^14.13.1 || ^16 || >=18}
-    hasBin: true
-    peerDependencies:
-      typescript: ^4.3.5 || ^5.0.0
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      typescript: 4.9.5
-    dev: true
-
   /tsconfig-paths/3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
     dependencies:
@@ -3502,23 +3489,6 @@ packages:
       react: 18.2.0
       tslib: 2.5.0
     dev: false
-
-  /vite-tsconfig-paths/4.0.7_27d6rnnqnnz33bvg4pqy2xno6y:
-    resolution: {integrity: sha512-MwIYaby6kcbQGZqMH+gAK6h0UYQGOkjsuAgw4q6bP/5vWkn8VKvnmLuCQHA2+IzHAJHnE8OFTO4lnJLFMf9+7Q==}
-    peerDependencies:
-      vite: '*'
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-      globrex: 0.1.2
-      tsconfck: 2.1.1_typescript@4.9.5
-      vite: 4.2.1_@types+node@18.15.7
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: true
 
   /vite/4.2.1_@types+node@18.15.7:
     resolution: {integrity: sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==}

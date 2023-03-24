@@ -1,4 +1,4 @@
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+export const GA_ID = import.meta.env.import.meta.VITE_APP_GA_ID || "";
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 // PV 数の計測

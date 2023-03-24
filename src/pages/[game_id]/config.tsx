@@ -12,17 +12,17 @@ import {
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Layout, PlayerPlay, Trash } from "tabler-icons-react";
+import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
-import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
+import SelectPlayer from "#/components/config/SelectPlayer";
 
 const ConfigPage = () => {
   const navigate = useNavigate();

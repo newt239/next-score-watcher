@@ -1,7 +1,13 @@
-import Image from "next/image";
 import { Link as ReactLink } from "react-router-dom";
 
-import { Box, Button, Flex, Spacer, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Spacer,
+  Image,
+  useColorMode,
+} from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
@@ -26,7 +32,7 @@ const Header: React.FC = () => {
         }}
       >
         {linkList.map((link) => (
-          <ReactLink key={link.path} href={link.path}>
+          <ReactLink key={link.path} to={link.path}>
             <Button variant="ghost">{link.text}</Button>
           </ReactLink>
         ))}
@@ -67,7 +73,7 @@ const Header: React.FC = () => {
           <ReactLink to="/">
             <Image
               src={Logo}
-              style={{
+              sx={{
                 height: "auto",
                 width: "auto",
                 maxHeight: "7vh",

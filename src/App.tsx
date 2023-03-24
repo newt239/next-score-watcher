@@ -12,7 +12,7 @@ import ConfigPage from "#/pages/[game_id]/config";
 import BoardPage from "#/pages/[game_id]/board";
 import AQLPage from "./pages/aql";
 
-import "#/styles/global.css";
+import "#/styles/globals.css";
 
 function App() {
   const isDesktop = useDeviceWidth();

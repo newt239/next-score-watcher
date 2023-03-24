@@ -1,6 +1,6 @@
 import { Link as ReactLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Accordion,
@@ -33,20 +33,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  type DropResult,
-} from "react-beautiful-dnd";
-import {
-  CirclePlus,
-  InfoCircle,
-  Plus,
-  Settings,
-  Upload,
-} from "tabler-icons-react";
-
+import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
+import { Sortable } from "@shopify/draggable";
 import CompactPlayerTable from "./CompactPlayerTable";
 import IndividualConfig from "./IndividualConfig";
 
@@ -83,7 +71,6 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const toast = useToast();
-  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
@@ -91,6 +78,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef(null);
 
   const isDesktop = useDeviceWidth();
 
@@ -134,7 +122,18 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     nameInputRef.current?.focus();
   };
 
-  const onDragEnd = async (result: DropResult) => {
+  useEffect(() => {
+    const sort = new Sortable(containerRef.current, {
+      draggable: ".sortable-item",
+      mirror: {
+        appendTo: ".sortable-container",
+      },
+    });
+    sort.on("sortable:stop", (v: any) => console.log(v));
+    return () => sort.destroy();
+  }, []);
+
+  const onDragEnd = async (result: any) => {
     // ドロップ先がない
     if (!result.destination) {
       return;
@@ -260,9 +259,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       <AccordionPanel pb={4}>
                         {playerList.length === 0 ? (
                           <Box py={3}>
-                            <ReactLink to="/player" passHref>
-                              <Link>プレイヤー管理</Link>
-                            </ReactLink>
+                            <Link as={ReactLink} to="/player" color="blue.500">
+                              プレイヤー管理
+                            </Link>
                             ページから一括でプレイヤー情報を登録できます。
                           </Box>
                         ) : (
@@ -289,96 +288,72 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       : theme.colors.gray[300],
                 }}
               >
-                <DragDropContext onDragEnd={onDragEnd}>
-                  <Droppable
-                    droppableId="droppable"
-                    direction={isDesktop ? "horizontal" : "vertical"}
-                  >
-                    {(provided) => (
-                      <Flex
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        sx={{
-                          flexDirection: isDesktop ? "row" : "column",
-                          gap: 3,
-                        }}
-                      >
-                        {players.map((gamePlayer, index) => (
-                          <Draggable
-                            key={gamePlayer.id}
-                            draggableId={gamePlayer.id}
-                            index={index}
+                <Flex
+                  ref={containerRef}
+                  className="sortable-container"
+                  sx={{
+                    flexDirection: isDesktop ? "row" : "column",
+                    gap: 3,
+                  }}
+                >
+                  {players.map((gamePlayer, index) => (
+                    <Card
+                      className="sortable-item"
+                      bgColor={
+                        colorMode === "dark"
+                          ? theme.colors.gray[700]
+                          : theme.colors.gray[200]
+                      }
+                    >
+                      <CardBody>
+                        <Flex
+                          sx={{
+                            flexDirection: isDesktop ? "column" : "row",
+                            gap: 3,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            height: "100%",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              writingMode: isDesktop
+                                ? "vertical-rl"
+                                : "horizontal-tb",
+                              whiteSpace: "nowrap",
+                              textOrientation: "upright",
+                            }}
                           >
-                            {(provided, snapshot) => (
-                              <Card
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                bgColor={
-                                  colorMode === "dark"
-                                    ? theme.colors.gray[700]
-                                    : theme.colors.gray[200]
-                                }
-                              >
-                                <CardBody>
-                                  <Flex
-                                    sx={{
-                                      flexDirection: isDesktop
-                                        ? "column"
-                                        : "row",
-                                      gap: 3,
-                                      justifyContent: "space-between",
-                                      alignItems: "center",
-                                      height: "100%",
-                                    }}
-                                  >
-                                    <Box
-                                      sx={{
-                                        writingMode: isDesktop
-                                          ? "vertical-rl"
-                                          : "horizontal-tb",
-                                        whiteSpace: "nowrap",
-                                        textOrientation: "upright",
-                                      }}
-                                    >
-                                      <Text size="xl">{gamePlayer.name}</Text>
-                                    </Box>
-                                    <IndividualConfig
-                                      onClick={() => {
-                                        setCurrentPlayerIndex(index);
-                                        onOpen();
-                                      }}
-                                      isOpen={isOpen}
-                                      onClose={() => {
-                                        setCurrentPlayerIndex(0);
-                                        onClose();
-                                      }}
-                                      game_id={game_id}
-                                      rule_name={rule_name}
-                                      players={players}
-                                      index={currentPlayerIndex}
-                                      correct={[
-                                        "normal",
-                                        "nomx",
-                                        "nomx-ad",
-                                        "various-fluctuations",
-                                      ].includes(rule_name)}
-                                      wrong={["nomx", "nomx-ad"].includes(
-                                        rule_name
-                                      )}
-                                      disabled={disabled}
-                                    />
-                                  </Flex>
-                                </CardBody>
-                              </Card>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </Flex>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                            <Text size="xl">{gamePlayer.name}</Text>
+                          </Box>
+                          <IndividualConfig
+                            onClick={() => {
+                              setCurrentPlayerIndex(index);
+                              onOpen();
+                            }}
+                            isOpen={isOpen}
+                            onClose={() => {
+                              setCurrentPlayerIndex(0);
+                              onClose();
+                            }}
+                            game_id={game_id}
+                            rule_name={rule_name}
+                            players={players}
+                            index={currentPlayerIndex}
+                            correct={[
+                              "normal",
+                              "nomx",
+                              "nomx-ad",
+                              "various-fluctuations",
+                            ].includes(rule_name)}
+                            wrong={["nomx", "nomx-ad"].includes(rule_name)}
+                            disabled={disabled}
+                          />
+                        </Flex>
+                      </CardBody>
+                    </Card>
+                  ))}
+                </Flex>
               </Box>
             )}
           </>

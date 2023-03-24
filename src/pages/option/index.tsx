@@ -57,7 +57,7 @@ const OptionPage = () => {
   );
   const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
   const [WebhookUrl, setWebhookUrl] = useAtom(webhookUrlAtom);
-  const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
+  const latestVersion = import.meta.env.VITE_APP_VERSION;
 
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();

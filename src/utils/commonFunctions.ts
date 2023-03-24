@@ -1,10 +1,8 @@
-import router from "next/router";
-
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
+import ReactGA from "react-ga4";
 
 import db, { RuleNames, GameDBProps } from "./db";
-import { event } from "./gtag";
 import { rules } from "./rules";
 
 export const createGame = async (
@@ -19,8 +17,7 @@ export const createGame = async (
       id: nanoid(),
       name: name ? name : rules[game.rule].name,
     });
-    navigate(`/${game_id}/config`);
-    return;
+    return game_id;
   }
   try {
     const game_id = nanoid(6);
@@ -79,8 +76,13 @@ export const createGame = async (
         putData.win_point = rules[rule_name].win_point;
         break;
     }
-    event({ action: rule_name, category: "create_game", label: game_id });
-    navigate(`/${await db.games.put(putData)}/config`);
+    ReactGA.send({
+      action: rule_name,
+      category: "create_game",
+      label: game_id,
+    });
+    await db.games.put(putData);
+    return game_id;
   } catch (err) {
     console.log(err);
   }
