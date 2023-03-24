@@ -305,8 +305,8 @@ const PlayerTable: React.FC = () => {
                 <Thead>
                   {table.getHeaderGroups().map((headerGroup) => (
                     <Tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <Th key={header.id} colSpan={header.colSpan}>
+                      {headerGroup.headers.map((header, i) => (
+                        <Th key={i} colSpan={header.colSpan}>
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -321,10 +321,10 @@ const PlayerTable: React.FC = () => {
                 <Tbody>
                   {table.getRowModel().rows.map((row) => {
                     return (
-                      <Tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => {
+                      <Tr key={row.original.id}>
+                        {row.getVisibleCells().map((cell, i) => {
                           return (
-                            <Td key={cell.id}>
+                            <Td key={`${row.original.id}_${i}`}>
                               {flexRender(
                                 cell.column.columnDef.cell,
                                 cell.getContext()
