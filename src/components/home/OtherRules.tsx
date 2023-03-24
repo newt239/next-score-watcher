@@ -22,9 +22,9 @@ const OtherRules: React.FC = () => {
       <H2>その他の形式</H2>
       <UnorderedList pt={5}>
         <ListItem>
-          <NextLink href="/aql">
-            <Link color="blue.500">AQLルール</Link>
-          </NextLink>
+          <Link as={NextLink} href="/aql" color="blue.500">
+            AQLルール
+          </Link>
         </ListItem>
       </UnorderedList>
     </>
