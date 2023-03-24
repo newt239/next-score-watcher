@@ -1,6 +1,5 @@
 {
   "extends": [
-    "next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:import/warnings",
     "prettier"
@@ -23,7 +22,7 @@
         ],
         "pathGroups": [
           {
-            "pattern": "{react,react-dom/**,react-router-dom,next,next/**}",
+            "pattern": "{react,react-dom/**,react-router-dom}",
             "group": "builtin",
             "position": "before"
           }

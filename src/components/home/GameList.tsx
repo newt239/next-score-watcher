@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import {
   Box,
+  HStack,
   IconButton,
   Menu,
   MenuButton,
@@ -98,54 +99,58 @@ const GameList: React.FC = () => {
                     <Td>{gameState}</Td>
                     <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>
                     <Td sx={{ textAlign: "right" }}>
-                      <NextLink href={`/${game.id}/config`}>
-                        <Button
-                          size="sm"
-                          colorScheme="green"
-                          variant="ghost"
-                          leftIcon={<AdjustmentsHorizontal />}
-                        >
-                          設定
-                        </Button>
-                      </NextLink>
-                      <Menu>
-                        <MenuButton
-                          as={IconButton}
-                          aria-label="Options"
-                          icon={<DotsCircleHorizontal />}
-                          size="sm"
-                          variant="ghost"
-                        />
-                        <MenuList>
-                          <MenuItem
-                            icon={<Copy />}
-                            onClick={() =>
-                              createGame(
-                                game.rule,
-                                game,
-                                `${game.name}のコピー`,
-                                "copy"
-                              )
-                            }
+                      <HStack sx={{ justifyContent: "flex-end" }}>
+                        <NextLink href={`/${game.id}/config`}>
+                          <Button
+                            size="sm"
+                            colorScheme="green"
+                            variant="ghost"
+                            leftIcon={<AdjustmentsHorizontal />}
                           >
-                            コピーを作成
-                          </MenuItem>
-                          {game.players.length !== 0 && (
-                            <NextLink href={`/${game.id}/board`}>
-                              <MenuItem icon={<Chalkboard />}>
-                                得点画面を開く
-                              </MenuItem>
-                            </NextLink>
-                          )}
-                          <MenuItem
-                            icon={<Trash />}
-                            color="red.500"
-                            onClick={async () => await db.games.delete(game.id)}
-                          >
-                            ゲームを削除
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
+                            開く
+                          </Button>
+                        </NextLink>
+                        <Menu>
+                          <MenuButton
+                            as={IconButton}
+                            aria-label="Options"
+                            icon={<DotsCircleHorizontal />}
+                            size="sm"
+                            variant="ghost"
+                          />
+                          <MenuList>
+                            <MenuItem
+                              icon={<Copy />}
+                              onClick={() =>
+                                createGame(
+                                  game.rule,
+                                  game,
+                                  `${game.name}のコピー`,
+                                  "copy"
+                                )
+                              }
+                            >
+                              コピーを作成
+                            </MenuItem>
+                            {game.players.length !== 0 && (
+                              <NextLink href={`/${game.id}/board`}>
+                                <MenuItem icon={<Chalkboard />}>
+                                  得点画面を開く
+                                </MenuItem>
+                              </NextLink>
+                            )}
+                            <MenuItem
+                              icon={<Trash />}
+                              color="red.500"
+                              onClick={async () =>
+                                await db.games.delete(game.id)
+                              }
+                            >
+                              ゲームを削除
+                            </MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </HStack>
                     </Td>
                   </Tr>
                 );

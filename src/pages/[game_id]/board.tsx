@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { KeyboardEvent, useEffect, useState } from "react";
 
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, theme } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
@@ -18,7 +18,6 @@ import computeScore from "#/utils/computeScore";
 import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
-import { colors } from "#/utils/theme";
 
 const BoardPage: NextPage = () => {
   const router = useRouter();
@@ -127,7 +126,7 @@ const BoardPage: NextPage = () => {
             textOrientation: "upright",
             h: "100vh",
             w: "1vw",
-            backgroundColor: colors.green.dark,
+            backgroundColor: theme.colors.green[500],
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
             zIndex: 10,

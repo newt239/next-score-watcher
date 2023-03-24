@@ -1,4 +1,4 @@
-import { Flex, HStack, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, HStack, theme, useColorMode } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
@@ -6,7 +6,6 @@ import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/commonFunctions";
 import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 import { verticalViewAtom } from "#/utils/jotai";
-import { colors } from "#/utils/theme";
 
 type PlayerScoreProps = {
   game: GameDBProps;
@@ -43,10 +42,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         py: !isVerticalView ? 3 : undefined,
         px: !isVerticalView ? undefined : "0.5rem",
         gap: 1.5,
-        backgroundColor: colorMode === "light" ? "white" : colors.gray[800],
+        backgroundColor:
+          colorMode === "light" ? "white" : theme.colors.gray[800],
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: colorMode === "light" ? "white" : colors.gray[800],
+        borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
         borderRadius: !isVerticalView
           ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
           : "0 calc(0.5rem - 2px) calc(0.5rem - 2px) 0",

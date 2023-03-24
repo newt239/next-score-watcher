@@ -28,7 +28,6 @@ const AppOptionSwitch: React.FC<AppOptionSwitchProps> = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        pt: 5,
       }}
     >
       <Box>

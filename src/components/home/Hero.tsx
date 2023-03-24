@@ -13,6 +13,8 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  Text,
+  theme,
 } from "@chakra-ui/react";
 
 import H2 from "#/blocks/H2";
@@ -64,23 +66,42 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <>
+    <Box>
       <Box sx={{ textAlign: "center" }}>
         <Heading as="h1" size="2xl">
           Score Watcher
         </Heading>
-        <p>競技クイズ用得点表示ソフト</p>
+        <Text>競技クイズ用得点表示ソフト</Text>
       </Box>
       <Box>
         <H2>主な機能</H2>
         {isDesktop ? (
-          <Tabs isManual colorScheme="green" sx={{ pt: 5 }}>
-            <TabList>
+          <Tabs
+            isManual
+            variant="soft-rounded"
+            orientation="vertical"
+            colorScheme="green"
+            sx={{ pt: 5 }}
+          >
+            <TabList sx={{ whiteSpace: "nowrap" }}>
               {features.map((feature) => (
-                <Tab key={feature.title}>{feature.title}</Tab>
+                <Tab
+                  key={feature.title}
+                  sx={{
+                    justifyContent: "flex-start",
+                    borderRadius: "1rem 0 0 1rem",
+                  }}
+                >
+                  {feature.title}
+                </Tab>
               ))}
             </TabList>
-            <TabPanels>
+            <TabPanels
+              sx={{
+                border: `3px solid ${theme.colors.green[100]}`,
+                borderRadius: "0 1rem 1rem 0",
+              }}
+            >
               {features.map((feature) => (
                 <TabPanel key={feature.title}>
                   <H3 pt={0}>{feature.title}</H3>
@@ -94,12 +115,12 @@ const Hero: React.FC = () => {
                         />
                       </Box>
                       <Box w="30%">
-                        <p>{feature.description}</p>
+                        <Text>{feature.description}</Text>
                       </Box>
                     </Flex>
                   ) : (
                     <Box sx={{ p: 3 }}>
-                      <p>{feature.description}</p>
+                      <Text>{feature.description}</Text>
                     </Box>
                   )}
                 </TabPanel>
@@ -126,14 +147,14 @@ const Hero: React.FC = () => {
                       sx={{ borderRadius: "1rem" }}
                     />
                   )}
-                  <p>{feature.description}</p>
+                  <Text pt={3}>{feature.description}</Text>
                 </AccordionPanel>
               </AccordionItem>
             ))}
           </Accordion>
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 

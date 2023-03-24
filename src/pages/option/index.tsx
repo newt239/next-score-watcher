@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from "next";
 import Head from "next/head";
 import router from "next/router";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   AlertDialog,
@@ -13,18 +13,24 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   Icon,
   Input,
   Link,
+  ListItem,
+  Stack,
+  Switch,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Tr,
+  UnorderedList,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -75,76 +81,78 @@ const OptionPage: NextPageWithLayout = () => {
       </Head>
       <H2>アプリ設定</H2>
       <Container py={5}>
-        <AppOptionSwitch
-          title="ダークモード"
-          isChecked={colorMode === "dark"}
-          onChange={() => toggleColorMode()}
-        />
-        <AppOptionSwitch
-          title="勝ち抜け時にポップアップを表示"
-          isChecked={showWinthroughPopup}
-          onChange={() => showSetWinthroughPopup((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="スコアに「○」「✕」「pt」の文字列を付与する"
-          label="視聴者が数字の意味を理解しやすくなります。"
-          isChecked={showSignString}
-          onChange={() => setShowSignString((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="得点表示画面下にログを表示"
-          isChecked={showLogs}
-          onChange={() => setShowLogs((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="スコアを名前の前に表示"
-          isChecked={reversePlayerInfo}
-          onChange={() => setReversePlayerInfo((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="プレイヤーを垂直に並べる"
-          isChecked={verticalView}
-          onChange={() => setVerticalView((v) => !v)}
-        />
-        <FormControl
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            pt: 5,
-          }}
-        >
-          <Box>
-            <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
-            <FormHelperText>
-              [β版]イベント発生時設定されたURLへPOSTリクエストを送信します。
-            </FormHelperText>
-          </Box>
-          <Input
-            value={WebhookUrl}
-            onChange={(v) => setWebhookUrl(v.target.value)}
-            placeholder="https://score-watcher.newt239.dev/api"
-            w="50%"
+        <Stack sx={{ gap: 5 }}>
+          <AppOptionSwitch
+            title="ダークモード"
+            isChecked={colorMode === "dark"}
+            onChange={() => toggleColorMode()}
           />
-        </FormControl>
-        <FormControl
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            pt: 5,
-          }}
-        >
-          <Box>
-            <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
-            <FormHelperText>
-              アプリが上手く動作しない場合にお試しください。
-            </FormHelperText>
-          </Box>
-          <Button colorScheme="red" onClick={onOpen}>
-            初期化する
-          </Button>
-        </FormControl>
+          <AppOptionSwitch
+            title="勝ち抜け時にポップアップを表示"
+            isChecked={showWinthroughPopup}
+            onChange={() => showSetWinthroughPopup((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="スコアに「○」「✕」「pt」の文字列を付与する"
+            label="視聴者が数字の意味を理解しやすくなります。"
+            isChecked={showSignString}
+            onChange={() => setShowSignString((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="得点表示画面下にログを表示"
+            isChecked={showLogs}
+            onChange={() => setShowLogs((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="スコアを名前の前に表示"
+            isChecked={reversePlayerInfo}
+            onChange={() => setReversePlayerInfo((v) => !v)}
+          />
+          <AppOptionSwitch
+            title="プレイヤーを垂直に並べる"
+            isChecked={verticalView}
+            onChange={() => setVerticalView((v) => !v)}
+          />
+          <FormControl>
+            <Flex
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box>
+                <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
+                <FormHelperText>
+                  [β版]イベント発生時設定されたURLへPOSTリクエストを送信します。
+                </FormHelperText>
+              </Box>
+              <Input
+                value={WebhookUrl}
+                onChange={(v) => setWebhookUrl(v.target.value)}
+                placeholder="https://score-watcher.newt239.dev/api"
+                w="50%"
+              />
+            </Flex>
+          </FormControl>
+          <FormControl>
+            <Flex
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box>
+                <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
+                <FormHelperText>
+                  アプリが上手く動作しない場合にお試しください。
+                </FormHelperText>
+              </Box>
+              <Button colorScheme="red" onClick={onOpen}>
+                初期化する
+              </Button>
+            </Flex>
+          </FormControl>
+        </Stack>
       </Container>
       <AlertDialog
         isOpen={isOpen}
@@ -170,6 +178,18 @@ const OptionPage: NextPageWithLayout = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+      <H2>お問い合わせ</H2>
+      <Box py={5}>
+        <Text>
+          <Link href="https://twitter.com/newt239" isExternal color="blue.500">
+            開発者のTwitter
+            <Icon>
+              <ExternalLink />
+            </Icon>
+          </Link>
+          からお願いします。
+        </Text>
+      </Box>
       <H2>アプリ情報</H2>
       <Container py={5}>
         <TableContainer>

@@ -3,6 +3,7 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
+  theme,
   useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -10,7 +11,6 @@ import { nanoid } from "nanoid";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
-import { colors } from "#/utils/theme";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
@@ -36,12 +36,14 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const { colorMode } = useColorMode();
   const desktop = useDeviceWidth();
 
-  const defaultColor = colorMode === "light" ? "white" : colors.gray[800];
+  const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
   const variantColor = ["red", "win"].includes(color)
-    ? colors.red[colorMode]
+    ? theme.colors.red[colorMode === "light" ? 600 : 300]
     : ["blue", "lose"].includes(color)
-    ? colors.blue[colorMode]
-    : colors.green[colorMode];
+    ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+    : colorMode === "light"
+    ? theme.colors.green[600]
+    : theme.colors.yellow[300];
 
   const ButtonCssStyle = {
     display: "block",

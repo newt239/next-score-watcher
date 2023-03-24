@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { useColorMode, Flex, Box } from "@chakra-ui/react";
+import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
@@ -13,7 +13,6 @@ import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
 import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
-import { colors } from "#/utils/theme";
 
 type PlayerProps = {
   player: PlayerDBProps;
@@ -63,9 +62,9 @@ const Player: React.FC<PlayerProps> = ({
 
   const getColor = (state: States) => {
     return state === "win"
-      ? colors.red[colorMode]
+      ? theme.colors.red[colorMode === "light" ? 600 : 300]
       : state == "lose"
-      ? colors.blue[colorMode]
+      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
       : undefined;
   };
 
@@ -80,13 +79,15 @@ const Player: React.FC<PlayerProps> = ({
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
-          (colorMode === "light" ? "white" : colors.gray[800]),
+          (colorMode === "light" ? "white" : theme.colors.gray[800]),
         borderWidth: !isVerticalView && isDesktop ? 3 : 1,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
           getColor(editedScore.reachState) ||
-          (colorMode === "dark" ? colors.gray[700] : colors.gray[50]),
+          (colorMode === "dark"
+            ? theme.colors.gray[700]
+            : theme.colors.gray[50]),
         borderRadius: !isVerticalView && isDesktop ? "1rem" : "0.5rem",
         overflowX: "scroll",
         overflowY: "hidden",

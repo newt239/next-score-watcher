@@ -4,6 +4,7 @@ import {
   Popover,
   PopoverTrigger,
   IconButton,
+  theme,
   PopoverContent,
   PopoverArrow,
   PopoverHeader,
@@ -16,7 +17,6 @@ import {
 import { Edit } from "tabler-icons-react";
 
 import { States } from "#/utils/db";
-import { colors } from "#/utils/theme";
 
 type PlayerColorConfigProps = {
   colorState: string | undefined;
@@ -40,7 +40,8 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
             variant="ghost"
             colorScheme={colorState}
             color={
-              colorState && (colorMode === "light" ? "white" : colors.gray[800])
+              colorState &&
+              (colorMode === "light" ? "white" : theme.colors.gray[800])
             }
             icon={<Edit />}
             aria-label="override player state"

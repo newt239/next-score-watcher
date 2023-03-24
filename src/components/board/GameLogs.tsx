@@ -6,6 +6,7 @@ import {
   Table,
   Tbody,
   Td,
+  theme,
   Tr,
   useColorMode,
   Button,
@@ -16,7 +17,6 @@ import { History, SortAscending, SortDescending } from "tabler-icons-react";
 import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { LogDBProps } from "#/utils/db";
-import { colors } from "#/utils/theme";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];
@@ -46,7 +46,9 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
           borderStyle: "solid",
           borderWidth: desktop ? 3 : 1,
           borderColor:
-            colorMode === "light" ? colors.gray[50] : colors.gray[700],
+            colorMode === "light"
+              ? theme.colors.gray[50]
+              : theme.colors.gray[700],
           p: 3,
           borderRadius: desktop ? "1rem" : "0.5rem",
         }}
