@@ -12,7 +12,6 @@
     "@chakra-ui/react": "^2.4.6",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@shopify/draggable": "1.0.0-beta.8",
     "@tanstack/react-table": "^8.7.6",
     "@types/react-router-dom": "^5.3.3",
     "cdate": "^0.0.4",
@@ -26,6 +25,8 @@
     "react-ga4": "^2.1.0",
     "react-rewards": "^2.0.4",
     "react-router-dom": "^6.9.0",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.0",
     "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
@@ -33,6 +34,7 @@
     "@types/node": "^18.15.7",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/sortablejs": "^1.15.1",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",

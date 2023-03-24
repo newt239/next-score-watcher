@@ -22,7 +22,6 @@ import {
   Table,
   Tbody,
   Td,
-  Text,
   Th,
   Tr,
   useColorMode,
@@ -171,18 +170,6 @@ const OptionPage = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-      <H2>お問い合わせ</H2>
-      <Box py={5}>
-        <Text>
-          <Link href="https://twitter.com/newt239" isExternal color="blue.500">
-            開発者のTwitter
-            <Icon>
-              <ExternalLink />
-            </Icon>
-          </Link>
-          からお願いします。
-        </Text>
-      </Box>
       <H2>アプリ情報</H2>
       <Container py={5}>
         <TableContainer>

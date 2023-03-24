@@ -1,6 +1,5 @@
 import { Link as ReactLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Accordion,
@@ -34,10 +33,10 @@ import {
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
-import { Sortable } from "@shopify/draggable";
-import CompactPlayerTable from "./CompactPlayerTable";
-import IndividualConfig from "./IndividualConfig";
+import { ReactSortable } from "react-sortablejs";
 
+import CompactPlayerTable from "#/components/config/CompactPlayerTable";
+import IndividualConfig from "#/components/config/IndividualConfig";
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
@@ -78,7 +77,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef(null);
+  const [sortableList, setSortableList] = useState(players);
 
   const isDesktop = useDeviceWidth();
 
@@ -123,31 +122,10 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   };
 
   useEffect(() => {
-    const sort = new Sortable(containerRef.current, {
-      draggable: ".sortable-item",
-      mirror: {
-        appendTo: ".sortable-container",
-      },
+    db.games.update(game_id, {
+      players: sortableList,
     });
-    sort.on("sortable:stop", (v: any) => console.log(v));
-    return () => sort.destroy();
-  }, []);
-
-  const onDragEnd = async (result: any) => {
-    // ドロップ先がない
-    if (!result.destination) {
-      return;
-    }
-    // 配列の順序を入れ替える
-    let movedItems = reorder(
-      players, // 順序を入れ変えたい配列
-      result.source.index, // 元の配列の位置
-      result.destination.index // 移動先の配列の位置
-    );
-    await db.games.update(game_id, {
-      players: movedItems,
-    });
-  };
+  }, [sortableList]);
 
   return (
     <>
@@ -288,22 +266,23 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       : theme.colors.gray[300],
                 }}
               >
-                <Flex
-                  ref={containerRef}
-                  className="sortable-container"
-                  sx={{
-                    flexDirection: isDesktop ? "row" : "column",
-                    gap: 3,
-                  }}
+                <ReactSortable
+                  list={sortableList}
+                  setList={(newState) => setSortableList(newState)}
+                  animation={200}
+                  delay={2}
+                  direction="horizontal"
+                  style={{ display: "flex", gap: 5 }}
                 >
-                  {players.map((gamePlayer, index) => (
+                  {sortableList.map((player, index) => (
                     <Card
-                      className="sortable-item"
+                      key={player.id}
                       bgColor={
                         colorMode === "dark"
                           ? theme.colors.gray[700]
                           : theme.colors.gray[200]
                       }
+                      cursor="grab"
                     >
                       <CardBody>
                         <Flex
@@ -324,7 +303,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                               textOrientation: "upright",
                             }}
                           >
-                            <Text size="xl">{gamePlayer.name}</Text>
+                            <Text size="xl">{player.name}</Text>
                           </Box>
                           <IndividualConfig
                             onClick={() => {
@@ -353,7 +332,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       </CardBody>
                     </Card>
                   ))}
-                </Flex>
+                </ReactSortable>
               </Box>
             )}
           </>
