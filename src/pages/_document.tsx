@@ -1,4 +1,4 @@
-import NextDocument, { Head, Html, Main } from "next/document";
+import NextDocument, { Head, Html, Main, NextScript } from "next/document";
 
 import { GA_ID } from "#/utils/gtag";
 
@@ -85,6 +85,7 @@ export default class Document extends NextDocument {
         </Head>
         <body>
           <Main />
+          <NextScript />
         </body>
       </Html>
     );
