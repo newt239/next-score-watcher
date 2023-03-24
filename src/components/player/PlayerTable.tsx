@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 import { useRef, useState } from "react";
 
 import {
@@ -176,7 +176,7 @@ const PlayerTable: React.FC = () => {
             >
               <Edit />
             </IconButton>
-            <NextLink href={`/player/${info.row.original.id}`}>
+            <ReactLink to={`/player/${info.row.original.id}`}>
               <IconButton
                 colorScheme="green"
                 variant="ghost"
@@ -185,7 +185,7 @@ const PlayerTable: React.FC = () => {
               >
                 <InfoCircle />
               </IconButton>
-            </NextLink>
+            </ReactLink>
           </>
         );
       },

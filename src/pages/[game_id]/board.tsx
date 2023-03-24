@@ -1,6 +1,4 @@
-import { NextPage } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useParams } from "react-router-dom";
 import { KeyboardEvent, useEffect, useState } from "react";
 
 import { Box, Flex, theme } from "@chakra-ui/react";
@@ -19,9 +17,8 @@ import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
 import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 
-const BoardPage: NextPage = () => {
-  const router = useRouter();
-  const { game_id } = router.query;
+const BoardPage = () => {
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
@@ -113,9 +110,6 @@ const BoardPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Score Watcher</title>
-      </Head>
       <BoardHeader game={game} logs={logs} />
       {game.rule === "squarex" && (
         <Box

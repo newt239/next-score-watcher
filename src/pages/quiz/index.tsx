@@ -1,6 +1,4 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 import {
@@ -15,31 +13,27 @@ import {
   Box,
   Button,
 } from "@chakra-ui/react";
-import { ArrowBackUp } from "tabler-icons-react";
+import { ArrowBackUp, Layout } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import ImportQuiz from "#/components/quiz/ImportQuiz";
 import LoadQuiz from "#/components/quiz/LoadQuiz";
 import QuizTable from "#/components/quiz/QuizTable";
-import { Layout } from "#/layouts/Layout";
 
-const QuizPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { from } = router.query;
+const QuizPage = () => {
+  const navigate = useNavigate();
+  const { from } = useParams();
   const [setName, setSetName] = useState<string>("セット1");
 
   return (
     <>
-      <Head>
-        <title>問題管理 - Score Watcher</title>
-      </Head>
       {typeof from === "string" && (
         <Box>
           <Button
             colorScheme="green"
             variant="link"
-            onClick={() => router.push({ pathname: `/${from}/config` })}
+            onClick={() => navigate({ pathname: `/${from}/config` })}
             leftIcon={<ArrowBackUp />}
           >
             設定に戻る
@@ -77,7 +71,5 @@ const QuizPage: NextPageWithLayout = () => {
     </>
   );
 };
-
-QuizPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default QuizPage;

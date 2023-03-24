@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import {
@@ -238,12 +238,12 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   ショートカットを確認
                 </MenuItem>
               )}
-              <NextLink href={`/aql`}>
+              <ReactLink to={`/aql`}>
                 <MenuItem icon={<AdjustmentsHorizontal />}>AQL設定</MenuItem>
-              </NextLink>
-              <NextLink href="/">
+              </ReactLink>
+              <ReactLink to="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </NextLink>
+              </ReactLink>
             </MenuList>
           </Menu>
         </Box>

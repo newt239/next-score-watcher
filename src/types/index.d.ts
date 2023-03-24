@@ -10,7 +10,7 @@ declare module "next" {
 
 declare module "next/app" {
   type AppPropsWithLayout<P = {}> = AppProps<P> & {
-    Component: NextPageWithLayout<P>;
+    Component<P>;
   };
 }
 

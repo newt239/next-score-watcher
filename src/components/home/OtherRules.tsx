@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 
 import { Box, Link, ListItem, UnorderedList } from "@chakra-ui/react";
 
@@ -22,9 +22,9 @@ const OtherRules: React.FC = () => {
       <H2>その他の形式</H2>
       <UnorderedList pt={5}>
         <ListItem>
-          <NextLink href="/aql">
+          <ReactLink to="/aql">
             <Link color="blue.500">AQLルール</Link>
-          </NextLink>
+          </ReactLink>
         </ListItem>
       </UnorderedList>
     </Box>

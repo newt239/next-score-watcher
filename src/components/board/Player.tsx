@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
@@ -30,8 +30,7 @@ const Player: React.FC<PlayerProps> = ({
   last_correct_player,
 }) => {
   const { colorMode } = useColorMode();
-  const router = useRouter();
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
   const isDesktop = useDeviceWidth();

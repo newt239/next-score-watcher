@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import {
@@ -237,12 +237,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   ショートカットを確認
                 </MenuItem>
               )}
-              <NextLink href={`/${game.id}/config`}>
+              <ReactLink to={`/${game.id}/config`}>
                 <MenuItem icon={<AdjustmentsHorizontal />}>設定</MenuItem>
-              </NextLink>
-              <NextLink href="/">
+              </ReactLink>
+              <ReactLink to="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </NextLink>
+              </ReactLink>
             </MenuList>
           </Menu>
         </Box>

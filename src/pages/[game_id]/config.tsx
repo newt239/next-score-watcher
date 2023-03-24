@@ -1,7 +1,5 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
-import router from "next/router";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 import {
@@ -14,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { PlayerPlay, Trash } from "tabler-icons-react";
+import { Layout, PlayerPlay, Trash } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import ConfigInput from "#/components/config/ConfigInput";
@@ -22,13 +20,14 @@ import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { Layout } from "#/layouts/Layout";
+
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 
-const ConfigPage: NextPageWithLayout = () => {
+const ConfigPage = () => {
+  const navigate = useNavigate();
   const isDesktop = useDeviceWidth(400);
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
   const logs = useLiveQuery(
@@ -46,16 +45,13 @@ const ConfigPage: NextPageWithLayout = () => {
 
   const deleteGame = async () => {
     await db.games.delete(game.id);
-    router.push("/");
+    navigate("/");
   };
 
   const disabled = logs.length !== 0;
 
   return (
     <>
-      <Head>
-        <title>ゲーム設定 - Score Watcher</title>
-      </Head>
       {disabled && (
         <Alert status="error">
           ゲームは開始済みです。一部の設定は変更できません。
@@ -195,18 +191,16 @@ const ConfigPage: NextPageWithLayout = () => {
               ゲーム開始
             </Button>
           ) : (
-            <NextLink href={`/${game_id}/board`}>
+            <ReactLink to={`/${game_id}/board`}>
               <Button colorScheme="green" leftIcon={<PlayerPlay />}>
                 ゲーム開始
               </Button>
-            </NextLink>
+            </ReactLink>
           )}
         </Flex>
       </Box>
     </>
   );
 };
-
-ConfigPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default ConfigPage;

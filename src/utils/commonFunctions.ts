@@ -19,7 +19,7 @@ export const createGame = async (
       id: nanoid(),
       name: name ? name : rules[game.rule].name,
     });
-    router.push(`/${game_id}/config`);
+    navigate(`/${game_id}/config`);
     return;
   }
   try {
@@ -80,7 +80,7 @@ export const createGame = async (
         break;
     }
     event({ action: rule_name, category: "create_game", label: game_id });
-    router.push(`/${await db.games.put(putData)}/config`);
+    navigate(`/${await db.games.put(putData)}/config`);
   } catch (err) {
     console.log(err);
   }

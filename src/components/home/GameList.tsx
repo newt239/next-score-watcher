@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 import { useState } from "react";
 
 import {
@@ -100,7 +100,7 @@ const GameList: React.FC = () => {
                     <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>
                     <Td sx={{ textAlign: "right" }}>
                       <HStack sx={{ justifyContent: "flex-end" }}>
-                        <NextLink href={`/${game.id}/config`}>
+                        <ReactLink to={`/${game.id}/config`}>
                           <Button
                             size="sm"
                             colorScheme="green"
@@ -109,7 +109,7 @@ const GameList: React.FC = () => {
                           >
                             開く
                           </Button>
-                        </NextLink>
+                        </ReactLink>
                         <Menu>
                           <MenuButton
                             as={IconButton}
@@ -133,11 +133,11 @@ const GameList: React.FC = () => {
                               コピーを作成
                             </MenuItem>
                             {game.players.length !== 0 && (
-                              <NextLink href={`/${game.id}/board`}>
+                              <ReactLink to={`/${game.id}/board`}>
                                 <MenuItem icon={<Chalkboard />}>
                                   得点画面を開く
                                 </MenuItem>
-                              </NextLink>
+                              </ReactLink>
                             )}
                             <MenuItem
                               icon={<Trash />}

@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 import { useState } from "react";
 
 import {
@@ -256,7 +256,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Box>
           </HStack>
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <NextLink href={`/player?from=${game_id}`}>
+            <ReactLink to={`/player?from=${game_id}`}>
               <Button
                 colorScheme="green"
                 variant="ghost"
@@ -264,7 +264,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
               >
                 詳細設定
               </Button>
-            </NextLink>
+            </ReactLink>
           </Box>
         </Box>
       )}

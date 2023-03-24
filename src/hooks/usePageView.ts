@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import { GA_ID, pageview } from "#/utils/gtag";
 
 export const usePageView = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   useEffect(() => {
     if (!GA_ID) return;
 

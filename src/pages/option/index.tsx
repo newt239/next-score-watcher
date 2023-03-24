@@ -1,7 +1,4 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import router from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 import {
   AlertDialog,
@@ -20,17 +17,14 @@ import {
   Icon,
   Input,
   Link,
-  ListItem,
   Stack,
-  Switch,
-  Table,
   TableContainer,
+  Table,
   Tbody,
   Td,
   Text,
   Th,
   Tr,
-  UnorderedList,
   useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -39,7 +33,7 @@ import { ExternalLink } from "tabler-icons-react";
 
 import H2 from "#/blocks/H2";
 import AppOptionSwitch from "#/components/AppOptionSwitch";
-import { Layout } from "#/layouts/Layout";
+
 import db from "#/utils/db";
 import {
   reversePlayerInfoAtom,
@@ -49,8 +43,10 @@ import {
   verticalViewAtom,
   webhookUrlAtom,
 } from "#/utils/jotai";
+import { useNavigate } from "react-router-dom";
 
-const OptionPage: NextPageWithLayout = () => {
+const OptionPage = () => {
+  const navigate = useNavigate();
   const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
     showWinthroughPopupAtom
   );
@@ -70,15 +66,12 @@ const OptionPage: NextPageWithLayout = () => {
   const deleteAppData = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);
     db.delete().then(() => {
-      router.reload();
+      navigate(0);
     });
   };
 
   return (
     <>
-      <Head>
-        <title>アプリ設定 - Score Watcher</title>
-      </Head>
       <H2>アプリ設定</H2>
       <Container py={5}>
         <Stack sx={{ gap: 5 }}>
@@ -238,7 +231,5 @@ const OptionPage: NextPageWithLayout = () => {
     </>
   );
 };
-
-OptionPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default OptionPage;

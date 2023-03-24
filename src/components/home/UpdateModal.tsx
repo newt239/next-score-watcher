@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import {
@@ -15,7 +15,7 @@ import {
 import { ExternalLink } from "tabler-icons-react";
 
 const UpdateModal: React.FC = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const currentVersion = localStorage.getItem("scorewatcher-version");
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;

@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
@@ -82,11 +82,11 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           </Flex>
         ) : (
           <Box>
-            <NextLink href={`/quiz?from=${game_id}`}>
+            <ReactLink to={`/quiz?from=${game_id}`}>
               <Button colorScheme="blue" leftIcon={<Upload />}>
                 問題データを読み込む
               </Button>
-            </NextLink>
+            </ReactLink>
           </Box>
         )}
       </Box>

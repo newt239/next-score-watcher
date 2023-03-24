@@ -1,5 +1,5 @@
 import Image from "next/image";
-import NextLink from "next/link";
+import { Link as ReactLink } from "react-router-dom";
 
 import { Box, Button, Flex, Spacer, useColorMode } from "@chakra-ui/react";
 
@@ -26,9 +26,9 @@ const Header: React.FC = () => {
         }}
       >
         {linkList.map((link) => (
-          <NextLink key={link.path} href={link.path}>
+          <ReactLink key={link.path} href={link.path}>
             <Button variant="ghost">{link.text}</Button>
-          </NextLink>
+          </ReactLink>
         ))}
       </Flex>
     );
@@ -64,7 +64,7 @@ const Header: React.FC = () => {
         }}
       >
         <Box sx={{ transition: "all 0.2s ease-out" }} _hover={{ opacity: 0.5 }}>
-          <NextLink href="/">
+          <ReactLink to="/">
             <Image
               src={Logo}
               style={{
@@ -77,7 +77,7 @@ const Header: React.FC = () => {
               }}
               alt="app logo"
             />
-          </NextLink>
+          </ReactLink>
         </Box>
         {desktop && (
           <>

@@ -1,7 +1,4 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
-import router from "next/router";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import {
@@ -33,7 +30,7 @@ import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 import H2 from "#/blocks/H2";
 import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { Layout } from "#/layouts/Layout";
+
 import db from "#/utils/db";
 
 export type AQLGameProps = {
@@ -48,7 +45,8 @@ export type AQLGameProps = {
   last_open: string;
 };
 
-const AQLPage: NextPageWithLayout = () => {
+const AQLPage = () => {
+  const navigate = useNavigate();
   const [roundName, setRoundName] = useState<string>("");
   const [leftTeamName, setLeftTeamName] = useState<string>("");
   const [rightTeamName, setRightTeamName] = useState<string>("");
@@ -87,7 +85,7 @@ const AQLPage: NextPageWithLayout = () => {
     } else {
       setAqlGames([newAqlGame]);
     }
-    router.push(`/aql/${game_id}`);
+    navigate(`/aql/${game_id}`);
   };
 
   useEffect(() => {
@@ -100,9 +98,6 @@ const AQLPage: NextPageWithLayout = () => {
   }, [aqlGames]);
   return (
     <>
-      <Head>
-        <title>AQL - Score Watcher</title>
-      </Head>
       <H2>AQLルール</H2>
       {aqlGames && aqlGames.length !== 0 && (
         <>
@@ -121,7 +116,7 @@ const AQLPage: NextPageWithLayout = () => {
                     <Tr key={game.id}>
                       <Td>{game.name}</Td>
                       <Td isNumeric>
-                        <NextLink href={`/aql/${game.id}`}>
+                        <ReactLink to={`/aql/${game.id}`}>
                           <Button
                             size="sm"
                             colorScheme="green"
@@ -130,7 +125,7 @@ const AQLPage: NextPageWithLayout = () => {
                           >
                             開く
                           </Button>
-                        </NextLink>
+                        </ReactLink>
                         <Button
                           leftIcon={<Trash />}
                           size="sm"
@@ -214,7 +209,7 @@ const AQLPage: NextPageWithLayout = () => {
           </Flex>
         ) : (
           <Box>
-            <NextLink href="/quiz">
+            <ReactLink to="/quiz">
               <Button
                 disabled={
                   roundName === "" ||
@@ -226,7 +221,7 @@ const AQLPage: NextPageWithLayout = () => {
               >
                 問題データを読み込む
               </Button>
-            </NextLink>
+            </ReactLink>
           </Box>
         )}
       </Box>
@@ -242,7 +237,5 @@ const AQLPage: NextPageWithLayout = () => {
     </>
   );
 };
-
-AQLPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default AQLPage;

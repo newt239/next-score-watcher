@@ -1,5 +1,5 @@
-import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { Link as ReactLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useRef, useState } from "react";
 
 import {
@@ -83,7 +83,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const toast = useToast();
-  const router = useRouter();
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
@@ -156,11 +156,11 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       <Box py={5}>
         {playerList.length === 0 ? (
           <>
-            <NextLink href={`/player?from=${game_id}`}>
+            <ReactLink to={`/player?from=${game_id}`}>
               <Button leftIcon={<Upload />} colorScheme="blue">
                 プレイヤーデータを読み込む
               </Button>
-            </NextLink>
+            </ReactLink>
           </>
         ) : (
           <>
@@ -260,9 +260,9 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       <AccordionPanel pb={4}>
                         {playerList.length === 0 ? (
                           <Box py={3}>
-                            <NextLink href="/player" passHref>
+                            <ReactLink to="/player" passHref>
                               <Link>プレイヤー管理</Link>
-                            </NextLink>
+                            </ReactLink>
                             ページから一括でプレイヤー情報を登録できます。
                           </Box>
                         ) : (

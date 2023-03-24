@@ -1,7 +1,5 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { Link as ReactLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
   Alert,
@@ -24,20 +22,14 @@ import CreatePlayer from "#/components/player/CreatePlayer";
 import ImportPlayer from "#/components/player/ImportPlayer";
 import LoadPlayer from "#/components/player/LoadPlayer";
 import PlayerTable from "#/components/player/PlayerTable";
-import { Layout } from "#/layouts/Layout";
 
-const PlayerPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { from } = router.query;
-
+const PlayerPage = () => {
+  const { from } = useParams();
   return (
     <>
-      <Head>
-        <title>プレイヤー管理 - Score Watcher</title>
-      </Head>
       {typeof from === "string" && (
         <Box>
-          <NextLink href={`/${from}/config`}>
+          <ReactLink to={`/${from}/config`}>
             <Button
               colorScheme="green"
               variant="ghost"
@@ -45,7 +37,7 @@ const PlayerPage: NextPageWithLayout = () => {
             >
               設定に戻る
             </Button>
-          </NextLink>
+          </ReactLink>
         </Box>
       )}
       <H2>プレイヤー管理</H2>
@@ -85,7 +77,5 @@ const PlayerPage: NextPageWithLayout = () => {
     </>
   );
 };
-
-PlayerPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default PlayerPage;
