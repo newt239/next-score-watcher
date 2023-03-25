@@ -37,7 +37,7 @@ const RuleList: React.FC = () => {
           return (
             <Card key={rule_name} variant="filled">
               <CardHeader>
-                <h3>{rules[rule_name].name}</h3>
+                <h3 className="p0">{rules[rule_name].name}</h3>
               </CardHeader>
               <CardBody>
                 {`${description.slice(0, 50)}${

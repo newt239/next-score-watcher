@@ -165,27 +165,15 @@ const PlayerTable: React.FC = () => {
       header: "",
       cell: (info) => {
         return (
-          <>
-            <IconButton
-              onClick={() => handleChange(info.row.original)}
-              colorScheme="blue"
-              variant="ghost"
-              size="xs"
-              aria-label="プレイヤー情報を更新する"
-            >
-              <Edit />
-            </IconButton>
-            <ReactLink to={`/player/${info.row.original.id}`}>
-              <IconButton
-                colorScheme="green"
-                variant="ghost"
-                size="xs"
-                aria-label="プレイヤー情報を確認する"
-              >
-                <InfoCircle />
-              </IconButton>
-            </ReactLink>
-          </>
+          <IconButton
+            onClick={() => handleChange(info.row.original)}
+            colorScheme="blue"
+            variant="ghost"
+            size="xs"
+            aria-label="プレイヤー情報を更新する"
+          >
+            <Edit />
+          </IconButton>
         );
       },
     }),
