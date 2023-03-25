@@ -26,15 +26,15 @@ const Term: React.FC = () => {
           からお願いします。
         </ListItem>
         <ListItem>
-          本アプリについて、
+          本アプリの使用報告は
           <Link
-            href="https://twitter.com/hashtag/ScoreWatcher"
+            href="https://twitter.com/hashtag/ScoreWatcher?f=live"
             isExternal
             color="blue.500"
           >
             #ScoreWatcher
           </Link>
-          でコメントしてもらえると嬉しいです。機能要望などはここでも受け付けます！
+          でコメントしてもらえると嬉しいです。不具合報告や機能要望なども受け付けます。
         </ListItem>
       </UnorderedList>
     </>
