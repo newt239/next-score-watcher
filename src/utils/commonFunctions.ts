@@ -93,6 +93,7 @@ export const numberSign = (
   score?: number
 ) => {
   const showSignString = localStorage.getItem("scorew-show-sign-string");
+  const wrongNumber = localStorage.getItem("scorew-wrong-number");
   if (typeof score === "undefined") {
     switch (type) {
       case "correct":
@@ -107,7 +108,11 @@ export const numberSign = (
       case "correct":
         return `${score}○`;
       case "wrong":
-        return `${score}✕`;
+        if (wrongNumber === "true") {
+          return score === 0 ? "・" : "✕".repeat(score);
+        } else {
+          return `${score}✕`;
+        }
       case "pt":
         return `${score}pt`;
     }

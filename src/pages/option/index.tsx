@@ -40,6 +40,7 @@ import {
   showWinthroughPopupAtom,
   verticalViewAtom,
   webhookUrlAtom,
+  wrongNumberAtom,
 } from "#/utils/jotai";
 
 const OptionPage = () => {
@@ -53,6 +54,7 @@ const OptionPage = () => {
     reversePlayerInfoAtom
   );
   const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
+  const [wrongNumber, setWrongNumber] = useAtom(wrongNumberAtom);
   const [WebhookUrl, setWebhookUrl] = useAtom(webhookUrlAtom);
   const latestVersion = import.meta.env.VITE_APP_VERSION;
 
@@ -70,7 +72,7 @@ const OptionPage = () => {
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       <h2>アプリ設定</h2>
-      <Stack sx={{ gap: 5 }}>
+      <Stack sx={{ gap: 5, pt: 5 }}>
         <AppOptionSwitch
           title="ダークモード"
           isChecked={colorMode === "dark"}
@@ -101,6 +103,12 @@ const OptionPage = () => {
           title="プレイヤーを垂直に並べる"
           isChecked={verticalView}
           onChange={() => setVerticalView((v) => !v)}
+        />
+        <AppOptionSwitch
+          title="誤答数を✕の数で表示"
+          label="誤答数が0のときは中黒・で表示されます。"
+          isChecked={wrongNumber}
+          onChange={() => setWrongNumber((v) => !v)}
         />
         <FormControl>
           <Flex
@@ -167,7 +175,7 @@ const OptionPage = () => {
         </AlertDialogOverlay>
       </AlertDialog>
       <h2>アプリ情報</h2>
-      <TableContainer>
+      <TableContainer pt={5}>
         <Table>
           <Tbody>
             <Tr>
