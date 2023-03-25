@@ -1,7 +1,4 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { Link as ReactLink , useParams } from "react-router-dom";
 
 import {
   Alert,
@@ -10,6 +7,7 @@ import {
   AlertTitle,
   Box,
   Button,
+  Container,
   Tab,
   TabList,
   TabPanel,
@@ -18,26 +16,18 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import CreatePlayer from "#/components/player/CreatePlayer";
 import ImportPlayer from "#/components/player/ImportPlayer";
 import LoadPlayer from "#/components/player/LoadPlayer";
 import PlayerTable from "#/components/player/PlayerTable";
-import { Layout } from "#/layouts/Layout";
 
-const PlayerPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { from } = router.query;
-
+const PlayerPage = () => {
+  const { from } = useParams();
   return (
-    <>
-      <Head>
-        <title>プレイヤー管理 - Score Watcher</title>
-      </Head>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       {typeof from === "string" && (
         <Box>
-          <NextLink href={`/${from}/config`}>
+          <ReactLink to={`/${from}/config`}>
             <Button
               colorScheme="green"
               variant="ghost"
@@ -45,12 +35,12 @@ const PlayerPage: NextPageWithLayout = () => {
             >
               設定に戻る
             </Button>
-          </NextLink>
+          </ReactLink>
         </Box>
       )}
-      <H2>プレイヤー管理</H2>
+      <h2>プレイヤー管理</h2>
       <Box>
-        <H3>プレイヤーの読み込み</H3>
+        <h3>プレイヤーの読み込み</h3>
         <Tabs isFitted variant="enclosed" colorScheme="green" pt={5}>
           <TabList mb="1em">
             <Tab>個別に追加</Tab>
@@ -71,7 +61,7 @@ const PlayerPage: NextPageWithLayout = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Alert status="success" mt={5}>
+        <Alert status="success" my={5}>
           <AlertIcon />
           <Box>
             <AlertTitle>サブテキストとは？</AlertTitle>
@@ -82,10 +72,8 @@ const PlayerPage: NextPageWithLayout = () => {
         </Alert>
       </Box>
       <PlayerTable />
-    </>
+    </Container>
   );
 };
-
-PlayerPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default PlayerPage;

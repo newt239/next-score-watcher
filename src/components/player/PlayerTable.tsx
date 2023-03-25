@@ -1,5 +1,5 @@
-import NextLink from "next/link";
 import { useRef, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Input,
@@ -70,7 +70,6 @@ import {
 
 import EditPlayertagsModal from "./EditPlayerTagsModal";
 
-import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
 
 const PlayerTable: React.FC = () => {
@@ -166,27 +165,15 @@ const PlayerTable: React.FC = () => {
       header: "",
       cell: (info) => {
         return (
-          <>
-            <IconButton
-              onClick={() => handleChange(info.row.original)}
-              colorScheme="blue"
-              variant="ghost"
-              size="xs"
-              aria-label="プレイヤー情報を更新する"
-            >
-              <Edit />
-            </IconButton>
-            <NextLink href={`/player/${info.row.original.id}`}>
-              <IconButton
-                colorScheme="green"
-                variant="ghost"
-                size="xs"
-                aria-label="プレイヤー情報を確認する"
-              >
-                <InfoCircle />
-              </IconButton>
-            </NextLink>
-          </>
+          <IconButton
+            onClick={() => handleChange(info.row.original)}
+            colorScheme="blue"
+            variant="ghost"
+            size="xs"
+            aria-label="プレイヤー情報を更新する"
+          >
+            <Edit />
+          </IconButton>
         );
       },
     }),
@@ -242,7 +229,7 @@ const PlayerTable: React.FC = () => {
 
   return (
     <Box>
-      <H3>プレイヤー一覧</H3>
+      <h3>プレイヤー一覧</h3>
       {players.length === 0 ? (
         <Box p={3}>
           <Text>プレイヤーが登録されていません。</Text>
@@ -305,8 +292,8 @@ const PlayerTable: React.FC = () => {
                 <Thead>
                   {table.getHeaderGroups().map((headerGroup) => (
                     <Tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <Th key={header.id} colSpan={header.colSpan}>
+                      {headerGroup.headers.map((header, i) => (
+                        <Th key={i} colSpan={header.colSpan}>
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -321,10 +308,10 @@ const PlayerTable: React.FC = () => {
                 <Tbody>
                   {table.getRowModel().rows.map((row) => {
                     return (
-                      <Tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => {
+                      <Tr key={row.original.id}>
+                        {row.getVisibleCells().map((cell, i) => {
                           return (
-                            <Td key={cell.id}>
+                            <Td key={`${row.original.id}_${i}`}>
                               {flexRender(
                                 cell.column.columnDef.cell,
                                 cell.getContext()

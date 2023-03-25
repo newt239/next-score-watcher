@@ -1,22 +1,20 @@
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-import { GA_ID, pageview } from "#/utils/gtag";
+import ReactGA from "react-ga4";
 
-export const usePageView = () => {
-  const router = useRouter();
+const usePageTracking = () => {
+  const location = useLocation();
+
+  const GA_ID = import.meta.env.VITE_APP_GA_ID || "";
+
   useEffect(() => {
-    if (!GA_ID) return;
-
-    const handleRouteChange = (url: string, { shallow }: any) => {
-      if (!shallow) {
-        pageview(url);
-      }
-    };
-
-    router.events.on("routeChangeComplete", handleRouteChange);
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
-  }, [router.events]);
+    ReactGA.initialize(GA_ID);
+    ReactGA.send({
+      hitType: "pageview",
+      page: location.pathname + location.search,
+    });
+  }, [location]);
 };
+
+export default usePageTracking;

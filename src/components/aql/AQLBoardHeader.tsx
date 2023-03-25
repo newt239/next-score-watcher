@@ -1,5 +1,5 @@
-import NextLink from "next/link";
 import { useEffect, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
@@ -31,7 +31,6 @@ import {
 
 import ShortcutGuideModal from "../board/ShortcutGuideModal";
 
-import H2 from "#/blocks/H2";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { LogDBProps, QuizDBProps } from "#/utils/db";
 
@@ -109,7 +108,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             maxWidth: "70vw",
           }}
         >
-          <H2 pt={0}>{name}</H2>
+          <h2 className="p0">{name}</h2>
           <p>AQL</p>
         </Box>
         {desktop && (
@@ -238,12 +237,12 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   ショートカットを確認
                 </MenuItem>
               )}
-              <NextLink href={`/aql`}>
+              <ReactLink to={`/aql`}>
                 <MenuItem icon={<AdjustmentsHorizontal />}>AQL設定</MenuItem>
-              </NextLink>
-              <NextLink href="/">
+              </ReactLink>
+              <ReactLink to="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </NextLink>
+              </ReactLink>
             </MenuList>
           </Menu>
         </Box>

@@ -14,4 +14,5 @@ export const reversePlayerInfoAtom = atomWithStorage(
   false
 );
 export const verticalViewAtom = atomWithStorage("scorew-vertical-view", false);
+export const wrongNumberAtom = atomWithStorage("scorew-wrong-number", false);
 export const webhookUrlAtom = atomWithStorage("scorew-webhook-url", "");

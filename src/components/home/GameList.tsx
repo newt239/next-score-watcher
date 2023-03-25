@@ -1,5 +1,5 @@
-import NextLink from "next/link";
 import { useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
@@ -30,7 +30,6 @@ import {
   Trash,
 } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
@@ -47,7 +46,7 @@ const GameList: React.FC = () => {
 
   return (
     <Box pt={5}>
-      <H2>作成したゲーム</H2>
+      <h2>作成したゲーム</h2>
       <Flex sx={{ pb: 3, justifyContent: "flex-end" }}>
         <Select
           defaultValue={orderType}
@@ -100,7 +99,7 @@ const GameList: React.FC = () => {
                     <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>
                     <Td sx={{ textAlign: "right" }}>
                       <HStack sx={{ justifyContent: "flex-end" }}>
-                        <NextLink href={`/${game.id}/config`}>
+                        <ReactLink to={`/${game.id}/config`}>
                           <Button
                             size="sm"
                             colorScheme="green"
@@ -109,7 +108,7 @@ const GameList: React.FC = () => {
                           >
                             開く
                           </Button>
-                        </NextLink>
+                        </ReactLink>
                         <Menu>
                           <MenuButton
                             as={IconButton}
@@ -133,11 +132,11 @@ const GameList: React.FC = () => {
                               コピーを作成
                             </MenuItem>
                             {game.players.length !== 0 && (
-                              <NextLink href={`/${game.id}/board`}>
+                              <ReactLink to={`/${game.id}/board`}>
                                 <MenuItem icon={<Chalkboard />}>
                                   得点画面を開く
                                 </MenuItem>
-                              </NextLink>
+                              </ReactLink>
                             )}
                             <MenuItem
                               icon={<Trash />}

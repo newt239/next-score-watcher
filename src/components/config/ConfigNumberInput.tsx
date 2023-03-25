@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useParams } from "react-router-dom";
 
 import {
   FormControl,
@@ -28,8 +28,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   max = 100,
   disabled,
 }) => {
-  const router = useRouter();
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
 
   if (!game) return null;

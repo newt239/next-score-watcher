@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -30,8 +30,7 @@ const Player: React.FC<PlayerProps> = ({
   last_correct_player,
 }) => {
   const { colorMode } = useColorMode();
-  const router = useRouter();
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
   const isDesktop = useDeviceWidth();
@@ -62,9 +61,9 @@ const Player: React.FC<PlayerProps> = ({
 
   const getColor = (state: States) => {
     return state === "win"
-      ? theme.colors.red[500]
+      ? theme.colors.red[colorMode === "light" ? 600 : 300]
       : state == "lose"
-      ? theme.colors.blue[500]
+      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
       : undefined;
   };
 
@@ -75,7 +74,7 @@ const Player: React.FC<PlayerProps> = ({
         justifyContent: "space-between",
         alignItems: "stretch",
         minW: "10vw",
-        w: isVerticalView && isDesktop ? "45vw" : undefined,
+        w: isVerticalView && isDesktop ? "48%" : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -89,7 +88,7 @@ const Player: React.FC<PlayerProps> = ({
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
         borderRadius: !isVerticalView && isDesktop ? "1rem" : "0.5rem",
-        overflowX: !isVerticalView && isDesktop ? undefined : "scroll",
+        overflowX: "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
       }}
@@ -97,6 +96,7 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
+          width: isVerticalView ? "40%" : "auto",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",

@@ -1,7 +1,5 @@
-import { NextPage } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState, KeyboardEvent } from "react";
+import { useParams } from "react-router-dom";
 
 import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -21,10 +19,9 @@ type AQLPlayerStateProps = {
   wrong: number;
 };
 
-const AQLPage: NextPage = () => {
+const AQLBoardPage = () => {
   const isDesktop = useDeviceWidth(800);
-  const router = useRouter();
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
   const game = aqlGamesRaw
     ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games.find(
@@ -337,9 +334,6 @@ const AQLPage: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>AQL Rule - Score Watcher</title>
-      </Head>
       <AQLBoardHeader
         name={game.name}
         game_id={game_id as string}
@@ -371,4 +365,4 @@ const AQLPage: NextPage = () => {
   );
 };
 
-export default AQLPage;
+export default AQLBoardPage;

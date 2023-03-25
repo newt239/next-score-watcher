@@ -54,7 +54,6 @@ import {
   Trash,
 } from "tabler-icons-react";
 
-import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
 const QuizTable: React.FC = () => {
@@ -157,7 +156,7 @@ const QuizTable: React.FC = () => {
 
   return (
     <Box>
-      <H3>問題一覧</H3>
+      <h3>問題一覧</h3>
       {quizes.length === 0 ? (
         <Box p={3}>
           <Text>問題が登録されていません。</Text>
@@ -221,8 +220,8 @@ const QuizTable: React.FC = () => {
                   <Thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                       <Tr key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                          <Th key={header.id} colSpan={header.colSpan}>
+                        {headerGroup.headers.map((header, i) => (
+                          <Th key={i} colSpan={header.colSpan}>
                             {header.isPlaceholder
                               ? null
                               : flexRender(
@@ -237,11 +236,11 @@ const QuizTable: React.FC = () => {
                   <Tbody>
                     {table.getRowModel().rows.map((row) => {
                       return (
-                        <Tr key={row.id}>
-                          {row.getVisibleCells().map((cell) => {
+                        <Tr key={row.original.id}>
+                          {row.getVisibleCells().map((cell, i) => {
                             return (
                               <Td
-                                key={row.id + cell.id}
+                                key={`${row.original.id}_${i}`}
                                 maxW={cell.column.id === "q" ? 500 : 300}
                                 overflow="hidden"
                               >

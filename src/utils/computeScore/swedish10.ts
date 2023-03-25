@@ -77,7 +77,7 @@ const swedish10 = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         ? indicator(order)
         : playerState.state === "lose"
         ? "LOSE"
-        : `${playerState.correct}${numberSign("pt")}`;
+        : numberSign("pt", playerState.correct);
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

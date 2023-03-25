@@ -14,7 +14,7 @@ import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
-  children: string | number;
+  children: string;
   filled?: boolean;
   compact?: boolean;
   game_id: string;
@@ -46,21 +46,24 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     : theme.colors.yellow[300];
 
   const ButtonCssStyle = {
-    display: desktop ? "inline" : "block",
-    fontSize:
-      desktop && compact
-        ? "2.5vw"
-        : `max(1rem, min(calc(12vw / ${children.toString().length}), 3.5vw))`,
+    display: "block",
+    fontSize: desktop
+      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
+          compact ? "4.5vw" : "9vw"
+        })`
+      : `max(1rem, min(calc(${compact ? "6vw" : "12vw"} / ${
+          children.length
+        }), 3.5vw))`,
     lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
-    width: desktop ? "100%" : compact ? "max(2.5rem, 7vw)" : "max(5rem, 14vw)",
-    maxW: desktop ? (compact ? "4.5vw" : "9.5vw") : "max(5rem, 14vw)",
+    width: "100%",
     height: !editable && desktop ? "100%" : undefined,
     margin: "auto",
     textAlign: "center",
     backgroundColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
+    overflow: "hidden",
     cursor: disabled || color === "green" || editable ? "default" : "pointer",
   };
 
@@ -84,7 +87,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   return (
     <>
       {editable ? (
-        <Editable defaultValue={children?.toString()} sx={ButtonCssStyle}>
+        <Editable defaultValue={children} sx={ButtonCssStyle}>
           <EditablePreview sx={{ p: 0 }} />
           <EditableInput
             sx={{

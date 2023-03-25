@@ -1,10 +1,8 @@
-import router from "next/router";
-
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
+import ReactGA from "react-ga4";
 
 import db, { RuleNames, GameDBProps } from "./db";
-import { event } from "./gtag";
 import { rules } from "./rules";
 
 export const createGame = async (
@@ -19,8 +17,7 @@ export const createGame = async (
       id: nanoid(),
       name: name ? name : rules[game.rule].name,
     });
-    router.push(`/${game_id}/config`);
-    return;
+    return game_id;
   }
   try {
     const game_id = nanoid(6);
@@ -79,16 +76,25 @@ export const createGame = async (
         putData.win_point = rules[rule_name].win_point;
         break;
     }
-    event({ action: rule_name, category: "create_game", label: game_id });
-    router.push(`/${await db.games.put(putData)}/config`);
+    ReactGA.send({
+      action: rule_name,
+      category: "create_game",
+      label: game_id,
+    });
+    await db.games.put(putData);
+    return game_id;
   } catch (err) {
     console.log(err);
   }
 };
 
-export const numberSign = (type: "correct" | "wrong" | "pt") => {
+export const numberSign = (
+  type: "correct" | "wrong" | "pt",
+  score?: number
+) => {
   const showSignString = localStorage.getItem("scorew-show-sign-string");
-  if (showSignString === "true" || showSignString === null) {
+  const wrongNumber = localStorage.getItem("scorew-wrong-number");
+  if (typeof score === "undefined") {
     switch (type) {
       case "correct":
         return "○";
@@ -97,8 +103,21 @@ export const numberSign = (type: "correct" | "wrong" | "pt") => {
       case "pt":
         return "pt";
     }
+  } else if (showSignString === "true" || showSignString === null) {
+    switch (type) {
+      case "correct":
+        return `${score}○`;
+      case "wrong":
+        if (wrongNumber === "true") {
+          return score === 0 ? "・" : "✕".repeat(score);
+        } else {
+          return `${score}✕`;
+        }
+      case "pt":
+        return `${score}pt`;
+    }
   } else {
-    return "";
+    return score.toString();
   }
 };
 

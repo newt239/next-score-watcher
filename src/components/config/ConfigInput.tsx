@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -20,8 +20,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   placehodler,
   disabled,
 }) => {
-  const router = useRouter();
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
   const debouncedInputText = useDebounce(inputText, 500);
