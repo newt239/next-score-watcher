@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), VitePWA({ registerType: "autoUpdate" })],
     resolve: {
       alias: {
-        "#": path.resolve(__dirname, "/src"),
+        "#": path.resolve(__dirname, "src"),
       },
     },
     build: {

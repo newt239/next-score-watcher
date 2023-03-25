@@ -16,7 +16,7 @@ import OptionPage from "#/pages/option";
 import PlayerPage from "#/pages/player";
 import QuizPage from "#/pages/quiz";
 
-import "#/styles/globals.css";
+import "./globals.css";
 
 function App() {
   const isDesktop = useDeviceWidth();
