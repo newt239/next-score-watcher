@@ -12,6 +12,7 @@ import ConfigPage from "#/pages/[game_id]/config";
 import BoardPage from "#/pages/[game_id]/board";
 import AQLPage from "#/pages/aql";
 import AQLBoardPage from "#/pages/aql/[game_id]";
+import ScrollTop from "#/blocks/ScrollTop";
 
 import "#/styles/globals.css";
 
@@ -21,6 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
+      <ScrollTop />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path=":game_id">
