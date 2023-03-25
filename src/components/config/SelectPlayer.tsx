@@ -37,21 +37,9 @@ import { ReactSortable } from "react-sortablejs";
 
 import CompactPlayerTable from "#/components/config/CompactPlayerTable";
 import IndividualConfig from "#/components/config/IndividualConfig";
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
+
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
-
-const reorder = (
-  list: GameDBPlayerProps[],
-  startIndex: number,
-  endIndex: number
-) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
 
 type SelectPlayerProps = {
   game_id: string;
@@ -129,7 +117,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
 
   return (
     <>
-      <H2>プレイヤー設定</H2>
+      <h2>プレイヤー設定</h2>
       <Box py={5}>
         {playerList.length === 0 ? (
           <>
@@ -161,14 +149,12 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 <DrawerBody p={0}>
                   <Accordion defaultIndex={1}>
                     <AccordionItem>
-                      <H3 pt={0}>
-                        <AccordionButton>
-                          <Box as="span" flex="1" textAlign="left">
-                            新しく追加
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </H3>
+                      <AccordionButton>
+                        <Box as="span" flex="1" textAlign="left">
+                          新しく追加
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
                       <AccordionPanel pb={4}>
                         <Stack spacing={3}>
                           <FormControl>
@@ -226,14 +212,12 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
-                      <H3 sx={{ pt: 0 }}>
-                        <AccordionButton>
-                          <Box flex="1" textAlign="left">
-                            データベースから追加
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </H3>
+                      <AccordionButton>
+                        <Box flex="1" textAlign="left">
+                          データベースから追加
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
                       <AccordionPanel pb={4}>
                         {playerList.length === 0 ? (
                           <Box py={3}>

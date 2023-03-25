@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import db, { GameDBQuizProps } from "#/utils/db";
 
 type SelectQuizsetProps = {
@@ -31,7 +30,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
 }) => {
   return (
     <>
-      <H2>問題設定</H2>
+      <h2>問題設定</h2>
       <Box py={5}>
         {quizset_names.length !== 0 ? (
           <Flex sx={{ gap: 5 }}>

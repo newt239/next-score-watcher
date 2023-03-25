@@ -15,7 +15,6 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectQuizset from "#/components/config/SelectQuizSet";
@@ -69,7 +68,7 @@ const ConfigPage = () => {
         </Box>
       </Alert>
       <Box>
-        <H2>形式設定</H2>
+        <h2>形式設定</h2>
         <div
           style={{
             display: "grid",

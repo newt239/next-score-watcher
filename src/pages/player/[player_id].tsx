@@ -18,7 +18,6 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { ArrowBackUp, Layout, X } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import db from "#/utils/db";
 
 const EachPlayerPage = () => {
@@ -42,7 +41,7 @@ const EachPlayerPage = () => {
         <Text>該当するプレイヤーが見つかりませんでした。</Text>
       ) : (
         <>
-          <H2>{player.name}</H2>
+          <h2>{player.name}</h2>
           <TableContainer>
             <Table>
               <Tbody>

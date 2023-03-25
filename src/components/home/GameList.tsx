@@ -30,7 +30,6 @@ import {
   Trash,
 } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
@@ -47,7 +46,7 @@ const GameList: React.FC = () => {
 
   return (
     <Box pt={5}>
-      <H2>作成したゲーム</H2>
+      <h2>作成したゲーム</h2>
       <Flex sx={{ pb: 3, justifyContent: "flex-end" }}>
         <Select
           defaultValue={orderType}

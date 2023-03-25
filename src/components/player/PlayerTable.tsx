@@ -70,7 +70,6 @@ import {
 
 import EditPlayertagsModal from "./EditPlayerTagsModal";
 
-import H3 from "#/blocks/H3";
 import db, { PlayerDBProps } from "#/utils/db";
 
 const PlayerTable: React.FC = () => {
@@ -242,7 +241,7 @@ const PlayerTable: React.FC = () => {
 
   return (
     <Box>
-      <H3>プレイヤー一覧</H3>
+      <h3>プレイヤー一覧</h3>
       {players.length === 0 ? (
         <Box p={3}>
           <Text>プレイヤーが登録されていません。</Text>

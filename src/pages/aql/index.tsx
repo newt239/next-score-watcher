@@ -28,8 +28,6 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 import db from "#/utils/db";
@@ -99,10 +97,10 @@ const AQLPage = () => {
   }, [aqlGames]);
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
-      <H2>AQLルール</H2>
+      <h2>AQLルール</h2>
       {aqlGames && aqlGames.length !== 0 && (
         <>
-          <H3>作成したゲーム</H3>
+          <h3>作成したゲーム</h3>
           <TableContainer pt={5}>
             <Table variant="simple" size="sm">
               <Thead>
@@ -147,7 +145,7 @@ const AQLPage = () => {
           </TableContainer>
         </>
       )}
-      <H3>新規作成</H3>
+      <h3>新規作成</h3>
       <Flex gap={3} direction={isDesktop ? "row" : "column"}>
         <FormControl pt={5}>
           <FormLabel>ラウンド名</FormLabel>

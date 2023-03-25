@@ -14,11 +14,8 @@ import {
   TabPanels,
   Tabs,
   Text,
-  theme,
 } from "@chakra-ui/react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 type FeatureProps = {
@@ -74,7 +71,7 @@ const Hero: React.FC = () => {
         <Text>競技クイズ用得点表示ソフト</Text>
       </Box>
       <Box>
-        <H2>主な機能</H2>
+        <h2>主な機能</h2>
         {isDesktop ? (
           <Tabs isManual colorScheme="green" pt={5}>
             <TabList>
@@ -86,9 +83,9 @@ const Hero: React.FC = () => {
               {features.map((feature) => (
                 <TabPanel key={feature.title}>
                   {feature.image ? (
-                    <Flex sx={{ p: 3, gap: 3 }}>
+                    <Flex sx={{ gap: 3 }}>
                       <Box w="30%">
-                        <H3>{feature.title}</H3>
+                        <h3>{feature.title}</h3>
                         <Text>{feature.description}</Text>
                       </Box>
                       <Box w="70%">

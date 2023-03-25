@@ -31,7 +31,6 @@ import {
 
 import ShortcutGuideModal from "../board/ShortcutGuideModal";
 
-import H2 from "#/blocks/H2";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { LogDBProps, QuizDBProps } from "#/utils/db";
 
@@ -109,7 +108,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             maxWidth: "70vw",
           }}
         >
-          <H2 pt={0}>{name}</H2>
+          <h2 className="p0">{name}</h2>
           <p>AQL</p>
         </Box>
         {desktop && (

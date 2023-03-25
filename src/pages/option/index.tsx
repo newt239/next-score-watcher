@@ -30,7 +30,6 @@ import {
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
 import AppOptionSwitch from "#/components/AppOptionSwitch";
 
 import db from "#/utils/db";
@@ -71,7 +70,7 @@ const OptionPage = () => {
 
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
-      <H2>アプリ設定</H2>
+      <h2>アプリ設定</h2>
       <Stack sx={{ gap: 5 }}>
         <AppOptionSwitch
           title="ダークモード"
@@ -168,7 +167,7 @@ const OptionPage = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-      <H2>アプリ情報</H2>
+      <h2>アプリ情報</h2>
       <TableContainer>
         <Table>
           <Tbody>

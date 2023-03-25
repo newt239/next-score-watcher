@@ -17,8 +17,6 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import CreatePlayer from "#/components/player/CreatePlayer";
 import ImportPlayer from "#/components/player/ImportPlayer";
 import LoadPlayer from "#/components/player/LoadPlayer";
@@ -41,9 +39,9 @@ const PlayerPage = () => {
           </ReactLink>
         </Box>
       )}
-      <H2>プレイヤー管理</H2>
+      <h2>プレイヤー管理</h2>
       <Box>
-        <H3>プレイヤーの読み込み</H3>
+        <h3>プレイヤーの読み込み</h3>
         <Tabs isFitted variant="enclosed" colorScheme="green" pt={5}>
           <TabList mb="1em">
             <Tab>個別に追加</Tab>
@@ -64,7 +62,7 @@ const PlayerPage = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Alert status="success" mt={5}>
+        <Alert status="success" my={5}>
           <AlertIcon />
           <Box>
             <AlertTitle>サブテキストとは？</AlertTitle>

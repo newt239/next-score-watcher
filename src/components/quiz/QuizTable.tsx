@@ -54,7 +54,6 @@ import {
   Trash,
 } from "tabler-icons-react";
 
-import H3 from "#/blocks/H3";
 import db, { QuizDBProps } from "#/utils/db";
 
 const QuizTable: React.FC = () => {
@@ -157,7 +156,7 @@ const QuizTable: React.FC = () => {
 
   return (
     <Box>
-      <H3>問題一覧</H3>
+      <h3>問題一覧</h3>
       {quizes.length === 0 ? (
         <Box p={3}>
           <Text>問題が登録されていません。</Text>

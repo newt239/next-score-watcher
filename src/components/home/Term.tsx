@@ -1,12 +1,10 @@
 import { Icon, Link, ListItem, UnorderedList } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-
 const Term: React.FC = () => {
   return (
     <>
-      <H2>本ソフトのご利用にあたって</H2>
+      <h2>本ソフトのご利用にあたって</h2>
       <UnorderedList py={5}>
         <ListItem>
           本ソフトはあくまで「得点表示ソフト」であり、問題やプレイヤー、試合記録の管理ソフトではありません。

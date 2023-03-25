@@ -31,7 +31,6 @@ import {
 
 import ShortcutGuideModal from "./ShortcutGuideModal";
 
-import H2 from "#/blocks/H2";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
@@ -99,7 +98,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             maxWidth: "70vw",
           }}
         >
-          <H2 pt={0}>{game.name}</H2>
+          <h2 className="p0">{game.name}</h2>
           <p>{getRuleStringByType(game)}</p>
         </Box>
         {game.editable ||

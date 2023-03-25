@@ -16,8 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import ImportQuiz from "#/components/quiz/ImportQuiz";
 import LoadQuiz from "#/components/quiz/LoadQuiz";
 import QuizTable from "#/components/quiz/QuizTable";
@@ -41,9 +39,9 @@ const QuizPage = () => {
           </Button>
         </Box>
       )}
-      <H2>問題管理</H2>
+      <h2>問題管理</h2>
       <Box>
-        <H3>問題の読み込み</H3>
+        <h3>問題の読み込み</h3>
         <FormControl py={5}>
           <FormLabel>セット名</FormLabel>
           <Input
