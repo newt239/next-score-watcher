@@ -7,10 +7,12 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import{ verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
@@ -35,6 +37,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const desktop = useDeviceWidth();
+  const isVerticalView = useAtomValue(verticalViewAtom);
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
   const variantColor = ["red", "win"].includes(color)
@@ -49,7 +52,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     display: "block",
     fontSize: desktop
       ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
-          compact ? "4.5vw" : "9vw"
+          compact || isVerticalView ? "4.5vw" : "48px"
         })`
       : `max(1rem, min(calc(${compact ? "6vw" : "12vw"} / ${
           children.length
