@@ -19,7 +19,7 @@ type AQLPlayerStateProps = {
   wrong: number;
 };
 
-const AQLBoardPage = () => {
+const AQLBoardPage: React.FC = () => {
   const isDesktop = useDeviceWidth(800);
   const { game_id } = useParams();
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");

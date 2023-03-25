@@ -78,22 +78,31 @@ const AQLPage = () => {
       },
       last_open: cdate().text(),
     };
+    let newGameList;
     if (aqlGames) {
-      setAqlGames([...aqlGames, newAqlGame]);
+      newGameList = [...aqlGames, newAqlGame];
     } else {
-      setAqlGames([newAqlGame]);
+      newGameList = [newAqlGame];
     }
+    setAqlGames(newGameList);
+    localStorage.setItem(
+      "scorewatcher-aql-games",
+      JSON.stringify({
+        games: newGameList,
+      })
+    );
     navigate(`/aql/${game_id}`);
   };
 
   useEffect(() => {
-    localStorage.setItem(
+    window.localStorage.setItem(
       "scorewatcher-aql-games",
       JSON.stringify({
         games: aqlGames,
       })
     );
   }, [aqlGames]);
+
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       <h2>AQLルール</h2>
