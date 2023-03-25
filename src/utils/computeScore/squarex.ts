@@ -47,7 +47,11 @@ const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               };
             }
           case "wrong":
-            return playerState;
+            return {
+              ...playerState,
+              wrong: playerState.wrong + 1,
+              last_wrong: qn,
+            };
         }
       } else {
         return playerState;

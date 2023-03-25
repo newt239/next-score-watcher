@@ -96,6 +96,7 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
+          width: isVerticalView ? "40%" : "auto",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
