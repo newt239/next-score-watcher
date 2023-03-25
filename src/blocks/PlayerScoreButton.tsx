@@ -16,6 +16,7 @@ type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
   children: string;
   filled?: boolean;
+  compact?: boolean;
   game_id: string;
   player_id: string;
   editable: boolean;
@@ -26,6 +27,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   color,
   children,
   filled = false,
+  compact = false,
   game_id,
   player_id,
   editable,
@@ -46,8 +48,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const ButtonCssStyle = {
     display: "block",
     fontSize: desktop
-      ? `min(2.5vw, calc(10vw / ${children.length}))`
-      : `max(1rem, min(calc(12vw / ${children.length}), 3.5vw))`,
+      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
+          compact ? "4.5vw" : "9vw"
+        })`
+      : `max(1rem, min(calc(${compact ? "6vw" : "12vw"} / ${
+          children.length
+        }), 3.5vw))`,
     lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
     width: "100%",
