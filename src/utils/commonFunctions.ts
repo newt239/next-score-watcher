@@ -88,9 +88,12 @@ export const createGame = async (
   }
 };
 
-export const numberSign = (type: "correct" | "wrong" | "pt") => {
+export const numberSign = (
+  type: "correct" | "wrong" | "pt",
+  score?: number
+) => {
   const showSignString = localStorage.getItem("scorew-show-sign-string");
-  if (showSignString === "true" || showSignString === null) {
+  if (typeof score === "undefined") {
     switch (type) {
       case "correct":
         return "○";
@@ -99,8 +102,17 @@ export const numberSign = (type: "correct" | "wrong" | "pt") => {
       case "pt":
         return "pt";
     }
+  } else if (showSignString === "true" || showSignString === null) {
+    switch (type) {
+      case "correct":
+        return `${score}○`;
+      case "wrong":
+        return `${score}✕`;
+      case "pt":
+        return `${score}pt`;
+    }
   } else {
-    return "";
+    return score.toString();
   }
 };
 

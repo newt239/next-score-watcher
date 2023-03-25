@@ -75,7 +75,7 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         ? indicator(order)
         : playerState.state === "lose"
         ? "LOSE"
-        : `${playerState.score}${numberSign("pt")}`;
+        : numberSign("pt", playerState.score);
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

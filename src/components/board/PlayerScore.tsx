@@ -62,12 +62,12 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color="red" {...props}>
             {player.state === "win"
               ? player.text
-              : `${player.correct}${numberSign("correct")}`}
+              : numberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
             {player.state === "lose"
               ? player.text
-              : `${player.wrong}${numberSign("wrong")}`}
+              : numberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
@@ -81,10 +81,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             filled={isLastCorrectPlayer}
             {...props}
           >
-            {`${player.correct}${numberSign("correct")}`}
+            {numberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
-            {`${player.wrong}${numberSign("wrong")}`}
+            {numberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
@@ -118,10 +118,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex>
             <PlayerScoreButton color="red" compact {...props}>
-              {`${player.correct}${numberSign("correct")}`}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}${numberSign("wrong")}`}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -136,7 +136,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               ○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}${numberSign("wrong")}`}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -151,7 +151,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               ○
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}${numberSign("wrong")}`}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -163,10 +163,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex>
             <PlayerScoreButton color="red" compact {...props}>
-              {`${player.correct}${numberSign("correct")}`}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}${numberSign("wrong")}`}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -209,7 +209,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               }
               {...props}
             >
-              {`${player.correct}${numberSign("correct")}`}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
               color="blue"
@@ -220,7 +220,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               }
               {...props}
             >
-              {`${player.wrong}${numberSign("wrong")}`}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -238,7 +238,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             color="blue"
             {...props}
           >
-            {`${player.wrong}${numberSign("wrong")}`}
+            {numberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
@@ -249,10 +249,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex>
             <PlayerScoreButton color="red" compact {...props}>
-              {`${player.correct}${numberSign("correct")}`}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {`${player.wrong}${numberSign("wrong")}`}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
           <PlayerScoreButton color="green" disabled {...props}>
