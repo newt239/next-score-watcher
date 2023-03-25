@@ -1,5 +1,4 @@
-import { Link as ReactLink } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link as ReactLink , useLocation } from "react-router-dom";
 
 import { Box, Flex, LinkBox, useColorMode } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";

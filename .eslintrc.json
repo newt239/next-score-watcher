@@ -1,11 +1,36 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
   "extends": [
+    "plugin:react/recommended",
     "plugin:import/recommended",
     "plugin:import/warnings",
     "prettier"
   ],
-  "plugins": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": ["react", "@typescript-eslint"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": []
+    }
+  },
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
     "import/prefer-default-export": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/order": [
@@ -34,5 +59,6 @@
         "newlines-between": "always"
       }
     ]
-  }
+  },
+  "ignorePatterns": ["vite.config.ts"]
 }

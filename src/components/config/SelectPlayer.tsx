@@ -1,5 +1,5 @@
-import { Link as ReactLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Accordion,
@@ -32,12 +32,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
-import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
 import { ReactSortable } from "react-sortablejs";
+import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
 
 import CompactPlayerTable from "#/components/config/CompactPlayerTable";
 import IndividualConfig from "#/components/config/IndividualConfig";
-
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
 

@@ -1,6 +1,5 @@
-import { Link as ReactLink, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { Link as ReactLink, useNavigate , useParams } from "react-router-dom";
 
 import {
   Alert,
@@ -17,12 +16,11 @@ import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
+import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
-import SelectPlayer from "#/components/config/SelectPlayer";
 
 const ConfigPage = () => {
   const navigate = useNavigate();

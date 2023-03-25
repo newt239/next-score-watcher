@@ -1,5 +1,5 @@
-import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
   Table,
@@ -29,7 +29,6 @@ import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-
 import db from "#/utils/db";
 
 export type AQLGameProps = {

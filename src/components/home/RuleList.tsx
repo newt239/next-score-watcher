@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import {
   Card,
   CardHeader,
@@ -12,7 +14,6 @@ import { CirclePlus } from "tabler-icons-react";
 import { createGame } from "#/utils/commonFunctions";
 import { RuleNames } from "#/utils/db";
 import { rules } from "#/utils/rules";
-import { useNavigate } from "react-router-dom";
 
 const RuleList: React.FC = () => {
   const navigate = useNavigate();

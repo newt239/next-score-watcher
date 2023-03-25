@@ -1,18 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "#/pages";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import Header from "#/components/Header";
+
+import { Box } from "@chakra-ui/react";
+
+import ScrollTop from "#/blocks/ScrollTop";
 import BottomBar from "#/components/BottomBar";
 import Footer from "#/components/Footer";
-import { Box } from "@chakra-ui/react";
+import Header from "#/components/Header";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
+import HomePage from "#/pages";
+import BoardPage from "#/pages/[game_id]/board";
+import ConfigPage from "#/pages/[game_id]/config";
+import AQLPage from "#/pages/aql";
+import AQLBoardPage from "#/pages/aql/[game_id]";
 import OptionPage from "#/pages/option";
 import PlayerPage from "#/pages/player";
 import QuizPage from "#/pages/quiz";
-import ConfigPage from "#/pages/[game_id]/config";
-import BoardPage from "#/pages/[game_id]/board";
-import AQLPage from "#/pages/aql";
-import AQLBoardPage from "#/pages/aql/[game_id]";
-import ScrollTop from "#/blocks/ScrollTop";
 
 import "#/styles/globals.css";
 

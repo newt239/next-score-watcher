@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   AlertDialog,
@@ -31,7 +32,6 @@ import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
 import AppOptionSwitch from "#/components/AppOptionSwitch";
-
 import db from "#/utils/db";
 import {
   reversePlayerInfoAtom,
@@ -41,7 +41,6 @@ import {
   verticalViewAtom,
   webhookUrlAtom,
 } from "#/utils/jotai";
-import { useNavigate } from "react-router-dom";
 
 const OptionPage = () => {
   const navigate = useNavigate();
