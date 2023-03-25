@@ -76,37 +76,21 @@ const Hero: React.FC = () => {
       <Box>
         <H2>主な機能</H2>
         {isDesktop ? (
-          <Tabs
-            isManual
-            variant="soft-rounded"
-            orientation="vertical"
-            colorScheme="green"
-            sx={{ pt: 5 }}
-          >
-            <TabList sx={{ whiteSpace: "nowrap" }}>
+          <Tabs isManual colorScheme="green" pt={5}>
+            <TabList>
               {features.map((feature) => (
-                <Tab
-                  key={feature.title}
-                  sx={{
-                    justifyContent: "flex-start",
-                    borderRadius: "1rem 0 0 1rem",
-                  }}
-                >
-                  {feature.title}
-                </Tab>
+                <Tab key={feature.title}>{feature.title}</Tab>
               ))}
             </TabList>
-            <TabPanels
-              sx={{
-                border: `3px solid ${theme.colors.green[100]}`,
-                borderRadius: "0 1rem 1rem 0",
-              }}
-            >
+            <TabPanels>
               {features.map((feature) => (
                 <TabPanel key={feature.title}>
-                  <H3 pt={0}>{feature.title}</H3>
                   {feature.image ? (
                     <Flex sx={{ p: 3, gap: 3 }}>
+                      <Box w="30%">
+                        <H3>{feature.title}</H3>
+                        <Text>{feature.description}</Text>
+                      </Box>
                       <Box w="70%">
                         <Image
                           src={"images/" + feature.image}
@@ -114,12 +98,9 @@ const Hero: React.FC = () => {
                           sx={{ borderRadius: "1rem" }}
                         />
                       </Box>
-                      <Box w="30%">
-                        <Text>{feature.description}</Text>
-                      </Box>
                     </Flex>
                   ) : (
-                    <Box sx={{ p: 3 }}>
+                    <Box>
                       <Text>{feature.description}</Text>
                     </Box>
                   )}
@@ -133,7 +114,7 @@ const Hero: React.FC = () => {
               <AccordionItem key={feature.title}>
                 <h2>
                   <AccordionButton>
-                    <Box as="span" flex="1" textAlign="left">
+                    <Box flex={1} textAlign="left">
                       {feature.title}
                     </Box>
                     <AccordionIcon />
