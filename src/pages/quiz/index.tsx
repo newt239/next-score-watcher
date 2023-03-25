@@ -1,7 +1,5 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Tabs,
@@ -14,41 +12,36 @@ import {
   FormControl,
   Box,
   Button,
+  Container,
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import ImportQuiz from "#/components/quiz/ImportQuiz";
 import LoadQuiz from "#/components/quiz/LoadQuiz";
 import QuizTable from "#/components/quiz/QuizTable";
-import { Layout } from "#/layouts/Layout";
 
-const QuizPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { from } = router.query;
+const QuizPage = () => {
+  const navigate = useNavigate();
+  const { from } = useParams();
   const [setName, setSetName] = useState<string>("セット1");
 
   return (
-    <>
-      <Head>
-        <title>問題管理 - Score Watcher</title>
-      </Head>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       {typeof from === "string" && (
         <Box>
           <Button
             colorScheme="green"
             variant="link"
-            onClick={() => router.push({ pathname: `/${from}/config` })}
+            onClick={() => navigate({ pathname: `/${from}/config` })}
             leftIcon={<ArrowBackUp />}
           >
             設定に戻る
           </Button>
         </Box>
       )}
-      <H2>問題管理</H2>
+      <h2>問題管理</h2>
       <Box>
-        <H3>問題の読み込み</H3>
+        <h3>問題の読み込み</h3>
         <FormControl py={5}>
           <FormLabel>セット名</FormLabel>
           <Input
@@ -74,10 +67,8 @@ const QuizPage: NextPageWithLayout = () => {
         </Tabs>
       </Box>
       <QuizTable />
-    </>
+    </Container>
   );
 };
-
-QuizPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default QuizPage;

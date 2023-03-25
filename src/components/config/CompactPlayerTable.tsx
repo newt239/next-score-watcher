@@ -1,5 +1,5 @@
-import NextLink from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
@@ -54,28 +54,42 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   gamePlayers,
 }) => {
   const [searchText, setSearchText] = useState<string>("");
+  const [currentSelectedPlayers, setCurrentSelectPlayers] =
+    useState(gamePlayers);
 
   const onChangeHandler = async (player: PlayerDBProps) => {
-    if (gamePlayers.map((gamePlayer) => gamePlayer.id).includes(player.id)) {
-      await db.games.update(game_id, {
-        players: gamePlayers.filter((gamePlayer) => gamePlayer.id != player.id),
-      });
+    if (
+      currentSelectedPlayers
+        .map((gamePlayer) => gamePlayer.id)
+        .includes(player.id)
+    ) {
+      // 選択解除
+      setCurrentSelectPlayers(
+        currentSelectedPlayers.filter(
+          (gamePlayer) => gamePlayer.id !== player.id
+        )
+      );
     } else {
-      await db.games.update(game_id, {
-        players: [
-          ...gamePlayers,
-          {
-            id: player.id,
-            name: player.name,
-            initial_correct: 0,
-            initial_wrong: 0,
-            base_correct_point: 1,
-            base_wrong_point: -1,
-          } as GameDBPlayerProps,
-        ],
-      });
+      // 追加
+      setCurrentSelectPlayers([
+        ...currentSelectedPlayers,
+        {
+          id: player.id,
+          name: player.name,
+          initial_correct: 0,
+          initial_wrong: 0,
+          base_correct_point: 1,
+          base_wrong_point: -1,
+        } as GameDBPlayerProps,
+      ]);
     }
   };
+
+  useEffect(() => {
+    db.games.update(game_id, {
+      players: currentSelectedPlayers,
+    });
+  }, [currentSelectedPlayers]);
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
     const data = row.original;
@@ -95,7 +109,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         return (
           <Checkbox
             onChange={() => onChangeHandler(info.row.original)}
-            isChecked={gamePlayers
+            isChecked={currentSelectedPlayers
               .map((gamePlayer) => gamePlayer.id)
               .includes(info.getValue())}
           />
@@ -256,7 +270,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Box>
           </HStack>
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <NextLink href={`/player?from=${game_id}`}>
+            <ReactLink to={`/player?from=${game_id}`}>
               <Button
                 colorScheme="green"
                 variant="ghost"
@@ -264,7 +278,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
               >
                 詳細設定
               </Button>
-            </NextLink>
+            </ReactLink>
           </Box>
         </Box>
       )}

@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -30,8 +30,7 @@ const Player: React.FC<PlayerProps> = ({
   last_correct_player,
 }) => {
   const { colorMode } = useColorMode();
-  const router = useRouter();
-  const { game_id } = router.query;
+  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
   const isDesktop = useDeviceWidth();
@@ -97,6 +96,7 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
+          width: isVerticalView ? "40%" : "auto",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",

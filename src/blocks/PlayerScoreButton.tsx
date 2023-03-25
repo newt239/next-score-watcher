@@ -14,7 +14,7 @@ import db from "#/utils/db";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
-  children: string | number;
+  children: string;
   filled?: boolean;
   compact?: boolean;
   game_id: string;
@@ -47,10 +47,13 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 
   const ButtonCssStyle = {
     display: "block",
-    fontSize:
-      desktop && compact
-        ? "2.5vw"
-        : `max(1rem, min(calc(12vw / ${children.toString().length}), 3.5vw))`,
+    fontSize: desktop
+      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
+          compact ? "4.5vw" : "9vw"
+        })`
+      : `max(1rem, min(calc(${compact ? "6vw" : "12vw"} / ${
+          children.length
+        }), 3.5vw))`,
     lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
     width: "100%",
@@ -84,7 +87,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   return (
     <>
       {editable ? (
-        <Editable defaultValue={children?.toString()} sx={ButtonCssStyle}>
+        <Editable defaultValue={children} sx={ButtonCssStyle}>
           <EditablePreview sx={{ p: 0 }} />
           <EditableInput
             sx={{

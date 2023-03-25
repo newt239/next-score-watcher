@@ -47,7 +47,11 @@ const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               };
             }
           case "wrong":
-            return playerState;
+            return {
+              ...playerState,
+              wrong: playerState.wrong + 1,
+              last_wrong: qn,
+            };
         }
       } else {
         return playerState;
@@ -64,7 +68,7 @@ const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         ? indicator(order)
         : playerState.state === "lose"
         ? "LOSE"
-        : `${playerState.score}${numberSign("pt")}`;
+        : numberSign("pt", playerState.score);
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

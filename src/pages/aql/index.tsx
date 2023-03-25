@@ -1,8 +1,5 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
-import router from "next/router";
 import { useState, useEffect } from "react";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
   Table,
@@ -24,16 +21,14 @@ import {
   NumberInputStepper,
   Select,
   Box,
+  Container,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
 export type AQLGameProps = {
@@ -48,7 +43,8 @@ export type AQLGameProps = {
   last_open: string;
 };
 
-const AQLPage: NextPageWithLayout = () => {
+const AQLPage = () => {
+  const navigate = useNavigate();
   const [roundName, setRoundName] = useState<string>("");
   const [leftTeamName, setLeftTeamName] = useState<string>("");
   const [rightTeamName, setRightTeamName] = useState<string>("");
@@ -87,7 +83,7 @@ const AQLPage: NextPageWithLayout = () => {
     } else {
       setAqlGames([newAqlGame]);
     }
-    router.push(`/aql/${game_id}`);
+    navigate(`/aql/${game_id}`);
   };
 
   useEffect(() => {
@@ -99,14 +95,11 @@ const AQLPage: NextPageWithLayout = () => {
     );
   }, [aqlGames]);
   return (
-    <>
-      <Head>
-        <title>AQL - Score Watcher</title>
-      </Head>
-      <H2>AQLルール</H2>
+    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+      <h2>AQLルール</h2>
       {aqlGames && aqlGames.length !== 0 && (
         <>
-          <H3>作成したゲーム</H3>
+          <h3>作成したゲーム</h3>
           <TableContainer pt={5}>
             <Table variant="simple" size="sm">
               <Thead>
@@ -121,7 +114,7 @@ const AQLPage: NextPageWithLayout = () => {
                     <Tr key={game.id}>
                       <Td>{game.name}</Td>
                       <Td isNumeric>
-                        <NextLink href={`/aql/${game.id}`}>
+                        <ReactLink to={`/aql/${game.id}`}>
                           <Button
                             size="sm"
                             colorScheme="green"
@@ -130,7 +123,7 @@ const AQLPage: NextPageWithLayout = () => {
                           >
                             開く
                           </Button>
-                        </NextLink>
+                        </ReactLink>
                         <Button
                           leftIcon={<Trash />}
                           size="sm"
@@ -151,7 +144,7 @@ const AQLPage: NextPageWithLayout = () => {
           </TableContainer>
         </>
       )}
-      <H3>新規作成</H3>
+      <h3>新規作成</h3>
       <Flex gap={3} direction={isDesktop ? "row" : "column"}>
         <FormControl pt={5}>
           <FormLabel>ラウンド名</FormLabel>
@@ -214,7 +207,7 @@ const AQLPage: NextPageWithLayout = () => {
           </Flex>
         ) : (
           <Box>
-            <NextLink href="/quiz">
+            <ReactLink to="/quiz">
               <Button
                 disabled={
                   roundName === "" ||
@@ -226,7 +219,7 @@ const AQLPage: NextPageWithLayout = () => {
               >
                 問題データを読み込む
               </Button>
-            </NextLink>
+            </ReactLink>
           </Box>
         )}
       </Box>
@@ -239,10 +232,8 @@ const AQLPage: NextPageWithLayout = () => {
           作る
         </Button>
       </Box>
-    </>
+    </Container>
   );
 };
-
-AQLPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default AQLPage;

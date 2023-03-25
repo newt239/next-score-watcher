@@ -12,9 +12,8 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
-import { History, SortAscending, SortDescending } from "tabler-icons-react";
+import { SortAscending, SortDescending } from "tabler-icons-react";
 
-import H3 from "#/blocks/H3";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { LogDBProps } from "#/utils/db";
 
@@ -37,10 +36,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
         maxW: "100vw",
       }}
     >
-      <H3 display="flex" gap={3} p={3}>
-        <History />
-        試合ログ
-      </H3>
+      <h3>試合ログ</h3>
       <Box
         sx={{
           borderStyle: "solid",

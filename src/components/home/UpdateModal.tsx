@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   Modal,
@@ -14,11 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
+import { features } from "#/utils/features";
+
 const UpdateModal: React.FC = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const currentVersion = localStorage.getItem("scorewatcher-version");
-  const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
+  const latestVersion = import.meta.env.VITE_APP_VERSION;
 
   useEffect(() => {
     if (!currentVersion) {
@@ -30,8 +32,10 @@ const UpdateModal: React.FC = () => {
 
   const update = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);
-    router.reload();
+    navigate(0);
   };
+
+  const feature = features[latestVersion];
 
   return (
     <Modal isOpen={modalOpen} onClose={update}>
@@ -43,7 +47,31 @@ const UpdateModal: React.FC = () => {
             現在 v.{currentVersion} を使用中です。 v.{latestVersion}{" "}
             にアップデートします。
           </p>
-          <p>
+          {feature && (
+            <>
+              {feature.feature.length > 0 && (
+                <>
+                  <h3>🎉新機能</h3>
+                  <ul>
+                    {feature.feature.map((v, i) => (
+                      <li key={i}>{v}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {feature.bugfix.length > 0 && (
+                <>
+                  <h3>🐛不具合修正</h3>
+                  <ul>
+                    {feature.bugfix.map((v, i) => (
+                      <li key={i}>{v}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
+          )}
+          <p style={{ paddingTop: "2rem" }}>
             詳細は
             <Link
               href="https://github.com/newt239/next-score-watcher/releases"

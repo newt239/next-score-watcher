@@ -1,7 +1,4 @@
-import { NextPageWithLayout } from "next";
-import Head from "next/head";
-import NextLink from "next/link";
-import { useRouter } from "next/router";
+import { Link as ReactLink , useParams } from "react-router-dom";
 
 import {
   Box,
@@ -18,24 +15,18 @@ import {
   Tag,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { ArrowBackUp, X } from "tabler-icons-react";
+import { ArrowBackUp, Layout, X } from "tabler-icons-react";
 
-import H2 from "#/blocks/H2";
-import { Layout } from "#/layouts/Layout";
 import db from "#/utils/db";
 
-const EachPlayerPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const { player_id } = router.query;
+const EachPlayerPage = () => {
+  const { player_id } = useParams();
   const player = useLiveQuery(() => db.players.get(player_id as string));
 
   return (
     <>
-      <Head>
-        <title>プレイヤー管理 - Score Watcher</title>
-      </Head>
       <Box>
-        <NextLink href={`/player`}>
+        <ReactLink to={`/player`}>
           <Button
             colorScheme="green"
             variant="ghost"
@@ -43,13 +34,13 @@ const EachPlayerPage: NextPageWithLayout = () => {
           >
             プレイヤー一覧に戻る
           </Button>
-        </NextLink>
+        </ReactLink>
       </Box>
       {!player ? (
         <Text>該当するプレイヤーが見つかりませんでした。</Text>
       ) : (
         <>
-          <H2>{player.name}</H2>
+          <h2>{player.name}</h2>
           <TableContainer>
             <Table>
               <Tbody>
@@ -95,7 +86,5 @@ const EachPlayerPage: NextPageWithLayout = () => {
     </>
   );
 };
-
-EachPlayerPage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default EachPlayerPage;

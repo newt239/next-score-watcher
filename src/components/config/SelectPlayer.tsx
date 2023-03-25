@@ -1,6 +1,5 @@
-import NextLink from "next/link";
-import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 
 import {
   Accordion,
@@ -33,38 +32,13 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  type DropResult,
-} from "react-beautiful-dnd";
-import {
-  CirclePlus,
-  InfoCircle,
-  Plus,
-  Settings,
-  Upload,
-} from "tabler-icons-react";
+import { ReactSortable } from "react-sortablejs";
+import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
 
-import CompactPlayerTable from "./CompactPlayerTable";
-import IndividualConfig from "./IndividualConfig";
-
-import H2 from "#/blocks/H2";
-import H3 from "#/blocks/H3";
+import CompactPlayerTable from "#/components/config/CompactPlayerTable";
+import IndividualConfig from "#/components/config/IndividualConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
-
-const reorder = (
-  list: GameDBPlayerProps[],
-  startIndex: number,
-  endIndex: number
-) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
 
 type SelectPlayerProps = {
   game_id: string;
@@ -83,7 +57,6 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const toast = useToast();
-  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
@@ -91,6 +64,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const [sortableList, setSortableList] = useState(players);
 
   const isDesktop = useDeviceWidth();
 
@@ -134,33 +108,33 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     nameInputRef.current?.focus();
   };
 
-  const onDragEnd = async (result: DropResult) => {
-    // ドロップ先がない
-    if (!result.destination) {
-      return;
+  useEffect(() => {
+    if (sortableList.length !== players.length) {
+      setSortableList(players);
     }
-    // 配列の順序を入れ替える
-    let movedItems = reorder(
-      players, // 順序を入れ変えたい配列
-      result.source.index, // 元の配列の位置
-      result.destination.index // 移動先の配列の位置
-    );
-    await db.games.update(game_id, {
-      players: movedItems,
-    });
-  };
+  }, [players]);
+
+  useEffect(() => {
+    if (sortableList.length === players.length) {
+      db.games.update(game_id, {
+        players: sortableList,
+      });
+    } else {
+      setSortableList(players);
+    }
+  }, [sortableList]);
 
   return (
     <>
-      <H2>プレイヤー設定</H2>
+      <h2>プレイヤー設定</h2>
       <Box py={5}>
         {playerList.length === 0 ? (
           <>
-            <NextLink href={`/player?from=${game_id}`}>
+            <ReactLink to={`/player?from=${game_id}`}>
               <Button leftIcon={<Upload />} colorScheme="blue">
                 プレイヤーデータを読み込む
               </Button>
-            </NextLink>
+            </ReactLink>
           </>
         ) : (
           <>
@@ -184,14 +158,12 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 <DrawerBody p={0}>
                   <Accordion defaultIndex={1}>
                     <AccordionItem>
-                      <H3 pt={0}>
-                        <AccordionButton>
-                          <Box as="span" flex="1" textAlign="left">
-                            新しく追加
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </H3>
+                      <AccordionButton>
+                        <Box as="span" flex="1" textAlign="left">
+                          新しく追加
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
                       <AccordionPanel pb={4}>
                         <Stack spacing={3}>
                           <FormControl>
@@ -249,20 +221,18 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
-                      <H3 sx={{ pt: 0 }}>
-                        <AccordionButton>
-                          <Box flex="1" textAlign="left">
-                            データベースから追加
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                      </H3>
+                      <AccordionButton>
+                        <Box flex="1" textAlign="left">
+                          データベースから追加
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
                       <AccordionPanel pb={4}>
                         {playerList.length === 0 ? (
                           <Box py={3}>
-                            <NextLink href="/player" passHref>
-                              <Link>プレイヤー管理</Link>
-                            </NextLink>
+                            <Link as={ReactLink} to="/player" color="blue.500">
+                              プレイヤー管理
+                            </Link>
                             ページから一括でプレイヤー情報を登録できます。
                           </Box>
                         ) : (
@@ -289,96 +259,73 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       : theme.colors.gray[300],
                 }}
               >
-                <DragDropContext onDragEnd={onDragEnd}>
-                  <Droppable
-                    droppableId="droppable"
-                    direction={isDesktop ? "horizontal" : "vertical"}
-                  >
-                    {(provided) => (
-                      <Flex
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        sx={{
-                          flexDirection: isDesktop ? "row" : "column",
-                          gap: 3,
-                        }}
-                      >
-                        {players.map((gamePlayer, index) => (
-                          <Draggable
-                            key={gamePlayer.id}
-                            draggableId={gamePlayer.id}
-                            index={index}
+                <ReactSortable
+                  list={sortableList}
+                  setList={(newState) => setSortableList(newState)}
+                  animation={200}
+                  delay={2}
+                  direction="horizontal"
+                  style={{ display: "flex", gap: 5 }}
+                >
+                  {sortableList.map((player, index) => (
+                    <Card
+                      key={player.id}
+                      bgColor={
+                        colorMode === "dark"
+                          ? theme.colors.gray[700]
+                          : theme.colors.gray[200]
+                      }
+                      cursor="grab"
+                    >
+                      <CardBody>
+                        <Flex
+                          sx={{
+                            flexDirection: isDesktop ? "column" : "row",
+                            gap: 3,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            height: "100%",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              writingMode: isDesktop
+                                ? "vertical-rl"
+                                : "horizontal-tb",
+                              whiteSpace: "nowrap",
+                              textOrientation: "upright",
+                            }}
                           >
-                            {(provided, snapshot) => (
-                              <Card
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                bgColor={
-                                  colorMode === "dark"
-                                    ? theme.colors.gray[700]
-                                    : theme.colors.gray[200]
-                                }
-                              >
-                                <CardBody>
-                                  <Flex
-                                    sx={{
-                                      flexDirection: isDesktop
-                                        ? "column"
-                                        : "row",
-                                      gap: 3,
-                                      justifyContent: "space-between",
-                                      alignItems: "center",
-                                      height: "100%",
-                                    }}
-                                  >
-                                    <Box
-                                      sx={{
-                                        writingMode: isDesktop
-                                          ? "vertical-rl"
-                                          : "horizontal-tb",
-                                        whiteSpace: "nowrap",
-                                        textOrientation: "upright",
-                                      }}
-                                    >
-                                      <Text size="xl">{gamePlayer.name}</Text>
-                                    </Box>
-                                    <IndividualConfig
-                                      onClick={() => {
-                                        setCurrentPlayerIndex(index);
-                                        onOpen();
-                                      }}
-                                      isOpen={isOpen}
-                                      onClose={() => {
-                                        setCurrentPlayerIndex(0);
-                                        onClose();
-                                      }}
-                                      game_id={game_id}
-                                      rule_name={rule_name}
-                                      players={players}
-                                      index={currentPlayerIndex}
-                                      correct={[
-                                        "normal",
-                                        "nomx",
-                                        "nomx-ad",
-                                        "various-fluctuations",
-                                      ].includes(rule_name)}
-                                      wrong={["nomx", "nomx-ad"].includes(
-                                        rule_name
-                                      )}
-                                      disabled={disabled}
-                                    />
-                                  </Flex>
-                                </CardBody>
-                              </Card>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </Flex>
-                    )}
-                  </Droppable>
-                </DragDropContext>
+                            <Text size="xl">{player.name}</Text>
+                          </Box>
+                          <IndividualConfig
+                            onClick={() => {
+                              setCurrentPlayerIndex(index);
+                              onOpen();
+                            }}
+                            isOpen={isOpen}
+                            onClose={() => {
+                              setCurrentPlayerIndex(0);
+                              onClose();
+                            }}
+                            game_id={game_id}
+                            rule_name={rule_name}
+                            players={players}
+                            index={currentPlayerIndex}
+                            correct={[
+                              "normal",
+                              "nomx",
+                              "nomx-ad",
+                              "various-fluctuations",
+                            ].includes(rule_name)}
+                            wrong={["nomx", "nomx-ad"].includes(rule_name)}
+                            disabled={disabled}
+                          />
+                        </Flex>
+                      </CardBody>
+                    </Card>
+                  ))}
+                </ReactSortable>
               </Box>
             )}
           </>

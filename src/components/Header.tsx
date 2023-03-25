@@ -1,12 +1,19 @@
-import Image from "next/image";
-import NextLink from "next/link";
+import { Link as ReactLink, useLocation } from "react-router-dom";
 
-import { Box, Button, Flex, Spacer, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Spacer,
+  Image,
+  useColorMode,
+} from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
+  const location = useLocation();
   const desktop = useDeviceWidth();
   const { colorMode } = useColorMode();
 
@@ -26,13 +33,19 @@ const Header: React.FC = () => {
         }}
       >
         {linkList.map((link) => (
-          <NextLink key={link.path} href={link.path}>
+          <ReactLink key={link.path} to={link.path}>
             <Button variant="ghost">{link.text}</Button>
-          </NextLink>
+          </ReactLink>
         ))}
       </Flex>
     );
   };
+
+  if (
+    location.pathname.includes("board") ||
+    location.pathname.includes("/aql/")
+  )
+    return null;
 
   return (
     <Box
@@ -64,10 +77,10 @@ const Header: React.FC = () => {
         }}
       >
         <Box sx={{ transition: "all 0.2s ease-out" }} _hover={{ opacity: 0.5 }}>
-          <NextLink href="/">
+          <ReactLink to="/">
             <Image
               src={Logo}
-              style={{
+              sx={{
                 height: "auto",
                 width: "auto",
                 maxHeight: "7vh",
@@ -77,7 +90,7 @@ const Header: React.FC = () => {
               }}
               alt="app logo"
             />
-          </NextLink>
+          </ReactLink>
         </Box>
         {desktop && (
           <>
