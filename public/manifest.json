@@ -32,22 +32,22 @@
     ],
     "screenshots": [
         {
-            "src": "score-watcher_feature_basic.webp",
-            "sizes": "1280x720",
+            "src": "images/score-watcher_feature_basic.webp",
+            "sizes": "1920x1080",
             "type": "image/webp",
             "platform": "wide",
             "label": "基本機能"
         },
         {
-            "src": "score-watcher_feature_winthrough.webp",
-            "sizes": "1280x720",
+            "src": "images/score-watcher_feature_winthrough.webp",
+            "sizes": "1920x1080",
             "type": "image/webp",
             "platform": "wide",
             "label": "勝ち抜け時のポップアップ表示"
         },
         {
-            "src": "score-watcher_feature_colormode.webp",
-            "sizes": "1280x720",
+            "src": "images/score-watcher_feature_colormode.webp",
+            "sizes": "1920x1080",
             "type": "image/webp",
             "platform": "wide",
             "label": "カラーモードの変更"

@@ -60,5 +60,5 @@
       }
     ]
   },
-  "ignorePatterns": ["vite.config.ts"]
+  "ignorePatterns": ["vite.config.ts", "serviceWorker.js"]
 }

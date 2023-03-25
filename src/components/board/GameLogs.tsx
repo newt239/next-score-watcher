@@ -10,10 +10,9 @@ import {
   Tr,
   useColorMode,
   Button,
-  Flex,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
-import { History, SortAscending, SortDescending } from "tabler-icons-react";
+import { SortAscending, SortDescending } from "tabler-icons-react";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { LogDBProps } from "#/utils/db";
