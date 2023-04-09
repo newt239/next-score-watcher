@@ -1,3 +1,6 @@
+import { ReactNode } from "react";
+import { Link as ReactLink } from "react-router-dom";
+
 import {
   Accordion,
   AccordionButton,
@@ -8,6 +11,7 @@ import {
   Flex,
   Heading,
   Image,
+  Link,
   Tab,
   TabList,
   TabPanel,
@@ -21,7 +25,7 @@ import useDeviceWidth from "#/hooks/useDeviceWidth";
 type FeatureProps = {
   title: string;
   image?: string;
-  description: string;
+  description: ReactNode;
 };
 
 const Hero: React.FC = () => {
@@ -56,9 +60,24 @@ const Hero: React.FC = () => {
       description: "暗い会場でも見やすいダークモードでの表示に対応しています。",
     },
     {
-      title: "オフライン対応",
-      description:
-        "一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。",
+      title: "その他",
+      description: (
+        <>
+          <h3>オフライン対応</h3>
+          <Text>
+            一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。
+          </Text>
+          <h3>ショートカットキー</h3>
+          <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
+          <h3>表示はカスタマイズ可能</h3>
+          <Text>
+            <ReactLink to="/option">
+              <Link>アプリ設定</Link>
+            </ReactLink>
+            から、得点表示画面の表示をカスタマイズできます。
+          </Text>
+        </>
+      ),
     },
   ];
 
@@ -91,7 +110,7 @@ const Hero: React.FC = () => {
                       <Box w="70%">
                         <Image
                           src={"images/" + feature.image}
-                          alt={feature.description}
+                          alt={`画像: ${feature.title}`}
                           sx={{ borderRadius: "1rem" }}
                         />
                       </Box>
@@ -109,19 +128,19 @@ const Hero: React.FC = () => {
           <Accordion defaultIndex={0} pt={5}>
             {features.map((feature) => (
               <AccordionItem key={feature.title}>
-                <h2>
-                  <AccordionButton>
-                    <Box flex={1} textAlign="left">
+                <AccordionButton>
+                  <Box flex={1} textAlign="left">
+                    <h2 style={{ fontSize: "1rem", padding: 0 }}>
                       {feature.title}
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
+                    </h2>
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
                 <AccordionPanel pb={4}>
                   {feature.image && (
                     <Image
                       src={"images/" + feature.image}
-                      alt={feature.description}
+                      alt={`画像: ${feature.title}`}
                       sx={{ borderRadius: "1rem" }}
                     />
                   )}
