@@ -68,9 +68,10 @@ const computeScore = async (game_id: string) => {
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
   if (webhookUrl && webhookUrl.includes("http")) {
+    const url = webhookUrl.split('"')[1];
     const postData = { ...result, game, gameLogList };
-    console.log(webhookUrl);
-    await fetch(webhookUrl, {
+    console.log(url);
+    await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
