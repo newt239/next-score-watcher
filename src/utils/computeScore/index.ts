@@ -101,8 +101,8 @@ export const getInitialPlayersState = (game: GameDBProps) => {
           ? 0
           : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
-        last_correct: -10000,
-        last_wrong: -10000,
+        last_correct: -10,
+        last_wrong: -10,
         odd_score: 0,
         even_score: 0,
         stage: 1,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { useColorMode, theme, Flex, Box } from "@chakra-ui/react";
+import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
@@ -96,7 +96,7 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          width: isVerticalView ? "40%" : "auto",
+          w: "100%",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
