@@ -1,15 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
-  Table,
-  TableContainer,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
-  Td,
+  Box,
   Button,
+  Container,
   Flex,
   FormControl,
   FormLabel,
@@ -20,8 +15,13 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Box,
-  Container,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -64,6 +64,10 @@ const AQLPage = () => {
   );
 
   const isDesktop = useDeviceWidth();
+
+  useEffect(() => {
+    document.title = "AQL設定 | ScoreWatcher";
+  }, []);
 
   const createAQLGame = () => {
     const game_id = nanoid(6);

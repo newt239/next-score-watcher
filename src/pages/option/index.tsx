@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
@@ -61,6 +61,10 @@ const OptionPage = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
+
+  useEffect(() => {
+    document.title = "アプリ設定 | ScoreWatcher";
+  }, []);
 
   const deleteAppData = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);

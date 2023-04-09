@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  FormLabel,
-  Input,
-  FormControl,
   Box,
   Button,
   Container,
+  FormControl,
+  FormLabel,
+  Input,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
@@ -24,6 +24,10 @@ const QuizPage = () => {
   const navigate = useNavigate();
   const { from } = useParams();
   const [setName, setSetName] = useState<string>("セット1");
+
+  useEffect(() => {
+    document.title = "問題管理 | ScoreWatcher";
+  }, []);
 
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>

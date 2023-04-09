@@ -36,6 +36,12 @@ const BoardPage = () => {
   }, []);
 
   useEffect(() => {
+    if (game) {
+      document.title = `${game.name} | ScoreWatcher`;
+    }
+  }, [game]);
+
+  useEffect(() => {
     if (playerList) {
       const gamePlayers = (
         game?.players.map((gamePlayer) =>

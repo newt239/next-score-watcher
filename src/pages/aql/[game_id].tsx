@@ -1,4 +1,4 @@
-import { useState, KeyboardEvent } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
@@ -35,6 +35,12 @@ const AQLBoardPage: React.FC = () => {
   const [end, setEnd] = useState<boolean>(false);
   const showLogs = useAtomValue(showLogsAtom);
   const { colorMode } = useColorMode();
+
+  useEffect(() => {
+    if (game) {
+      document.title = `${game.name} | ScoreWatcher`;
+    }
+  }, [game]);
 
   if (!game || !logs) return null;
 

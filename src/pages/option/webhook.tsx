@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import { Box, Button, Code, Container, Text } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
 const WebhookPage = () => {
+  useEffect(() => {
+    document.title = "Webhookについて | ScoreWatcher";
+  }, []);
+
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       <Box>

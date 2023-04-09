@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 import { Container } from "@chakra-ui/react";
 
 import GameList from "#/components/home/GameList";
@@ -8,6 +10,10 @@ import Term from "#/components/home/Term";
 import UpdateModal from "#/components/home/UpdateModal";
 
 const HomePage: React.FC = () => {
+  useEffect(() => {
+    document.title = "ScoreWatcher";
+  }, []);
+
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       <Hero />
