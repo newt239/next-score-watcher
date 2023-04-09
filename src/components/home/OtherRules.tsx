@@ -18,7 +18,7 @@ const OtherRules: React.FC = () => {
   return (
     <Box pt={5}>
       <h2>その他の形式</h2>
-      <UnorderedList pt={5}>
+      <UnorderedList>
         <ListItem>
           <Link as={ReactLink} to="/aql" color="blue.500">
             AQLルール

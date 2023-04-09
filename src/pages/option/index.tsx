@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
   AlertDialog,
@@ -19,8 +19,8 @@ import {
   Input,
   Link,
   Stack,
-  TableContainer,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Th,
@@ -120,7 +120,11 @@ const OptionPage = () => {
             <Box>
               <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
               <FormHelperText>
-                [β版]イベント発生時設定されたURLへPOSTリクエストを送信します。
+                [β版]イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
+                <ReactLink to="/option/webhook">
+                  <Link color="blue.500">Webhookについて</Link>
+                </ReactLink>
+                を御覧ください。
               </FormHelperText>
             </Box>
             <Input
