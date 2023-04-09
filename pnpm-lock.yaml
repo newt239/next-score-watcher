@@ -29,7 +29,6 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-ga4: ^2.1.0
-  react-rewards: ^2.0.4
   react-router-dom: ^6.9.0
   react-sortablejs: ^6.1.4
   rollup-plugin-visualizer: ^5.9.0
@@ -54,7 +53,6 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-ga4: 2.1.0
-  react-rewards: 2.0.4_biqbaboplfbrettd7655fr4n2y
   react-router-dom: 6.9.0_biqbaboplfbrettd7655fr4n2y
   react-sortablejs: 6.1.4_hnh3tccnopzxrklmxqdzo7xnqa
   sortablejs: 1.15.0
@@ -5164,16 +5162,6 @@ packages:
       tslib: 2.5.0
       use-callback-ref: 1.3.0_pmekkgnqduwlme35zpnqhenc34
       use-sidecar: 1.1.2_pmekkgnqduwlme35zpnqhenc34
-    dev: false
-
-  /react-rewards/2.0.4_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Lw7gIhD8yPDzC6boaVmcXwuTHRLSLAdqB3kZc+29YWvdHWsuc3fdAZlxI8Cm8fvD8fhP+3JkZBtzX224czw15w==}
-    peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-router-dom/6.9.0_biqbaboplfbrettd7655fr4n2y:

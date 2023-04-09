@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useNavigate , useParams } from "react-router-dom";
+import { Link as ReactLink, useNavigate, useParams } from "react-router-dom";
 
 import {
   Alert,
@@ -7,8 +7,8 @@ import {
   AlertTitle,
   Box,
   Button,
-  Flex,
   Container,
+  Flex,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -37,6 +37,7 @@ const ConfigPage = () => {
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
+    document.title = "ゲーム設定 | Score Watcher";
   }, []);
 
   if (!game || !players || !logs) return null;

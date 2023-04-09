@@ -3,6 +3,7 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
+  SystemStyleObject,
   theme,
   useColorMode,
 } from "@chakra-ui/react";
@@ -12,7 +13,7 @@ import { nanoid } from "nanoid";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
-import{ verticalViewAtom } from "#/utils/jotai";
+import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "win" | "lose" | "playing";
@@ -48,22 +49,22 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     ? theme.colors.green[600]
     : theme.colors.yellow[300];
 
-  const ButtonCssStyle = {
+  const ButtonCssStyle: SystemStyleObject = {
     display: "block",
     fontSize: desktop
       ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
           compact || isVerticalView ? "4.5vw" : "48px"
         })`
-      : `max(1rem, min(calc(${compact ? "6vw" : "12vw"} / ${
+      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${
           children.length
         }), 3.5vw))`,
-    lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
     fontWeight: 800,
-    width: "100%",
-    height: !editable && desktop ? "100%" : undefined,
-    margin: "auto",
+    lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
+    w: "100%",
+    h: "100%",
+    m: "auto",
     textAlign: "center",
-    backgroundColor: filled ? variantColor : "transparent",
+    bgColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
     overflow: "hidden",

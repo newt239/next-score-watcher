@@ -68,14 +68,15 @@ const computeScore = async (game_id: string) => {
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
   if (webhookUrl && webhookUrl.includes("http")) {
-    const postData = { ...result, game, gameLogList };
-    console.log(postData);
-    await fetch(webhookUrl, {
+    const url = webhookUrl.split('"')[1];
+    const data = { info: game, logs: gameLogList, scores: result.scoreList };
+    console.log(data);
+    await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(postData),
+      body: JSON.stringify(data),
     });
   }
 
@@ -100,8 +101,8 @@ export const getInitialPlayersState = (game: GameDBProps) => {
           ? 0
           : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
-        last_correct: -10000,
-        last_wrong: -10000,
+        last_correct: -10,
+        last_wrong: -10,
         odd_score: 0,
         even_score: 0,
         stage: 1,

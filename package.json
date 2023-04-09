@@ -1,7 +1,7 @@
 {
   "name": "next-score-watcher",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -25,7 +25,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-ga4": "^2.1.0",
-    "react-rewards": "^2.0.4",
     "react-router-dom": "^6.9.0",
     "react-sortablejs": "^6.1.4",
     "sortablejs": "^1.15.0",

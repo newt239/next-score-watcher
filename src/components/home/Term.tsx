@@ -1,11 +1,11 @@
-import { Icon, Link, ListItem, UnorderedList } from "@chakra-ui/react";
+import { Box, Icon, Link, ListItem, UnorderedList } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
 const Term: React.FC = () => {
   return (
-    <>
+    <Box pt={5}>
       <h2>本ソフトのご利用にあたって</h2>
-      <UnorderedList py={5}>
+      <UnorderedList>
         <ListItem>
           本ソフトはあくまで「得点表示ソフト」であり、問題やプレイヤー、試合記録の管理ソフトではありません。
         </ListItem>
@@ -37,7 +37,7 @@ const Term: React.FC = () => {
           でコメントしてもらえると嬉しいです。不具合報告や機能要望なども受け付けます。
         </ListItem>
       </UnorderedList>
-    </>
+    </Box>
   );
 };
 

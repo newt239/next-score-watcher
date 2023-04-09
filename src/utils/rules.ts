@@ -39,7 +39,7 @@ export const rules = {
   },
   swedish10: {
     name: "Swedish10",
-    description: "1回の正答で+1,n回目の誤答で-nで10を目指す形式です。",
+    description: "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。",
     win_point: 10,
     lose_point: 10,
   },
@@ -73,7 +73,7 @@ export const rules = {
   "various-fluctuations": {
     name: "Various Fluctuations",
     description:
-      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N*(N-2)されます。",
+      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N×(N-2)されます。",
     win_point: 30,
   },
 };

@@ -1,4 +1,5 @@
-import { Link as ReactLink , useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link as ReactLink, useParams } from "react-router-dom";
 
 import {
   Alert,
@@ -23,6 +24,11 @@ import PlayerTable from "#/components/player/PlayerTable";
 
 const PlayerPage = () => {
   const { from } = useParams();
+
+  useEffect(() => {
+    document.title = "プレイヤー管理 | ScoreWatcher";
+  }, []);
+
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       {typeof from === "string" && (

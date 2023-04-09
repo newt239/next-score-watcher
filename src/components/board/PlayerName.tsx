@@ -14,12 +14,10 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
 
   return (
     <Flex
-      sx={{
-        flexDirection: !isVerticalView ? "column" : "row",
-        alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
-        justifyContent: "space-between",
-        height: !isVerticalView && isDesktop ? "50vh" : undefined,
-      }}
+      direction={isVerticalView ? "row" : "column"}
+      align={isVerticalView ? "center" : "flex-start"}
+      justify="space-between"
+      h={isDesktop && !isVerticalView ? "50vh" : undefined}
     >
       <Box
         sx={{
@@ -35,7 +33,7 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
               ? `min(calc(45vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
               : "2rem",
           fontWeight: 800,
-          w: !isVerticalView && isDesktop ? undefined : "100%",
+          w: "100%",
         }}
       >
         {player_name}

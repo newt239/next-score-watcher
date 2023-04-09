@@ -1,19 +1,16 @@
-import { useEffect } from "react";
-
 import {
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  StatLabel,
   Stat,
   StatHelpText,
+  StatLabel,
   StatNumber,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
-import { useReward } from "react-rewards";
 
 import { showWinthroughPopupAtom } from "#/utils/jotai";
 
@@ -29,17 +26,6 @@ const WinModal: React.FC<WinModalProps> = ({
   roundName,
 }) => {
   const showWinthroughPopup = useAtomValue(showWinthroughPopupAtom);
-  const { reward } = useReward("reward", "confetti", {
-    elementCount: 100,
-    lifetime: 300,
-    zIndex: 10,
-  });
-
-  useEffect(() => {
-    setTimeout(() => {
-      reward();
-    }, 500);
-  }, [winTroughPlayer]);
 
   if (winTroughPlayer.name === "") return null;
 
@@ -54,13 +40,8 @@ const WinModal: React.FC<WinModalProps> = ({
         <ModalHeader>Congratulations!</ModalHeader>
         <ModalCloseButton />
         <ModalBody py={10}>
-          <Stat
-            key={winTroughPlayer.text}
-            sx={{ textAlign: "center" }}
-            onClick={reward}
-          >
+          <Stat key={winTroughPlayer.text} sx={{ textAlign: "center" }}>
             <StatLabel sx={{ fontSize: "1.5rem" }}>
-              <span id="reward" />
               {winTroughPlayer.text}
             </StatLabel>
             <StatNumber sx={{ fontSize: "2.5rem" }}>
