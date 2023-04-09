@@ -9,27 +9,27 @@ import {
   AccordionPanel,
   Box,
   Button,
+  Card,
+  CardBody,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  Text,
-  FormControl,
-  Input,
-  FormLabel,
-  Stack,
-  Link,
-  useToast,
   Flex,
-  Tooltip,
+  FormControl,
+  FormLabel,
   Icon,
-  Card,
-  CardBody,
-  useColorMode,
+  Input,
+  Link,
+  Stack,
+  Text,
   theme,
+  Tooltip,
+  useColorMode,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { ReactSortable } from "react-sortablejs";
@@ -264,8 +264,12 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                   setList={(newState) => setSortableList(newState)}
                   animation={200}
                   delay={2}
-                  direction="horizontal"
-                  style={{ display: "flex", gap: 5 }}
+                  direction={isDesktop ? "vertical" : "horizontal"}
+                  style={{
+                    display: "flex",
+                    flexDirection: isDesktop ? "row" : "column",
+                    gap: 5,
+                  }}
                 >
                   {sortableList.map((player, index) => (
                     <Card
