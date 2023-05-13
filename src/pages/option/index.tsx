@@ -89,7 +89,6 @@ const OptionPage = () => {
         />
         <AppOptionSwitch
           title="スコアに「○」「✕」「pt」の文字列を付与する"
-          label="視聴者が数字の意味を理解しやすくなります。"
           isChecked={showSignString}
           onChange={() => setShowSignString((v) => !v)}
         />
@@ -115,29 +114,21 @@ const OptionPage = () => {
           onChange={() => setWrongNumber((v) => !v)}
         />
         <FormControl>
-          <Flex
-            sx={{
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
-              <FormHelperText>
-                [β版]イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
-                <ReactLink to="/option/webhook">
-                  <Link color="blue.500">Webhookについて</Link>
-                </ReactLink>
-                を御覧ください。
-              </FormHelperText>
-            </Box>
-            <Input
-              value={WebhookUrl}
-              onChange={(v) => setWebhookUrl(v.target.value)}
-              placeholder="https://score-watcher.newt239.dev/api"
-              w="50%"
-            />
-          </Flex>
+          <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
+          <FormHelperText>
+            イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
+            <ReactLink to="/option/webhook">
+              <Link color="blue.500">Webhookについて</Link>
+            </ReactLink>
+            を御覧ください。
+          </FormHelperText>
+          <Input
+            mt={3}
+            value={WebhookUrl}
+            onChange={(v) => setWebhookUrl(v.target.value)}
+            placeholder="https://score-watcher.newt239.dev/api"
+            w="50%"
+          />
         </FormControl>
         <FormControl>
           <Flex
@@ -182,8 +173,8 @@ const OptionPage = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-      <h2>アプリ情報</h2>
-      <TableContainer pt={5}>
+      <h2 style={{ paddingTop: "1rem" }}>アプリ情報</h2>
+      <TableContainer>
         <Table>
           <Tbody>
             <Tr>

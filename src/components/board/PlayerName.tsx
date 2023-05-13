@@ -18,15 +18,17 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
       align={isVerticalView ? "center" : "flex-start"}
       justify="space-between"
       h={isDesktop && !isVerticalView ? "50vh" : undefined}
+      sx={{
+        textOrientation: "upright",
+        writingMode:
+          !isVerticalView && isDesktop ? "vertical-rl" : "horizontal-tb",
+      }}
     >
       <Box
         sx={{
-          writingMode:
-            !isVerticalView && isDesktop ? "vertical-rl" : "horizontal-tb",
           whiteSpace: "nowrap",
           overflowX: "hidden",
           textOverflow: "ellipsis",
-          textOrientation: "upright",
           fontFamily: "BIZ UDGothic",
           fontSize:
             !isVerticalView && isDesktop

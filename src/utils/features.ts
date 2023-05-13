@@ -4,6 +4,10 @@ type Feature = {
 };
 
 export const features: { [key: string]: Feature } = {
+  "2.1.1": {
+    feature: [],
+    bugfix: ["Safariでプレイヤー名が見切れる表示上の不具合を修正"],
+  },
   "2.1.0": {
     feature: [
       "webhook機能を正式にリリースしました。「アプリ設定」からURLを設定できます。",
