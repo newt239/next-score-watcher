@@ -16,7 +16,7 @@ import db from "#/utils/db";
 import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreButtonProps = {
-  color: "red" | "blue" | "green" | "win" | "lose" | "playing";
+  color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
   children: string;
   filled?: boolean;
   compact?: boolean;
@@ -41,13 +41,16 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const isVerticalView = useAtomValue(verticalViewAtom);
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
-  const variantColor = ["red", "win"].includes(color)
-    ? theme.colors.red[colorMode === "light" ? 600 : 300]
-    : ["blue", "lose"].includes(color)
-    ? theme.colors.blue[colorMode === "light" ? 600 : 300]
-    : colorMode === "light"
-    ? theme.colors.green[600]
-    : theme.colors.yellow[300];
+  const variantColor =
+    color === "gray"
+      ? theme.colors.gray[300]
+      : ["red", "win"].includes(color)
+      ? theme.colors.red[colorMode === "light" ? 600 : 300]
+      : ["blue", "lose"].includes(color)
+      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+      : colorMode === "light"
+      ? theme.colors.green[600]
+      : theme.colors.yellow[300];
 
   const ButtonCssStyle: SystemStyleObject = {
     display: "block",

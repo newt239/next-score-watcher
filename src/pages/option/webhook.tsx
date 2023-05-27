@@ -14,7 +14,7 @@ import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
 
 const WebhookPage = () => {
   useEffect(() => {
-    document.title = "Webhookについて | ScoreWatcher";
+    document.title = "Webhookについて | Score Watcher";
   }, []);
 
   return (

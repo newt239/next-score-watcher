@@ -2,7 +2,7 @@ import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 import ReactGA from "react-ga4";
 
-import db, { RuleNames, GameDBProps } from "./db";
+import db, { GameDBProps, RuleNames } from "./db";
 import { rules } from "./rules";
 
 export const createGame = async (
@@ -43,6 +43,9 @@ export const createGame = async (
       case "ny":
         putData.win_point = rules[rule_name].win_point;
         break;
+      case "nomr":
+        putData.win_point = rules[rule_name].win_point;
+        break;
       case "nbyn":
         putData.win_point = rules[rule_name].win_point;
         putData.lose_point = rules[rule_name].lose_point;
@@ -52,6 +55,10 @@ export const createGame = async (
         putData.lose_point = rules[rule_name].lose_point;
         break;
       case "swedish10":
+        putData.win_point = rules[rule_name].win_point;
+        putData.lose_point = rules[rule_name].lose_point;
+        break;
+      case "backstream":
         putData.win_point = rules[rule_name].win_point;
         putData.lose_point = rules[rule_name].lose_point;
         break;
@@ -109,7 +116,13 @@ export const numberSign = (
         return `${score}○`;
       case "wrong":
         if (wrongNumber === "true") {
-          return score === 0 ? "・" : "✕".repeat(score);
+          if (score === 0) {
+            return "・";
+          } else if (score <= 4) {
+            return "✕".repeat(score);
+          } else {
+            return `${score}○`;
+          }
         } else {
           return `${score}✕`;
         }
@@ -117,7 +130,17 @@ export const numberSign = (
         return `${score}pt`;
     }
   } else {
-    return score.toString();
+    if (type === "wrong" && wrongNumber === "true") {
+      if (score === 0) {
+        return "・";
+      } else if (score <= 4) {
+        return "✕".repeat(score);
+      } else {
+        return `${score}○`;
+      }
+    } else {
+      return score.toString();
+    }
   }
 };
 

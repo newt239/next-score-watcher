@@ -3,25 +3,29 @@ import { GameDBProps } from "./db";
 export const rules = {
   normal: {
     name: "スコア計算",
-    description: "単純なスコアを計算します。",
+    description: "スコアの計算を行います。",
   },
   nomx: {
-    name: "NoMx",
+    name: "N○M×",
     description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
     win_point: 7,
     lose_point: 3,
   },
   "nomx-ad": {
-    name: "連答つきNoMx",
+    name: "連答つきN○M×",
     description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
     win_point: 7,
     lose_point: 3,
   },
   ny: {
     name: "NY",
-    description:
-      "正答でプラス1、誤答でマイナス1されNポイントを目指す形式です。",
+    description: "正答で+1、誤答で-1されNポイントを目指す形式です。",
     win_point: 10,
+  },
+  nomr: {
+    name: "N○M休",
+    description: "N回の正答で勝ち抜けですが、M回目の誤答でM回休みになります。",
+    win_point: 7,
   },
   nbyn: {
     name: "NbyN",
@@ -39,9 +43,17 @@ export const rules = {
   },
   swedish10: {
     name: "Swedish10",
-    description: "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。",
+    description:
+      "10回の正答で勝ち抜けですが、誤答すると正答数が0の時1×、1～2の時2×、3～5の時3×、6～9の時4×が付与され、10×以上で失格となります。",
     win_point: 10,
     lose_point: 10,
+  },
+  backstream: {
+    name: "Backstream",
+    description:
+      "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。-10になると失格となります。",
+    win_point: 10,
+    lose_point: -10,
   },
   attacksurvival: {
     name: "Attack Survival",
@@ -88,12 +100,16 @@ export const getRuleStringByType = (game: GameDBProps): string => {
       return `連答つき${game.win_point}o${game.lose_point}x`;
     case "ny":
       return "NY";
+    case "nomr":
+      return `${game.win_point}○N休`;
     case "nbyn":
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":
       return `${game.win_point}updown`;
     case "swedish10":
       return `Swedish10`;
+    case "backstream":
+      return "Backstream";
     case "attacksurvival":
       return "アタックサバイバル";
     case "squarex":

@@ -96,10 +96,39 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex w="100%" h="100%">
             <PlayerScoreButton color="red" compact {...props}>
-              {numberSign("correct")}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {numberSign("wrong")}
+              {numberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.rule === "nomr" && (
+        <>
+          <PlayerScoreButton
+            color={player.isIncapacity ? "blue" : "green"}
+            disabled
+            {...props}
+          >
+            {player.text}
+          </PlayerScoreButton>
+          <Flex w="100%" h="100%">
+            <PlayerScoreButton
+              color={player.isIncapacity ? "gray" : "red"}
+              disabled={player.isIncapacity}
+              compact
+              {...props}
+            >
+              {numberSign("correct")}
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              color={player.isIncapacity ? "gray" : "blue"}
+              disabled={player.isIncapacity}
+              compact
+              {...props}
+            >
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -143,6 +172,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         </>
       )}
       {game.rule === "swedish10" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex w="100%" h="100%">
+            <PlayerScoreButton color="red" compact {...props}>
+              ○
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {numberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.rule === "backstream" && (
         <>
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}

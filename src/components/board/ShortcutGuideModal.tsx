@@ -1,5 +1,6 @@
 import {
   Button,
+  HStack,
   Kbd,
   Modal,
   ModalBody,
@@ -9,7 +10,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Stack,
-  HStack,
 } from "@chakra-ui/react";
 
 type ShortcutGuideModalProps = {
@@ -42,14 +42,29 @@ const ShortcutGuideModal: React.FC<ShortcutGuideModalProps> = ({
               </span>
               <span>左から2番目のプレイヤーの正答</span>
             </HStack>
-            <div style={{ margin: "auto", marginTop: "0.5rem" }}>
-              ～～～～～
-            </div>
             <HStack sx={{ justifyContent: "space-between" }}>
               <span>
                 <Kbd>0</Kbd>
               </span>
               <span>左から10番目のプレイヤーの正答</span>
+            </HStack>
+            <HStack sx={{ justifyContent: "space-between" }}>
+              <span>
+                <Kbd>-</Kbd>
+              </span>
+              <span>左から11番目のプレイヤーの正答</span>
+            </HStack>
+            <HStack sx={{ justifyContent: "space-between" }}>
+              <span>
+                <Kbd>^</Kbd>
+              </span>
+              <span>左から12番目のプレイヤーの正答</span>
+            </HStack>
+            <HStack sx={{ justifyContent: "space-between" }}>
+              <span>
+                <Kbd>\</Kbd>
+              </span>
+              <span>左から13番目のプレイヤーの正答</span>
             </HStack>
             <HStack sx={{ justifyContent: "space-between" }}>
               <span>

@@ -11,7 +11,7 @@ import UpdateModal from "#/components/home/UpdateModal";
 
 const HomePage: React.FC = () => {
   useEffect(() => {
-    document.title = "ScoreWatcher";
+    document.title = "Score Watcher";
   }, []);
 
   return (

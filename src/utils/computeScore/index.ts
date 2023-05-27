@@ -1,8 +1,10 @@
 import db, { ComputedScoreDBProps, GameDBProps } from "../db";
 
 import attacksurvival from "./attacksurvival";
+import backstream from "./backstream";
 import freezex from "./freezex";
 import nbyn from "./nbyn";
+import nomr from "./nomr";
 import nomx from "./nomx";
 import nomxAd from "./nomx-ad";
 import normal from "./normal";
@@ -40,6 +42,9 @@ const computeScore = async (game_id: string) => {
     case "ny":
       result = await ny(game, gameLogList);
       break;
+    case "nomr":
+      result = await nomr(game, gameLogList);
+      break;
     case "nbyn":
       result = await nbyn(game, gameLogList);
       break;
@@ -48,6 +53,9 @@ const computeScore = async (game_id: string) => {
       break;
     case "swedish10":
       result = await swedish10(game, gameLogList);
+      break;
+    case "backstream":
+      result = await backstream(game, gameLogList);
       break;
     case "attacksurvival":
       result = await attacksurvival(game, gameLogList);

@@ -26,7 +26,7 @@ const QuizPage = () => {
   const [setName, setSetName] = useState<string>("セット1");
 
   useEffect(() => {
-    document.title = "問題管理 | ScoreWatcher";
+    document.title = "問題管理 | Score Watcher";
   }, []);
 
   return (

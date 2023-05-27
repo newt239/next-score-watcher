@@ -82,7 +82,7 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <Box>
+    <>
       <Box sx={{ textAlign: "center" }}>
         <Heading as="h1" size="2xl">
           Score Watcher
@@ -90,68 +90,70 @@ const Hero: React.FC = () => {
         <Text>競技クイズ用得点表示ソフト</Text>
       </Box>
       <Box>
-        <h2>主な機能</h2>
-        {isDesktop ? (
-          <Tabs isManual colorScheme="green" pt={5}>
-            <TabList>
-              {features.map((feature) => (
-                <Tab key={feature.title}>{feature.title}</Tab>
-              ))}
-            </TabList>
-            <TabPanels>
-              {features.map((feature) => (
-                <TabPanel key={feature.title}>
-                  {feature.image ? (
-                    <Flex sx={{ gap: 3 }}>
-                      <Box w="30%">
-                        <h3>{feature.title}</h3>
+        <Box>
+          <h2>主な機能</h2>
+          {isDesktop ? (
+            <Tabs isManual colorScheme="green" pt={5}>
+              <TabList>
+                {features.map((feature) => (
+                  <Tab key={feature.title}>{feature.title}</Tab>
+                ))}
+              </TabList>
+              <TabPanels>
+                {features.map((feature) => (
+                  <TabPanel key={feature.title}>
+                    {feature.image ? (
+                      <Flex sx={{ gap: 3 }}>
+                        <Box w="30%">
+                          <h3>{feature.title}</h3>
+                          <Text>{feature.description}</Text>
+                        </Box>
+                        <Box w="70%">
+                          <Image
+                            src={"images/" + feature.image}
+                            alt={`画像: ${feature.title}`}
+                            sx={{ borderRadius: "1rem" }}
+                          />
+                        </Box>
+                      </Flex>
+                    ) : (
+                      <Box>
                         <Text>{feature.description}</Text>
                       </Box>
-                      <Box w="70%">
-                        <Image
-                          src={"images/" + feature.image}
-                          alt={`画像: ${feature.title}`}
-                          sx={{ borderRadius: "1rem" }}
-                        />
-                      </Box>
-                    </Flex>
-                  ) : (
-                    <Box>
-                      <Text>{feature.description}</Text>
+                    )}
+                  </TabPanel>
+                ))}
+              </TabPanels>
+            </Tabs>
+          ) : (
+            <Accordion defaultIndex={0} pt={5}>
+              {features.map((feature) => (
+                <AccordionItem key={feature.title}>
+                  <AccordionButton>
+                    <Box flex={1} textAlign="left">
+                      <h2 style={{ fontSize: "1rem", padding: 0 }}>
+                        {feature.title}
+                      </h2>
                     </Box>
-                  )}
-                </TabPanel>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel pb={4}>
+                    {feature.image && (
+                      <Image
+                        src={"images/" + feature.image}
+                        alt={`画像: ${feature.title}`}
+                        sx={{ borderRadius: "1rem" }}
+                      />
+                    )}
+                    <Text pt={3}>{feature.description}</Text>
+                  </AccordionPanel>
+                </AccordionItem>
               ))}
-            </TabPanels>
-          </Tabs>
-        ) : (
-          <Accordion defaultIndex={0} pt={5}>
-            {features.map((feature) => (
-              <AccordionItem key={feature.title}>
-                <AccordionButton>
-                  <Box flex={1} textAlign="left">
-                    <h2 style={{ fontSize: "1rem", padding: 0 }}>
-                      {feature.title}
-                    </h2>
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                  {feature.image && (
-                    <Image
-                      src={"images/" + feature.image}
-                      alt={`画像: ${feature.title}`}
-                      sx={{ borderRadius: "1rem" }}
-                    />
-                  )}
-                  <Text pt={3}>{feature.description}</Text>
-                </AccordionPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        )}
-      </Box>
-    </Box>
+            </Accordion>
+          )}
+        </Box>
+      </Box>{" "}
+    </>
   );
 };
 

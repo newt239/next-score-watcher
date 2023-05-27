@@ -45,9 +45,9 @@ export type AQLGameProps = {
 
 const AQLPage = () => {
   const navigate = useNavigate();
-  const [roundName, setRoundName] = useState<string>("");
-  const [leftTeamName, setLeftTeamName] = useState<string>("");
-  const [rightTeamName, setRightTeamName] = useState<string>("");
+  const [roundName, setRoundName] = useState<string>("AQL");
+  const [leftTeamName, setLeftTeamName] = useState<string>("チームA");
+  const [rightTeamName, setRightTeamName] = useState<string>("チームB");
   const [quizSet, SetQuizSet] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
 
@@ -66,7 +66,7 @@ const AQLPage = () => {
   const isDesktop = useDeviceWidth();
 
   useEffect(() => {
-    document.title = "AQL設定 | ScoreWatcher";
+    document.title = "AQL設定 | Score Watcher";
   }, []);
 
   const createAQLGame = () => {

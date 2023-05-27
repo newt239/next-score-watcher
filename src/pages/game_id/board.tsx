@@ -37,7 +37,7 @@ const BoardPage = () => {
 
   useEffect(() => {
     if (game) {
-      document.title = `${game.name} | ScoreWatcher`;
+      document.title = `${game.name} | Score Watcher`;
     }
   }, [game]);
 
@@ -94,6 +94,19 @@ const BoardPage = () => {
             id: nanoid(),
             game_id: game.id,
             player_id: players[playerIndex === 0 ? 9 : playerIndex - 1].id,
+            variant: event.shiftKey ? "wrong" : "correct",
+            system: true,
+            timestamp: cdate().text(),
+          });
+        }
+      } else if (["Minus", "Equal", "IntlYen"].includes(event.code)) {
+        const playerIndex =
+          ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
+        if (playerIndex <= players.length) {
+          await db.logs.put({
+            id: nanoid(),
+            game_id: game.id,
+            player_id: players[playerIndex].id,
             variant: event.shiftKey ? "wrong" : "correct",
             system: true,
             timestamp: cdate().text(),

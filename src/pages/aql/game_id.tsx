@@ -38,7 +38,7 @@ const AQLBoardPage: React.FC = () => {
 
   useEffect(() => {
     if (game) {
-      document.title = `${game.name} | ScoreWatcher`;
+      document.title = `${game.name} | Score Watcher`;
     }
   }, [game]);
 
@@ -282,10 +282,10 @@ const AQLBoardPage: React.FC = () => {
                         ? colorMode === "dark"
                           ? theme.colors.gray[800]
                           : "white"
-                        : wrong === 1
-                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
                         : reachState
                         ? theme.colors.red[colorMode === "light" ? 600 : 300]
+                        : wrong === 1
+                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
                         : undefined,
                     borderRadius: "1rem",
                     p: 2,
@@ -315,7 +315,7 @@ const AQLBoardPage: React.FC = () => {
                     }}
                     disabled={wrong === 2}
                   >
-                    ○
+                    {gameState.scores[n].score - gameState.scores[n].wrong}○
                   </Button>
                   <Button
                     onClick={() => onClickHandler("wrong", n)}
@@ -327,7 +327,7 @@ const AQLBoardPage: React.FC = () => {
                     }}
                     disabled={wrong === 2}
                   >
-                    {wrong !== 0 && wrong}✕
+                    {wrong}✕
                   </Button>
                 </Flex>
               );

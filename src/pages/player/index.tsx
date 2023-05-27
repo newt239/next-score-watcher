@@ -26,7 +26,7 @@ const PlayerPage = () => {
   const { from } = useParams();
 
   useEffect(() => {
-    document.title = "プレイヤー管理 | ScoreWatcher";
+    document.title = "プレイヤー管理 | Score Watcher";
   }, []);
 
   return (
