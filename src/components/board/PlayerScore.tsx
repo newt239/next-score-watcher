@@ -40,7 +40,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        py: !isVerticalView ? 3 : undefined,
         px: !isVerticalView ? undefined : "0.5rem",
         gap: 1.5,
         backgroundColor:
@@ -143,7 +142,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="green" {...props}>
+          <PlayerScoreButton color="green" disabled {...props}>
             {`${player.correct}×${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
           <Flex w="100%" h="100%">
