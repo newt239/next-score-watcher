@@ -20,18 +20,19 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             return playerState;
           case "correct":
             const newCorrect = playerState.correct + 1;
+            const newScore = playerState.score + 1;
             if (newCorrect >= game.win_point!) {
               return {
                 ...playerState,
-                score: playerState.score + 1,
+                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
                 state: "win",
               };
-            } else if (newCorrect + 1 === game.win_point!) {
+            } else if (newScore === game.win_point!) {
               return {
                 ...playerState,
-                score: playerState.score + 1,
+                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
                 reachState: "win",
@@ -39,7 +40,7 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             } else {
               return {
                 ...playerState,
-                score: playerState.score + 1,
+                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
               };

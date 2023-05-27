@@ -96,10 +96,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex w="100%" h="100%">
             <PlayerScoreButton color="red" compact {...props}>
-              {numberSign("correct")}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {numberSign("wrong")}
+              {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
