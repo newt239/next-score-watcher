@@ -4,6 +4,7 @@ import attacksurvival from "./attacksurvival";
 import backstream from "./backstream";
 import freezex from "./freezex";
 import nbyn from "./nbyn";
+import nomr from "./nomr";
 import nomx from "./nomx";
 import nomxAd from "./nomx-ad";
 import normal from "./normal";
@@ -40,6 +41,9 @@ const computeScore = async (game_id: string) => {
       break;
     case "ny":
       result = await ny(game, gameLogList);
+      break;
+    case "nomr":
+      result = await nomr(game, gameLogList);
       break;
     case "nbyn":
       result = await nbyn(game, gameLogList);

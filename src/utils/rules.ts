@@ -23,6 +23,11 @@ export const rules = {
       "正答でプラス1、誤答でマイナス1されNポイントを目指す形式です。",
     win_point: 10,
   },
+  nomr: {
+    name: "N○M休",
+    description: "N回の正答で勝ち抜けですが、M回目の誤答でM回休みになります。",
+    win_point: 7,
+  },
   nbyn: {
     name: "NbyN",
     description:
@@ -96,6 +101,8 @@ export const getRuleStringByType = (game: GameDBProps): string => {
       return `連答つき${game.win_point}o${game.lose_point}x`;
     case "ny":
       return "NY";
+    case "nomr":
+      return `${game.win_point}○${game.lose_point}休`;
     case "nbyn":
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":

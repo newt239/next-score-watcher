@@ -7,6 +7,7 @@ export type RuleNames =
   | "nomx"
   | "nomx-ad"
   | "ny"
+  | "nomr"
   | "nbyn"
   | "nupdown"
   | "swedish10"
