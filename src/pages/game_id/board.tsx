@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Box, Flex, theme } from "@chakra-ui/react";
@@ -83,9 +83,7 @@ const BoardPage = () => {
 
   if (!game || !logs) return null;
 
-  const keyboardShortcutHandler = async (
-    event: KeyboardEvent<HTMLDivElement>
-  ) => {
+  window.document.onkeydown = async (event) => {
     if (game) {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
@@ -161,8 +159,6 @@ const BoardPage = () => {
           p: 3,
           overflowX: "scroll",
         }}
-        tabIndex={-1}
-        onKeyDown={keyboardShortcutHandler}
       >
         {players.map((player, i) => (
           <Player

@@ -28,7 +28,6 @@ const ShortcutGuideModal: React.FC<ShortcutGuideModalProps> = ({
         <ModalHeader>ショートカットキー一覧</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          ※まず画面中央付近をクリックし、フォーカスを移動させてください。
           <Stack>
             <HStack sx={{ justifyContent: "space-between" }}>
               <span>
