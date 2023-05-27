@@ -108,7 +108,7 @@ const OptionPage = () => {
           onChange={() => setVerticalView((v) => !v)}
         />
         <AppOptionSwitch
-          title="誤答数を✕の数で表示"
+          title="誤答数が4以下のとき✕の数で表示"
           label="誤答数が0のときは中黒・で表示されます。"
           isChecked={wrongNumber}
           onChange={() => setWrongNumber((v) => !v)}

@@ -116,7 +116,13 @@ export const numberSign = (
         return `${score}○`;
       case "wrong":
         if (wrongNumber === "true") {
-          return score === 0 ? "・" : "✕".repeat(score);
+          if (score === 0) {
+            return "・";
+          } else if (score <= 4) {
+            return "✕".repeat(score);
+          } else {
+            return `${score}○`;
+          }
         } else {
           return `${score}✕`;
         }
@@ -124,7 +130,17 @@ export const numberSign = (
         return `${score}pt`;
     }
   } else {
-    return score.toString();
+    if (type === "wrong" && wrongNumber === "true") {
+      if (score === 0) {
+        return "・";
+      } else if (score <= 4) {
+        return "✕".repeat(score);
+      } else {
+        return `${score}○`;
+      }
+    } else {
+      return score.toString();
+    }
   }
 };
 
