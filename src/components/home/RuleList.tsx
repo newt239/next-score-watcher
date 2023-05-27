@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
 import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  SimpleGrid,
   Box,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
@@ -35,7 +35,7 @@ const RuleList: React.FC = () => {
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].description;
           return (
-            <Card key={rule_name} variant="filled">
+            <Card key={rule_name} variant="filled" size="sm">
               <CardHeader>
                 <h3 className="p0">{rules[rule_name].name}</h3>
               </CardHeader>

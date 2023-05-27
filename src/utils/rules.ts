@@ -3,24 +3,23 @@ import { GameDBProps } from "./db";
 export const rules = {
   normal: {
     name: "スコア計算",
-    description: "単純なスコアを計算します。",
+    description: "スコアの計算を行います。",
   },
   nomx: {
-    name: "NoMx",
+    name: "N○M×",
     description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
     win_point: 7,
     lose_point: 3,
   },
   "nomx-ad": {
-    name: "連答つきNoMx",
+    name: "連答つきN○M×",
     description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
     win_point: 7,
     lose_point: 3,
   },
   ny: {
     name: "NY",
-    description:
-      "正答でプラス1、誤答でマイナス1されNポイントを目指す形式です。",
+    description: "正答で+1、誤答で-1されNポイントを目指す形式です。",
     win_point: 10,
   },
   nomr: {
