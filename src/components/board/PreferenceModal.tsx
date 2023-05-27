@@ -7,6 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
 } from "@chakra-ui/react";
 
 import Preferences from "../Preferences";
@@ -24,6 +25,9 @@ const PreferenceModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <ModalHeader>表示設定</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+          <Text>
+            一部の設定はボタンクリック等何らかのアクション後に反映されます。
+          </Text>
           <Preferences />
         </ModalBody>
         <ModalFooter>

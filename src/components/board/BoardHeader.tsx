@@ -247,15 +247,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               <ReactLink to={`/${game.id}/config`}>
                 <MenuItem icon={<AdjustmentsHorizontal />}>ゲーム設定</MenuItem>
               </ReactLink>
-              {desktop && (
-                <MenuItem
-                  closeOnSelect
-                  icon={<Ballon />}
-                  onClick={onPrefModalOpen}
-                >
-                  表示設定
-                </MenuItem>
-              )}
+              <MenuItem
+                closeOnSelect
+                icon={<Ballon />}
+                onClick={onPrefModalOpen}
+              >
+                表示設定
+              </MenuItem>
               <ReactLink to="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
               </ReactLink>

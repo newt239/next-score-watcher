@@ -2,6 +2,7 @@ import { Stack, useColorMode } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 
 import AppOptionSwitch from "#/components/AppOptionSwitch";
+import useDeviceWidth from "#/hooks/useDeviceWidth";
 import {
   reversePlayerInfoAtom,
   showLogsAtom,
@@ -12,6 +13,8 @@ import {
 } from "#/utils/jotai";
 
 const Preferences = () => {
+  const desktop = useDeviceWidth();
+
   const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
     showWinthroughPopupAtom
   );
@@ -48,15 +51,17 @@ const Preferences = () => {
         onChange={() => setShowLogs((v) => !v)}
       />
       <AppOptionSwitch
-        title="スコアを名前の前に表示"
+        title={`スコアを名前の${desktop && !verticalView ? "上" : "左"}に表示`}
         isChecked={reversePlayerInfo}
         onChange={() => setReversePlayerInfo((v) => !v)}
       />
-      <AppOptionSwitch
-        title="プレイヤーを垂直に並べる"
-        isChecked={verticalView}
-        onChange={() => setVerticalView((v) => !v)}
-      />
+      {desktop && (
+        <AppOptionSwitch
+          title="プレイヤーを垂直に並べる"
+          isChecked={verticalView}
+          onChange={() => setVerticalView((v) => !v)}
+        />
+      )}
       <AppOptionSwitch
         title="誤答数が4以下のとき✕の数で表示"
         label="誤答数が0のときは中黒・で表示されます。"
