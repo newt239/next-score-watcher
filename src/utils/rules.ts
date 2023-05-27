@@ -102,7 +102,7 @@ export const getRuleStringByType = (game: GameDBProps): string => {
     case "ny":
       return "NY";
     case "nomr":
-      return `${game.win_point}○${game.lose_point}休`;
+      return `${game.win_point}○N休`;
     case "nbyn":
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":
