@@ -39,7 +39,8 @@ export const rules = {
   },
   swedish10: {
     name: "Swedish10",
-    description: "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。",
+    description:
+      "10回の正答で勝ち抜けですが、誤答すると正答数が0の時1×、1～2の時2×、3～5の時3×、6～9の時4×が付与され、10×以上で失格となります。",
     win_point: 10,
     lose_point: 10,
   },
