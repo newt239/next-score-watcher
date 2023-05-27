@@ -10,6 +10,7 @@ export type RuleNames =
   | "nbyn"
   | "nupdown"
   | "swedish10"
+  | "backstream"
   | "attacksurvival"
   | "squarex"
   | "z"

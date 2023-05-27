@@ -157,6 +157,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </Flex>
         </>
       )}
+      {game.rule === "backstream" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex w="100%" h="100%">
+            <PlayerScoreButton color="red" compact {...props}>
+              ○
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {numberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
       {game.rule === "attacksurvival" && (
         <>
           <PlayerScoreButton color={player.state} disabled {...props}>

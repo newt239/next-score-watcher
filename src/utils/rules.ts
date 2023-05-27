@@ -44,6 +44,13 @@ export const rules = {
     win_point: 10,
     lose_point: 10,
   },
+  backstream: {
+    name: "Backstream",
+    description:
+      "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。-10になると失格となります。",
+    win_point: 10,
+    lose_point: -10,
+  },
   attacksurvival: {
     name: "Attack Survival",
     description:
@@ -95,6 +102,8 @@ export const getRuleStringByType = (game: GameDBProps): string => {
       return `${game.win_point}updown`;
     case "swedish10":
       return `Swedish10`;
+    case "backstream":
+      return "Backstream";
     case "attacksurvival":
       return "アタックサバイバル";
     case "squarex":
