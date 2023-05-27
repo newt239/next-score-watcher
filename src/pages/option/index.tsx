@@ -25,40 +25,20 @@ import {
   Td,
   Th,
   Tr,
-  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import AppOptionSwitch from "#/components/AppOptionSwitch";
+import Preferences from "#/components/Preferences";
 import db from "#/utils/db";
-import {
-  reversePlayerInfoAtom,
-  showLogsAtom,
-  showSignStringAtom,
-  showWinthroughPopupAtom,
-  verticalViewAtom,
-  webhookUrlAtom,
-  wrongNumberAtom,
-} from "#/utils/jotai";
+import { webhookUrlAtom } from "#/utils/jotai";
 
 const OptionPage = () => {
   const navigate = useNavigate();
-  const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
-    showWinthroughPopupAtom
-  );
-  const [showLogs, setShowLogs] = useAtom(showLogsAtom);
-  const [showSignString, setShowSignString] = useAtom(showSignStringAtom);
-  const [reversePlayerInfo, setReversePlayerInfo] = useAtom(
-    reversePlayerInfoAtom
-  );
-  const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
-  const [wrongNumber, setWrongNumber] = useAtom(wrongNumberAtom);
   const [WebhookUrl, setWebhookUrl] = useAtom(webhookUrlAtom);
   const latestVersion = import.meta.env.VITE_APP_VERSION;
 
-  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
@@ -76,43 +56,8 @@ const OptionPage = () => {
   return (
     <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
       <h2>アプリ設定</h2>
+      <Preferences />
       <Stack sx={{ gap: 5, pt: 5 }}>
-        <AppOptionSwitch
-          title="ダークモード"
-          isChecked={colorMode === "dark"}
-          onChange={() => toggleColorMode()}
-        />
-        <AppOptionSwitch
-          title="勝ち抜け時にポップアップを表示"
-          isChecked={showWinthroughPopup}
-          onChange={() => showSetWinthroughPopup((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="スコアに「○」「✕」「pt」の文字列を付与する"
-          isChecked={showSignString}
-          onChange={() => setShowSignString((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="得点表示画面下にログを表示"
-          isChecked={showLogs}
-          onChange={() => setShowLogs((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="スコアを名前の前に表示"
-          isChecked={reversePlayerInfo}
-          onChange={() => setReversePlayerInfo((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="プレイヤーを垂直に並べる"
-          isChecked={verticalView}
-          onChange={() => setVerticalView((v) => !v)}
-        />
-        <AppOptionSwitch
-          title="誤答数が4以下のとき✕の数で表示"
-          label="誤答数が0のときは中黒・で表示されます。"
-          isChecked={wrongNumber}
-          onChange={() => setWrongNumber((v) => !v)}
-        />
         <FormControl>
           <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
           <FormHelperText>

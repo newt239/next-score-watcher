@@ -77,7 +77,7 @@ const ConfigPage = () => {
         >
           <ConfigInput
             input_id="name"
-            label="ラウンド名"
+            label="ゲーム名"
             placehodler="〇〇大会"
           />
           {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (

@@ -21,14 +21,16 @@ import { nanoid } from "nanoid";
 import {
   AdjustmentsHorizontal,
   ArrowBackUp,
+  Ballon,
   Comet,
   Command,
   HandClick,
   Home,
-  Settings,
   Number,
+  Settings,
 } from "tabler-icons-react";
 
+import PreferenceModal from "./PreferenceModal";
 import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
@@ -46,6 +48,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   const desktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: isPrefModalOpen,
+    onOpen: onPrefModalOpen,
+    onClose: onPrefModalClose,
+  } = useDisclosure();
   const [showQn, setShowQn] = useState<boolean>(true);
 
   useEffect(() => {
@@ -237,8 +245,17 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 </MenuItem>
               )}
               <ReactLink to={`/${game.id}/config`}>
-                <MenuItem icon={<AdjustmentsHorizontal />}>設定</MenuItem>
+                <MenuItem icon={<AdjustmentsHorizontal />}>ゲーム設定</MenuItem>
               </ReactLink>
+              {desktop && (
+                <MenuItem
+                  closeOnSelect
+                  icon={<Ballon />}
+                  onClick={onPrefModalOpen}
+                >
+                  表示設定
+                </MenuItem>
+              )}
               <ReactLink to="/">
                 <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
               </ReactLink>
@@ -247,6 +264,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         </Box>
       </Flex>
       <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
+      <PreferenceModal isOpen={isPrefModalOpen} onClose={onPrefModalClose} />
     </>
   );
 };
