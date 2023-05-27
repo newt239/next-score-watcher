@@ -50,7 +50,7 @@ const Header: React.FC = () => {
   return (
     <Box
       sx={{
-        p: 3,
+        p: 0,
         margin: "auto",
         position: "sticky",
         top: 0,
@@ -74,6 +74,7 @@ const Header: React.FC = () => {
           maxW: 1000,
           margin: "auto",
           alignItems: "center",
+          justifyContent: !desktop ? "center" : undefined,
         }}
       >
         <Box sx={{ transition: "all 0.2s ease-out" }} _hover={{ opacity: 0.5 }}>
@@ -83,6 +84,8 @@ const Header: React.FC = () => {
               sx={{
                 height: "auto",
                 width: "auto",
+                pb: 2,
+                pl: desktop ? 2 : 0,
                 maxHeight: "7vh",
                 maxWidth: "300px",
                 margin: "auto",
