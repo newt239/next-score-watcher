@@ -11,12 +11,12 @@ import Footer from "#/components/Footer";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import HomePage from "#/pages";
 import AQLPage from "#/pages/aql";
-import AQLBoardPage from "#/pages/aql/[game_id]";
+import AQLBoardPage from "#/pages/aql/game_id";
+import BoardPage from "#/pages/game_id/board";
+import ConfigPage from "#/pages/game_id/config";
 import OptionPage from "#/pages/option";
 import PlayerPage from "#/pages/player";
 import QuizPage from "#/pages/quiz";
-import BoardPage from "#/pages/[game_id]/board";
-import ConfigPage from "#/pages/[game_id]/config";
 
 import "./globals.css";
 
