@@ -21,7 +21,7 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           case "correct":
             const newCorrect = playerState.correct + 1;
             const newScore = playerState.score + 1;
-            if (newCorrect >= game.win_point!) {
+            if (newScore >= game.win_point!) {
               return {
                 ...playerState,
                 score: newScore,
