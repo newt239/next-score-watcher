@@ -2,12 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box } from "@chakra-ui/react";
 
+import Header from "./components/Header";
 import WebhookPage from "./pages/option/webhook";
 
 import ScrollTop from "#/blocks/ScrollTop";
 import BottomBar from "#/components/BottomBar";
 import Footer from "#/components/Footer";
-import Header from "#/components/Header";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import HomePage from "#/pages";
 import AQLPage from "#/pages/aql";
@@ -25,8 +25,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header />
       <ScrollTop />
+      <Header />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path=":game_id">

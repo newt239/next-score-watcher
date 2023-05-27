@@ -63,7 +63,7 @@ const OptionPage = () => {
   const cancelRef = useRef(null);
 
   useEffect(() => {
-    document.title = "アプリ設定 | ScoreWatcher";
+    document.title = "アプリ設定 | Score Watcher";
   }, []);
 
   const deleteAppData = () => {

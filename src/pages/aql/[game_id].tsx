@@ -38,7 +38,7 @@ const AQLBoardPage: React.FC = () => {
 
   useEffect(() => {
     if (game) {
-      document.title = `${game.name} | ScoreWatcher`;
+      document.title = `${game.name} | Score Watcher`;
     }
   }, [game]);
 

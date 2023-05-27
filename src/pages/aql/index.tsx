@@ -66,7 +66,7 @@ const AQLPage = () => {
   const isDesktop = useDeviceWidth();
 
   useEffect(() => {
-    document.title = "AQL設定 | ScoreWatcher";
+    document.title = "AQL設定 | Score Watcher";
   }, []);
 
   const createAQLGame = () => {

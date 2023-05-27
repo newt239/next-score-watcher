@@ -4,8 +4,8 @@ import {
   Box,
   Button,
   Flex,
-  Spacer,
   Image,
+  Spacer,
   useColorMode,
 } from "@chakra-ui/react";
 
