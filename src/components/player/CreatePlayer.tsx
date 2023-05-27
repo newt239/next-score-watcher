@@ -4,9 +4,9 @@ import {
   Box,
   Button,
   FormControl,
-  Input,
   FormLabel,
   Grid,
+  Input,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -80,7 +80,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           />
         </FormControl>
         <FormControl>
-          <FormLabel>サブテキスト</FormLabel>
+          <FormLabel>順位</FormLabel>
           <Input
             value={playerOrder}
             onChange={(v) => setPlayerOrder(v.target.value)}

@@ -1,57 +1,56 @@
 import { useRef, useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Tag,
-  useDisclosure,
-  Button,
-  FormControl,
-  FormLabel,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Modal,
-  TagLabel,
-  TagRightIcon,
-  Box,
-  HStack,
-  useToast,
-  Text,
-  IconButton,
-  TableContainer,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  Select,
-  Flex,
-  Checkbox,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  HStack,
+  IconButton,
+  Input,
+  InputGroup,
+  InputLeftElement,
   ListItem,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Table,
+  TableContainer,
+  Tag,
+  TagLabel,
+  TagRightIcon,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
   UnorderedList,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
-  useReactTable,
+  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  flexRender,
-  type FilterFn,
+  useReactTable,
   type ColumnDef,
+  type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 import {
@@ -62,7 +61,6 @@ import {
   DeviceFloppy,
   Edit,
   Filter,
-  InfoCircle,
   Tags,
   Trash,
   X,
@@ -134,7 +132,7 @@ const PlayerTable: React.FC = () => {
       header: "氏名",
     }),
     columnHelper.accessor("text", {
-      header: "サブテキスト",
+      header: "順位",
     }),
     columnHelper.accessor("belong", {
       header: "所属",
@@ -411,7 +409,7 @@ const PlayerTable: React.FC = () => {
                   />
                 </FormControl>
                 <FormControl mt={4}>
-                  <FormLabel>サブテキスト</FormLabel>
+                  <FormLabel>順位</FormLabel>
                   <Input
                     value={currentPlayer.text}
                     onChange={(e) =>

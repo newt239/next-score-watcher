@@ -2,10 +2,6 @@ import { useEffect } from "react";
 import { Link as ReactLink, useParams } from "react-router-dom";
 
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   Button,
   Container,
@@ -67,15 +63,6 @@ const PlayerPage = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Alert status="success" my={5}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>サブテキストとは？</AlertTitle>
-            <AlertDescription>
-              名前や所属の上に表示される文字列です。ペーパー順位の表示用等にお使いください。
-            </AlertDescription>
-          </Box>
-        </Alert>
       </Box>
       <PlayerTable />
     </Container>

@@ -73,9 +73,7 @@ const LoadPlayer: React.FC = () => {
           height={100}
           ref={textareaRef}
         />
-        <FormHelperText>
-          A列: 氏名、 B列: サブテキスト、 C列: 所属
-        </FormHelperText>
+        <FormHelperText>A列: 氏名、 B列: 順位、 C列: 所属</FormHelperText>
       </FormControl>
       <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
         <RadioGroup

@@ -22,13 +22,13 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import {
-  type ColumnDef,
-  flexRender,
-  useReactTable,
   createColumnHelper,
+  flexRender,
+  getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getCoreRowModel,
+  useReactTable,
+  type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
 import {
@@ -129,7 +129,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("text", {
-      header: "サブテキスト",
+      header: "順位",
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("belong", {

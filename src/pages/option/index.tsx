@@ -72,7 +72,7 @@ const OptionPage = () => {
             value={WebhookUrl}
             onChange={(v) => setWebhookUrl(v.target.value)}
             placeholder="https://score-watcher.newt239.dev/api"
-            w="50%"
+            w="100%"
           />
         </FormControl>
         <FormControl>
