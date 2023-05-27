@@ -99,6 +99,19 @@ const BoardPage = () => {
             timestamp: cdate().text(),
           });
         }
+      } else if (["Minus", "Equal", "IntlYen"].includes(event.code)) {
+        const playerIndex =
+          ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
+        if (playerIndex <= players.length) {
+          await db.logs.put({
+            id: nanoid(),
+            game_id: game.id,
+            player_id: players[playerIndex].id,
+            variant: event.shiftKey ? "wrong" : "correct",
+            system: true,
+            timestamp: cdate().text(),
+          });
+        }
       } else if (event.code === "Comma") {
         if (logs.length !== 0) {
           await db.logs.delete(logs[logs.length - 1].id);
