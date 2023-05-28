@@ -98,7 +98,7 @@ const Features: React.FC = () => {
                     <Flex sx={{ gap: 3 }}>
                       <Box w="30%">
                         <h3>{feature.title}</h3>
-                        <Text>{feature.description}</Text>
+                        <Box>{feature.description}</Box>
                       </Box>
                       <Box w="70%">
                         <Image
@@ -109,9 +109,7 @@ const Features: React.FC = () => {
                       </Box>
                     </Flex>
                   ) : (
-                    <Box>
-                      <Text>{feature.description}</Text>
-                    </Box>
+                    <Box>{feature.description}</Box>
                   )}
                 </TabPanel>
               ))}
@@ -137,7 +135,7 @@ const Features: React.FC = () => {
                       sx={{ borderRadius: "1rem" }}
                     />
                   )}
-                  <Text pt={3}>{feature.description}</Text>
+                  <Box pt={3}>{feature.description}</Box>
                 </AccordionPanel>
               </AccordionItem>
             ))}

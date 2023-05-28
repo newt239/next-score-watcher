@@ -38,7 +38,6 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('./serviceWorker.js')
-          .then((reg) => console.log(reg.scope))
           .catch((err) => console.log(err));
       });
     }
