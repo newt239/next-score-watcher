@@ -20,20 +20,18 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Icon,
   Input,
   Link,
   Stack,
   Text,
   theme,
-  Tooltip,
   useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { ReactSortable } from "react-sortablejs";
-import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
+import { CirclePlus, Plus, Upload } from "tabler-icons-react";
 
 import CompactPlayerTable from "#/components/config/CompactPlayerTable";
 import IndividualConfig from "#/components/config/IndividualConfig";
@@ -179,19 +177,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             />
                           </FormControl>
                           <FormControl>
-                            <FormLabel>
-                              サブテキスト
-                              <Tooltip
-                                hasArrow
-                                label="ex. ペーパー順位"
-                                bg="gray.300"
-                                color="black"
-                              >
-                                <Icon pl={1}>
-                                  <InfoCircle />
-                                </Icon>
-                              </Tooltip>
-                            </FormLabel>
+                            <FormLabel>順位</FormLabel>
                             <Input
                               value={playerText}
                               onChange={(v) => setPlayerText(v.target.value)}

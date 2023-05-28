@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -28,6 +28,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   disabled,
   helperText,
 }) => {
+  const id = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
@@ -51,9 +52,9 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 
   return (
     <FormControl pt={5}>
-      <FormLabel htmlFor={`game_${input_id}`}>{label}</FormLabel>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
       <Input
-        id={`game_${input_id}`}
+        id={id}
         type="text"
         placeholder={placehodler}
         value={inputText}

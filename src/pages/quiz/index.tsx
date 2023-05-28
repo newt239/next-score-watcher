@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   Box,
@@ -22,7 +22,8 @@ import QuizTable from "#/components/quiz/QuizTable";
 
 const QuizPage = () => {
   const navigate = useNavigate();
-  const { from } = useParams();
+  const [params] = useSearchParams();
+  const from = params.get("from");
   const [setName, setSetName] = useState<string>("セット1");
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const QuizPage = () => {
 
   return (
     <Container>
-      {typeof from === "string" && (
+      {from && (
         <Box>
           <Button
             colorScheme="green"

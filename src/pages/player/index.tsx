@@ -37,7 +37,7 @@ const PlayerPage = () => {
             variant="ghost"
             leftIcon={<ArrowBackUp />}
           >
-            設定に戻る
+            ゲーム設定に戻る
           </Button>
         </Box>
       )}

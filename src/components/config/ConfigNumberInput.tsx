@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -29,16 +30,20 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   max = 100,
   disabled,
 }) => {
+  const id = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
 
   if (!game) return null;
 
+  const value = game[input_id];
+
   return (
     <FormControl pt={5}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
       <NumberInput
-        value={game[input_id] as number}
+        id={id}
+        value={typeof value === "number" ? value : ""}
         min={min}
         max={max}
         onChange={(s, n) => {
