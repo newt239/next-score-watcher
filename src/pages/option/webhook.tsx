@@ -18,7 +18,7 @@ const WebhookPage = () => {
   }, []);
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       <Box>
         <ReactLink to="/option">
           <Button

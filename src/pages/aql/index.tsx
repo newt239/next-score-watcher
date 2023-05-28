@@ -108,7 +108,7 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       <h2>AQLルール</h2>
       {aqlGames && aqlGames.length !== 0 && (
         <>

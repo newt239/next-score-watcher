@@ -4,6 +4,7 @@ import { Box } from "@chakra-ui/react";
 
 import Header from "./components/Header";
 import WebhookPage from "./pages/option/webhook";
+import RulePage from "./pages/rule";
 
 import ScrollTop from "#/blocks/ScrollTop";
 import BottomBar from "#/components/BottomBar";
@@ -25,8 +26,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <ScrollTop />
       <Header />
+      <ScrollTop />
       <Routes>
         <Route index element={<HomePage />} />
         <Route path=":game_id">
@@ -37,6 +38,7 @@ function App() {
           <Route index element={<AQLPage />} />
           <Route path=":game_id" element={<AQLBoardPage />} />
         </Route>
+        <Route path="rule" element={<RulePage />} />
         <Route path="player" element={<PlayerPage />} />
         <Route path="quiz" element={<QuizPage />} />
         <Route path="option">

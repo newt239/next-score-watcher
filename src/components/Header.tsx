@@ -51,6 +51,7 @@ const Header: React.FC = () => {
     <Box
       sx={{
         p: 0,
+        w: "100%",
         margin: "auto",
         position: "sticky",
         top: 0,

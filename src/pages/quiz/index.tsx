@@ -30,7 +30,7 @@ const QuizPage = () => {
   }, []);
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       {typeof from === "string" && (
         <Box>
           <Button

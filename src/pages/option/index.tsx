@@ -54,7 +54,7 @@ const OptionPage = () => {
   };
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       <h2>アプリ設定</h2>
       <Preferences />
       <Stack sx={{ gap: 5, pt: 5 }}>

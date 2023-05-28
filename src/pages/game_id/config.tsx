@@ -50,7 +50,7 @@ const ConfigPage = () => {
   const disabled = logs.length !== 0;
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       {disabled && (
         <Alert status="error">
           ゲームは開始済みです。一部の設定は変更できません。
