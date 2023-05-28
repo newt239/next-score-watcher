@@ -1,3 +1,5 @@
+import { WinPlayerProps } from "../types";
+
 import { numberSign } from "#/utils/commonFunctions";
 import {
   getInitialPlayersState,
@@ -7,10 +9,7 @@ import {
 import { GameDBProps, LogDBProps } from "#/utils/db";
 
 const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  let winThroughPlayer: { player_id: string; text: string } = {
-    player_id: "",
-    text: "",
-  };
+  const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
@@ -95,11 +94,11 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughPlayer = { player_id: playerState.player_id, text };
+      winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, text };
   });
-  return { scoreList: playersState, winThroughPlayer };
+  return { scores: playersState, winPlayers };
 };
 
 export default ny;

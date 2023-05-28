@@ -1,6 +1,7 @@
 import { cdate } from "cdate";
 
 import db, { ComputedScoreDBProps, GameDBProps } from "../db";
+import { WinPlayerProps } from "../types";
 
 import attacksurvival from "./attacksurvival";
 import backstream from "./backstream";
@@ -17,19 +18,16 @@ import swedish10 from "./swedish10";
 import variousFluctuations from "./various-fluctiations";
 import z from "./z";
 
-export type winThroughPlayerProps = { player_id: string; text: string } | null;
-
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
-  if (!game)
-    return { scoreList: [], winThroughPlayer: { player_id: "", text: "" } };
+  if (!game) return { scores: [], winPlayers: [] };
   const gameLogList = await db.logs
     .where({ game_id: game_id })
     .sortBy("timestamp");
 
   let result: {
-    scoreList: ComputedScoreDBProps[];
-    winThroughPlayer: { player_id: string; text: string };
+    scores: ComputedScoreDBProps[];
+    winPlayers: WinPlayerProps[];
   };
   switch (game.rule) {
     case "normal":
@@ -76,46 +74,58 @@ const computeScore = async (game_id: string) => {
       break;
   }
 
-  if (
-    result.winThroughPlayer.player_id !== "" &&
-    game.discord_webhook_url?.startsWith("https://discord.com/api/webhooks/")
-  ) {
-    await fetch(game.discord_webhook_url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: "Score Watcher",
-        avatar_url: "https://score-watcher.newt239.dev/icons/icon-512x512.png",
-        embeds: [
-          {
-            title: game.name,
-            description: `${result.winThroughPlayer.player_id}さんが勝ち抜けました:tada:`,
-            timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
-            color: 2664261,
-            field: [
+  if (result.winPlayers.length !== 0) {
+    const playerName = game.players?.find(
+      (player) => player.id! === result.winPlayers[0].player_id
+    )?.name;
+
+    if (playerName) {
+      result.winPlayers[0].name = playerName;
+
+      if (
+        game.discord_webhook_url?.startsWith(
+          "https://discord.com/api/webhooks/"
+        )
+      ) {
+        await fetch(game.discord_webhook_url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: "Score Watcher",
+            avatar_url:
+              "https://score-watcher.newt239.dev/icons/icon-512x512.png",
+            embeds: [
               {
-                name: "抜け順位",
-                value: result.winThroughPlayer.player_id,
-                inline: true,
+                title: game.name,
+                description: `${result.winPlayers[0].name}さんが勝ち抜けました:tada:`,
+                timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
+                color: 2664261,
+                field: [
+                  {
+                    name: "抜け順位",
+                    value: result.winPlayers[0].player_id,
+                    inline: true,
+                  },
+                ],
+                footer: {
+                  text: "© 2023 newt",
+                  icon_url:
+                    "https://pbs.twimg.com/profile_images/1621275964436258816/k0bKlqzs_400x400.jpg",
+                },
               },
             ],
-            footer: {
-              text: "© 2023 newt",
-              icon_url:
-                "https://pbs.twimg.com/profile_images/1621275964436258816/k0bKlqzs_400x400.jpg",
-            },
-          },
-        ],
-      }),
-    });
+          }),
+        });
+      }
+    }
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
   if (webhookUrl && webhookUrl.includes("http")) {
     const url = webhookUrl.split('"')[1];
-    const data = { info: game, logs: gameLogList, scores: result.scoreList };
+    const data = { info: game, logs: gameLogList, scores: result.scores };
     console.log(data);
     await fetch(url, {
       method: "POST",

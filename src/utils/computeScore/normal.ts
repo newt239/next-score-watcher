@@ -63,12 +63,10 @@ const normal = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     );
     return { ...playerState, order };
   });
+
   return {
-    scoreList: playersState,
-    winThroughPlayer: {
-      player_id: "",
-      text: "",
-    },
+    scores: playersState,
+    winPlayers: [],
   };
 };
 

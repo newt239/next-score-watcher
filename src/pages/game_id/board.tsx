@@ -64,15 +64,12 @@ const BoardPage = () => {
     if (logs) {
       const executeComputeScore = async () => {
         const result = await computeScore(game_id as string);
-        setScores(result.scoreList);
-        if (result.winThroughPlayer) {
-          const playerName = playerList?.find(
-            (player) => player.id! === result.winThroughPlayer.player_id
-          )?.name;
-          if (playerName) {
+        setScores(result.scores);
+        if (result.winPlayers.length > 0) {
+          if (result.winPlayers[0].name) {
             setWinThroughPlayer({
-              name: playerName,
-              text: result.winThroughPlayer.text,
+              name: result.winPlayers[0].name,
+              text: result.winPlayers[0].text,
             });
           }
         }
