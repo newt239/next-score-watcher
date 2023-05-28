@@ -62,9 +62,9 @@ const Hero: React.FC = () => {
           <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
           <h3>表示はカスタマイズ可能</h3>
           <Text>
-            <ReactLink to="/option">
-              <Link>アプリ設定</Link>
-            </ReactLink>
+            <Link as={ReactLink} to="/option" color="blue.500">
+              アプリ設定
+            </Link>
             から、得点表示画面の表示をカスタマイズできます。
           </Text>
         </>
@@ -90,17 +90,17 @@ const Hero: React.FC = () => {
             Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-            <ReactLink to="/rule">
-              <Button
-                colorScheme="green"
-                rounded={"full"}
-                _hover={{
-                  bg: "green.500",
-                }}
-              >
-                ゲームを作る
-              </Button>
-            </ReactLink>
+            <Button
+              as={ReactLink}
+              to="/rule"
+              colorScheme="green"
+              rounded={"full"}
+              _hover={{
+                bg: "green.500",
+              }}
+            >
+              ゲームを作る
+            </Button>
             <Button
               rounded={"full"}
               onClick={() =>

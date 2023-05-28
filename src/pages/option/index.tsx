@@ -62,9 +62,9 @@ const OptionPage = () => {
           <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
           <FormHelperText>
             イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
-            <ReactLink to="/option/webhook">
-              <Link color="blue.500">Webhookについて</Link>
-            </ReactLink>
+            <Link as={ReactLink} to="/option/webhook" color="blue.500">
+              webhookについて
+            </Link>
             を御覧ください。
           </FormHelperText>
           <Input

@@ -29,15 +29,15 @@ const PlayerPage = () => {
     <Container>
       {typeof from === "string" && (
         <Box>
-          <ReactLink to={`/${from}/config`}>
-            <Button
-              colorScheme="green"
-              variant="ghost"
-              leftIcon={<ArrowBackUp />}
-            >
-              設定に戻る
-            </Button>
-          </ReactLink>
+          <Button
+            as={ReactLink}
+            to={`/${from}/config`}
+            colorScheme="green"
+            variant="ghost"
+            leftIcon={<ArrowBackUp />}
+          >
+            設定に戻る
+          </Button>
         </Box>
       )}
       <h2>プレイヤー管理</h2>

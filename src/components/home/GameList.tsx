@@ -3,12 +3,15 @@ import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
+  Button,
+  Flex,
   HStack,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Select,
   Table,
   TableContainer,
   Tbody,
@@ -16,9 +19,6 @@ import {
   Th,
   Thead,
   Tr,
-  Select,
-  Flex,
-  Button,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -99,16 +99,16 @@ const GameList: React.FC = () => {
                     <Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Td>
                     <Td sx={{ textAlign: "right" }}>
                       <HStack sx={{ justifyContent: "flex-end" }}>
-                        <ReactLink to={`/${game.id}/config`}>
-                          <Button
-                            size="sm"
-                            colorScheme="green"
-                            variant="ghost"
-                            leftIcon={<AdjustmentsHorizontal />}
-                          >
-                            開く
-                          </Button>
-                        </ReactLink>
+                        <Button
+                          as={ReactLink}
+                          to={`/${game.id}/config`}
+                          size="sm"
+                          colorScheme="green"
+                          variant="ghost"
+                          leftIcon={<AdjustmentsHorizontal />}
+                        >
+                          開く
+                        </Button>
                         <Menu>
                           <MenuButton
                             as={IconButton}
@@ -132,11 +132,13 @@ const GameList: React.FC = () => {
                               コピーを作成
                             </MenuItem>
                             {game.players.length !== 0 && (
-                              <ReactLink to={`/${game.id}/board`}>
-                                <MenuItem icon={<Chalkboard />}>
-                                  得点画面を開く
-                                </MenuItem>
-                              </ReactLink>
+                              <MenuItem
+                                as={ReactLink}
+                                to={`/${game.id}/board`}
+                                icon={<Chalkboard />}
+                              >
+                                得点画面を開く
+                              </MenuItem>
                             )}
                             <MenuItem
                               icon={<Trash />}

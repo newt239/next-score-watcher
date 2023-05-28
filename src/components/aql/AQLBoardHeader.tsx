@@ -238,12 +238,16 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   ショートカットを確認
                 </MenuItem>
               )}
-              <ReactLink to={`/aql`}>
-                <MenuItem icon={<AdjustmentsHorizontal />}>AQL設定</MenuItem>
-              </ReactLink>
-              <ReactLink to="/">
-                <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </ReactLink>
+              <MenuItem
+                as={ReactLink}
+                to={`/aql`}
+                icon={<AdjustmentsHorizontal />}
+              >
+                AQL設定
+              </MenuItem>
+              <MenuItem as={ReactLink} to="/" icon={<Home />}>
+                ホームに戻る
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>

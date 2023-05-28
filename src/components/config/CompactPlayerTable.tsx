@@ -271,15 +271,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Box>
           </HStack>
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <ReactLink to={`/player?from=${game_id}`}>
-              <Button
-                colorScheme="green"
-                variant="ghost"
-                rightIcon={<ArrowNarrowRight />}
-              >
-                詳細設定
-              </Button>
-            </ReactLink>
+            <Button
+              as={ReactLink}
+              to={`/player?from=${game_id}`}
+              colorScheme="green"
+              variant="ghost"
+              rightIcon={<ArrowNarrowRight />}
+            >
+              詳細設定
+            </Button>
           </Box>
         </Box>
       )}

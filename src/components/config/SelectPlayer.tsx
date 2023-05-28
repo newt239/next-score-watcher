@@ -130,13 +130,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       <h2>プレイヤー設定</h2>
       <Box py={5}>
         {playerList.length === 0 ? (
-          <>
-            <ReactLink to={`/player?from=${game_id}`}>
-              <Button leftIcon={<Upload />} colorScheme="blue">
-                プレイヤーデータを読み込む
-              </Button>
-            </ReactLink>
-          </>
+          <Button
+            as={ReactLink}
+            to={`/player?from=${game_id}`}
+            leftIcon={<Upload />}
+            colorScheme="blue"
+          >
+            プレイヤーデータを読み込む
+          </Button>
         ) : (
           <>
             <Button

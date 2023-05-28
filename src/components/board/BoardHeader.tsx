@@ -245,9 +245,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   ショートカットを確認
                 </MenuItem>
               )}
-              <ReactLink to={`/${game.id}/config`}>
-                <MenuItem icon={<AdjustmentsHorizontal />}>ゲーム設定</MenuItem>
-              </ReactLink>
+              <MenuItem
+                as={ReactLink}
+                to={`/${game.id}/config`}
+                icon={<AdjustmentsHorizontal />}
+              >
+                ゲーム設定
+              </MenuItem>
               <MenuItem
                 closeOnSelect
                 icon={<Ballon />}
@@ -255,9 +259,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               >
                 表示設定
               </MenuItem>
-              <ReactLink to="/">
-                <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </ReactLink>
+              <MenuItem as={ReactLink} to="/" icon={<Home />}>
+                ホームに戻る
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>

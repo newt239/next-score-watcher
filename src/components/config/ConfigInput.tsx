@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { useDebounce } from "#/hooks/useDebounce";
@@ -13,6 +18,7 @@ type ConfigInputProps = {
   label: string;
   placehodler: string;
   disabled?: boolean;
+  helperText?: React.ReactNode;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
@@ -20,6 +26,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   label,
   placehodler,
   disabled,
+  helperText,
 }) => {
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
@@ -53,6 +60,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
         onChange={(v) => setInputText(v.target.value)}
         disabled={disabled}
       />
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };

@@ -9,6 +9,7 @@ import {
   Button,
   Container,
   Flex,
+  Link,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -167,6 +168,19 @@ const ConfigPage = () => {
             input_id="discord_webhook_url"
             label="Discord Webhook URL"
             placehodler="https://discord.com/api/webhooks/..."
+            helperText={
+              <>
+                プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。詳しくは
+                <Link
+                  as={ReactLink}
+                  to={`/option/webhook?from=${game.id}`}
+                  color="blue.500"
+                >
+                  webhookについて
+                </Link>
+                を御覧ください。
+              </>
+            }
           />
         </div>
         <SelectPlayer

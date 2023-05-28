@@ -33,9 +33,9 @@ const Header: React.FC = () => {
         }}
       >
         {linkList.map((link) => (
-          <ReactLink key={link.path} to={link.path}>
-            <Button variant="ghost">{link.text}</Button>
-          </ReactLink>
+          <Button as={ReactLink} key={link.path} to={link.path} variant="ghost">
+            {link.text}
+          </Button>
         ))}
       </Flex>
     );
