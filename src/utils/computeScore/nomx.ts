@@ -1,4 +1,4 @@
-import { WinPlayerProps } from "../types";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
 
 import { numberSign } from "#/utils/commonFunctions";
 import {
@@ -6,7 +6,6 @@ import {
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
 
 const nomx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let winPlayers: WinPlayerProps[] = [];

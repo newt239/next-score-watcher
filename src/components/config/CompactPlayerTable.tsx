@@ -40,7 +40,8 @@ import {
   Filter,
 } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps, PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
 
 type CompactPlayerTableProps = {
   game_id: string;

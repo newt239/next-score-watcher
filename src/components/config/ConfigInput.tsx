@@ -5,7 +5,8 @@ import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { useDebounce } from "#/hooks/useDebounce";
-import db, { GameDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBProps } from "#/utils/types";
 
 type ConfigInputProps = {
   input_id: keyof GameDBProps;

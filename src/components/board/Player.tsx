@@ -11,8 +11,9 @@ import PlayerHeader from "./PlayerHeader";
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/db";
+import db from "#/utils/db";
 import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
+import { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/types";
 
 type PlayerProps = {
   player: PlayerDBProps;

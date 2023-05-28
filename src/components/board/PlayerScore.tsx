@@ -4,8 +4,8 @@ import { useAtomValue } from "jotai";
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/commonFunctions";
-import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
 import { verticalViewAtom } from "#/utils/jotai";
+import { ComputedScoreDBProps, GameDBProps } from "#/utils/types";
 
 type PlayerScoreProps = {
   game: GameDBProps;

@@ -13,9 +13,10 @@ import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
-import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
 import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
+import { ComputedScoreDBProps, PlayerDBProps } from "#/utils/types";
 
 const BoardPage = () => {
   const { game_id } = useParams();

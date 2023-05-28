@@ -1,11 +1,10 @@
-import { WinPlayerProps } from "../types";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
 
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
-  indicator,
+  indicator
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];

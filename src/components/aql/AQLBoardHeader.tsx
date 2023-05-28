@@ -11,9 +11,9 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Switch,
   theme,
   useColorMode,
-  Switch,
   useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -32,7 +32,8 @@ import {
 import ShortcutGuideModal from "../board/ShortcutGuideModal";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { LogDBProps, QuizDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { LogDBProps, QuizDBProps } from "#/utils/types";
 
 type AQLBoardHeaderProps = {
   name: string;

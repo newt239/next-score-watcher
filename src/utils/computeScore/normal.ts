@@ -2,7 +2,7 @@ import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
+import { GameDBProps, LogDBProps } from "#/utils/types";
 
 const normal = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let playersState = getInitialPlayersState(game);

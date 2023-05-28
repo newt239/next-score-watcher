@@ -1,11 +1,10 @@
-import { WinPlayerProps } from "../types";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
 
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
 
 const variousFluctuations = async (
   game: GameDBProps,

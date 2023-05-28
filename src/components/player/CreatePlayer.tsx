@@ -12,7 +12,8 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps } from "#/utils/types";
 
 const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");

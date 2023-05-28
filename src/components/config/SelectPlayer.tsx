@@ -38,7 +38,8 @@ import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
 import CompactPlayerTable from "#/components/config/CompactPlayerTable";
 import IndividualConfig from "#/components/config/IndividualConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/types";
 
 type SelectPlayerProps = {
   game_id: string;

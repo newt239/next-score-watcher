@@ -1,24 +1,25 @@
 import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  ModalCloseButton,
+  Button,
   FormControl,
   FormLabel,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Button,
-  ModalFooter,
-  IconButton,
 } from "@chakra-ui/react";
 import { AdjustmentsHorizontal, DeviceFloppy } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps, RuleNames } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps, RuleNames } from "#/utils/types";
 
 type InitialPointConfigModalProps = {
   onClick: () => void;

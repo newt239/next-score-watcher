@@ -34,8 +34,9 @@ import PreferenceModal from "./PreferenceModal";
 import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
+import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
+import { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/types";
 
 type BoardHeaderProps = {
   game: GameDBProps;

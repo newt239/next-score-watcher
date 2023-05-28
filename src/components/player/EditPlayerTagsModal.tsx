@@ -1,21 +1,22 @@
 import { useRef, useState } from "react";
 
 import {
-  Input,
   Button,
   FormControl,
   FormLabel,
+  Input,
+  Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Modal,
 } from "@chakra-ui/react";
 import { DeviceFloppy } from "tabler-icons-react";
 
-import db, { PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { PlayerDBProps } from "#/utils/types";
 
 type EditPlayertagsModalProps = {
   selectedPlayers: PlayerDBProps[];

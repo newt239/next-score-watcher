@@ -1,8 +1,5 @@
 import { cdate } from "cdate";
 
-import db, { ComputedScoreDBProps, GameDBProps } from "../db";
-import { WinPlayerProps } from "../types";
-
 import attacksurvival from "./attacksurvival";
 import backstream from "./backstream";
 import freezex from "./freezex";
@@ -17,6 +14,13 @@ import squarex from "./squarex";
 import swedish10 from "./swedish10";
 import variousFluctuations from "./various-fluctiations";
 import z from "./z";
+
+import db from "#/utils/db";
+import {
+  ComputedScoreDBProps,
+  GameDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);

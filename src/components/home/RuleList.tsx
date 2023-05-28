@@ -12,8 +12,8 @@ import {
 import { CirclePlus } from "tabler-icons-react";
 
 import { createGame } from "#/utils/commonFunctions";
-import { RuleNames } from "#/utils/db";
 import { rules } from "#/utils/rules";
+import { RuleNames } from "#/utils/types";
 
 const RuleList: React.FC = () => {
   const navigate = useNavigate();

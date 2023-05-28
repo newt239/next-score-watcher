@@ -2,20 +2,20 @@ import { useState } from "react";
 
 import {
   Box,
-  TableContainer,
+  Button,
   Table,
+  TableContainer,
   Tbody,
   Td,
   theme,
   Tr,
   useColorMode,
-  Button,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { LogDBProps } from "#/utils/db";
+import { LogDBProps } from "#/utils/types";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];

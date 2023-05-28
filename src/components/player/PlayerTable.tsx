@@ -68,7 +68,8 @@ import {
 
 import EditPlayertagsModal from "./EditPlayerTagsModal";
 
-import db, { PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { PlayerDBProps } from "#/utils/types";
 
 const PlayerTable: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray(), []);
