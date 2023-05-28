@@ -30,7 +30,7 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 ...playerState,
                 correct: newCorrect,
                 last_correct: qn,
-                reachState: "win",
+                reach_state: "win",
               };
             } else {
               return {
@@ -45,18 +45,18 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               ...playerState,
               wrong: newWrong,
               last_wrong: qn,
-              isIncapacity: true,
+              is_incapacity: true,
             };
         }
       } else {
         if (
-          playerState.isIncapacity &&
+          playerState.is_incapacity &&
           playerState.wrong < gameLogList.length - playerState.last_wrong
         ) {
           return {
             ...playerState,
             state: "playing",
-            isIncapacity: false,
+            is_incapacity: false,
           };
         } else {
           return playerState;
@@ -72,7 +72,7 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const text =
       playerState.state === "win"
         ? indicator(order)
-        : playerState.isIncapacity
+        : playerState.is_incapacity
         ? `${
             playerState.wrong - gameLogList.length + playerState.last_wrong + 1
           }休`

@@ -33,7 +33,7 @@ const nupdown = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
-                reachState: "win",
+                reach_state: "win",
               };
             } else {
               return {
@@ -62,7 +62,7 @@ const nupdown = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: 0,
                 wrong: newWrong,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {

@@ -1,4 +1,4 @@
-import { GameDBProps } from "./db";
+import { GameDBProps } from "#/utils/types";
 
 export const rules = {
   normal: {

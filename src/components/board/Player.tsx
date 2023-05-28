@@ -13,12 +13,12 @@ import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
-import { ComputedScoreDBProps, PlayerDBProps, States } from "#/utils/types";
+import { ComputedScoreProps, PlayerDBProps, States } from "#/utils/types";
 
 type PlayerProps = {
   player: PlayerDBProps;
   index: number;
-  score: ComputedScoreDBProps | undefined;
+  score: ComputedScoreProps | undefined;
   qn: number;
   last_correct_player: string;
 };
@@ -46,7 +46,7 @@ const Player: React.FC<PlayerProps> = ({
 
   if (!game || !score) return null;
 
-  const editedScore: ComputedScoreDBProps = {
+  const editedScore: ComputedScoreProps = {
     ...score,
     state: game.editable ? editableState : score.state,
   };
@@ -84,7 +84,7 @@ const Player: React.FC<PlayerProps> = ({
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
-          getColor(editedScore.reachState) ||
+          getColor(editedScore.reach_state) ||
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),

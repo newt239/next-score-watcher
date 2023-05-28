@@ -16,7 +16,7 @@ import computeScore from "#/utils/computeScore";
 import db from "#/utils/db";
 import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
-import { ComputedScoreDBProps, PlayerDBProps } from "#/utils/types";
+import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
 
 const BoardPage = () => {
   const { game_id } = useParams();
@@ -25,7 +25,7 @@ const BoardPage = () => {
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
-  const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
+  const [scores, setScores] = useState<ComputedScoreProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();

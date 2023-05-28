@@ -26,7 +26,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 correct: playerState.correct + 1,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {
@@ -52,7 +52,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 wrong: newWrong,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {
@@ -84,7 +84,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           return {
             ...playerState,
             score: newScore,
-            reachState: "lose",
+            reach_state: "lose",
           };
         } else {
           return {

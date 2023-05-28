@@ -5,12 +5,12 @@ import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/commonFunctions";
 import { verticalViewAtom } from "#/utils/jotai";
-import { ComputedScoreDBProps, GameDBProps } from "#/utils/types";
+import { ComputedScoreProps, GameDBProps } from "#/utils/types";
 
 type PlayerScoreProps = {
   game: GameDBProps;
   player_id: string;
-  player: ComputedScoreDBProps;
+  player: ComputedScoreProps;
   qn: number;
   isLastCorrectPlayer: boolean;
 };
@@ -106,7 +106,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nomr" && (
         <>
           <PlayerScoreButton
-            color={player.isIncapacity ? "blue" : "green"}
+            color={player.is_incapacity ? "blue" : "green"}
             disabled
             {...props}
           >
@@ -114,16 +114,16 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex w="100%" h="100%">
             <PlayerScoreButton
-              color={player.isIncapacity ? "gray" : "red"}
-              disabled={player.isIncapacity}
+              color={player.is_incapacity ? "gray" : "red"}
+              disabled={player.is_incapacity}
               compact
               {...props}
             >
               {numberSign("correct")}
             </PlayerScoreButton>
             <PlayerScoreButton
-              color={player.isIncapacity ? "gray" : "blue"}
-              disabled={player.isIncapacity}
+              color={player.is_incapacity ? "gray" : "blue"}
+              disabled={player.is_incapacity}
               compact
               {...props}
             >
@@ -247,7 +247,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             <PlayerScoreButton
               color="red"
               disabled={
-                player.isIncapacity ||
+                player.is_incapacity ||
                 (qn === player.last_wrong + 1 && player.stage === 1)
               }
               compact
@@ -258,7 +258,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             <PlayerScoreButton
               color="blue"
               disabled={
-                player.isIncapacity ||
+                player.is_incapacity ||
                 (qn === player.last_wrong + 1 && player.stage === 1)
               }
               compact
@@ -272,13 +272,13 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "freezex" && (
         <>
           <PlayerScoreButton
-            color={player.isIncapacity ? "green" : "red"}
+            color={player.is_incapacity ? "green" : "red"}
             {...props}
           >
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton
-            disabled={player.isIncapacity}
+            disabled={player.is_incapacity}
             color="blue"
             {...props}
           >

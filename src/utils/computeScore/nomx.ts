@@ -30,7 +30,7 @@ const nomx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 ...playerState,
                 correct: newCorrect,
                 last_correct: qn,
-                reachState: "win",
+                reach_state: "win",
               };
             } else {
               return {
@@ -56,7 +56,7 @@ const nomx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 ...playerState,
                 wrong: newWrong,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {

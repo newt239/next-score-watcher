@@ -33,7 +33,7 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
-                reachState: "win",
+                reach_state: "win",
               };
             } else {
               return {
@@ -62,7 +62,7 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: playerState.score - 1,
                 wrong: newWrong,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {

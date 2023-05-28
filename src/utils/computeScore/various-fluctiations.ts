@@ -37,7 +37,7 @@ const variousFluctuations = async (
                 correct: playerState.correct + 1,
                 score: newScore,
                 last_correct: qn,
-                reachState: "win",
+                reach_state: "win",
               };
             } else {
               return {

@@ -16,11 +16,7 @@ import variousFluctuations from "./various-fluctiations";
 import z from "./z";
 
 import db from "#/utils/db";
-import {
-  ComputedScoreDBProps,
-  GameDBProps,
-  WinPlayerProps,
-} from "#/utils/types";
+import { ComputedScoreProps, GameDBProps, WinPlayerProps } from "#/utils/types";
 
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
@@ -30,7 +26,7 @@ const computeScore = async (game_id: string) => {
     .sortBy("timestamp");
 
   let result: {
-    scores: ComputedScoreDBProps[];
+    scores: ComputedScoreProps[];
     winPlayers: WinPlayerProps[];
   };
   switch (game.rule) {
@@ -145,12 +141,12 @@ const computeScore = async (game_id: string) => {
 
 export const getInitialPlayersState = (game: GameDBProps) => {
   const initialPlayersState = game.players.map(
-    (gamePlayer): ComputedScoreDBProps => {
+    (gamePlayer): ComputedScoreProps => {
       return {
         game_id: game.id,
         player_id: gamePlayer.id,
         state: "playing",
-        reachState: "playing",
+        reach_state: "playing",
         score:
           game.rule === "attacksurvival"
             ? game.win_point!
@@ -166,7 +162,7 @@ export const getInitialPlayersState = (game: GameDBProps) => {
         odd_score: 0,
         even_score: 0,
         stage: 1,
-        isIncapacity: false,
+        is_incapacity: false,
         order: 0,
         text: "",
       };
@@ -175,9 +171,7 @@ export const getInitialPlayersState = (game: GameDBProps) => {
   return initialPlayersState;
 };
 
-export const getSortedPlayerOrderList = (
-  playersState: ComputedScoreDBProps[]
-) =>
+export const getSortedPlayerOrderList = (playersState: ComputedScoreProps[]) =>
   playersState
     .sort((pre, cur) => {
       // 勝ち抜けているかどうか
