@@ -1,3 +1,5 @@
+import { cdate } from "cdate";
+
 import db, { ComputedScoreDBProps, GameDBProps } from "../db";
 
 import attacksurvival from "./attacksurvival";
@@ -72,6 +74,42 @@ const computeScore = async (game_id: string) => {
     case "various-fluctuations":
       result = await variousFluctuations(game, gameLogList);
       break;
+  }
+
+  if (
+    result.winThroughPlayer.player_id !== "" &&
+    game.discord_webhook_url?.startsWith("https://discord.com/api/webhooks/")
+  ) {
+    await fetch(game.discord_webhook_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: "Score Watcher",
+        avatar_url: "https://score-watcher.newt239.dev/icons/icon-512x512.png",
+        embeds: [
+          {
+            title: game.name,
+            description: `${result.winThroughPlayer.player_id}さんが勝ち抜けました:tada:`,
+            timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
+            color: 2664261,
+            field: [
+              {
+                name: "抜け順位",
+                value: result.winThroughPlayer.player_id,
+                inline: true,
+              },
+            ],
+            footer: {
+              text: "© 2023 newt",
+              icon_url:
+                "https://pbs.twimg.com/profile_images/1621275964436258816/k0bKlqzs_400x400.jpg",
+            },
+          },
+        ],
+      }),
+    });
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");

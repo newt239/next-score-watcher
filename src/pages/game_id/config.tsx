@@ -162,6 +162,13 @@ const ConfigPage = () => {
             </>
           )}
         </div>
+        <div>
+          <ConfigInput
+            input_id="discord_webhook_url"
+            label="Discord Webhook URL"
+            placehodler="https://discord.com/api/webhooks/..."
+          />
+        </div>
         <SelectPlayer
           game_id={game.id}
           rule_name={game.rule}
