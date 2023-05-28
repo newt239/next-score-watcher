@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useParams } from "react-router-dom";
+import { Link as ReactLink, useSearchParams } from "react-router-dom";
 
 import {
   Box,
@@ -19,7 +19,8 @@ import LoadPlayer from "#/components/player/LoadPlayer";
 import PlayerTable from "#/components/player/PlayerTable";
 
 const PlayerPage = () => {
-  const { from } = useParams();
+  const [params] = useSearchParams();
+  const from = params.get("from");
 
   useEffect(() => {
     document.title = "プレイヤー管理 | Score Watcher";
@@ -27,7 +28,7 @@ const PlayerPage = () => {
 
   return (
     <Container>
-      {typeof from === "string" && (
+      {from && (
         <Box>
           <Button
             as={ReactLink}
@@ -51,9 +52,7 @@ const PlayerPage = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CreatePlayer
-                from={typeof from === "string" ? from : undefined}
-              />
+              <CreatePlayer from={from || undefined} />
             </TabPanel>
             <TabPanel>
               <LoadPlayer />

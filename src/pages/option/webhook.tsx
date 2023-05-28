@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useParams } from "react-router-dom";
+import { Link as ReactLink, useSearchParams } from "react-router-dom";
 
 import {
   Box,
@@ -13,7 +13,8 @@ import {
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
 
 const WebhookPage = () => {
-  const { from } = useParams();
+  const [params] = useSearchParams();
+  const from = params.get("from");
 
   useEffect(() => {
     document.title = "Webhookについて | Score Watcher";
@@ -22,7 +23,7 @@ const WebhookPage = () => {
   return (
     <Container>
       <Box>
-        {typeof from === "string" ? (
+        {from ? (
           <Button
             as={ReactLink}
             to={`/${from}/config`}

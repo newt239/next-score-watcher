@@ -8,7 +8,7 @@ import {
 } from "#/utils/computeScore";
 
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  let winPlayers: WinPlayerProps[] = [];
+  const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   let last_correct_player: string = "";
   gameLogList.map((log, qn) => {
