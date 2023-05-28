@@ -7,9 +7,6 @@ const Term: React.FC = () => {
       <h2>本アプリのご利用にあたって</h2>
       <UnorderedList>
         <ListItem>
-          本アプリはあくまで「得点表示アプリ」であり、問題やプレイヤー、試合記録の管理アプリではありません。
-        </ListItem>
-        <ListItem>
           データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。
         </ListItem>
         <ListItem>
@@ -17,8 +14,12 @@ const Term: React.FC = () => {
         </ListItem>
         <ListItem>
           お問い合わせは
-          <Link href="https://twitter.com/newt239" isExternal color="blue.500">
-            開発者のTwitter
+          <Link
+            href="https://discord.gg/rct5sx6rbZ"
+            isExternal
+            color="blue.500"
+          >
+            Discordサーバー
             <Icon>
               <ExternalLink />
             </Icon>

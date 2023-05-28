@@ -46,17 +46,6 @@ h3 {
   padding: 0;
 }
 
-.hero {
-  background-color: #fffd99;
-  background-image: radial-gradient(
-      at 64% 32%,
-      hsla(118, 99%, 75%, 1) 0px,
-      transparent 50%
-    ),
-    radial-gradient(at 79% 34%, hsla(207, 82%, 66%, 1) 0px, transparent 50%),
-    radial-gradient(at 35% 76%, hsla(139, 71%, 66%, 1) 0px, transparent 50%),
-    radial-gradient(at 32% 57%, hsla(336, 94%, 66%, 1) 0px, transparent 50%),
-    radial-gradient(at 44% 66%, hsla(182, 93%, 77%, 1) 0px, transparent 50%),
-    radial-gradient(at 30% 33%, hsla(195, 91%, 67%, 1) 0px, transparent 50%),
-    radial-gradient(at 68% 49%, hsla(162, 88%, 67%, 1) 0px, transparent 50%);
+li {
+  line-height: 2rem;
 }
