@@ -16,6 +16,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import ConfigInput from "#/components/config/ConfigInput";
+import ConfigLimit from "#/components/config/ConfigLimit";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
@@ -69,6 +70,8 @@ const ConfigPage = () => {
       </Alert>
       <Box>
         <h2>形式設定</h2>
+        <ConfigInput input_id="name" label="ゲーム名" placehodler="〇〇大会" />
+        <ConfigLimit game_id={game_id!} limit={game.limit} />
         <div
           style={{
             display: "grid",
@@ -76,11 +79,6 @@ const ConfigPage = () => {
             gap: "1rem",
           }}
         >
-          <ConfigInput
-            input_id="name"
-            label="ゲーム名"
-            placehodler="〇〇大会"
-          />
           {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="win_point"
