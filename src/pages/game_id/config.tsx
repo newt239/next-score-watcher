@@ -71,7 +71,11 @@ const ConfigPage = () => {
       <Box>
         <h2>形式設定</h2>
         <ConfigInput input_id="name" label="ゲーム名" placehodler="〇〇大会" />
-        <ConfigLimit game_id={game_id!} limit={game.limit} />
+        <ConfigLimit
+          game_id={game_id!}
+          limit={game.limit}
+          win_through={game.win_through}
+        />
         <div
           style={{
             display: "grid",
