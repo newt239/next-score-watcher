@@ -16,8 +16,8 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import { str2num } from "#/utils/commonFunctions";
 import db from "#/utils/db";
+import { str2num } from "#/utils/functions";
 import { QuizDBProps } from "#/utils/types";
 
 const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {

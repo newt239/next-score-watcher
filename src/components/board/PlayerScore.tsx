@@ -3,7 +3,7 @@ import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { numberSign } from "#/utils/commonFunctions";
+import { numberSign } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
 import { ComputedScoreProps, GameDBProps } from "#/utils/types";
 

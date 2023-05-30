@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
-import { createGame } from "#/utils/commonFunctions";
+import { createGame } from "#/utils/functions";
 import { rules } from "#/utils/rules";
 import { RuleNames } from "#/utils/types";
 

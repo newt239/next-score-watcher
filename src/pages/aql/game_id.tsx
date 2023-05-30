@@ -9,10 +9,10 @@ import { nanoid } from "nanoid";
 
 import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
 import GameLogs from "#/components/board/GameLogs";
-import { AQLGameProps } from "#/components/home/OtherRules";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showLogsAtom } from "#/utils/jotai";
+import { AQLGameProps } from "#/utils/types";
 
 type AQLPlayerStateProps = {
   score: number;

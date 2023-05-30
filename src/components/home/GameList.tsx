@@ -30,8 +30,8 @@ import {
   Trash,
 } from "tabler-icons-react";
 
-import { createGame } from "#/utils/commonFunctions";
 import db from "#/utils/db";
+import { createGame } from "#/utils/functions";
 import { getRuleStringByType } from "#/utils/rules";
 
 const GameList: React.FC = () => {

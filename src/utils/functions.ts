@@ -2,8 +2,9 @@ import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 import ReactGA from "react-ga4";
 
-import db, { GameDBProps, RuleNames } from "./db";
-import { rules } from "./rules";
+import db from "#/utils/db";
+import { rules } from "#/utils/rules";
+import { GameDBProps, RuleNames } from "#/utils/types";
 
 export const createGame = async (
   rule_name: RuleNames,
