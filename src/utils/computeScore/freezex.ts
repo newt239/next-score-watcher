@@ -1,3 +1,4 @@
+import { detectPlayerState } from "../functions";
 import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
 
 import {
@@ -47,21 +48,27 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    const state = detectPlayerState(
+      game,
+      playerState.state,
+      order,
+      gameLogList.length
+    );
     const remainIncapacity =
       playerState.wrong - (gameLogList.length - playerState.last_wrong - 1);
     const text =
-      playerState.state === "win"
+      state === "win"
         ? indicator(order)
         : remainIncapacity > 0
         ? `~${remainIncapacity}~`
         : `${playerState.correct}○`;
     if (
-      playerState.state === "win" &&
+      state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
-    return { ...playerState, order, text };
+    return { ...playerState, order, state, text };
   });
   return { scores: playersState, winPlayers };
 };

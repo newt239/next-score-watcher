@@ -5,7 +5,7 @@ import {
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { numberSign } from "#/utils/functions";
+import { detectPlayerState, numberSign } from "#/utils/functions";
 
 const nupdown = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
@@ -83,19 +83,25 @@ const nupdown = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    const state = detectPlayerState(
+      game,
+      playerState.state,
+      order,
+      gameLogList.length
+    );
     const text =
-      playerState.state === "win"
+      state === "win"
         ? indicator(order)
-        : playerState.state === "lose"
+        : state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);
     if (
-      playerState.state === "win" &&
+      state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
-    return { ...playerState, order, text };
+    return { ...playerState, order, state, text };
   });
   return { scores: playersState, winPlayers };
 };

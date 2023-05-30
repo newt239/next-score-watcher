@@ -4,7 +4,7 @@ import ReactGA from "react-ga4";
 
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
-import { GameDBProps, RuleNames } from "#/utils/types";
+import { GameDBProps, RuleNames, States } from "#/utils/types";
 
 export const createGame = async (
   rule_name: RuleNames,
@@ -154,4 +154,19 @@ export const str2num = (str: unknown): number => {
     return Number.isNaN(x) ? 0 : x;
   }
   return 0;
+};
+
+export const detectPlayerState = (
+  game: GameDBProps,
+  state: States,
+  order: number,
+  qn: number
+): States => {
+  if (state === "win") return "win";
+  if (game.limit && game.win_through) {
+    if (game.limit <= qn && order < game.win_through) {
+      return "win";
+    }
+  }
+  return state;
 };

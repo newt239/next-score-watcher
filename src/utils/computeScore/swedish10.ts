@@ -5,7 +5,7 @@ import {
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { numberSign } from "#/utils/functions";
+import { detectPlayerState, numberSign } from "#/utils/functions";
 
 // scoreをwrong ptとして利用
 const swedish10 = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
@@ -70,19 +70,25 @@ const swedish10 = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    const state = detectPlayerState(
+      game,
+      playerState.state,
+      order,
+      gameLogList.length
+    );
     const text =
-      playerState.state === "win"
+      state === "win"
         ? indicator(order)
-        : playerState.state === "lose"
+        : state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.correct);
     if (
-      playerState.state === "win" &&
+      state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
-    return { ...playerState, order, text };
+    return { ...playerState, order, state, text };
   });
   return { scores: playersState, winPlayers };
 };
