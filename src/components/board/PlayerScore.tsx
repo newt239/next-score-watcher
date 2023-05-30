@@ -286,7 +286,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
-      {game.rule === "various-fluctuations" && (
+      {game.rule === "variables" && (
         <>
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}

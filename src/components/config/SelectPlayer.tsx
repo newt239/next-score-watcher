@@ -308,7 +308,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                               "normal",
                               "nomx",
                               "nomx-ad",
-                              "various-fluctuations",
+                              "variables",
                             ].includes(rule_name)}
                             wrong={["nomx", "nomx-ad"].includes(rule_name)}
                             disabled={disabled}

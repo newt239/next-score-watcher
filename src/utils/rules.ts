@@ -82,8 +82,8 @@ export const rules = {
     description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
     win_point: 7,
   },
-  "various-fluctuations": {
-    name: "Various Fluctuations",
+  variables: {
+    name: "Variables",
     description:
       "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N×(N-2)されます。",
     win_point: 30,
@@ -118,8 +118,8 @@ export const getRuleStringByType = (game: GameDBProps): string => {
       return "Z";
     case "freezex":
       return `freez${game.win_point}`;
-    case "various-fluctuations":
-      return `Various Fluctuations`;
+    case "variables":
+      return `Variables`;
     default:
       return "unknown";
   }

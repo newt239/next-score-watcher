@@ -93,7 +93,7 @@ const ConfigPage = () => {
               disabled={disabled}
             />
           )}
-          {["ny", "various-fluctuations"].includes(game.rule) && (
+          {["ny", "variables"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="win_point"
               label="勝ち抜けポイント"

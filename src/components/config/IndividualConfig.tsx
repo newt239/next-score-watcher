@@ -66,9 +66,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             {correct && (
               <FormControl pt={3}>
                 <FormLabel>
-                  {rule_name === "various-fluctuations"
-                    ? "初期ポイント"
-                    : "初期正答数"}
+                  {rule_name === "variables" ? "初期ポイント" : "初期正答数"}
                 </FormLabel>
                 <NumberInput
                   value={players[index].initial_correct}
@@ -113,7 +111,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 </NumberInput>
               </FormControl>
             )}
-            {rule_name === "various-fluctuations" && (
+            {rule_name === "variables" && (
               <FormControl pt={3}>
                 <FormLabel>N</FormLabel>
                 <NumberInput

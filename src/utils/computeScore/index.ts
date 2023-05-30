@@ -12,7 +12,7 @@ import nupdown from "./nupdown";
 import ny from "./ny";
 import squarex from "./squarex";
 import swedish10 from "./swedish10";
-import variousFluctuations from "./various-fluctiations";
+import variousFluctuations from "./variables";
 import z from "./z";
 
 import db from "#/utils/db";
@@ -69,7 +69,7 @@ const computeScore = async (game_id: string) => {
     case "freezex":
       result = await freezex(game, gameLogList);
       break;
-    case "various-fluctuations":
+    case "variables":
       result = await variousFluctuations(game, gameLogList);
       break;
   }
@@ -150,10 +150,10 @@ export const getInitialPlayersState = (game: GameDBProps) => {
         score:
           game.rule === "attacksurvival"
             ? game.win_point!
-            : ["nomx-ad", "various-fluctuations"].includes(game.rule)
+            : ["nomx-ad", "variables"].includes(game.rule)
             ? gamePlayer.initial_correct
             : 0,
-        correct: ["nomx-ad", "various-fluctuations"].includes(game.rule)
+        correct: ["nomx-ad", "variables"].includes(game.rule)
           ? 0
           : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,

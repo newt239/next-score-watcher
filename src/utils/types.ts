@@ -16,7 +16,7 @@ export type RuleNames =
   | "squarex"
   | "z"
   | "freezex"
-  | "various-fluctuations";
+  | "variables";
 
 export type GameDBPlayerProps = {
   id: string;

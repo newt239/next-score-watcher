@@ -80,7 +80,7 @@ export const createGame = async (
       case "freezex":
         putData.win_point = rules[rule_name].win_point;
         break;
-      case "various-fluctuations":
+      case "variables":
         putData.win_point = rules[rule_name].win_point;
         break;
     }
