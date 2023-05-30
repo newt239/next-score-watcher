@@ -192,8 +192,8 @@ export const getSortedPlayerOrderList = (playersState: ComputedScoreProps[]) =>
       if (pre.correct > cur.correct) return -1;
       else if (cur.correct > pre.correct) return 1;
       // 誤答数を比較
-      if (pre.wrong > cur.wrong) return -1;
-      else if (cur.wrong > pre.wrong) return 1;
+      if (pre.wrong > cur.wrong) return 1;
+      else if (cur.wrong > pre.wrong) return -1;
       // 必要に応じて評価基準を追加
       else return 0;
     })
