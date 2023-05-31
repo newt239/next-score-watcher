@@ -118,10 +118,12 @@ const ConfigPage = () => {
               disabled={disabled}
             />
           )}
-          {["nomx", "nomx-ad", "nbyn", "nupdown"].includes(game.rule) && (
+          {["nomx", "nomx-ad", "nbyn", "nupdown", "nomr"].includes(
+            game.rule
+          ) && (
             <ConfigNumberInput
               input_id="lose_point"
-              label="失格誤答数"
+              label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
               max={100}
               disabled={disabled}
             />

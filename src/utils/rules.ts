@@ -24,8 +24,9 @@ export const rules = {
   },
   nomr: {
     name: "N○M休",
-    description: "N回の正答で勝ち抜けですが、M回目の誤答でM回休みになります。",
+    description: "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
     win_point: 7,
+    lose_point: 3,
   },
   nbyn: {
     name: "NbyN",

@@ -51,7 +51,7 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       } else {
         if (
           playerState.is_incapacity &&
-          playerState.wrong < gameLogList.length - playerState.last_wrong
+          game.lose_point! < gameLogList.length - playerState.last_wrong
         ) {
           return {
             ...playerState,
@@ -80,7 +80,7 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         ? indicator(order)
         : playerState.is_incapacity
         ? `${
-            playerState.wrong - gameLogList.length + playerState.last_wrong + 1
+            game.lose_point! - gameLogList.length + playerState.last_wrong + 1
           }休`
         : numberSign("pt", playerState.correct);
     if (
