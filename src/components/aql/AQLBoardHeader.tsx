@@ -3,6 +3,7 @@ import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
+  Button,
   Flex,
   FormControl,
   FormLabel,
@@ -11,6 +12,13 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Switch,
   theme,
   useColorMode,
@@ -29,8 +37,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import ShortcutGuideModal from "../board/ShortcutGuideModal";
-
+import ShortcutGuide from "#/components/ShortcutGuide";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { LogDBProps, QuizDBProps } from "#/utils/types";
@@ -252,7 +259,27 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           </Menu>
         </Box>
       </Flex>
-      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>ショートカットキー一覧</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ShortcutGuide />
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              onClick={() => {
+                onClose();
+                document.getElementById("players-area")?.focus();
+              }}
+            >
+              閉じる
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
