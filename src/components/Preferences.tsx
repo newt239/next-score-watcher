@@ -6,6 +6,7 @@ import useDeviceWidth from "#/hooks/useDeviceWidth";
 import {
   reversePlayerInfoAtom,
   showLogsAtom,
+  showQnAtom,
   showSignStringAtom,
   showWinthroughPopupAtom,
   verticalViewAtom,
@@ -19,6 +20,7 @@ const Preferences = () => {
     showWinthroughPopupAtom
   );
   const [showLogs, setShowLogs] = useAtom(showLogsAtom);
+  const [showQn, setShowQn] = useAtom(showQnAtom);
   const [showSignString, setShowSignString] = useAtom(showSignStringAtom);
   const [reversePlayerInfo, setReversePlayerInfo] = useAtom(
     reversePlayerInfoAtom
@@ -41,14 +43,19 @@ const Preferences = () => {
         onChange={() => showSetWinthroughPopup((v) => !v)}
       />
       <AppOptionSwitch
-        title="スコアに「○」「✕」「pt」の文字列を付与する"
-        isChecked={showSignString}
-        onChange={() => setShowSignString((v) => !v)}
-      />
-      <AppOptionSwitch
         title="得点表示画面下にログを表示"
         isChecked={showLogs}
         onChange={() => setShowLogs((v) => !v)}
+      />
+      <AppOptionSwitch
+        title="ヘッダーに問題番号を表示"
+        isChecked={showQn}
+        onChange={() => setShowQn((v) => !v)}
+      />
+      <AppOptionSwitch
+        title="スコアに「○」「✕」「pt」の文字列を付与する"
+        isChecked={showSignString}
+        onChange={() => setShowSignString((v) => !v)}
       />
       <AppOptionSwitch
         title={`スコアを名前の${desktop && !verticalView ? "上" : "左"}に表示`}

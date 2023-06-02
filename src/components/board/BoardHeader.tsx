@@ -17,6 +17,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 import {
   AdjustmentsHorizontal,
@@ -24,7 +25,6 @@ import {
   Ballon,
   Comet,
   HandClick,
-  Number,
   Settings,
 } from "tabler-icons-react";
 
@@ -32,6 +32,7 @@ import PreferenceModal from "./PreferenceModal";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import { showQnAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/types";
 
@@ -47,7 +48,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const desktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [showQn, setShowQn] = useState<boolean>(true);
+  const showQn = useAtomValue(showQnAtom);
 
   useEffect(() => {
     const getQuizList = async () => {
@@ -218,18 +219,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 >
                   <FormLabel mb="0">スコアの手動更新</FormLabel>
                   <Switch isChecked={game.editable} />
-                </FormControl>
-              </MenuItem>
-              <MenuItem icon={<Number />} onClick={() => setShowQn((v) => !v)}>
-                <FormControl
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormLabel mb="0">問題番号を表示</FormLabel>
-                  <Switch isChecked={showQn} />
                 </FormControl>
               </MenuItem>
               <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>

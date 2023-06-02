@@ -5,6 +5,7 @@ export const showWinthroughPopupAtom = atomWithStorage(
   true
 );
 export const showLogsAtom = atomWithStorage("scorew-show-logs", true);
+export const showQnAtom = atomWithStorage("scorew-show-qn", true);
 export const showSignStringAtom = atomWithStorage(
   "scorew-show-sign-string",
   true
