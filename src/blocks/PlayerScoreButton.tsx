@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import {
   Button,
   Editable,
@@ -36,6 +38,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   editable,
   disabled,
 }) => {
+  const id = useId();
   const { colorMode } = useColorMode();
   const desktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom);
@@ -53,7 +56,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       : theme.colors.yellow[300];
 
   const ButtonCssStyle: SystemStyleObject = {
-    display: "block",
     fontSize: desktop
       ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
           compact || isVerticalView ? "4.5vw" : "48px"
@@ -94,17 +96,20 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   return (
     <>
       {editable ? (
-        <Editable defaultValue={children} sx={ButtonCssStyle}>
-          <EditablePreview sx={{ p: 0 }} />
-          <EditableInput
-            sx={{
-              p: 0,
-            }}
-          />
+        <Editable
+          defaultValue={children}
+          sx={ButtonCssStyle}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <EditablePreview p={0} />
+          <EditableInput p={0} w="100%" maxW="5vw" id={id} name={id} />
         </Editable>
       ) : (
         <Button
           variant="unstyled"
+          display="block"
           sx={ButtonCssStyle}
           _hover={{ opacity: disabled ? 1 : 0.5 }}
           onClick={handleClick}

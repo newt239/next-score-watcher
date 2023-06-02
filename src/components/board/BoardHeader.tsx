@@ -71,7 +71,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           alignItems: "center",
           gap: 3,
           height: desktop ? "15vh" : "10vh",
-          px: 3,
+          px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor:
