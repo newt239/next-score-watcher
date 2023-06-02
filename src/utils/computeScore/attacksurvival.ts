@@ -96,13 +96,21 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     });
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
+  const playingPlayers = playersState.filter((p) => p.state === "playing");
   playersState = playersState.map((playerState) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    // 現在生き残っているプレイヤー数が勝ち抜け人数より少ない場合は、生き残っているプレイヤーを勝ち抜けとする
+    const currentState =
+      game.win_through &&
+      game.win_through >= playingPlayers.length &&
+      playerState.state === "playing"
+        ? "win"
+        : playerState.state;
     const state = detectPlayerState(
       game,
-      playerState.state,
+      currentState,
       order,
       gameLogList.length
     );
