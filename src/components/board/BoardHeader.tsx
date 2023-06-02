@@ -23,15 +23,12 @@ import {
   ArrowBackUp,
   Ballon,
   Comet,
-  Command,
   HandClick,
-  Home,
   Number,
   Settings,
 } from "tabler-icons-react";
 
 import PreferenceModal from "./PreferenceModal";
-import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
@@ -50,11 +47,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const desktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {
-    isOpen: isPrefModalOpen,
-    onOpen: onPrefModalOpen,
-    onClose: onPrefModalClose,
-  } = useDisclosure();
   const [showQn, setShowQn] = useState<boolean>(true);
 
   useEffect(() => {
@@ -240,11 +232,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   <Switch isChecked={showQn} />
                 </FormControl>
               </MenuItem>
-              {desktop && (
-                <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
-                  ショートカットを確認
-                </MenuItem>
-              )}
+              <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
+                表示設定
+              </MenuItem>
               <MenuItem
                 as={ReactLink}
                 to={`/${game.id}/config`}
@@ -252,22 +242,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               >
                 ゲーム設定
               </MenuItem>
-              <MenuItem
-                closeOnSelect
-                icon={<Ballon />}
-                onClick={onPrefModalOpen}
-              >
-                表示設定
-              </MenuItem>
-              <MenuItem as={ReactLink} to="/" icon={<Home />}>
-                ホームに戻る
-              </MenuItem>
             </MenuList>
           </Menu>
         </Box>
       </Flex>
-      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
-      <PreferenceModal isOpen={isPrefModalOpen} onClose={onPrefModalClose} />
+      <PreferenceModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };
