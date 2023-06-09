@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 
 import Header from "./components/Header";
+import UpdateModal from "./components/home/UpdateModal";
 import WebhookPage from "./pages/option/webhook";
 import RulePage from "./pages/rule";
 
@@ -53,6 +54,7 @@ function App() {
           <BottomBar />
         </>
       )}
+      <UpdateModal />
     </BrowserRouter>
   );
 }

@@ -52,11 +52,7 @@ const UpdateModal: React.FC = () => {
               {feature.news && (
                 <>
                   <h3>📢お知らせ</h3>
-                  <ul>
-                    {feature.feature.map((v, i) => (
-                      <li key={i}>{v}</li>
-                    ))}
-                  </ul>
+                  {feature.news}
                 </>
               )}
               {feature.feature.length > 0 && (

@@ -1,3 +1,7 @@
+import { Link as ReactLink } from "react-router-dom";
+
+import { Button } from "@chakra-ui/react";
+
 type Feature = {
   news?: React.ReactNode;
   feature: string[];
@@ -8,7 +12,14 @@ export const features: { [key: string]: Feature } = {
   "2.3.0": {
     news: (
       <p>
-        <a href="https://discord.gg/rct5sx6rbZ">Discordサーバー</a>
+        <Button
+          as={ReactLink}
+          to="https://discord.gg/rct5sx6rbZ"
+          color="blue.500"
+          variant="link"
+        >
+          Discordサーバー
+        </Button>
         を開設しました🎉Score
         Watcherに関する情報の発信や、操作方法に関する情報を交換する場としていく予定です。今後新機能の要望や不具合の報告などはここでも受け付けます！
       </p>
