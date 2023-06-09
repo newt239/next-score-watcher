@@ -1,44 +1,44 @@
 import { useRef, useState } from "react";
 
 import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  HStack,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  useDisclosure,
-  Button,
-  FormControl,
-  FormLabel,
+  Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Modal,
-  Box,
-  HStack,
-  useToast,
-  Text,
-  Textarea,
-  Flex,
-  IconButton,
   Select,
-  TableContainer,
   Table,
+  TableContainer,
   Tbody,
   Td,
+  Text,
+  Textarea,
   Th,
   Thead,
   Tr,
-  Checkbox,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
-  useReactTable,
+  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  flexRender,
+  useReactTable,
   type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
@@ -54,7 +54,8 @@ import {
   Trash,
 } from "tabler-icons-react";
 
-import db, { QuizDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { QuizDBProps } from "#/utils/types";
 
 const QuizTable: React.FC = () => {
   const quizes = useLiveQuery(

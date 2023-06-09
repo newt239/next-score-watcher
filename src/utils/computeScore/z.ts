@@ -1,15 +1,13 @@
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
 
 const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  let winThroughPlayer: { player_id: string; text: string } = {
-    player_id: "",
-    text: "",
-  };
+  const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     const lastCorrectPlayer = playersState.find(
@@ -33,7 +31,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 correct: newCorrect,
                 last_correct: qn,
                 state: "win",
-                isIncapacity: false,
+                is_incapacity: false,
               };
             } else if (stage === newCorrect) {
               return {
@@ -41,13 +39,13 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 correct: 0,
                 wrong: 0,
                 stage: playerState.stage + 1,
-                isIncapacity: false,
+                is_incapacity: false,
               };
             } else {
               return {
                 ...playerState,
                 correct: newCorrect,
-                isIncapacity: false,
+                is_incapacity: false,
               };
             }
           case "wrong":
@@ -57,7 +55,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             } else if (stage === newWrong + 1) {
               return {
                 ...playerState,
-                isIncapacity: true,
+                is_incapacity: true,
                 last_wrong: qn,
                 state: "lose",
               };
@@ -71,7 +69,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             ...playerState,
             correct: 0,
             wrong: 0,
-            isIncapacity: false,
+            is_incapacity: false,
             state: "playing",
           };
         } else {
@@ -88,7 +86,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const text =
       playerState.state === "win"
         ? indicator(order)
-        : playerState.isIncapacity ||
+        : playerState.is_incapacity ||
           (gameLogList.length === playerState.last_wrong + 1 &&
             playerState.stage === 1)
         ? "LOCKED"
@@ -97,11 +95,11 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughPlayer = { player_id: playerState.player_id, text };
+      winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, text };
   });
-  return { scoreList: playersState, winThroughPlayer };
+  return { scores: playersState, winPlayers };
 };
 
 export default z;

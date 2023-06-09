@@ -108,7 +108,7 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       <h2>AQLルール</h2>
       {aqlGames && aqlGames.length !== 0 && (
         <>
@@ -127,16 +127,16 @@ const AQLPage = () => {
                     <Tr key={game.id}>
                       <Td>{game.name}</Td>
                       <Td isNumeric>
-                        <ReactLink to={`/aql/${game.id}`}>
-                          <Button
-                            size="sm"
-                            colorScheme="green"
-                            variant="ghost"
-                            leftIcon={<Chalkboard />}
-                          >
-                            開く
-                          </Button>
-                        </ReactLink>
+                        <Button
+                          as={ReactLink}
+                          to={`/aql/${game.id}`}
+                          size="sm"
+                          colorScheme="green"
+                          variant="ghost"
+                          leftIcon={<Chalkboard />}
+                        >
+                          開く
+                        </Button>
                         <Button
                           leftIcon={<Trash />}
                           size="sm"
@@ -220,19 +220,17 @@ const AQLPage = () => {
           </Flex>
         ) : (
           <Box>
-            <ReactLink to="/quiz">
-              <Button
-                disabled={
-                  roundName === "" ||
-                  leftTeamName === "" ||
-                  rightTeamName === ""
-                }
-                colorScheme="blue"
-                leftIcon={<Upload />}
-              >
-                問題データを読み込む
-              </Button>
-            </ReactLink>
+            <Button
+              as={ReactLink}
+              to="/quiz"
+              disabled={
+                roundName === "" || leftTeamName === "" || rightTeamName === ""
+              }
+              colorScheme="blue"
+              leftIcon={<Upload />}
+            >
+              問題データを読み込む
+            </Button>
           </Box>
         )}
       </Box>

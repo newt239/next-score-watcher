@@ -15,7 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
-import db, { GameDBQuizProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBQuizProps } from "#/utils/types";
 
 type SelectQuizsetProps = {
   game_id: string;
@@ -81,11 +82,14 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           </Flex>
         ) : (
           <Box>
-            <ReactLink to={`/quiz?from=${game_id}`}>
-              <Button colorScheme="blue" leftIcon={<Upload />}>
-                問題データを読み込む
-              </Button>
-            </ReactLink>
+            <Button
+              as={ReactLink}
+              to={`/quiz?from=${game_id}`}
+              colorScheme="blue"
+              leftIcon={<Upload />}
+            >
+              問題データを読み込む
+            </Button>
           </Box>
         )}
       </Box>

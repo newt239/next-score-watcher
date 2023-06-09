@@ -17,25 +17,24 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 import {
   AdjustmentsHorizontal,
   ArrowBackUp,
   Ballon,
   Comet,
-  Command,
   HandClick,
-  Home,
-  Number,
   Settings,
 } from "tabler-icons-react";
 
 import PreferenceModal from "./PreferenceModal";
-import ShortcutGuideModal from "./ShortcutGuideModal";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { showQnAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
+import { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/types";
 
 type BoardHeaderProps = {
   game: GameDBProps;
@@ -49,12 +48,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const desktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const {
-    isOpen: isPrefModalOpen,
-    onOpen: onPrefModalOpen,
-    onClose: onPrefModalClose,
-  } = useDisclosure();
-  const [showQn, setShowQn] = useState<boolean>(true);
+  const showQn = useAtomValue(showQnAtom);
 
   useEffect(() => {
     const getQuizList = async () => {
@@ -77,7 +71,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           alignItems: "center",
           gap: 3,
           height: desktop ? "15vh" : "10vh",
-          px: 3,
+          px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor:
@@ -227,42 +221,21 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   <Switch isChecked={game.editable} />
                 </FormControl>
               </MenuItem>
-              <MenuItem icon={<Number />} onClick={() => setShowQn((v) => !v)}>
-                <FormControl
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormLabel mb="0">問題番号を表示</FormLabel>
-                  <Switch isChecked={showQn} />
-                </FormControl>
-              </MenuItem>
-              {desktop && (
-                <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
-                  ショートカットを確認
-                </MenuItem>
-              )}
-              <ReactLink to={`/${game.id}/config`}>
-                <MenuItem icon={<AdjustmentsHorizontal />}>ゲーム設定</MenuItem>
-              </ReactLink>
-              <MenuItem
-                closeOnSelect
-                icon={<Ballon />}
-                onClick={onPrefModalOpen}
-              >
+              <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
                 表示設定
               </MenuItem>
-              <ReactLink to="/">
-                <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </ReactLink>
+              <MenuItem
+                as={ReactLink}
+                to={`/${game.id}/config`}
+                icon={<AdjustmentsHorizontal />}
+              >
+                ゲーム設定
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>
       </Flex>
-      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
-      <PreferenceModal isOpen={isPrefModalOpen} onClose={onPrefModalClose} />
+      <PreferenceModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

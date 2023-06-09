@@ -1,11 +1,7 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useParams } from "react-router-dom";
+import { Link as ReactLink, useSearchParams } from "react-router-dom";
 
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
   Box,
   Button,
   Container,
@@ -23,25 +19,26 @@ import LoadPlayer from "#/components/player/LoadPlayer";
 import PlayerTable from "#/components/player/PlayerTable";
 
 const PlayerPage = () => {
-  const { from } = useParams();
+  const [params] = useSearchParams();
+  const from = params.get("from");
 
   useEffect(() => {
     document.title = "プレイヤー管理 | Score Watcher";
   }, []);
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
-      {typeof from === "string" && (
+    <Container>
+      {from && (
         <Box>
-          <ReactLink to={`/${from}/config`}>
-            <Button
-              colorScheme="green"
-              variant="ghost"
-              leftIcon={<ArrowBackUp />}
-            >
-              設定に戻る
-            </Button>
-          </ReactLink>
+          <Button
+            as={ReactLink}
+            to={`/${from}/config`}
+            colorScheme="green"
+            variant="ghost"
+            leftIcon={<ArrowBackUp />}
+          >
+            ゲーム設定に戻る
+          </Button>
         </Box>
       )}
       <h2>プレイヤー管理</h2>
@@ -55,9 +52,7 @@ const PlayerPage = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CreatePlayer
-                from={typeof from === "string" ? from : undefined}
-              />
+              <CreatePlayer from={from || undefined} />
             </TabPanel>
             <TabPanel>
               <LoadPlayer />
@@ -67,15 +62,6 @@ const PlayerPage = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-        <Alert status="success" my={5}>
-          <AlertIcon />
-          <Box>
-            <AlertTitle>サブテキストとは？</AlertTitle>
-            <AlertDescription>
-              名前や所属の上に表示される文字列です。ペーパー順位の表示用等にお使いください。
-            </AlertDescription>
-          </Box>
-        </Alert>
       </Box>
       <PlayerTable />
     </Container>

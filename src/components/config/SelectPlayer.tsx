@@ -20,25 +20,24 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Icon,
   Input,
   Link,
   Stack,
   Text,
   theme,
-  Tooltip,
   useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { ReactSortable } from "react-sortablejs";
-import { CirclePlus, InfoCircle, Plus, Upload } from "tabler-icons-react";
+import { CirclePlus, Plus, Upload } from "tabler-icons-react";
 
 import CompactPlayerTable from "#/components/config/CompactPlayerTable";
 import IndividualConfig from "#/components/config/IndividualConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/types";
 
 type SelectPlayerProps = {
   game_id: string;
@@ -129,13 +128,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
       <h2>プレイヤー設定</h2>
       <Box py={5}>
         {playerList.length === 0 ? (
-          <>
-            <ReactLink to={`/player?from=${game_id}`}>
-              <Button leftIcon={<Upload />} colorScheme="blue">
-                プレイヤーデータを読み込む
-              </Button>
-            </ReactLink>
-          </>
+          <Button
+            as={ReactLink}
+            to={`/player?from=${game_id}`}
+            leftIcon={<Upload />}
+            colorScheme="blue"
+          >
+            プレイヤーデータを読み込む
+          </Button>
         ) : (
           <>
             <Button
@@ -177,19 +177,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             />
                           </FormControl>
                           <FormControl>
-                            <FormLabel>
-                              サブテキスト
-                              <Tooltip
-                                hasArrow
-                                label="ex. ペーパー順位"
-                                bg="gray.300"
-                                color="black"
-                              >
-                                <Icon pl={1}>
-                                  <InfoCircle />
-                                </Icon>
-                              </Tooltip>
-                            </FormLabel>
+                            <FormLabel>順位</FormLabel>
                             <Input
                               value={playerText}
                               onChange={(v) => setPlayerText(v.target.value)}
@@ -320,7 +308,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                               "normal",
                               "nomx",
                               "nomx-ad",
-                              "various-fluctuations",
+                              "variables",
                             ].includes(rule_name)}
                             wrong={["nomx", "nomx-ad"].includes(rule_name)}
                             disabled={disabled}

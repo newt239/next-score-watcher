@@ -1,24 +1,25 @@
 import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  ModalCloseButton,
+  Button,
   FormControl,
   FormLabel,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Button,
-  ModalFooter,
-  IconButton,
 } from "@chakra-ui/react";
 import { AdjustmentsHorizontal, DeviceFloppy } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps, RuleNames } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps, RuleNames } from "#/utils/types";
 
 type InitialPointConfigModalProps = {
   onClick: () => void;
@@ -65,9 +66,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             {correct && (
               <FormControl pt={3}>
                 <FormLabel>
-                  {rule_name === "various-fluctuations"
-                    ? "初期ポイント"
-                    : "初期正答数"}
+                  {rule_name === "variables" ? "初期ポイント" : "初期正答数"}
                 </FormLabel>
                 <NumberInput
                   value={players[index].initial_correct}
@@ -112,7 +111,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 </NumberInput>
               </FormControl>
             )}
-            {rule_name === "various-fluctuations" && (
+            {rule_name === "variables" && (
               <FormControl pt={3}>
                 <FormLabel>N</FormLabel>
                 <NumberInput

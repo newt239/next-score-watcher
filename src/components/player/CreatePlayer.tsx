@@ -4,15 +4,16 @@ import {
   Box,
   Button,
   FormControl,
-  Input,
   FormLabel,
   Grid,
+  Input,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps } from "#/utils/types";
 
 const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
@@ -80,7 +81,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           />
         </FormControl>
         <FormControl>
-          <FormLabel>サブテキスト</FormLabel>
+          <FormLabel>順位</FormLabel>
           <Input
             value={playerOrder}
             onChange={(v) => setPlayerOrder(v.target.value)}

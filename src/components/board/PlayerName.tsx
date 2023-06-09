@@ -36,6 +36,7 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
               : "2rem",
           fontWeight: 800,
           w: "100%",
+          pt: !isVerticalView && isDesktop ? 3 : undefined,
         }}
       >
         {player_name}

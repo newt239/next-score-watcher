@@ -22,13 +22,13 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import {
-  type ColumnDef,
-  flexRender,
-  useReactTable,
   createColumnHelper,
+  flexRender,
+  getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getCoreRowModel,
+  useReactTable,
+  type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
 import {
@@ -40,7 +40,8 @@ import {
   Filter,
 } from "tabler-icons-react";
 
-import db, { GameDBPlayerProps, PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
 
 type CompactPlayerTableProps = {
   game_id: string;
@@ -129,7 +130,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("text", {
-      header: "サブテキスト",
+      header: "順位",
       footer: (info) => info.column.id,
     }),
     columnHelper.accessor("belong", {
@@ -270,15 +271,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Box>
           </HStack>
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <ReactLink to={`/player?from=${game_id}`}>
-              <Button
-                colorScheme="green"
-                variant="ghost"
-                rightIcon={<ArrowNarrowRight />}
-              >
-                詳細設定
-              </Button>
-            </ReactLink>
+            <Button
+              as={ReactLink}
+              to={`/player?from=${game_id}`}
+              colorScheme="green"
+              variant="ghost"
+              rightIcon={<ArrowNarrowRight />}
+            >
+              詳細設定
+            </Button>
           </Box>
         </Box>
       )}

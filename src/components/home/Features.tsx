@@ -2,12 +2,20 @@ import { ReactNode } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Button,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
   Flex,
-  Heading,
   Image,
   Link,
-  Stack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Text,
 } from "@chakra-ui/react";
 
@@ -19,7 +27,7 @@ type FeatureProps = {
   description: ReactNode;
 };
 
-const Hero: React.FC = () => {
+const Features: React.FC = () => {
   const isDesktop = useDeviceWidth();
 
   const features: FeatureProps[] = [
@@ -62,7 +70,7 @@ const Hero: React.FC = () => {
           <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
           <h3>表示はカスタマイズ可能</h3>
           <Text>
-            <Link as={ReactLink} to="/option" color="blue.500">
+            <Link as={ReactLink} to="/option">
               アプリ設定
             </Link>
             から、得点表示画面の表示をカスタマイズできます。
@@ -73,50 +81,69 @@ const Hero: React.FC = () => {
   ];
 
   return (
-    <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
-      <Flex p={8} flex={1} align={"center"} justify={"center"}>
-        <Stack spacing={6} w={"full"} maxW={"lg"}>
-          <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
-            <Text as={"span"} position={"relative"}>
-              競技クイズのための
-            </Text>
-            <br />
-            <Text color={"green.400"} as={"span"}>
-              得点表示アプリ
-            </Text>
-          </Heading>
-          <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-            Score
-            Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
-          </Text>
-          <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-            <Button
-              as={ReactLink}
-              to="/rule"
-              colorScheme="green"
-              rounded={"full"}
-              _hover={{
-                bg: "green.500",
-              }}
-            >
-              ゲームを作る
-            </Button>
-            <Button
-              rounded={"full"}
-              onClick={() =>
-                window.scrollBy(0, document.documentElement.clientHeight)
-              }
-            >
-              主要な機能を見る
-            </Button>
-          </Stack>
-        </Stack>
-      </Flex>
-      <Flex flex={1}>
-        <Image alt={"大会画像"} objectFit={"cover"} src="images/hero.webp" />
-      </Flex>
-    </Stack>
+    <Box>
+      <Box>
+        <h2>主な機能</h2>
+        {isDesktop ? (
+          <Tabs isManual variant="enclosed" colorScheme="green" pt={5}>
+            <TabList>
+              {features.map((feature) => (
+                <Tab key={feature.title}>{feature.title}</Tab>
+              ))}
+            </TabList>
+            <TabPanels>
+              {features.map((feature) => (
+                <TabPanel key={feature.title}>
+                  {feature.image ? (
+                    <Flex sx={{ gap: 3 }}>
+                      <Box w="30%">
+                        <h3>{feature.title}</h3>
+                        <Box>{feature.description}</Box>
+                      </Box>
+                      <Box w="70%">
+                        <Image
+                          src={"images/" + feature.image}
+                          alt={`画像: ${feature.title}`}
+                          sx={{ borderRadius: "1rem" }}
+                        />
+                      </Box>
+                    </Flex>
+                  ) : (
+                    <Box>{feature.description}</Box>
+                  )}
+                </TabPanel>
+              ))}
+            </TabPanels>
+          </Tabs>
+        ) : (
+          <Accordion defaultIndex={0} pt={5}>
+            {features.map((feature) => (
+              <AccordionItem key={feature.title}>
+                <AccordionButton>
+                  <Box flex={1} textAlign="left">
+                    <h2 style={{ fontSize: "1rem", padding: 0 }}>
+                      {feature.title}
+                    </h2>
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel pb={4}>
+                  {feature.image && (
+                    <Image
+                      src={"images/" + feature.image}
+                      alt={`画像: ${feature.title}`}
+                      sx={{ borderRadius: "1rem" }}
+                    />
+                  )}
+                  <Box pt={3}>{feature.description}</Box>
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        )}
+      </Box>
+    </Box>
   );
 };
 
-export default Hero;
+export default Features;

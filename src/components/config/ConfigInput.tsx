@@ -1,17 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { useDebounce } from "#/hooks/useDebounce";
-import db, { GameDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { GameDBProps } from "#/utils/types";
 
 type ConfigInputProps = {
   input_id: keyof GameDBProps;
   label: string;
   placehodler: string;
   disabled?: boolean;
+  helperText?: React.ReactNode;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
@@ -19,7 +26,9 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   label,
   placehodler,
   disabled,
+  helperText,
 }) => {
+  const id = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
@@ -43,15 +52,16 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 
   return (
     <FormControl pt={5}>
-      <FormLabel htmlFor={`game_${input_id}`}>{label}</FormLabel>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
       <Input
-        id={`game_${input_id}`}
+        id={id}
         type="text"
         placeholder={placehodler}
         value={inputText}
         onChange={(v) => setInputText(v.target.value)}
         disabled={disabled}
       />
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };

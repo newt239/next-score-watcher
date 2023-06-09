@@ -9,10 +9,10 @@ import { nanoid } from "nanoid";
 
 import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
 import GameLogs from "#/components/board/GameLogs";
-import { AQLGameProps } from "#/components/home/OtherRules";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showLogsAtom } from "#/utils/jotai";
+import { AQLGameProps } from "#/utils/types";
 
 type AQLPlayerStateProps = {
   score: number;
@@ -264,10 +264,7 @@ const AQLBoardPage: React.FC = () => {
                 position === "left"
                   ? gameState.leftTeamReachStates[n]
                   : gameState.rightTeamReachStates[n - 5];
-              const wrong =
-                position === "left"
-                  ? gameState.scores[n].wrong
-                  : gameState.scores[n].wrong;
+              const wrong = gameState.scores[n].wrong;
               return (
                 <Flex
                   key={n}
@@ -313,9 +310,9 @@ const AQLBoardPage: React.FC = () => {
                       color:
                         theme.colors.red[colorMode === "light" ? 600 : 300],
                     }}
-                    disabled={wrong === 2}
+                    isDisabled={wrong >= 2}
                   >
-                    {gameState.scores[n].score - gameState.scores[n].wrong}○
+                    {Math.max(0, gameState.scores[n].score - wrong)}○
                   </Button>
                   <Button
                     onClick={() => onClickHandler("wrong", n)}
@@ -325,7 +322,7 @@ const AQLBoardPage: React.FC = () => {
                       color:
                         theme.colors.blue[colorMode === "light" ? 600 : 300],
                     }}
-                    disabled={wrong === 2}
+                    isDisabled={wrong >= 2}
                   >
                     {wrong}✕
                   </Button>

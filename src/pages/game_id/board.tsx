@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Box, Flex, theme } from "@chakra-ui/react";
@@ -13,9 +13,10 @@ import Player from "#/components/board/Player";
 import WinModal from "#/components/board/WinModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
-import db, { ComputedScoreDBProps, PlayerDBProps } from "#/utils/db";
+import db from "#/utils/db";
 import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
+import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
 
 const BoardPage = () => {
   const { game_id } = useParams();
@@ -24,7 +25,7 @@ const BoardPage = () => {
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
-  const [scores, setScores] = useState<ComputedScoreDBProps[]>([]);
+  const [scores, setScores] = useState<ComputedScoreProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
@@ -64,15 +65,12 @@ const BoardPage = () => {
     if (logs) {
       const executeComputeScore = async () => {
         const result = await computeScore(game_id as string);
-        setScores(result.scoreList);
-        if (result.winThroughPlayer) {
-          const playerName = playerList?.find(
-            (player) => player.id! === result.winThroughPlayer.player_id
-          )?.name;
-          if (playerName) {
+        setScores(result.scores);
+        if (result.winPlayers.length > 0) {
+          if (result.winPlayers[0].name) {
             setWinThroughPlayer({
-              name: playerName,
-              text: result.winThroughPlayer.text,
+              name: result.winPlayers[0].name,
+              text: result.winPlayers[0].text,
             });
           }
         }
@@ -83,9 +81,7 @@ const BoardPage = () => {
 
   if (!game || !logs) return null;
 
-  const keyboardShortcutHandler = async (
-    event: KeyboardEvent<HTMLDivElement>
-  ) => {
+  window.document.onkeydown = async (event) => {
     if (game) {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
@@ -159,11 +155,8 @@ const BoardPage = () => {
           w: "100%",
           h: isVerticalView ? "75vh" : "auto",
           p: 3,
-          mt: 5,
           overflowX: "scroll",
         }}
-        tabIndex={-1}
-        onKeyDown={keyboardShortcutHandler}
       >
         {players.map((player, i) => (
           <Player

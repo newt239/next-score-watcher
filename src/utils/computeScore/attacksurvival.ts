@@ -1,16 +1,14 @@
-import { numberSign } from "#/utils/commonFunctions";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
+import { detectPlayerState, numberSign } from "#/utils/functions";
 
 const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  let winThroughPlayer: { player_id: string; text: string } = {
-    player_id: "",
-    text: "",
-  };
+  const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
@@ -28,7 +26,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 correct: playerState.correct + 1,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {
@@ -54,7 +52,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 wrong: newWrong,
                 last_wrong: qn,
-                reachState: "lose",
+                reach_state: "lose",
               };
             } else {
               return {
@@ -86,7 +84,7 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           return {
             ...playerState,
             score: newScore,
-            reachState: "lose",
+            reach_state: "lose",
           };
         } else {
           return {
@@ -98,26 +96,39 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     });
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
+  const playingPlayers = playersState.filter((p) => p.state === "playing");
   playersState = playersState.map((playerState) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    // 現在生き残っているプレイヤー数が勝ち抜け人数より少ない場合は、生き残っているプレイヤーを勝ち抜けとする
+    const currentState =
+      game.win_through &&
+      game.win_through >= playingPlayers.length &&
+      playerState.state === "playing"
+        ? "win"
+        : playerState.state;
+    const state = detectPlayerState(
+      game,
+      currentState,
+      order,
+      gameLogList.length
+    );
     const text =
-      playerState.state === "win"
+      state === "win"
         ? indicator(order)
         : playerState.state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);
     if (
-      playerState.state === "win" &&
+      state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughPlayer = { player_id: playerState.player_id, text };
+      winPlayers.push({ player_id: playerState.player_id, text });
     }
-    return { ...playerState, order, text };
+    return { ...playerState, order, state, text };
   });
-
-  return { scoreList: playersState, winThroughPlayer };
+  return { scores: playersState, winPlayers };
 };
 
 export default attacksurvival;

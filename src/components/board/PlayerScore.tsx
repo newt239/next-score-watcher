@@ -3,14 +3,14 @@ import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/blocks/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { numberSign } from "#/utils/commonFunctions";
-import { ComputedScoreDBProps, GameDBProps } from "#/utils/db";
+import { numberSign } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
+import { ComputedScoreProps, GameDBProps } from "#/utils/types";
 
 type PlayerScoreProps = {
   game: GameDBProps;
   player_id: string;
-  player: ComputedScoreDBProps;
+  player: ComputedScoreProps;
   qn: number;
   isLastCorrectPlayer: boolean;
 };
@@ -40,7 +40,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        py: !isVerticalView ? 3 : undefined,
         px: !isVerticalView ? undefined : "0.5rem",
         gap: 1.5,
         backgroundColor:
@@ -107,7 +106,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nomr" && (
         <>
           <PlayerScoreButton
-            color={player.isIncapacity ? "blue" : "green"}
+            color={player.is_incapacity ? "blue" : "green"}
             disabled
             {...props}
           >
@@ -115,16 +114,16 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex w="100%" h="100%">
             <PlayerScoreButton
-              color={player.isIncapacity ? "gray" : "red"}
-              disabled={player.isIncapacity}
+              color={player.is_incapacity ? "gray" : "red"}
+              disabled={player.is_incapacity}
               compact
               {...props}
             >
               {numberSign("correct")}
             </PlayerScoreButton>
             <PlayerScoreButton
-              color={player.isIncapacity ? "gray" : "blue"}
-              disabled={player.isIncapacity}
+              color={player.is_incapacity ? "gray" : "blue"}
+              disabled={player.is_incapacity}
               compact
               {...props}
             >
@@ -143,7 +142,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="green" {...props}>
+          <PlayerScoreButton color="green" disabled {...props}>
             {`${player.correct}×${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
           <Flex w="100%" h="100%">
@@ -248,7 +247,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             <PlayerScoreButton
               color="red"
               disabled={
-                player.isIncapacity ||
+                player.is_incapacity ||
                 (qn === player.last_wrong + 1 && player.stage === 1)
               }
               compact
@@ -259,7 +258,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             <PlayerScoreButton
               color="blue"
               disabled={
-                player.isIncapacity ||
+                player.is_incapacity ||
                 (qn === player.last_wrong + 1 && player.stage === 1)
               }
               compact
@@ -273,13 +272,13 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "freezex" && (
         <>
           <PlayerScoreButton
-            color={player.isIncapacity ? "green" : "red"}
+            color={player.is_incapacity ? "green" : "red"}
             {...props}
           >
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton
-            disabled={player.isIncapacity}
+            disabled={player.is_incapacity}
             color="blue"
             {...props}
           >
@@ -287,7 +286,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
         </>
       )}
-      {game.rule === "various-fluctuations" && (
+      {game.rule === "variables" && (
         <>
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}

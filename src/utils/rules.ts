@@ -1,4 +1,4 @@
-import { GameDBProps } from "./db";
+import { GameDBProps } from "#/utils/types";
 
 export const rules = {
   normal: {
@@ -24,8 +24,9 @@ export const rules = {
   },
   nomr: {
     name: "N○M休",
-    description: "N回の正答で勝ち抜けですが、M回目の誤答でM回休みになります。",
+    description: "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
     win_point: 7,
+    lose_point: 3,
   },
   nbyn: {
     name: "NbyN",
@@ -82,8 +83,8 @@ export const rules = {
     description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
     win_point: 7,
   },
-  "various-fluctuations": {
-    name: "Various Fluctuations",
+  variables: {
+    name: "Variables",
     description:
       "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N×(N-2)されます。",
     win_point: 30,
@@ -118,8 +119,8 @@ export const getRuleStringByType = (game: GameDBProps): string => {
       return "Z";
     case "freezex":
       return `freez${game.win_point}`;
-    case "various-fluctuations":
-      return `Various Fluctuations`;
+    case "variables":
+      return `Variables`;
     default:
       return "unknown";
   }

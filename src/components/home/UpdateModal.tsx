@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  Link,
   Icon,
+  Link,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
@@ -49,6 +49,12 @@ const UpdateModal: React.FC = () => {
           </p>
           {feature && (
             <>
+              {feature.news && (
+                <>
+                  <h3>📢お知らせ</h3>
+                  {feature.news}
+                </>
+              )}
               {feature.feature.length > 0 && (
                 <>
                   <h3>🎉新機能</h3>

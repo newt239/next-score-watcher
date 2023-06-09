@@ -9,12 +9,14 @@ import {
   Button,
   Container,
   Flex,
+  Link,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import ConfigInput from "#/components/config/ConfigInput";
+import ConfigLimit from "#/components/config/ConfigLimit";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
@@ -50,7 +52,7 @@ const ConfigPage = () => {
   const disabled = logs.length !== 0;
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       {disabled && (
         <Alert status="error">
           ゲームは開始済みです。一部の設定は変更できません。
@@ -68,6 +70,14 @@ const ConfigPage = () => {
       </Alert>
       <Box>
         <h2>形式設定</h2>
+        <ConfigInput input_id="name" label="ゲーム名" placehodler="〇〇大会" />
+        {game.rule !== "normal" && (
+          <ConfigLimit
+            game_id={game_id!}
+            limit={game.limit}
+            win_through={game.win_through}
+          />
+        )}
         <div
           style={{
             display: "grid",
@@ -75,11 +85,6 @@ const ConfigPage = () => {
             gap: "1rem",
           }}
         >
-          <ConfigInput
-            input_id="name"
-            label="ゲーム名"
-            placehodler="〇〇大会"
-          />
           {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="win_point"
@@ -88,7 +93,7 @@ const ConfigPage = () => {
               disabled={disabled}
             />
           )}
-          {["ny", "various-fluctuations"].includes(game.rule) && (
+          {["ny", "variables"].includes(game.rule) && (
             <ConfigNumberInput
               input_id="win_point"
               label="勝ち抜けポイント"
@@ -113,10 +118,12 @@ const ConfigPage = () => {
               disabled={disabled}
             />
           )}
-          {["nomx", "nomx-ad", "nbyn", "nupdown"].includes(game.rule) && (
+          {["nomx", "nomx-ad", "nbyn", "nupdown", "nomr"].includes(
+            game.rule
+          ) && (
             <ConfigNumberInput
               input_id="lose_point"
-              label="失格誤答数"
+              label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
               max={100}
               disabled={disabled}
             />
@@ -161,6 +168,26 @@ const ConfigPage = () => {
               />
             </>
           )}
+        </div>
+        <div>
+          <ConfigInput
+            input_id="discord_webhook_url"
+            label="Discord Webhook URL"
+            placehodler="https://discord.com/api/webhooks/..."
+            helperText={
+              <>
+                プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。詳しくは
+                <Link
+                  as={ReactLink}
+                  to={`/option/webhook?from=${game.id}`}
+                  color="blue.500"
+                >
+                  webhookについて
+                </Link>
+                を御覧ください。
+              </>
+            }
+          />
         </div>
         <SelectPlayer
           game_id={game.id}

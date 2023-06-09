@@ -1,16 +1,14 @@
-import { numberSign } from "#/utils/commonFunctions";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
+import { detectPlayerState, numberSign } from "#/utils/functions";
 
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  let winThroughPlayer: { player_id: string; text: string } = {
-    player_id: "",
-    text: "",
-  };
+  const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   let last_correct_player: string = "";
   gameLogList.map((log, qn) => {
@@ -70,21 +68,27 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    const state = detectPlayerState(
+      game,
+      playerState.state,
+      order,
+      gameLogList.length
+    );
     const text =
-      playerState.state === "win"
+      state === "win"
         ? indicator(order)
-        : playerState.state === "lose"
+        : state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);
     if (
-      playerState.state === "win" &&
+      state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughPlayer = { player_id: playerState.player_id, text };
+      winPlayers.push({ player_id: playerState.player_id, text });
     }
-    return { ...playerState, order, text };
+    return { ...playerState, order, state, text };
   });
-  return { scoreList: playersState, winThroughPlayer };
+  return { scores: playersState, winPlayers };
 };
 
 export default nomxAd;

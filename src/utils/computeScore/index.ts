@@ -1,4 +1,4 @@
-import db, { ComputedScoreDBProps, GameDBProps } from "../db";
+import { cdate } from "cdate";
 
 import attacksurvival from "./attacksurvival";
 import backstream from "./backstream";
@@ -12,22 +12,22 @@ import nupdown from "./nupdown";
 import ny from "./ny";
 import squarex from "./squarex";
 import swedish10 from "./swedish10";
-import variousFluctuations from "./various-fluctiations";
+import variousFluctuations from "./variables";
 import z from "./z";
 
-export type winThroughPlayerProps = { player_id: string; text: string } | null;
+import db from "#/utils/db";
+import { ComputedScoreProps, GameDBProps, WinPlayerProps } from "#/utils/types";
 
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
-  if (!game)
-    return { scoreList: [], winThroughPlayer: { player_id: "", text: "" } };
+  if (!game) return { scores: [], winPlayers: [] };
   const gameLogList = await db.logs
     .where({ game_id: game_id })
     .sortBy("timestamp");
 
   let result: {
-    scoreList: ComputedScoreDBProps[];
-    winThroughPlayer: { player_id: string; text: string };
+    scores: ComputedScoreProps[];
+    winPlayers: WinPlayerProps[];
   };
   switch (game.rule) {
     case "normal":
@@ -69,15 +69,63 @@ const computeScore = async (game_id: string) => {
     case "freezex":
       result = await freezex(game, gameLogList);
       break;
-    case "various-fluctuations":
+    case "variables":
       result = await variousFluctuations(game, gameLogList);
       break;
+  }
+
+  if (result.winPlayers.length !== 0) {
+    const playerName = game.players?.find(
+      (player) => player.id! === result.winPlayers[0].player_id
+    )?.name;
+
+    if (playerName) {
+      result.winPlayers[0].name = playerName;
+
+      if (
+        game.discord_webhook_url?.startsWith(
+          "https://discord.com/api/webhooks/"
+        )
+      ) {
+        await fetch(game.discord_webhook_url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: "Score Watcher",
+            avatar_url:
+              "https://score-watcher.newt239.dev/icons/icon-512x512.png",
+            embeds: [
+              {
+                title: game.name,
+                description: `${result.winPlayers[0].name}さんが勝ち抜けました:tada:`,
+                timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
+                color: 2664261,
+                field: [
+                  {
+                    name: "抜け順位",
+                    value: result.winPlayers[0].player_id,
+                    inline: true,
+                  },
+                ],
+                footer: {
+                  text: "© 2023 newt",
+                  icon_url:
+                    "https://pbs.twimg.com/profile_images/1621275964436258816/k0bKlqzs_400x400.jpg",
+                },
+              },
+            ],
+          }),
+        });
+      }
+    }
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
   if (webhookUrl && webhookUrl.includes("http")) {
     const url = webhookUrl.split('"')[1];
-    const data = { info: game, logs: gameLogList, scores: result.scoreList };
+    const data = { info: game, logs: gameLogList, scores: result.scores };
     console.log(data);
     await fetch(url, {
       method: "POST",
@@ -93,19 +141,19 @@ const computeScore = async (game_id: string) => {
 
 export const getInitialPlayersState = (game: GameDBProps) => {
   const initialPlayersState = game.players.map(
-    (gamePlayer): ComputedScoreDBProps => {
+    (gamePlayer): ComputedScoreProps => {
       return {
         game_id: game.id,
         player_id: gamePlayer.id,
         state: "playing",
-        reachState: "playing",
+        reach_state: "playing",
         score:
           game.rule === "attacksurvival"
             ? game.win_point!
-            : ["nomx-ad", "various-fluctuations"].includes(game.rule)
+            : ["nomx-ad", "variables"].includes(game.rule)
             ? gamePlayer.initial_correct
             : 0,
-        correct: ["nomx-ad", "various-fluctuations"].includes(game.rule)
+        correct: ["nomx-ad", "variables"].includes(game.rule)
           ? 0
           : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
@@ -114,7 +162,7 @@ export const getInitialPlayersState = (game: GameDBProps) => {
         odd_score: 0,
         even_score: 0,
         stage: 1,
-        isIncapacity: false,
+        is_incapacity: false,
         order: 0,
         text: "",
       };
@@ -123,9 +171,7 @@ export const getInitialPlayersState = (game: GameDBProps) => {
   return initialPlayersState;
 };
 
-export const getSortedPlayerOrderList = (
-  playersState: ComputedScoreDBProps[]
-) =>
+export const getSortedPlayerOrderList = (playersState: ComputedScoreProps[]) =>
   playersState
     .sort((pre, cur) => {
       // 勝ち抜けているかどうか
@@ -146,8 +192,8 @@ export const getSortedPlayerOrderList = (
       if (pre.correct > cur.correct) return -1;
       else if (cur.correct > pre.correct) return 1;
       // 誤答数を比較
-      if (pre.wrong > cur.wrong) return -1;
-      else if (cur.wrong > pre.wrong) return 1;
+      if (pre.wrong > cur.wrong) return 1;
+      else if (cur.wrong > pre.wrong) return -1;
       // 必要に応じて評価基準を追加
       else return 0;
     })

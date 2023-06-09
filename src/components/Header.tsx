@@ -1,45 +1,15 @@
 import { Link as ReactLink, useLocation } from "react-router-dom";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Image,
-  Spacer,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Flex, Image, Spacer, useColorMode } from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
+import SubMenu from "#/blocks/SubMenu";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
   const location = useLocation();
   const desktop = useDeviceWidth();
   const { colorMode } = useColorMode();
-
-  const linkList: { text: string; path: string }[] = [
-    { text: "ホーム", path: "/" },
-    { text: "プレイヤー管理", path: "/player" },
-    { text: "問題管理", path: "/quiz" },
-    { text: "アプリ設定", path: "/option" },
-  ];
-
-  const SubMenu: React.FC<{ vertical?: boolean }> = ({ vertical }) => {
-    return (
-      <Flex
-        sx={{
-          flexDirection: vertical ? "column" : "row",
-          fontWeight: 800,
-        }}
-      >
-        {linkList.map((link) => (
-          <ReactLink key={link.path} to={link.path}>
-            <Button variant="ghost">{link.text}</Button>
-          </ReactLink>
-        ))}
-      </Flex>
-    );
-  };
 
   if (
     location.pathname.includes("board") ||
@@ -51,6 +21,7 @@ const Header: React.FC = () => {
     <Box
       sx={{
         p: 0,
+        w: "100%",
         margin: "auto",
         position: "sticky",
         top: 0,

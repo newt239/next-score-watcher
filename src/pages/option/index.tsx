@@ -54,7 +54,7 @@ const OptionPage = () => {
   };
 
   return (
-    <Container sx={{ maxW: 1000, p: 5, margin: "auto" }}>
+    <Container>
       <h2>アプリ設定</h2>
       <Preferences />
       <Stack sx={{ gap: 5, pt: 5 }}>
@@ -62,9 +62,9 @@ const OptionPage = () => {
           <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
           <FormHelperText>
             イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
-            <ReactLink to="/option/webhook">
-              <Link color="blue.500">Webhookについて</Link>
-            </ReactLink>
+            <Link as={ReactLink} to="/option/webhook" color="blue.500">
+              webhookについて
+            </Link>
             を御覧ください。
           </FormHelperText>
           <Input
@@ -72,7 +72,7 @@ const OptionPage = () => {
             value={WebhookUrl}
             onChange={(v) => setWebhookUrl(v.target.value)}
             placeholder="https://score-watcher.newt239.dev/api"
-            w="50%"
+            w="100%"
           />
         </FormControl>
         <FormControl>

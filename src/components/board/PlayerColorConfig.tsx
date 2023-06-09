@@ -1,22 +1,22 @@
 import { Dispatch, SetStateAction } from "react";
 
 import {
-  Popover,
-  PopoverTrigger,
   IconButton,
-  theme,
-  PopoverContent,
+  Popover,
   PopoverArrow,
-  PopoverHeader,
   PopoverBody,
-  RadioGroup,
-  useColorMode,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Radio,
+  RadioGroup,
   Stack,
+  theme,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Edit } from "tabler-icons-react";
 
-import { States } from "#/utils/db";
+import { States } from "#/utils/types";
 
 type PlayerColorConfigProps = {
   colorState: string | undefined;

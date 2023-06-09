@@ -3,6 +3,7 @@ import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
+  Button,
   Flex,
   FormControl,
   FormLabel,
@@ -11,12 +12,20 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Switch,
   theme,
   useColorMode,
-  Switch,
   useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
+import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 import {
   AdjustmentsHorizontal,
@@ -24,15 +33,15 @@ import {
   Comet,
   Command,
   Home,
-  Number,
   PlayerStop,
   Settings,
 } from "tabler-icons-react";
 
-import ShortcutGuideModal from "../board/ShortcutGuideModal";
-
+import ShortcutGuide from "#/components/ShortcutGuide";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db, { LogDBProps, QuizDBProps } from "#/utils/db";
+import db from "#/utils/db";
+import { showQnAtom } from "#/utils/jotai";
+import { LogDBProps, QuizDBProps } from "#/utils/types";
 
 type AQLBoardHeaderProps = {
   name: string;
@@ -57,7 +66,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const desktop = useDeviceWidth();
-  const [showQn, setShowQn] = useState<boolean>(true);
+  const showQn = useAtomValue(showQnAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
@@ -79,7 +88,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           alignItems: "center",
           gap: 3,
           height: desktop ? "15vh" : "10vh",
-          px: 3,
+          px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor:
@@ -208,18 +217,6 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               >
                 一つ戻す
               </MenuItem>
-              <MenuItem icon={<Number />} onClick={() => setShowQn((v) => !v)}>
-                <FormControl
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormLabel mb="0">問題番号を表示</FormLabel>
-                  <Switch isChecked={showQn} />
-                </FormControl>
-              </MenuItem>
               <MenuItem icon={<PlayerStop />} onClick={onEndChange}>
                 <FormControl
                   sx={{
@@ -237,17 +234,41 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   ショートカットを確認
                 </MenuItem>
               )}
-              <ReactLink to={`/aql`}>
-                <MenuItem icon={<AdjustmentsHorizontal />}>AQL設定</MenuItem>
-              </ReactLink>
-              <ReactLink to="/">
-                <MenuItem icon={<Home />}>ホームに戻る</MenuItem>
-              </ReactLink>
+              <MenuItem
+                as={ReactLink}
+                to={`/aql`}
+                icon={<AdjustmentsHorizontal />}
+              >
+                AQL設定
+              </MenuItem>
+              <MenuItem as={ReactLink} to="/" icon={<Home />}>
+                ホームに戻る
+              </MenuItem>
             </MenuList>
           </Menu>
         </Box>
       </Flex>
-      <ShortcutGuideModal isOpen={isOpen} onClose={onClose} />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>ショートカットキー一覧</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <ShortcutGuide />
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              onClick={() => {
+                onClose();
+                document.getElementById("players-area")?.focus();
+              }}
+            >
+              閉じる
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -2,7 +2,7 @@ import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
+import { GameDBProps, LogDBProps } from "#/utils/types";
 
 const normal = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   let playersState = getInitialPlayersState(game);
@@ -63,12 +63,10 @@ const normal = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     );
     return { ...playerState, order };
   });
+
   return {
-    scoreList: playersState,
-    winThroughPlayer: {
-      player_id: "",
-      text: "",
-    },
+    scores: playersState,
+    winPlayers: [],
   };
 };
 

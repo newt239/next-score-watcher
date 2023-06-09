@@ -2,8 +2,9 @@ import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 import ReactGA from "react-ga4";
 
-import db, { GameDBProps, RuleNames } from "./db";
-import { rules } from "./rules";
+import db from "#/utils/db";
+import { rules } from "#/utils/rules";
+import { GameDBProps, RuleNames, States } from "#/utils/types";
 
 export const createGame = async (
   rule_name: RuleNames,
@@ -45,6 +46,7 @@ export const createGame = async (
         break;
       case "nomr":
         putData.win_point = rules[rule_name].win_point;
+        putData.lose_point = rules[rule_name].lose_point;
         break;
       case "nbyn":
         putData.win_point = rules[rule_name].win_point;
@@ -79,7 +81,7 @@ export const createGame = async (
       case "freezex":
         putData.win_point = rules[rule_name].win_point;
         break;
-      case "various-fluctuations":
+      case "variables":
         putData.win_point = rules[rule_name].win_point;
         break;
     }
@@ -153,4 +155,19 @@ export const str2num = (str: unknown): number => {
     return Number.isNaN(x) ? 0 : x;
   }
   return 0;
+};
+
+export const detectPlayerState = (
+  game: GameDBProps,
+  state: States,
+  order: number,
+  qn: number
+): States => {
+  if (state === "win") return "win";
+  if (game.limit && game.win_through) {
+    if (game.limit <= qn && order < game.win_through) {
+      return "win";
+    }
+  }
+  return state;
 };

@@ -1,15 +1,14 @@
+import { detectPlayerState } from "../functions";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps } from "#/utils/db";
 
 const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
-  let winThroughPlayer: { player_id: string; text: string } = {
-    player_id: "",
-    text: "",
-  };
+  const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
@@ -49,23 +48,29 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     const order = playerOrderList.findIndex(
       (score) => score === playerState.player_id
     );
+    const state = detectPlayerState(
+      game,
+      playerState.state,
+      order,
+      gameLogList.length
+    );
     const remainIncapacity =
       playerState.wrong - (gameLogList.length - playerState.last_wrong - 1);
     const text =
-      playerState.state === "win"
+      state === "win"
         ? indicator(order)
         : remainIncapacity > 0
         ? `~${remainIncapacity}~`
         : `${playerState.correct}○`;
     if (
-      playerState.state === "win" &&
+      state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
     ) {
-      winThroughPlayer = { player_id: playerState.player_id, text };
+      winPlayers.push({ player_id: playerState.player_id, text });
     }
-    return { ...playerState, order, text, isIncapacity: remainIncapacity > 0 };
+    return { ...playerState, order, state, text };
   });
-  return { scoreList: playersState, winThroughPlayer };
+  return { scores: playersState, winPlayers };
 };
 
 export default freezex;

@@ -60,9 +60,7 @@ const ImportPlayer: React.FC = () => {
     <FormControl>
       <FormLabel>CSVファイルからインポートできます。</FormLabel>
       <Input type="file" accept=".csv" onChange={handleOnChange} height={100} />
-      <FormHelperText>
-        1列目: 氏名、 2列目: サブテキスト、 3列目: 所属
-      </FormHelperText>
+      <FormHelperText>1列目: 氏名、 2列目: 順位、 3列目: 所属</FormHelperText>
     </FormControl>
   );
 };
