@@ -103,17 +103,17 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                           >
                             {cdate(log.timestamp).format("HH:mm:ss")}
                           </Td>
-                          {!containSkipLog && (
+                          {!containSkipLog && quizList.length > qn && (
                             <>
                               <Td>
                                 {
-                                  quizList[reverse ? logs.length - qn : qn + 1]
+                                  quizList[reverse ? logs.length - qn - 1 : qn]
                                     .q
                                 }
                               </Td>
                               <Td>
                                 {
-                                  quizList[reverse ? logs.length - qn : qn + 1]
+                                  quizList[reverse ? logs.length - qn - 1 : qn]
                                     .a
                                 }
                               </Td>
