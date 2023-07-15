@@ -136,7 +136,7 @@ const AQLBoardPage: React.FC = () => {
       game_id: game_id as string,
       player_id: String(n),
       variant,
-      system: true,
+      system: false,
       timestamp: cdate().text(),
     });
   };
@@ -155,7 +155,7 @@ const AQLBoardPage: React.FC = () => {
             game_id: game.id,
             player_id: playerIndex === 0 ? String(9) : String(playerIndex - 1),
             variant: event.shiftKey ? "wrong" : "correct",
-            system: true,
+            system: false,
             timestamp: cdate().text(),
           });
       } else if (event.code === "Comma") {

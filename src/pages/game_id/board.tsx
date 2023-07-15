@@ -91,7 +91,7 @@ const BoardPage = () => {
             game_id: game.id,
             player_id: players[playerIndex === 0 ? 9 : playerIndex - 1].id,
             variant: event.shiftKey ? "wrong" : "correct",
-            system: true,
+            system: false,
             timestamp: cdate().text(),
           });
         }
@@ -104,7 +104,7 @@ const BoardPage = () => {
             game_id: game.id,
             player_id: players[playerIndex].id,
             variant: event.shiftKey ? "wrong" : "correct",
-            system: true,
+            system: false,
             timestamp: cdate().text(),
           });
         }
