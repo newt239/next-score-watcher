@@ -43,15 +43,15 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <NumberInput
         id={id}
-        value={typeof value === "number" ? value : ""}
-        min={min}
+        isDisabled={disabled}
         max={max}
+        min={min}
         onChange={(s, n) => {
           db.games.update(game_id as string, {
             [input_id]: n,
           });
         }}
-        isDisabled={disabled}
+        value={typeof value === "number" ? value : ""}
       >
         <NumberInputField />
         <NumberInputStepper>

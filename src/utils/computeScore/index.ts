@@ -20,7 +20,7 @@ import { ComputedScoreProps, GameDBProps, WinPlayerProps } from "#/utils/types";
 
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
-  if (!game) return { scores: [], winPlayers: [] };
+  if (!game) return { scores: [], win_players: [], incapacity_players: [] };
   const gameLogList = await db.logs
     .where({ game_id: game_id })
     .sortBy("timestamp");
@@ -73,6 +73,23 @@ const computeScore = async (game_id: string) => {
       result = await variousFluctuations(game, gameLogList);
       break;
   }
+
+  let incapacity_players: string[] = [];
+  result.scores.map((score) => {
+    if (
+      score.state !== "playing" ||
+      score.is_incapacity ||
+      score.text === "LOCKED" ||
+      score.text.endsWith("休")
+    ) {
+      incapacity_players.push(score.player_id);
+    }
+  });
+  const data = {
+    scores: result.scores,
+    win_players: result.winPlayers,
+    incapacity_players: incapacity_players,
+  };
 
   if (result.winPlayers.length !== 0) {
     const playerName = game.players?.find(
@@ -136,7 +153,7 @@ const computeScore = async (game_id: string) => {
     });
   }
 
-  return result;
+  return data;
 };
 
 export const getInitialPlayersState = (game: GameDBProps) => {

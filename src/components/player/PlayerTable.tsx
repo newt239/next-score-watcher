@@ -114,17 +114,17 @@ const PlayerTable: React.FC = () => {
       header: ({ table }) => {
         return (
           <Checkbox
-            onChange={() => table.toggleAllRowsSelected()}
             isChecked={table.getIsAllRowsSelected()}
             isIndeterminate={table.getIsSomeRowsSelected()}
+            onChange={() => table.toggleAllRowsSelected()}
           />
         );
       },
       cell: ({ row }) => {
         return (
           <Checkbox
-            onChange={() => row.toggleSelected()}
             isChecked={row.getIsSelected()}
+            onChange={() => row.toggleSelected()}
           />
         );
       },
@@ -142,10 +142,9 @@ const PlayerTable: React.FC = () => {
       header: "タグ",
       cell: (info) => {
         return info.row.original.tags.map((tag, tagi) => (
-          <Tag key={tagi} colorScheme="green" size="sm">
+          <Tag colorScheme="green" key={tagi} size="sm">
             <TagLabel>{tag}</TagLabel>
             <TagRightIcon
-              sx={{ cursor: "pointer" }}
               onClick={async () => {
                 await db.players.update(info.row.original.id, {
                   tags: info.row.original.tags.filter(
@@ -153,6 +152,7 @@ const PlayerTable: React.FC = () => {
                   ),
                 });
               }}
+              sx={{ cursor: "pointer" }}
             >
               <X />
             </TagRightIcon>
@@ -165,11 +165,11 @@ const PlayerTable: React.FC = () => {
       cell: (info) => {
         return (
           <IconButton
-            onClick={() => handleChange(info.row.original)}
-            colorScheme="blue"
-            variant="ghost"
-            size="xs"
             aria-label="プレイヤー情報を更新する"
+            colorScheme="blue"
+            onClick={() => handleChange(info.row.original)}
+            size="xs"
+            variant="ghost"
           >
             <Edit />
           </IconButton>
@@ -240,27 +240,27 @@ const PlayerTable: React.FC = () => {
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button
-                    onClick={alertOnOpen}
                     colorScheme="red"
-                    size="sm"
                     leftIcon={<Trash />}
+                    onClick={alertOnOpen}
+                    size="sm"
                   >
                     削除
                   </Button>
                   <Button
-                    onClick={() => setEditPlayerTagsModal(true)}
                     colorScheme="green"
-                    size="sm"
                     leftIcon={<Tags />}
+                    onClick={() => setEditPlayerTagsModal(true)}
+                    size="sm"
                   >
                     タグを追加
                   </Button>
                   <EditPlayertagsModal
+                    isOpen={editPlayerTagsModal}
+                    onClose={() => setEditPlayerTagsModal(false)}
                     selectedPlayers={table
                       .getSelectedRowModel()
                       .rows.map((row) => row.original)}
-                    isOpen={editPlayerTagsModal}
-                    onClose={() => setEditPlayerTagsModal(false)}
                   />
                 </HStack>
               )}
@@ -270,10 +270,10 @@ const PlayerTable: React.FC = () => {
                     <Filter />
                   </InputLeftElement>
                   <Input
-                    value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder="フリーワードで検索"
                     sx={{ maxW: 300 }}
+                    value={searchText}
                   />
                 </InputGroup>
               </Box>
@@ -292,7 +292,7 @@ const PlayerTable: React.FC = () => {
                   {table.getHeaderGroups().map((headerGroup) => (
                     <Tr key={headerGroup.id}>
                       {headerGroup.headers.map((header, i) => (
-                        <Th key={i} colSpan={header.colSpan}>
+                        <Th colSpan={header.colSpan} key={i}>
                           {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -333,17 +333,17 @@ const PlayerTable: React.FC = () => {
               >
                 <IconButton
                   aria-label="最初のページに移動"
-                  icon={<ChevronsLeft />}
-                  size="xs"
-                  onClick={() => table.setPageIndex(0)}
                   disabled={!table.getCanPreviousPage()}
+                  icon={<ChevronsLeft />}
+                  onClick={() => table.setPageIndex(0)}
+                  size="xs"
                 />
                 <IconButton
                   aria-label="1ページ戻る"
-                  icon={<ChevronLeft />}
-                  size="xs"
-                  onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
+                  icon={<ChevronLeft />}
+                  onClick={() => table.previousPage()}
+                  size="xs"
                 />
                 <div>
                   {table.getState().pagination.pageIndex + 1} /{" "}
@@ -351,25 +351,25 @@ const PlayerTable: React.FC = () => {
                 </div>
                 <IconButton
                   aria-label="1ページ進む"
-                  icon={<ChevronRight />}
-                  size="xs"
-                  onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
+                  icon={<ChevronRight />}
+                  onClick={() => table.nextPage()}
+                  size="xs"
                 />
                 <IconButton
                   aria-label="最後のページに移動"
-                  icon={<ChevronsRight />}
-                  size="xs"
-                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                   disabled={!table.getCanNextPage()}
+                  icon={<ChevronsRight />}
+                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                  size="xs"
                 />
                 <Box>
                   <Select
-                    size="sm"
-                    value={table.getState().pagination.pageSize}
                     onChange={(e) => {
                       table.setPageSize(Number(e.target.value));
                     }}
+                    size="sm"
+                    value={table.getState().pagination.pageSize}
                   >
                     {[10, 50, 100, 200, 300].map((pageSize) => (
                       <option key={pageSize} value={pageSize}>
@@ -384,8 +384,8 @@ const PlayerTable: React.FC = () => {
         </Box>
       )}
       <Modal
-        initialFocusRef={initialRef}
         finalFocusRef={finalRef}
+        initialFocusRef={initialRef}
         isOpen={isOpen}
         onClose={onClose}
       >
@@ -399,38 +399,38 @@ const PlayerTable: React.FC = () => {
                 <FormControl>
                   <FormLabel>氏名</FormLabel>
                   <Input
-                    ref={initialRef}
-                    value={currentPlayer.name}
                     onChange={(e) =>
                       setCurrentPlayer({
                         ...currentPlayer,
                         name: e.target.value,
                       })
                     }
+                    ref={initialRef}
+                    value={currentPlayer.name}
                   />
                 </FormControl>
                 <FormControl mt={4}>
                   <FormLabel>順位</FormLabel>
                   <Input
-                    value={currentPlayer.text}
                     onChange={(e) =>
                       setCurrentPlayer({
                         ...currentPlayer,
                         text: e.target.value,
                       })
                     }
+                    value={currentPlayer.text}
                   />
                 </FormControl>
                 <FormControl mt={4}>
                   <FormLabel>所属</FormLabel>
                   <Input
-                    value={currentPlayer.belong}
                     onChange={(e) =>
                       setCurrentPlayer({
                         ...currentPlayer,
                         belong: e.target.value,
                       })
                     }
+                    value={currentPlayer.belong}
                   />
                 </FormControl>
               </ModalBody>
@@ -476,14 +476,14 @@ const PlayerTable: React.FC = () => {
               )}
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={alertCancelRef} onClick={alertOnClose}>
+              <Button onClick={alertOnClose} ref={alertCancelRef}>
                 やめる
               </Button>
               <Button
                 colorScheme="red"
                 leftIcon={<Trash />}
-                onClick={deletePlayers}
                 ml={3}
+                onClick={deletePlayers}
               >
                 削除する
               </Button>

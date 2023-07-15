@@ -36,7 +36,7 @@ const AppOptionSwitch: React.FC<AppOptionSwitchProps> = ({
         </FormLabel>
         {label && <FormHelperText>{label}</FormHelperText>}
       </Box>
-      <Switch id={formId} size="lg" isChecked={isChecked} onChange={onChange} />
+      <Switch id={formId} isChecked={isChecked} onChange={onChange} size="lg" />
     </FormControl>
   );
 };

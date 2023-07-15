@@ -33,47 +33,47 @@ const Preferences = () => {
   return (
     <Stack sx={{ gap: 5, pt: 5 }}>
       <AppOptionSwitch
-        title="ダークモード"
         isChecked={colorMode === "dark"}
         onChange={() => toggleColorMode()}
+        title="ダークモード"
       />
       <AppOptionSwitch
-        title="勝ち抜け時にポップアップを表示"
         isChecked={showWinthroughPopup}
         onChange={() => showSetWinthroughPopup((v) => !v)}
+        title="勝ち抜け時にポップアップを表示"
       />
       <AppOptionSwitch
-        title="得点表示画面下にログを表示"
         isChecked={showLogs}
         onChange={() => setShowLogs((v) => !v)}
+        title="得点表示画面下にログを表示"
       />
       <AppOptionSwitch
-        title="ヘッダーに問題番号を表示"
         isChecked={showQn}
         onChange={() => setShowQn((v) => !v)}
+        title="ヘッダーに問題番号を表示"
       />
       <AppOptionSwitch
-        title="スコアに「○」「✕」「pt」の文字列を付与する"
         isChecked={showSignString}
         onChange={() => setShowSignString((v) => !v)}
+        title="スコアに「○」「✕」「pt」の文字列を付与する"
       />
       <AppOptionSwitch
-        title={`スコアを名前の${desktop && !verticalView ? "上" : "左"}に表示`}
         isChecked={reversePlayerInfo}
         onChange={() => setReversePlayerInfo((v) => !v)}
+        title={`スコアを名前の${desktop && !verticalView ? "上" : "左"}に表示`}
       />
       {desktop && (
         <AppOptionSwitch
-          title="プレイヤーを垂直に並べる"
           isChecked={verticalView}
           onChange={() => setVerticalView((v) => !v)}
+          title="プレイヤーを垂直に並べる"
         />
       )}
       <AppOptionSwitch
-        title="誤答数が4以下のとき✕の数で表示"
-        label="誤答数が0のときは中黒・で表示されます。"
         isChecked={wrongNumber}
+        label="誤答数が0のときは中黒・で表示されます。"
         onChange={() => setWrongNumber((v) => !v)}
+        title="誤答数が4以下のとき✕の数で表示"
       />
     </Stack>
   );

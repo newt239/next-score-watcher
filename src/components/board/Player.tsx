@@ -117,23 +117,23 @@ const Player: React.FC<PlayerProps> = ({
           </Box>
         ) : (
           <PlayerHeader
+            belong={player.belong}
             index={index}
             text={player.text}
-            belong={player.belong}
           />
         )}
         <PlayerName player_name={player.name} />
       </Flex>
       <PlayerScore
         game={game}
-        player_id={player.id}
-        player={editedScore}
-        qn={qn}
         isLastCorrectPlayer={
           last_correct_player === player.id &&
           qn !== 0 &&
           score.last_wrong < score.last_correct
         }
+        player={editedScore}
+        player_id={player.id}
+        qn={qn}
       />
     </Flex>
   );

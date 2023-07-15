@@ -178,13 +178,13 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             <MenuButton
               as={IconButton}
               icon={<Settings />}
-              variant="outline"
               sx={{
                 borderColor:
                   colorMode === "light"
                     ? theme.colors.gray[300]
                     : theme.colors.gray[500],
               }}
+              variant="outline"
             />
             <MenuList>
               <MenuItem
@@ -207,8 +207,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 スルー
               </MenuItem>
               <MenuItem
-                icon={<ArrowBackUp />}
                 disabled={logs.length === 0}
+                icon={<ArrowBackUp />}
                 onClick={async () => {
                   if (logs.length !== 0) {
                     await db.logs.delete(logs[logs.length - 1].id);
@@ -236,12 +236,12 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               )}
               <MenuItem
                 as={ReactLink}
-                to={`/aql`}
                 icon={<AdjustmentsHorizontal />}
+                to={`/aql`}
               >
                 AQL設定
               </MenuItem>
-              <MenuItem as={ReactLink} to="/" icon={<Home />}>
+              <MenuItem as={ReactLink} icon={<Home />} to="/">
                 ホームに戻る
               </MenuItem>
             </MenuList>

@@ -8,7 +8,7 @@ const OtherRules: React.FC = () => {
       <h2>その他の形式</h2>
       <UnorderedList>
         <ListItem>
-          <Link as={ReactLink} to="/aql" color="blue.500">
+          <Link as={ReactLink} color="blue.500" to="/aql">
             AQLルール
           </Link>
         </ListItem>

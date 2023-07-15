@@ -74,11 +74,11 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         </FormLabel>
         <Textarea
           disabled={setName === ""}
-          value={rawQuizText}
+          height={100}
           onChange={(e) => setRawQuizText(e.target.value)}
           placeholder={placeholderText}
-          height={100}
           ref={textareaRef}
+          value={rawQuizText}
         />
         <FormHelperText>A列: 問題番号、 B列: 問題文 C列: 答え</FormHelperText>
       </FormControl>
@@ -94,9 +94,9 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         </RadioGroup>
         <Button
           colorScheme="blue"
+          disabled={rawQuizText === ""}
           leftIcon={<CirclePlus />}
           onClick={handleClick}
-          disabled={rawQuizText === ""}
         >
           追加
         </Button>

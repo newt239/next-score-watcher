@@ -16,8 +16,6 @@ const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         let newOddScore = playerState.odd_score;
         let newEvenScore = playerState.even_score;
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             if (qn % 2 === 0) {
               newOddScore++;
@@ -50,6 +48,8 @@ const squarex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               wrong: playerState.wrong + 1,
               last_wrong: qn,
             };
+          default:
+            return playerState;
         }
       } else {
         return playerState;

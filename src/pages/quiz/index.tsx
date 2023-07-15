@@ -36,9 +36,9 @@ const QuizPage = () => {
         <Box>
           <Button
             colorScheme="green"
-            variant="link"
-            onClick={() => navigate({ pathname: `/${from}/config` })}
             leftIcon={<ArrowBackUp />}
+            onClick={() => navigate({ pathname: `/${from}/config` })}
+            variant="link"
           >
             設定に戻る
           </Button>
@@ -50,13 +50,13 @@ const QuizPage = () => {
         <FormControl py={5}>
           <FormLabel>セット名</FormLabel>
           <Input
-            value={setName}
-            isInvalid={setName === ""}
             errorBorderColor="crimson"
+            isInvalid={setName === ""}
             onChange={(e) => setSetName(e.target.value)}
+            value={setName}
           />
         </FormControl>
-        <Tabs isFitted variant="enclosed" colorScheme="green" pt={5}>
+        <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
           <TabList mb="1em">
             <Tab>まとめて貼り付け</Tab>
             <Tab>ファイルからインポート</Tab>

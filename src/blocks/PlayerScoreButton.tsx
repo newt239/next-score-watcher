@@ -84,7 +84,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           game_id,
           player_id,
           variant: color === "red" ? "correct" : "wrong",
-          system: true,
+          system: false,
           timestamp: cdate().text(),
         });
       } catch (err) {
@@ -97,22 +97,22 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     <>
       {editable ? (
         <Editable
-          defaultValue={children}
-          sx={ButtonCssStyle}
-          display="flex"
           alignItems="center"
+          defaultValue={children}
+          display="flex"
           justifyContent="center"
+          sx={ButtonCssStyle}
         >
           <EditablePreview p={0} />
-          <EditableInput p={0} w="100%" maxW="5vw" id={id} name={id} />
+          <EditableInput id={id} maxW="5vw" name={id} p={0} w="100%" />
         </Editable>
       ) : (
         <Button
-          variant="unstyled"
-          display="block"
-          sx={ButtonCssStyle}
           _hover={{ opacity: disabled ? 1 : 0.5 }}
+          display="block"
           onClick={handleClick}
+          sx={ButtonCssStyle}
+          variant="unstyled"
         >
           {children}
         </Button>

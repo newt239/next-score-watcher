@@ -26,20 +26,20 @@ const WebhookPage = () => {
         {from ? (
           <Button
             as={ReactLink}
-            to={`/${from}/config`}
             colorScheme="green"
-            variant="ghost"
             leftIcon={<ArrowBackUp />}
+            to={`/${from}/config`}
+            variant="ghost"
           >
             ゲーム設定に戻る
           </Button>
         ) : (
           <Button
             as={ReactLink}
-            to="/option"
             colorScheme="green"
-            variant="ghost"
             leftIcon={<ArrowBackUp />}
+            to="/option"
+            variant="ghost"
           >
             アプリ設定に戻る
           </Button>
@@ -68,9 +68,9 @@ const WebhookPage = () => {
       <Text>詳細は実際にご利用の上お確かめください。</Text>
       <h3>Response Example</h3>
       <Link
+        color="blue.500"
         href="https://gist.github.com/newt239/e03f8ed7fbc00852999bced29d80e8af"
         isExternal
-        color="blue.500"
       >
         Webhookで提供されるjsonの例｜Score Watcher
         <Icon>

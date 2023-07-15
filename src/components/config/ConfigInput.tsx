@@ -54,12 +54,12 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
     <FormControl pt={5}>
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <Input
-        id={id}
-        type="text"
-        placeholder={placehodler}
-        value={inputText}
-        onChange={(v) => setInputText(v.target.value)}
         disabled={disabled}
+        id={id}
+        onChange={(v) => setInputText(v.target.value)}
+        placeholder={placehodler}
+        type="text"
+        value={inputText}
       />
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

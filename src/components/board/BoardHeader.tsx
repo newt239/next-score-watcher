@@ -59,9 +59,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       }
     };
     getQuizList();
-  }, [game]);
+  }, [game.quiz]);
 
   if (!game || !logs) return null;
+
+  const qn = logs.filter((log) => log.variant !== "skip").length;
 
   return (
     <>
@@ -82,6 +84,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             colorMode === "light"
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
+          overflow: "hidden",
         }}
       >
         <Box
@@ -95,9 +98,10 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               colorMode === "light"
                 ? theme.colors.gray[300]
                 : theme.colors.gray[500],
-            borderRadius: "1rem",
+            borderRadius: "xl",
             padding: desktop ? 3 : undefined,
             maxWidth: "70vw",
+            maxHeight: "100%",
           }}
         >
           <h2 className="p0">{game.name}</h2>
@@ -115,7 +119,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   問
                 </Box>
               )}
-              {game.quiz && quizList.length > logs.length && (
+              {game.quiz && quizList.length > qn && (
                 <Box
                   sx={{
                     flexGrow: 1,
@@ -129,9 +133,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   }}
                 >
                   <div style={{ maxHeight: "8vh" }}>
-                    {logs.length === 0
+                    {qn === 0
                       ? "ここに問題文が表示されます"
-                      : quizList[game.quiz.offset + logs.length - 1].q}
+                      : quizList[game.quiz.offset + qn - 1].q}
                   </div>
                   <div
                     style={{
@@ -149,9 +153,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                             : theme.colors.gray[700],
                       }}
                     >
-                      {logs.length === 0
+                      {qn === 0
                         ? "ここに答えが表示されます"
-                        : quizList[game.quiz.offset + logs.length - 1].a}
+                        : quizList[game.quiz.offset + qn - 1].a}
                     </span>
                   </div>
                 </Box>
@@ -163,13 +167,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             <MenuButton
               as={IconButton}
               icon={<Settings />}
-              variant="outline"
               sx={{
                 borderColor:
                   colorMode === "light"
                     ? theme.colors.gray[300]
                     : theme.colors.gray[500],
               }}
+              variant="outline"
             />
             <MenuList>
               <MenuItem
@@ -192,8 +196,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 スルー
               </MenuItem>
               <MenuItem
-                icon={<ArrowBackUp />}
                 disabled={logs.length === 0}
+                icon={<ArrowBackUp />}
                 onClick={async () => {
                   if (logs.length !== 0) {
                     await db.logs.delete(logs[logs.length - 1].id);
@@ -226,8 +230,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               </MenuItem>
               <MenuItem
                 as={ReactLink}
-                to={`/${game.id}/config`}
                 icon={<AdjustmentsHorizontal />}
+                to={`/${game.id}/config`}
               >
                 ゲーム設定
               </MenuItem>

@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Flex, theme } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Slide,
+  theme,
+  Tooltip,
+} from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
+import { X } from "tabler-icons-react";
 
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
@@ -25,12 +34,17 @@ const BoardPage = () => {
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
+  const quizes = useLiveQuery(
+    () => db.quizes.where({ set_name: game?.quiz?.set_name }),
+    []
+  );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
   const showLogs = useAtomValue(showLogsAtom);
+  const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
@@ -66,13 +80,18 @@ const BoardPage = () => {
       const executeComputeScore = async () => {
         const result = await computeScore(game_id as string);
         setScores(result.scores);
-        if (result.winPlayers.length > 0) {
-          if (result.winPlayers[0].name) {
+        if (result.win_players.length > 0) {
+          if (result.win_players[0].name) {
             setWinThroughPlayer({
-              name: result.winPlayers[0].name,
-              text: result.winPlayers[0].text,
+              name: result.win_players[0].name,
+              text: result.win_players[0].text,
             });
           }
+        }
+        if (result.scores.length === result.incapacity_players.length) {
+          setSkipSuggest(true);
+        } else {
+          setSkipSuggest(false);
         }
       };
       executeComputeScore();
@@ -91,7 +110,7 @@ const BoardPage = () => {
             game_id: game.id,
             player_id: players[playerIndex === 0 ? 9 : playerIndex - 1].id,
             variant: event.shiftKey ? "wrong" : "correct",
-            system: true,
+            system: false,
             timestamp: cdate().text(),
           });
         }
@@ -104,7 +123,7 @@ const BoardPage = () => {
             game_id: game.id,
             player_id: players[playerIndex].id,
             variant: event.shiftKey ? "wrong" : "correct",
-            system: true,
+            system: false,
             timestamp: cdate().text(),
           });
         }
@@ -160,33 +179,93 @@ const BoardPage = () => {
       >
         {players.map((player, i) => (
           <Player
-            player={player}
-            key={i}
             index={i}
-            score={scores.find(
-              (score) =>
-                score.game_id === game.id && score.player_id === player.id
-            )}
-            qn={logs.length}
+            key={i}
             last_correct_player={
               scores.length !== 0
                 ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
                     .player_id
                 : ""
             }
+            player={player}
+            qn={logs.length}
+            score={scores.find(
+              (score) =>
+                score.game_id === game.id && score.player_id === player.id
+            )}
           />
         ))}
       </Flex>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs players={players} logs={logs} />
+          <GameLogs logs={logs} players={players} quiz={game.quiz} />
         </Flex>
       )}
       <WinModal
-        winTroughPlayer={winThroughPlayer}
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
+        winTroughPlayer={winThroughPlayer}
       />
+      <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
+        <Flex
+          alignItems="center"
+          bg="gray.700"
+          color="white"
+          flexDirection={isDesktop ? "row" : "column"}
+          gap={1}
+          justifyContent="space-between"
+          m={5}
+          p={3}
+          rounded="2xl"
+        >
+          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
+          <Flex gap={1}>
+            <Button
+              colorScheme="blue"
+              onClick={() =>
+                db.logs.put({
+                  id: nanoid(),
+                  game_id: game.id,
+                  player_id: "-",
+                  variant: "through",
+                  system: false,
+                  timestamp: cdate().text(),
+                })
+              }
+              size="sm"
+            >
+              スルー
+            </Button>
+            {isDesktop && (
+              <Tooltip label="問題番号が進みますが、問題は更新されません。">
+                <Button
+                  colorScheme="green"
+                  onClick={() =>
+                    db.logs.put({
+                      id: nanoid(),
+                      game_id: game.id,
+                      player_id: "-",
+                      variant: "skip",
+                      system: false,
+                      timestamp: cdate().text(),
+                    })
+                  }
+                  size="sm"
+                >
+                  スキップ
+                </Button>
+              </Tooltip>
+            )}
+            <IconButton
+              aria-label="閉じる"
+              onClick={() => setSkipSuggest(false)}
+              size="sm"
+            >
+              <X />
+            </IconButton>
+          </Flex>
+        </Flex>
+      </Slide>
     </>
   );
 };

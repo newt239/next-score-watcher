@@ -32,25 +32,25 @@ const ConfigNumberInput: React.FC<ConfigLimitProps> = ({
 
   return (
     <Flex direction="column" pt={5}>
-      <FormControl display="flex" alignItems="center">
+      <FormControl alignItems="center" display="flex">
         <FormLabel htmlFor="game-limit-toggle" mb="0">
           限定問題数を設定する
         </FormLabel>
         <Switch id="game-limit-toggle" onChange={onGameLimitToggle} />
       </FormControl>
-      <Flex p={3} gap={3}>
+      <Flex gap={3} p={3}>
         <FormControl isDisabled={!limit}>
           <FormLabel htmlFor="limit-input">限定問題数</FormLabel>
           <NumberInput
             id="limit-input"
-            value={limit}
-            min={0}
             max={100}
+            min={0}
             onChange={(s, n) => {
               db.games.update(game_id, {
                 limit: n,
               });
             }}
+            value={limit}
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -63,14 +63,14 @@ const ConfigNumberInput: React.FC<ConfigLimitProps> = ({
           <FormLabel htmlFor="win_through-input">勝ち抜け人数</FormLabel>
           <NumberInput
             id="win_through-input"
-            value={win_through}
-            min={0}
             max={100}
+            min={0}
             onChange={(s, n) => {
               db.games.update(game_id, {
                 win_through: n,
               });
             }}
+            value={win_through}
           >
             <NumberInputField />
             <NumberInputStepper>

@@ -36,8 +36,8 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
   return (
     <>
       <Modal
-        initialFocusRef={initialRef}
         finalFocusRef={finalRef}
+        initialFocusRef={initialRef}
         isOpen={isOpen}
         onClose={onClose}
       >
@@ -49,17 +49,17 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
             <FormControl>
               <FormLabel>新しいタグの名前</FormLabel>
               <Input
+                onChange={(e) => setNewTagName(e.target.value)}
                 ref={initialRef}
                 value={newTagName}
-                onChange={(e) => setNewTagName(e.target.value)}
               />
             </FormControl>
           </ModalBody>
           <ModalFooter>
             <Button
               colorScheme="blue"
-              leftIcon={<DeviceFloppy />}
               disabled={newTagName === ""}
+              leftIcon={<DeviceFloppy />}
               onClick={async () => {
                 await db.players.bulkPut(
                   selectedPlayers.map((player) =>

@@ -17,8 +17,6 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           playerState.score +
           (log.variant === "wrong" ? game.wrong_me : game.correct_me);
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             if (newScore + game.wrong_me <= 0) {
               return {
@@ -62,6 +60,8 @@ const attacksurvival = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
               };
             }
+          default:
+            return playerState;
         }
       } else {
         const newScore =

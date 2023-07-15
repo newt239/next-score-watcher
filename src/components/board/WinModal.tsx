@@ -31,9 +31,9 @@ const WinModal: React.FC<WinModalProps> = ({
 
   return (
     <Modal
+      isCentered
       isOpen={showWinthroughPopup && winTroughPlayer.name !== ""}
       onClose={onClose}
-      isCentered
     >
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>

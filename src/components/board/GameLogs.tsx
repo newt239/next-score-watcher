@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -15,18 +15,34 @@ import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { LogDBProps } from "#/utils/types";
+import db from "#/utils/db";
+import { LogDBProps, QuizDBProps } from "#/utils/types";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];
   logs: LogDBProps[];
+  quiz: { set_name: string; offset: number } | undefined;
 };
 
-const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
+const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const { colorMode } = useColorMode();
+  const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const desktop = useDeviceWidth();
   const [reverse, setReverse] = useState<Boolean>(true);
+
+  useEffect(() => {
+    const getQuizes = async () => {
+      if (quiz) {
+        setQuizList(
+          await db.quizes.where({ set_name: quiz.set_name }).sortBy("n")
+        );
+      }
+    };
+    getQuizes();
+  }, [quiz]);
+
+  const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
     <Box
@@ -51,9 +67,9 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
       >
         <Box sx={{ pb: 2 }}>
           <Button
-            size="sm"
             leftIcon={reverse ? <SortAscending /> : <SortDescending />}
             onClick={() => setReverse((v) => !v)}
+            size="sm"
           >
             {reverse ? "降順" : "昇順"}
           </Button>
@@ -61,7 +77,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
         {logs.length !== 0 ? (
           <>
             <TableContainer>
-              <Table variant="simple" size="sm">
+              <Table size="sm" variant="simple">
                 <Tbody>
                   {
                     // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c
@@ -87,6 +103,22 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                           >
                             {cdate(log.timestamp).format("HH:mm:ss")}
                           </Td>
+                          {!containSkipLog && quizList.length > qn && (
+                            <>
+                              <Td>
+                                {
+                                  quizList[reverse ? logs.length - qn - 1 : qn]
+                                    .q
+                                }
+                              </Td>
+                              <Td>
+                                {
+                                  quizList[reverse ? logs.length - qn - 1 : qn]
+                                    .a
+                                }
+                              </Td>
+                            </>
+                          )}
                         </Tr>
                       );
                     })

@@ -1,4 +1,4 @@
-import { Link as ReactLink , useLocation } from "react-router-dom";
+import { Link as ReactLink, useLocation } from "react-router-dom";
 
 import { Box, Flex, LinkBox, useColorMode } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
@@ -24,10 +24,10 @@ const BottomBar = () => {
         zIndex: 100,
       }}
     >
-      <ReactLink to="/" style={{ width: "25%", textAlign: "center" }}>
+      <ReactLink style={{ width: "25%", textAlign: "center" }} to="/">
         <LinkBox
-          color={location.pathname === "/" ? "green.500" : undefined}
           aria-label="ホーム"
+          color={location.pathname === "/" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -39,10 +39,10 @@ const BottomBar = () => {
           </Flex>
         </LinkBox>
       </ReactLink>
-      <ReactLink to="/player" style={{ width: "25%" }}>
+      <ReactLink style={{ width: "25%" }} to="/player">
         <LinkBox
-          color={location.pathname === "/player" ? "green.500" : undefined}
           aria-label="プレイヤー"
+          color={location.pathname === "/player" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -54,10 +54,10 @@ const BottomBar = () => {
           </Flex>
         </LinkBox>
       </ReactLink>
-      <ReactLink to="/quiz" style={{ width: "25%" }}>
+      <ReactLink style={{ width: "25%" }} to="/quiz">
         <LinkBox
-          color={location.pathname === "/quiz" ? "green.500" : undefined}
           aria-label="問題"
+          color={location.pathname === "/quiz" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -69,10 +69,10 @@ const BottomBar = () => {
           </Flex>
         </LinkBox>
       </ReactLink>
-      <ReactLink to="/option" style={{ width: "25%" }}>
+      <ReactLink style={{ width: "25%" }} to="/option">
         <LinkBox
-          color={location.pathname === "/option" ? "green.500" : undefined}
           aria-label="設定"
+          color={location.pathname === "/option" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,

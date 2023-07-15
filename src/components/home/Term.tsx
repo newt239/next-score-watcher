@@ -15,9 +15,9 @@ const Term: React.FC = () => {
         <ListItem>
           お問い合わせは開発者の
           <Link
+            color="blue.500"
             href="https://discord.gg/rct5sx6rbZ"
             isExternal
-            color="blue.500"
           >
             Discordサーバー
             <Icon>
@@ -29,9 +29,9 @@ const Term: React.FC = () => {
         <ListItem>
           本アプリの使用報告は
           <Link
+            color="blue.500"
             href="https://twitter.com/hashtag/ScoreWatcher?f=live"
             isExternal
-            color="blue.500"
           >
             #ScoreWatcher
           </Link>

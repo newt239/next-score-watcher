@@ -14,8 +14,6 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             const newCorrect = playerState.correct + 1;
             const newScore = playerState.score + 1;
@@ -72,6 +70,8 @@ const ny = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
               };
             }
+          default:
+            return playerState;
         }
       } else {
         return playerState;

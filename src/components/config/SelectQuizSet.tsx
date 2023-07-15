@@ -60,7 +60,6 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
               <FormControl pt={5} width={200}>
                 <FormLabel>オフセット</FormLabel>
                 <NumberInput
-                  value={game_quiz.offset}
                   min={0}
                   onChange={(s, n) => {
                     db.games.update(game_id as string, {
@@ -70,6 +69,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                       } as GameDBQuizProps,
                     });
                   }}
+                  value={game_quiz.offset}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
@@ -84,9 +84,9 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           <Box>
             <Button
               as={ReactLink}
-              to={`/quiz?from=${game_id}`}
               colorScheme="blue"
               leftIcon={<Upload />}
+              to={`/quiz?from=${game_id}`}
             >
               問題データを読み込む
             </Button>

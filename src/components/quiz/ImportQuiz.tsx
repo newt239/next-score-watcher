@@ -61,11 +61,11 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
     <FormControl>
       <FormLabel>CSVファイルからインポートできます。</FormLabel>
       <Input
-        type="file"
         accept=".csv"
-        onChange={handleOnChange}
         disabled={setName === ""}
         height={100}
+        onChange={handleOnChange}
+        type="file"
       />
       <FormHelperText>
         1列目: 問題番号、 2列目: 問題文 3列目: 答え

@@ -21,21 +21,21 @@ const SubMenu: React.FC = () => {
         <Button
           as={ReactLink}
           key={link.path}
+          size="sm"
           to={link.path}
           variant="ghost"
-          size="sm"
         >
           {link.text}
         </Button>
       ))}
       <IconButton
+        aria-label="Discordサーバーに参加する"
         as="a"
         href="https://discord.gg/rct5sx6rbZ"
-        target="_blank"
-        aria-label="Discordサーバーに参加する"
         icon={<BrandDiscord />}
-        variant="ghost"
         size="sm"
+        target="_blank"
+        variant="ghost"
       />
     </Flex>
   );

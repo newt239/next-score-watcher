@@ -73,38 +73,38 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
         <FormControl>
           <FormLabel>氏名</FormLabel>
           <Input
-            value={playerName}
             onChange={(v) => setPlayerName(v.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="越山識"
             ref={nameInputRef}
-            onKeyDown={handleKeyDown}
+            value={playerName}
           />
         </FormControl>
         <FormControl>
           <FormLabel>順位</FormLabel>
           <Input
-            value={playerOrder}
             onChange={(v) => setPlayerOrder(v.target.value)}
-            placeholder="24th"
             onKeyDown={handleKeyDown}
+            placeholder="24th"
+            value={playerOrder}
           />
         </FormControl>
         <FormControl>
           <FormLabel>所属</FormLabel>
           <Input
-            value={playerBelong}
             onChange={(v) => setPlayerBelong(v.target.value)}
-            placeholder="文蔵高校"
             onKeyDown={handleKeyDown}
+            placeholder="文蔵高校"
+            value={playerBelong}
           />
         </FormControl>
       </Grid>
       <Box sx={{ textAlign: "right", pt: 3 }}>
         <Button
           colorScheme="blue"
+          disabled={playerName === ""}
           leftIcon={<CirclePlus />}
           onClick={addNewPlayer}
-          disabled={playerName === ""}
         >
           追加
         </Button>

@@ -109,10 +109,10 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       cell: (info) => {
         return (
           <Checkbox
-            onChange={() => onChangeHandler(info.row.original)}
             isChecked={currentSelectedPlayers
               .map((gamePlayer) => gamePlayer.id)
               .includes(info.getValue())}
+            onChange={() => onChangeHandler(info.row.original)}
           />
         );
       },
@@ -141,7 +141,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       header: "タグ",
       cell: (info) => {
         return info.row.original.tags.map((tag, tagi) => (
-          <Tag key={tagi} colorScheme="green" size="sm">
+          <Tag colorScheme="green" key={tagi} size="sm">
             {tag}
           </Tag>
         ));
@@ -170,9 +170,9 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           <Filter />
         </InputLeftElement>
         <Input
-          value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           placeholder="フリーワードで検索"
+          value={searchText}
         />
       </InputGroup>
       {table.getRowModel().rows.length === 0 ? (
@@ -189,7 +189,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                 {table.getHeaderGroups().map((headerGroup) => (
                   <Tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
-                      <Th key={header.id} colSpan={header.colSpan}>
+                      <Th colSpan={header.colSpan} key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -224,17 +224,17 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           <HStack pt={3}>
             <IconButton
               aria-label="最初のページに移動"
-              icon={<ChevronsLeft />}
-              size="xs"
-              onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
+              icon={<ChevronsLeft />}
+              onClick={() => table.setPageIndex(0)}
+              size="xs"
             />
             <IconButton
               aria-label="1ページ戻る"
-              icon={<ChevronLeft />}
-              size="xs"
-              onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
+              icon={<ChevronLeft />}
+              onClick={() => table.previousPage()}
+              size="xs"
             />
             <div>
               {table.getState().pagination.pageIndex + 1} /{" "}
@@ -242,25 +242,25 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </div>
             <IconButton
               aria-label="1ページ進む"
-              icon={<ChevronRight />}
-              size="xs"
-              onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
+              icon={<ChevronRight />}
+              onClick={() => table.nextPage()}
+              size="xs"
             />
             <IconButton
               aria-label="最後のページに移動"
-              icon={<ChevronsRight />}
-              size="xs"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
+              icon={<ChevronsRight />}
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              size="xs"
             />
             <Box>
               <Select
-                size="sm"
-                value={table.getState().pagination.pageSize}
                 onChange={(e) => {
                   table.setPageSize(Number(e.target.value));
                 }}
+                size="sm"
+                value={table.getState().pagination.pageSize}
               >
                 {[10, 20, 30, 40, 50].map((pageSize) => (
                   <option key={pageSize} value={pageSize}>
@@ -273,10 +273,10 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           <Box sx={{ pt: 3, textAlign: "right" }}>
             <Button
               as={ReactLink}
-              to={`/player?from=${game_id}`}
               colorScheme="green"
-              variant="ghost"
               rightIcon={<ArrowNarrowRight />}
+              to={`/player?from=${game_id}`}
+              variant="ghost"
             >
               詳細設定
             </Button>

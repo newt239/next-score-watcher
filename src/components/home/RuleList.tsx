@@ -35,7 +35,7 @@ const RuleList: React.FC = () => {
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].description;
           return (
-            <Card key={rule_name} variant="filled" size="sm">
+            <Card key={rule_name} size="sm" variant="filled">
               <CardHeader>
                 <h3 className="p0">{rules[rule_name].name}</h3>
               </CardHeader>
@@ -46,10 +46,10 @@ const RuleList: React.FC = () => {
               </CardBody>
               <CardFooter sx={{ justifyContent: "flex-end" }}>
                 <Button
-                  leftIcon={<CirclePlus />}
                   colorScheme="green"
-                  size="sm"
+                  leftIcon={<CirclePlus />}
                   onClick={() => onClick(rule_name)}
+                  size="sm"
                 >
                   作る
                 </Button>
