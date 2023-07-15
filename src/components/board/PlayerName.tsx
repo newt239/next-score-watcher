@@ -14,10 +14,10 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
 
   return (
     <Flex
-      direction={isVerticalView ? "row" : "column"}
       align={isVerticalView ? "center" : "flex-start"}
-      justify="space-between"
+      direction={isVerticalView ? "row" : "column"}
       h={isDesktop && !isVerticalView ? "50vh" : undefined}
+      justify="space-between"
       sx={{
         textOrientation: "upright",
         writingMode:

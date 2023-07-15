@@ -58,7 +58,7 @@ const GameList: React.FC = () => {
         </Select>
       </Flex>
       <TableContainer pt={5}>
-        <Table variant="simple" size="sm">
+        <Table size="sm" variant="simple">
           <Thead>
             <Tr>
               <Th>ラウンド名</Th>
@@ -101,18 +101,18 @@ const GameList: React.FC = () => {
                       <HStack sx={{ justifyContent: "flex-end" }}>
                         <Button
                           as={ReactLink}
-                          to={`/${game.id}/config`}
-                          size="sm"
                           colorScheme="green"
-                          variant="ghost"
                           leftIcon={<AdjustmentsHorizontal />}
+                          size="sm"
+                          to={`/${game.id}/config`}
+                          variant="ghost"
                         >
                           開く
                         </Button>
                         <Menu>
                           <MenuButton
-                            as={IconButton}
                             aria-label="Options"
+                            as={IconButton}
                             icon={<DotsCircleHorizontal />}
                             size="sm"
                             variant="ghost"
@@ -134,15 +134,15 @@ const GameList: React.FC = () => {
                             {game.players.length !== 0 && (
                               <MenuItem
                                 as={ReactLink}
-                                to={`/${game.id}/board`}
                                 icon={<Chalkboard />}
+                                to={`/${game.id}/board`}
                               >
                                 得点画面を開く
                               </MenuItem>
                             )}
                             <MenuItem
-                              icon={<Trash />}
                               color="red.500"
+                              icon={<Trash />}
                               onClick={async () =>
                                 await db.games.delete(game.id)
                               }

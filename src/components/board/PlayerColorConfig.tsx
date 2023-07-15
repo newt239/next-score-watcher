@@ -36,15 +36,15 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
       <Popover>
         <PopoverTrigger>
           <IconButton
-            size="xs"
-            variant="ghost"
-            colorScheme={colorState}
+            aria-label="override player state"
             color={
               colorState &&
               (colorMode === "light" ? "white" : theme.colors.gray[800])
             }
+            colorScheme={colorState}
             icon={<Edit />}
-            aria-label="override player state"
+            size="xs"
+            variant="ghost"
           />
         </PopoverTrigger>
         <PopoverContent
@@ -54,10 +54,10 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
           <PopoverHeader>背景色を変更</PopoverHeader>
           <PopoverBody>
             <RadioGroup
-              value={editableState}
               onChange={(newState: States) => setEditableState(newState)}
+              value={editableState}
             >
-              <Stack spacing={5} direction="row">
+              <Stack direction="row" spacing={5}>
                 <Radio value="playing">デフォルト</Radio>
                 <Radio value="win">赤</Radio>
                 <Radio value="lose">青</Radio>

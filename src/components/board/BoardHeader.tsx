@@ -167,13 +167,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             <MenuButton
               as={IconButton}
               icon={<Settings />}
-              variant="outline"
               sx={{
                 borderColor:
                   colorMode === "light"
                     ? theme.colors.gray[300]
                     : theme.colors.gray[500],
               }}
+              variant="outline"
             />
             <MenuList>
               <MenuItem
@@ -196,8 +196,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 スルー
               </MenuItem>
               <MenuItem
-                icon={<ArrowBackUp />}
                 disabled={logs.length === 0}
+                icon={<ArrowBackUp />}
                 onClick={async () => {
                   if (logs.length !== 0) {
                     await db.logs.delete(logs[logs.length - 1].id);
@@ -230,8 +230,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               </MenuItem>
               <MenuItem
                 as={ReactLink}
-                to={`/${game.id}/config`}
                 icon={<AdjustmentsHorizontal />}
+                to={`/${game.id}/config`}
               >
                 ゲーム設定
               </MenuItem>

@@ -91,17 +91,17 @@ const QuizTable: React.FC = () => {
       header: ({ table }) => {
         return (
           <Checkbox
-            onChange={() => table.toggleAllRowsSelected()}
             isChecked={table.getIsAllRowsSelected()}
             isIndeterminate={table.getIsSomeRowsSelected()}
+            onChange={() => table.toggleAllRowsSelected()}
           />
         );
       },
       cell: ({ row }) => {
         return (
           <Checkbox
-            onChange={() => row.toggleSelected()}
             isChecked={row.getIsSelected()}
+            onChange={() => row.toggleSelected()}
           />
         );
       },
@@ -125,11 +125,11 @@ const QuizTable: React.FC = () => {
       cell: (info) => {
         return (
           <IconButton
-            onClick={() => handleChange(info.row.original)}
-            colorScheme="blue"
-            variant="ghost"
-            size="xs"
             aria-label="問題情報を更新する"
+            colorScheme="blue"
+            onClick={() => handleChange(info.row.original)}
+            size="xs"
+            variant="ghost"
           >
             <Edit />
           </IconButton>
@@ -169,6 +169,8 @@ const QuizTable: React.FC = () => {
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button
+                    colorScheme="red"
+                    leftIcon={<Trash />}
                     onClick={async () => {
                       await db.quizes.bulkDelete(
                         table
@@ -185,9 +187,7 @@ const QuizTable: React.FC = () => {
                       });
                       setSelectedQuizes([]);
                     }}
-                    colorScheme="red"
                     size="sm"
-                    leftIcon={<Trash />}
                   >
                     削除
                   </Button>
@@ -199,10 +199,10 @@ const QuizTable: React.FC = () => {
                     <Filter />
                   </InputLeftElement>
                   <Input
-                    value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder="問題文・答え・セット名で検索"
                     sx={{ maxW: 300 }}
+                    value={searchText}
                   />
                 </InputGroup>
               </Box>
@@ -222,7 +222,7 @@ const QuizTable: React.FC = () => {
                     {table.getHeaderGroups().map((headerGroup) => (
                       <Tr key={headerGroup.id}>
                         {headerGroup.headers.map((header, i) => (
-                          <Th key={i} colSpan={header.colSpan}>
+                          <Th colSpan={header.colSpan} key={i}>
                             {header.isPlaceholder
                               ? null
                               : flexRender(
@@ -268,17 +268,17 @@ const QuizTable: React.FC = () => {
               >
                 <IconButton
                   aria-label="最初のページに移動"
-                  icon={<ChevronsLeft />}
-                  size="xs"
-                  onClick={() => table.setPageIndex(0)}
                   disabled={!table.getCanPreviousPage()}
+                  icon={<ChevronsLeft />}
+                  onClick={() => table.setPageIndex(0)}
+                  size="xs"
                 />
                 <IconButton
                   aria-label="1ページ戻る"
-                  icon={<ChevronLeft />}
-                  size="xs"
-                  onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
+                  icon={<ChevronLeft />}
+                  onClick={() => table.previousPage()}
+                  size="xs"
                 />
                 <div>
                   {table.getState().pagination.pageIndex + 1} /{" "}
@@ -286,25 +286,25 @@ const QuizTable: React.FC = () => {
                 </div>
                 <IconButton
                   aria-label="1ページ進む"
-                  icon={<ChevronRight />}
-                  size="xs"
-                  onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
+                  icon={<ChevronRight />}
+                  onClick={() => table.nextPage()}
+                  size="xs"
                 />
                 <IconButton
                   aria-label="最後のページに移動"
-                  icon={<ChevronsRight />}
-                  size="xs"
-                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                   disabled={!table.getCanNextPage()}
+                  icon={<ChevronsRight />}
+                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                  size="xs"
                 />
                 <Box>
                   <Select
-                    size="sm"
-                    value={table.getState().pagination.pageSize}
                     onChange={(e) => {
                       table.setPageSize(Number(e.target.value));
                     }}
+                    size="sm"
+                    value={table.getState().pagination.pageSize}
                   >
                     {[10, 50, 100, 300].map((pageSize) => (
                       <option key={pageSize} value={pageSize}>
@@ -319,8 +319,8 @@ const QuizTable: React.FC = () => {
         </Box>
       )}
       <Modal
-        initialFocusRef={initialRef}
         finalFocusRef={finalRef}
+        initialFocusRef={initialRef}
         isOpen={isOpen}
         onClose={onClose}
       >
@@ -334,39 +334,39 @@ const QuizTable: React.FC = () => {
                 <FormControl>
                   <FormLabel>問題文</FormLabel>
                   <Textarea
-                    ref={initialRef}
-                    value={currentQuiz.q}
                     onChange={(e) =>
                       setCurrentQuiz({
                         ...currentQuiz,
                         q: e.target.value,
                       })
                     }
+                    ref={initialRef}
+                    value={currentQuiz.q}
                   />
                 </FormControl>
                 <FormControl mt={4}>
                   <FormLabel>答え</FormLabel>
                   <Input
-                    value={currentQuiz.a}
                     onChange={(e) =>
                       setCurrentQuiz({
                         ...currentQuiz,
                         a: e.target.value,
                       })
                     }
+                    value={currentQuiz.a}
                   />
                 </FormControl>
                 <FormControl>
                   <FormLabel>セット名</FormLabel>
                   <Input
-                    ref={initialRef}
-                    value={currentQuiz.set_name}
                     onChange={(e) =>
                       setCurrentQuiz({
                         ...currentQuiz,
                         set_name: e.target.value,
                       })
                     }
+                    ref={initialRef}
+                    value={currentQuiz.set_name}
                   />
                 </FormControl>
               </ModalBody>

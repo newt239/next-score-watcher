@@ -48,9 +48,10 @@ const Header: React.FC = () => {
           justifyContent: !desktop ? "center" : undefined,
         }}
       >
-        <Box sx={{ transition: "all 0.2s ease-out" }} _hover={{ opacity: 0.5 }}>
+        <Box _hover={{ opacity: 0.5 }} sx={{ transition: "all 0.2s ease-out" }}>
           <ReactLink to="/">
             <Image
+              alt="app logo"
               src={Logo}
               sx={{
                 height: "auto",
@@ -62,7 +63,6 @@ const Header: React.FC = () => {
                 margin: "auto",
                 cursor: "pointer",
               }}
-              alt="app logo"
             />
           </ReactLink>
         </Box>

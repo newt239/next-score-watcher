@@ -130,26 +130,26 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
         {playerList.length === 0 ? (
           <Button
             as={ReactLink}
-            to={`/player?from=${game_id}`}
-            leftIcon={<Upload />}
             colorScheme="blue"
+            leftIcon={<Upload />}
+            to={`/player?from=${game_id}`}
           >
             プレイヤーデータを読み込む
           </Button>
         ) : (
           <>
             <Button
-              onClick={() => setDrawerOpen(true)}
               colorScheme="blue"
               disabled={disabled}
               leftIcon={<Plus />}
+              onClick={() => setDrawerOpen(true)}
             >
               プレイヤーを選択
             </Button>
             <Drawer
               isOpen={drawerOpen}
-              placement="right"
               onClose={() => setDrawerOpen(false)}
+              placement="right"
             >
               <DrawerOverlay />
               <DrawerContent>
@@ -169,38 +169,38 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                           <FormControl>
                             <FormLabel>氏名</FormLabel>
                             <Input
-                              value={playerName}
                               onChange={(v) => setPlayerName(v.target.value)}
+                              onKeyDown={handleKeyDown}
                               placeholder="越山識"
                               ref={nameInputRef}
-                              onKeyDown={handleKeyDown}
+                              value={playerName}
                             />
                           </FormControl>
                           <FormControl>
                             <FormLabel>順位</FormLabel>
                             <Input
-                              value={playerText}
                               onChange={(v) => setPlayerText(v.target.value)}
-                              placeholder="24th"
                               onKeyDown={handleKeyDown}
+                              placeholder="24th"
+                              value={playerText}
                             />
                           </FormControl>
                           <FormControl>
                             <FormLabel>所属</FormLabel>
                             <Input
-                              value={playerBelong}
                               onChange={(v) => setPlayerBelong(v.target.value)}
-                              placeholder="文蔵高校"
                               onKeyDown={handleKeyDown}
+                              placeholder="文蔵高校"
+                              value={playerBelong}
                             />
                           </FormControl>
                           <Box sx={{ textAlign: "right" }}>
                             <Button
                               colorScheme="blue"
-                              size="sm"
+                              disabled={playerName === ""}
                               leftIcon={<CirclePlus />}
                               onClick={addNewPlayer}
-                              disabled={playerName === ""}
+                              size="sm"
                             >
                               追加
                             </Button>
@@ -218,16 +218,16 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       <AccordionPanel pb={4}>
                         {playerList.length === 0 ? (
                           <Box py={3}>
-                            <Link as={ReactLink} to="/player" color="blue.500">
+                            <Link as={ReactLink} color="blue.500" to="/player">
                               プレイヤー管理
                             </Link>
                             ページから一括でプレイヤー情報を登録できます。
                           </Box>
                         ) : (
                           <CompactPlayerTable
+                            gamePlayers={players}
                             game_id={game_id}
                             playerList={playerList}
-                            gamePlayers={players}
                           />
                         )}
                       </AccordionPanel>
@@ -248,11 +248,11 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 }}
               >
                 <ReactSortable
-                  list={sortableList}
-                  setList={(newState) => setSortableList(newState)}
                   animation={200}
                   delay={2}
                   direction={isDesktop ? "vertical" : "horizontal"}
+                  list={sortableList}
+                  setList={(newState) => setSortableList(newState)}
                   style={{
                     display: "flex",
                     flexDirection: isDesktop ? "row" : "column",
@@ -261,13 +261,13 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 >
                   {sortableList.map((player, index) => (
                     <Card
-                      key={player.id}
                       bgColor={
                         colorMode === "dark"
                           ? theme.colors.gray[700]
                           : theme.colors.gray[200]
                       }
                       cursor="grab"
+                      key={player.id}
                     >
                       <CardBody>
                         <Flex
@@ -291,27 +291,27 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             <Text size="xl">{player.name}</Text>
                           </Box>
                           <IndividualConfig
-                            onClick={() => {
-                              setCurrentPlayerIndex(index);
-                              onOpen();
-                            }}
-                            isOpen={isOpen}
-                            onClose={() => {
-                              setCurrentPlayerIndex(0);
-                              onClose();
-                            }}
-                            game_id={game_id}
-                            rule_name={rule_name}
-                            players={players}
-                            index={currentPlayerIndex}
                             correct={[
                               "normal",
                               "nomx",
                               "nomx-ad",
                               "variables",
                             ].includes(rule_name)}
-                            wrong={["nomx", "nomx-ad"].includes(rule_name)}
                             disabled={disabled}
+                            game_id={game_id}
+                            index={currentPlayerIndex}
+                            isOpen={isOpen}
+                            onClick={() => {
+                              setCurrentPlayerIndex(index);
+                              onOpen();
+                            }}
+                            onClose={() => {
+                              setCurrentPlayerIndex(0);
+                              onClose();
+                            }}
+                            players={players}
+                            rule_name={rule_name}
+                            wrong={["nomx", "nomx-ad"].includes(rule_name)}
                           />
                         </Flex>
                       </CardBody>

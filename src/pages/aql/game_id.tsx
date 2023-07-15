@@ -303,26 +303,26 @@ const AQLBoardPage: React.FC = () => {
                     {gameState.scores[n].score}
                   </Box>
                   <Button
-                    onClick={() => onClickHandler("correct", n)}
                     colorScheme="red"
-                    variant="ghost"
+                    isDisabled={wrong >= 2}
+                    onClick={() => onClickHandler("correct", n)}
                     sx={{
                       color:
                         theme.colors.red[colorMode === "light" ? 600 : 300],
                     }}
-                    isDisabled={wrong >= 2}
+                    variant="ghost"
                   >
                     {Math.max(0, gameState.scores[n].score - wrong)}○
                   </Button>
                   <Button
-                    onClick={() => onClickHandler("wrong", n)}
                     colorScheme="blue"
-                    variant="ghost"
+                    isDisabled={wrong >= 2}
+                    onClick={() => onClickHandler("wrong", n)}
                     sx={{
                       color:
                         theme.colors.blue[colorMode === "light" ? 600 : 300],
                     }}
-                    isDisabled={wrong >= 2}
+                    variant="ghost"
                   >
                     {wrong}✕
                   </Button>
@@ -338,15 +338,16 @@ const AQLBoardPage: React.FC = () => {
   return (
     <>
       <AQLBoardHeader
-        name={game.name}
+        end={end}
         game_id={game_id as string}
         logs={logs}
-        quiz_set={game.quiz.set_name}
-        quiz_offset={game.quiz.offset}
-        end={end}
+        name={game.name}
         onEndChange={() => setEnd((v) => !v)}
+        quiz_offset={game.quiz.offset}
+        quiz_set={game.quiz.set_name}
       />
       <Flex
+        onKeyDown={keyboardShortcutHandler}
         sx={{
           p: 5,
           gap: 5,
@@ -354,14 +355,13 @@ const AQLBoardPage: React.FC = () => {
           flexDirection: isDesktop ? "row" : "column",
         }}
         tabIndex={-1}
-        onKeyDown={keyboardShortcutHandler}
       >
         <EachGroup position="left" />
         <EachGroup position="right" />
       </Flex>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs players={getPlayerList()} logs={logs} quiz={game.quiz} />
+          <GameLogs logs={logs} players={getPlayerList()} quiz={game.quiz} />
         </Flex>
       )}
     </>

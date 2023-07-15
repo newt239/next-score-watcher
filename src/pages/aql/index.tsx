@@ -114,7 +114,7 @@ const AQLPage = () => {
         <>
           <h3>作成したゲーム</h3>
           <TableContainer pt={5}>
-            <Table variant="simple" size="sm">
+            <Table size="sm" variant="simple">
               <Thead>
                 <Tr>
                   <Th>ラウンド名</Th>
@@ -129,22 +129,22 @@ const AQLPage = () => {
                       <Td isNumeric>
                         <Button
                           as={ReactLink}
-                          to={`/aql/${game.id}`}
-                          size="sm"
                           colorScheme="green"
-                          variant="ghost"
                           leftIcon={<Chalkboard />}
+                          size="sm"
+                          to={`/aql/${game.id}`}
+                          variant="ghost"
                         >
                           開く
                         </Button>
                         <Button
-                          leftIcon={<Trash />}
-                          size="sm"
                           colorScheme="red"
-                          variant="ghost"
+                          leftIcon={<Trash />}
                           onClick={() =>
                             setAqlGames(aqlGames.filter((game, n) => i !== n))
                           }
+                          size="sm"
+                          variant="ghost"
                         >
                           削除
                         </Button>
@@ -158,29 +158,29 @@ const AQLPage = () => {
         </>
       )}
       <h3>新規作成</h3>
-      <Flex gap={3} direction={isDesktop ? "row" : "column"}>
+      <Flex direction={isDesktop ? "row" : "column"} gap={3}>
         <FormControl pt={5}>
           <FormLabel>ラウンド名</FormLabel>
           <Input
+            onChange={(v) => setRoundName(v.target.value)}
             type="text"
             value={roundName}
-            onChange={(v) => setRoundName(v.target.value)}
           />
         </FormControl>
         <FormControl pt={5}>
           <FormLabel>左側のチーム名</FormLabel>
           <Input
+            onChange={(v) => setLeftTeamName(v.target.value)}
             type="text"
             value={leftTeamName}
-            onChange={(v) => setLeftTeamName(v.target.value)}
           />
         </FormControl>
         <FormControl pt={5}>
           <FormLabel>右側のチーム名</FormLabel>
           <Input
+            onChange={(v) => setRightTeamName(v.target.value)}
             type="text"
             value={rightTeamName}
-            onChange={(v) => setRightTeamName(v.target.value)}
           />
         </FormControl>
       </Flex>
@@ -205,9 +205,9 @@ const AQLPage = () => {
               <FormControl pt={5} width={200}>
                 <FormLabel>オフセット</FormLabel>
                 <NumberInput
-                  value={offset}
                   min={0}
                   onChange={(s, n) => setOffset(n)}
+                  value={offset}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
@@ -222,12 +222,12 @@ const AQLPage = () => {
           <Box>
             <Button
               as={ReactLink}
-              to="/quiz"
+              colorScheme="blue"
               disabled={
                 roundName === "" || leftTeamName === "" || rightTeamName === ""
               }
-              colorScheme="blue"
               leftIcon={<Upload />}
+              to="/quiz"
             >
               問題データを読み込む
             </Button>
@@ -236,8 +236,8 @@ const AQLPage = () => {
       </Box>
       <Box sx={{ textAlign: "right", pt: 5 }}>
         <Button
-          leftIcon={<CirclePlus />}
           colorScheme="green"
+          leftIcon={<CirclePlus />}
           onClick={createAQLGame}
         >
           作る

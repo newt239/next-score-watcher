@@ -32,10 +32,10 @@ const PlayerPage = () => {
         <Box>
           <Button
             as={ReactLink}
-            to={`/${from}/config`}
             colorScheme="green"
-            variant="ghost"
             leftIcon={<ArrowBackUp />}
+            to={`/${from}/config`}
+            variant="ghost"
           >
             ゲーム設定に戻る
           </Button>
@@ -44,7 +44,7 @@ const PlayerPage = () => {
       <h2>プレイヤー管理</h2>
       <Box>
         <h3>プレイヤーの読み込み</h3>
-        <Tabs isFitted variant="enclosed" colorScheme="green" pt={5}>
+        <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
           <TabList mb="1em">
             <Tab>個別に追加</Tab>
             <Tab>まとめて貼り付け</Tab>

@@ -85,7 +85,7 @@ const Features: React.FC = () => {
       <Box>
         <h2>主な機能</h2>
         {isDesktop ? (
-          <Tabs isManual variant="enclosed" colorScheme="green" pt={5}>
+          <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
             <TabList>
               {features.map((feature) => (
                 <Tab key={feature.title}>{feature.title}</Tab>
@@ -102,8 +102,8 @@ const Features: React.FC = () => {
                       </Box>
                       <Box w="70%">
                         <Image
-                          src={"images/" + feature.image}
                           alt={`画像: ${feature.title}`}
+                          src={"images/" + feature.image}
                           sx={{ borderRadius: "1rem" }}
                         />
                       </Box>
@@ -130,8 +130,8 @@ const Features: React.FC = () => {
                 <AccordionPanel pb={4}>
                   {feature.image && (
                     <Image
-                      src={"images/" + feature.image}
                       alt={`画像: ${feature.title}`}
+                      src={"images/" + feature.image}
                       sx={{ borderRadius: "1rem" }}
                     />
                   )}

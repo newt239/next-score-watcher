@@ -67,9 +67,9 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
       >
         <Box sx={{ pb: 2 }}>
           <Button
-            size="sm"
             leftIcon={reverse ? <SortAscending /> : <SortDescending />}
             onClick={() => setReverse((v) => !v)}
+            size="sm"
           >
             {reverse ? "降順" : "昇順"}
           </Button>
@@ -77,7 +77,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         {logs.length !== 0 ? (
           <>
             <TableContainer>
-              <Table variant="simple" size="sm">
+              <Table size="sm" variant="simple">
                 <Tbody>
                   {
                     // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c

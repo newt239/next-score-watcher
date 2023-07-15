@@ -51,13 +51,13 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   return (
     <>
       <IconButton
+        aria-label="初期値の変更"
+        disabled={disabled}
+        icon={<AdjustmentsHorizontal />}
         onClick={onClick}
         size="xs"
-        aria-label="初期値の変更"
-        icon={<AdjustmentsHorizontal />}
-        disabled={disabled}
       />
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>個人設定: {players[index].name}</ModalHeader>
@@ -69,7 +69,6 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                   {rule_name === "variables" ? "初期ポイント" : "初期正答数"}
                 </FormLabel>
                 <NumberInput
-                  value={players[index].initial_correct}
                   onChange={(s, n) => {
                     db.games.update(game_id, {
                       players: players.map((gamePlayer, pi) =>
@@ -79,6 +78,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                       ),
                     });
                   }}
+                  value={players[index].initial_correct}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
@@ -92,7 +92,6 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
               <FormControl pt={3}>
                 <FormLabel>初期誤答数</FormLabel>
                 <NumberInput
-                  value={players[index].initial_wrong}
                   onChange={(s, n) => {
                     db.games.update(game_id, {
                       players: players.map((gamePlayer, pi) =>
@@ -102,6 +101,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                       ),
                     });
                   }}
+                  value={players[index].initial_wrong}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
@@ -115,7 +115,6 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
               <FormControl pt={3}>
                 <FormLabel>N</FormLabel>
                 <NumberInput
-                  value={players[index].base_correct_point}
                   min={3}
                   onChange={(s, n) => {
                     db.games.update(game_id, {
@@ -130,6 +129,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                       ),
                     });
                   }}
+                  value={players[index].base_correct_point}
                 >
                   <NumberInputField />
                   <NumberInputStepper>

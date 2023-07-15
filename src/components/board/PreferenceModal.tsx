@@ -33,7 +33,7 @@ const PreferenceModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <ModalHeader>表示設定</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Tabs variant="enclosed" isFitted>
+          <Tabs isFitted variant="enclosed">
             <TabList>
               <Tab>表示</Tab>
               <Tab>ショートカット</Tab>

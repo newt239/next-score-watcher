@@ -179,50 +179,49 @@ const BoardPage = () => {
       >
         {players.map((player, i) => (
           <Player
-            player={player}
-            key={i}
             index={i}
-            score={scores.find(
-              (score) =>
-                score.game_id === game.id && score.player_id === player.id
-            )}
-            qn={logs.length}
+            key={i}
             last_correct_player={
               scores.length !== 0
                 ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
                     .player_id
                 : ""
             }
+            player={player}
+            qn={logs.length}
+            score={scores.find(
+              (score) =>
+                score.game_id === game.id && score.player_id === player.id
+            )}
           />
         ))}
       </Flex>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs players={players} logs={logs} quiz={game.quiz} />
+          <GameLogs logs={logs} players={players} quiz={game.quiz} />
         </Flex>
       )}
       <WinModal
-        winTroughPlayer={winThroughPlayer}
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
+        winTroughPlayer={winThroughPlayer}
       />
       <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
         <Flex
-          p={3}
-          color="white"
-          bg="gray.700"
-          rounded="2xl"
-          m={5}
-          gap={1}
           alignItems="center"
-          justifyContent="space-between"
+          bg="gray.700"
+          color="white"
           flexDirection={isDesktop ? "row" : "column"}
+          gap={1}
+          justifyContent="space-between"
+          m={5}
+          p={3}
+          rounded="2xl"
         >
           <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
           <Flex gap={1}>
             <Button
               colorScheme="blue"
-              size="sm"
               onClick={() =>
                 db.logs.put({
                   id: nanoid(),
@@ -233,6 +232,7 @@ const BoardPage = () => {
                   timestamp: cdate().text(),
                 })
               }
+              size="sm"
             >
               スルー
             </Button>
@@ -240,7 +240,6 @@ const BoardPage = () => {
               <Tooltip label="問題番号が進みますが、問題は更新されません。">
                 <Button
                   colorScheme="green"
-                  size="sm"
                   onClick={() =>
                     db.logs.put({
                       id: nanoid(),
@@ -251,6 +250,7 @@ const BoardPage = () => {
                       timestamp: cdate().text(),
                     })
                   }
+                  size="sm"
                 >
                   スキップ
                 </Button>
@@ -258,8 +258,8 @@ const BoardPage = () => {
             )}
             <IconButton
               aria-label="閉じる"
-              size="sm"
               onClick={() => setSkipSuggest(false)}
+              size="sm"
             >
               <X />
             </IconButton>

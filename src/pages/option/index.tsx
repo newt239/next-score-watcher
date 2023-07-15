@@ -63,16 +63,16 @@ const OptionPage = () => {
           <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
           <FormHelperText>
             イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
-            <Link as={ReactLink} to="/option/webhook" color="blue.500">
+            <Link as={ReactLink} color="blue.500" to="/option/webhook">
               webhookについて
             </Link>
             を御覧ください。
           </FormHelperText>
           <Input
             mt={3}
-            value={WebhookUrl}
             onChange={(v) => setWebhookUrl(v.target.value)}
             placeholder="https://score-watcher.newt239.dev/api"
+            value={WebhookUrl}
             w="100%"
           />
         </FormControl>
@@ -109,10 +109,10 @@ const OptionPage = () => {
               この操作は取り消せません。本当に初期化してよろしいですか？
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button onClick={onClose} ref={cancelRef}>
                 やめる
               </Button>
-              <Button colorScheme="red" onClick={deleteAppData} ml={3}>
+              <Button colorScheme="red" ml={3} onClick={deleteAppData}>
                 初期化する
               </Button>
             </AlertDialogFooter>
@@ -123,9 +123,9 @@ const OptionPage = () => {
       <Text>
         アップデート情報は
         <Link
-          isExternal
           color="blue.500"
           href="https://github.com/newt239/next-score-watcher/releases"
+          isExternal
         >
           リリースノート
           <Icon>
@@ -145,9 +145,9 @@ const OptionPage = () => {
               <Th>開発者</Th>
               <Td isNumeric>
                 <Link
+                  color="blue.500"
                   href="https://twitter.com/newt239"
                   isExternal
-                  color="blue.500"
                 >
                   newt239
                   <Icon>
@@ -160,9 +160,9 @@ const OptionPage = () => {
               <Th>リポジトリ</Th>
               <Td isNumeric>
                 <Link
+                  color="blue.500"
                   href="https://github.com/newt239/next-score-watcher"
                   isExternal
-                  color="blue.500"
                 >
                   newt239/next-score-watcher
                   <Icon>

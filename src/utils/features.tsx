@@ -14,8 +14,8 @@ export const features: { [key: string]: Feature } = {
       <p>
         <Button
           as={ReactLink}
-          to="https://discord.gg/rct5sx6rbZ"
           color="blue.500"
+          to="https://discord.gg/rct5sx6rbZ"
           variant="link"
         >
           Discordサーバー

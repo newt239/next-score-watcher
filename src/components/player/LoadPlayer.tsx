@@ -68,11 +68,11 @@ const LoadPlayer: React.FC = () => {
           Excelやスプレッドシートからコピーし、まとめてインポートできます。
         </FormLabel>
         <Textarea
-          value={rawPlayerText}
+          height={100}
           onChange={(e) => setRawPlayerText(e.target.value)}
           placeholder={placeholderText}
-          height={100}
           ref={textareaRef}
+          value={rawPlayerText}
         />
         <FormHelperText>A列: 氏名、 B列: 順位、 C列: 所属</FormHelperText>
       </FormControl>
@@ -88,9 +88,9 @@ const LoadPlayer: React.FC = () => {
         </RadioGroup>
         <Button
           colorScheme="blue"
+          disabled={rawPlayerText === ""}
           leftIcon={<CirclePlus />}
           onClick={handleClick}
-          disabled={rawPlayerText === ""}
         >
           追加
         </Button>

@@ -80,9 +80,9 @@ const UpdateModal: React.FC = () => {
           <p style={{ paddingTop: "2rem" }}>
             詳細は
             <Link
+              color="blue.500"
               href="https://github.com/newt239/next-score-watcher/releases"
               isExternal
-              color="blue.500"
             >
               リリースノート
               <Icon>

@@ -87,114 +87,114 @@ const ConfigPage = () => {
         >
           {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (
             <ConfigNumberInput
+              disabled={disabled}
               input_id="win_point"
               label="勝ち抜け正解数"
               max={1000}
-              disabled={disabled}
             />
           )}
           {["ny", "variables"].includes(game.rule) && (
             <ConfigNumberInput
+              disabled={disabled}
               input_id="win_point"
               label="勝ち抜けポイント"
               max={1000}
               min={3}
-              disabled={disabled}
             />
           )}
           {["nbyn", "nupdown"].includes(game.rule) && (
             <ConfigNumberInput
+              disabled={disabled}
               input_id="win_point"
               label="N"
               max={10}
-              disabled={disabled}
             />
           )}
           {["squarex", "freezex"].includes(game.rule) && (
             <ConfigNumberInput
+              disabled={disabled}
               input_id="win_point"
               label="X"
               max={100}
-              disabled={disabled}
             />
           )}
           {["nomx", "nomx-ad", "nbyn", "nupdown", "nomr"].includes(
             game.rule
           ) && (
             <ConfigNumberInput
+              disabled={disabled}
               input_id="lose_point"
               label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
               max={100}
-              disabled={disabled}
             />
           )}
           {["attacksurvival"].includes(game.rule) && (
             <>
               <ConfigNumberInput
+                disabled={disabled}
                 input_id="win_point"
                 label="初期値"
                 max={30}
-                disabled={disabled}
               />
               <ConfigNumberInput
+                disabled={disabled}
                 input_id="win_through"
                 label="勝ち抜け人数"
                 max={game.players.length}
-                disabled={disabled}
               />
               <ConfigNumberInput
+                disabled={disabled}
                 input_id="correct_me"
                 label="自分が正答"
                 min={-10}
-                disabled={disabled}
               />
               <ConfigNumberInput
+                disabled={disabled}
                 input_id="wrong_me"
                 label="自分が誤答"
                 min={-10}
-                disabled={disabled}
               />
               <ConfigNumberInput
+                disabled={disabled}
                 input_id="correct_other"
                 label="他人が正答"
                 min={-10}
-                disabled={disabled}
               />
               <ConfigNumberInput
+                disabled={disabled}
                 input_id="wrong_other"
                 label="他人が誤答"
                 min={-10}
-                disabled={disabled}
               />
             </>
           )}
         </div>
         <div>
           <ConfigInput
-            input_id="discord_webhook_url"
-            label="Discord Webhook URL"
-            placehodler="https://discord.com/api/webhooks/..."
             helperText={
               <>
                 プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。詳しくは
                 <Link
                   as={ReactLink}
-                  to={`/option/webhook?from=${game.id}`}
                   color="blue.500"
+                  to={`/option/webhook?from=${game.id}`}
                 >
                   webhookについて
                 </Link>
                 を御覧ください。
               </>
             }
+            input_id="discord_webhook_url"
+            label="Discord Webhook URL"
+            placehodler="https://discord.com/api/webhooks/..."
           />
         </div>
         <SelectPlayer
+          disabled={disabled}
           game_id={game.id}
-          rule_name={game.rule}
           playerList={players}
           players={game.players}
-          disabled={disabled}
+          rule_name={game.rule}
         />
         <SelectQuizset
           game_id={game.id}
@@ -209,11 +209,11 @@ const ConfigPage = () => {
             gap: 5,
           }}
         >
-          <Button leftIcon={<Trash />} colorScheme="red" onClick={deleteGame}>
+          <Button colorScheme="red" leftIcon={<Trash />} onClick={deleteGame}>
             ゲームを削除
           </Button>
           {game.players.length === 0 ? (
-            <Button colorScheme="green" leftIcon={<PlayerPlay />} disabled>
+            <Button colorScheme="green" disabled leftIcon={<PlayerPlay />}>
               ゲーム開始
             </Button>
           ) : (
