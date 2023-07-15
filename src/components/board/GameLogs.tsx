@@ -103,7 +103,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                           >
                             {cdate(log.timestamp).format("HH:mm:ss")}
                           </Td>
-                          {containSkipLog && (
+                          {!containSkipLog && (
                             <>
                               <Td>
                                 {

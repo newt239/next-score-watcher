@@ -84,6 +84,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             colorMode === "light"
               ? theme.colors.gray[50]
               : theme.colors.gray[700],
+          overflow: "hidden",
         }}
       >
         <Box
@@ -97,9 +98,10 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               colorMode === "light"
                 ? theme.colors.gray[300]
                 : theme.colors.gray[500],
-            borderRadius: "1rem",
+            borderRadius: "xl",
             padding: desktop ? 3 : undefined,
             maxWidth: "70vw",
+            maxHeight: "100%",
           }}
         >
           <h2 className="p0">{game.name}</h2>

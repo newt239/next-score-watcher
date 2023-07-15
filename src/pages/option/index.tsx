@@ -23,6 +23,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Tr,
   useDisclosure,
@@ -119,6 +120,20 @@ const OptionPage = () => {
         </AlertDialogOverlay>
       </AlertDialog>
       <h2 style={{ paddingTop: "1rem" }}>アプリ情報</h2>
+      <Text>
+        アップデート情報は
+        <Link
+          isExternal
+          color="blue.500"
+          href="https://github.com/newt239/next-score-watcher/releases"
+        >
+          リリースノート
+          <Icon>
+            <ExternalLink />
+          </Icon>
+        </Link>
+        をご確認ください。
+      </Text>
       <TableContainer>
         <Table>
           <Tbody>
