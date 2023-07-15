@@ -21,8 +21,6 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       const stage = playerState.stage;
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             const newCorrect = playerState.correct + 1;
             if (stage === 4 && newCorrect === 4) {
@@ -62,6 +60,8 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
             } else {
               return { ...playerState, wrong: newWrong, last_wrong: qn };
             }
+          default:
+            return playerState;
         }
       } else {
         if (isResetTiming && playerState.state !== "win") {

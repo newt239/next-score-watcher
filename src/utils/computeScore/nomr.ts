@@ -14,8 +14,6 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             const newCorrect = playerState.correct + 1;
             if (newCorrect >= game.win_point!) {
@@ -47,6 +45,8 @@ const nomr = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
               last_wrong: qn,
               is_incapacity: true,
             };
+          default:
+            return playerState;
         }
       } else {
         if (

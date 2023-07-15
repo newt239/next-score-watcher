@@ -13,8 +13,6 @@ const normal = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
           playerState.score +
           (log.variant === "correct" ? game.correct_me : game.wrong_me);
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             if (newScore >= game.win_point!) {
               return {
@@ -50,6 +48,8 @@ const normal = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
               };
             }
+          default:
+            return playerState;
         }
       } else {
         return playerState;

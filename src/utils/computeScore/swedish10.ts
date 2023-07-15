@@ -14,51 +14,52 @@ const swedish10 = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
-        if (log.variant === "correct") {
-          const newCorrect = playerState.correct + 1;
-          if (newCorrect >= game.win_point!) {
-            return {
-              ...playerState,
-              correct: newCorrect,
-              last_correct: qn,
-              state: "win",
-            };
-          } else {
-            return {
-              ...playerState,
-              correct: newCorrect,
-              last_correct: qn,
-            };
-          }
-        } else if (log.variant === "wrong") {
-          let newWrong = playerState.wrong;
-          if (playerState.correct <= 0) {
-            newWrong += 1;
-          } else if (playerState.correct <= 2) {
-            newWrong += 2;
-          } else if (playerState.correct <= 5) {
-            newWrong += 3;
-          } else {
-            newWrong += 4;
-          }
-          if (newWrong >= game.lose_point!) {
-            return {
-              ...playerState,
-              wrong: newWrong,
-              score: newWrong,
-              last_wrong: qn,
-              state: "lose",
-            };
-          } else {
-            return {
-              ...playerState,
-              wrong: newWrong,
-              score: newWrong,
-              last_wrong: qn,
-            };
-          }
-        } else {
-          return playerState;
+        switch (log.variant) {
+          case "correct":
+            const newCorrect = playerState.correct + 1;
+            if (newCorrect >= game.win_point!) {
+              return {
+                ...playerState,
+                correct: newCorrect,
+                last_correct: qn,
+                state: "win",
+              };
+            } else {
+              return {
+                ...playerState,
+                correct: newCorrect,
+                last_correct: qn,
+              };
+            }
+          case "wrong":
+            let newWrong = playerState.wrong;
+            if (playerState.correct <= 0) {
+              newWrong += 1;
+            } else if (playerState.correct <= 2) {
+              newWrong += 2;
+            } else if (playerState.correct <= 5) {
+              newWrong += 3;
+            } else {
+              newWrong += 4;
+            }
+            if (newWrong >= game.lose_point!) {
+              return {
+                ...playerState,
+                wrong: newWrong,
+                score: newWrong,
+                last_wrong: qn,
+                state: "lose",
+              };
+            } else {
+              return {
+                ...playerState,
+                wrong: newWrong,
+                score: newWrong,
+                last_wrong: qn,
+              };
+            }
+          default:
+            return playerState;
         }
       } else {
         return playerState;

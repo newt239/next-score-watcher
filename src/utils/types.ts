@@ -59,7 +59,7 @@ export type PlayerDBProps = {
   tags: string[];
 };
 
-export type Variants = "correct" | "wrong" | "through";
+export type Variants = "correct" | "wrong" | "through" | "skip";
 export type LogDBProps = {
   id: string;
   game_id: string;

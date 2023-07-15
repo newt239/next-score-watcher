@@ -13,30 +13,29 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
-        switch (log.variant) {
-          case "through":
-            return playerState;
-          case "correct":
-            const newCorrect = playerState.correct + 1;
-            if (newCorrect === game.win_point) {
-              return {
-                ...playerState,
-                correct: newCorrect,
-                last_correct: qn,
-                state: "win",
-              };
-            } else {
-              return {
-                ...playerState,
-                correct: newCorrect,
-              };
-            }
-          case "wrong":
+        if (log.variant === "correct") {
+          const newCorrect = playerState.correct + 1;
+          if (newCorrect === game.win_point) {
             return {
               ...playerState,
-              wrong: playerState.wrong + 1,
-              last_wrong: qn,
+              correct: newCorrect,
+              last_correct: qn,
+              state: "win",
             };
+          } else {
+            return {
+              ...playerState,
+              correct: newCorrect,
+            };
+          }
+        } else if (log.variant === "wrong") {
+          return {
+            ...playerState,
+            wrong: playerState.wrong + 1,
+            last_wrong: qn,
+          };
+        } else {
+          return playerState;
         }
       } else {
         return playerState;

@@ -15,8 +15,6 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             const newScore =
               playerState.score +
@@ -57,6 +55,8 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
               };
             }
+          default:
+            return playerState;
         }
       } else {
         return playerState;

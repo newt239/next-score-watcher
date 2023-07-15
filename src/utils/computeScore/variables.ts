@@ -17,8 +17,6 @@ const variousFluctuations = async (
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
-          case "through":
-            return playerState;
           case "correct":
             const correct_point = game.players.find(
               (gamePlayer) => gamePlayer.id === playerState.player_id
@@ -57,6 +55,8 @@ const variousFluctuations = async (
               score: playerState.score + wrong_point,
               last_wrong: qn,
             };
+          default:
+            return playerState;
         }
       } else {
         return playerState;
