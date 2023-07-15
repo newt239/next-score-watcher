@@ -361,7 +361,7 @@ const AQLBoardPage: React.FC = () => {
       </Flex>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs players={getPlayerList()} logs={logs} />
+          <GameLogs players={getPlayerList()} logs={logs} quiz={game.quiz} />
         </Flex>
       )}
     </>

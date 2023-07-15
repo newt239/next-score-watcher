@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -15,18 +15,34 @@ import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { LogDBProps } from "#/utils/types";
+import db from "#/utils/db";
+import { LogDBProps, QuizDBProps } from "#/utils/types";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];
   logs: LogDBProps[];
+  quiz: { set_name: string; offset: number } | undefined;
 };
 
-const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
+const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const { colorMode } = useColorMode();
+  const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const desktop = useDeviceWidth();
   const [reverse, setReverse] = useState<Boolean>(true);
+
+  useEffect(() => {
+    const getQuizes = async () => {
+      if (quiz) {
+        setQuizList(
+          await db.quizes.where({ set_name: quiz.set_name }).sortBy("n")
+        );
+      }
+    };
+    getQuizes();
+  }, [quiz]);
+
+  const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
     <Box
@@ -87,6 +103,22 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs }) => {
                           >
                             {cdate(log.timestamp).format("HH:mm:ss")}
                           </Td>
+                          {containSkipLog && (
+                            <>
+                              <Td>
+                                {
+                                  quizList[reverse ? logs.length - qn : qn + 1]
+                                    .q
+                                }
+                              </Td>
+                              <Td>
+                                {
+                                  quizList[reverse ? logs.length - qn : qn + 1]
+                                    .a
+                                }
+                              </Td>
+                            </>
+                          )}
                         </Tr>
                       );
                     })

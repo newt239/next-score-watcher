@@ -34,6 +34,10 @@ const BoardPage = () => {
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
+  const quizes = useLiveQuery(
+    () => db.quizes.where({ set_name: game?.quiz?.set_name }),
+    []
+  );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
@@ -84,7 +88,6 @@ const BoardPage = () => {
             });
           }
         }
-        console.log(result);
         if (result.scores.length === result.incapacity_players.length) {
           setSkipSuggest(true);
         } else {
@@ -195,7 +198,7 @@ const BoardPage = () => {
       </Flex>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs players={players} logs={logs} />
+          <GameLogs players={players} logs={logs} quiz={game.quiz} />
         </Flex>
       )}
       <WinModal

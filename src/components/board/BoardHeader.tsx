@@ -59,7 +59,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       }
     };
     getQuizList();
-  }, [game]);
+  }, [game.quiz]);
 
   if (!game || !logs) return null;
 
