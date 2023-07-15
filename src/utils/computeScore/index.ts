@@ -79,7 +79,8 @@ const computeScore = async (game_id: string) => {
     if (
       score.state !== "playing" ||
       score.is_incapacity ||
-      score.text === "LOCKED"
+      score.text === "LOCKED" ||
+      score.text.endsWith("休")
     ) {
       incapacity_players.push(score.player_id);
     }

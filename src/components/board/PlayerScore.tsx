@@ -272,7 +272,11 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "freezex" && (
         <>
           <PlayerScoreButton
-            color={player.is_incapacity ? "green" : "red"}
+            color={
+              player.is_incapacity || player.text.endsWith("休")
+                ? "gray"
+                : "red"
+            }
             {...props}
           >
             {player.text}

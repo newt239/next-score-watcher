@@ -59,7 +59,7 @@ const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
       state === "win"
         ? indicator(order)
         : remainIncapacity > 0
-        ? `~${remainIncapacity}~`
+        ? `${remainIncapacity}休`
         : `${playerState.correct}○`;
     if (
       state === "win" &&
