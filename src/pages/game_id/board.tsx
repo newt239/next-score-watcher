@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Flex, Slide, theme } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Slide,
+  theme,
+  Tooltip,
+} from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
+import { X } from "tabler-icons-react";
 
 import BoardHeader from "#/components/board/BoardHeader";
 import GameLogs from "#/components/board/GameLogs";
@@ -78,6 +87,8 @@ const BoardPage = () => {
         console.log(result);
         if (result.scores.length === result.incapacity_players.length) {
           setSkipSuggest(true);
+        } else {
+          setSkipSuggest(false);
         }
       };
       executeComputeScore();
@@ -192,9 +203,64 @@ const BoardPage = () => {
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
       />
-      <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 10 }}>
-        <Flex p={5} color="white" bg="gray.700" rounded="2xl" m={5}>
-          <Box>すべてのプレイヤーが休みの状態です。1問スキップしますか？</Box>
+      <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
+        <Flex
+          p={3}
+          color="white"
+          bg="gray.700"
+          rounded="2xl"
+          m={5}
+          gap={1}
+          alignItems="center"
+          justifyContent="space-between"
+          flexDirection={isDesktop ? "row" : "column"}
+        >
+          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
+          <Flex gap={1}>
+            <Button
+              colorScheme="blue"
+              size="sm"
+              onClick={() =>
+                db.logs.put({
+                  id: nanoid(),
+                  game_id: game.id,
+                  player_id: "-",
+                  variant: "through",
+                  system: false,
+                  timestamp: cdate().text(),
+                })
+              }
+            >
+              スルー
+            </Button>
+            {isDesktop && (
+              <Tooltip label="問題番号が進みますが、問題は更新されません。">
+                <Button
+                  colorScheme="green"
+                  size="sm"
+                  onClick={() =>
+                    db.logs.put({
+                      id: nanoid(),
+                      game_id: game.id,
+                      player_id: "-",
+                      variant: "skip",
+                      system: false,
+                      timestamp: cdate().text(),
+                    })
+                  }
+                >
+                  スキップ
+                </Button>
+              </Tooltip>
+            )}
+            <IconButton
+              aria-label="閉じる"
+              size="sm"
+              onClick={() => setSkipSuggest(false)}
+            >
+              <X />
+            </IconButton>
+          </Flex>
         </Flex>
       </Slide>
     </>

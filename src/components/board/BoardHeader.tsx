@@ -63,6 +63,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   if (!game || !logs) return null;
 
+  const qn = logs.filter((log) => log.variant !== "skip").length;
+
   return (
     <>
       <Flex
@@ -115,7 +117,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   問
                 </Box>
               )}
-              {game.quiz && quizList.length > logs.length && (
+              {game.quiz && quizList.length > qn && (
                 <Box
                   sx={{
                     flexGrow: 1,
@@ -129,9 +131,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   }}
                 >
                   <div style={{ maxHeight: "8vh" }}>
-                    {logs.length === 0
+                    {qn === 0
                       ? "ここに問題文が表示されます"
-                      : quizList[game.quiz.offset + logs.length - 1].q}
+                      : quizList[game.quiz.offset + qn - 1].q}
                   </div>
                   <div
                     style={{
@@ -149,9 +151,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                             : theme.colors.gray[700],
                       }}
                     >
-                      {logs.length === 0
+                      {qn === 0
                         ? "ここに答えが表示されます"
-                        : quizList[game.quiz.offset + logs.length - 1].a}
+                        : quizList[game.quiz.offset + qn - 1].a}
                     </span>
                   </div>
                 </Box>
