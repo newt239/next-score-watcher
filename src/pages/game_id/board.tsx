@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Flex, theme } from "@chakra-ui/react";
+import { Box, Flex, Slide, theme } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
@@ -31,6 +31,7 @@ const BoardPage = () => {
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
   const showLogs = useAtomValue(showLogsAtom);
+  const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
     db.games.update(game_id as string, { last_open: cdate().text() });
@@ -66,13 +67,17 @@ const BoardPage = () => {
       const executeComputeScore = async () => {
         const result = await computeScore(game_id as string);
         setScores(result.scores);
-        if (result.winPlayers.length > 0) {
-          if (result.winPlayers[0].name) {
+        if (result.win_players.length > 0) {
+          if (result.win_players[0].name) {
             setWinThroughPlayer({
-              name: result.winPlayers[0].name,
-              text: result.winPlayers[0].text,
+              name: result.win_players[0].name,
+              text: result.win_players[0].text,
             });
           }
+        }
+        console.log(result);
+        if (result.scores.length === result.incapacity_players.length) {
+          setSkipSuggest(true);
         }
       };
       executeComputeScore();
@@ -187,6 +192,11 @@ const BoardPage = () => {
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
       />
+      <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 10 }}>
+        <Flex p={5} color="white" bg="gray.700" rounded="2xl" m={5}>
+          <Box>すべてのプレイヤーが休みの状態です。1問スキップしますか？</Box>
+        </Flex>
+      </Slide>
     </>
   );
 };
