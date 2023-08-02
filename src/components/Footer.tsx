@@ -1,18 +1,29 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Image, Link } from "@chakra-ui/react";
+
+import Logo from "#/assets/logo.png";
 
 const Footer: React.FC = () => {
   return (
     <>
       <Flex
         sx={{
-          gap: 5,
+          gap: "0.5rem",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-end",
           margin: "auto",
           my: 5,
+          h: "1rem",
+          lineHeight: "0.8rem",
+          fontSize: "0.5rem",
         }}
       >
-        <Box>© newt 2023</Box>
+        <Image alt="Score Watcher" src={Logo} sx={{ h: "100%" }} />
+        <Box>
+          created by{" "}
+          <Link color="blue.500" href="https://twitter.com/newt239" isExternal>
+            @newt239
+          </Link>
+        </Box>
       </Flex>
     </>
   );
