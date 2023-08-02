@@ -47,7 +47,6 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
-            maxWidth: 100,
           }}
         >
           {text === "" && belong === "" && (
