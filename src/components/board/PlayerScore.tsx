@@ -40,16 +40,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        px: !isVerticalView ? undefined : "0.5rem",
         gap: 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: colorMode === "light" ? "white" : theme.colors.gray[800],
-        borderRadius: !isVerticalView
-          ? "0 0 calc(1rem - 6px) calc(1rem - 6px)"
-          : "0 calc(0.5rem - 2px) calc(0.5rem - 2px) 0",
       }}
     >
       {game.rule === "normal" && (

@@ -69,6 +69,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     h: "100%",
     m: "auto",
     textAlign: "center",
+    borderRadius: 0,
     bgColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
