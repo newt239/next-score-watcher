@@ -36,11 +36,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   return (
     <Flex
       sx={{
-        w: "100%",
+        w: isDesktop ? "100%" : undefined,
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        gap: 1.5,
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
       }}
@@ -86,7 +85,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -105,7 +104,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton
               color={player.is_incapacity ? "gray" : "red"}
               compact
@@ -138,7 +137,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color="green" disabled {...props}>
             {`${player.correct}×${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -153,7 +152,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
@@ -168,7 +167,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
@@ -183,7 +182,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               ○
             </PlayerScoreButton>
@@ -198,7 +197,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -216,7 +215,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color="green" disabled filled {...props}>
             {`${player.odd_score}×${player.even_score}`}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -236,7 +235,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton
               color="red"
               compact
@@ -288,7 +287,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex h="100%" w="100%">
+          <Flex w="100%">
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>

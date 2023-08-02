@@ -170,11 +170,11 @@ const BoardPage = () => {
           justifyContent:
             isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
           flexWrap: isVerticalView ? "wrap" : "nowrap",
-          gap: "1rem",
+          gap: "1.5vh 1vw",
           w: "100%",
-          h: isVerticalView ? "75vh" : "auto",
-          p: 3,
-          overflowX: "scroll",
+          h: isDesktop ? "85vh" : undefined,
+          px: "1vw",
+          pt: "3vh",
         }}
       >
         {players.map((player, i) => (

@@ -13,6 +13,7 @@ import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
+import { rules } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps, States } from "#/utils/types";
 
 type PlayerProps = {
@@ -46,6 +47,8 @@ const Player: React.FC<PlayerProps> = ({
 
   if (!game || !score) return null;
 
+  const rows = rules[game.rule].rows;
+
   const editedScore: ComputedScoreProps = {
     ...score,
     state: game.editable ? editableState : score.state,
@@ -75,7 +78,8 @@ const Player: React.FC<PlayerProps> = ({
         justifyContent: "space-between",
         alignItems: "stretch",
         minW: "10vw",
-        w: isVerticalView && isDesktop ? "48%" : undefined,
+        w: isVerticalView && isDesktop ? "48vw" : undefined,
+        h: isDesktop ? (!isVerticalView ? "80vh" : "10vh") : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -98,6 +102,10 @@ const Player: React.FC<PlayerProps> = ({
         sx={{
           flexGrow: 1,
           w: "100%",
+          h:
+            isDesktop && !isVerticalView
+              ? `calc(100% - ${rows * 2}vh)`
+              : "100%",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",

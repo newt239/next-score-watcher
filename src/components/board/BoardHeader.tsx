@@ -45,7 +45,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const { colorMode } = useColorMode();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
-  const desktop = useDeviceWidth();
+  const isDesktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const showQn = useAtomValue(showQnAtom);
@@ -71,9 +71,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         sx={{
           justifyContent: "space-between",
           alignItems: "center",
-          gap: 3,
-          height: desktop ? "15vh" : "10vh",
-          px: 1,
+          gap: "1.5rem",
+          height: isDesktop ? "15vh" : "10vh",
+          px: "0.5rem",
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor:
@@ -93,13 +93,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             flexDirection: "column",
             justifyContent: "center",
             borderStyle: "solid",
-            borderWidth: desktop ? "thin" : 0,
+            borderWidth: isDesktop ? "thin" : 0,
             borderColor:
               colorMode === "light"
                 ? theme.colors.gray[300]
                 : theme.colors.gray[500],
             borderRadius: "xl",
-            padding: desktop ? 3 : undefined,
+            padding: isDesktop ? 3 : undefined,
             maxWidth: "70vw",
             maxHeight: "100%",
           }}
@@ -108,7 +108,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           <p>{getRuleStringByType(game)}</p>
         </Box>
         {game.editable ||
-          (desktop && (
+          (isDesktop && (
             <>
               {showQn && (
                 <Box sx={{ whiteSpace: "nowrap" }}>
@@ -162,82 +162,80 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               )}
             </>
           ))}
-        <Box>
-          <Menu closeOnSelect={false}>
-            <MenuButton
-              as={IconButton}
-              icon={<Settings />}
-              sx={{
-                borderColor:
-                  colorMode === "light"
-                    ? theme.colors.gray[300]
-                    : theme.colors.gray[500],
-              }}
-              variant="outline"
-            />
-            <MenuList>
-              <MenuItem
-                icon={<Comet />}
-                onClick={async () => {
-                  try {
-                    await db.logs.put({
-                      id: nanoid(),
-                      game_id: game.id,
-                      player_id: "-",
-                      variant: "through",
-                      system: false,
-                      timestamp: cdate().text(),
-                    });
-                  } catch (e) {
-                    console.log(e);
-                  }
-                }}
-              >
-                スルー
-              </MenuItem>
-              <MenuItem
-                disabled={logs.length === 0}
-                icon={<ArrowBackUp />}
-                onClick={async () => {
-                  if (logs.length !== 0) {
-                    await db.logs.delete(logs[logs.length - 1].id);
-                  }
-                }}
-              >
-                一つ戻す
-              </MenuItem>
-              <MenuItem
-                icon={<HandClick />}
-                onClick={async () =>
-                  await db.games.update(game.id, {
-                    editable: !game.editable,
-                  })
+        <Menu closeOnSelect={false}>
+          <MenuButton
+            as={IconButton}
+            icon={<Settings />}
+            sx={{
+              borderColor:
+                colorMode === "light"
+                  ? theme.colors.gray[300]
+                  : theme.colors.gray[500],
+            }}
+            variant="outline"
+          />
+          <MenuList>
+            <MenuItem
+              icon={<Comet />}
+              onClick={async () => {
+                try {
+                  await db.logs.put({
+                    id: nanoid(),
+                    game_id: game.id,
+                    player_id: "-",
+                    variant: "through",
+                    system: false,
+                    timestamp: cdate().text(),
+                  });
+                } catch (e) {
+                  console.log(e);
                 }
+              }}
+            >
+              スルー
+            </MenuItem>
+            <MenuItem
+              disabled={logs.length === 0}
+              icon={<ArrowBackUp />}
+              onClick={async () => {
+                if (logs.length !== 0) {
+                  await db.logs.delete(logs[logs.length - 1].id);
+                }
+              }}
+            >
+              一つ戻す
+            </MenuItem>
+            <MenuItem
+              icon={<HandClick />}
+              onClick={async () =>
+                await db.games.update(game.id, {
+                  editable: !game.editable,
+                })
+              }
+            >
+              <FormControl
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
               >
-                <FormControl
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <FormLabel mb="0">スコアの手動更新</FormLabel>
-                  <Switch isChecked={game.editable} />
-                </FormControl>
-              </MenuItem>
-              <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
-                表示設定
-              </MenuItem>
-              <MenuItem
-                as={ReactLink}
-                icon={<AdjustmentsHorizontal />}
-                to={`/${game.id}/config`}
-              >
-                ゲーム設定
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </Box>
+                <FormLabel mb="0">スコアの手動更新</FormLabel>
+                <Switch isChecked={game.editable} />
+              </FormControl>
+            </MenuItem>
+            <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
+              表示設定
+            </MenuItem>
+            <MenuItem
+              as={ReactLink}
+              icon={<AdjustmentsHorizontal />}
+              to={`/${game.id}/config`}
+            >
+              ゲーム設定
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Flex>
       <PreferenceModal isOpen={isOpen} onClose={onClose} />
     </>

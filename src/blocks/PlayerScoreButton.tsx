@@ -40,7 +40,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 }) => {
   const id = useId();
   const { colorMode } = useColorMode();
-  const desktop = useDeviceWidth();
+  const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom);
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
@@ -56,7 +56,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       : theme.colors.yellow[300];
 
   const ButtonCssStyle: SystemStyleObject = {
-    fontSize: desktop
+    fontSize: isDesktop
       ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
           compact || isVerticalView ? "4.5vw" : "48px"
         })`
@@ -64,9 +64,9 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           children.length
         }), 3.5vw))`,
     fontWeight: 800,
-    lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
-    w: "100%",
-    h: "100%",
+    lineHeight: !isVerticalView ? "3rem" : "100%",
+    w: !isVerticalView || compact ? "100%" : "6rem",
+    h: !isVerticalView ? "3rem" : "100%",
     m: "auto",
     textAlign: "center",
     borderRadius: 0,
