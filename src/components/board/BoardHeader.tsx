@@ -28,8 +28,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import PreferenceModal from "./PreferenceModal";
-
+import PreferenceModal from "#/components/board/PreferenceModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showQnAtom } from "#/utils/jotai";

@@ -66,8 +66,7 @@ import {
   X,
 } from "tabler-icons-react";
 
-import EditPlayertagsModal from "./EditPlayerTagsModal";
-
+import EditPlayertagsModal from "#/components/player/EditPlayerTagsModal";
 import db from "#/utils/db";
 import { PlayerDBProps } from "#/utils/types";
 

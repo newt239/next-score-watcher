@@ -5,9 +5,8 @@ import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
-import PlayerColorConfig from "./PlayerColorConfig";
-import PlayerHeader from "./PlayerHeader";
-
+import PlayerColorConfig from "#/components/board/PlayerColorConfig";
+import PlayerHeader from "#/components/board/PlayerHeader";
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
