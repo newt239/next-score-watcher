@@ -56,6 +56,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       : theme.colors.yellow[300];
 
   const ButtonCssStyle: SystemStyleObject = {
+    display: "block",
     fontSize: isDesktop
       ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
           compact || isVerticalView ? "4.5vw" : "48px"
@@ -110,7 +111,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       ) : (
         <Button
           _hover={{ opacity: disabled ? 1 : 0.5 }}
-          display="block"
           onClick={handleClick}
           sx={ButtonCssStyle}
           variant="unstyled"

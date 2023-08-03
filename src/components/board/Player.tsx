@@ -76,8 +76,13 @@ const Player: React.FC<PlayerProps> = ({
         flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
-        minW: "10vw",
-        w: isVerticalView && isDesktop ? "48vw" : undefined,
+        w: isDesktop
+          ? isVerticalView
+            ? "48vw"
+            : `clamp(8vw, ${
+                (98 - game.players.length) / game.players.length
+              }vw, 15vw)`
+          : "100%",
         h: isDesktop ? (!isVerticalView ? "80vh" : "10vh") : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
