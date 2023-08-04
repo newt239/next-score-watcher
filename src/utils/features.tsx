@@ -5,11 +5,8 @@ type Feature = {
 };
 
 export const features: { [key: string]: Feature } = {
-  "2.3.1": {
-    feature: [
-      "全員が失格状態の時問題番号のみ進行させる「スキップ」機能の追加",
-      "試合ログ欄に問題と答えを表示",
-    ],
+  "2.3.2": {
+    feature: ["プレイヤー名やスコアの幅や文字サイズを改善", "その他UIの調整"],
     bugfix: [],
   },
 };
