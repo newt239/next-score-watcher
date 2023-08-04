@@ -3,12 +3,12 @@ import { Link as ReactLink, useNavigate, useParams } from "react-router-dom";
 
 import {
   Alert,
-  AlertDescription,
-  AlertTitle,
   Box,
   Button,
+  Card,
   Container,
   Flex,
+  Grid,
   Link,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -52,23 +52,21 @@ const ConfigPage = () => {
   const disabled = logs.length !== 0;
 
   return (
-    <Container>
+    <Container pt={5}>
       {disabled && (
-        <Alert status="error">
+        <Alert status="error" variant="solid">
           ゲームは開始済みです。一部の設定は変更できません。
         </Alert>
       )}
-      <Alert status="info">
-        <Box>
-          <AlertTitle>{rules[game.rule].name}</AlertTitle>
-          <AlertDescription>
-            {rules[game.rule].description.split("\n").map((p) => (
-              <p key={p}>{p}</p>
-            ))}
-          </AlertDescription>
-        </Box>
-      </Alert>
-      <Box>
+      <Card my={3} p={2} variant="filled">
+        <h3>{rules[game.rule].name}</h3>
+        <div>
+          {rules[game.rule].description.split("\n").map((p) => (
+            <p key={p}>{p}</p>
+          ))}
+        </div>
+      </Card>
+      <Box pt={10}>
         <h2>形式設定</h2>
         <ConfigInput input_id="name" label="ゲーム名" placehodler="〇〇大会" />
         {game.rule !== "normal" && (
@@ -78,9 +76,8 @@ const ConfigPage = () => {
             win_through={game.win_through}
           />
         )}
-        <div
-          style={{
-            display: "grid",
+        <Grid
+          sx={{
             gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
             gap: "1rem",
           }}
@@ -168,8 +165,8 @@ const ConfigPage = () => {
               />
             </>
           )}
-        </div>
-        <div>
+        </Grid>
+        <Box pt={5}>
           <ConfigInput
             helperText={
               <>
@@ -188,7 +185,7 @@ const ConfigPage = () => {
             label="Discord Webhook URL"
             placehodler="https://discord.com/api/webhooks/..."
           />
-        </div>
+        </Box>
         <SelectPlayer
           disabled={disabled}
           game_id={game.id}

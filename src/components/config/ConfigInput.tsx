@@ -51,7 +51,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   if (!game) return null;
 
   return (
-    <FormControl pt={5}>
+    <FormControl pt={2}>
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <Input
         disabled={disabled}
