@@ -66,7 +66,7 @@ export const rules = {
     rows: 2,
   },
   attacksurvival: {
-    name: "Attack Survival",
+    name: "アタックサバイバル",
     description:
       "プレイヤーは各自Nポイントを持った状態で開始します。正解すると他の回答者全員のポイントをXポイント減らすことができ、また誤答すると自分のポイントがYポイント減ります。ポイントが0になった時失格となります。",
     win_point: 15, // 初期値
