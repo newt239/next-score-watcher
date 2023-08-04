@@ -176,6 +176,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           <MenuList>
             <MenuItem
               icon={<Comet />}
+              isDisabled={game.editable}
               onClick={async () => {
                 try {
                   await db.logs.put({
@@ -194,8 +195,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               スルー
             </MenuItem>
             <MenuItem
-              disabled={logs.length === 0}
               icon={<ArrowBackUp />}
+              isDisabled={logs.length === 0 || game.editable}
               onClick={async () => {
                 if (logs.length !== 0) {
                   await db.logs.delete(logs[logs.length - 1].id);

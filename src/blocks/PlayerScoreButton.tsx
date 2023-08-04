@@ -105,7 +105,20 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           sx={ButtonCssStyle}
         >
           <EditablePreview p={0} />
-          <EditableInput id={id} maxW="5vw" name={id} p={0} w="100%" />
+          <EditableInput
+            id={id}
+            name={id}
+            sx={{
+              p: 0,
+              w: isDesktop
+                ? compact
+                  ? "calc(100% - 0.5rem)"
+                  : "calc(100% - 0.5rem)"
+                : compact
+                ? "2.5rem"
+                : "5.5rem",
+            }}
+          />
         </Editable>
       ) : (
         <Button
