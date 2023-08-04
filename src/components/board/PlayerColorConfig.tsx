@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 import {
+  Box,
   IconButton,
   Popover,
   PopoverArrow,
@@ -14,8 +15,11 @@ import {
   theme,
   useColorMode,
 } from "@chakra-ui/react";
+import { useAtomValue } from "jotai";
 import { Edit } from "tabler-icons-react";
 
+import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { verticalViewAtom } from "#/utils/jotai";
 import { States } from "#/utils/types";
 
 type PlayerColorConfigProps = {
@@ -30,9 +34,15 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
   setEditableState,
 }) => {
   const { colorMode } = useColorMode();
+  const isDesktop = useDeviceWidth();
+  const isVerticalView = useAtomValue(verticalViewAtom);
 
   return (
-    <>
+    <Box
+      sx={{
+        margin: !isVerticalView && isDesktop ? "auto" : undefined,
+      }}
+    >
       <Popover>
         <PopoverTrigger>
           <IconButton
@@ -66,7 +76,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
           </PopoverBody>
         </PopoverContent>
       </Popover>
-    </>
+    </Box>
   );
 };
 

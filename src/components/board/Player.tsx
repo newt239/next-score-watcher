@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Flex, theme, useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
@@ -105,28 +105,23 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          w: "100%",
+          w: !isDesktop || isVerticalView ? "40vw" : "100%",
           h:
             isDesktop && !isVerticalView
               ? `calc(100% - ${rows * 2}vh)`
               : "100%",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
-          paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
+          pl: !isVerticalView && isDesktop ? undefined : "0.5rem",
+          overflowX: "hidden",
         }}
       >
         {game.editable ? (
-          <Box
-            sx={{
-              margin: !isVerticalView && isDesktop ? "auto" : undefined,
-            }}
-          >
-            <PlayerColorConfig
-              colorState={getColor(editedScore.state)}
-              editableState={editableState}
-              setEditableState={setEditableState}
-            />
-          </Box>
+          <PlayerColorConfig
+            colorState={getColor(editedScore.state)}
+            editableState={editableState}
+            setEditableState={setEditableState}
+          />
         ) : (
           <PlayerHeader
             belong={player.belong}

@@ -54,6 +54,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
       ) : (
         <Box
           sx={{
+            w: "100%",
             fontSize: "0.8rem",
             lineHeight: "0.8rem",
             fontWeight: 800,

@@ -16,15 +16,13 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
     <Flex
       direction={isVerticalView ? "row" : "column"}
       sx={{
+        flexGrow: 1,
         alignItems: isVerticalView ? "center" : "flex-start",
         justifyContent: isVerticalView ? "flex-start" : "center",
-        flexGrow: 1,
         textOrientation: "upright",
         writingMode:
           !isVerticalView && isDesktop ? "vertical-rl" : "horizontal-tb",
         whiteSpace: "nowrap",
-        overflowX: "hidden",
-        textOverflow: "ellipsis",
         fontFamily: "BIZ UDGothic",
         fontSize:
           !isVerticalView && isDesktop
@@ -33,6 +31,8 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
         fontWeight: 800,
         w: "100%",
         pt: !isVerticalView && isDesktop ? 3 : undefined,
+        overflowX: "hidden",
+        textOverflow: "ellipsis",
       }}
     >
       {player_name}
