@@ -27,7 +27,7 @@ const PlayerPage = () => {
   }, []);
 
   return (
-    <Container>
+    <Container pt={5}>
       {from && (
         <Box>
           <Button
@@ -42,7 +42,7 @@ const PlayerPage = () => {
         </Box>
       )}
       <h2>プレイヤー管理</h2>
-      <Box>
+      <Box pt={5}>
         <h3>プレイヤーの読み込み</h3>
         <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
           <TabList mb="1em">
