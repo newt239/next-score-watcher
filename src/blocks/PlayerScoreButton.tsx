@@ -40,7 +40,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
 }) => {
   const id = useId();
   const { colorMode } = useColorMode();
-  const desktop = useDeviceWidth();
+  const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom);
 
   const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
@@ -56,7 +56,8 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       : theme.colors.yellow[300];
 
   const ButtonCssStyle: SystemStyleObject = {
-    fontSize: desktop
+    display: "block",
+    fontSize: isDesktop
       ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
           compact || isVerticalView ? "4.5vw" : "48px"
         })`
@@ -64,11 +65,11 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           children.length
         }), 3.5vw))`,
     fontWeight: 800,
-    lineHeight: desktop ? "4vw" : "max(3vw, 1rem)",
-    w: "100%",
-    h: "100%",
-    m: "auto",
+    lineHeight: !isVerticalView ? "3rem" : "100%",
+    w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3rem" : "6rem",
+    h: isDesktop && !isVerticalView ? "3rem" : "100%",
     textAlign: "center",
+    borderRadius: 0,
     bgColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
@@ -104,12 +105,24 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           sx={ButtonCssStyle}
         >
           <EditablePreview p={0} />
-          <EditableInput id={id} maxW="5vw" name={id} p={0} w="100%" />
+          <EditableInput
+            id={id}
+            name={id}
+            sx={{
+              p: 0,
+              w: isDesktop
+                ? compact
+                  ? "calc(100% - 0.5rem)"
+                  : "calc(100% - 0.5rem)"
+                : compact
+                ? "2.5rem"
+                : "5.5rem",
+            }}
+          />
         </Editable>
       ) : (
         <Button
           _hover={{ opacity: disabled ? 1 : 0.5 }}
-          display="block"
           onClick={handleClick}
           sx={ButtonCssStyle}
           variant="unstyled"

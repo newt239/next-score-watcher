@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Flex, theme, useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
-import PlayerColorConfig from "./PlayerColorConfig";
-import PlayerHeader from "./PlayerHeader";
-
+import PlayerColorConfig from "#/components/board/PlayerColorConfig";
+import PlayerHeader from "#/components/board/PlayerHeader";
 import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
+import { rules } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps, States } from "#/utils/types";
 
 type PlayerProps = {
@@ -46,6 +46,8 @@ const Player: React.FC<PlayerProps> = ({
 
   if (!game || !score) return null;
 
+  const rows = rules[game.rule].rows;
+
   const editedScore: ComputedScoreProps = {
     ...score,
     state: game.editable ? editableState : score.state,
@@ -74,8 +76,14 @@ const Player: React.FC<PlayerProps> = ({
         flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
-        minW: "10vw",
-        w: isVerticalView && isDesktop ? "48%" : undefined,
+        w: isDesktop
+          ? isVerticalView
+            ? "48vw"
+            : `clamp(8vw, ${
+                (98 - game.players.length) / game.players.length
+              }vw, 15vw)`
+          : "100%",
+        h: isDesktop ? (!isVerticalView ? "80vh" : "10vh") : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
@@ -97,24 +105,23 @@ const Player: React.FC<PlayerProps> = ({
       <Flex
         sx={{
           flexGrow: 1,
-          w: "100%",
+          w: !isDesktop || isVerticalView ? "40vw" : "100%",
+          h:
+            isDesktop && !isVerticalView
+              ? `calc(100% - ${rows * 2}vh)`
+              : "100%",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
-          paddingLeft: !isVerticalView && isDesktop ? undefined : "0.5rem",
+          pl: !isVerticalView && isDesktop ? undefined : "0.5rem",
+          overflowX: "hidden",
         }}
       >
         {game.editable ? (
-          <Box
-            sx={{
-              margin: !isVerticalView && isDesktop ? "auto" : undefined,
-            }}
-          >
-            <PlayerColorConfig
-              colorState={getColor(editedScore.state)}
-              editableState={editableState}
-              setEditableState={setEditableState}
-            />
-          </Box>
+          <PlayerColorConfig
+            colorState={getColor(editedScore.state)}
+            editableState={editableState}
+            setEditableState={setEditableState}
+          />
         ) : (
           <PlayerHeader
             belong={player.belong}

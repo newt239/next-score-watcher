@@ -22,6 +22,7 @@ import {
   FormLabel,
   Input,
   Link,
+  Spacer,
   Stack,
   Text,
   theme,
@@ -124,206 +125,205 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   }, [sortableList]);
 
   return (
-    <>
+    <Box pt={10}>
       <h2>プレイヤー設定</h2>
-      <Box py={5}>
-        {playerList.length === 0 ? (
+      <Spacer h={2} />
+      {playerList.length === 0 ? (
+        <Button
+          as={ReactLink}
+          colorScheme="blue"
+          leftIcon={<Upload />}
+          to={`/player?from=${game_id}`}
+        >
+          プレイヤーデータを読み込む
+        </Button>
+      ) : (
+        <>
           <Button
-            as={ReactLink}
             colorScheme="blue"
-            leftIcon={<Upload />}
-            to={`/player?from=${game_id}`}
+            disabled={disabled}
+            leftIcon={<Plus />}
+            onClick={() => setDrawerOpen(true)}
           >
-            プレイヤーデータを読み込む
+            プレイヤーを選択
           </Button>
-        ) : (
-          <>
-            <Button
-              colorScheme="blue"
-              disabled={disabled}
-              leftIcon={<Plus />}
-              onClick={() => setDrawerOpen(true)}
-            >
-              プレイヤーを選択
-            </Button>
-            <Drawer
-              isOpen={drawerOpen}
-              onClose={() => setDrawerOpen(false)}
-              placement="right"
-            >
-              <DrawerOverlay />
-              <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>プレイヤー選択</DrawerHeader>
-                <DrawerBody p={0}>
-                  <Accordion defaultIndex={1}>
-                    <AccordionItem>
-                      <AccordionButton>
-                        <Box as="span" flex="1" textAlign="left">
-                          新しく追加
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <AccordionPanel pb={4}>
-                        <Stack spacing={3}>
-                          <FormControl>
-                            <FormLabel>氏名</FormLabel>
-                            <Input
-                              onChange={(v) => setPlayerName(v.target.value)}
-                              onKeyDown={handleKeyDown}
-                              placeholder="越山識"
-                              ref={nameInputRef}
-                              value={playerName}
-                            />
-                          </FormControl>
-                          <FormControl>
-                            <FormLabel>順位</FormLabel>
-                            <Input
-                              onChange={(v) => setPlayerText(v.target.value)}
-                              onKeyDown={handleKeyDown}
-                              placeholder="24th"
-                              value={playerText}
-                            />
-                          </FormControl>
-                          <FormControl>
-                            <FormLabel>所属</FormLabel>
-                            <Input
-                              onChange={(v) => setPlayerBelong(v.target.value)}
-                              onKeyDown={handleKeyDown}
-                              placeholder="文蔵高校"
-                              value={playerBelong}
-                            />
-                          </FormControl>
-                          <Box sx={{ textAlign: "right" }}>
-                            <Button
-                              colorScheme="blue"
-                              disabled={playerName === ""}
-                              leftIcon={<CirclePlus />}
-                              onClick={addNewPlayer}
-                              size="sm"
-                            >
-                              追加
-                            </Button>
-                          </Box>
-                        </Stack>
-                      </AccordionPanel>
-                    </AccordionItem>
-                    <AccordionItem>
-                      <AccordionButton>
-                        <Box flex="1" textAlign="left">
-                          データベースから追加
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <AccordionPanel pb={4}>
-                        {playerList.length === 0 ? (
-                          <Box py={3}>
-                            <Link as={ReactLink} color="blue.500" to="/player">
-                              プレイヤー管理
-                            </Link>
-                            ページから一括でプレイヤー情報を登録できます。
-                          </Box>
-                        ) : (
-                          <CompactPlayerTable
-                            gamePlayers={players}
-                            game_id={game_id}
-                            playerList={playerList}
+          <Drawer
+            isOpen={drawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            placement="right"
+          >
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>プレイヤー選択</DrawerHeader>
+              <DrawerBody p={0}>
+                <Accordion defaultIndex={1}>
+                  <AccordionItem>
+                    <AccordionButton>
+                      <Box as="span" flex="1" textAlign="left">
+                        新しく追加
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <Stack spacing={3}>
+                        <FormControl>
+                          <FormLabel>氏名</FormLabel>
+                          <Input
+                            onChange={(v) => setPlayerName(v.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="越山識"
+                            ref={nameInputRef}
+                            value={playerName}
                           />
-                        )}
-                      </AccordionPanel>
-                    </AccordionItem>
-                  </Accordion>
-                </DrawerBody>
-              </DrawerContent>
-            </Drawer>
-            {players.length !== 0 && (
-              <Box
-                sx={{
-                  mt: 5,
-                  p: 3,
-                  backgroundColor:
-                    colorMode === "dark"
-                      ? theme.colors.gray[600]
-                      : theme.colors.gray[300],
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel>順位</FormLabel>
+                          <Input
+                            onChange={(v) => setPlayerText(v.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="24th"
+                            value={playerText}
+                          />
+                        </FormControl>
+                        <FormControl>
+                          <FormLabel>所属</FormLabel>
+                          <Input
+                            onChange={(v) => setPlayerBelong(v.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="文蔵高校"
+                            value={playerBelong}
+                          />
+                        </FormControl>
+                        <Box sx={{ textAlign: "right" }}>
+                          <Button
+                            colorScheme="blue"
+                            disabled={playerName === ""}
+                            leftIcon={<CirclePlus />}
+                            onClick={addNewPlayer}
+                            size="sm"
+                          >
+                            追加
+                          </Button>
+                        </Box>
+                      </Stack>
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        データベースから追加
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      {playerList.length === 0 ? (
+                        <Box py={3}>
+                          <Link as={ReactLink} color="blue.500" to="/player">
+                            プレイヤー管理
+                          </Link>
+                          ページから一括でプレイヤー情報を登録できます。
+                        </Box>
+                      ) : (
+                        <CompactPlayerTable
+                          gamePlayers={players}
+                          game_id={game_id}
+                          playerList={playerList}
+                        />
+                      )}
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
+          {players.length !== 0 && (
+            <Box
+              sx={{
+                mt: 5,
+                p: 3,
+                backgroundColor:
+                  colorMode === "dark"
+                    ? theme.colors.gray[600]
+                    : theme.colors.gray[300],
+              }}
+            >
+              <ReactSortable
+                animation={200}
+                delay={2}
+                direction={isDesktop ? "vertical" : "horizontal"}
+                list={sortableList}
+                setList={(newState) => setSortableList(newState)}
+                style={{
+                  display: "flex",
+                  flexDirection: isDesktop ? "row" : "column",
+                  gap: 5,
                 }}
               >
-                <ReactSortable
-                  animation={200}
-                  delay={2}
-                  direction={isDesktop ? "vertical" : "horizontal"}
-                  list={sortableList}
-                  setList={(newState) => setSortableList(newState)}
-                  style={{
-                    display: "flex",
-                    flexDirection: isDesktop ? "row" : "column",
-                    gap: 5,
-                  }}
-                >
-                  {sortableList.map((player, index) => (
-                    <Card
-                      bgColor={
-                        colorMode === "dark"
-                          ? theme.colors.gray[700]
-                          : theme.colors.gray[200]
-                      }
-                      cursor="grab"
-                      key={player.id}
-                    >
-                      <CardBody>
-                        <Flex
+                {sortableList.map((player, index) => (
+                  <Card
+                    bgColor={
+                      colorMode === "dark"
+                        ? theme.colors.gray[700]
+                        : theme.colors.gray[200]
+                    }
+                    cursor="grab"
+                    key={player.id}
+                  >
+                    <CardBody>
+                      <Flex
+                        sx={{
+                          flexDirection: isDesktop ? "column" : "row",
+                          gap: 3,
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          height: "100%",
+                        }}
+                      >
+                        <Box
                           sx={{
-                            flexDirection: isDesktop ? "column" : "row",
-                            gap: 3,
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            height: "100%",
+                            writingMode: isDesktop
+                              ? "vertical-rl"
+                              : "horizontal-tb",
+                            whiteSpace: "nowrap",
+                            textOrientation: "upright",
                           }}
                         >
-                          <Box
-                            sx={{
-                              writingMode: isDesktop
-                                ? "vertical-rl"
-                                : "horizontal-tb",
-                              whiteSpace: "nowrap",
-                              textOrientation: "upright",
-                            }}
-                          >
-                            <Text size="xl">{player.name}</Text>
-                          </Box>
-                          <IndividualConfig
-                            correct={[
-                              "normal",
-                              "nomx",
-                              "nomx-ad",
-                              "variables",
-                            ].includes(rule_name)}
-                            disabled={disabled}
-                            game_id={game_id}
-                            index={currentPlayerIndex}
-                            isOpen={isOpen}
-                            onClick={() => {
-                              setCurrentPlayerIndex(index);
-                              onOpen();
-                            }}
-                            onClose={() => {
-                              setCurrentPlayerIndex(0);
-                              onClose();
-                            }}
-                            players={players}
-                            rule_name={rule_name}
-                            wrong={["nomx", "nomx-ad"].includes(rule_name)}
-                          />
-                        </Flex>
-                      </CardBody>
-                    </Card>
-                  ))}
-                </ReactSortable>
-              </Box>
-            )}
-          </>
-        )}
-      </Box>
-    </>
+                          <Text size="xl">{player.name}</Text>
+                        </Box>
+                        <IndividualConfig
+                          correct={[
+                            "normal",
+                            "nomx",
+                            "nomx-ad",
+                            "variables",
+                          ].includes(rule_name)}
+                          disabled={disabled}
+                          game_id={game_id}
+                          index={currentPlayerIndex}
+                          isOpen={isOpen}
+                          onClick={() => {
+                            setCurrentPlayerIndex(index);
+                            onOpen();
+                          }}
+                          onClose={() => {
+                            setCurrentPlayerIndex(0);
+                            onClose();
+                          }}
+                          players={players}
+                          rule_name={rule_name}
+                          wrong={["nomx", "nomx-ad"].includes(rule_name)}
+                        />
+                      </Flex>
+                    </CardBody>
+                  </Card>
+                ))}
+              </ReactSortable>
+            </Box>
+          )}
+        </>
+      )}
+    </Box>
   );
 };
 

@@ -66,8 +66,7 @@ import {
   X,
 } from "tabler-icons-react";
 
-import EditPlayertagsModal from "./EditPlayerTagsModal";
-
+import EditPlayertagsModal from "#/components/player/EditPlayerTagsModal";
 import db from "#/utils/db";
 import { PlayerDBProps } from "#/utils/types";
 
@@ -205,6 +204,7 @@ const PlayerTable: React.FC = () => {
   );
 
   const deletePlayers = async () => {
+    alertOnClose();
     await db.players.bulkDelete(deletePlayerList);
     await db.logs.where("player_id").anyOf(deletePlayerList).delete();
     await db.games
@@ -223,11 +223,10 @@ const PlayerTable: React.FC = () => {
       isClosable: true,
     });
     setSelectedPlayers([]);
-    alertOnClose();
   };
 
   return (
-    <Box>
+    <Box pt={5}>
       <h3>プレイヤー一覧</h3>
       {players.length === 0 ? (
         <Box p={3}>

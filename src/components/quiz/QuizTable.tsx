@@ -156,7 +156,7 @@ const QuizTable: React.FC = () => {
   if (!quizes) return null;
 
   return (
-    <Box>
+    <Box pt={5}>
       <h3>問題一覧</h3>
       {quizes.length === 0 ? (
         <Box p={3}>

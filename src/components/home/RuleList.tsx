@@ -1,14 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Button, Card, SimpleGrid } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
@@ -28,23 +20,36 @@ const RuleList: React.FC = () => {
     <Box pt={5}>
       <h2>形式一覧</h2>
       <SimpleGrid
-        pt={5}
-        spacing={5}
+        pt={3}
+        spacing={3}
         templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
       >
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].description;
           return (
-            <Card key={rule_name} size="sm" variant="filled">
-              <CardHeader>
-                <h3 className="p0">{rules[rule_name].name}</h3>
-              </CardHeader>
-              <CardBody>
-                {`${description.slice(0, 50)}${
-                  description.length > 50 ? "..." : ""
-                }`}
-              </CardBody>
-              <CardFooter sx={{ justifyContent: "flex-end" }}>
+            <Card
+              gap={3}
+              justifyContent="space-between"
+              key={rule_name}
+              p={3}
+              variant="filled"
+            >
+              <Box>
+                <h3 style={{ whiteSpace: "nowrap" }}>
+                  {rules[rule_name].name}
+                </h3>
+                <Box
+                  sx={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {description}
+                </Box>
+              </Box>
+              <Box textAlign="end">
                 <Button
                   colorScheme="green"
                   leftIcon={<CirclePlus />}
@@ -53,7 +58,7 @@ const RuleList: React.FC = () => {
                 >
                   作る
                 </Button>
-              </CardFooter>
+              </Box>
             </Card>
           );
         })}

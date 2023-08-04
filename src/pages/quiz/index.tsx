@@ -31,7 +31,7 @@ const QuizPage = () => {
   }, []);
 
   return (
-    <Container>
+    <Container pt={5}>
       {from && (
         <Box>
           <Button
@@ -45,7 +45,7 @@ const QuizPage = () => {
         </Box>
       )}
       <h2>問題管理</h2>
-      <Box>
+      <Box pt={5}>
         <h3>問題の読み込み</h3>
         <FormControl py={5}>
           <FormLabel>セット名</FormLabel>

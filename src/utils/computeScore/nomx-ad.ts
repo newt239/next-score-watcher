@@ -1,11 +1,10 @@
-import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
-
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
 const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];

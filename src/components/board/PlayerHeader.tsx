@@ -25,21 +25,36 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             flexDirection: reversePlayerInfo ? "column-reverse" : "column",
             alignItems: "center",
             justifyContent: "center",
+            w: "100%",
             fontWeight: 800,
             whiteSpace: "nowrap",
-            maxWidth: 100,
+            lineHeight: "1rem",
           }}
         >
-          {text === "" ? (
-            <Box sx={{ opacity: 0.3 }}>{index + 1}</Box>
+          {text === "" && belong === "" ? (
+            <Box sx={{ h: "1rem", my: "0.5rem", opacity: 0.3 }}>
+              {index + 1}
+            </Box>
           ) : (
-            <Box>{text}</Box>
+            <>
+              <Box sx={{ h: "1rem" }}>{text}</Box>
+              <Box
+                sx={{
+                  w: "100%",
+                  h: "1rem",
+                  overflowX: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {belong}
+              </Box>
+            </>
           )}
-          <Box>{belong === "" ? "―――――" : belong}</Box>
         </Box>
       ) : (
         <Box
           sx={{
+            w: "100%",
             fontSize: "0.8rem",
             lineHeight: "0.8rem",
             fontWeight: 800,
@@ -47,13 +62,12 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
-            maxWidth: 100,
           }}
         >
           {text === "" && belong === "" && (
             <Box sx={{ opacity: 0.3 }}>Player{index + 1}</Box>
           )}
-          <span>{text !== "" && text}</span>
+          <span>{text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
         </Box>

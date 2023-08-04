@@ -1,11 +1,10 @@
-import { detectPlayerState } from "../functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "../types";
-
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
+import { detectPlayerState } from "#/utils/functions";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
 const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
