@@ -1,7 +1,7 @@
 import { Flex, theme, useColorMode } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
-import PlayerScoreButton from "#/blocks/PlayerScoreButton";
+import PlayerScoreButton from "#/components/common/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
