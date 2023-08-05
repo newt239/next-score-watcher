@@ -7,15 +7,15 @@ import {
   ChevronsRight,
 } from "tabler-icons-react";
 
-import { PlayerDBProps } from "#/utils/types";
+import { PlayerDBProps, QuizDBProps } from "#/utils/types";
 
 type Props = {
-  table: Table<PlayerDBProps>;
+  table: Table<PlayerDBProps> | Table<QuizDBProps>;
 };
 
-const Navigation: React.FC<Props> = ({ table }) => {
+const TablePagenation: React.FC<Props> = ({ table }) => {
   return (
-    <HStack pt={3}>
+    <HStack justifyContent="flex-end" pt={3}>
       <IconButton
         aria-label="最初のページに移動"
         disabled={!table.getCanPreviousPage()}
@@ -66,4 +66,4 @@ const Navigation: React.FC<Props> = ({ table }) => {
   );
 };
 
-export default Navigation;
+export default TablePagenation;

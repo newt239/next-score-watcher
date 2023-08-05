@@ -31,7 +31,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
-import Navigation from "#/components/common/TableNavigation";
+import TablePagenation from "#/components/common/TablePagination";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
 
@@ -209,7 +209,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
               </Tbody>
             </Table>
           </TableContainer>
-          <Navigation table={table} />
+          <TablePagenation table={table} />
           <Box sx={{ pt: 3, textAlign: "right" }}>
             <Button
               as={ReactLink}

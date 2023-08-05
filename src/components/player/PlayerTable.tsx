@@ -26,7 +26,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Table,
   TableContainer,
   Tag,
@@ -53,18 +52,9 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  DeviceFloppy,
-  Edit,
-  Filter,
-  Tags,
-  Trash,
-  X,
-} from "tabler-icons-react";
+import { DeviceFloppy, Edit, Filter, Tags, Trash, X } from "tabler-icons-react";
+
+import TablePagination from "../common/TablePagination";
 
 import EditPlayertagsModal from "#/components/player/EditPlayerTagsModal";
 import db from "#/utils/db";
@@ -285,100 +275,47 @@ const PlayerTable: React.FC = () => {
               </Text>
             </Box>
           ) : (
-            <TableContainer>
-              <Table size="sm">
-                <Thead>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <Tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header, i) => (
-                        <Th colSpan={header.colSpan} key={i}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </Th>
-                      ))}
-                    </Tr>
-                  ))}
-                </Thead>
-                <Tbody>
-                  {table.getRowModel().rows.map((row) => {
-                    return (
-                      <Tr key={row.original.id}>
-                        {row.getVisibleCells().map((cell, i) => {
-                          return (
-                            <Td key={`${row.original.id}_${i}`}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </Td>
-                          );
-                        })}
+            <>
+              <TableContainer>
+                <Table size="sm">
+                  <Thead>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <Tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header, i) => (
+                          <Th colSpan={header.colSpan} key={i}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </Th>
+                        ))}
                       </Tr>
-                    );
-                  })}
-                </Tbody>
-              </Table>
-              <Flex
-                sx={{
-                  py: 5,
-                  gap: 3,
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton
-                  aria-label="最初のページに移動"
-                  disabled={!table.getCanPreviousPage()}
-                  icon={<ChevronsLeft />}
-                  onClick={() => table.setPageIndex(0)}
-                  size="xs"
-                />
-                <IconButton
-                  aria-label="1ページ戻る"
-                  disabled={!table.getCanPreviousPage()}
-                  icon={<ChevronLeft />}
-                  onClick={() => table.previousPage()}
-                  size="xs"
-                />
-                <div>
-                  {table.getState().pagination.pageIndex + 1} /{" "}
-                  {table.getPageCount()}
-                </div>
-                <IconButton
-                  aria-label="1ページ進む"
-                  disabled={!table.getCanNextPage()}
-                  icon={<ChevronRight />}
-                  onClick={() => table.nextPage()}
-                  size="xs"
-                />
-                <IconButton
-                  aria-label="最後のページに移動"
-                  disabled={!table.getCanNextPage()}
-                  icon={<ChevronsRight />}
-                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                  size="xs"
-                />
-                <Box>
-                  <Select
-                    onChange={(e) => {
-                      table.setPageSize(Number(e.target.value));
-                    }}
-                    size="sm"
-                    value={table.getState().pagination.pageSize}
-                  >
-                    {[10, 50, 100, 200, 300].map((pageSize) => (
-                      <option key={pageSize} value={pageSize}>
-                        {pageSize}件
-                      </option>
                     ))}
-                  </Select>
-                </Box>
-              </Flex>
-            </TableContainer>
+                  </Thead>
+                  <Tbody>
+                    {table.getRowModel().rows.map((row) => {
+                      return (
+                        <Tr key={row.original.id}>
+                          {row.getVisibleCells().map((cell, i) => {
+                            return (
+                              <Td key={`${row.original.id}_${i}`}>
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </Td>
+                            );
+                          })}
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+              <TablePagination table={table} />
+            </>
           )}
         </Box>
       )}
