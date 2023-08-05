@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
   Button,
   Checkbox,
-  CheckboxGroup,
   Input,
   InputGroup,
   InputLeftElement,
@@ -32,6 +31,7 @@ import {
 import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
 import TablePagenation from "#/components/common/TablePagination";
+import { useDidUpdateEffect } from "#/hooks/useDidUpdateEffect";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
 
@@ -48,42 +48,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
 }) => {
   const [rowSelection, setRowSelection] = useState({});
   const [searchText, setSearchText] = useState<string>("");
-  const [currentSelectedPlayers, setCurrentSelectPlayers] =
-    useState(gamePlayers);
-
-  useEffect(() => {
-    db.games.update(game_id, {
-      players: currentSelectedPlayers,
-    });
-  }, [currentSelectedPlayers]);
-
-  const onChangeHandler = async (player: PlayerDBProps) => {
-    if (
-      currentSelectedPlayers
-        .map((gamePlayer) => gamePlayer.id)
-        .includes(player.id)
-    ) {
-      // 選択解除
-      setCurrentSelectPlayers(
-        currentSelectedPlayers.filter(
-          (gamePlayer) => gamePlayer.id !== player.id
-        )
-      );
-    } else {
-      // 追加
-      setCurrentSelectPlayers([
-        ...currentSelectedPlayers,
-        {
-          id: player.id,
-          name: player.name,
-          initial_correct: 0,
-          initial_wrong: 0,
-          base_correct_point: 1,
-          base_wrong_point: -1,
-        } as GameDBPlayerProps,
-      ]);
-    }
-  };
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
     const data = row.original;
@@ -96,58 +60,101 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   };
 
   const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns: ColumnDef<PlayerDBProps, any>[] = [
-    columnHelper.accessor("id", {
-      header: "",
-      cell: (info) => {
-        return <Checkbox value={info.getValue()} />;
-      },
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("name", {
-      header: "氏名",
-      cell: (info) => {
-        return (
-          <div onClick={() => onChangeHandler(info.row.original)}>
-            {info.row.original.name}
-          </div>
-        );
-      },
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("text", {
-      header: "順位",
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("belong", {
-      header: "所属",
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("tags", {
-      header: "タグ",
-      cell: (info) => {
-        return info.row.original.tags.map((tag, tagi) => (
-          <Tag colorScheme="green" key={tagi} size="sm">
-            {tag}
-          </Tag>
-        ));
-      },
-      footer: (info) => info.column.id,
-    }),
-  ];
+  const columns = useMemo<ColumnDef<PlayerDBProps, any>[]>(
+    () => [
+      columnHelper.accessor("id", {
+        header: "",
+        cell: ({ row }) => {
+          return (
+            <Checkbox
+              {...{
+                isChecked: row.getIsSelected(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          );
+        },
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("name", {
+        header: "氏名",
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("text", {
+        header: "順位",
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("belong", {
+        header: "所属",
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("tags", {
+        header: "タグ",
+        cell: (info) => {
+          return info.row.original.tags.map((tag, tagi) => (
+            <Tag colorScheme="green" key={tagi} size="sm">
+              {tag}
+            </Tag>
+          ));
+        },
+        footer: (info) => info.column.id,
+      }),
+    ],
+    []
+  );
 
   const table = useReactTable<PlayerDBProps>({
     data: playerList,
     columns,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       globalFilter: searchText,
+      rowSelection,
     },
   });
+
+  useEffect(() => {
+    const initialPlayerIdList: any = {};
+    gamePlayers.forEach((_gamePlayer, i) => {
+      initialPlayerIdList[i] = true;
+    });
+    console.log(initialPlayerIdList);
+    setRowSelection(initialPlayerIdList);
+  }, []);
+
+  useDidUpdateEffect(() => {
+    const newGamePlayerIds = table
+      .getSelectedRowModel()
+      .rows.map(({ original }) => (original as PlayerDBProps).id);
+    const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map((id) => {
+      const previousGamePlayer = gamePlayers.find(
+        (gamePlayer) => gamePlayer.id === id
+      );
+      if (previousGamePlayer) {
+        return previousGamePlayer;
+      } else {
+        const player_name = playerList.find((player) => player.id === id)?.name;
+        return {
+          id,
+          name: player_name || "不明なユーザー",
+          initial_correct: 0,
+          initial_wrong: 0,
+          base_correct_point: 1,
+          base_wrong_point: -1,
+        } as GameDBPlayerProps;
+      }
+    });
+    db.games.update(game_id, {
+      players: newGamePlayers,
+    });
+  }, [rowSelection]);
 
   return (
     <>
@@ -188,24 +195,22 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                 ))}
               </Thead>
               <Tbody>
-                <CheckboxGroup defaultValue={gamePlayers.map((p) => p.id)}>
-                  {table.getRowModel().rows.map((row) => {
-                    return (
-                      <Tr key={row.id}>
-                        {row.getVisibleCells().map((cell) => {
-                          return (
-                            <Td key={cell.id}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </Td>
-                          );
-                        })}
-                      </Tr>
-                    );
-                  })}
-                </CheckboxGroup>
+                {table.getRowModel().rows.map((row) => {
+                  return (
+                    <Tr key={row.id}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <Td key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </Td>
+                        );
+                      })}
+                    </Tr>
+                  );
+                })}
               </Tbody>
             </Table>
           </TableContainer>

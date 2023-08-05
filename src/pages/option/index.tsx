@@ -31,7 +31,7 @@ import {
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import Preferences from "#/components/Preferences";
+import Preferences from "#/components/block/Preferences";
 import db from "#/utils/db";
 import { webhookUrlAtom } from "#/utils/jotai";
 
