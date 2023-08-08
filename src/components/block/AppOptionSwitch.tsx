@@ -1,12 +1,8 @@
 import { useId } from "react";
 
-import {
-  Box,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Switch,
-} from "@chakra-ui/react";
+import { FormHelperText, Switch } from "@chakra-ui/react";
+
+import InputLayout from "../common/InputLayout";
 
 type AppOptionSwitchProps = {
   title: string;
@@ -23,21 +19,13 @@ const AppOptionSwitch: React.FC<AppOptionSwitchProps> = ({
 }) => {
   const formId = useId();
   return (
-    <FormControl
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
+    <InputLayout
+      helperText={label && <FormHelperText>{label}</FormHelperText>}
+      id={formId}
+      label={title}
     >
-      <Box>
-        <FormLabel htmlFor={formId} sx={{ flexGrow: 1 }}>
-          {title}
-        </FormLabel>
-        {label && <FormHelperText>{label}</FormHelperText>}
-      </Box>
       <Switch id={formId} isChecked={isChecked} onChange={onChange} size="lg" />
-    </FormControl>
+    </InputLayout>
   );
 };
 

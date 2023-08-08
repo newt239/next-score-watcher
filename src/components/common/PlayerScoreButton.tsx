@@ -83,7 +83,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
     overflow: "hidden",
-    cursor: disabled || color === "green" || editable ? "default" : "pointer",
+    cursor:
+      disabled && color === "gray"
+        ? "not-allowed"
+        : disabled || color === "green" || editable
+        ? "default"
+        : "pointer",
   };
 
   const handleClick = async () => {

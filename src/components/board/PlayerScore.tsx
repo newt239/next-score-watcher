@@ -239,23 +239,17 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton
-              color="red"
+              color={player.text === "休" ? "gray" : "red"}
               compact
-              disabled={
-                player.is_incapacity ||
-                (qn === player.last_wrong + 1 && player.stage === 1)
-              }
+              disabled={player.text === "休"}
               {...props}
             >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
-              color="blue"
+              color={player.text === "休" ? "gray" : "blue"}
               compact
-              disabled={
-                player.is_incapacity ||
-                (qn === player.last_wrong + 1 && player.stage === 1)
-              }
+              disabled={player.text === "休"}
               {...props}
             >
               {numberSign("wrong", player.wrong)}

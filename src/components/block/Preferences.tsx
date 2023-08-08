@@ -1,4 +1,4 @@
-import { Stack, useColorMode } from "@chakra-ui/react";
+import { useColorMode, VStack } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 
 import AppOptionSwitch from "#/components/block/AppOptionSwitch";
@@ -31,7 +31,7 @@ const Preferences = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Stack sx={{ gap: 5, pt: 5 }}>
+    <VStack sx={{ pt: 5 }}>
       <AppOptionSwitch
         isChecked={colorMode === "dark"}
         onChange={() => toggleColorMode()}
@@ -75,7 +75,7 @@ const Preferences = () => {
         onChange={() => setWrongNumber((v) => !v)}
         title="誤答数が4以下のとき✕の数で表示"
       />
-    </Stack>
+    </VStack>
   );
 };
 

@@ -106,7 +106,7 @@ const ConfigPage = () => {
               borderRadius: "0.5rem",
               borderWidth: 1,
               borderStyle: "solid",
-              borderColor: "gray.700",
+              borderColor: "gray.200",
               button: {
                 justifyContent: "flex-start",
               },
@@ -117,11 +117,17 @@ const ConfigPage = () => {
                 borderRadius: "0 0 0.5rem 0.5rem",
               },
               "button:hover": {
-                bgColor: "gray.700",
+                bgColor: "gray.200",
               },
               "button[aria-selected='true']": {
                 bgColor: "green.500",
                 color: "black",
+              },
+              _dark: {
+                borderColor: "gray.700",
+                "button:hover": {
+                  bgColor: "gray.700",
+                },
               },
             }}
           >

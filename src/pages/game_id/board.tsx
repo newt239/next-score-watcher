@@ -208,9 +208,9 @@ const BoardPage = () => {
       />
       <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
         <Flex
+          _dark={{ bg: "gray.700", color: "white" }}
           alignItems="center"
-          bg="gray.700"
-          color="white"
+          bg="gray.100"
           flexDirection={isDesktop ? "row" : "column"}
           gap={1}
           justifyContent="space-between"
