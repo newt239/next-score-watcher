@@ -44,6 +44,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
                   h: "1rem",
                   overflowX: "hidden",
                   textOverflow: "ellipsis",
+                  textAlign: "center",
                 }}
               >
                 {belong}

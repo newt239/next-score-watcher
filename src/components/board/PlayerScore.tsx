@@ -229,9 +229,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "z" && (
         <>
           <PlayerScoreButton
-            color={player.text === "LOCKED" ? "blue" : player.state}
+            color={player.text === "休" ? "blue" : player.state}
             disabled
-            filled={player.text === "LOCKED"}
+            filled={player.text === "休"}
             {...props}
           >
             {player.text}
