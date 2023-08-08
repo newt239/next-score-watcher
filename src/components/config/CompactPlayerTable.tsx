@@ -46,6 +46,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   playerList,
   gamePlayers,
 }) => {
+  const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState({});
   const [searchText, setSearchText] = useState<string>("");
 
@@ -121,11 +122,12 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   });
 
   useEffect(() => {
-    const initialPlayerIdList: any = {};
-    gamePlayers.forEach((_gamePlayer, i) => {
-      initialPlayerIdList[i] = true;
+    const initialPlayerIdList: { [key: number]: boolean } = {};
+    playerList.forEach((player, i) => {
+      if (gamePlayerIds.includes(player.id)) {
+        initialPlayerIdList[i] = true;
+      }
     });
-    console.log(initialPlayerIdList);
     setRowSelection(initialPlayerIdList);
   }, []);
 
