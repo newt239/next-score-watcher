@@ -66,7 +66,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           }}
         >
           {text === "" && belong === "" && (
-            <Box sx={{ opacity: 0.3 }}>Player{index + 1}</Box>
+            <Box sx={{ opacity: 0.3 }}>プレイヤー{index + 1}</Box>
           )}
           <span>{text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>

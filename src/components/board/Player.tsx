@@ -88,7 +88,7 @@ const Player: React.FC<PlayerProps> = ({
         color:
           getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : theme.colors.gray[800]),
-        borderWidth: !isVerticalView && isDesktop ? 3 : 1,
+        borderWidth: 3,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
@@ -96,7 +96,7 @@ const Player: React.FC<PlayerProps> = ({
           (colorMode === "dark"
             ? theme.colors.gray[700]
             : theme.colors.gray[50]),
-        borderRadius: !isVerticalView && isDesktop ? "1rem" : "0.5rem",
+        borderRadius: "1rem",
         overflowX: "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",

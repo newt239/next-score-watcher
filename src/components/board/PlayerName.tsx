@@ -26,7 +26,7 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
         fontFamily: "BIZ UDGothic",
         fontSize:
           !isVerticalView && isDesktop
-            ? `min(calc(45vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
+            ? `min(calc(50vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
             : "2rem",
         fontWeight: 800,
         w: "100%",

@@ -75,7 +75,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         )}), 3.5vw))`,
     fontWeight: 800,
     lineHeight: !isVerticalView ? "3rem" : "100%",
-    w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3rem" : "6rem",
+    w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3.5rem" : "6rem",
     h: isDesktop && !isVerticalView ? "3rem" : "100%",
     textAlign: "center",
     borderRadius: 0,
