@@ -56,9 +56,11 @@ const GameList: React.FC = () => {
     });
 
   return (
-    <Box pt={5}>
-      <h2>作成したゲーム</h2>
-      <Flex sx={{ pb: 3, justifyContent: "flex-end" }}>
+    <Box pt={10}>
+      <Flex
+        sx={{ pb: 3, justifyContent: "space-between", alignItems: "center" }}
+      >
+        <h2>作成したゲーム</h2>
         <Select
           defaultValue={orderType}
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}

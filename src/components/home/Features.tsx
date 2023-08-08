@@ -81,67 +81,65 @@ const Features: React.FC = () => {
   ];
 
   return (
-    <Box>
-      <Box>
-        <h2>主な機能</h2>
-        {isDesktop ? (
-          <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
-            <TabList>
-              {features.map((feature) => (
-                <Tab key={feature.title}>{feature.title}</Tab>
-              ))}
-            </TabList>
-            <TabPanels>
-              {features.map((feature) => (
-                <TabPanel key={feature.title}>
-                  {feature.image ? (
-                    <Flex sx={{ gap: 3 }}>
-                      <Box w="30%">
-                        <h3>{feature.title}</h3>
-                        <Box>{feature.description}</Box>
-                      </Box>
-                      <Box w="70%">
-                        <Image
-                          alt={`画像: ${feature.title}`}
-                          src={"images/" + feature.image}
-                          sx={{ borderRadius: "1rem" }}
-                        />
-                      </Box>
-                    </Flex>
-                  ) : (
-                    <Box>{feature.description}</Box>
-                  )}
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </Tabs>
-        ) : (
-          <Accordion defaultIndex={0} pt={5}>
+    <Box pt={10}>
+      <h2>主な機能</h2>
+      {isDesktop ? (
+        <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
+          <TabList>
             {features.map((feature) => (
-              <AccordionItem key={feature.title}>
-                <AccordionButton>
-                  <Box flex={1} textAlign="left">
-                    <h2 style={{ fontSize: "1rem", padding: 0 }}>
-                      {feature.title}
-                    </h2>
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                  {feature.image && (
-                    <Image
-                      alt={`画像: ${feature.title}`}
-                      src={"images/" + feature.image}
-                      sx={{ borderRadius: "1rem" }}
-                    />
-                  )}
-                  <Box pt={3}>{feature.description}</Box>
-                </AccordionPanel>
-              </AccordionItem>
+              <Tab key={feature.title}>{feature.title}</Tab>
             ))}
-          </Accordion>
-        )}
-      </Box>
+          </TabList>
+          <TabPanels>
+            {features.map((feature) => (
+              <TabPanel key={feature.title}>
+                {feature.image ? (
+                  <Flex sx={{ gap: 3 }}>
+                    <Box w="30%">
+                      <h3>{feature.title}</h3>
+                      <Box>{feature.description}</Box>
+                    </Box>
+                    <Box w="70%">
+                      <Image
+                        alt={`画像: ${feature.title}`}
+                        src={"images/" + feature.image}
+                        sx={{ borderRadius: "1rem" }}
+                      />
+                    </Box>
+                  </Flex>
+                ) : (
+                  <Box>{feature.description}</Box>
+                )}
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
+      ) : (
+        <Accordion defaultIndex={0} pt={5}>
+          {features.map((feature) => (
+            <AccordionItem key={feature.title}>
+              <AccordionButton>
+                <Box flex={1} textAlign="left">
+                  <h2 style={{ fontSize: "1rem", padding: 0 }}>
+                    {feature.title}
+                  </h2>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                {feature.image && (
+                  <Image
+                    alt={`画像: ${feature.title}`}
+                    src={"images/" + feature.image}
+                    sx={{ borderRadius: "1rem" }}
+                  />
+                )}
+                <Box pt={3}>{feature.description}</Box>
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      )}
     </Box>
   );
 };

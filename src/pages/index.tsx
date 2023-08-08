@@ -16,8 +16,8 @@ const HomePage: React.FC = () => {
     <>
       <Hero />
       <Container>
-        <Features />
         <GameList />
+        <Features />
         <Term />
       </Container>
     </>
