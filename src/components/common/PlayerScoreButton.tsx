@@ -1,4 +1,4 @@
-import { useId } from "react";
+import React, { useId } from "react";
 
 import {
   Button,
@@ -19,13 +19,13 @@ import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
-  children: string;
   filled?: boolean;
   compact?: boolean;
   game_id: string;
   player_id: string;
   editable: boolean;
   disabled?: boolean;
+  children: string;
 };
 
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
@@ -38,6 +38,13 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   editable,
   disabled,
 }) => {
+  const numberSign = children.endsWith("pt")
+    ? "pt"
+    : children.endsWith("○")
+    ? "correct"
+    : children.endsWith("✕")
+    ? "wrong"
+    : "none";
   const id = useId();
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
@@ -58,12 +65,14 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const ButtonCssStyle: SystemStyleObject = {
     display: "block",
     fontSize: isDesktop
-      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
-          compact || isVerticalView ? "4.5vw" : "48px"
-        })`
-      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${
-          children.length
-        }), 3.5vw))`,
+      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
+          children.length - (numberSign !== "none" ? 1 : 0),
+          2
+        )}), 3rem)`
+      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${Math.max(
+          children.length - (numberSign !== "none" ? 1 : 0),
+          2
+        )}), 3.5vw))`,
     fontWeight: 800,
     lineHeight: !isVerticalView ? "3rem" : "100%",
     w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3rem" : "6rem",
@@ -127,7 +136,16 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           sx={ButtonCssStyle}
           variant="unstyled"
         >
-          {children}
+          {numberSign === "none" ? (
+            children
+          ) : (
+            <>
+              <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
+              <span style={{ fontSize: "75%" }}>
+                {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
+              </span>
+            </>
+          )}
         </Button>
       )}
     </>

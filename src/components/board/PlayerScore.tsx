@@ -43,6 +43,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         backgroundColor:
           colorMode === "light" ? "white" : theme.colors.gray[800],
         pr: !isVerticalView && isDesktop ? undefined : "0.5rem",
+        gap: "0.5rem",
       }}
     >
       {game.rule === "normal" && (
