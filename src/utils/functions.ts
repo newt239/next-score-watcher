@@ -7,93 +7,97 @@ import { rules } from "#/utils/rules";
 import { GameDBProps, RuleNames, States } from "#/utils/types";
 
 export const createGame = async (
-  rule_name: RuleNames,
-  game?: GameDBProps,
-  name?: string,
-  type?: "copy"
+  param:
+    | RuleNames
+    | {
+        game: GameDBProps;
+        action_type: "copy-rule" | "copy-all";
+      }
 ) => {
-  if (type === "copy" && game) {
+  if (typeof param !== "string") {
     const game_id = await db.games.put({
-      ...game,
+      ...param.game,
       id: nanoid(),
-      name: name ? name : rules[game.rule].name,
+      name: `${param.game.name}のコピー`,
+      players: param.action_type === "copy-rule" ? [] : param.game.players,
     });
     return game_id;
-  }
-  try {
-    const game_id = nanoid(6);
-    const putData: GameDBProps = {
-      id: game_id,
-      name: name ? name : rules[rule_name].name,
-      players: [],
-      rule: rule_name,
-      correct_me: 1,
-      wrong_me: -1,
-      editable: false,
-      last_open: cdate().text(),
-    };
-    switch (rule_name) {
-      case "nomx":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "nomx-ad":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "ny":
-        putData.win_point = rules[rule_name].win_point;
-        break;
-      case "nomr":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "nbyn":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "nupdown":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "swedish10":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "backstream":
-        putData.win_point = rules[rule_name].win_point;
-        putData.lose_point = rules[rule_name].lose_point;
-        break;
-      case "attacksurvival":
-        putData.win_point = rules[rule_name].win_point;
-        putData.win_through = rules[rule_name].win_through;
-        putData.correct_me = rules[rule_name].correct_me;
-        putData.wrong_me = rules[rule_name].wrong_me;
-        putData.correct_other = rules[rule_name].correct_other;
-        putData.wrong_other = rules[rule_name].wrong_other;
-        break;
-      case "squarex":
-        putData.win_point = rules[rule_name].win_point;
-        break;
-      case "z":
-        putData.win_point = 10;
-        break;
-      case "freezex":
-        putData.win_point = rules[rule_name].win_point;
-        break;
-      case "variables":
-        putData.win_point = rules[rule_name].win_point;
-        break;
+  } else {
+    try {
+      const game_id = nanoid(6);
+      const putData: GameDBProps = {
+        id: game_id,
+        name: rules[param].name,
+        players: [],
+        rule: param,
+        correct_me: 1,
+        wrong_me: -1,
+        editable: false,
+        last_open: cdate().text(),
+      };
+      switch (param) {
+        case "nomx":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "nomx-ad":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "ny":
+          putData.win_point = rules[param].win_point;
+          break;
+        case "nomr":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "nbyn":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "nupdown":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "swedish10":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "backstream":
+          putData.win_point = rules[param].win_point;
+          putData.lose_point = rules[param].lose_point;
+          break;
+        case "attacksurvival":
+          putData.win_point = rules[param].win_point;
+          putData.win_through = rules[param].win_through;
+          putData.correct_me = rules[param].correct_me;
+          putData.wrong_me = rules[param].wrong_me;
+          putData.correct_other = rules[param].correct_other;
+          putData.wrong_other = rules[param].wrong_other;
+          break;
+        case "squarex":
+          putData.win_point = rules[param].win_point;
+          break;
+        case "z":
+          putData.win_point = 10;
+          break;
+        case "freezex":
+          putData.win_point = rules[param].win_point;
+          break;
+        case "variables":
+          putData.win_point = rules[param].win_point;
+          break;
+      }
+      ReactGA.send({
+        action: param,
+        category: "create_game",
+        label: game_id,
+      });
+      await db.games.put(putData);
+      return game_id;
+    } catch (err) {
+      console.log(err);
     }
-    ReactGA.send({
-      action: rule_name,
-      category: "create_game",
-      label: game_id,
-    });
-    await db.games.put(putData);
-    return game_id;
-  } catch (err) {
-    console.log(err);
   }
 };
 

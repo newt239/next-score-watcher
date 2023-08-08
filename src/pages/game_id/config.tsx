@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link as ReactLink, useNavigate, useParams } from "react-router-dom";
 
 import {
@@ -23,6 +23,7 @@ import InputLayout from "#/components/common/InputLayout";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigLimit from "#/components/config/ConfigLimit";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
+import CopyGame from "#/components/config/CopyGame";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
@@ -41,8 +42,10 @@ const ConfigPage = () => {
   );
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
+  const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
+    setTabIndex(0);
     db.games.update(game_id as string, { last_open: cdate().text() });
     document.title = "ゲーム設定 | Score Watcher";
   }, []);
@@ -87,6 +90,8 @@ const ConfigPage = () => {
       </InputLayout>
       <Box pt={10}>
         <Tabs
+          index={tabIndex}
+          onChange={(index) => setTabIndex(index)}
           orientation="vertical"
           position="relative"
           sx={{
@@ -269,6 +274,9 @@ const ConfigPage = () => {
                       input_id="discord_webhook_url"
                       placehodler="https://discord.com/api/webhooks/..."
                     />
+                  </InputLayout>
+                  <InputLayout label="ゲームのコピーを作成">
+                    <CopyGame game={game} />
                   </InputLayout>
                   <InputLayout label="ゲームを削除">
                     <Button

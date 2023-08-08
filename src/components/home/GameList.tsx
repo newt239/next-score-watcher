@@ -121,12 +121,7 @@ const GameList: React.FC = () => {
                             <MenuItem
                               icon={<Copy />}
                               onClick={() =>
-                                createGame(
-                                  game.rule,
-                                  game,
-                                  `${game.name}のコピー`,
-                                  "copy"
-                                )
+                                createGame({ game, action_type: "copy-all" })
                               }
                             >
                               コピーを作成
