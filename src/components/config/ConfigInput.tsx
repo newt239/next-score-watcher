@@ -14,21 +14,23 @@ import db from "#/utils/db";
 import { GameDBProps } from "#/utils/types";
 
 type ConfigInputProps = {
+  id?: string;
   input_id: keyof GameDBProps;
-  label: string;
+  label?: string;
   placehodler: string;
   disabled?: boolean;
   helperText?: React.ReactNode;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
+  id,
   input_id,
   label,
   placehodler,
   disabled,
   helperText,
 }) => {
-  const id = useId();
+  const innerId = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
@@ -50,12 +52,25 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 
   if (!game) return null;
 
-  return (
-    <FormControl pt={2}>
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+  if (!label)
+    return (
       <Input
         disabled={disabled}
-        id={id}
+        id={innerId}
+        onChange={(v) => setInputText(v.target.value)}
+        placeholder={placehodler}
+        type="text"
+        value={inputText}
+        w="auto"
+      />
+    );
+
+  return (
+    <FormControl>
+      <FormLabel htmlFor={innerId}>{label}</FormLabel>
+      <Input
+        disabled={disabled}
+        id={id || innerId}
         onChange={(v) => setInputText(v.target.value)}
         placeholder={placehodler}
         type="text"

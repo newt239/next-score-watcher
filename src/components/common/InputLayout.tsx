@@ -1,13 +1,21 @@
-import { FormControl, FormLabel, HStack } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  HStack,
+  VStack,
+} from "@chakra-ui/react";
 
 type InputLayoutProps = {
   label: string;
+  helperText?: React.ReactNode;
   simple?: boolean;
   children: React.ReactNode;
 };
 
 const InputLayout: React.FC<InputLayoutProps> = ({
   label,
+  helperText,
   simple = false,
   children,
 }) => {
@@ -22,7 +30,10 @@ const InputLayout: React.FC<InputLayoutProps> = ({
         p: 2,
       }}
     >
-      <FormLabel m={0}>{label}</FormLabel>
+      <VStack align="stretch">
+        <FormLabel m={0}>{label}</FormLabel>
+        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      </VStack>
       {children}
     </FormControl>
   );

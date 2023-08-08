@@ -66,7 +66,6 @@ const ConfigPage = () => {
           ))}
         </div>
       </Card>
-
       <InputLayout
         label={
           game.players.length === 0
@@ -230,26 +229,6 @@ const ConfigPage = () => {
                   </>
                 )}
               </Grid>
-              <Box pt={5}>
-                <ConfigInput
-                  helperText={
-                    <>
-                      プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。詳しくは
-                      <Link
-                        as={ReactLink}
-                        color="blue.500"
-                        to={`/option/webhook?from=${game.id}`}
-                      >
-                        webhookについて
-                      </Link>
-                      を御覧ください。
-                    </>
-                  }
-                  input_id="discord_webhook_url"
-                  label="Discord Webhook URL"
-                  placehodler="https://discord.com/api/webhooks/..."
-                />
-              </Box>
             </TabPanel>
             <TabPanel>
               <SelectPlayer
@@ -270,6 +249,27 @@ const ConfigPage = () => {
                 />
                 <VStack align="stretch" gap={0}>
                   <h3>ゲーム</h3>
+                  <InputLayout
+                    helperText={
+                      <>
+                        プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。詳しくは
+                        <Link
+                          as={ReactLink}
+                          color="blue.500"
+                          to={`/option/webhook?from=${game.id}`}
+                        >
+                          webhookについて
+                        </Link>
+                        を御覧ください。
+                      </>
+                    }
+                    label="Discord Webhook"
+                  >
+                    <ConfigInput
+                      input_id="discord_webhook_url"
+                      placehodler="https://discord.com/api/webhooks/..."
+                    />
+                  </InputLayout>
                   <InputLayout label="ゲームを削除">
                     <Button
                       colorScheme="red"
