@@ -1,19 +1,18 @@
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Box,
   Button,
-  Flex,
-  FormControl,
-  FormLabel,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
   Select,
+  VStack,
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
+
+import InputLayout from "../common/InputLayout";
 
 import db from "#/utils/db";
 import { GameDBQuizProps } from "#/utils/types";
@@ -30,12 +29,11 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   quizset_names,
 }) => {
   return (
-    <Box pt={10}>
-      <h2>問題設定</h2>
+    <VStack align="stretch" gap={0}>
+      <h3>問題設定</h3>
       {quizset_names.length !== 0 ? (
-        <Flex sx={{ gap: 5 }}>
-          <FormControl pt={2} width={200}>
-            <FormLabel>セット名</FormLabel>
+        <>
+          <InputLayout label="セット名">
             <Select
               defaultValue={game_quiz?.set_name || ""}
               onChange={async (v) => {
@@ -46,6 +44,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                   } as GameDBQuizProps,
                 });
               }}
+              w="auto"
             >
               <option value="">問題を表示しない</option>
               {quizset_names.map((setname) => (
@@ -54,13 +53,12 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                 </option>
               ))}
             </Select>
-          </FormControl>
+          </InputLayout>
           {game_quiz && game_quiz.set_name !== "" && (
-            <FormControl pt={5} width={200}>
-              <FormLabel>オフセット</FormLabel>
+            <InputLayout label="オフセット">
               <NumberInput
                 min={0}
-                onChange={(s, n) => {
+                onChange={(_s, n) => {
                   db.games.update(game_id as string, {
                     quiz: {
                       set_name: game_quiz.set_name,
@@ -76,11 +74,11 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-            </FormControl>
+            </InputLayout>
           )}
-        </Flex>
+        </>
       ) : (
-        <Box>
+        <InputLayout label="">
           <Button
             as={ReactLink}
             colorScheme="blue"
@@ -89,9 +87,9 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           >
             問題データを読み込む
           </Button>
-        </Box>
+        </InputLayout>
       )}
-    </Box>
+    </VStack>
   );
 };
 

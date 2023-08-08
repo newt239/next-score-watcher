@@ -125,7 +125,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   }, [sortableList]);
 
   return (
-    <Box pt={10}>
+    <Box>
       <h2>プレイヤー設定</h2>
       <Spacer h={2} />
       {playerList.length === 0 ? (
