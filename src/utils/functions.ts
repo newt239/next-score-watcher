@@ -34,6 +34,7 @@ export const createGame = async (
         wrong_me: -1,
         editable: false,
         last_open: cdate().text(),
+        discord_webhook_url: "",
       };
       switch (param) {
         case "nomx":

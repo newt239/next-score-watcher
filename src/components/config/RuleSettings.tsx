@@ -13,7 +13,7 @@ type RuleSettingsProps = {
 const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
   return (
     <>
-      <ConfigInput input_id="name" label="ゲーム名" placehodler="〇〇大会" />
+      <ConfigInput input_id="name" label="ゲーム名" placeholder="〇〇大会" />
       {game.rule !== "normal" && (
         <ConfigLimit
           game_id={game.id}

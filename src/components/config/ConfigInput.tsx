@@ -14,19 +14,17 @@ import db from "#/utils/db";
 import { GameDBProps } from "#/utils/types";
 
 type ConfigInputProps = {
-  id?: string;
   input_id: keyof GameDBProps;
-  label?: string;
-  placehodler: string;
+  label: string;
+  placeholder: string;
   disabled?: boolean;
   helperText?: React.ReactNode;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
-  id,
   input_id,
   label,
-  placehodler,
+  placeholder,
   disabled,
   helperText,
 }) => {
@@ -52,27 +50,14 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 
   if (!game) return null;
 
-  if (!label)
-    return (
-      <Input
-        disabled={disabled}
-        id={innerId}
-        onChange={(v) => setInputText(v.target.value)}
-        placeholder={placehodler}
-        type="text"
-        value={inputText}
-        w="auto"
-      />
-    );
-
   return (
-    <FormControl>
+    <FormControl p={2}>
       <FormLabel htmlFor={innerId}>{label}</FormLabel>
       <Input
-        disabled={disabled}
-        id={id || innerId}
+        id={innerId}
+        isDisabled={disabled}
         onChange={(v) => setInputText(v.target.value)}
-        placeholder={placehodler}
+        placeholder={placeholder}
         type="text"
         value={inputText}
       />

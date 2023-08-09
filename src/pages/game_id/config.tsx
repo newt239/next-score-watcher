@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   Container,
-  Link,
   TabPanel,
   TabPanels,
   Tabs,
@@ -123,58 +122,45 @@ const ConfigPage = () => {
             </TabPanel>
             <TabPanel>
               <h2>その他の設定</h2>
-              <VStack align="stretch" gap={5} pt={5}>
+              <VStack align="stretch" gap={0} pt={5}>
                 <SelectQuizset
                   game_id={game.id}
                   game_quiz={game.quiz}
                   quizset_names={quizsetList}
                 />
-                <VStack align="stretch" gap={0}>
-                  <h3>ゲーム</h3>
-                  <InputLayout
-                    helperText={
-                      <>
-                        プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。詳しくは
-                        <Link
-                          as={ReactLink}
-                          color="blue.500"
-                          to={`/option/webhook?from=${game.id}`}
-                        >
-                          webhookについて
-                        </Link>
-                        を御覧ください。
-                      </>
-                    }
-                    label="Discord Webhook"
+              </VStack>
+              <VStack align="stretch" gap={0} pt={5}>
+                <h3>オプション</h3>
+                <ConfigInput
+                  input_id="discord_webhook_url"
+                  label="Discord Webhook"
+                  placeholder="https://discord.com/api/webhooks/..."
+                />
+              </VStack>
+              <VStack align="stretch" gap={0} pt={5}>
+                <h3>ゲーム</h3>
+                <InputLayout label="ゲームのコピーを作成">
+                  <CopyGame game={game} />
+                </InputLayout>
+                <InputLayout label="ゲームを削除">
+                  <Button
+                    colorScheme="red"
+                    leftIcon={<Trash />}
+                    onClick={onOpen}
                   >
-                    <ConfigInput
-                      input_id="discord_webhook_url"
-                      placehodler="https://discord.com/api/webhooks/..."
-                    />
-                  </InputLayout>
-                  <InputLayout label="ゲームのコピーを作成">
-                    <CopyGame game={game} />
-                  </InputLayout>
-                  <InputLayout label="ゲームを削除">
-                    <Button
-                      colorScheme="red"
-                      leftIcon={<Trash />}
-                      onClick={onOpen}
-                    >
-                      削除する
-                    </Button>
-                  </InputLayout>
-                  <AlertDialog
-                    body="ゲームを削除します。この操作は取り消せません。"
-                    isOpen={isOpen}
-                    onClose={onClose}
-                    onConfirm={() => {
-                      deleteGame();
-                      onClose();
-                    }}
-                    title="ゲームを削除"
-                  />
-                </VStack>
+                    削除する
+                  </Button>
+                </InputLayout>
+                <AlertDialog
+                  body="ゲームを削除します。この操作は取り消せません。"
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  onConfirm={() => {
+                    deleteGame();
+                    onClose();
+                  }}
+                  title="ゲームを削除"
+                />
               </VStack>
             </TabPanel>
           </TabPanels>
