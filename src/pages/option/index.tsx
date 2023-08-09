@@ -53,7 +53,7 @@ const OptionPage = () => {
       <Box pt={5}>
         <h2>アプリ設定</h2>
         <Preferences />
-        <VStack gap="0.5rem" pt="0.5rem">
+        <VStack gap="0.5rem" pt={2} px={2}>
           <FormControl>
             <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
             <FormHelperText>

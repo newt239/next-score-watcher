@@ -11,6 +11,7 @@ type InputLayoutProps = {
   label: string;
   helperText?: React.ReactNode;
   simple?: boolean;
+  vertical?: boolean;
   children: React.ReactNode;
 };
 
@@ -19,13 +20,16 @@ const InputLayout: React.FC<InputLayoutProps> = ({
   label,
   helperText,
   simple = false,
+  vertical = false,
   children,
 }) => {
   return (
     <FormControl
       as={HStack}
       sx={{
+        flexDirection: vertical ? "column" : "row",
         justifyContent: "space-between",
+        alignItems: vertical ? "stretch" : "center",
         borderStyle: "solid",
         borderColor: "gray.200",
         borderBottomWidth: simple ? 0 : 1,

@@ -100,10 +100,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             borderRadius: "xl",
             padding: isDesktop ? 3 : undefined,
             maxWidth: "70vw",
-            maxHeight: "100%",
+            maxHeight: "95%",
+            overflow: "hidden",
           }}
         >
-          <h2 className="p0">{game.name}</h2>
+          <h2 style={{ lineHeight: "2rem" }}>{game.name}</h2>
           <p>{getRuleStringByType(game)}</p>
         </Box>
         {game.editable ||

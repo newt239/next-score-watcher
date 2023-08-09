@@ -81,6 +81,7 @@ const ConfigPage = () => {
             : ""
         }
         simple
+        vertical={!isDesktop}
       >
         <Button
           as={ReactLink}

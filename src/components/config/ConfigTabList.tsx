@@ -26,7 +26,7 @@ const ConfigTabList: React.FC = () => {
           bgColor: "gray.200",
         },
         "button[aria-selected='true']": {
-          bgColor: "green.500",
+          bgColor: "blue.500",
           color: "white",
         },
         _dark: {
@@ -35,7 +35,7 @@ const ConfigTabList: React.FC = () => {
             bgColor: "gray.700",
           },
           "button[aria-selected='true']": {
-            bgColor: "green.500",
+            bgColor: "blue.500",
             color: "white",
           },
         },

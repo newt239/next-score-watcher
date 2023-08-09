@@ -6,6 +6,7 @@ import {
   Button,
   Flex,
   IconButton,
+  ScaleFade,
   Slide,
   theme,
   Tooltip,
@@ -163,39 +164,42 @@ const BoardPage = () => {
           }}
         />
       )}
-      <Flex
-        id="players-area"
-        sx={{
-          flexDirection: isDesktop && !isVerticalView ? "row" : "column",
-          justifyContent:
-            isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
-          flexWrap: isVerticalView ? "wrap" : "nowrap",
-          gap: "1.5vh 1vw",
-          w: "100%",
-          h: isDesktop ? "85vh" : undefined,
-          px: "1vw",
-          pt: "3vh",
-        }}
-      >
-        {players.map((player, i) => (
-          <Player
-            index={i}
-            key={i}
-            last_correct_player={
-              scores.length !== 0
-                ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
-                    .player_id
-                : ""
-            }
-            player={player}
-            qn={logs.length}
-            score={scores.find(
-              (score) =>
-                score.game_id === game.id && score.player_id === player.id
-            )}
-          />
-        ))}
-      </Flex>
+      <ScaleFade in={players.length !== 0} unmountOnExit>
+        <Flex
+          id="players-area"
+          sx={{
+            display: "flex",
+            flexDirection: isDesktop && !isVerticalView ? "row" : "column",
+            justifyContent:
+              isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
+            flexWrap: isVerticalView ? "wrap" : "nowrap",
+            gap: "1.5vh 1vw",
+            w: "100%",
+            h: isDesktop ? "85vh" : undefined,
+            px: "1vw",
+            pt: "3vh",
+          }}
+        >
+          {players.map((player, i) => (
+            <Player
+              index={i}
+              key={i}
+              last_correct_player={
+                scores.length !== 0
+                  ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
+                      .player_id
+                  : ""
+              }
+              player={player}
+              qn={logs.length}
+              score={scores.find(
+                (score) =>
+                  score.game_id === game.id && score.player_id === player.id
+              )}
+            />
+          ))}
+        </Flex>
+      </ScaleFade>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs logs={logs} players={players} quiz={game.quiz} />
