@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
@@ -18,10 +18,29 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
 
   return (
     <>
-      {!isVerticalView ? (
+      {isVerticalView ? (
         <Box
           sx={{
-            display: "flex",
+            w: "100%",
+            fontSize: "0.8rem",
+            lineHeight: "0.8rem",
+            fontWeight: 800,
+            pt: 1,
+            whiteSpace: "nowrap",
+            overflowX: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {text === "" && belong === "" && (
+            <Box sx={{ opacity: 0.3 }}>プレイヤー{index + 1}</Box>
+          )}
+          <span>{text}</span>
+          <span>{text !== "" && belong !== "" && " ・ "}</span>
+          <span>{belong !== "" && belong}</span>
+        </Box>
+      ) : (
+        <Flex
+          sx={{
             flexDirection: reversePlayerInfo ? "column-reverse" : "column",
             alignItems: "center",
             justifyContent: "center",
@@ -51,27 +70,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
               </Box>
             </>
           )}
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            w: "100%",
-            fontSize: "0.8rem",
-            lineHeight: "0.8rem",
-            fontWeight: 800,
-            pt: 1,
-            whiteSpace: "nowrap",
-            overflowX: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {text === "" && belong === "" && (
-            <Box sx={{ opacity: 0.3 }}>プレイヤー{index + 1}</Box>
-          )}
-          <span>{text}</span>
-          <span>{text !== "" && belong !== "" && " ・ "}</span>
-          <span>{belong !== "" && belong}</span>
-        </Box>
+        </Flex>
       )}
     </>
   );

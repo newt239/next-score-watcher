@@ -40,16 +40,14 @@ const Hero: React.FC = () => {
             >
               ゲームを作る
             </Button>
-            {games && games.length > 0 && (
-              <Button
-                onClick={() =>
-                  window.scrollBy(0, document.documentElement.clientHeight)
-                }
-                rounded={"full"}
-              >
-                作成したゲームを見る
-              </Button>
-            )}
+            <Button
+              onClick={() =>
+                window.scrollBy(0, document.documentElement.clientHeight)
+              }
+              rounded={"full"}
+            >
+              作成したゲームを見る
+            </Button>
           </Stack>
         </Stack>
       </Flex>

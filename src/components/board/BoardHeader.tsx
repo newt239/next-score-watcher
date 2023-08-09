@@ -68,7 +68,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           justifyContent: "space-between",
           alignItems: "center",
           gap: 3,
-          height: isDesktop ? "15vh" : "10vh",
+          height: ["10vh", "10vh", "15vh"],
           px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
@@ -81,18 +81,17 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           },
         }}
       >
-        <Box
+        <Flex
           sx={{
-            display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             borderStyle: "solid",
-            borderWidth: isDesktop ? "thin" : 0,
+            borderWidth: [0, 0, "thin"],
             borderColor: "gray.300",
             borderRadius: "xl",
-            padding: isDesktop ? 3 : undefined,
-            maxWidth: "70vw",
-            maxHeight: "95%",
+            p: [0, 0, 3],
+            maxW: "70vw",
+            maxH: "95%",
             overflow: "hidden",
             _dark: {
               borderColor: "gray.500",
@@ -101,7 +100,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         >
           <h2 style={{ lineHeight: "2rem" }}>{game.name}</h2>
           <p>{getRuleStringByType(game)}</p>
-        </Box>
+        </Flex>
         {game.editable ||
           (isDesktop && (
             <>

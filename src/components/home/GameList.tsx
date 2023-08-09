@@ -25,9 +25,7 @@ const GameList: React.FC = () => {
   const logs = useLiveQuery(() => db.logs.toArray(), []);
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
 
-  if (!games || games.length === 0) return null;
-
-  const parsedGameList = games
+  const parsedGameList = (games || [])
     .sort((prev, cur) => {
       if (orderType === "last_open") {
         if (prev.last_open > cur.last_open) return -1;
@@ -57,9 +55,7 @@ const GameList: React.FC = () => {
 
   return (
     <Box pt={10}>
-      <Flex
-        sx={{ pb: 3, justifyContent: "space-between", alignItems: "center" }}
-      >
+      <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <h2>作成したゲーム</h2>
         <Select
           defaultValue={orderType}
@@ -70,45 +66,51 @@ const GameList: React.FC = () => {
           <option value="name">ゲーム名順</option>
         </Select>
       </Flex>
-      <SimpleGrid
-        pt={3}
-        spacing={3}
-        templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
-      >
-        {parsedGameList.map((game) => (
-          <Card
-            gap={3}
-            justifyContent="space-between"
-            key={game.id}
-            p={3}
-            variant="filled"
-          >
-            <Box>
-              <h3 style={{ whiteSpace: "nowrap", overflowX: "scroll" }}>
-                {game.name}
-              </h3>
-              <Text>
-                {game.type} ／ {game.player_count}人
-              </Text>
-              <Text>進行状況: {game.state}</Text>
-            </Box>
-            <Flex alignItems="center" justifyContent="space-between">
-              <Box sx={{ fontSize: "70%", opacity: 0.5 }}>
-                {cdate(game.last_open).format("MM/DD HH:mm")}
+      {parsedGameList.length === 0 ? (
+        <Text px={5} py={10}>
+          作成済みのゲームはありません
+        </Text>
+      ) : (
+        <SimpleGrid
+          pt={3}
+          spacing={3}
+          templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
+        >
+          {parsedGameList.map((game) => (
+            <Card
+              gap={3}
+              justifyContent="space-between"
+              key={game.id}
+              p={3}
+              variant="filled"
+            >
+              <Box>
+                <h3 style={{ whiteSpace: "nowrap", overflowX: "scroll" }}>
+                  {game.name}
+                </h3>
+                <Text>
+                  {game.type} ／ {game.player_count}人
+                </Text>
+                <Text>進行状況: {game.state}</Text>
               </Box>
-              <Button
-                as={ReactLink}
-                colorScheme="green"
-                leftIcon={<AdjustmentsHorizontal />}
-                size="sm"
-                to={`/${game.id}/config`}
-              >
-                開く
-              </Button>
-            </Flex>
-          </Card>
-        ))}
-      </SimpleGrid>
+              <Flex alignItems="center" justifyContent="space-between">
+                <Box sx={{ fontSize: "70%", opacity: 0.5 }}>
+                  {cdate(game.last_open).format("MM/DD HH:mm")}
+                </Box>
+                <Button
+                  as={ReactLink}
+                  colorScheme="green"
+                  leftIcon={<AdjustmentsHorizontal />}
+                  size="sm"
+                  to={`/${game.id}/config`}
+                >
+                  開く
+                </Button>
+              </Flex>
+            </Card>
+          ))}
+        </SimpleGrid>
+      )}
     </Box>
   );
 };

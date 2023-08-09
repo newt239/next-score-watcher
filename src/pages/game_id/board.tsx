@@ -34,10 +34,6 @@ const BoardPage = () => {
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
     []
   );
-  const quizes = useLiveQuery(
-    () => db.quizes.where({ set_name: game?.quiz?.set_name }),
-    []
-  );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
   const playerList = useLiveQuery(() => db.players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
@@ -173,7 +169,7 @@ const BoardPage = () => {
           flexWrap: isVerticalView ? "wrap" : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: isDesktop ? "85vh" : undefined,
+          h: ["90vh", "90vh", "85vh"],
           px: "1vw",
           pt: "3vh",
         }}
@@ -214,7 +210,7 @@ const BoardPage = () => {
           _dark={{ bg: "gray.700", color: "white" }}
           alignItems="center"
           bg="gray.100"
-          flexDirection={isDesktop ? "row" : "column"}
+          flexDirection={["column", "column", "row"]}
           gap={1}
           justifyContent="space-between"
           m={5}

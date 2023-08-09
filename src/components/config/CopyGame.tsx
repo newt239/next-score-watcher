@@ -18,7 +18,7 @@ const CopyGame: React.FC<CopyGameProps> = ({ game }) => {
       <MenuButton as={Button} rightIcon={<ChevronDown />}>
         コピーする
       </MenuButton>
-      <MenuList>
+      <MenuList minW="auto">
         <MenuItem
           onClick={async () => {
             const game_id = await createGame({
