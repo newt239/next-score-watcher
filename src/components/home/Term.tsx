@@ -4,7 +4,7 @@ import { ExternalLink } from "tabler-icons-react";
 const Term: React.FC = () => {
   return (
     <Box pt={5}>
-      <h2>本アプリのご利用にあたって</h2>
+      <h2>ご利用にあたって</h2>
       <UnorderedList>
         <ListItem>
           データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。

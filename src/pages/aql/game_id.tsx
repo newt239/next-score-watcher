@@ -1,7 +1,7 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Button, Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
@@ -221,9 +221,13 @@ const AQLBoardPage: React.FC = () => {
           fontSize: "max(1.5rem, 1.5vw)",
           backgroundColor:
             state === "win"
-              ? theme.colors.red[colorMode === "light" ? 600 : 300]
+              ? colorMode === "light"
+                ? "red.600"
+                : "red.300"
               : state === "lose"
-              ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+              ? colorMode === "light"
+                ? "blue.600"
+                : "blue.300"
               : undefined,
           p: 1,
           borderRadius: "1rem",
@@ -233,7 +237,7 @@ const AQLBoardPage: React.FC = () => {
           sx={{
             color:
               state !== "playing" && colorMode === "dark"
-                ? theme.colors.gray[800]
+                ? "gray.800"
                 : undefined,
           }}
         >
@@ -244,7 +248,7 @@ const AQLBoardPage: React.FC = () => {
             fontSize: "4.5rem",
             color:
               state !== "playing" && colorMode === "dark"
-                ? theme.colors.gray[800]
+                ? "gray.800"
                 : undefined,
           }}
         >
@@ -277,24 +281,30 @@ const AQLBoardPage: React.FC = () => {
                     borderColor:
                       state !== "playing"
                         ? colorMode === "dark"
-                          ? theme.colors.gray[800]
+                          ? "gray.800"
                           : "white"
                         : reachState
-                        ? theme.colors.red[colorMode === "light" ? 600 : 300]
+                        ? colorMode === "light"
+                          ? "red.600"
+                          : "red.300"
                         : wrong === 1
-                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+                        ? colorMode === "light"
+                          ? "blue.600"
+                          : "blue.300"
                         : undefined,
                     borderRadius: "1rem",
                     p: 2,
                     backgroundColor:
                       state !== "playing"
                         ? colorMode === "dark"
-                          ? theme.colors.gray[800]
+                          ? "gray.800"
                           : "white"
                         : wrong === 2
-                        ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+                        ? colorMode === "light"
+                          ? "blue.600"
+                          : "blue.300"
                         : colorMode === "dark"
-                        ? theme.colors.gray[800]
+                        ? "gray.800"
                         : "white",
                   }}
                 >
@@ -307,8 +317,10 @@ const AQLBoardPage: React.FC = () => {
                     isDisabled={wrong >= 2}
                     onClick={() => onClickHandler("correct", n)}
                     sx={{
-                      color:
-                        theme.colors.red[colorMode === "light" ? 600 : 300],
+                      color: "red.600",
+                      _dark: {
+                        color: "red.300",
+                      },
                     }}
                     variant="ghost"
                   >
@@ -319,8 +331,10 @@ const AQLBoardPage: React.FC = () => {
                     isDisabled={wrong >= 2}
                     onClick={() => onClickHandler("wrong", n)}
                     sx={{
-                      color:
-                        theme.colors.blue[colorMode === "light" ? 600 : 300],
+                      color: "blue.600",
+                      _dark: {
+                        color: "blue.300",
+                      },
                     }}
                     variant="ghost"
                   >

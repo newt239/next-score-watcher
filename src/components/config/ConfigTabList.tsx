@@ -1,14 +1,9 @@
 import { Tab, TabList } from "@chakra-ui/react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-
 const ConfigTabList: React.FC = () => {
-  const isDesktop = useDeviceWidth();
-
   return (
     <TabList
       sx={{
-        w: isDesktop ? "30%" : "100%",
         borderRadius: "0.5rem",
         borderWidth: 1,
         borderStyle: "solid",
@@ -40,6 +35,7 @@ const ConfigTabList: React.FC = () => {
           },
         },
       }}
+      w={{ base: "100%", md: "30%" }}
     >
       <Tab>形式設定</Tab>
       <Tab>プレイヤー設定</Tab>

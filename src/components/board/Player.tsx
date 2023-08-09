@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
@@ -64,9 +64,13 @@ const Player: React.FC<PlayerProps> = ({
 
   const getColor = (state: States) => {
     return state === "win"
-      ? theme.colors.red[colorMode === "light" ? 600 : 300]
+      ? colorMode === "light"
+        ? "red.600"
+        : "red.300"
       : state == "lose"
-      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+      ? colorMode === "light"
+        ? "blue.600"
+        : "blue.300"
       : undefined;
   };
 
@@ -87,15 +91,13 @@ const Player: React.FC<PlayerProps> = ({
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
-          (colorMode === "light" ? "white" : theme.colors.gray[800]),
+          (colorMode === "light" ? "white" : "gray.800"),
         borderWidth: 3,
         borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
           getColor(editedScore.reach_state) ||
-          (colorMode === "dark"
-            ? theme.colors.gray[700]
-            : theme.colors.gray[50]),
+          (colorMode === "dark" ? "gray.700" : "gray.50"),
         borderRadius: "1rem",
         overflowX: "scroll",
         overflowY: "hidden",

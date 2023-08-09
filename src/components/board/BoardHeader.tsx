@@ -12,8 +12,6 @@ import {
   MenuItem,
   MenuList,
   Switch,
-  theme,
-  useColorMode,
   useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -41,7 +39,6 @@ type BoardHeaderProps = {
 };
 
 const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
-  const { colorMode } = useColorMode();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const isDesktop = useDeviceWidth();
@@ -70,20 +67,18 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         sx={{
           justifyContent: "space-between",
           alignItems: "center",
-          gap: "1.5rem",
+          gap: 3,
           height: isDesktop ? "15vh" : "10vh",
-          px: "0.5rem",
+          px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
-          borderColor:
-            colorMode === "light"
-              ? theme.colors.gray[300]
-              : theme.colors.gray[500],
-          backgroundColor:
-            colorMode === "light"
-              ? theme.colors.gray[50]
-              : theme.colors.gray[700],
+          borderColor: "gray.300",
+          bgColor: "gray.50",
           overflow: "hidden",
+          _dark: {
+            borderColor: "gray.500",
+            bgColor: "gray.700",
+          },
         }}
       >
         <Box
@@ -93,15 +88,15 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             justifyContent: "center",
             borderStyle: "solid",
             borderWidth: isDesktop ? "thin" : 0,
-            borderColor:
-              colorMode === "light"
-                ? theme.colors.gray[300]
-                : theme.colors.gray[500],
+            borderColor: "gray.300",
             borderRadius: "xl",
             padding: isDesktop ? 3 : undefined,
             maxWidth: "70vw",
             maxHeight: "95%",
             overflow: "hidden",
+            _dark: {
+              borderColor: "gray.500",
+            },
           }}
         >
           <h2 style={{ lineHeight: "2rem" }}>{game.name}</h2>
@@ -137,27 +132,29 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                       ? "ここに問題文が表示されます"
                       : quizList[game.quiz.offset + qn - 1].q}
                   </div>
-                  <div
-                    style={{
+                  <Box
+                    sx={{
                       textAlign: "right",
-                      color:
-                        theme.colors.red[colorMode === "light" ? 600 : 300],
+                      color: "red.600",
                       fontWeight: 800,
+                      _dark: {
+                        color: "red.300",
+                      },
                     }}
                   >
-                    <span
-                      style={{
-                        backgroundColor:
-                          colorMode === "light"
-                            ? theme.colors.gray[50]
-                            : theme.colors.gray[700],
+                    <Box
+                      sx={{
+                        bgColor: "gray.50",
+                        _dark: {
+                          bgColor: "gray.700",
+                        },
                       }}
                     >
                       {qn === 0
                         ? "ここに答えが表示されます"
                         : quizList[game.quiz.offset + qn - 1].a}
-                    </span>
-                  </div>
+                    </Box>
+                  </Box>
                 </Box>
               )}
             </>
@@ -167,10 +164,10 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             as={IconButton}
             icon={<Settings />}
             sx={{
-              borderColor:
-                colorMode === "light"
-                  ? theme.colors.gray[300]
-                  : theme.colors.gray[500],
+              borderColor: "gray.300",
+              _dark: {
+                borderColor: "gray.500",
+              },
             }}
             variant="outline"
           />

@@ -1,4 +1,4 @@
-import { Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/components/common/PlayerScoreButton";
@@ -40,8 +40,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "flex-end",
-        backgroundColor:
-          colorMode === "light" ? "white" : theme.colors.gray[800],
+        backgroundColor: colorMode === "light" ? "white" : "gray.800",
         pr: !isVerticalView && isDesktop ? undefined : "0.5rem",
         gap: "0.5rem 0",
       }}

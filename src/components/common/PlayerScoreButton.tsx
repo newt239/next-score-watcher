@@ -6,7 +6,6 @@ import {
   EditableInput,
   EditablePreview,
   SystemStyleObject,
-  theme,
   useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -50,17 +49,21 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom);
 
-  const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
+  const defaultColor = colorMode === "light" ? "white" : "gray.800";
   const variantColor =
     color === "gray"
-      ? theme.colors.gray[300]
+      ? "gray.300"
       : ["red", "win"].includes(color)
-      ? theme.colors.red[colorMode === "light" ? 600 : 300]
+      ? colorMode === "light"
+        ? "red.600"
+        : "red.300"
       : ["blue", "lose"].includes(color)
-      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+      ? colorMode === "light"
+        ? "blue.600"
+        : "blue.300"
       : colorMode === "light"
-      ? theme.colors.green[600]
-      : theme.colors.yellow[300];
+      ? "green.600"
+      : "yellow.300";
 
   const ButtonCssStyle: SystemStyleObject = {
     display: "block",

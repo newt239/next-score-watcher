@@ -6,9 +6,8 @@ import {
   Button,
   Flex,
   IconButton,
-  ScaleFade,
   Slide,
-  theme,
+  SlideFade,
   Tooltip,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -157,30 +156,30 @@ const BoardPage = () => {
             textOrientation: "upright",
             h: "100vh",
             w: "1vw",
-            backgroundColor: theme.colors.green[500],
+            bgColor: "green.500",
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
             zIndex: 10,
           }}
         />
       )}
-      <ScaleFade in={players.length !== 0} unmountOnExit>
-        <Flex
-          id="players-area"
-          sx={{
-            display: "flex",
-            flexDirection: isDesktop && !isVerticalView ? "row" : "column",
-            justifyContent:
-              isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
-            flexWrap: isVerticalView ? "wrap" : "nowrap",
-            gap: "1.5vh 1vw",
-            w: "100%",
-            h: isDesktop ? "85vh" : undefined,
-            px: "1vw",
-            pt: "3vh",
-          }}
-        >
-          {players.map((player, i) => (
+      <Flex
+        id="players-area"
+        sx={{
+          display: "flex",
+          flexDirection: isDesktop && !isVerticalView ? "row" : "column",
+          justifyContent:
+            isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
+          flexWrap: isVerticalView ? "wrap" : "nowrap",
+          gap: "1.5vh 1vw",
+          w: "100%",
+          h: isDesktop ? "85vh" : undefined,
+          px: "1vw",
+          pt: "3vh",
+        }}
+      >
+        {players.map((player, i) => (
+          <SlideFade delay={0.5 + i * 0.1} in key={i} offsetX={20} offsetY={20}>
             <Player
               index={i}
               key={i}
@@ -197,9 +196,9 @@ const BoardPage = () => {
                   score.game_id === game.id && score.player_id === player.id
               )}
             />
-          ))}
-        </Flex>
-      </ScaleFade>
+          </SlideFade>
+        ))}
+      </Flex>
       {showLogs && (
         <Flex sx={{ justifyContent: "center" }}>
           <GameLogs logs={logs} players={players} quiz={game.quiz} />

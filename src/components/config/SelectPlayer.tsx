@@ -25,7 +25,6 @@ import {
   Spacer,
   Stack,
   Text,
-  theme,
   useColorMode,
   useDisclosure,
   useToast,
@@ -242,10 +241,10 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
               sx={{
                 mt: 5,
                 p: 3,
-                backgroundColor:
-                  colorMode === "dark"
-                    ? theme.colors.gray[600]
-                    : theme.colors.gray[300],
+                bgColor: "gray.300",
+                _dark: {
+                  bgColor: "gray.600",
+                },
               }}
             >
               <ReactSortable
@@ -262,13 +261,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
               >
                 {sortableList.map((player, index) => (
                   <Card
-                    bgColor={
-                      colorMode === "dark"
-                        ? theme.colors.gray[700]
-                        : theme.colors.gray[200]
-                    }
                     cursor="grab"
                     key={player.id}
+                    sx={{
+                      bgColor: "gray.200",
+                      _dark: {
+                        bgColor: "gray.700",
+                      },
+                    }}
                   >
                     <CardBody>
                       <Flex

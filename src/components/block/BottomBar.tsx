@@ -1,10 +1,9 @@
 import { Link as ReactLink, useLocation } from "react-router-dom";
 
-import { Box, Flex, LinkBox, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, LinkBox } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
 
 const BottomBar = () => {
-  const { colorMode } = useColorMode();
   const location = useLocation();
 
   return (
@@ -16,12 +15,16 @@ const BottomBar = () => {
         bottom: 0,
         left: 0,
         width: "100%",
-        bgColor: colorMode === "light" ? "gray.50" : "black",
-        color: colorMode === "light" ? "black" : "white",
+        bgColor: "gray.50",
+        color: "black",
         transition: "all 0.5s ease",
         whiteSpace: "nowrap",
         boxShadow: "0 5px 10px 0 black",
         zIndex: 100,
+        _dark: {
+          bgColor: "gray.900",
+          color: "white",
+        },
       }}
     >
       <ReactLink style={{ width: "25%", textAlign: "center" }} to="/">

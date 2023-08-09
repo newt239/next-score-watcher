@@ -20,7 +20,7 @@ const Header: React.FC = () => {
   return (
     <Box
       sx={{
-        p: 0,
+        px: 2,
         w: "100%",
         margin: "auto",
         position: "sticky",

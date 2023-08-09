@@ -12,7 +12,6 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  theme,
   useColorMode,
 } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
@@ -46,11 +45,8 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
       <Popover>
         <PopoverTrigger>
           <IconButton
-            aria-label="override player state"
-            color={
-              colorState &&
-              (colorMode === "light" ? "white" : theme.colors.gray[800])
-            }
+            aria-label="プレイヤーの状態を上書きします"
+            color={colorState && (colorMode === "light" ? "white" : "gray.800")}
             colorScheme={colorState}
             icon={<Edit />}
             size="xs"
@@ -58,7 +54,12 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
           />
         </PopoverTrigger>
         <PopoverContent
-          sx={{ color: colorMode === "light" ? "black" : "white" }}
+          sx={{
+            color: "black",
+            _dark: {
+              color: "white",
+            },
+          }}
         >
           <PopoverArrow />
           <PopoverHeader>背景色を変更</PopoverHeader>

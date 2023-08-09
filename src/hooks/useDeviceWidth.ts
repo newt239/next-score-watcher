@@ -1,7 +1,7 @@
 import { useMediaQuery } from "@chakra-ui/react";
 
 const useDeviceWidth = (width?: number) => {
-  const [isDesktop] = useMediaQuery(`(min-width: ${width || "800"}px)`);
+  const [isDesktop] = useMediaQuery(`(min-width: ${width || 768}px)`);
 
   return isDesktop;
 };
