@@ -119,14 +119,15 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           defaultValue={children}
           display="flex"
           justifyContent="center"
-          sx={ButtonCssStyle}
+          sx={{ ...ButtonCssStyle, h: "auto" }}
         >
-          <EditablePreview p={0} />
+          <EditablePreview my={1} p={0} />
           <EditableInput
             id={id}
             name={id}
             sx={{
               p: 0,
+              my: 1,
               w: isDesktop
                 ? compact
                   ? "calc(100% - 0.5rem)"
