@@ -18,6 +18,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
         <ConfigLimit
           game_id={game.id}
           limit={game.limit}
+          rule={game.rule}
           win_through={game.win_through}
         />
       )}
