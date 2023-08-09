@@ -1,7 +1,7 @@
-import { Flex, theme, useColorMode } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
-import PlayerScoreButton from "#/blocks/PlayerScoreButton";
+import PlayerScoreButton from "#/components/common/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
@@ -40,9 +40,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "flex-end",
-        backgroundColor:
-          colorMode === "light" ? "white" : theme.colors.gray[800],
+        backgroundColor: colorMode === "light" ? "white" : "gray.800",
         pr: !isVerticalView && isDesktop ? undefined : "0.5rem",
+        gap: "0.5rem 0",
       }}
     >
       {game.rule === "normal" && (
@@ -136,7 +136,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton color="green" disabled {...props}>
-            {`${player.correct}×${game.win_point! - player.wrong}`}
+            {`${player.correct}✕${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton color="red" compact {...props}>
@@ -214,7 +214,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton color="green" disabled filled {...props}>
-            {`${player.odd_score}×${player.even_score}`}
+            {`${player.odd_score}✕${player.even_score}`}
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton color="red" compact {...props}>
@@ -229,32 +229,26 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "z" && (
         <>
           <PlayerScoreButton
-            color={player.text === "LOCKED" ? "blue" : player.state}
+            color={player.text === "休" ? "blue" : player.state}
             disabled
-            filled={player.text === "LOCKED"}
+            filled={player.text === "休"}
             {...props}
           >
             {player.text}
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton
-              color="red"
+              color={player.text === "休" ? "gray" : "red"}
               compact
-              disabled={
-                player.is_incapacity ||
-                (qn === player.last_wrong + 1 && player.stage === 1)
-              }
+              disabled={player.text === "休"}
               {...props}
             >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
-              color="blue"
+              color={player.text === "休" ? "gray" : "blue"}
               compact
-              disabled={
-                player.is_incapacity ||
-                (qn === player.last_wrong + 1 && player.stage === 1)
-              }
+              disabled={player.text === "休"}
               {...props}
             >
               {numberSign("wrong", player.wrong)}

@@ -19,7 +19,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
   Table,
   TableContainer,
   Tbody,
@@ -43,16 +42,9 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  DeviceFloppy,
-  Edit,
-  Filter,
-  Trash,
-} from "tabler-icons-react";
+import { DeviceFloppy, Edit, Filter, Trash } from "tabler-icons-react";
+
+import TablePagenation from "../common/TablePagination";
 
 import db from "#/utils/db";
 import { QuizDBProps } from "#/utils/types";
@@ -258,62 +250,7 @@ const QuizTable: React.FC = () => {
                   </Tbody>
                 </Table>
               </TableContainer>
-              <Flex
-                sx={{
-                  py: 5,
-                  gap: 3,
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton
-                  aria-label="最初のページに移動"
-                  disabled={!table.getCanPreviousPage()}
-                  icon={<ChevronsLeft />}
-                  onClick={() => table.setPageIndex(0)}
-                  size="xs"
-                />
-                <IconButton
-                  aria-label="1ページ戻る"
-                  disabled={!table.getCanPreviousPage()}
-                  icon={<ChevronLeft />}
-                  onClick={() => table.previousPage()}
-                  size="xs"
-                />
-                <div>
-                  {table.getState().pagination.pageIndex + 1} /{" "}
-                  {table.getPageCount()}
-                </div>
-                <IconButton
-                  aria-label="1ページ進む"
-                  disabled={!table.getCanNextPage()}
-                  icon={<ChevronRight />}
-                  onClick={() => table.nextPage()}
-                  size="xs"
-                />
-                <IconButton
-                  aria-label="最後のページに移動"
-                  disabled={!table.getCanNextPage()}
-                  icon={<ChevronsRight />}
-                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                  size="xs"
-                />
-                <Box>
-                  <Select
-                    onChange={(e) => {
-                      table.setPageSize(Number(e.target.value));
-                    }}
-                    size="sm"
-                    value={table.getState().pagination.pageSize}
-                  >
-                    {[10, 50, 100, 300].map((pageSize) => (
-                      <option key={pageSize} value={pageSize}>
-                        {pageSize}件
-                      </option>
-                    ))}
-                  </Select>
-                </Box>
-              </Flex>
+              <TablePagenation table={table} />
             </>
           )}
         </Box>

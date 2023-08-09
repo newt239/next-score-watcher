@@ -7,9 +7,7 @@ import {
   TableContainer,
   Tbody,
   Td,
-  theme,
   Tr,
-  useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
@@ -25,7 +23,6 @@ type GameLogsProps = {
 };
 
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
-  const { colorMode } = useColorMode();
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const desktop = useDeviceWidth();
@@ -57,12 +54,12 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         sx={{
           borderStyle: "solid",
           borderWidth: desktop ? 3 : 1,
-          borderColor:
-            colorMode === "light"
-              ? theme.colors.gray[50]
-              : theme.colors.gray[700],
+          borderColor: "gray.50",
           p: 3,
           borderRadius: desktop ? "1rem" : "0.5rem",
+          _dark: {
+            borderColor: "gray.700",
+          },
         }}
       >
         <Box sx={{ pb: 2 }}>

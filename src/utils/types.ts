@@ -46,7 +46,7 @@ export type GameDBProps = {
   win_through?: number;
   limit?: number;
   quiz?: GameDBQuizProps;
-  discord_webhook_url?: string;
+  discord_webhook_url: string;
   editable: boolean;
   last_open: string;
 };

@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
   Button,
   Checkbox,
-  HStack,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  Select,
   Table,
   TableContainer,
   Tag,
@@ -31,15 +28,10 @@ import {
   type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
-import {
-  ArrowNarrowRight,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Filter,
-} from "tabler-icons-react";
+import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
+import TablePagenation from "#/components/common/TablePagination";
+import { useDidUpdateEffect } from "#/hooks/useDidUpdateEffect";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
 
@@ -54,43 +46,9 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   playerList,
   gamePlayers,
 }) => {
+  const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
+  const [rowSelection, setRowSelection] = useState({});
   const [searchText, setSearchText] = useState<string>("");
-  const [currentSelectedPlayers, setCurrentSelectPlayers] =
-    useState(gamePlayers);
-
-  const onChangeHandler = async (player: PlayerDBProps) => {
-    if (
-      currentSelectedPlayers
-        .map((gamePlayer) => gamePlayer.id)
-        .includes(player.id)
-    ) {
-      // 選択解除
-      setCurrentSelectPlayers(
-        currentSelectedPlayers.filter(
-          (gamePlayer) => gamePlayer.id !== player.id
-        )
-      );
-    } else {
-      // 追加
-      setCurrentSelectPlayers([
-        ...currentSelectedPlayers,
-        {
-          id: player.id,
-          name: player.name,
-          initial_correct: 0,
-          initial_wrong: 0,
-          base_correct_point: 1,
-          base_wrong_point: -1,
-        } as GameDBPlayerProps,
-      ]);
-    }
-  };
-
-  useEffect(() => {
-    db.games.update(game_id, {
-      players: currentSelectedPlayers,
-    });
-  }, [currentSelectedPlayers]);
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
     const data = row.original;
@@ -103,65 +61,102 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   };
 
   const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns: ColumnDef<PlayerDBProps, any>[] = [
-    columnHelper.accessor("id", {
-      header: "",
-      cell: (info) => {
-        return (
-          <Checkbox
-            isChecked={currentSelectedPlayers
-              .map((gamePlayer) => gamePlayer.id)
-              .includes(info.getValue())}
-            onChange={() => onChangeHandler(info.row.original)}
-          />
-        );
-      },
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("name", {
-      header: "氏名",
-      cell: (info) => {
-        return (
-          <div onClick={() => onChangeHandler(info.row.original)}>
-            {info.row.original.name}
-          </div>
-        );
-      },
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("text", {
-      header: "順位",
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("belong", {
-      header: "所属",
-      footer: (info) => info.column.id,
-    }),
-    columnHelper.accessor("tags", {
-      header: "タグ",
-      cell: (info) => {
-        return info.row.original.tags.map((tag, tagi) => (
-          <Tag colorScheme="green" key={tagi} size="sm">
-            {tag}
-          </Tag>
-        ));
-      },
-      footer: (info) => info.column.id,
-    }),
-  ];
+  const columns = useMemo<ColumnDef<PlayerDBProps, any>[]>(
+    () => [
+      columnHelper.accessor("id", {
+        header: "",
+        cell: ({ row }) => {
+          return (
+            <Checkbox
+              {...{
+                isChecked: row.getIsSelected(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          );
+        },
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("name", {
+        header: "氏名",
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("text", {
+        header: "順位",
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("belong", {
+        header: "所属",
+        footer: (info) => info.column.id,
+      }),
+      columnHelper.accessor("tags", {
+        header: "タグ",
+        cell: (info) => {
+          return info.row.original.tags.map((tag, tagi) => (
+            <Tag colorScheme="green" key={tagi} size="sm">
+              {tag}
+            </Tag>
+          ));
+        },
+        footer: (info) => info.column.id,
+      }),
+    ],
+    []
+  );
 
   const table = useReactTable<PlayerDBProps>({
     data: playerList,
     columns,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       globalFilter: searchText,
+      rowSelection,
     },
   });
+
+  useEffect(() => {
+    const initialPlayerIdList: { [key: number]: boolean } = {};
+    playerList.forEach((player, i) => {
+      if (gamePlayerIds.includes(player.id)) {
+        initialPlayerIdList[i] = true;
+      }
+    });
+    setRowSelection(initialPlayerIdList);
+  }, []);
+
+  useDidUpdateEffect(() => {
+    const newGamePlayerIds = table
+      .getSelectedRowModel()
+      .rows.map(({ original }) => (original as PlayerDBProps).id);
+    const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map((id) => {
+      const previousGamePlayer = gamePlayers.find(
+        (gamePlayer) => gamePlayer.id === id
+      );
+      if (previousGamePlayer) {
+        return previousGamePlayer;
+      } else {
+        const player_name = playerList.find((player) => player.id === id)?.name;
+        return {
+          id,
+          name: player_name || "不明なユーザー",
+          initial_correct: 0,
+          initial_wrong: 0,
+          base_correct_point: 1,
+          base_wrong_point: -1,
+        } as GameDBPlayerProps;
+      }
+    });
+    db.games.update(game_id, {
+      players: newGamePlayers,
+    });
+  }, [rowSelection]);
 
   return (
     <>
@@ -221,55 +216,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
               </Tbody>
             </Table>
           </TableContainer>
-          <HStack pt={3}>
-            <IconButton
-              aria-label="最初のページに移動"
-              disabled={!table.getCanPreviousPage()}
-              icon={<ChevronsLeft />}
-              onClick={() => table.setPageIndex(0)}
-              size="xs"
-            />
-            <IconButton
-              aria-label="1ページ戻る"
-              disabled={!table.getCanPreviousPage()}
-              icon={<ChevronLeft />}
-              onClick={() => table.previousPage()}
-              size="xs"
-            />
-            <div>
-              {table.getState().pagination.pageIndex + 1} /{" "}
-              {table.getPageCount()}
-            </div>
-            <IconButton
-              aria-label="1ページ進む"
-              disabled={!table.getCanNextPage()}
-              icon={<ChevronRight />}
-              onClick={() => table.nextPage()}
-              size="xs"
-            />
-            <IconButton
-              aria-label="最後のページに移動"
-              disabled={!table.getCanNextPage()}
-              icon={<ChevronsRight />}
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              size="xs"
-            />
-            <Box>
-              <Select
-                onChange={(e) => {
-                  table.setPageSize(Number(e.target.value));
-                }}
-                size="sm"
-                value={table.getState().pagination.pageSize}
-              >
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
-                    {pageSize}件
-                  </option>
-                ))}
-              </Select>
-            </Box>
-          </HStack>
+          <TablePagenation table={table} />
           <Box sx={{ pt: 3, textAlign: "right" }}>
             <Button
               as={ReactLink}

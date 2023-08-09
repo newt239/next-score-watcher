@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box } from "@chakra-ui/react";
 
-import ScrollTop from "#/blocks/ScrollTop";
-import BottomBar from "#/components/BottomBar";
-import Footer from "#/components/Footer";
-import Header from "#/components/Header";
+import BottomBar from "#/components/block/BottomBar";
+import Footer from "#/components/block/Footer";
+import Header from "#/components/block/Header";
+import ScrollTop from "#/components/block/ScrollTop";
 import UpdateModal from "#/components/home/UpdateModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import HomePage from "#/pages";

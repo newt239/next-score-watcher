@@ -11,14 +11,17 @@ import {
 } from "@chakra-ui/react";
 
 import db from "#/utils/db";
+import { RuleNames } from "#/utils/types";
 
 type ConfigLimitProps = {
+  rule: RuleNames;
   game_id: string;
   limit: number | undefined;
   win_through: number | undefined;
 };
 
-const ConfigNumberInput: React.FC<ConfigLimitProps> = ({
+const ConfigLimit: React.FC<ConfigLimitProps> = ({
+  rule,
   game_id,
   limit,
   win_through,
@@ -26,8 +29,12 @@ const ConfigNumberInput: React.FC<ConfigLimitProps> = ({
   const onGameLimitToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     db.games.update(game_id, {
       limit: event.target.checked ? 10 : undefined,
-      win_through: event.target.checked ? 3 : undefined,
     });
+    if (rule !== "attacksurvival") {
+      db.games.update(game_id, {
+        win_through: event.target.checked ? 3 : undefined,
+      });
+    }
   };
 
   return (
@@ -84,4 +91,4 @@ const ConfigNumberInput: React.FC<ConfigLimitProps> = ({
   );
 };
 
-export default ConfigNumberInput;
+export default ConfigLimit;

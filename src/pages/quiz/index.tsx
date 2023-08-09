@@ -32,46 +32,48 @@ const QuizPage = () => {
 
   return (
     <Container pt={5}>
-      {from && (
-        <Box>
-          <Button
-            colorScheme="green"
-            leftIcon={<ArrowBackUp />}
-            onClick={() => navigate({ pathname: `/${from}/config` })}
-            variant="link"
-          >
-            設定に戻る
-          </Button>
-        </Box>
-      )}
-      <h2>問題管理</h2>
       <Box pt={5}>
-        <h3>問題の読み込み</h3>
-        <FormControl py={5}>
-          <FormLabel>セット名</FormLabel>
-          <Input
-            errorBorderColor="crimson"
-            isInvalid={setName === ""}
-            onChange={(e) => setSetName(e.target.value)}
-            value={setName}
-          />
-        </FormControl>
-        <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
-          <TabList mb="1em">
-            <Tab>まとめて貼り付け</Tab>
-            <Tab>ファイルからインポート</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <LoadQuiz setName={setName} />
-            </TabPanel>
-            <TabPanel>
-              <ImportQuiz setName={setName} />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        {from && (
+          <Box>
+            <Button
+              colorScheme="green"
+              leftIcon={<ArrowBackUp />}
+              onClick={() => navigate({ pathname: `/${from}/config` })}
+              variant="link"
+            >
+              設定に戻る
+            </Button>
+          </Box>
+        )}
+        <h2>問題管理</h2>
+        <Box pt={5}>
+          <h3>問題の読み込み</h3>
+          <FormControl py={5}>
+            <FormLabel>セット名</FormLabel>
+            <Input
+              errorBorderColor="crimson"
+              isInvalid={setName === ""}
+              onChange={(e) => setSetName(e.target.value)}
+              value={setName}
+            />
+          </FormControl>
+          <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
+            <TabList mb="1em">
+              <Tab>まとめて貼り付け</Tab>
+              <Tab>ファイルからインポート</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <LoadQuiz setName={setName} />
+              </TabPanel>
+              <TabPanel>
+                <ImportQuiz setName={setName} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
+        <QuizTable />
       </Box>
-      <QuizTable />
     </Container>
   );
 };

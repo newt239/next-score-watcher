@@ -88,7 +88,7 @@ const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
         : playerState.is_incapacity ||
           (gameLogList.length === playerState.last_wrong + 1 &&
             playerState.stage === 1)
-        ? "LOCKED"
+        ? "休"
         : `Stage${playerState.stage}`;
     if (
       playerState.state === "win" &&

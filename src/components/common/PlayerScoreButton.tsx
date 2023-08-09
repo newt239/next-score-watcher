@@ -1,4 +1,4 @@
-import { useId } from "react";
+import React, { useId } from "react";
 
 import {
   Button,
@@ -6,7 +6,6 @@ import {
   EditableInput,
   EditablePreview,
   SystemStyleObject,
-  theme,
   useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -19,13 +18,13 @@ import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
-  children: string;
   filled?: boolean;
   compact?: boolean;
   game_id: string;
   player_id: string;
   editable: boolean;
   disabled?: boolean;
+  children: string;
 };
 
 const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
@@ -38,35 +37,48 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   editable,
   disabled,
 }) => {
+  const numberSign = children.endsWith("pt")
+    ? "pt"
+    : children.endsWith("○")
+    ? "correct"
+    : children.endsWith("✕")
+    ? "wrong"
+    : "none";
   const id = useId();
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom);
 
-  const defaultColor = colorMode === "light" ? "white" : theme.colors.gray[800];
+  const defaultColor = colorMode === "light" ? "white" : "gray.800";
   const variantColor =
     color === "gray"
-      ? theme.colors.gray[300]
+      ? "gray.300"
       : ["red", "win"].includes(color)
-      ? theme.colors.red[colorMode === "light" ? 600 : 300]
+      ? colorMode === "light"
+        ? "red.600"
+        : "red.300"
       : ["blue", "lose"].includes(color)
-      ? theme.colors.blue[colorMode === "light" ? 600 : 300]
+      ? colorMode === "light"
+        ? "blue.600"
+        : "blue.300"
       : colorMode === "light"
-      ? theme.colors.green[600]
-      : theme.colors.yellow[300];
+      ? "green.600"
+      : "yellow.300";
 
   const ButtonCssStyle: SystemStyleObject = {
     display: "block",
     fontSize: isDesktop
-      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${children.length}), ${
-          compact || isVerticalView ? "4.5vw" : "48px"
-        })`
-      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${
-          children.length
-        }), 3.5vw))`,
+      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
+          children.length - (numberSign !== "none" ? 1 : 0),
+          2
+        )}), 3rem)`
+      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${Math.max(
+          children.length - (numberSign !== "none" ? 1 : 0),
+          2
+        )}), 3.5vw))`,
     fontWeight: 800,
     lineHeight: !isVerticalView ? "3rem" : "100%",
-    w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3rem" : "6rem",
+    w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3.5rem" : "6rem",
     h: isDesktop && !isVerticalView ? "3rem" : "100%",
     textAlign: "center",
     borderRadius: 0,
@@ -74,7 +86,12 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
     overflow: "hidden",
-    cursor: disabled || color === "green" || editable ? "default" : "pointer",
+    cursor:
+      disabled && color === "gray"
+        ? "not-allowed"
+        : disabled || color === "green" || editable
+        ? "default"
+        : "pointer",
   };
 
   const handleClick = async () => {
@@ -102,14 +119,15 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           defaultValue={children}
           display="flex"
           justifyContent="center"
-          sx={ButtonCssStyle}
+          sx={{ ...ButtonCssStyle, h: "auto" }}
         >
-          <EditablePreview p={0} />
+          <EditablePreview my={1} p={0} />
           <EditableInput
             id={id}
             name={id}
             sx={{
               p: 0,
+              my: 1,
               w: isDesktop
                 ? compact
                   ? "calc(100% - 0.5rem)"
@@ -127,7 +145,16 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           sx={ButtonCssStyle}
           variant="unstyled"
         >
-          {children}
+          {numberSign === "none" ? (
+            children
+          ) : (
+            <>
+              <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
+              <span style={{ fontSize: "75%" }}>
+                {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
+              </span>
+            </>
+          )}
         </Button>
       )}
     </>

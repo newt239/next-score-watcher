@@ -1,14 +1,3 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
   font-family: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, Segoe UI,
@@ -20,6 +9,18 @@ a {
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 h2 {

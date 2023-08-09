@@ -62,86 +62,90 @@ const Features: React.FC = () => {
       title: "その他",
       description: (
         <>
-          <h3>オフライン対応</h3>
-          <Text>
-            一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。
-          </Text>
-          <h3>ショートカットキー</h3>
-          <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
-          <h3>表示はカスタマイズ可能</h3>
-          <Text>
-            <Link as={ReactLink} to="/option">
-              アプリ設定
-            </Link>
-            から、得点表示画面の表示をカスタマイズできます。
-          </Text>
+          <Box pb={5}>
+            <h3>オフライン対応</h3>
+            <Text>
+              一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。
+            </Text>
+          </Box>
+          <Box pb={5}>
+            <h3>ショートカットキー</h3>
+            <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
+          </Box>
+          <Box pb={5}>
+            <h3>表示はカスタマイズ可能</h3>
+            <Text>
+              <Link as={ReactLink} to="/option">
+                アプリ設定
+              </Link>
+              から、得点表示画面の表示をカスタマイズできます。
+            </Text>
+          </Box>
         </>
       ),
     },
   ];
 
   return (
-    <Box>
-      <Box>
-        <h2>主な機能</h2>
-        {isDesktop ? (
-          <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
-            <TabList>
-              {features.map((feature) => (
-                <Tab key={feature.title}>{feature.title}</Tab>
-              ))}
-            </TabList>
-            <TabPanels>
-              {features.map((feature) => (
-                <TabPanel key={feature.title}>
-                  {feature.image ? (
-                    <Flex sx={{ gap: 3 }}>
-                      <Box w="30%">
-                        <h3>{feature.title}</h3>
-                        <Box>{feature.description}</Box>
-                      </Box>
-                      <Box w="70%">
-                        <Image
-                          alt={`画像: ${feature.title}`}
-                          src={"images/" + feature.image}
-                          sx={{ borderRadius: "1rem" }}
-                        />
-                      </Box>
-                    </Flex>
-                  ) : (
-                    <Box>{feature.description}</Box>
-                  )}
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </Tabs>
-        ) : (
-          <Accordion defaultIndex={0} pt={5}>
+    <Box pt={10}>
+      <h2>主な機能</h2>
+      {isDesktop ? (
+        <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
+          <TabList>
             {features.map((feature) => (
-              <AccordionItem key={feature.title}>
-                <AccordionButton>
-                  <Box flex={1} textAlign="left">
-                    <h2 style={{ fontSize: "1rem", padding: 0 }}>
-                      {feature.title}
-                    </h2>
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                  {feature.image && (
-                    <Image
-                      alt={`画像: ${feature.title}`}
-                      src={"images/" + feature.image}
-                      sx={{ borderRadius: "1rem" }}
-                    />
-                  )}
-                  <Box pt={3}>{feature.description}</Box>
-                </AccordionPanel>
-              </AccordionItem>
+              <Tab key={feature.title}>{feature.title}</Tab>
             ))}
-          </Accordion>
-        )}
-      </Box>
+          </TabList>
+          <TabPanels>
+            {features.map((feature) => (
+              <TabPanel key={feature.title}>
+                {feature.image ? (
+                  <Flex sx={{ gap: 3 }}>
+                    <Box w="30%">
+                      <h3>{feature.title}</h3>
+                      <Box>{feature.description}</Box>
+                    </Box>
+                    <Box w="70%">
+                      <Image
+                        alt={`画像: ${feature.title}`}
+                        src={"images/" + feature.image}
+                        sx={{ borderRadius: "1rem" }}
+                      />
+                    </Box>
+                  </Flex>
+                ) : (
+                  <Box>{feature.description}</Box>
+                )}
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
+      ) : (
+        <Accordion defaultIndex={0} pt={5}>
+          {features.map((feature) => (
+            <AccordionItem key={feature.title}>
+              <AccordionButton>
+                <Box flex={1} textAlign="left">
+                  <h2 style={{ fontSize: "1rem", padding: 0 }}>
+                    {feature.title}
+                  </h2>
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                {feature.image && (
+                  <Image
+                    alt={`画像: ${feature.title}`}
+                    src={"images/" + feature.image}
+                    sx={{ borderRadius: "1rem" }}
+                  />
+                )}
+                <Box pt={3}>{feature.description}</Box>
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      )}
     </Box>
   );
 };

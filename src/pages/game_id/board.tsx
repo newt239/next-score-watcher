@@ -7,7 +7,7 @@ import {
   Flex,
   IconButton,
   Slide,
-  theme,
+  SlideFade,
   Tooltip,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -32,10 +32,6 @@ const BoardPage = () => {
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
-    []
-  );
-  const quizes = useLiveQuery(
-    () => db.quizes.where({ set_name: game?.quiz?.set_name }),
     []
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
@@ -156,7 +152,7 @@ const BoardPage = () => {
             textOrientation: "upright",
             h: "100vh",
             w: "1vw",
-            backgroundColor: theme.colors.green[500],
+            bgColor: "green.500",
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
             zIndex: 10,
@@ -166,34 +162,37 @@ const BoardPage = () => {
       <Flex
         id="players-area"
         sx={{
+          display: "flex",
           flexDirection: isDesktop && !isVerticalView ? "row" : "column",
           justifyContent:
             isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
           flexWrap: isVerticalView ? "wrap" : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: isDesktop ? "85vh" : undefined,
+          h: ["90vh", "90vh", "85vh"],
           px: "1vw",
           pt: "3vh",
         }}
       >
         {players.map((player, i) => (
-          <Player
-            index={i}
-            key={i}
-            last_correct_player={
-              scores.length !== 0
-                ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
-                    .player_id
-                : ""
-            }
-            player={player}
-            qn={logs.length}
-            score={scores.find(
-              (score) =>
-                score.game_id === game.id && score.player_id === player.id
-            )}
-          />
+          <SlideFade delay={0.5 + i * 0.1} in key={i} offsetX={20} offsetY={20}>
+            <Player
+              index={i}
+              key={i}
+              last_correct_player={
+                scores.length !== 0
+                  ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
+                      .player_id
+                  : ""
+              }
+              player={player}
+              qn={logs.length}
+              score={scores.find(
+                (score) =>
+                  score.game_id === game.id && score.player_id === player.id
+              )}
+            />
+          </SlideFade>
         ))}
       </Flex>
       {showLogs && (
@@ -208,10 +207,10 @@ const BoardPage = () => {
       />
       <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
         <Flex
+          _dark={{ bg: "gray.700", color: "white" }}
           alignItems="center"
-          bg="gray.700"
-          color="white"
-          flexDirection={isDesktop ? "row" : "column"}
+          bg="gray.100"
+          flexDirection={["column", "column", "row"]}
           gap={1}
           justifyContent="space-between"
           m={5}
