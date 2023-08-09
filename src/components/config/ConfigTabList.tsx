@@ -11,10 +11,10 @@ const ConfigTabList: React.FC = () => {
         button: {
           justifyContent: "flex-start",
         },
-        "button:nth-child(1)": {
+        "button:nth-of-type(1)": {
           borderRadius: "0.5rem 0.5rem 0 0",
         },
-        "button:nth-last-child(1)": {
+        "button:nth-last-of-type(1)": {
           borderRadius: "0 0 0.5rem 0.5rem",
         },
         "button:hover": {
