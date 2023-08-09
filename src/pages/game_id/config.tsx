@@ -6,10 +6,7 @@ import {
   Button,
   Card,
   Container,
-  Grid,
   Link,
-  Tab,
-  TabList,
   TabPanel,
   TabPanels,
   Tabs,
@@ -21,9 +18,9 @@ import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import InputLayout from "#/components/common/InputLayout";
 import ConfigInput from "#/components/config/ConfigInput";
-import ConfigLimit from "#/components/config/ConfigLimit";
-import ConfigNumberInput from "#/components/config/ConfigNumberInput";
+import ConfigTabList from "#/components/config/ConfigTabList";
 import CopyGame from "#/components/config/CopyGame";
+import RuleSettings from "#/components/config/RuleSettings";
 import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
@@ -100,146 +97,11 @@ const ConfigPage = () => {
           }}
           variant="unstyled"
         >
-          <TabList
-            sx={{
-              w: isDesktop ? "30%" : "100%",
-              borderRadius: "0.5rem",
-              borderWidth: 1,
-              borderStyle: "solid",
-              borderColor: "gray.200",
-              button: {
-                justifyContent: "flex-start",
-              },
-              "button:nth-child(1)": {
-                borderRadius: "0.5rem 0.5rem 0 0",
-              },
-              "button:nth-last-child(1)": {
-                borderRadius: "0 0 0.5rem 0.5rem",
-              },
-              "button:hover": {
-                bgColor: "gray.200",
-              },
-              "button[aria-selected='true']": {
-                bgColor: "green.500",
-                color: "black",
-              },
-              _dark: {
-                borderColor: "gray.700",
-                "button:hover": {
-                  bgColor: "gray.700",
-                },
-              },
-            }}
-          >
-            <Tab>形式設定</Tab>
-            <Tab>プレイヤー設定</Tab>
-            <Tab>その他の設定</Tab>
-          </TabList>
+          <ConfigTabList />
           <TabPanels>
             <TabPanel>
               <h2>形式設定</h2>
-              <ConfigInput
-                input_id="name"
-                label="ゲーム名"
-                placehodler="〇〇大会"
-              />
-              {game.rule !== "normal" && (
-                <ConfigLimit
-                  game_id={game_id!}
-                  limit={game.limit}
-                  win_through={game.win_through}
-                />
-              )}
-              <Grid
-                sx={{
-                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                  gap: "1rem",
-                }}
-              >
-                {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (
-                  <ConfigNumberInput
-                    disabled={disabled}
-                    input_id="win_point"
-                    label="勝ち抜け正解数"
-                    max={1000}
-                  />
-                )}
-                {["ny", "variables"].includes(game.rule) && (
-                  <ConfigNumberInput
-                    disabled={disabled}
-                    input_id="win_point"
-                    label="勝ち抜けポイント"
-                    max={1000}
-                    min={3}
-                  />
-                )}
-                {["nbyn", "nupdown"].includes(game.rule) && (
-                  <ConfigNumberInput
-                    disabled={disabled}
-                    input_id="win_point"
-                    label="N"
-                    max={10}
-                  />
-                )}
-                {["squarex", "freezex"].includes(game.rule) && (
-                  <ConfigNumberInput
-                    disabled={disabled}
-                    input_id="win_point"
-                    label="X"
-                    max={100}
-                  />
-                )}
-                {["nomx", "nomx-ad", "nbyn", "nupdown", "nomr"].includes(
-                  game.rule
-                ) && (
-                  <ConfigNumberInput
-                    disabled={disabled}
-                    input_id="lose_point"
-                    label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
-                    max={100}
-                  />
-                )}
-                {["attacksurvival"].includes(game.rule) && (
-                  <>
-                    <ConfigNumberInput
-                      disabled={disabled}
-                      input_id="win_point"
-                      label="初期値"
-                      max={30}
-                    />
-                    <ConfigNumberInput
-                      disabled={disabled}
-                      input_id="win_through"
-                      label="勝ち抜け人数"
-                      max={game.players.length}
-                    />
-                    <ConfigNumberInput
-                      disabled={disabled}
-                      input_id="correct_me"
-                      label="自分が正答"
-                      min={-10}
-                    />
-                    <ConfigNumberInput
-                      disabled={disabled}
-                      input_id="wrong_me"
-                      label="自分が誤答"
-                      min={-10}
-                    />
-                    <ConfigNumberInput
-                      disabled={disabled}
-                      input_id="correct_other"
-                      label="他人が正答"
-                      min={-10}
-                    />
-                    <ConfigNumberInput
-                      disabled={disabled}
-                      input_id="wrong_other"
-                      label="他人が誤答"
-                      min={-10}
-                    />
-                  </>
-                )}
-              </Grid>
+              <RuleSettings disabled={disabled} game={game} />
             </TabPanel>
             <TabPanel>
               <SelectPlayer

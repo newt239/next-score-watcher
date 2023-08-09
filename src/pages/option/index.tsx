@@ -1,13 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Container,
@@ -32,6 +26,7 @@ import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
 import Preferences from "#/components/block/Preferences";
+import AlertDialog from "#/components/common/AlertDialog";
 import db from "#/utils/db";
 import { webhookUrlAtom } from "#/utils/jotai";
 
@@ -41,7 +36,6 @@ const OptionPage = () => {
   const latestVersion = import.meta.env.VITE_APP_VERSION;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef(null);
 
   useEffect(() => {
     document.title = "アプリ設定 | Score Watcher";
@@ -96,29 +90,12 @@ const OptionPage = () => {
         </FormControl>
       </Stack>
       <AlertDialog
+        body="アプリのデータを初期化します。この操作は取り消せません。"
         isOpen={isOpen}
-        leastDestructiveRef={cancelRef}
         onClose={onClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              アプリを初期化します
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              この操作は取り消せません。本当に初期化してよろしいですか？
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button onClick={onClose} ref={cancelRef}>
-                やめる
-              </Button>
-              <Button colorScheme="red" ml={3} onClick={deleteAppData}>
-                初期化する
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+        onConfirm={deleteAppData}
+        title="アプリの初期化"
+      />
       <h2 style={{ paddingTop: "1rem" }}>アプリ情報</h2>
       <Text>
         アップデート情報は

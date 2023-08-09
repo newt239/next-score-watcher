@@ -35,7 +35,7 @@ const InputLayout: React.FC<InputLayoutProps> = ({
         },
       }}
     >
-      <VStack align="stretch">
+      <VStack align="stretch" gap={0}>
         <FormLabel htmlFor={id} m={0}>
           {label}
         </FormLabel>
