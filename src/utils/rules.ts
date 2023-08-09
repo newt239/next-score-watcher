@@ -7,14 +7,14 @@ export const rules = {
     rows: 1,
   },
   nomx: {
-    name: "N○M×",
+    name: "N○M✕",
     description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
     win_point: 7,
     lose_point: 3,
     rows: 2,
   },
   "nomx-ad": {
-    name: "連答つきN○M×",
+    name: "連答つきN○M✕",
     description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
     win_point: 7,
     lose_point: 3,
@@ -52,7 +52,7 @@ export const rules = {
   swedish10: {
     name: "Swedish10",
     description:
-      "10回の正答で勝ち抜けですが、誤答すると正答数が0の時1×、1～2の時2×、3～5の時3×、6～9の時4×が付与され、10×以上で失格となります。",
+      "10回の正答で勝ち抜けですが、誤答すると正答数が0の時1✕、1～2の時2✕、3～5の時3✕、6～9の時4✕が付与され、10✕以上で失格となります。",
     win_point: 10,
     lose_point: 10,
     rows: 2,
@@ -99,7 +99,7 @@ export const rules = {
   variables: {
     name: "Variables",
     description:
-      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N×(N-2)されます。",
+      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N✕(N-2)されます。",
     win_point: 30,
     rows: 3,
   },
@@ -132,7 +132,7 @@ export const getRuleStringByType = (game: GameDBProps): string => {
     case "z":
       return "Z";
     case "freezex":
-      return `freez${game.win_point}`;
+      return `freeze${game.win_point}`;
     case "variables":
       return `Variables`;
     default:

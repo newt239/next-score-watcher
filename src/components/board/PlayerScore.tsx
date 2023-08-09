@@ -137,7 +137,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton color="green" disabled {...props}>
-            {`${player.correct}×${game.win_point! - player.wrong}`}
+            {`${player.correct}✕${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton color="red" compact {...props}>
@@ -215,7 +215,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton color="green" disabled filled {...props}>
-            {`${player.odd_score}×${player.even_score}`}
+            {`${player.odd_score}✕${player.even_score}`}
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton color="red" compact {...props}>

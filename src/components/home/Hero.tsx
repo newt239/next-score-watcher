@@ -1,8 +1,16 @@
 import { Link as ReactLink } from "react-router-dom";
 
 import { Button, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { useLiveQuery } from "dexie-react-hooks";
+
+import db from "#/utils/db";
 
 const Hero: React.FC = () => {
+  const games = useLiveQuery(
+    () => db.games.orderBy("last_open").reverse().toArray(),
+    []
+  );
+
   return (
     <Stack direction={{ base: "column", md: "row" }} minH={"100vh"}>
       <Flex align={"center"} flex={1} justify={"center"} p={8}>
@@ -32,14 +40,16 @@ const Hero: React.FC = () => {
             >
               ゲームを作る
             </Button>
-            <Button
-              onClick={() =>
-                window.scrollBy(0, document.documentElement.clientHeight)
-              }
-              rounded={"full"}
-            >
-              作成したゲームを見る
-            </Button>
+            {games && games.length > 0 && (
+              <Button
+                onClick={() =>
+                  window.scrollBy(0, document.documentElement.clientHeight)
+                }
+                rounded={"full"}
+              >
+                作成したゲームを見る
+              </Button>
+            )}
           </Stack>
         </Stack>
       </Flex>

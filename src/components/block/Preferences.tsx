@@ -31,7 +31,7 @@ const Preferences = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <VStack sx={{ pt: 5 }}>
+    <VStack>
       <AppOptionSwitch
         isChecked={colorMode === "dark"}
         onChange={() => toggleColorMode()}
