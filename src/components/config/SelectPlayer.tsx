@@ -141,7 +141,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
         <>
           <Button
             colorScheme="blue"
-            disabled={disabled}
+            isDisabled={disabled}
             leftIcon={<Plus />}
             onClick={() => setDrawerOpen(true)}
           >

@@ -11,11 +11,13 @@ import {
   TabPanels,
   Tabs,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
+import AlertDialog from "#/components/common/AlertDialog";
 import InputLayout from "#/components/common/InputLayout";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigTabList from "#/components/config/ConfigTabList";
@@ -40,6 +42,8 @@ const ConfigPage = () => {
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
   const [tabIndex, setTabIndex] = useState(0);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     setTabIndex(0);
@@ -68,7 +72,11 @@ const ConfigPage = () => {
       </Card>
       <InputLayout
         label={
-          game.players.length === 0
+          disabled
+            ? `現在${
+                logs.length + 1
+              }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
+            : game.players.length === 0
             ? "「プレイヤー設定」からプレイヤーを選択してください。"
             : ""
         }
@@ -150,11 +158,21 @@ const ConfigPage = () => {
                     <Button
                       colorScheme="red"
                       leftIcon={<Trash />}
-                      onClick={deleteGame}
+                      onClick={onOpen}
                     >
                       削除する
                     </Button>
                   </InputLayout>
+                  <AlertDialog
+                    body="ゲームを削除します。この操作は取り消せません。"
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    onConfirm={() => {
+                      deleteGame();
+                      onClose();
+                    }}
+                    title="ゲームを削除"
+                  />
                 </VStack>
               </VStack>
             </TabPanel>
