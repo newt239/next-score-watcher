@@ -11,6 +11,7 @@ import {
   Tabs,
   VStack,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -32,6 +33,7 @@ const ConfigPage = () => {
   const navigate = useNavigate();
   const isDesktop = useDeviceWidth();
   const { game_id } = useParams();
+  const toast = useToast();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
   const logs = useLiveQuery(
@@ -54,6 +56,13 @@ const ConfigPage = () => {
 
   const deleteGame = async () => {
     await db.games.delete(game.id);
+    toast({
+      title: "ゲームを削除しました",
+      description: `${game.name}(${rules[game.rule].name})を削除しました`,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
     navigate("/");
   };
 
