@@ -123,7 +123,10 @@ const BoardPage = () => {
             timestamp: cdate().text(),
           });
         }
-      } else if (event.code === "Comma") {
+      } else if (
+        event.code === "Comma" ||
+        (event.code === "KeyZ" && event.ctrlKey)
+      ) {
         if (logs.length !== 0) {
           await db.logs.delete(logs[logs.length - 1].id);
         }
@@ -179,14 +182,7 @@ const BoardPage = () => {
             <Player
               index={i}
               key={i}
-              last_correct_player={
-                scores.length !== 0
-                  ? scores.sort((a, b) => b.last_correct - a.last_correct)[0]
-                      .player_id
-                  : ""
-              }
               player={player}
-              qn={logs.length}
               score={scores.find(
                 (score) =>
                   score.game_id === game.id && score.player_id === player.id

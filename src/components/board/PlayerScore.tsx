@@ -10,14 +10,9 @@ import { ComputedScoreProps, GamePropsUnion } from "#/utils/types";
 type PlayerScoreProps = {
   game: GamePropsUnion;
   player: ComputedScoreProps;
-  isLastCorrectPlayer: boolean;
 };
 
-const PlayerScore: React.FC<PlayerScoreProps> = ({
-  game,
-  player,
-  isLastCorrectPlayer,
-}) => {
+const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
   const isVerticalView =
