@@ -32,7 +32,7 @@ export type GameDBQuizProps = {
   offset: number;
 };
 
-export type OptionProps = {
+export type GameOptionProps = {
   [key in Exclude<RuleNames, "nomx-ad">]: undefined;
 } & {
   "nomx-ad": {
@@ -56,7 +56,7 @@ export type AllGameProps = {
     limit?: number;
     quiz?: GameDBQuizProps;
     discord_webhook_url: string;
-    options: OptionProps[T];
+    options: GameOptionProps[T];
     editable: boolean;
     last_open: string;
   };
