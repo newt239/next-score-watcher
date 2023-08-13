@@ -1,4 +1,6 @@
-import { Grid } from "@chakra-ui/react";
+import { Grid, VStack } from "@chakra-ui/react";
+
+import ConfigBooleanInput from "./ConfigBooleanInput";
 
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigLimit from "#/components/config/ConfigLimit";
@@ -110,6 +112,17 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
           </>
         )}
       </Grid>
+      <VStack py={4}>
+        {game.rule === "nomx-ad" && (
+          <ConfigBooleanInput
+            disabled={disabled}
+            helperText="abcの新ルールを使いたい場合はこちらを無効にしてください。"
+            input_id="streak_over3"
+            label="3連答以上によるアドバンテージを有効にする"
+            rule={game.rule}
+          />
+        )}
+      </VStack>
     </>
   );
 };

@@ -9,17 +9,13 @@ import { ComputedScoreProps, GamePropsUnion } from "#/utils/types";
 
 type PlayerScoreProps = {
   game: GamePropsUnion;
-  player_id: string;
   player: ComputedScoreProps;
-  qn: number;
   isLastCorrectPlayer: boolean;
 };
 
 const PlayerScore: React.FC<PlayerScoreProps> = ({
   game,
-  player_id,
   player,
-  qn,
   isLastCorrectPlayer,
 }) => {
   const { colorMode } = useColorMode();
@@ -29,7 +25,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
 
   const props = {
     game_id: game.id,
-    player_id: player_id,
+    player_id: player.player_id,
     editable: game.editable,
   };
 
@@ -69,11 +65,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton
-            color="red"
-            filled={isLastCorrectPlayer}
-            {...props}
-          >
+          <PlayerScoreButton color="red" filled={player.stage === 2} {...props}>
             {numberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
@@ -291,9 +283,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
           </Flex>
           <PlayerScoreButton color="green" disabled {...props}>
-            {`+${game.players.find((gamePlayer) => gamePlayer.id === player_id)
-              ?.base_correct_point!} / ${game.players.find(
-              (gamePlayer) => gamePlayer.id === player_id
+            {`+${game.players.find(
+              (gamePlayer) => gamePlayer.id === player.player_id
+            )?.base_correct_point!} / ${game.players.find(
+              (gamePlayer) => gamePlayer.id === player.player_id
             )?.base_wrong_point!}`}
           </PlayerScoreButton>
         </>

@@ -2,10 +2,12 @@ import { useId } from "react";
 import { useParams } from "react-router-dom";
 
 import {
+  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   Switch,
+  VStack,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -37,8 +39,26 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
   const isChecked = game.options[input_id] as boolean;
 
   return (
-    <FormControl p={2}>
-      <FormLabel htmlFor={innerId}>{label}</FormLabel>
+    <FormControl
+      as={Flex}
+      p={2}
+      sx={{
+        justifyContent: ["flex-start", "space-between"],
+        alignItems: "center",
+        gap: 2,
+      }}
+    >
+      <VStack
+        gap={0}
+        sx={{
+          alignItems: "flex-start",
+        }}
+      >
+        <FormLabel htmlFor={innerId} m={0}>
+          {label}
+        </FormLabel>
+        {helperText && <FormHelperText m={0}>{helperText}</FormHelperText>}
+      </VStack>
       <Switch
         id={innerId}
         isChecked={isChecked}
@@ -51,8 +71,8 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
             },
           });
         }}
+        size="md"
       />
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 };

@@ -36,7 +36,7 @@ export type GameOptionProps = {
   [key in Exclude<RuleNames, "nomx-ad">]: undefined;
 } & {
   "nomx-ad": {
-    streak3: boolean;
+    streak_over3: boolean;
   };
 };
 

@@ -34,7 +34,7 @@ export const rules = {
     win_point: 7,
     lose_point: 3,
     options: {
-      streak3: false,
+      streak_over3: false,
     },
     rows: 3,
   },
