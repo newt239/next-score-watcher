@@ -126,33 +126,26 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                     overflow: "hidden",
                   }}
                 >
-                  <div style={{ maxHeight: "8vh" }}>
+                  <Box sx={{ maxHeight: "8vh" }}>
                     {qn === 0
                       ? "ここに問題文が表示されます"
                       : quizList[game.quiz.offset + qn - 1].q}
-                  </div>
+                  </Box>
                   <Box
                     sx={{
                       textAlign: "right",
                       color: "red.600",
+                      bgColor: "gray.50",
                       fontWeight: 800,
                       _dark: {
                         color: "red.300",
+                        bgColor: "gray.700",
                       },
                     }}
                   >
-                    <Box
-                      sx={{
-                        bgColor: "gray.50",
-                        _dark: {
-                          bgColor: "gray.700",
-                        },
-                      }}
-                    >
-                      {qn === 0
-                        ? "ここに答えが表示されます"
-                        : quizList[game.quiz.offset + qn - 1].a}
-                    </Box>
+                    {qn === 0
+                      ? "ここに答えが表示されます"
+                      : quizList[game.quiz.offset + qn - 1].a}
                   </Box>
                 </Box>
               )}
@@ -211,8 +204,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               }
             >
               <FormControl
+                as={Flex}
                 sx={{
-                  display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
                 }}

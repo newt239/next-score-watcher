@@ -77,6 +77,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
 
   if (!logs) return null;
 
+  const qn = logs.filter((log) => log.variant !== "skip").length;
+
   return (
     <>
       <Flex
@@ -84,7 +86,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           justifyContent: "space-between",
           alignItems: "center",
           gap: 3,
-          height: isDesktop ? "15vh" : "10vh",
+          height: ["10vh", "10vh", "15vh"],
           px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
@@ -97,17 +99,18 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           },
         }}
       >
-        <Box
+        <Flex
           sx={{
-            display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             borderStyle: "solid",
-            borderWidth: isDesktop ? "thin" : 0,
+            borderWidth: [0, 0, "thin"],
             borderColor: "gray.300",
-            borderRadius: "1rem",
-            padding: isDesktop ? 3 : undefined,
-            maxWidth: "70vw",
+            borderRadius: "xl",
+            p: [0, 0, 3],
+            maxW: "70vw",
+            maxH: "95%",
+            overflow: "hidden",
             _dark: {
               borderColor: "gray.500",
             },
@@ -115,7 +118,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
         >
           <h2 className="p0">{name}</h2>
           <p>AQL</p>
-        </Box>
+        </Flex>
         {isDesktop && (
           <>
             {showQn && (
@@ -141,32 +144,25 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 }}
               >
                 <Box sx={{ maxHeight: "8vh" }}>
-                  {logs.length === 0
+                  {qn === 0
                     ? "ここに問題文が表示されます"
-                    : quizList[quiz_offset + logs.length - 1].q}
+                    : quizList[quiz_offset + qn - 1].q}
                 </Box>
                 <Box
                   sx={{
                     textAlign: "right",
                     color: "red.600",
+                    bgColor: "gray.50",
                     fontWeight: 800,
                     _dark: {
                       color: "red.300",
+                      bgColor: "gray.700",
                     },
                   }}
                 >
-                  <Box
-                    sx={{
-                      bgColor: "gray.50",
-                      _dark: {
-                        bgColor: "gray.700",
-                      },
-                    }}
-                  >
-                    {logs.length === 0
-                      ? "ここに答えが表示されます"
-                      : quizList[quiz_offset + logs.length - 1].a}
-                  </Box>
+                  {qn === 0
+                    ? "ここに答えが表示されます"
+                    : quizList[quiz_offset + qn - 1].a}
                 </Box>
               </Box>
             )}
@@ -218,8 +214,8 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               </MenuItem>
               <MenuItem icon={<PlayerStop />} onClick={onEndChange}>
                 <FormControl
+                  as={Flex}
                   sx={{
-                    display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
                   }}
