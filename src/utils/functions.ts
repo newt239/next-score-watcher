@@ -25,76 +25,26 @@ export const createGame = async (
   } else {
     try {
       const game_id = nanoid(6);
-      const putData: GamePropsUnion = {
-        id: game_id,
-        name: rules[param].name,
-        players: [],
-        rule: param,
-        correct_me: 1,
-        wrong_me: -1,
-        editable: false,
-        last_open: cdate().text(),
-        discord_webhook_url: "",
-      };
-      switch (param) {
-        case "nomx":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "nomx-ad":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "ny":
-          putData.win_point = rules[param].win_point;
-          break;
-        case "nomr":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "nbyn":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "nupdown":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "swedish10":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "backstream":
-          putData.win_point = rules[param].win_point;
-          putData.lose_point = rules[param].lose_point;
-          break;
-        case "attacksurvival":
-          putData.win_point = rules[param].win_point;
-          putData.win_through = rules[param].win_through;
-          putData.correct_me = rules[param].correct_me;
-          putData.wrong_me = rules[param].wrong_me;
-          putData.correct_other = rules[param].correct_other;
-          putData.wrong_other = rules[param].wrong_other;
-          break;
-        case "squarex":
-          putData.win_point = rules[param].win_point;
-          break;
-        case "z":
-          putData.win_point = 10;
-          break;
-        case "freezex":
-          putData.win_point = rules[param].win_point;
-          break;
-        case "variables":
-          putData.win_point = rules[param].win_point;
-          break;
-      }
+      const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> =
+        {
+          id: game_id,
+          players: [],
+          correct_me: 1,
+          wrong_me: -1,
+          discord_webhook_url: "",
+          editable: false,
+          last_open: cdate().text(),
+        };
+      const { description, rows, ...params } = rules[param];
+      await db.games.put({
+        ...commonGameProps,
+        ...params,
+      });
       ReactGA.send({
         action: param,
         category: "create_game",
         label: game_id,
       });
-      await db.games.put(putData);
       return game_id;
     } catch (err) {
       console.log(err);
