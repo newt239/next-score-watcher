@@ -70,7 +70,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             <Checkbox
               {...{
                 isChecked: row.getIsSelected(),
-                indeterminate: row.getIsSomeSelected(),
                 onChange: row.getToggleSelectedHandler(),
               }}
             />

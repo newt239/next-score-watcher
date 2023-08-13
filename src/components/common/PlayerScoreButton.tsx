@@ -69,7 +69,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const ButtonCssStyle: SystemStyleObject = {
     display: "block",
     fontSize: isDesktop
-      ? `clamp(24px, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
+      ? `clamp(1.5rem, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
           children.length - (numberSign !== "none" ? 1 : 0),
           2
         )}), 3rem)`
