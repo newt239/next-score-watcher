@@ -4,7 +4,6 @@ import {
   Box,
   IconButton,
   Popover,
-  PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverHeader,
@@ -55,13 +54,14 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
         </PopoverTrigger>
         <PopoverContent
           sx={{
+            w: "auto",
             color: "black",
             _dark: {
               color: "white",
+              bgColor: "gray.800",
             },
           }}
         >
-          <PopoverArrow />
           <PopoverHeader>背景色を変更</PopoverHeader>
           <PopoverBody>
             <RadioGroup
