@@ -17,6 +17,7 @@ import {
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
+import ReactGA from "react-ga4";
 import {
   AdjustmentsHorizontal,
   ArrowBackUp,
@@ -190,6 +191,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               onClick={async () => {
                 if (logs.length !== 0) {
                   await db.logs.delete(logs[logs.length - 1].id);
+                  ReactGA.event({
+                    action: "undo_log",
+                    category: "engagement",
+                    label: game.rule,
+                  });
                 }
               }}
             >
@@ -197,11 +203,16 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </MenuItem>
             <MenuItem
               icon={<HandClick />}
-              onClick={async () =>
+              onClick={async () => {
                 await db.games.update(game.id, {
                   editable: !game.editable,
-                })
-              }
+                });
+                ReactGA.event({
+                  action: "switch_editable",
+                  category: "engagement",
+                  label: game.rule,
+                });
+              }}
             >
               <FormControl
                 as={Flex}

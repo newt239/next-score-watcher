@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import ReactGA from "react-ga4";
 import { ChevronDown } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
@@ -12,6 +13,16 @@ type CopyGamePropsUnion = {
 
 const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
   const navigate = useNavigate();
+
+  const onCompleteCopy = (game_id: string) => {
+    ReactGA.event({
+      action: "copy_game",
+      category: "engagement",
+      label: game.rule,
+    });
+    navigate(`/${game_id}/config`);
+    navigate(0);
+  };
 
   return (
     <Menu>
@@ -25,8 +36,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
               game,
               action_type: "copy-rule",
             });
-            await navigate(`/${game_id}/config`);
-            await navigate(0);
+            onCompleteCopy(game_id as string);
           }}
         >
           形式設定のみコピー
@@ -34,8 +44,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
         <MenuItem
           onClick={async () => {
             const game_id = await createGame({ game, action_type: "copy-all" });
-            await navigate(`/${game_id}/config`);
-            await navigate(0);
+            onCompleteCopy(game_id as string);
           }}
         >
           すべてコピー

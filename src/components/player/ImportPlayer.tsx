@@ -8,6 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import ReactGA from "react-ga4";
 
 import db from "#/utils/db";
 
@@ -23,6 +24,11 @@ const ImportPlayer: React.FC = () => {
         const csvOutput = ev.target?.result;
         if (typeof csvOutput === "string") {
           csvFileToArray(csvOutput).then((row) => {
+            ReactGA.event({
+              action: "import_player",
+              category: "engagement",
+              value: row,
+            });
             toast({
               title: "データをインポートしました",
               description: `${files[0].name}から${row}件のプレイヤーデータを読み込みました`,

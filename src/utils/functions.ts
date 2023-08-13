@@ -15,6 +15,11 @@ export const createGame = async (
       }
 ) => {
   if (typeof param !== "string") {
+    ReactGA.event({
+      action: "create_game",
+      category: "engagement",
+      label: param.game.rule,
+    });
     const game_id = await db.games.put({
       ...param.game,
       id: nanoid(),
@@ -23,6 +28,11 @@ export const createGame = async (
     });
     return game_id;
   } else {
+    ReactGA.event({
+      action: "create_game",
+      category: "engagement",
+      label: param,
+    });
     try {
       const game_id = nanoid(6);
       const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> =
@@ -39,11 +49,6 @@ export const createGame = async (
       await db.games.put({
         ...commonGameProps,
         ...params,
-      });
-      ReactGA.send({
-        action: param,
-        category: "create_game",
-        label: game_id,
       });
       return game_id;
     } catch (err) {
