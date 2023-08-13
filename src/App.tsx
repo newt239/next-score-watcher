@@ -19,7 +19,7 @@ import PlayerPage from "#/pages/player";
 import QuizPage from "#/pages/quiz";
 import RulePage from "#/pages/rule";
 
-import "./globals.css";
+import "#/globals.css";
 
 function App() {
   const isDesktop = useDeviceWidth();

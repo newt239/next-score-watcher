@@ -1,20 +1,19 @@
 import { cdate } from "cdate";
 
-import attacksurvival from "./attacksurvival";
-import backstream from "./backstream";
-import freezex from "./freezex";
-import nbyn from "./nbyn";
-import nomr from "./nomr";
-import nomx from "./nomx";
-import nomxAd from "./nomx-ad";
-import normal from "./normal";
-import nupdown from "./nupdown";
-import ny from "./ny";
-import squarex from "./squarex";
-import swedish10 from "./swedish10";
-import variables from "./variables";
-import z from "./z";
-
+import attacksurvival from "#/utils/computeScore/attacksurvival";
+import backstream from "#/utils/computeScore/backstream";
+import freezex from "#/utils/computeScore/freezex";
+import nbyn from "#/utils/computeScore/nbyn";
+import nomr from "#/utils/computeScore/nomr";
+import nomx from "#/utils/computeScore/nomx";
+import nomxAd from "#/utils/computeScore/nomx-ad";
+import normal from "#/utils/computeScore/normal";
+import nupdown from "#/utils/computeScore/nupdown";
+import ny from "#/utils/computeScore/ny";
+import squarex from "#/utils/computeScore/squarex";
+import swedish10 from "#/utils/computeScore/swedish10";
+import variables from "#/utils/computeScore/variables";
+import z from "#/utils/computeScore/z";
 import db from "#/utils/db";
 import {
   ComputedScoreProps,

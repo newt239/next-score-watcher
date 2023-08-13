@@ -12,8 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
-import InputLayout from "../common/InputLayout";
-
+import InputLayout from "#/components/common/InputLayout";
 import db from "#/utils/db";
 import { GameDBQuizProps } from "#/utils/types";
 
