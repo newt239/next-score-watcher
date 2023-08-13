@@ -31,10 +31,10 @@ import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showQnAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
-import { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/types";
+import { GamePropsUnion, LogDBProps, QuizDBProps } from "#/utils/types";
 
 type BoardHeaderProps = {
-  game: GameDBProps;
+  game: GamePropsUnion;
   logs: LogDBProps[];
 };
 

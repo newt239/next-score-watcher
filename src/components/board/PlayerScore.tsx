@@ -5,10 +5,10 @@ import PlayerScoreButton from "#/components/common/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
-import { ComputedScoreProps, GameDBProps } from "#/utils/types";
+import { ComputedScoreProps, GamePropsUnion } from "#/utils/types";
 
 type PlayerScoreProps = {
-  game: GameDBProps;
+  game: GamePropsUnion;
   player_id: string;
   player: ComputedScoreProps;
   qn: number;

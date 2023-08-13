@@ -31,7 +31,7 @@ import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 
-export type AQLGameProps = {
+export type AQLGamePropsUnion = {
   id: string;
   name: string;
   left_team: string;
@@ -57,9 +57,9 @@ const AQLPage = () => {
   );
 
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
-  const [aqlGames, setAqlGames] = useState<AQLGameProps[]>(
+  const [aqlGames, setAqlGames] = useState<AQLGamePropsUnion[]>(
     aqlGamesRaw
-      ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games
+      ? (JSON.parse(aqlGamesRaw) as { games: AQLGamePropsUnion[] }).games
       : []
   );
 
@@ -71,7 +71,7 @@ const AQLPage = () => {
 
   const createAQLGame = () => {
     const game_id = nanoid(6);
-    const newAqlGame: AQLGameProps = {
+    const newAqlGame: AQLGamePropsUnion = {
       id: game_id,
       name: roundName,
       left_team: leftTeamName,

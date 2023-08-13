@@ -12,7 +12,7 @@ import GameLogs from "#/components/board/GameLogs";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showLogsAtom } from "#/utils/jotai";
-import { AQLGameProps } from "#/utils/types";
+import { AQLGamePropsUnion } from "#/utils/types";
 
 type AQLPlayerStateProps = {
   score: number;
@@ -24,7 +24,7 @@ const AQLBoardPage: React.FC = () => {
   const { game_id } = useParams();
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
   const game = aqlGamesRaw
-    ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games.find(
+    ? (JSON.parse(aqlGamesRaw) as { games: AQLGamePropsUnion[] }).games.find(
         (game) => game.id === game_id
       )
     : undefined;

@@ -1,4 +1,4 @@
-import { GameDBProps } from "#/utils/types";
+import { GamePropsUnion } from "#/utils/types";
 
 export const rules = {
   normal: {
@@ -105,7 +105,7 @@ export const rules = {
   },
 };
 
-export const getRuleStringByType = (game: GameDBProps): string => {
+export const getRuleStringByType = (game: GamePropsUnion): string => {
   switch (game.rule) {
     case "normal":
       return "カウンター";

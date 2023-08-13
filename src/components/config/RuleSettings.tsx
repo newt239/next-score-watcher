@@ -3,10 +3,10 @@ import { Grid } from "@chakra-ui/react";
 import ConfigInput from "#/components/config/ConfigInput";
 import ConfigLimit from "#/components/config/ConfigLimit";
 import ConfigNumberInput from "#/components/config/ConfigNumberInput";
-import { GameDBProps } from "#/utils/types";
+import { GamePropsUnion } from "#/utils/types";
 
 type RuleSettingsProps = {
-  game: GameDBProps;
+  game: GamePropsUnion;
   disabled: boolean;
 };
 

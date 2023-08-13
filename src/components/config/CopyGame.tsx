@@ -4,13 +4,13 @@ import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { ChevronDown } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
-import { GameDBProps } from "#/utils/types";
+import { GamePropsUnion } from "#/utils/types";
 
-type CopyGameProps = {
-  game: GameDBProps;
+type CopyGamePropsUnion = {
+  game: GamePropsUnion;
 };
 
-const CopyGame: React.FC<CopyGameProps> = ({ game }) => {
+const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
   const navigate = useNavigate();
 
   return (

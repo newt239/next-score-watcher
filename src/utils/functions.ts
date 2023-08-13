@@ -4,13 +4,13 @@ import ReactGA from "react-ga4";
 
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
-import { GameDBProps, RuleNames, States } from "#/utils/types";
+import { GamePropsUnion, RuleNames, States } from "#/utils/types";
 
 export const createGame = async (
   param:
     | RuleNames
     | {
-        game: GameDBProps;
+        game: GamePropsUnion;
         action_type: "copy-rule" | "copy-all";
       }
 ) => {
@@ -25,7 +25,7 @@ export const createGame = async (
   } else {
     try {
       const game_id = nanoid(6);
-      const putData: GameDBProps = {
+      const putData: GamePropsUnion = {
         id: game_id,
         name: rules[param].name,
         players: [],
@@ -163,7 +163,7 @@ export const str2num = (str: unknown): number => {
 };
 
 export const detectPlayerState = (
-  game: GameDBProps,
+  game: GamePropsUnion,
   state: States,
   order: number,
   qn: number

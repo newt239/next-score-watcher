@@ -11,10 +11,10 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import { useDebounce } from "#/hooks/useDebounce";
 import db from "#/utils/db";
-import { GameDBProps } from "#/utils/types";
+import { GamePropsUnion } from "#/utils/types";
 
 type ConfigInputProps = {
-  input_id: keyof GameDBProps;
+  input_id: keyof GamePropsUnion;
   label: string;
   placeholder: string;
   disabled?: boolean;

@@ -4,20 +4,26 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+const nomxAd = async (
+  game: AllGameProps["nomx-ad"],
+  gameLogList: LogDBProps[]
+) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   let last_correct_player: string = "";
+  let second_last_correct_player: string = "";
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
           case "correct":
-            const newScore =
-              playerState.score +
-              (last_correct_player === playerState.player_id ? 2 : 1);
+            const is_ad =
+              last_correct_player === playerState.player_id &&
+              game.options.streak3 !==
+                (second_last_correct_player !== playerState.player_id);
+            const newScore = playerState.score + (is_ad ? 2 : 1);
             last_correct_player = playerState.player_id;
             if (newScore >= game.win_point!) {
               return {

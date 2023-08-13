@@ -4,9 +4,12 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const backstream = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+const backstream = async (
+  game: AllGameProps["backstream"],
+  gameLogList: LogDBProps[]
+) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {

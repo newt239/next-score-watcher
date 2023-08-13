@@ -32,24 +32,37 @@ export type GameDBQuizProps = {
   offset: number;
 };
 
-export type GameDBProps = {
-  id: string;
-  name: string;
-  players: GameDBPlayerProps[];
-  rule: RuleNames;
-  correct_me: number;
-  wrong_me: number;
-  correct_other?: number;
-  wrong_other?: number;
-  win_point?: number;
-  lose_point?: number;
-  win_through?: number;
-  limit?: number;
-  quiz?: GameDBQuizProps;
-  discord_webhook_url: string;
-  editable: boolean;
-  last_open: string;
+export type OptionProps = {
+  [key in Exclude<RuleNames, "nomx-ad">]: undefined;
+} & {
+  "nomx-ad": {
+    streak3: boolean;
+  };
 };
+
+export type AllGameProps = {
+  [T in RuleNames]: {
+    id: string;
+    name: string;
+    players: GameDBPlayerProps[];
+    rule: T;
+    correct_me: number;
+    wrong_me: number;
+    correct_other?: number;
+    wrong_other?: number;
+    win_point?: number;
+    lose_point?: number;
+    win_through?: number;
+    limit?: number;
+    quiz?: GameDBQuizProps;
+    discord_webhook_url: string;
+    options: OptionProps[T];
+    editable: boolean;
+    last_open: string;
+  };
+};
+
+export type GamePropsUnion = AllGameProps[RuleNames];
 
 export type PlayerDBProps = {
   id: string;
@@ -97,7 +110,7 @@ export type QuizDBProps = {
 };
 
 export interface ScoreWatcherDBTables extends DexieDatabase {
-  games: Table<GameDBProps>;
+  games: Table<GamePropsUnion>;
   players: Table<PlayerDBProps>;
   logs: Table<LogDBProps>;
   quizes: Table<QuizDBProps>;
@@ -109,7 +122,7 @@ export type WinPlayerProps = {
   text: string;
 };
 
-export type AQLGameProps = {
+export type AQLGamePropsUnion = {
   id: string;
   name: string;
   left_team: string;

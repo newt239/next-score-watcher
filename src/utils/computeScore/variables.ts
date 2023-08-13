@@ -4,10 +4,10 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const variousFluctuations = async (
-  game: GameDBProps,
+const variables = async (
+  game: AllGameProps["variables"],
   gameLogList: LogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];
@@ -90,4 +90,4 @@ const variousFluctuations = async (
   return { scores: playersState, winPlayers };
 };
 
-export default variousFluctuations;
+export default variables;
