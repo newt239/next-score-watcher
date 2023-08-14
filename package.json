@@ -37,6 +37,8 @@
     "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
+    "@sentry/react": "^7.64.0",
+    "@sentry/tracing": "^7.64.0",
     "@types/gtag.js": "^0.0.12",
     "@types/node": "^18.15.7",
     "@types/react": "^18.0.28",
