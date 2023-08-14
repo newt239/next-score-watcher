@@ -1,41 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createRoutesFromChildren,
-  matchRoutes,
-  useLocation,
-  useNavigationType,
-} from "react-router-dom";
 
-import { ChakraProvider } from "@chakra-ui/react";
 import * as Sentry from "@sentry/react";
 
 import App from "#/App";
 
 Sentry.init({
-  dsn: import.meta.env.SENTRY_DSN,
+  dsn: "https://7f2a3eb9428148c3a475c7b2c4bef92a@o4505277028433920.ingest.sentry.io/4505277040033792",
+  release: import.meta.env.VITE_APP_VERSION,
   integrations: [
     new Sentry.BrowserTracing({
-      // See docs for support of different versions of variation of react router
-      // https://docs.sentry.io/platforms/javascript/guides/react/configuration/integrations/react-router/
-      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
-        React.useEffect,
-        useLocation,
-        useNavigationType,
-        createRoutesFromChildren,
-        matchRoutes
-      ),
+      tracePropagationTargets: [
+        "http://localhost",
+        "https://score-watcher.newt239.dev/",
+      ],
     }),
     new Sentry.Replay(),
   ],
   environment: process.env.NODE_ENV,
   tracesSampleRate: 1.0,
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
 });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
+    <App />
   </React.StrictMode>
 );

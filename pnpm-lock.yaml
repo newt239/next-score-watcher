@@ -64,9 +64,6 @@ devDependencies:
   '@sentry/react':
     specifier: ^7.64.0
     version: 7.64.0(react@18.2.0)
-  '@sentry/tracing':
-    specifier: ^7.64.0
-    version: 7.64.0
   '@types/gtag.js':
     specifier: ^0.0.12
     version: 0.0.12
@@ -3051,13 +3048,6 @@ packages:
       '@sentry/core': 7.64.0
       '@sentry/types': 7.64.0
       '@sentry/utils': 7.64.0
-    dev: true
-
-  /@sentry/tracing@7.64.0:
-    resolution: {integrity: sha512-Php0XnnJolfxkFdgLlgwgRz3bgHmu/7gDRQaGQHJeDgCCjrmNHI+sHi8zmkWCWSO0Z1mi111n2ZUr9B9YLPBTg==}
-    engines: {node: '>=8'}
-    dependencies:
-      '@sentry-internal/tracing': 7.64.0
     dev: true
 
   /@sentry/types@7.64.0:
