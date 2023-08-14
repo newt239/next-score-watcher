@@ -17,6 +17,7 @@ import {
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
+import ReactGA from "react-ga4";
 import {
   AdjustmentsHorizontal,
   ArrowBackUp,
@@ -31,10 +32,10 @@ import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showQnAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
-import { GameDBProps, LogDBProps, QuizDBProps } from "#/utils/types";
+import { GamePropsUnion, LogDBProps, QuizDBProps } from "#/utils/types";
 
 type BoardHeaderProps = {
-  game: GameDBProps;
+  game: GamePropsUnion;
   logs: LogDBProps[];
 };
 
@@ -126,33 +127,26 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                     overflow: "hidden",
                   }}
                 >
-                  <div style={{ maxHeight: "8vh" }}>
+                  <Box sx={{ maxHeight: "8vh" }}>
                     {qn === 0
                       ? "ここに問題文が表示されます"
                       : quizList[game.quiz.offset + qn - 1].q}
-                  </div>
+                  </Box>
                   <Box
                     sx={{
                       textAlign: "right",
                       color: "red.600",
+                      bgColor: "gray.50",
                       fontWeight: 800,
                       _dark: {
                         color: "red.300",
+                        bgColor: "gray.700",
                       },
                     }}
                   >
-                    <Box
-                      sx={{
-                        bgColor: "gray.50",
-                        _dark: {
-                          bgColor: "gray.700",
-                        },
-                      }}
-                    >
-                      {qn === 0
-                        ? "ここに答えが表示されます"
-                        : quizList[game.quiz.offset + qn - 1].a}
-                    </Box>
+                    {qn === 0
+                      ? "ここに答えが表示されます"
+                      : quizList[game.quiz.offset + qn - 1].a}
                   </Box>
                 </Box>
               )}
@@ -197,6 +191,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               onClick={async () => {
                 if (logs.length !== 0) {
                   await db.logs.delete(logs[logs.length - 1].id);
+                  ReactGA.event({
+                    action: "undo_log",
+                    category: "engagement",
+                    label: game.rule,
+                  });
                 }
               }}
             >
@@ -204,15 +203,20 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </MenuItem>
             <MenuItem
               icon={<HandClick />}
-              onClick={async () =>
+              onClick={async () => {
                 await db.games.update(game.id, {
                   editable: !game.editable,
-                })
-              }
+                });
+                ReactGA.event({
+                  action: "switch_editable",
+                  category: "engagement",
+                  label: game.rule,
+                });
+              }}
             >
               <FormControl
+                as={Flex}
                 sx={{
-                  display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
                 }}

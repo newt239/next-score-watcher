@@ -4,20 +4,29 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+/*
+stageの値が2のときアドバンテージ状態を表す
+*/
+
+const nomxAd = async (
+  game: AllGameProps["nomx-ad"],
+  gameLogList: LogDBProps[]
+) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   let last_correct_player: string = "";
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
+        const is_ad = playerState.stage === 2;
         switch (log.variant) {
           case "correct":
-            const newScore =
-              playerState.score +
-              (last_correct_player === playerState.player_id ? 2 : 1);
+            const newScore = playerState.score + (is_ad ? 2 : 1);
+            const next_ad =
+              (!game.options.streak_over3 && playerState.stage === 1) ||
+              game.options.streak_over3;
             last_correct_player = playerState.player_id;
             if (newScore >= game.win_point!) {
               return {
@@ -26,6 +35,7 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 score: newScore,
                 last_correct: qn,
                 state: "win",
+                stage: next_ad ? 2 : 1,
               };
             } else {
               return {
@@ -33,6 +43,7 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 correct: playerState.correct + 1,
                 score: newScore,
                 last_correct: qn,
+                stage: next_ad ? 2 : 1,
               };
             }
           case "wrong":
@@ -46,19 +57,21 @@ const nomxAd = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
                 wrong: newWrong,
                 last_wrong: qn,
                 state: "lose",
+                stage: 1,
               };
             } else {
               return {
                 ...playerState,
                 wrong: newWrong,
                 last_wrong: qn,
+                stage: 1,
               };
             }
           default:
             return playerState;
         }
       } else {
-        return playerState;
+        return { ...playerState, stage: 1 };
       }
     });
   });

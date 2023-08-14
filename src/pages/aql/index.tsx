@@ -31,7 +31,7 @@ import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 
-export type AQLGameProps = {
+export type AQLGamePropsUnion = {
   id: string;
   name: string;
   left_team: string;
@@ -57,9 +57,9 @@ const AQLPage = () => {
   );
 
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
-  const [aqlGames, setAqlGames] = useState<AQLGameProps[]>(
+  const [aqlGames, setAqlGames] = useState<AQLGamePropsUnion[]>(
     aqlGamesRaw
-      ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games
+      ? (JSON.parse(aqlGamesRaw) as { games: AQLGamePropsUnion[] }).games
       : []
   );
 
@@ -71,7 +71,7 @@ const AQLPage = () => {
 
   const createAQLGame = () => {
     const game_id = nanoid(6);
-    const newAqlGame: AQLGameProps = {
+    const newAqlGame: AQLGamePropsUnion = {
       id: game_id,
       name: roundName,
       left_team: leftTeamName,
@@ -108,140 +108,146 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <Container>
-      <h2>AQLルール</h2>
-      {aqlGames && aqlGames.length !== 0 && (
-        <>
-          <h3>作成したゲーム</h3>
-          <TableContainer pt={5}>
-            <Table size="sm" variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>ラウンド名</Th>
-                  <Th></Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {aqlGames.map((game, i) => {
-                  return (
-                    <Tr key={game.id}>
-                      <Td>{game.name}</Td>
-                      <Td isNumeric>
-                        <Button
-                          as={ReactLink}
-                          colorScheme="green"
-                          leftIcon={<Chalkboard />}
-                          size="sm"
-                          to={`/aql/${game.id}`}
-                          variant="ghost"
-                        >
-                          開く
-                        </Button>
-                        <Button
-                          colorScheme="red"
-                          leftIcon={<Trash />}
-                          onClick={() =>
-                            setAqlGames(aqlGames.filter((game, n) => i !== n))
-                          }
-                          size="sm"
-                          variant="ghost"
-                        >
-                          削除
-                        </Button>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
-      <h3>新規作成</h3>
-      <Flex direction={isDesktop ? "row" : "column"} gap={3}>
-        <FormControl pt={5}>
-          <FormLabel>ラウンド名</FormLabel>
-          <Input
-            onChange={(v) => setRoundName(v.target.value)}
-            type="text"
-            value={roundName}
-          />
-        </FormControl>
-        <FormControl pt={5}>
-          <FormLabel>左側のチーム名</FormLabel>
-          <Input
-            onChange={(v) => setLeftTeamName(v.target.value)}
-            type="text"
-            value={leftTeamName}
-          />
-        </FormControl>
-        <FormControl pt={5}>
-          <FormLabel>右側のチーム名</FormLabel>
-          <Input
-            onChange={(v) => setRightTeamName(v.target.value)}
-            type="text"
-            value={rightTeamName}
-          />
-        </FormControl>
-      </Flex>
-      <Box py={5}>
-        {quizset_names.length !== 0 ? (
-          <Flex sx={{ gap: 5 }}>
-            <FormControl pt={5} width={200}>
-              <FormLabel>セット名</FormLabel>
-              <Select
-                defaultValue={quizSet}
-                onChange={(v) => SetQuizSet(v.target.value)}
-              >
-                <option value="">問題を表示しない</option>
-                {quizset_names.map((setname) => (
-                  <option key={setname} value={setname}>
-                    {setname}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-            {quizSet !== "" && (
-              <FormControl pt={5} width={200}>
-                <FormLabel>オフセット</FormLabel>
-                <NumberInput
-                  min={0}
-                  onChange={(s, n) => setOffset(n)}
-                  value={offset}
-                >
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                  </NumberInputStepper>
-                </NumberInput>
-              </FormControl>
-            )}
-          </Flex>
-        ) : (
-          <Box>
-            <Button
-              as={ReactLink}
-              colorScheme="blue"
-              disabled={
-                roundName === "" || leftTeamName === "" || rightTeamName === ""
-              }
-              leftIcon={<Upload />}
-              to="/quiz"
-            >
-              問題データを読み込む
-            </Button>
+    <Container pt={5}>
+      <Box pt={5}>
+        <h2>AQLルール</h2>
+        {aqlGames && aqlGames.length !== 0 && (
+          <Box pt={5}>
+            <h3>作成したゲーム</h3>
+            <TableContainer pt={2}>
+              <Table size="sm" variant="simple">
+                <Thead>
+                  <Tr>
+                    <Th>ラウンド名</Th>
+                    <Th></Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {aqlGames.map((game, i) => {
+                    return (
+                      <Tr key={game.id}>
+                        <Td>{game.name}</Td>
+                        <Td isNumeric>
+                          <Button
+                            as={ReactLink}
+                            colorScheme="green"
+                            leftIcon={<Chalkboard />}
+                            size="sm"
+                            to={`/aql/${game.id}`}
+                            variant="ghost"
+                          >
+                            開く
+                          </Button>
+                          <Button
+                            colorScheme="red"
+                            leftIcon={<Trash />}
+                            onClick={() =>
+                              setAqlGames(aqlGames.filter((game, n) => i !== n))
+                            }
+                            size="sm"
+                            variant="ghost"
+                          >
+                            削除
+                          </Button>
+                        </Td>
+                      </Tr>
+                    );
+                  })}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </Box>
         )}
-      </Box>
-      <Box sx={{ textAlign: "right", pt: 5 }}>
-        <Button
-          colorScheme="green"
-          leftIcon={<CirclePlus />}
-          onClick={createAQLGame}
-        >
-          作る
-        </Button>
+        <Box pt={5}>
+          <h3>新規作成</h3>
+          <Flex direction={isDesktop ? "row" : "column"} gap={3}>
+            <FormControl pt={2}>
+              <FormLabel>ラウンド名</FormLabel>
+              <Input
+                onChange={(v) => setRoundName(v.target.value)}
+                type="text"
+                value={roundName}
+              />
+            </FormControl>
+            <FormControl pt={2}>
+              <FormLabel>左側のチーム名</FormLabel>
+              <Input
+                onChange={(v) => setLeftTeamName(v.target.value)}
+                type="text"
+                value={leftTeamName}
+              />
+            </FormControl>
+            <FormControl pt={2}>
+              <FormLabel>右側のチーム名</FormLabel>
+              <Input
+                onChange={(v) => setRightTeamName(v.target.value)}
+                type="text"
+                value={rightTeamName}
+              />
+            </FormControl>
+          </Flex>
+        </Box>
+        <Box pt={5}>
+          {quizset_names.length !== 0 ? (
+            <Flex sx={{ gap: 5 }}>
+              <FormControl pt={5} width={200}>
+                <FormLabel>セット名</FormLabel>
+                <Select
+                  defaultValue={quizSet}
+                  onChange={(v) => SetQuizSet(v.target.value)}
+                >
+                  <option value="">問題を表示しない</option>
+                  {quizset_names.map((setname) => (
+                    <option key={setname} value={setname}>
+                      {setname}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              {quizSet !== "" && (
+                <FormControl pt={5} width={200}>
+                  <FormLabel>オフセット</FormLabel>
+                  <NumberInput
+                    min={0}
+                    onChange={(s, n) => setOffset(n)}
+                    value={offset}
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+              )}
+            </Flex>
+          ) : (
+            <Box>
+              <Button
+                as={ReactLink}
+                colorScheme="blue"
+                disabled={
+                  roundName === "" ||
+                  leftTeamName === "" ||
+                  rightTeamName === ""
+                }
+                leftIcon={<Upload />}
+                to="/quiz"
+              >
+                問題データを読み込む
+              </Button>
+            </Box>
+          )}
+        </Box>
+        <Box sx={{ textAlign: "right", pt: 5 }}>
+          <Button
+            colorScheme="green"
+            leftIcon={<CirclePlus />}
+            onClick={createAQLGame}
+          >
+            作る
+          </Button>
+        </Box>
       </Box>
     </Container>
   );

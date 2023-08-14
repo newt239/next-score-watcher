@@ -19,17 +19,9 @@ type PlayerProps = {
   player: PlayerDBProps;
   index: number;
   score: ComputedScoreProps | undefined;
-  qn: number;
-  last_correct_player: string;
 };
 
-const Player: React.FC<PlayerProps> = ({
-  player,
-  index,
-  score,
-  qn,
-  last_correct_player,
-}) => {
+const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
   const { colorMode } = useColorMode();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
@@ -133,17 +125,7 @@ const Player: React.FC<PlayerProps> = ({
         )}
         <PlayerName player_name={player.name} />
       </Flex>
-      <PlayerScore
-        game={game}
-        isLastCorrectPlayer={
-          last_correct_player === player.id &&
-          qn !== 0 &&
-          score.last_wrong < score.last_correct
-        }
-        player={editedScore}
-        player_id={player.id}
-        qn={qn}
-      />
+      <PlayerScore game={game} player={editedScore} />
     </Flex>
   );
 };

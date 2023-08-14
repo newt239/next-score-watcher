@@ -4,9 +4,12 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const freezex = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+const freezex = async (
+  game: AllGameProps["freezex"],
+  gameLogList: LogDBProps[]
+) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {

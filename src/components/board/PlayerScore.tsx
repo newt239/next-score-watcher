@@ -5,23 +5,14 @@ import PlayerScoreButton from "#/components/common/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
-import { ComputedScoreProps, GameDBProps } from "#/utils/types";
+import { ComputedScoreProps, GamePropsUnion } from "#/utils/types";
 
 type PlayerScoreProps = {
-  game: GameDBProps;
-  player_id: string;
+  game: GamePropsUnion;
   player: ComputedScoreProps;
-  qn: number;
-  isLastCorrectPlayer: boolean;
 };
 
-const PlayerScore: React.FC<PlayerScoreProps> = ({
-  game,
-  player_id,
-  player,
-  qn,
-  isLastCorrectPlayer,
-}) => {
+const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
   const isVerticalView =
@@ -29,7 +20,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
 
   const props = {
     game_id: game.id,
-    player_id: player_id,
+    player_id: player.player_id,
     editable: game.editable,
   };
 
@@ -69,11 +60,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton
-            color="red"
-            filled={isLastCorrectPlayer}
-            {...props}
-          >
+          <PlayerScoreButton color="red" filled={player.stage === 2} {...props}>
             {numberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
@@ -291,9 +278,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             </PlayerScoreButton>
           </Flex>
           <PlayerScoreButton color="green" disabled {...props}>
-            {`+${game.players.find((gamePlayer) => gamePlayer.id === player_id)
-              ?.base_correct_point!} / ${game.players.find(
-              (gamePlayer) => gamePlayer.id === player_id
+            {`+${game.players.find(
+              (gamePlayer) => gamePlayer.id === player.player_id
+            )?.base_correct_point!} / ${game.players.find(
+              (gamePlayer) => gamePlayer.id === player.player_id
             )?.base_wrong_point!}`}
           </PlayerScoreButton>
         </>

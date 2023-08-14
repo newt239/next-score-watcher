@@ -1,22 +1,26 @@
 import { cdate } from "cdate";
 
-import attacksurvival from "./attacksurvival";
-import backstream from "./backstream";
-import freezex from "./freezex";
-import nbyn from "./nbyn";
-import nomr from "./nomr";
-import nomx from "./nomx";
-import nomxAd from "./nomx-ad";
-import normal from "./normal";
-import nupdown from "./nupdown";
-import ny from "./ny";
-import squarex from "./squarex";
-import swedish10 from "./swedish10";
-import variousFluctuations from "./variables";
-import z from "./z";
-
+import attacksurvival from "#/utils/computeScore/attacksurvival";
+import backstream from "#/utils/computeScore/backstream";
+import freezex from "#/utils/computeScore/freezex";
+import nbyn from "#/utils/computeScore/nbyn";
+import nomr from "#/utils/computeScore/nomr";
+import nomx from "#/utils/computeScore/nomx";
+import nomxAd from "#/utils/computeScore/nomx-ad";
+import normal from "#/utils/computeScore/normal";
+import nupdown from "#/utils/computeScore/nupdown";
+import ny from "#/utils/computeScore/ny";
+import squarex from "#/utils/computeScore/squarex";
+import swedish10 from "#/utils/computeScore/swedish10";
+import variables from "#/utils/computeScore/variables";
+import z from "#/utils/computeScore/z";
 import db from "#/utils/db";
-import { ComputedScoreProps, GameDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  ComputedScoreProps,
+  GamePropsUnion,
+  States,
+  WinPlayerProps,
+} from "#/utils/types";
 
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
@@ -70,7 +74,7 @@ const computeScore = async (game_id: string) => {
       result = await freezex(game, gameLogList);
       break;
     case "variables":
-      result = await variousFluctuations(game, gameLogList);
+      result = await variables(game, gameLogList);
       break;
   }
 
@@ -155,14 +159,14 @@ const computeScore = async (game_id: string) => {
   return data;
 };
 
-export const getInitialPlayersState = (game: GameDBProps) => {
+export const getInitialPlayersState = (game: GamePropsUnion) => {
   const initialPlayersState = game.players.map(
     (gamePlayer): ComputedScoreProps => {
-      return {
+      const playerState = {
         game_id: game.id,
         player_id: gamePlayer.id,
-        state: "playing",
-        reach_state: "playing",
+        state: "playing" as States,
+        reach_state: "playing" as States,
         score:
           game.rule === "attacksurvival"
             ? game.win_point!
@@ -182,6 +186,7 @@ export const getInitialPlayersState = (game: GameDBProps) => {
         order: 0,
         text: "",
       };
+      return playerState;
     }
   );
   return initialPlayersState;

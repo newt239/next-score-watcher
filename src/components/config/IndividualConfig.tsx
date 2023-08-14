@@ -52,11 +52,13 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
     <>
       <IconButton
         aria-label="初期値の変更"
+        colorScheme="blue"
         disabled={disabled}
-        icon={<AdjustmentsHorizontal />}
         onClick={onClick}
-        size="xs"
-      />
+        size="sm"
+      >
+        <AdjustmentsHorizontal />
+      </IconButton>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

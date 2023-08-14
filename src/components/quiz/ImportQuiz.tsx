@@ -8,6 +8,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import ReactGA from "react-ga4";
 
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
@@ -25,6 +26,11 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         const csvOutput = ev.target?.result;
         if (typeof csvOutput === "string") {
           csvFileToArray(csvOutput).then((row) => {
+            ReactGA.event({
+              action: "import_quiz",
+              category: "engagement",
+              value: row,
+            });
             toast({
               title: "データをインポートしました",
               description: `${files[0].name}から${row}件の問題を読み込みました`,

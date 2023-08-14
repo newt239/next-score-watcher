@@ -4,9 +4,9 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const nomx = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+const nomx = async (game: AllGameProps["nomx"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {

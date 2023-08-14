@@ -3,9 +3,9 @@ import {
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
-const z = async (game: GameDBProps, gameLogList: LogDBProps[]) => {
+const z = async (game: AllGameProps["z"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {

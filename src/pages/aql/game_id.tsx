@@ -12,7 +12,7 @@ import GameLogs from "#/components/board/GameLogs";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showLogsAtom } from "#/utils/jotai";
-import { AQLGameProps } from "#/utils/types";
+import { AQLGamePropsUnion } from "#/utils/types";
 
 type AQLPlayerStateProps = {
   score: number;
@@ -24,7 +24,7 @@ const AQLBoardPage: React.FC = () => {
   const { game_id } = useParams();
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
   const game = aqlGamesRaw
-    ? (JSON.parse(aqlGamesRaw) as { games: AQLGameProps[] }).games.find(
+    ? (JSON.parse(aqlGamesRaw) as { games: AQLGamePropsUnion[] }).games.find(
         (game) => game.id === game_id
       )
     : undefined;
@@ -219,18 +219,22 @@ const AQLBoardPage: React.FC = () => {
           flexDirection: "column",
           textAlign: "center",
           fontSize: "max(1.5rem, 1.5vw)",
-          backgroundColor:
+          bgColor:
             state === "win"
-              ? colorMode === "light"
-                ? "red.600"
-                : "red.300"
+              ? "red.600"
               : state === "lose"
-              ? colorMode === "light"
-                ? "blue.600"
-                : "blue.300"
+              ? "blue.600"
               : undefined,
           p: 1,
           borderRadius: "1rem",
+          _dark: {
+            bgColor:
+              state === "win"
+                ? "red.300"
+                : state === "lose"
+                ? "blue.300"
+                : undefined,
+          },
         }}
       >
         <Box
@@ -280,17 +284,11 @@ const AQLBoardPage: React.FC = () => {
                     borderWidth: 2,
                     borderColor:
                       state !== "playing"
-                        ? colorMode === "dark"
-                          ? "gray.800"
-                          : "white"
+                        ? "white"
                         : reachState
-                        ? colorMode === "light"
-                          ? "red.600"
-                          : "red.300"
+                        ? "red.600"
                         : wrong === 1
-                        ? colorMode === "light"
-                          ? "blue.600"
-                          : "blue.300"
+                        ? "blue.600"
                         : undefined,
                     borderRadius: "1rem",
                     p: 2,
@@ -306,6 +304,22 @@ const AQLBoardPage: React.FC = () => {
                         : colorMode === "dark"
                         ? "gray.800"
                         : "white",
+                    _dark: {
+                      borderColor:
+                        state !== "playing"
+                          ? "gray.800"
+                          : reachState
+                          ? "red.300"
+                          : wrong === 1
+                          ? "blue.300"
+                          : undefined,
+                      backgroundColor:
+                        state !== "playing"
+                          ? "gray.800"
+                          : wrong === 2
+                          ? "blue.300"
+                          : "gray.800",
+                    },
                   }}
                 >
                   <Box>No.{position === "left" ? n + 1 : n - 4}</Box>
@@ -363,8 +377,11 @@ const AQLBoardPage: React.FC = () => {
       <Flex
         onKeyDown={keyboardShortcutHandler}
         sx={{
-          p: 5,
-          gap: 5,
+          gap: "1.5vh 1vw",
+          w: "100%",
+          h: ["90vh", "90vh", "85vh"],
+          px: "1vw",
+          pt: "3vh",
           justifyContent: "space-around",
           flexDirection: isDesktop ? "row" : "column",
         }}
