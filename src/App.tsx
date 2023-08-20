@@ -6,7 +6,7 @@ import BottomBar from "#/components/block/BottomBar";
 import Footer from "#/components/block/Footer";
 import Header from "#/components/block/Header";
 import ScrollTop from "#/components/block/ScrollTop";
-import UpdateModal from "#/components/home/UpdateModal";
+import UpdateModal from "#/components/block/UpdateModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import HomePage from "#/pages";
 import AQLPage from "#/pages/aql";
