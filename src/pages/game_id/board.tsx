@@ -97,7 +97,7 @@ const BoardPage = () => {
   if (!game || !logs) return null;
 
   window.document.onkeydown = async (event) => {
-    if (game) {
+    if (game && window.location.pathname.endsWith("board")) {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
         if (playerIndex <= players.length) {
