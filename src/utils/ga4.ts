@@ -8,7 +8,6 @@ export const isGA4Enabled = () => {
 
 export const initializeGA4 = () => {
   if (GA_ID) {
-    console.log("GA4 initialized");
     ReactGA.initialize(GA_ID);
   }
 };
