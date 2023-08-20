@@ -17,7 +17,6 @@ import {
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
-import ReactGA from "react-ga4";
 import {
   AdjustmentsHorizontal,
   ArrowBackUp,
@@ -30,6 +29,7 @@ import {
 import PreferenceModal from "#/components/board/PreferenceModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import { recordEvent } from "#/utils/ga4";
 import { showQnAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { GamePropsUnion, LogDBProps, QuizDBProps } from "#/utils/types";
@@ -191,7 +191,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               onClick={async () => {
                 if (logs.length !== 0) {
                   await db.logs.delete(logs[logs.length - 1].id);
-                  ReactGA.event({
+                  recordEvent({
                     action: "undo_log",
                     category: "engagement",
                     label: game.rule,
@@ -207,7 +207,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 await db.games.update(game.id, {
                   editable: !game.editable,
                 });
-                ReactGA.event({
+                recordEvent({
                   action: "switch_editable",
                   category: "engagement",
                   label: game.rule,

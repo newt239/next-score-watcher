@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import ReactGA from "react-ga4";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import AlertDialog from "#/components/common/AlertDialog";
@@ -28,6 +27,7 @@ import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import { recordEvent } from "#/utils/ga4";
 import { rules } from "#/utils/rules";
 
 const ConfigPage = () => {
@@ -57,17 +57,17 @@ const ConfigPage = () => {
 
   const deleteGame = async () => {
     await db.games.delete(game.id);
-    ReactGA.event({
-      action: "delete_game",
-      category: "engagement",
-      label: game.rule,
-    });
     toast({
       title: "ゲームを削除しました",
       description: `${game.name}(${rules[game.rule].name})を削除しました`,
       status: "error",
       duration: 9000,
       isClosable: true,
+    });
+    recordEvent({
+      action: "delete_game",
+      category: "engagement",
+      label: game.rule,
     });
     navigate("/");
   };

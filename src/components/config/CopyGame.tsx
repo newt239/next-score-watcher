@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import ReactGA from "react-ga4";
 import { ChevronDown } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
+import { recordEvent } from "#/utils/ga4";
 import { GamePropsUnion } from "#/utils/types";
 
 type CopyGamePropsUnion = {
@@ -15,7 +15,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
   const navigate = useNavigate();
 
   const onCompleteCopy = (game_id: string) => {
-    ReactGA.event({
+    recordEvent({
       action: "copy_game",
       category: "engagement",
       label: game.rule,
