@@ -26,6 +26,7 @@
     "cdate": "^0.0.6",
     "dexie": "^3.2.4",
     "dexie-react-hooks": "^1.1.6",
+    "encoding-japanese": "^2.0.0",
     "framer-motion": "^8.5.5",
     "jotai": "^2.3.1",
     "nanoid": "^4.0.2",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@sentry/react": "^7.64.0",
+    "@types/encoding-japanese": "^2.0.1",
     "@types/gtag.js": "^0.0.12",
     "@types/node": "^18.17.6",
     "@types/react": "^18.2.20",

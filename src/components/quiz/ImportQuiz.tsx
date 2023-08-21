@@ -7,6 +7,7 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
+import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
@@ -21,11 +22,15 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = e.target.files;
     if (files) {
-      fileReader.readAsText(files[0], "UTF-8");
       fileReader.onload = (ev) => {
-        const csvOutput = ev.target?.result;
-        if (typeof csvOutput === "string") {
-          csvFileToArray(csvOutput).then((row) => {
+        const buffer = ev.target?.result;
+        if (buffer instanceof ArrayBuffer) {
+          const unicodeArray = Encoding.convert(new Uint8Array(buffer), {
+            to: "UNICODE",
+            from: "AUTO",
+          });
+          const encodedString = Encoding.codeToString(unicodeArray);
+          csvFileToArray(encodedString).then((row) => {
             toast({
               title: "データをインポートしました",
               description: `${files[0].name}から${row}件の問題を読み込みました`,
@@ -41,26 +46,26 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           });
         }
       };
+      fileReader.readAsArrayBuffer(files[0]);
     }
   };
 
   const csvFileToArray = async (raw: string) => {
     const csvRows = raw.split("\n");
-    await db.quizes.bulkPut(
-      csvRows
-        .map((row) => {
-          const values = row.split(",");
-          return {
-            id: nanoid(),
-            n: str2num(values[0]),
-            q: values[1] || "",
-            a: values[2] || "",
-            set_name: setName,
-          };
-        })
-        .filter((row) => row.q !== "")
-    );
-    return csvRows.length;
+    const filteredRows = csvRows
+      .map((row) => {
+        const values = row.split(",");
+        return {
+          id: nanoid(),
+          n: str2num(values[0]),
+          q: values[1] || "",
+          a: values[2] || "",
+          set_name: setName,
+        };
+      })
+      .filter((row) => row.q !== "");
+    await db.quizes.bulkPut(filteredRows);
+    return filteredRows.length;
   };
 
   return (
