@@ -3,6 +3,8 @@ import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
+  Button,
+  ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
@@ -42,6 +44,7 @@ type BoardHeaderProps = {
 
 const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
+  const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
   const isDesktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -59,9 +62,20 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     getQuizList();
   }, [game.quiz]);
 
-  if (!game || !logs) return null;
-
   const qn = logs.filter((log) => log.variant !== "skip").length;
+  const quizPosition = game.editable
+    ? manualQuizPosition
+    : game.quiz
+    ? game.quiz.offset + qn - 1
+    : 0;
+
+  useEffect(() => {
+    if (game.quiz) {
+      setManualQuizPosition(game.quiz.offset + qn - 1);
+    }
+  }, [game.editable]);
+
+  if (!game || !logs) return null;
 
   return (
     <>
@@ -103,56 +117,78 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           <h2 style={{ lineHeight: "2rem" }}>{game.name}</h2>
           <p>{getRuleStringByType(game)}</p>
         </Flex>
-        {game.editable ||
-          (isDesktop && (
-            <>
-              {showQn && (
+        {isDesktop && (
+          <>
+            {showQn && (
+              <Flex sx={{ flexDirection: "column", justifyContent: "center" }}>
                 <Box sx={{ whiteSpace: "nowrap" }}>
                   第
                   <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                    {logs.length + 1}
+                    {game.editable ? manualQuizPosition : logs.length + 1}
                   </span>
                   問
                 </Box>
-              )}
-              {game.quiz && quizList.length > qn && (
+                {game.editable && (
+                  <ButtonGroup
+                    isAttached
+                    justifyContent="center"
+                    size="sm"
+                    variant="outline"
+                  >
+                    <Button
+                      isDisabled={manualQuizPosition <= 0}
+                      onClick={() => setManualQuizPosition((v) => v - 1)}
+                    >
+                      {"<"}
+                    </Button>
+                    <Button
+                      isDisabled={manualQuizPosition >= quizList.length - 1}
+                      onClick={() => setManualQuizPosition((v) => v + 1)}
+                    >
+                      {">"}
+                    </Button>
+                  </ButtonGroup>
+                )}
+              </Flex>
+            )}
+            {game.quiz && quizList.length > quizPosition && (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  height: "100%",
+                  fontSize: "1.5rem",
+                  lineHeight: "1.5rem",
+                  overflow: "hidden",
+                }}
+              >
+                <Box sx={{ maxHeight: "8vh" }}>
+                  {qn === 0
+                    ? "ここに問題文が表示されます"
+                    : quizList[quizPosition].q}
+                </Box>
                 <Box
                   sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    height: "100%",
-                    fontSize: "1.5rem",
-                    lineHeight: "1.5rem",
-                    overflow: "hidden",
+                    textAlign: "right",
+                    color: "red.600",
+                    bgColor: "gray.50",
+                    fontWeight: 800,
+                    _dark: {
+                      color: "red.300",
+                      bgColor: "gray.700",
+                    },
                   }}
                 >
-                  <Box sx={{ maxHeight: "8vh" }}>
-                    {qn === 0
-                      ? "ここに問題文が表示されます"
-                      : quizList[game.quiz.offset + qn - 1].q}
-                  </Box>
-                  <Box
-                    sx={{
-                      textAlign: "right",
-                      color: "red.600",
-                      bgColor: "gray.50",
-                      fontWeight: 800,
-                      _dark: {
-                        color: "red.300",
-                        bgColor: "gray.700",
-                      },
-                    }}
-                  >
-                    {qn === 0
-                      ? "ここに答えが表示されます"
-                      : quizList[game.quiz.offset + qn - 1].a}
-                  </Box>
+                  {qn === 0
+                    ? "ここに答えが表示されます"
+                    : quizList[quizPosition].a}
                 </Box>
-              )}
-            </>
-          ))}
+              </Box>
+            )}
+          </>
+        )}
         <Menu closeOnSelect={false}>
           <MenuButton
             as={IconButton}

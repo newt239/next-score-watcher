@@ -77,7 +77,7 @@ const ConfigPage = () => {
   const errorMessages = [];
   if (disabled)
     errorMessages.push(
-      `現在${
+      `[変更不可]現在${
         logs.length + 1
       }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
     );
@@ -102,7 +102,9 @@ const ConfigPage = () => {
         <Button
           as={ReactLink}
           colorScheme="green"
-          isDisabled={errorMessages.length !== 0}
+          isDisabled={
+            errorMessages.filter((v) => !v.startsWith("[")).length !== 0
+          }
           leftIcon={<PlayerPlay />}
           size="lg"
           to={`/${game_id}/board`}
