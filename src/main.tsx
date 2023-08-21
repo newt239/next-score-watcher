@@ -16,6 +16,9 @@ if (process.env.NODE_ENV === "production") {
       }),
       new Sentry.Replay(),
     ],
+    ignoreErrors: [
+      "TypeError: Failed to register a ServiceWorker for scope", // PWA
+    ],
     environment: process.env.NODE_ENV,
     tracesSampleRate: 1.0,
     replaysSessionSampleRate: 0.1,

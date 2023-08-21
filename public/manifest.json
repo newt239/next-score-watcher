@@ -60,12 +60,5 @@
             "platform": "wide",
             "label": "カラーモードの変更"
         }
-    ],
-    "shortcuts": [
-        {
-            "name": "ゲームを作成",
-            "url": "/rule",
-            "description": "新しいゲームを作成します"
-        }
     ]
 }
