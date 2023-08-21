@@ -74,6 +74,20 @@ const ConfigPage = () => {
 
   const disabled = logs.length !== 0;
 
+  const errorMessages = [];
+  if (disabled)
+    errorMessages.push(
+      `現在${
+        logs.length + 1
+      }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
+    );
+  if (game.players.length === 0)
+    errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
+  if (game.win_through && game.players.length <= game.win_through)
+    errorMessages.push(
+      "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
+    );
+
   return (
     <Container pt={5}>
       <Card my={3} p={2} variant="filled">
@@ -84,23 +98,11 @@ const ConfigPage = () => {
           ))}
         </div>
       </Card>
-      <InputLayout
-        label={
-          disabled
-            ? `現在${
-                logs.length + 1
-              }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
-            : game.players.length === 0
-            ? "「プレイヤー設定」からプレイヤーを選択してください。"
-            : ""
-        }
-        simple
-        vertical={!isDesktop}
-      >
+      <InputLayout label={errorMessages.join(" ")} simple vertical={!isDesktop}>
         <Button
           as={ReactLink}
           colorScheme="green"
-          isDisabled={game.players.length === 0}
+          isDisabled={errorMessages.length !== 0}
           leftIcon={<PlayerPlay />}
           size="lg"
           to={`/${game_id}/board`}
