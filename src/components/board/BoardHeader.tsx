@@ -9,6 +9,7 @@ import {
   IconButton,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Switch,
@@ -228,6 +229,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
               表示設定
             </MenuItem>
+            <MenuDivider />
             <MenuItem
               as={ReactLink}
               icon={<AdjustmentsHorizontal />}
