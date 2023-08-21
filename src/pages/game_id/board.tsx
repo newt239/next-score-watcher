@@ -84,7 +84,13 @@ const BoardPage = () => {
             });
           }
         }
-        if (result.scores.length === result.incapacity_players.length) {
+        const playingPlayers = result.scores.filter(
+          (score) => score.state === "playing"
+        );
+        if (
+          playingPlayers.length > 0 &&
+          playingPlayers.length === result.incapacity_players.length
+        ) {
           setSkipSuggest(true);
         } else {
           setSkipSuggest(false);

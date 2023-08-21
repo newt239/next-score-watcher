@@ -81,9 +81,8 @@ const computeScore = async (game_id: string) => {
   let incapacity_players: string[] = [];
   result.scores.map((score) => {
     if (
-      score.state !== "playing" ||
-      score.is_incapacity ||
-      score.text.endsWith("休")
+      score.state === "playing" &&
+      (score.is_incapacity || score.text.endsWith("休"))
     ) {
       incapacity_players.push(score.player_id);
     }
