@@ -6,9 +6,11 @@ import {
   Button,
   Card,
   Container,
+  ListItem,
   TabPanel,
   TabPanels,
   Tabs,
+  UnorderedList,
   VStack,
   useDisclosure,
   useToast,
@@ -75,22 +77,26 @@ const ConfigPage = () => {
   const disabled = logs.length !== 0;
 
   const errorMessages = [];
-  if (disabled)
-    errorMessages.push(
-      `[変更不可]現在${
-        logs.length + 1
-      }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
-    );
   if (game.players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
   if (game.win_through && game.players.length <= game.win_through)
     errorMessages.push(
       "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
     );
+  if (disabled)
+    errorMessages.push(
+      `現在${
+        logs.length + 1
+      }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
+    );
+
+  const playButtonIsDisabled =
+    errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !==
+    0;
 
   return (
     <Container pt={5}>
-      <Card my={3} p={2} variant="filled">
+      <Card p={2} variant="filled">
         <h3>{rules[game.rule].name}</h3>
         <div>
           {rules[game.rule].description.split("\n").map((p) => (
@@ -98,13 +104,39 @@ const ConfigPage = () => {
           ))}
         </div>
       </Card>
-      <InputLayout label={errorMessages.join(" ")} simple vertical={!isDesktop}>
+      <InputLayout
+        label={
+          <UnorderedList
+            sx={{
+              color: "red.500",
+              _dark: {
+                color: "red.300",
+              },
+            }}
+          >
+            {errorMessages.map((m) => (
+              <ListItem key={m}>{m}</ListItem>
+            ))}
+          </UnorderedList>
+        }
+        simple
+        vertical={!isDesktop}
+        wrapperStyle={{
+          my: 5,
+          gap: 5,
+          borderStyle: "solid",
+          borderRadius: "md",
+          borderWidth: 2,
+          borderColor: playButtonIsDisabled ? "red.500" : "white",
+          _dark: {
+            borderColor: playButtonIsDisabled ? "red.300" : "gray.800",
+          },
+        }}
+      >
         <Button
           as={ReactLink}
           colorScheme="green"
-          isDisabled={
-            errorMessages.filter((v) => !v.startsWith("[")).length !== 0
-          }
+          isDisabled={playButtonIsDisabled}
           leftIcon={<PlayerPlay />}
           size="lg"
           to={`/${game_id}/board`}
@@ -112,7 +144,7 @@ const ConfigPage = () => {
           ゲーム開始
         </Button>
       </InputLayout>
-      <Box pt={10}>
+      <Box>
         <Tabs
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
