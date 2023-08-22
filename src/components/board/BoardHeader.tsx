@@ -83,14 +83,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         sx={{
           justifyContent: "space-between",
           alignItems: "center",
-          gap: 3,
+          gap: [0, 0, 3],
           height: ["10vh", "10vh", "15vh"],
           px: 1,
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
           borderColor: "gray.300",
           bgColor: "gray.50",
-          overflow: "hidden",
           _dark: {
             borderColor: "gray.500",
             bgColor: "gray.700",
@@ -99,22 +98,21 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       >
         <Flex
           sx={{
+            flexGrow: 1,
+            color: "green.600",
             flexDirection: "column",
             justifyContent: "center",
-            borderStyle: "solid",
-            borderWidth: [0, 0, "thin"],
-            borderColor: "gray.300",
-            borderRadius: "xl",
-            p: [0, 0, 3],
-            maxW: "70vw",
-            maxH: "95%",
-            overflow: "hidden",
+            p: 0,
+            maxWidth: ["calc(100vw - 3rem)", null, "70vw"],
+            h: "100%",
             _dark: {
-              borderColor: "gray.500",
+              color: "green.300",
             },
           }}
         >
-          <h2 style={{ lineHeight: "2rem" }}>{game.name}</h2>
+          <h2 style={{ lineHeight: "2rem", overflow: "hidden" }}>
+            {game.name}
+          </h2>
           <p>{getRuleStringByType(game)}</p>
         </Flex>
         {isDesktop && (
@@ -154,7 +152,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             {game.quiz && quizList.length > quizPosition && (
               <Box
                 sx={{
-                  flexGrow: 1,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
