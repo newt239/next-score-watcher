@@ -89,7 +89,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
         borderColor:
           getColor(editedScore.state) ||
           getColor(editedScore.reach_state) ||
-          (colorMode === "dark" ? "gray.700" : "gray.50"),
+          (colorMode === "dark" ? "gray.700" : "gray.100"),
         borderRadius: "1rem",
         overflowX: "scroll",
         overflowY: "hidden",

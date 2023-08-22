@@ -197,11 +197,7 @@ const BoardPage = () => {
           </SlideFade>
         ))}
       </Flex>
-      {showLogs && (
-        <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs logs={logs} players={players} quiz={game.quiz} />
-        </Flex>
-      )}
+      {showLogs && <GameLogs logs={logs} players={players} quiz={game.quiz} />}
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
