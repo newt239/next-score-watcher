@@ -1,17 +1,12 @@
 import { ChangeEventHandler } from "react";
 
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  useToast,
-} from "@chakra-ui/react";
+import { Input, Text, VStack, useToast } from "@chakra-ui/react";
+import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
-import ReactGA from "react-ga4";
 
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
+import { recordEvent } from "#/utils/ga4";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();
@@ -21,16 +16,15 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const files = e.target.files;
     if (files) {
-      fileReader.readAsText(files[0], "UTF-8");
       fileReader.onload = (ev) => {
-        const csvOutput = ev.target?.result;
-        if (typeof csvOutput === "string") {
-          csvFileToArray(csvOutput).then((row) => {
-            ReactGA.event({
-              action: "import_quiz",
-              category: "engagement",
-              value: row,
-            });
+        const buffer = ev.target?.result;
+        if (buffer instanceof ArrayBuffer) {
+          const unicodeArray = Encoding.convert(new Uint8Array(buffer), {
+            to: "UNICODE",
+            from: "AUTO",
+          });
+          const encodedString = Encoding.codeToString(unicodeArray);
+          csvFileToArray(encodedString).then((row) => {
             toast({
               title: "データをインポートしました",
               description: `${files[0].name}から${row}件の問題を読み込みました`,
@@ -38,45 +32,49 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
               duration: 9000,
               isClosable: true,
             });
+            recordEvent({
+              action: "import_quiz",
+              category: "engagement",
+              value: row,
+            });
           });
         }
       };
+      fileReader.readAsArrayBuffer(files[0]);
     }
   };
 
   const csvFileToArray = async (raw: string) => {
     const csvRows = raw.split("\n");
-    await db.quizes.bulkPut(
-      csvRows
-        .map((row) => {
-          const values = row.split(",");
-          return {
-            id: nanoid(),
-            n: str2num(values[0]),
-            q: values[1] || "",
-            a: values[2] || "",
-            set_name: setName,
-          };
-        })
-        .filter((row) => row.q !== "")
-    );
-    return csvRows.length;
+    const filteredRows = csvRows
+      .map((row) => {
+        const values = row.split(",");
+        return {
+          id: nanoid(),
+          n: str2num(values[0]),
+          q: values[1] || "",
+          a: values[2] || "",
+          set_name: setName,
+        };
+      })
+      .filter((row) => row.q !== "");
+    await db.quizes.bulkPut(filteredRows);
+    return filteredRows.length;
   };
 
   return (
-    <FormControl>
-      <FormLabel>CSVファイルからインポートできます。</FormLabel>
+    <VStack align="left" h="30vh" justifyContent="space-between" w="full">
+      <Text>CSVファイルからインポートできます。</Text>
       <Input
         accept=".csv"
         disabled={setName === ""}
         height={100}
         onChange={handleOnChange}
+        sx={{ flexGrow: 1 }}
         type="file"
       />
-      <FormHelperText>
-        1列目: 問題番号、 2列目: 問題文 3列目: 答え
-      </FormHelperText>
-    </FormControl>
+      <Text>1列目: 問題番号、 2列目: 問題文 3列目: 答え</Text>
+    </VStack>
   );
 };
 

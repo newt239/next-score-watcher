@@ -67,6 +67,7 @@ const OptionPage = () => {
               mt={3}
               onChange={(v) => setWebhookUrl(v.target.value)}
               placeholder="https://score-watcher.newt239.dev/api"
+              type="url"
               value={WebhookUrl}
               w="100%"
             />

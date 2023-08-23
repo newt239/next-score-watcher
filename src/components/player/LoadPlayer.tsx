@@ -1,16 +1,14 @@
 import { useRef, useState } from "react";
 
 import {
-  Box,
   Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   HStack,
   Radio,
   RadioGroup,
   Stack,
+  Text,
   Textarea,
+  VStack,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -62,21 +60,25 @@ const LoadPlayer: React.FC = () => {
   `;
 
   return (
-    <Box>
-      <FormControl>
-        <FormLabel>
+    <VStack
+      h={["45vh", "45vh", "30vh"]}
+      justifyContent="space-between"
+      w="full"
+    >
+      <VStack align="left" sx={{ flexGrow: 1 }} w="full">
+        <Text>
           Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </FormLabel>
+        </Text>
         <Textarea
-          height={100}
           onChange={(e) => setRawPlayerText(e.target.value)}
           placeholder={placeholderText}
           ref={textareaRef}
+          sx={{ flexGrow: 1 }}
           value={rawPlayerText}
         />
-        <FormHelperText>A列: 氏名、 B列: 順位、 C列: 所属</FormHelperText>
-      </FormControl>
-      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
+        <Text>A列: 氏名、 B列: 順位、 C列: 所属</Text>
+      </VStack>
+      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}
           value={separateType}
@@ -95,7 +97,7 @@ const LoadPlayer: React.FC = () => {
           追加
         </Button>
       </HStack>
-    </Box>
+    </VStack>
   );
 };
 

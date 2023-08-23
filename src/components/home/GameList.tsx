@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Flex,
+  Link,
   Select,
   SimpleGrid,
   Text,
@@ -68,7 +69,11 @@ const GameList: React.FC = () => {
       </Flex>
       {parsedGameList.length === 0 ? (
         <Text px={5} py={10}>
-          作成済みのゲームはありません
+          作成済みのゲームはありません。
+          <Link as={ReactLink} color="blue.500" to="/option">
+            形式一覧
+          </Link>
+          ページから新しいゲームを作ることが出来ます。
         </Text>
       ) : (
         <SimpleGrid

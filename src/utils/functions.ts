@@ -1,8 +1,8 @@
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
-import ReactGA from "react-ga4";
 
 import db from "#/utils/db";
+import { recordEvent } from "#/utils/ga4";
 import { rules } from "#/utils/rules";
 import { GamePropsUnion, RuleNames, States } from "#/utils/types";
 
@@ -15,7 +15,7 @@ export const createGame = async (
       }
 ) => {
   if (typeof param !== "string") {
-    ReactGA.event({
+    recordEvent({
       action: "create_game",
       category: "engagement",
       label: param.game.rule,
@@ -28,7 +28,7 @@ export const createGame = async (
     });
     return game_id;
   } else {
-    ReactGA.event({
+    recordEvent({
       action: "create_game",
       category: "engagement",
       label: param,
@@ -125,8 +125,12 @@ export const detectPlayerState = (
 ): States => {
   if (state === "win") return "win";
   if (game.limit && game.win_through) {
-    if (game.limit <= qn && order < game.win_through) {
-      return "win";
+    if (game.limit <= qn) {
+      if (order < game.win_through) {
+        return "win";
+      } else {
+        return "lose";
+      }
     }
   }
   return state;

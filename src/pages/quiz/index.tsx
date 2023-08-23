@@ -59,8 +59,8 @@ const QuizPage = () => {
           </FormControl>
           <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
             <TabList mb="1em">
-              <Tab>まとめて貼り付け</Tab>
-              <Tab>ファイルからインポート</Tab>
+              <Tab>貼り付け</Tab>
+              <Tab>インポート</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

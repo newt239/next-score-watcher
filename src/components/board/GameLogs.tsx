@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Button,
+  Flex,
   Table,
   TableContainer,
   Tbody,
@@ -42,19 +43,19 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
-    <Box
+    <Flex
       sx={{
         p: 3,
         my: 10,
         maxW: "100vw",
+        justifyContent: "center",
       }}
     >
-      <h3>試合ログ</h3>
       <Box
         sx={{
           borderStyle: "solid",
           borderWidth: desktop ? 3 : 1,
-          borderColor: "gray.50",
+          borderColor: "gray.100",
           p: 3,
           borderRadius: desktop ? "1rem" : "0.5rem",
           _dark: {
@@ -62,15 +63,14 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           },
         }}
       >
-        <Box sx={{ pb: 2 }}>
-          <Button
-            leftIcon={reverse ? <SortAscending /> : <SortDescending />}
-            onClick={() => setReverse((v) => !v)}
-            size="sm"
-          >
-            {reverse ? "降順" : "昇順"}
-          </Button>
-        </Box>
+        <Button
+          leftIcon={reverse ? <SortAscending /> : <SortDescending />}
+          onClick={() => setReverse((v) => !v)}
+          size="sm"
+          sx={{ mb: 2 }}
+        >
+          {reverse ? "降順" : "昇順"}
+        </Button>
         {logs.length !== 0 ? (
           <>
             <TableContainer>
@@ -105,13 +105,13 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                               <Td>
                                 {
                                   quizList[reverse ? logs.length - qn - 1 : qn]
-                                    .q
+                                    ?.q
                                 }
                               </Td>
                               <Td>
                                 {
                                   quizList[reverse ? logs.length - qn - 1 : qn]
-                                    .a
+                                    ?.a
                                 }
                               </Td>
                             </>
@@ -128,7 +128,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           <p>ここに解答者の一覧が表示されます。</p>
         )}
       </Box>
-    </Box>
+    </Flex>
   );
 };
 

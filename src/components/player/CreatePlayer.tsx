@@ -7,6 +7,7 @@ import {
   FormLabel,
   Grid,
   Input,
+  VStack,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -68,8 +69,12 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   };
 
   return (
-    <Box>
-      <Grid gap={5} templateColumns="repeat(auto-fit, minmax(200px, 1fr))">
+    <VStack h={["45vh", "45vh", "30vh"]} justifyContent="space-between">
+      <Grid
+        gap={3}
+        templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
+        w="full"
+      >
         <FormControl>
           <FormLabel>氏名</FormLabel>
           <Input
@@ -99,7 +104,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           />
         </FormControl>
       </Grid>
-      <Box sx={{ textAlign: "right", pt: 3 }}>
+      <Box textAlign="right" w="full">
         <Button
           colorScheme="blue"
           disabled={playerName === ""}
@@ -109,7 +114,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           追加
         </Button>
       </Box>
-    </Box>
+    </VStack>
   );
 };
 

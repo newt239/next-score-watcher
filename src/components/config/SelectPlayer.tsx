@@ -300,16 +300,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                           ].includes(rule_name)}
                           disabled={disabled}
                           game_id={game_id}
-                          index={currentPlayerIndex}
-                          isOpen={isOpen}
-                          onClick={() => {
-                            setCurrentPlayerIndex(index);
-                            onOpen();
-                          }}
-                          onClose={() => {
-                            setCurrentPlayerIndex(0);
-                            onClose();
-                          }}
+                          index={index}
                           players={players}
                           rule_name={rule_name}
                           wrong={["nomx", "nomx-ad"].includes(rule_name)}

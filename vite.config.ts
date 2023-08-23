@@ -5,19 +5,22 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   return {
     build: {
-      sourcemap: true, // Source map generation must be turned on
+      sourcemap: true,
     },
     plugins: [
       react(),
-      VitePWA({ registerType: "autoUpdate" }),
-      sentryVitePlugin({
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-        org: "newt239",
-        project: "score-watcher",
+      VitePWA({
+        registerType: "autoUpdate",
       }),
+      process.env.NODE_ENV === "production" &&
+        sentryVitePlugin({
+          authToken: process.env.SENTRY_AUTH_TOKEN,
+          org: "newt239",
+          project: "score-watcher",
+        }),
     ],
     resolve: {
       alias: {

@@ -75,7 +75,7 @@ const Features: React.FC = () => {
           <Box pb={5}>
             <h3>表示はカスタマイズ可能</h3>
             <Text>
-              <Link as={ReactLink} to="/option">
+              <Link as={ReactLink} color="blue.500" to="/option">
                 アプリ設定
               </Link>
               から、得点表示画面の表示をカスタマイズできます。
@@ -101,20 +101,19 @@ const Features: React.FC = () => {
               <TabPanel key={feature.title}>
                 {feature.image ? (
                   <Flex sx={{ gap: 3 }}>
-                    <Box w="30%">
+                    <Box sx={{ flexGrow: 1 }}>
                       <h3>{feature.title}</h3>
                       <Box>{feature.description}</Box>
                     </Box>
-                    <Box w="70%">
-                      <Image
-                        alt={`画像: ${feature.title}`}
-                        src={"images/" + feature.image}
-                        sx={{ borderRadius: "1rem" }}
-                      />
-                    </Box>
+                    <Image
+                      alt={`画像: ${feature.title}`}
+                      h="18rem"
+                      src={"images/" + feature.image}
+                      sx={{ borderRadius: "1rem" }}
+                    />
                   </Flex>
                 ) : (
-                  <Box>{feature.description}</Box>
+                  <Box h="18rem">{feature.description}</Box>
                 )}
               </TabPanel>
             ))}

@@ -81,9 +81,8 @@ const computeScore = async (game_id: string) => {
   let incapacity_players: string[] = [];
   result.scores.map((score) => {
     if (
-      score.state !== "playing" ||
-      score.is_incapacity ||
-      score.text.endsWith("休")
+      score.state === "playing" &&
+      (score.is_incapacity || score.text.endsWith("休"))
     ) {
       incapacity_players.push(score.player_id);
     }
@@ -107,6 +106,9 @@ const computeScore = async (game_id: string) => {
           "https://discord.com/api/webhooks/"
         )
       ) {
+        const description = `
+          ${result.winPlayers[0].name}さんが勝ち抜けました:tada:
+          `;
         await fetch(game.discord_webhook_url, {
           method: "POST",
           headers: {
@@ -119,16 +121,9 @@ const computeScore = async (game_id: string) => {
             embeds: [
               {
                 title: game.name,
-                description: `${result.winPlayers[0].name}さんが勝ち抜けました:tada:`,
+                description,
                 timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
                 color: 2664261,
-                field: [
-                  {
-                    name: "抜け順位",
-                    value: result.winPlayers[0].player_id,
-                    inline: true,
-                  },
-                ],
                 footer: {
                   text: "© 2023 newt",
                   icon_url:

@@ -50,13 +50,7 @@ const PreferenceModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           </Tabs>
         </ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme="blue"
-            onClick={() => {
-              onClose();
-              document.getElementById("players-area")?.focus();
-            }}
-          >
+          <Button colorScheme="blue" onClick={onClose}>
             閉じる
           </Button>
         </ModalFooter>

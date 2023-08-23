@@ -84,7 +84,13 @@ const BoardPage = () => {
             });
           }
         }
-        if (result.scores.length === result.incapacity_players.length) {
+        const playingPlayers = result.scores.filter(
+          (score) => score.state === "playing"
+        );
+        if (
+          playingPlayers.length > 0 &&
+          playingPlayers.length === result.incapacity_players.length
+        ) {
           setSkipSuggest(true);
         } else {
           setSkipSuggest(false);
@@ -97,7 +103,7 @@ const BoardPage = () => {
   if (!game || !logs) return null;
 
   window.document.onkeydown = async (event) => {
-    if (game) {
+    if (game && window.location.pathname.endsWith("board")) {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
         if (playerIndex <= players.length) {
@@ -191,11 +197,7 @@ const BoardPage = () => {
           </SlideFade>
         ))}
       </Flex>
-      {showLogs && (
-        <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs logs={logs} players={players} quiz={game.quiz} />
-        </Flex>
-      )}
+      {showLogs && <GameLogs logs={logs} players={players} quiz={game.quiz} />}
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}

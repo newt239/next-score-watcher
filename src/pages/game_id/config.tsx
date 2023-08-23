@@ -6,16 +6,17 @@ import {
   Button,
   Card,
   Container,
+  ListItem,
   TabPanel,
   TabPanels,
   Tabs,
+  UnorderedList,
   VStack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import ReactGA from "react-ga4";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import AlertDialog from "#/components/common/AlertDialog";
@@ -28,6 +29,7 @@ import SelectPlayer from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import { recordEvent } from "#/utils/ga4";
 import { rules } from "#/utils/rules";
 
 const ConfigPage = () => {
@@ -57,11 +59,6 @@ const ConfigPage = () => {
 
   const deleteGame = async () => {
     await db.games.delete(game.id);
-    ReactGA.event({
-      action: "delete_game",
-      category: "engagement",
-      label: game.rule,
-    });
     toast({
       title: "ゲームを削除しました",
       description: `${game.name}(${rules[game.rule].name})を削除しました`,
@@ -69,14 +66,37 @@ const ConfigPage = () => {
       duration: 9000,
       isClosable: true,
     });
+    recordEvent({
+      action: "delete_game",
+      category: "engagement",
+      label: game.rule,
+    });
     navigate("/");
   };
 
   const disabled = logs.length !== 0;
 
+  const errorMessages = [];
+  if (game.players.length === 0)
+    errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
+  if (game.win_through && game.players.length <= game.win_through)
+    errorMessages.push(
+      "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
+    );
+  if (disabled)
+    errorMessages.push(
+      `現在${
+        logs.length + 1
+      }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
+    );
+
+  const playButtonIsDisabled =
+    errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !==
+    0;
+
   return (
     <Container pt={5}>
-      <Card my={3} p={2} variant="filled">
+      <Card p={2} variant="filled">
         <h3>{rules[game.rule].name}</h3>
         <div>
           {rules[game.rule].description.split("\n").map((p) => (
@@ -86,21 +106,37 @@ const ConfigPage = () => {
       </Card>
       <InputLayout
         label={
-          disabled
-            ? `現在${
-                logs.length + 1
-              }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
-            : game.players.length === 0
-            ? "「プレイヤー設定」からプレイヤーを選択してください。"
-            : ""
+          <UnorderedList
+            sx={{
+              color: "red.500",
+              _dark: {
+                color: "red.300",
+              },
+            }}
+          >
+            {errorMessages.map((m) => (
+              <ListItem key={m}>{m}</ListItem>
+            ))}
+          </UnorderedList>
         }
         simple
         vertical={!isDesktop}
+        wrapperStyle={{
+          my: 5,
+          gap: 5,
+          borderStyle: "solid",
+          borderRadius: "md",
+          borderWidth: 2,
+          borderColor: playButtonIsDisabled ? "red.500" : "white",
+          _dark: {
+            borderColor: playButtonIsDisabled ? "red.300" : "gray.800",
+          },
+        }}
       >
         <Button
           as={ReactLink}
           colorScheme="green"
-          isDisabled={game.players.length === 0}
+          isDisabled={playButtonIsDisabled}
           leftIcon={<PlayerPlay />}
           size="lg"
           to={`/${game_id}/board`}
@@ -108,7 +144,7 @@ const ConfigPage = () => {
           ゲーム開始
         </Button>
       </InputLayout>
-      <Box pt={10}>
+      <Box>
         <Tabs
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
@@ -150,6 +186,7 @@ const ConfigPage = () => {
                   input_id="discord_webhook_url"
                   label="Discord Webhook"
                   placeholder="https://discord.com/api/webhooks/..."
+                  type="url"
                 />
               </VStack>
               <VStack align="stretch" gap={0} pt={5}>

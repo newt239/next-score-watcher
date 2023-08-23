@@ -19,6 +19,7 @@ type ConfigInputProps = {
   placeholder: string;
   disabled?: boolean;
   helperText?: React.ReactNode;
+  type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
@@ -27,6 +28,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   placeholder,
   disabled,
   helperText,
+  type,
 }) => {
   const innerId = useId();
   const { game_id } = useParams();
@@ -58,7 +60,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
         isDisabled={disabled}
         onChange={(v) => setInputText(v.target.value)}
         placeholder={placeholder}
-        type="text"
+        type={type || "text"}
         value={inputText}
       />
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
