@@ -164,7 +164,7 @@ export const getInitialPlayersState = (game: GamePropsUnion) => {
         reach_state: "playing" as States,
         score:
           game.rule === "attacksurvival"
-            ? game.win_point!
+            ? game.win_point! + gamePlayer.initial_correct
             : ["nomx-ad", "variables"].includes(game.rule)
             ? gamePlayer.initial_correct
             : 0,

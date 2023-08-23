@@ -134,24 +134,27 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     const newGamePlayerIds = table
       .getSelectedRowModel()
       .rows.map(({ original }) => (original as PlayerDBProps).id);
-    const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map((id) => {
-      const previousGamePlayer = gamePlayers.find(
-        (gamePlayer) => gamePlayer.id === id
-      );
-      if (previousGamePlayer) {
-        return previousGamePlayer;
-      } else {
-        const player_name = playerList.find((player) => player.id === id)?.name;
-        return {
-          id,
-          name: player_name || "不明なユーザー",
-          initial_correct: 0,
-          initial_wrong: 0,
-          base_correct_point: 1,
-          base_wrong_point: -1,
-        } as GameDBPlayerProps;
+    const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map(
+      (player_id) => {
+        const previousGamePlayer = gamePlayers.find(
+          (gamePlayer) => gamePlayer.id === player_id
+        );
+        if (previousGamePlayer) {
+          return previousGamePlayer;
+        } else {
+          const player = playerList.find((player) => player.id === player_id);
+          return {
+            id: player_id,
+            name: player ? player.name : "不明なユーザー",
+            initial_correct: 0,
+            initial_wrong: 0,
+            base_correct_point: 1,
+            base_wrong_point: -1,
+          } as GameDBPlayerProps;
+        }
       }
-    });
+    );
+    console.log(newGamePlayers);
     db.games.update(game_id, {
       players: newGamePlayers,
     });

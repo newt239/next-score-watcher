@@ -25,8 +25,6 @@ import {
   Spacer,
   Stack,
   Text,
-  useColorMode,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -54,14 +52,11 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   players,
   disabled,
 }) => {
-  const { colorMode } = useColorMode();
   const toast = useToast();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const [sortableList, setSortableList] = useState(players);
 
@@ -108,9 +103,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   };
 
   useEffect(() => {
-    if (sortableList.length !== players.length) {
-      setSortableList(players);
-    }
+    setSortableList(players);
   }, [players]);
 
   useEffect(() => {
@@ -297,12 +290,10 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             "nomx",
                             "nomx-ad",
                             "variables",
+                            "attacksurvival",
                           ].includes(rule_name)}
                           disabled={disabled}
-                          game_id={game_id}
                           index={index}
-                          players={players}
-                          rule_name={rule_name}
                           wrong={["nomx", "nomx-ad"].includes(rule_name)}
                         />
                       </Flex>

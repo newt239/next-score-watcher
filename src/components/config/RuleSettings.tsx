@@ -75,8 +75,9 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             <ConfigNumberInput
               disabled={disabled}
               input_id="win_point"
-              label="初期値"
+              label="共通初期値"
               max={30}
+              min={1}
             />
             <ConfigNumberInput
               disabled={disabled}
