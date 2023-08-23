@@ -107,12 +107,10 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
   }, [players]);
 
   useEffect(() => {
-    if (sortableList.length === players.length) {
+    if (sortableList !== players) {
       db.games.update(game_id, {
         players: sortableList,
       });
-    } else {
-      setSortableList(players);
     }
   }, [sortableList]);
 
