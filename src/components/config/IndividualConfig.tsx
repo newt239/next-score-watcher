@@ -48,7 +48,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
       setInitialWrong(game.players[index].initial_wrong);
       setBaseCorrectPoint(game.players[index].base_correct_point);
     }
-  }, [game]);
+  }, [game_id]);
 
   useEffect(() => {
     if (game && initialCorrect) {
@@ -63,7 +63,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
         ),
       });
     }
-  }, [game, initialCorrect]);
+  }, [game_id, initialCorrect]);
 
   useEffect(() => {
     if (game && initialWrong) {
@@ -78,7 +78,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
         ),
       });
     }
-  }, [game, initialWrong]);
+  }, [game_id, initialWrong]);
 
   useEffect(() => {
     if (game && baseCorrectPoint) {
@@ -97,7 +97,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
         ),
       });
     }
-  }, [game, baseCorrectPoint]);
+  }, [game_id, baseCorrectPoint]);
 
   if ((!correct && !wrong) || !game || game.players.length <= index)
     return null;
