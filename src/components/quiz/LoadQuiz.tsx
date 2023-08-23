@@ -1,16 +1,14 @@
 import { useRef, useState } from "react";
 
 import {
-  Box,
   Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
   HStack,
   Radio,
   RadioGroup,
   Stack,
+  Text,
   Textarea,
+  VStack,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -67,22 +65,22 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   `;
 
   return (
-    <Box>
-      <FormControl>
-        <FormLabel>
+    <VStack h="30vh" justifyContent="space-between">
+      <VStack align="left" sx={{ flexGrow: 1 }} w="full">
+        <Text>
           Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </FormLabel>
+        </Text>
         <Textarea
           disabled={setName === ""}
-          height={100}
           onChange={(e) => setRawQuizText(e.target.value)}
           placeholder={placeholderText}
           ref={textareaRef}
+          sx={{ flexGrow: 1 }}
           value={rawQuizText}
         />
-        <FormHelperText>A列: 問題番号、 B列: 問題文 C列: 答え</FormHelperText>
-      </FormControl>
-      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }}>
+        <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
+      </VStack>
+      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}
           value={separateType}
@@ -101,7 +99,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           追加
         </Button>
       </HStack>
-    </Box>
+    </VStack>
   );
 };
 

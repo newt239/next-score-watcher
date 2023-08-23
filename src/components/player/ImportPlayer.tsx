@@ -1,12 +1,6 @@
 import { ChangeEventHandler } from "react";
 
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  useToast,
-} from "@chakra-ui/react";
+import { Input, Text, VStack, useToast } from "@chakra-ui/react";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
@@ -67,11 +61,22 @@ const ImportPlayer: React.FC = () => {
   };
 
   return (
-    <FormControl>
-      <FormLabel>CSVファイルからインポートできます。</FormLabel>
-      <Input accept=".csv" height={100} onChange={handleOnChange} type="file" />
-      <FormHelperText>1列目: 氏名、 2列目: 順位、 3列目: 所属</FormHelperText>
-    </FormControl>
+    <VStack
+      alignItems="left"
+      h={["45vh", "45vh", "30vh"]}
+      justifyContent="space-between"
+      w="full"
+    >
+      <Text>CSVファイルからインポートできます。</Text>
+      <Input
+        accept=".csv"
+        height={[255, 160, 100]}
+        onChange={handleOnChange}
+        sx={{ flexGrow: 1 }}
+        type="file"
+      />
+      <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
+    </VStack>
   );
 };
 
