@@ -135,7 +135,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);
-      console.log(newGamePlayerIds);
       const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map(
         (player_id) => {
           const previousGamePlayer = gamePlayers.find(

@@ -128,7 +128,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 {game.rule === "variables"
                   ? "初期ポイント"
                   : game.rule === "attacksurvival"
-                  ? "全体初期値との差"
+                  ? "共通初期値との差"
                   : "初期正答数"}
               </FormLabel>
               <NumberInput
