@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
@@ -36,6 +37,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   wrong,
   disabled,
 }) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [initialCorrect, setInitialCorrect] = useState<number | null>(null);
@@ -48,7 +50,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
       setInitialWrong(game.players[index].initial_wrong);
       setBaseCorrectPoint(game.players[index].base_correct_point);
     }
-  }, [game_id]);
+  }, [game_id, isOpen]);
 
   useEffect(() => {
     if (game && initialCorrect) {
@@ -103,12 +105,13 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
     return null;
 
   return (
-    <Popover>
+    <Popover isOpen={isOpen} onClose={onClose} returnFocusOnClose={false}>
       <PopoverTrigger>
         <IconButton
           aria-label="初期値の変更"
           colorScheme="blue"
           disabled={disabled}
+          onClick={onToggle}
           size="sm"
         >
           <AdjustmentsHorizontal />
