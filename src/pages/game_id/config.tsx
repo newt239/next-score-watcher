@@ -186,6 +186,7 @@ const ConfigPage = () => {
                   input_id="discord_webhook_url"
                   label="Discord Webhook"
                   placeholder="https://discord.com/api/webhooks/..."
+                  type="url"
                 />
               </VStack>
               <VStack align="stretch" gap={0} pt={5}>
