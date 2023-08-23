@@ -66,12 +66,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const quizPosition = game.editable
     ? manualQuizPosition
     : game.quiz
-    ? game.quiz.offset + qn - 1
+    ? game.quiz.offset + qn
     : 0;
 
   useEffect(() => {
     if (game.quiz) {
-      setManualQuizPosition(game.quiz.offset + qn - 1);
+      setManualQuizPosition(game.quiz.offset + qn);
     }
   }, [game.editable]);
 
@@ -98,12 +98,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       >
         <Flex
           sx={{
-            flexGrow: 1,
+            p: 0,
+            maxWidth: [`calc(100vw - ${showQn ? 10 : 3}rem)`, null, "30vw"],
             color: "green.600",
             flexDirection: "column",
             justifyContent: "center",
-            p: 0,
-            maxWidth: ["calc(100vw - 3rem)", null, "70vw"],
             h: "100%",
             _dark: {
               color: "green.300",
@@ -115,43 +114,52 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           </h2>
           <p>{getRuleStringByType(game)}</p>
         </Flex>
+        {showQn && (
+          <Flex
+            sx={{
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ whiteSpace: "nowrap", lineHeight: "2.5rem" }}>
+              第
+              <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
+                {game.editable ? manualQuizPosition + 1 : logs.length + 1}
+              </span>
+              問
+            </Box>
+            {game.editable && (
+              <ButtonGroup
+                isAttached
+                justifyContent="center"
+                size="sm"
+                variant="outline"
+              >
+                <Button
+                  h="auto"
+                  isDisabled={manualQuizPosition < 0}
+                  onClick={() => setManualQuizPosition((v) => v - 1)}
+                >
+                  {"<"}
+                </Button>
+                <Button
+                  h="auto"
+                  isDisabled={manualQuizPosition >= quizList.length - 1}
+                  onClick={() => setManualQuizPosition((v) => v + 1)}
+                >
+                  {">"}
+                </Button>
+              </ButtonGroup>
+            )}
+          </Flex>
+        )}
         {isDesktop && (
           <>
-            {showQn && (
-              <Flex sx={{ flexDirection: "column", justifyContent: "center" }}>
-                <Box sx={{ whiteSpace: "nowrap" }}>
-                  第
-                  <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                    {game.editable ? manualQuizPosition : logs.length + 1}
-                  </span>
-                  問
-                </Box>
-                {game.editable && (
-                  <ButtonGroup
-                    isAttached
-                    justifyContent="center"
-                    size="sm"
-                    variant="outline"
-                  >
-                    <Button
-                      isDisabled={manualQuizPosition <= 0}
-                      onClick={() => setManualQuizPosition((v) => v - 1)}
-                    >
-                      {"<"}
-                    </Button>
-                    <Button
-                      isDisabled={manualQuizPosition >= quizList.length - 1}
-                      onClick={() => setManualQuizPosition((v) => v + 1)}
-                    >
-                      {">"}
-                    </Button>
-                  </ButtonGroup>
-                )}
-              </Flex>
-            )}
             {game.quiz && quizList.length > quizPosition && (
               <Box
                 sx={{
+                  flexGrow: 1,
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
@@ -162,7 +170,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 }}
               >
                 <Box sx={{ maxHeight: "8vh" }}>
-                  {qn === 0
+                  {qn === 0 || quizPosition < 0
                     ? "ここに問題文が表示されます"
                     : quizList[quizPosition].q}
                 </Box>
@@ -178,7 +186,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                     },
                   }}
                 >
-                  {qn === 0
+                  {qn === 0 || quizPosition < 0
                     ? "ここに答えが表示されます"
                     : quizList[quizPosition].a}
                 </Box>
