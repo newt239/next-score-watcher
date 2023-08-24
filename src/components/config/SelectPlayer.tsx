@@ -53,7 +53,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
       </Box>
       <Box pt={5}>
         <h3>{isDesktop ? "個人設定" : "並び替え"}</h3>
-        {players.length !== 0 && (
+        {players.length !== 0 ? (
           <>
             <Box
               sx={{
@@ -147,9 +147,11 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
               </ReactSortable>
             </Box>
             <Text pt={2}>
-              ※個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
+              ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
             </Text>
           </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
+        ) : (
+          <Box pt={3}>ここに選択されたプレイヤーが表示されます</Box>
         )}
       </Box>
       {!isDesktop && (
