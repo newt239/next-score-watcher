@@ -80,7 +80,7 @@ export const numberSign = (
         if (wrongNumber === "true") {
           if (score === 0) {
             return "・";
-          } else if (score <= 4) {
+          } else if (0 < score && score < 5) {
             return "✕".repeat(score);
           } else {
             return `${score}○`;
@@ -95,7 +95,7 @@ export const numberSign = (
     if (type === "wrong" && wrongNumber === "true") {
       if (score === 0) {
         return "・";
-      } else if (score <= 4) {
+      } else if (0 < score && score < 5) {
         return "✕".repeat(score);
       } else {
         return `${score}○`;

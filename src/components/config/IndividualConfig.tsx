@@ -132,6 +132,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                   : "初期正答数"}
               </FormLabel>
               <NumberInput
+                min={0}
                 onChange={async (s, n) => {
                   setInitialCorrect(n);
                 }}
@@ -149,6 +150,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             <FormControl pt={3}>
               <FormLabel>初期誤答数</FormLabel>
               <NumberInput
+                min={0}
                 onChange={(s, n) => {
                   setInitialWrong(n);
                 }}
