@@ -117,6 +117,12 @@ export const str2num = (str: unknown): number => {
   return 0;
 };
 
+export const zenkaku2Hankaku = (str: string) => {
+  return str.replace(/[A-Za-z0-9]/g, function (s) {
+    return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+  });
+};
+
 export const detectPlayerState = (
   game: GamePropsUnion,
   state: States,
