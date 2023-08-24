@@ -150,6 +150,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             <FormControl pt={3}>
               <FormLabel>初期誤答数</FormLabel>
               <NumberInput
+                max={game.rule === "backstream" ? 4 : undefined}
                 min={0}
                 onChange={(s, n) => {
                   setInitialWrong(n);

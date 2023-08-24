@@ -142,7 +142,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton color="red" compact {...props}>
-              ○
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {numberSign("wrong", player.wrong)}
@@ -156,10 +156,20 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
             {player.text}
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
-              ○
+            <PlayerScoreButton
+              color="red"
+              compact
+              disabled={player.state === "lose"}
+              {...props}
+            >
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              color="blue"
+              compact
+              disabled={player.state === "lose"}
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -172,7 +182,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
           </PlayerScoreButton>
           <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
             <PlayerScoreButton color="red" compact {...props}>
-              ○
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
               {numberSign("wrong", player.wrong)}

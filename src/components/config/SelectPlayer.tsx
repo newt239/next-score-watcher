@@ -54,91 +54,102 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
       <Box pt={5}>
         <h3>{isDesktop ? "個人設定" : "並び替え"}</h3>
         {players.length !== 0 && (
-          <Box
-            sx={{
-              mt: 3,
-              p: 3,
-              bgColor: "gray.300",
-              _dark: {
-                bgColor: "gray.600",
-              },
-            }}
-          >
-            <ReactSortable
-              animation={200}
-              delay={2}
-              direction={isDesktop ? "vertical" : "horizontal"}
-              list={sortableList}
-              setList={(newState) => {
-                setSortableList(newState);
-              }}
-              style={{
-                display: "flex",
-                flexDirection: isDesktop ? "row" : "column",
-                gap: 5,
+          <>
+            <Box
+              sx={{
+                mt: 3,
+                p: 3,
+                bgColor: "gray.300",
+                _dark: {
+                  bgColor: "gray.600",
+                },
               }}
             >
-              {sortableList.map((player, index) => (
-                <Card
-                  cursor="grab"
-                  key={player.id}
-                  sx={{
-                    bgColor: "gray.200",
-                    _dark: {
-                      bgColor: "gray.700",
-                    },
-                  }}
-                >
-                  <CardBody>
-                    <Flex
-                      sx={{
-                        flexDirection: isDesktop ? "column" : "row",
-                        gap: 3,
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        height: "100%",
-                      }}
-                    >
-                      <Box
+              <ReactSortable
+                animation={200}
+                delay={2}
+                direction={isDesktop ? "vertical" : "horizontal"}
+                list={sortableList}
+                setList={(newState) => {
+                  setSortableList(newState);
+                }}
+                style={{
+                  display: "flex",
+                  flexDirection: isDesktop ? "row" : "column",
+                  gap: 5,
+                }}
+              >
+                {sortableList.map((player, index) => (
+                  <Card
+                    cursor="grab"
+                    key={player.id}
+                    sx={{
+                      bgColor: "gray.200",
+                      _dark: {
+                        bgColor: "gray.700",
+                      },
+                    }}
+                  >
+                    <CardBody>
+                      <Flex
                         sx={{
-                          writingMode: isDesktop
-                            ? "vertical-rl"
-                            : "horizontal-tb",
-                          whiteSpace: "nowrap",
-                          textOrientation: "upright",
+                          flexDirection: isDesktop ? "column" : "row",
+                          gap: 3,
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          height: "100%",
                         }}
                       >
-                        <Text size="xl">{player.name}</Text>
-                      </Box>
-                      {isDesktop && (
-                        <IndividualConfig
-                          correct={[
-                            "normal",
-                            "nomx",
-                            "nomx-ad",
-                            "ny",
-                            "nomr",
-                            "nbyn",
-                            "variables",
-                            "attacksurvival",
-                          ].includes(rule_name)}
-                          disabled={disabled}
-                          index={index}
-                          wrong={[
-                            "nomx",
-                            "nomx-ad",
-                            "ny",
-                            "nomr",
-                            "nbyn",
-                          ].includes(rule_name)}
-                        />
-                      )}
-                    </Flex>
-                  </CardBody>
-                </Card>
-              ))}
-            </ReactSortable>
-          </Box>
+                        <Box
+                          sx={{
+                            writingMode: isDesktop
+                              ? "vertical-rl"
+                              : "horizontal-tb",
+                            whiteSpace: "nowrap",
+                            textOrientation: "upright",
+                          }}
+                        >
+                          <Text size="xl">{player.name}</Text>
+                        </Box>
+                        {isDesktop && (
+                          <IndividualConfig
+                            correct={[
+                              "normal",
+                              "nomx",
+                              "nomx-ad",
+                              "ny",
+                              "nomr",
+                              "nbyn",
+                              "nupdown",
+                              "swedish10",
+                              "backstream",
+                              "variables",
+                              "attacksurvival",
+                            ].includes(rule_name)}
+                            disabled={disabled}
+                            index={index}
+                            wrong={[
+                              "nomx",
+                              "nomx-ad",
+                              "ny",
+                              "nomr",
+                              "nbyn",
+                              "nupdown",
+                              "swedish10",
+                              "backstream",
+                            ].includes(rule_name)}
+                          />
+                        )}
+                      </Flex>
+                    </CardBody>
+                  </Card>
+                ))}
+              </ReactSortable>
+            </Box>
+            <Text pt={2}>
+              ※個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
+            </Text>
+          </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
         )}
       </Box>
       {!isDesktop && (

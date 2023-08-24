@@ -155,6 +155,11 @@ const computeScore = async (game_id: string) => {
   return data;
 };
 
+const initialBackstreamWrong = (wrong_num: number) => {
+  const minusCountArray = [0, 1, 3, 6, 10];
+  return wrong_num < 5 ? minusCountArray[clipNumber(wrong_num, 0, 4)] : 10;
+};
+
 const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
   switch (game.rule) {
     case "attacksurvival":
@@ -163,6 +168,10 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
       return player.initial_correct - player.initial_wrong;
     case "nomr":
       return player.initial_correct;
+    case "backstream":
+      return (
+        player.initial_correct - initialBackstreamWrong(player.initial_wrong)
+      );
     default:
       return player.initial_correct;
   }
@@ -180,7 +189,10 @@ export const getInitialPlayersState = (game: GamePropsUnion) => {
         correct: ["attacksurvival", "variables"].includes(game.rule)
           ? 0
           : gamePlayer.initial_correct,
-        wrong: gamePlayer.initial_wrong,
+        wrong:
+          game.rule === "backstream"
+            ? initialBackstreamWrong(gamePlayer.initial_wrong)
+            : gamePlayer.initial_wrong,
         last_correct: -10,
         last_wrong: -10,
         odd_score: 0,
@@ -233,6 +245,12 @@ export const indicator = (i: number) => {
   if (dec === 2) return `${i}nd`;
   if (dec === 3) return `${i}rd`;
   return `${i}th`;
+};
+
+// 数値を範囲内の数字に丸める
+export const clipNumber = (n: number, min: number, max: number) => {
+  if (isNaN(n)) return 0;
+  return n < min ? min : n > max ? max : n;
 };
 
 export default computeScore;
