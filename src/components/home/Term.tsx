@@ -13,21 +13,21 @@ const Term: React.FC = () => {
           本アプリの開発者はユーザーが本アプリを使用したことにより生じる損害について、いかなる責任も負いません。
         </ListItem>
         <ListItem>
-          お問い合わせは開発者の
+          お問い合わせは
           <Link
             color="blue.500"
             href="https://discord.gg/rct5sx6rbZ"
             isExternal
           >
-            Discordサーバー
+            開発者のDiscordサーバー
             <Icon>
               <ExternalLink />
             </Icon>
           </Link>
-          からお願いします。
+          やTwitter からお願いします。
         </ListItem>
         <ListItem>
-          本アプリの使用報告は
+          本アプリを利用した際はぜひ
           <Link
             color="blue.500"
             href="https://twitter.com/hashtag/ScoreWatcher?f=live"
@@ -35,7 +35,16 @@ const Term: React.FC = () => {
           >
             #ScoreWatcher
           </Link>
-          でコメントしてもらえると嬉しいです。不具合報告や機能要望なども受け付けます。
+          でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
+        </ListItem>
+        <ListItem>
+          <Link
+            href="https://forms.gle/T6CGBZntoGAiQSxH9"
+            sx={{ color: "blue.500" }}
+          >
+            Googleフォーム
+          </Link>
+          でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
         </ListItem>
       </UnorderedList>
     </Box>

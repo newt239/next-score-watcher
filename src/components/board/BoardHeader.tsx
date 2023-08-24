@@ -272,6 +272,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               <MenuItem
                 icon={<Maximize />}
                 onClick={() => {
+                  recordEvent({
+                    action: "switch_fullscreen",
+                    category: "engagement",
+                    label: game.rule,
+                  });
                   if (document.fullscreenElement) {
                     document.exitFullscreen();
                   } else {

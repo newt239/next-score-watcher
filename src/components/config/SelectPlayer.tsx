@@ -33,7 +33,6 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   disabled,
 }) => {
   const isDesktop = useDeviceWidth();
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [sortableList, setSortableList] = useState(players);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
         {players.length !== 0 && (
           <Box
             sx={{
-              mt: 5,
+              mt: 3,
               p: 3,
               bgColor: "gray.300",
               _dark: {

@@ -45,6 +45,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
           as={ReactLink}
           colorScheme="blue"
           leftIcon={<Upload />}
+          mt={3}
           to={`/player?from=${game_id}`}
         >
           プレイヤーデータを読み込む
@@ -55,6 +56,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
             colorScheme="blue"
             isDisabled={disabled}
             leftIcon={<Plus />}
+            mt={3}
             onClick={() => setDrawerOpen(true)}
           >
             プレイヤーを選択
