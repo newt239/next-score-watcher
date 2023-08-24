@@ -236,12 +236,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 direction={isDesktop ? "vertical" : "horizontal"}
                 list={sortableList}
                 setList={(newState) => {
-                  if (newState.map((p) => p.id) !== players.map((p) => p.id)) {
-                    setSortableList(newState);
-                    db.games.update(game_id, {
-                      players: newState,
-                    });
-                  }
+                  setSortableList(newState);
                 }}
                 style={{
                   display: "flex",

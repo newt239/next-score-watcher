@@ -50,7 +50,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
       setInitialWrong(game.players[index].initial_wrong);
       setBaseCorrectPoint(game.players[index].base_correct_point);
     }
-  }, []);
+  }, [game?.id]);
 
   useEffect(() => {
     if (game && initialCorrect !== null) {
