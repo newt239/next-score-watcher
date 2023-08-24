@@ -165,6 +165,8 @@ export const getInitialPlayersState = (game: GamePropsUnion) => {
         score:
           game.rule === "attacksurvival"
             ? game.win_point! + gamePlayer.initial_correct
+            : game.rule === "ny"
+            ? gamePlayer.initial_correct - gamePlayer.initial_wrong
             : gamePlayer.initial_correct,
         correct: ["variables"].includes(game.rule)
           ? 0

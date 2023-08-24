@@ -287,12 +287,13 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             "normal",
                             "nomx",
                             "nomx-ad",
+                            "ny",
                             "variables",
                             "attacksurvival",
                           ].includes(rule_name)}
                           disabled={disabled}
                           index={index}
-                          wrong={["nomx", "nomx-ad"].includes(rule_name)}
+                          wrong={["nomx", "nomx-ad", "ny"].includes(rule_name)}
                         />
                       </Flex>
                     </CardBody>
