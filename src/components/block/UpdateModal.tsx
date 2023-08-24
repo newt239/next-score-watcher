@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+  Box,
   Button,
   Icon,
   Link,
+  ListItem,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  UnorderedList,
 } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
@@ -50,34 +53,34 @@ const UpdateModal: React.FC = () => {
           {feature && (
             <>
               {feature.news && (
-                <>
+                <Box pt={5}>
                   <h3>📢お知らせ</h3>
                   {feature.news}
-                </>
+                </Box>
               )}
               {feature.feature.length > 0 && (
-                <>
+                <Box pt={5}>
                   <h3>🎉新機能</h3>
-                  <ul>
+                  <UnorderedList>
                     {feature.feature.map((v, i) => (
-                      <li key={i}>{v}</li>
+                      <ListItem key={i}>{v}</ListItem>
                     ))}
-                  </ul>
-                </>
+                  </UnorderedList>
+                </Box>
               )}
               {feature.bugfix.length > 0 && (
-                <>
+                <Box pt={5}>
                   <h3>🐛不具合修正</h3>
-                  <ul>
+                  <UnorderedList>
                     {feature.bugfix.map((v, i) => (
-                      <li key={i}>{v}</li>
+                      <ListItem key={i}>{v}</ListItem>
                     ))}
-                  </ul>
-                </>
+                  </UnorderedList>
+                </Box>
               )}
             </>
           )}
-          <p style={{ paddingTop: "2rem" }}>
+          <Box pt={5}>
             詳細は
             <Link
               color="blue.500"
@@ -90,7 +93,7 @@ const UpdateModal: React.FC = () => {
               </Icon>
             </Link>
             をご確認ください。
-          </p>
+          </Box>
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="blue" onClick={update}>

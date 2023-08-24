@@ -50,10 +50,10 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
       setInitialWrong(game.players[index].initial_wrong);
       setBaseCorrectPoint(game.players[index].base_correct_point);
     }
-  }, [game_id, isOpen]);
+  }, [game?.id]);
 
   useEffect(() => {
-    if (game && initialCorrect) {
+    if (game && initialCorrect !== null) {
       db.games.update(game_id as string, {
         players: game.players.map((gamePlayer, pi) =>
           pi === index
@@ -68,7 +68,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   }, [game_id, initialCorrect]);
 
   useEffect(() => {
-    if (game && initialWrong) {
+    if (game && initialWrong !== null) {
       db.games.update(game_id as string, {
         players: game.players.map((gamePlayer, pi) =>
           pi === index
@@ -83,7 +83,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   }, [game_id, initialWrong]);
 
   useEffect(() => {
-    if (game && baseCorrectPoint) {
+    if (game && baseCorrectPoint !== null) {
       db.games.update(game_id as string, {
         players: game.players.map((gamePlayer, pi) =>
           pi === index
@@ -127,11 +127,12 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
               <FormLabel>
                 {game.rule === "variables"
                   ? "初期ポイント"
-                  : game.rule === "attacksurvival"
+                  : game.rule === "attacksurvival" // initial_correctを共通初期値との差とし、初期正解数は0にする
                   ? "共通初期値との差"
                   : "初期正答数"}
               </FormLabel>
               <NumberInput
+                min={game.rule !== "attacksurvival" ? 0 : undefined}
                 onChange={async (s, n) => {
                   setInitialCorrect(n);
                 }}
@@ -149,6 +150,8 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             <FormControl pt={3}>
               <FormLabel>初期誤答数</FormLabel>
               <NumberInput
+                max={game.rule === "backstream" ? 4 : undefined}
+                min={0}
                 onChange={(s, n) => {
                   setInitialWrong(n);
                 }}

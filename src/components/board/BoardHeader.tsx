@@ -26,6 +26,7 @@ import {
   Ballon,
   Comet,
   HandClick,
+  Maximize,
   Settings,
 } from "tabler-icons-react";
 
@@ -267,6 +268,25 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 <Switch isChecked={game.editable} />
               </FormControl>
             </MenuItem>
+            {document.fullscreenEnabled && (
+              <MenuItem
+                icon={<Maximize />}
+                onClick={() => {
+                  recordEvent({
+                    action: "switch_fullscreen",
+                    category: "engagement",
+                    label: game.rule,
+                  });
+                  if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                  } else {
+                    document.documentElement.requestFullscreen();
+                  }
+                }}
+              >
+                フルスクリーン
+              </MenuItem>
+            )}
             <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
               表示設定
             </MenuItem>

@@ -18,6 +18,10 @@ const attacksurvival = async (
         const newScore =
           playerState.score +
           (log.variant === "wrong" ? game.wrong_me : game.correct_me);
+        /*
+        個人初期値が0以下の場合1問目の回答前からstateがLOSEになるが、
+        この組み方はおかしいので表示はそのままにする
+        */
         switch (log.variant) {
           case "correct":
             if (newScore + game.wrong_me <= 0) {

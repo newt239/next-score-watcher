@@ -80,7 +80,7 @@ export const numberSign = (
         if (wrongNumber === "true") {
           if (score === 0) {
             return "・";
-          } else if (score <= 4) {
+          } else if (0 < score && score < 5) {
             return "✕".repeat(score);
           } else {
             return `${score}○`;
@@ -95,7 +95,7 @@ export const numberSign = (
     if (type === "wrong" && wrongNumber === "true") {
       if (score === 0) {
         return "・";
-      } else if (score <= 4) {
+      } else if (0 < score && score < 5) {
         return "✕".repeat(score);
       } else {
         return `${score}○`;
@@ -115,6 +115,12 @@ export const str2num = (str: unknown): number => {
     return Number.isNaN(x) ? 0 : x;
   }
   return 0;
+};
+
+export const zenkaku2Hankaku = (str: string) => {
+  return str.replace(/[A-Za-z0-9]/g, function (s) {
+    return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+  });
 };
 
 export const detectPlayerState = (

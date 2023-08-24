@@ -2,6 +2,7 @@ import { Flex } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { zenkaku2Hankaku } from "#/utils/functions";
 import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerNameProps = {
@@ -35,7 +36,7 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
         textOverflow: "ellipsis",
       }}
     >
-      {player_name}
+      {zenkaku2Hankaku(player_name)}
     </Flex>
   );
 };

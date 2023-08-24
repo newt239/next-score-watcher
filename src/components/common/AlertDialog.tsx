@@ -29,6 +29,7 @@ const AlertDialog: React.FC<AlertDialogProps> = ({
 
   return (
     <ChakraAlertDialog
+      isCentered
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
       onClose={onClose}
