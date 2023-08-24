@@ -127,12 +127,12 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
               <FormLabel>
                 {game.rule === "variables"
                   ? "初期ポイント"
-                  : game.rule === "attacksurvival"
+                  : game.rule === "attacksurvival" // initial_correctを共通初期値との差とし、初期正解数は0にする
                   ? "共通初期値との差"
                   : "初期正答数"}
               </FormLabel>
               <NumberInput
-                min={0}
+                min={game.rule !== "attacksurvival" ? 0 : undefined}
                 onChange={async (s, n) => {
                   setInitialCorrect(n);
                 }}

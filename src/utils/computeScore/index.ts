@@ -177,7 +177,7 @@ export const getInitialPlayersState = (game: GamePropsUnion) => {
         state: "playing" as States,
         reach_state: "playing" as States,
         score: getInitialScore(game, gamePlayer),
-        correct: ["variables"].includes(game.rule)
+        correct: ["attacksurvival", "variables"].includes(game.rule)
           ? 0
           : gamePlayer.initial_correct,
         wrong: gamePlayer.initial_wrong,
