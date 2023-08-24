@@ -118,14 +118,19 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                             "nomx-ad",
                             "ny",
                             "nomr",
+                            "nbyn",
                             "variables",
                             "attacksurvival",
                           ].includes(rule_name)}
                           disabled={disabled}
                           index={index}
-                          wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(
-                            rule_name
-                          )}
+                          wrong={[
+                            "nomx",
+                            "nomx-ad",
+                            "ny",
+                            "nomr",
+                            "nbyn",
+                          ].includes(rule_name)}
                         />
                       )}
                     </Flex>
