@@ -25,7 +25,7 @@ import ConfigInput from "#/components/config/ConfigInput";
 import ConfigTabList from "#/components/config/ConfigTabList";
 import CopyGame from "#/components/config/CopyGame";
 import RuleSettings from "#/components/config/RuleSettings";
-import SelectPlayer from "#/components/config/SelectPlayer";
+import PlayersConfig from "#/components/config/SelectPlayer";
 import SelectQuizset from "#/components/config/SelectQuizSet";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
@@ -163,7 +163,7 @@ const ConfigPage = () => {
               <RuleSettings disabled={disabled} game={game} />
             </TabPanel>
             <TabPanel>
-              <SelectPlayer
+              <PlayersConfig
                 disabled={disabled}
                 game_id={game.id}
                 playerList={players}
