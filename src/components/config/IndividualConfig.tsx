@@ -50,10 +50,10 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
       setInitialWrong(game.players[index].initial_wrong);
       setBaseCorrectPoint(game.players[index].base_correct_point);
     }
-  }, [game_id, isOpen]);
+  }, []);
 
   useEffect(() => {
-    if (game && initialCorrect) {
+    if (game && initialCorrect !== null) {
       db.games.update(game_id as string, {
         players: game.players.map((gamePlayer, pi) =>
           pi === index
@@ -68,7 +68,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   }, [game_id, initialCorrect]);
 
   useEffect(() => {
-    if (game && initialWrong) {
+    if (game && initialWrong !== null) {
       db.games.update(game_id as string, {
         players: game.players.map((gamePlayer, pi) =>
           pi === index
@@ -83,7 +83,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   }, [game_id, initialWrong]);
 
   useEffect(() => {
-    if (game && baseCorrectPoint) {
+    if (game && baseCorrectPoint !== null) {
       db.games.update(game_id as string, {
         players: game.players.map((gamePlayer, pi) =>
           pi === index

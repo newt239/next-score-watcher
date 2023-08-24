@@ -99,7 +99,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
               disabled={player.is_incapacity}
               {...props}
             >
-              {numberSign("correct")}
+              {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
               color={player.is_incapacity ? "gray" : "blue"}

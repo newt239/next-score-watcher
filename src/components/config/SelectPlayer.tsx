@@ -106,14 +106,6 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
     setSortableList(players);
   }, [players]);
 
-  useEffect(() => {
-    if (sortableList !== players) {
-      db.games.update(game_id, {
-        players: sortableList,
-      });
-    }
-  }, [sortableList]);
-
   return (
     <Box>
       <h2>プレイヤー設定</h2>
@@ -243,7 +235,14 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                 delay={2}
                 direction={isDesktop ? "vertical" : "horizontal"}
                 list={sortableList}
-                setList={(newState) => setSortableList(newState)}
+                setList={(newState) => {
+                  if (newState.map((p) => p.id) !== players.map((p) => p.id)) {
+                    setSortableList(newState);
+                    db.games.update(game_id, {
+                      players: newState,
+                    });
+                  }
+                }}
                 style={{
                   display: "flex",
                   flexDirection: isDesktop ? "row" : "column",
@@ -288,12 +287,15 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                             "nomx",
                             "nomx-ad",
                             "ny",
+                            "nomr",
                             "variables",
                             "attacksurvival",
                           ].includes(rule_name)}
                           disabled={disabled}
                           index={index}
-                          wrong={["nomx", "nomx-ad", "ny"].includes(rule_name)}
+                          wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(
+                            rule_name
+                          )}
                         />
                       </Flex>
                     </CardBody>
