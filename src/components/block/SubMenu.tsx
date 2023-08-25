@@ -1,7 +1,6 @@
 import { Link as ReactLink } from "react-router-dom";
 
-import { Button, Flex, IconButton } from "@chakra-ui/react";
-import { BrandDiscord } from "tabler-icons-react";
+import { Button, Flex } from "@chakra-ui/react";
 
 const linkList: { text: string; path: string }[] = [
   { text: "ホーム", path: "/" },
@@ -12,11 +11,7 @@ const linkList: { text: string; path: string }[] = [
 
 const SubMenu: React.FC = () => {
   return (
-    <Flex
-      sx={{
-        fontWeight: 800,
-      }}
-    >
+    <Flex fontWeight={800}>
       {linkList.map((link) => (
         <Button
           as={ReactLink}
@@ -28,15 +23,6 @@ const SubMenu: React.FC = () => {
           {link.text}
         </Button>
       ))}
-      <IconButton
-        aria-label="Discordサーバーに参加する"
-        as="a"
-        href="https://discord.gg/rct5sx6rbZ"
-        icon={<BrandDiscord />}
-        size="sm"
-        target="_blank"
-        variant="ghost"
-      />
     </Flex>
   );
 };
