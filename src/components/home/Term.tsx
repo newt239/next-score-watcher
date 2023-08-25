@@ -34,15 +34,22 @@ const Term: React.FC = () => {
             isExternal
           >
             #ScoreWatcher
+            <Icon>
+              <ExternalLink />
+            </Icon>
           </Link>
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
         </ListItem>
         <ListItem>
           <Link
+            color="blue.500"
             href="https://forms.gle/T6CGBZntoGAiQSxH9"
-            sx={{ color: "blue.500" }}
+            isExternal
           >
             Googleフォーム
+            <Icon>
+              <ExternalLink />
+            </Icon>
           </Link>
           でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
         </ListItem>
