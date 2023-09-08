@@ -1,33 +1,12 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true
-  },
   "extends": [
-    "plugin:react/recommended",
+    "next",
+    "next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:import/warnings",
     "prettier"
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": "latest",
-    "sourceType": "module",
-    "project": ["./tsconfig.json"]
-  },
-  "plugins": ["react", "@typescript-eslint"],
-  "settings": {
-    "react": {
-      "version": "detect"
-    },
-    "import/resolver": {
-      "typescript": []
-    }
-  },
+  "plugins": [],
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
@@ -48,7 +27,7 @@
         ],
         "pathGroups": [
           {
-            "pattern": "{react,react-dom/**,react-router-dom}",
+            "pattern": "{react,react-dom/**,react-router-dom,next,next/**}",
             "group": "builtin",
             "position": "before"
           }
@@ -60,6 +39,5 @@
         "newlines-between": "always"
       }
     ]
-  },
-  "ignorePatterns": ["vite.config.ts", "serviceWorker.js"]
+  }
 }

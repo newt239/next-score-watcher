@@ -1,65 +1,28 @@
 {
   "name": "next-score-watcher",
+  "version": "0.1.0",
   "private": true,
-  "version": "2.4.3",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "lint": "eslint --fix ./src/**/*.{js,jsx,ts,tsx}",
-    "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.8.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@sentry/vite-plugin": "^2.7.0",
-    "@tanstack/react-table": "^8.9.3",
-    "cdate": "^0.0.6",
-    "dexie": "^3.2.4",
-    "dexie-react-hooks": "^1.1.6",
-    "encoding-japanese": "^2.0.0",
-    "framer-motion": "^8.5.5",
-    "jotai": "^2.3.1",
-    "nanoid": "^4.0.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-ga4": "^2.1.0",
-    "react-router-dom": "^6.15.0",
-    "react-sortablejs": "^6.1.4",
-    "sortablejs": "^1.15.0",
-    "tabler-icons-react": "^1.56.0"
+    "@types/node": "20.5.9",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.4.19",
+    "next": "13.4.19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@sentry/react": "^7.64.0",
-    "@types/encoding-japanese": "^2.0.1",
-    "@types/gtag.js": "^0.0.12",
-    "@types/node": "^18.17.6",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/sortablejs": "^1.15.1",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.4.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
-    "eslint": "^8.47.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-typescript": "^3.6.0",
-    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-react": "^7.33.2",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.3.0",
-    "prettier": "3.0.1",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.9",
-    "vite-plugin-pwa": "^0.16.4"
+    "prettier": "^3.0.3"
   }
 }
