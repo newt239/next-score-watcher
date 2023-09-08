@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 import {
   Box,
@@ -27,11 +26,11 @@ import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
 
-export default function GameBoard() {
-  const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+export default function GameBoard({ params }: { params: { game_id: string } }) {
+  const game = useLiveQuery(() => db.games.get(params.game_id));
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
+    () =>
+      db.logs.where({ game_id: params.game_id as string }).sortBy("timestamp"),
     []
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
@@ -43,7 +42,7 @@ export default function GameBoard() {
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
-    db.games.update(game_id as string, { last_open: cdate().text() });
+    db.games.update(params.game_id, { last_open: cdate().text() });
   }, []);
 
   useEffect(() => {
@@ -74,7 +73,7 @@ export default function GameBoard() {
   useEffect(() => {
     if (logs) {
       const executeComputeScore = async () => {
-        const result = await computeScore(game_id as string);
+        const result = await computeScore(params.game_id);
         setScores(result.scores);
         if (result.win_players.length > 0) {
           if (result.win_players[0].name) {
