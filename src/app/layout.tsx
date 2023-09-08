@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { BIZ_UDPGothic } from "next/font/google";
 
-import Header from "#/app/_components/Header";
 import "#/app/globals.css";
 import { Providers } from "#/app/provider";
 
@@ -43,10 +42,7 @@ export default function RootLayout({
         <meta content="score-watcher.newt239.dev" name="twitter:domain" />
       </head>
       <body className={biz_font.className}>
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

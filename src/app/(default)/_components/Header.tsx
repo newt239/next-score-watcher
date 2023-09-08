@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Box, Flex, Image, Spacer } from "@chakra-ui/react";
 
-import SubMenu from "#/app/_components/SubMenu";
+import SubMenu from "#/app/(default)/_components/SubMenu";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
