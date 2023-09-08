@@ -1,7 +1,5 @@
 import { Box, Flex, Image, Link } from "@chakra-ui/react";
 
-import Logo from "#/assets/logo.png";
-
 const Footer: React.FC = () => {
   return (
     <>
@@ -17,7 +15,7 @@ const Footer: React.FC = () => {
           fontSize: "0.5rem",
         }}
       >
-        <Image alt="Score Watcher" src={Logo} sx={{ h: "100%" }} />
+        <Image alt="Score Watcher" src="./logo.png" sx={{ h: "100%" }} />
         <Box>
           by{" "}
           <Link color="blue.500" href="https://twitter.com/newt239" isExternal>

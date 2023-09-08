@@ -6,23 +6,38 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "panda codegen"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "add": "^2.0.6",
+    "cdate": "^0.0.7",
+    "dexie": "^3.2.4",
+    "dexie-react-hooks": "^1.1.6",
+    "framer-motion": "^10.16.4",
+    "jotai": "^2.4.2",
+    "nanoid": "^4.0.2",
     "next": "13.4.19",
+    "pnpm": "^8.7.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
-    "typescript": "5.2.2",
-    "prettier": "^3.0.3",
+    "@pandacss/dev": "^0.14.0",
+    "@types/node": "20.5.9",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "@typescript-eslint/parser": "^6.6.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
-    "@types/node": "20.5.9",
-    "@types/react": "18.2.21",
-    "@types/react-dom": "18.2.7",
-    "@typescript-eslint/parser": "^6.6.0"
+    "prettier": "^3.0.3",
+    "typescript": "5.2.2"
   }
 }

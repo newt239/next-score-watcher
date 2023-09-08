@@ -1,10 +1,13 @@
-import { Link as ReactLink, useLocation } from "react-router-dom";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Box, Flex, LinkBox } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
 
 const BottomBar = () => {
-  const location = useLocation();
+  const pathname = usePathname();
 
   return (
     <Box
@@ -27,10 +30,10 @@ const BottomBar = () => {
         },
       }}
     >
-      <ReactLink style={{ width: "25%", textAlign: "center" }} to="/">
+      <Link href="/" style={{ width: "25%", textAlign: "center" }}>
         <LinkBox
           aria-label="ホーム"
-          color={location.pathname === "/" ? "green.500" : undefined}
+          color={pathname === "/" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -41,11 +44,11 @@ const BottomBar = () => {
             <span>ホーム</span>
           </Flex>
         </LinkBox>
-      </ReactLink>
-      <ReactLink style={{ width: "25%" }} to="/player">
+      </Link>
+      <Link href="/player" style={{ width: "25%" }}>
         <LinkBox
           aria-label="プレイヤー"
-          color={location.pathname === "/player" ? "green.500" : undefined}
+          color={pathname === "/player" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -56,11 +59,11 @@ const BottomBar = () => {
             <span>プレイヤ－</span>
           </Flex>
         </LinkBox>
-      </ReactLink>
-      <ReactLink style={{ width: "25%" }} to="/quiz">
+      </Link>
+      <Link href="/quiz" style={{ width: "25%" }}>
         <LinkBox
           aria-label="問題"
-          color={location.pathname === "/quiz" ? "green.500" : undefined}
+          color={pathname === "/quiz" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -71,11 +74,11 @@ const BottomBar = () => {
             <span>問題</span>
           </Flex>
         </LinkBox>
-      </ReactLink>
-      <ReactLink style={{ width: "25%" }} to="/option">
+      </Link>
+      <Link href="/option" style={{ width: "25%" }}>
         <LinkBox
           aria-label="設定"
-          color={location.pathname === "/option" ? "green.500" : undefined}
+          color={pathname === "/option" ? "green.500" : undefined}
           sx={{
             width: "100%",
             borderRadius: 0,
@@ -86,7 +89,7 @@ const BottomBar = () => {
             <span>設定</span>
           </Flex>
         </LinkBox>
-      </ReactLink>
+      </Link>
     </Box>
   );
 };

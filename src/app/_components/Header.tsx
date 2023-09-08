@@ -1,21 +1,12 @@
-import { Link as ReactLink, useLocation } from "react-router-dom";
+import Link from "next/link";
 
-import { Box, Flex, Image, Spacer, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, Image, Spacer } from "@chakra-ui/react";
 
-import Logo from "#/assets/logo.png";
-import SubMenu from "#/components/block/SubMenu";
+import SubMenu from "#/app/_components/SubMenu";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
-  const location = useLocation();
   const desktop = useDeviceWidth();
-  const { colorMode } = useColorMode();
-
-  if (
-    location.pathname.includes("board") ||
-    location.pathname.includes("/aql/")
-  )
-    return null;
 
   return (
     <Box
@@ -30,14 +21,12 @@ const Header: React.FC = () => {
         backdropFilter: "blur(8px)",
         borderStyle: "solid",
         borderWidth: "0px 0px thin",
-        borderColor:
-          colorMode === "light"
-            ? "rgb(231, 235, 240)"
-            : "rgba(194, 224, 255, 0.08)",
-        backgroundColor:
-          colorMode === "light"
-            ? "rgba(255, 255, 255, 0.5)"
-            : "rgba(10, 25, 41, 0.7)",
+        borderColor: "rgb(231, 235, 240)",
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        _dark: {
+          borderColor: "rgba(194, 224, 255, 0.08)",
+          backgroundColor: "rgba(10, 25, 41, 0.7)",
+        },
       }}
     >
       <Flex
@@ -49,10 +38,10 @@ const Header: React.FC = () => {
         }}
       >
         <Box _hover={{ opacity: 0.5 }} sx={{ transition: "all 0.2s ease-out" }}>
-          <ReactLink to="/">
+          <Link href="/">
             <Image
               alt="app logo"
-              src={Logo}
+              src="/logo.png"
               sx={{
                 height: "auto",
                 width: "auto",
@@ -64,7 +53,7 @@ const Header: React.FC = () => {
                 cursor: "pointer",
               }}
             />
-          </ReactLink>
+          </Link>
         </Box>
         {desktop && (
           <>

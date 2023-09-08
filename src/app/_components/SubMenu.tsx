@@ -1,4 +1,4 @@
-import { Link as ReactLink } from "react-router-dom";
+import Link from "next/link";
 
 import { Button, Flex } from "@chakra-ui/react";
 
@@ -14,10 +14,10 @@ const SubMenu: React.FC = () => {
     <Flex fontWeight={800}>
       {linkList.map((link) => (
         <Button
-          as={ReactLink}
+          as={Link}
+          href={link.path}
           key={link.path}
           size="sm"
-          to={link.path}
           variant="ghost"
         >
           {link.text}
