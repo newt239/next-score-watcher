@@ -1,6 +1,11 @@
-import { Link as ReactLink } from "react-router-dom";
+import Link from "next/link";
 
-import { Box, Link, ListItem, UnorderedList } from "@chakra-ui/react";
+import {
+  Box,
+  Link as ChakraLink,
+  ListItem,
+  UnorderedList,
+} from "@chakra-ui/react";
 
 const OtherRules: React.FC = () => {
   return (
@@ -8,9 +13,9 @@ const OtherRules: React.FC = () => {
       <h2>その他の形式</h2>
       <UnorderedList>
         <ListItem>
-          <Link as={ReactLink} color="blue.500" to="/aql">
+          <ChakraLink as={Link} color="blue.500" href="/aql">
             AQLルール
-          </Link>
+          </ChakraLink>
         </ListItem>
       </UnorderedList>
     </Box>

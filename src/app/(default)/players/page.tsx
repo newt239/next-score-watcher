@@ -12,10 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import CreatePlayer from "#/components/player/CreatePlayer";
-import ImportPlayer from "#/components/player/ImportPlayer";
-import LoadPlayer from "#/components/player/LoadPlayer";
-import PlayerTable from "#/components/player/PlayerTable";
+import CreatePlayer from "#/app/(default)/players/_components/CreatePlayer";
+import ImportPlayer from "#/app/(default)/players/_components/ImportPlayer";
+import LoadPlayer from "#/app/(default)/players/_components/LoadPlayer";
+import PlayerTable from "#/app/(default)/players/_components/PlayerTable";
 
 export const metadata = {
   title: "プレイヤー管理 | Score Watcher",

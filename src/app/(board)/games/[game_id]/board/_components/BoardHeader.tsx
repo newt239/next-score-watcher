@@ -30,7 +30,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import PreferenceModal from "#/components/board/PreferenceModal";
+import PreferenceModal from "#/app/(board)/games/[game_id]/board/_components/PreferenceModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { recordEvent } from "#/utils/ga4";

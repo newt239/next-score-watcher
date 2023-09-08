@@ -1,4 +1,6 @@
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import { useRouter } from "next/router";
 
 import { Box, Button, Card, SimpleGrid } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
@@ -8,12 +10,12 @@ import { rules } from "#/utils/rules";
 import { RuleNames } from "#/utils/types";
 
 const RuleList: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const ruleNameList = Object.keys(rules) as RuleNames[];
 
   const onClick = async (rule_name: RuleNames) => {
     const game_id = await createGame(rule_name);
-    navigate(`/${game_id}/config`);
+    router.push(`/${game_id}/config`);
   };
 
   return (

@@ -17,10 +17,10 @@ import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
-import BoardHeader from "#/components/board/BoardHeader";
-import GameLogs from "#/components/board/GameLogs";
-import Player from "#/components/board/Player";
-import WinModal from "#/components/board/WinModal";
+import BoardHeader from "#/app/(board)/games/[game_id]/board/_components/BoardHeader";
+import GameLogs from "#/app/(board)/games/[game_id]/board/_components/GameLogs";
+import Player from "#/app/(board)/games/[game_id]/board/_components/Player";
+import WinModal from "#/app/(board)/games/[game_id]/board/_components/WinModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
 import db from "#/utils/db";

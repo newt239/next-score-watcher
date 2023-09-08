@@ -1,16 +1,8 @@
-import { Link as ReactLink } from "react-router-dom";
+import Link from "next/link";
 
 import { Button, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
-import { useLiveQuery } from "dexie-react-hooks";
-
-import db from "#/utils/db";
 
 const Hero: React.FC = () => {
-  const games = useLiveQuery(
-    () => db.games.orderBy("last_open").reverse().toArray(),
-    []
-  );
-
   return (
     <Stack direction={{ base: "column", md: "row" }} minH={"100vh"}>
       <Flex align={"center"} flex={1} justify={"center"} p={8}>
@@ -33,10 +25,10 @@ const Hero: React.FC = () => {
               _hover={{
                 bg: "green.500",
               }}
-              as={ReactLink}
+              as={Link}
               colorScheme="green"
+              href="/rule"
               rounded={"full"}
-              to="/rule"
             >
               ゲームを作る
             </Button>

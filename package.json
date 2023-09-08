@@ -16,7 +16,6 @@
     "@emotion/styled": "^11.11.0",
     "@supabase/auth-helpers-nextjs": "^0.7.4",
     "@supabase/supabase-js": "^2.33.1",
-    "add": "^2.0.6",
     "cdate": "^0.0.7",
     "dexie": "^3.2.4",
     "dexie-react-hooks": "^1.1.6",
@@ -24,10 +23,13 @@
     "jotai": "^2.4.2",
     "nanoid": "^4.0.2",
     "next": "13.4.19",
-    "pnpm": "^8.7.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tabler-icons-react": "^1.56.0"
+    "tabler-icons-react": "^1.56.0",
+    "react-sortablejs": "^6.1.4",
+    "sortablejs": "^1.15.0",
+    "@tanstack/react-table": "^8.9.3",
+    "encoding-japanese": "^2.0.0"
   },
   "devDependencies": {
     "@pandacss/dev": "^0.14.0",

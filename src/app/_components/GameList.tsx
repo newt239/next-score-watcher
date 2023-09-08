@@ -1,12 +1,14 @@
+"use client";
+
+import Link from "next/link";
 import { useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
   Button,
   Card,
+  Link as ChakraLink,
   Flex,
-  Link,
   Select,
   SimpleGrid,
   Text,
@@ -70,9 +72,9 @@ const GameList: React.FC = () => {
       {parsedGameList.length === 0 ? (
         <Text px={5} py={10}>
           作成済みのゲームはありません。
-          <Link as={ReactLink} color="blue.500" to="/option">
+          <ChakraLink as={Link} color="blue.500" href="/option">
             形式一覧
-          </Link>
+          </ChakraLink>
           ページから新しいゲームを作ることが出来ます。
         </Text>
       ) : (
@@ -103,11 +105,11 @@ const GameList: React.FC = () => {
                   {cdate(game.last_open).format("MM/DD HH:mm")}
                 </Box>
                 <Button
-                  as={ReactLink}
+                  as={Link}
                   colorScheme="green"
+                  href={`/${game.id}/config`}
                   leftIcon={<AdjustmentsHorizontal />}
                   size="sm"
-                  to={`/${game.id}/config`}
                 >
                   開く
                 </Button>

@@ -1,4 +1,4 @@
-import { Link as ReactLink } from "react-router-dom";
+import Link from "next/link";
 
 import {
   Button,
@@ -79,10 +79,10 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
       ) : (
         <InputLayout label="">
           <Button
-            as={ReactLink}
+            as={Link}
             colorScheme="blue"
+            href={`/quiz?from=${game_id}`}
             leftIcon={<Upload />}
-            to={`/quiz?from=${game_id}`}
           >
             問題データを読み込む
           </Button>

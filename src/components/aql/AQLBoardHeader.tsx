@@ -35,7 +35,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import ShortcutGuide from "#/components/board/ShortcutGuide";
+import ShortcutGuide from "#/app/(board)/games/[game_id]/board/_components/ShortcutGuide";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showQnAtom } from "#/utils/jotai";

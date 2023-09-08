@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { ReactNode } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
   Accordion,
@@ -8,9 +8,9 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Link as ChakraLink,
   Flex,
   Image,
-  Link,
   Tab,
   TabList,
   TabPanel,
@@ -75,9 +75,9 @@ const Features: React.FC = () => {
           <Box pb={5}>
             <h3>表示はカスタマイズ可能</h3>
             <Text>
-              <Link as={ReactLink} color="blue.500" to="/option">
+              <ChakraLink as={Link} color="blue.500" href="/option">
                 アプリ設定
-              </Link>
+              </ChakraLink>
               から、得点表示画面の表示をカスタマイズできます。
             </Text>
           </Box>

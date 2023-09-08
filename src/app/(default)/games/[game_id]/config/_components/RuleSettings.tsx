@@ -1,9 +1,9 @@
 import { Grid, VStack } from "@chakra-ui/react";
 
-import ConfigBooleanInput from "#/components/config/ConfigBooleanInput";
-import ConfigInput from "#/components/config/ConfigInput";
-import ConfigLimit from "#/components/config/ConfigLimit";
-import ConfigNumberInput from "#/components/config/ConfigNumberInput";
+import ConfigBooleanInput from "#/app/(default)/games/[game_id]/config/_components/ConfigBooleanInput";
+import ConfigInput from "#/app/(default)/games/[game_id]/config/_components/ConfigInput";
+import ConfigLimit from "#/app/(default)/games/[game_id]/config/_components/ConfigLimit";
+import ConfigNumberInput from "#/app/(default)/games/[game_id]/config/_components/ConfigNumberInput";
 import { GamePropsUnion } from "#/utils/types";
 
 type RuleSettingsProps = {

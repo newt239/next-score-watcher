@@ -18,9 +18,9 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import ImportQuiz from "#/components/quiz/ImportQuiz";
-import LoadQuiz from "#/components/quiz/LoadQuiz";
-import QuizTable from "#/components/quiz/QuizTable";
+import ImportQuiz from "#/app/(default)/quizes/_components/ImportQuiz";
+import LoadQuiz from "#/app/(default)/quizes/_components/LoadQuiz";
+import QuizTable from "#/app/(default)/quizes/_components/QuizTable";
 
 export default function QuizesConfigPage({
   searchParams,
