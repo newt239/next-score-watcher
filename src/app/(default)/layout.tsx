@@ -1,5 +1,5 @@
-import BottomBar from "#/app/(default)/_components/BottomBar";
-import Header from "#/app/(default)/_components/Header";
+import BottomBar from "./_components/BottomBar";
+import Header from "./_components/Header";
 
 export default function DefaultLayout({
   children,

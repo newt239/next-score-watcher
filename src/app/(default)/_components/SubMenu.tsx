@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex } from "@radix-ui/themes";
 
 const linkList: { text: string; path: string }[] = [
   { text: "ホーム", path: "/" },
@@ -11,16 +11,10 @@ const linkList: { text: string; path: string }[] = [
 
 const SubMenu: React.FC = () => {
   return (
-    <Flex fontWeight={800}>
+    <Flex>
       {linkList.map((link) => (
-        <Button
-          as={Link}
-          href={link.path}
-          key={link.path}
-          size="sm"
-          variant="ghost"
-        >
-          {link.text}
+        <Button asChild key={link.path} variant="ghost">
+          <Link href={link.path}>{link.text}</Link>
         </Button>
       ))}
     </Flex>

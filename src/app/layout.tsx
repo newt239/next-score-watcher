@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { BIZ_UDPGothic } from "next/font/google";
-
-import "#/app/globals.css";
-import { Providers } from "#/app/provider";
+import "./globals.css";
 
 const biz_font = BIZ_UDPGothic({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -42,7 +40,7 @@ export default function RootLayout({
         <meta content="score-watcher.newt239.dev" name="twitter:domain" />
       </head>
       <body className={biz_font.className}>
-        <Providers>{children}</Providers>
+        <>{children}</>
       </body>
     </html>
   );
