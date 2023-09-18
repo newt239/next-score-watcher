@@ -1,47 +1,68 @@
-import Image from "next/image";
-import Link from "next/link";
+/* eslint-disable @next/next/no-img-element */
 
-import { Button, Flex, Text } from "@radix-ui/themes";
-
+import ButtonLink from "#/components/ButtonLink";
 import { css } from "@panda/css";
 
 const Hero: React.FC = () => {
   return (
-    <div>
-      <Flex align="center" justify="center">
-        <Flex>
-          <div
-            className={css({
-              fontSize: { base: "3xl", md: "4xl", lg: "5xl" },
-              fontWeight: "700",
-            })}
-          >
-            <span className={css({ position: "relative" })}>
-              競技クイズのための
-            </span>
-            <br />
-            <span className={css({ color: "green.400" })}>得点表示アプリ</span>
-          </div>
-          <Text>
-            Score
-            Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
-          </Text>
-          <Flex>
-            <Button>
-              <Link href="/rules">ゲームを作る</Link>
-            </Button>
-          </Flex>
-        </Flex>
-      </Flex>
-      <Flex>
-        <Image
-          alt={"大会画像"}
-          height="300"
-          objectFit={"cover"}
-          src="/images/hero.webp"
-          width="300"
-        />
-      </Flex>
+    <div
+      className={css({
+        w: "100%",
+        position: "relative",
+      })}
+    >
+      <img
+        alt={"大会画像"}
+        className={css({
+          width: "100%",
+          height: "80vh",
+          objectFit: "cover",
+          borderRadius: "3xl",
+        })}
+        src="/images/hero.webp"
+      />
+      <div
+        className={css({
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          m: "16px",
+          w: "calc(100% - 32px)",
+        })}
+      >
+        <p
+          className={css({
+            fontSize: { base: "3xl", md: "4xl", lg: "5xl" },
+            fontWeight: "700",
+            lineHeight: "initial",
+          })}
+        >
+          <span className={css({ position: "relative", bgColor: "white" })}>
+            競技クイズのための
+          </span>
+          <div></div>
+          <span className={css({ color: "green.500", bgColor: "white" })}>
+            得点表示アプリ
+          </span>
+        </p>
+        <p
+          className={css({
+            color: "white",
+          })}
+        >
+          Score
+          Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
+        </p>
+        <div
+          className={css({
+            mt: "32px",
+            display: "flex",
+            justifyContent: "flex-end",
+          })}
+        >
+          <ButtonLink href="/rules">ゲームを作る</ButtonLink>
+        </div>
+      </div>
     </div>
   );
 };

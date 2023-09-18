@@ -1,5 +1,6 @@
-import BottomBar from "./_components/BottomBar";
 import Header from "./_components/Header";
+
+import { css } from "@panda/css";
 
 export default function DefaultLayout({
   children,
@@ -7,10 +8,29 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        lg: {
+          flexDirection: "row",
+        },
+      })}
+    >
       <Header />
-      {children}
-      <BottomBar />
-    </>
+      <div
+        className={css({
+          p: "16px",
+          mt: "34px",
+          maxW: "1300px",
+          lg: {
+            mt: "0px",
+            ml: "300px",
+          },
+        })}
+      >
+        {children}
+      </div>
+    </div>
   );
 }

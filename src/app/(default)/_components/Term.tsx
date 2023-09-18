@@ -1,13 +1,8 @@
-"use client";
-
-import Link from "next/link";
-
-import { Box } from "@radix-ui/themes";
-import { ExternalLink } from "tabler-icons-react";
+import Anchor from "#/components/Anchor";
 
 const Term: React.FC = () => {
   return (
-    <Box>
+    <div>
       <h2>ご利用にあたって</h2>
       <ul>
         <li>
@@ -18,32 +13,26 @@ const Term: React.FC = () => {
         </li>
         <li>
           お問い合わせは
-          <Link color="blue.500" href="https://discord.gg/rct5sx6rbZ">
+          <Anchor href="https://discord.gg/rct5sx6rbZ">
             開発者のDiscordサーバー
-            <ExternalLink />
-          </Link>
+          </Anchor>
           やTwitter からお願いします。
         </li>
         <li>
           本アプリを利用した際はぜひ
-          <Link
-            color="blue.500"
-            href="https://twitter.com/hashtag/ScoreWatcher?f=live"
-          >
+          <Anchor href="https://twitter.com/hashtag/ScoreWatcher?f=live">
             #ScoreWatcher
-            <ExternalLink />
-          </Link>
+          </Anchor>
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
         </li>
         <li>
-          <Link color="blue.500" href="https://forms.gle/T6CGBZntoGAiQSxH9">
+          <Anchor href="https://forms.gle/T6CGBZntoGAiQSxH9">
             Googleフォーム
-            <ExternalLink />
-          </Link>
+          </Anchor>
           でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
         </li>
       </ul>
-    </Box>
+    </div>
   );
 };
 

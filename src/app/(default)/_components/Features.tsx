@@ -1,27 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Link as ChakraLink,
-  Flex,
-  Image,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-} from "@chakra-ui/react";
+import { Link as RadixLink } from "@radix-ui/themes";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import { css } from "@panda/css";
 
 type FeatureProps = {
   title: string;
@@ -64,90 +50,57 @@ const Features: React.FC = () => {
       title: "その他",
       description: (
         <>
-          <Box pb={5}>
-            <h3>オフライン対応</h3>
-            <Text>
+          <div>
+            <h4>オフライン対応</h4>
+            <p>
               一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。
-            </Text>
-          </Box>
-          <Box pb={5}>
-            <h3>ショートカットキー</h3>
-            <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
-          </Box>
-          <Box pb={5}>
-            <h3>表示はカスタマイズ可能</h3>
-            <Text>
-              <ChakraLink as={Link} color="blue.500" href="/option">
-                アプリ設定
-              </ChakraLink>
+            </p>
+          </div>
+          <div>
+            <h4>ショートカットキー</h4>
+            <p>得点表示画面ではショートカットコマンドが利用できます。</p>
+          </div>
+          <div>
+            <h4>表示はカスタマイズ可能</h4>
+            <p>
+              <RadixLink asChild>
+                <Link href="/option">アプリ設定</Link>
+              </RadixLink>
               から、得点表示画面の表示をカスタマイズできます。
-            </Text>
-          </Box>
+            </p>
+          </div>
         </>
       ),
     },
   ];
 
   return (
-    <Box pt={10}>
+    <div>
       <h2>主な機能</h2>
-      {isDesktop ? (
-        <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
-          <TabList>
-            {features.map((feature) => (
-              <Tab key={feature.title}>{feature.title}</Tab>
-            ))}
-          </TabList>
-          <TabPanels>
-            {features.map((feature) => (
-              <TabPanel key={feature.title}>
-                {feature.image ? (
-                  <Flex sx={{ gap: 3 }}>
-                    <Box sx={{ flexGrow: 1 }}>
-                      <h3>{feature.title}</h3>
-                      <Box>{feature.description}</Box>
-                    </Box>
-                    <Image
-                      alt={`画像: ${feature.title}`}
-                      h="18rem"
-                      src={"images/" + feature.image}
-                      sx={{ borderRadius: "1rem" }}
-                    />
-                  </Flex>
-                ) : (
-                  <Box h="18rem">{feature.description}</Box>
-                )}
-              </TabPanel>
-            ))}
-          </TabPanels>
-        </Tabs>
-      ) : (
-        <Accordion defaultIndex={0} pt={5}>
-          {features.map((feature) => (
-            <AccordionItem key={feature.title}>
-              <AccordionButton>
-                <Box flex={1} textAlign="left">
-                  <h2 style={{ fontSize: "1rem", padding: 0 }}>
-                    {feature.title}
-                  </h2>
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel pb={4}>
-                {feature.image && (
-                  <Image
-                    alt={`画像: ${feature.title}`}
-                    src={"images/" + feature.image}
-                    sx={{ borderRadius: "1rem" }}
-                  />
-                )}
-                <Box pt={3}>{feature.description}</Box>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      )}
-    </Box>
+      <div
+        className={css({
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          gap: "0 32px",
+        })}
+      >
+        {features.map((feature) => (
+          <div key={feature.title}>
+            <h3>{feature.title}</h3>
+            {feature.image && (
+              <img
+                alt={`画像: ${feature.title}`}
+                className={css({
+                  borderRadius: "md",
+                })}
+                src={"images/" + feature.image}
+              />
+            )}
+            <div>{feature.description}</div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

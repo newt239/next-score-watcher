@@ -103,6 +103,9 @@ devDependencies:
   eslint-plugin-react:
     specifier: ^7.33.2
     version: 7.33.2(eslint@8.48.0)
+  postcss:
+    specifier: ^8.4.29
+    version: 8.4.29
   prettier:
     specifier: ^3.0.3
     version: 3.0.3
@@ -4084,7 +4087,7 @@ packages:
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       magic-string: 0.30.3
-      postcss: 8.4.27
+      postcss: 8.4.29
       source-map-js: 1.0.2
     dev: true
 

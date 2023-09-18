@@ -1,15 +1,29 @@
 @layer reset, base, tokens, recipes, utilities;
 
-@import "./radix-ui.css" layer(radix);
-
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h2 {
+  font-size: 32px;
+  font-weight: 700;
+  padding-top: 32px;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 700;
+  padding-top: 24px;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: 700;
+  padding-top: 16px;
+}
+
+ul {
+  list-style: disc;
+  margin-left: 24px;
 }

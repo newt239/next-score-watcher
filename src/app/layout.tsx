@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { BIZ_UDPGothic } from "next/font/google";
+import { cookies } from "next/headers";
+
 import "./globals.css";
 
 const biz_font = BIZ_UDPGothic({ subsets: ["latin"], weight: ["400", "700"] });
@@ -15,8 +17,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = cookies();
+  const colorTheme = (cookieStore.get("theme") ?? "light") as "light" | "dark";
+
   return (
-    <html lang="ja">
+    <html data-color-mode={colorTheme} lang="ja">
       <head>
         <meta charSet="UTF-8" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -39,9 +44,7 @@ export default function RootLayout({
         <meta content="@newt239" name="twitter:creator" />
         <meta content="score-watcher.newt239.dev" name="twitter:domain" />
       </head>
-      <body className={biz_font.className}>
-        <>{children}</>
-      </body>
+      <body className={biz_font.className}>{children}</body>
     </html>
   );
 }
