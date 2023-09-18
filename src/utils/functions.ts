@@ -2,7 +2,6 @@ import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
 import { rules } from "#/utils/rules";
 import { GamePropsUnion, RuleNames, States } from "#/utils/types";
 
@@ -15,11 +14,6 @@ export const createGame = async (
       }
 ) => {
   if (typeof param !== "string") {
-    recordEvent({
-      action: "create_game",
-      category: "engagement",
-      label: param.game.rule,
-    });
     const game_id = await db.games.put({
       ...param.game,
       id: nanoid(),
@@ -28,11 +22,6 @@ export const createGame = async (
     });
     return game_id;
   } else {
-    recordEvent({
-      action: "create_game",
-      category: "engagement",
-      label: param,
-    });
     try {
       const game_id = nanoid(6);
       const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> =

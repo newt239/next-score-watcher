@@ -4,7 +4,7 @@ import { RecipeVariantProps, css, cva } from "@panda/css";
 
 export const buttonRecipe = cva({
   base: {
-    display: "block",
+    display: "inline-flex",
     width: "fit-content",
     borderWidth: "1px",
     borderColor: "transparent",
