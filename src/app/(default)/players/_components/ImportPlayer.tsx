@@ -5,7 +5,6 @@ import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
 
 const ImportPlayer: React.FC = () => {
   const toast = useToast();
@@ -29,11 +28,6 @@ const ImportPlayer: React.FC = () => {
               status: "success",
               duration: 9000,
               isClosable: true,
-            });
-            recordEvent({
-              action: "import_player",
-              category: "engagement",
-              value: row,
             });
           });
         }

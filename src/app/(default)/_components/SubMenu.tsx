@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { Flex } from "@radix-ui/themes";
 
 import ButtonLink from "#/components/ButtonLink";
@@ -7,12 +9,14 @@ import { css } from "@panda/css";
 
 const linkList: { text: string; path: string }[] = [
   { text: "ホーム", path: "/" },
-  { text: "プレイヤー管理", path: "/player/" },
-  { text: "問題管理", path: "/quiz/" },
-  { text: "アプリ設定", path: "/option/" },
+  { text: "プレイヤー管理", path: "/players" },
+  { text: "問題管理", path: "/quizes" },
+  { text: "アプリ設定", path: "/config" },
 ];
 
 const SubMenu: React.FC = () => {
+  const pathname = usePathname();
+
   return (
     <Flex
       className={css({
@@ -22,7 +26,7 @@ const SubMenu: React.FC = () => {
     >
       {linkList.map((link) => (
         <ButtonLink
-          aria-current={link.path === window.location.pathname}
+          aria-current={link.path === pathname}
           href={link.path}
           key={link.path}
           sx={{
@@ -31,7 +35,7 @@ const SubMenu: React.FC = () => {
               bgColor: "emerald.500",
             },
           }}
-          variant={link.path === window.location.pathname ? "solid" : "ghost"}
+          variant={link.path === pathname ? "solid" : "ghost"}
         >
           {link.text}
         </ButtonLink>

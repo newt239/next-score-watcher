@@ -24,10 +24,12 @@ const Hero: React.FC = () => {
       <div
         className={css({
           position: "absolute",
-          bottom: 0,
-          left: 0,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          textAlign: "center",
           m: "16px",
-          w: "calc(100% - 32px)",
+          w: "80%",
         })}
       >
         <p
@@ -45,23 +47,23 @@ const Hero: React.FC = () => {
             得点表示アプリ
           </span>
         </p>
-        <p
-          className={css({
-            color: "white",
-          })}
-        >
-          Score
-          Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
-        </p>
         <div
           className={css({
-            mt: "32px",
-            display: "flex",
-            justifyContent: "flex-end",
+            color: "white",
+            my: "16px",
           })}
         >
-          <ButtonLink href="/rules">ゲームを作る</ButtonLink>
+          <p>
+            Score
+            Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。
+          </p>
+          <p>
+            スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
+          </p>
         </div>
+        <ButtonLink href="/rules" size="xl">
+          ゲームを作る
+        </ButtonLink>
       </div>
     </div>
   );
