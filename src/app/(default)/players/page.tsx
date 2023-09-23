@@ -1,8 +1,11 @@
 import { ArrowBackUp } from "tabler-icons-react";
 
-import PlayersConfigTab from "./_components/PlayersConfigTab";
+import CreatePlayer from "./_components/CreatePlayer";
+import ImportPlayer from "./_components/ImportPlayer";
+import LoadPlayer from "./_components/LoadPlayer";
 
 import ButtonLink from "#/app/_components/ButtonLink";
+import { Tab, TabItem } from "#/app/_components/Tab";
 
 export const metadata = {
   title: "プレイヤー管理 | Score Watcher",
@@ -27,7 +30,17 @@ export default function PlayersConfigPage({
         <h2>プレイヤー管理</h2>
         <div>
           <h3>プレイヤーの読み込み</h3>
-          <PlayersConfigTab from={searchParams.from} />
+          <Tab defaultKey="create-player">
+            <TabItem tabKey="create-player" title="個別に追加">
+              <CreatePlayer from={searchParams.from || undefined} />
+            </TabItem>
+            <TabItem tabKey="paste-player" title="貼り付け">
+              <LoadPlayer />
+            </TabItem>
+            <TabItem tabKey="import-player" title="インポート">
+              <ImportPlayer />
+            </TabItem>
+          </Tab>
         </div>
       </div>
     </>

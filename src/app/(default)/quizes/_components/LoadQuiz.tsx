@@ -1,25 +1,22 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
-import {
-  Button,
-  HStack,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-  Textarea,
-  VStack,
-  useToast,
-} from "@chakra-ui/react";
+import { Radio, RadioGroup } from "@chakra-ui/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 import { CirclePlus } from "tabler-icons-react";
 
+import Button from "#/app/_components/Button";
+import Textarea from "#/app/_components/Textarea";
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
+import { Database } from "#/utils/schema";
 import { QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
-  const toast = useToast();
+  const supabase = createClientComponentClient<Database>();
+
   const [rawQuizText, setRawQuizText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,15 +41,10 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           });
         }
       }
+      await supabase.from("quizes").insert(dataArray);
       await db.quizes.bulkPut(dataArray);
       if (dataArray.length !== 0) {
-        toast({
-          title: "データをインポートしました",
-          description: `直接入力から${dataArray.length}件の問題を読み込みました`,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
+        toast("データをインポートしました");
       }
       setRawQuizText("");
       textareaRef.current?.focus();
@@ -65,11 +57,23 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   `;
 
   return (
-    <VStack h="30vh" justifyContent="space-between">
-      <VStack align="left" sx={{ flexGrow: 1 }} w="full">
-        <Text>
-          Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </Text>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        h: "30vh",
+      })}
+    >
+      <div
+        className={css({
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          w: "full",
+        })}
+      >
+        <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
         <Textarea
           disabled={setName === ""}
           onChange={(e) => setRawQuizText(e.target.value)}
@@ -78,28 +82,34 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           sx={{ flexGrow: 1 }}
           value={rawQuizText}
         />
-        <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
-      </VStack>
-      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
+        <p>A列: 問題番号、 B列: 問題文 C列: 答え</p>
+      </div>
+      <div
+        className={css({
+          display: "flex",
+          pt: 3,
+          gap: 3,
+          justifyContent: "flex-end",
+          w: "full",
+        })}
+      >
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}
+          sx={{ display: "flex", flexDirection: "row" }}
           value={separateType}
         >
-          <Stack direction="row">
-            <Radio value="comma">カンマ区切り</Radio>
-            <Radio value="tab">タブ区切り</Radio>
-          </Stack>
+          <Radio value="comma">カンマ区切り</Radio>
+          <Radio value="tab">タブ区切り</Radio>
         </RadioGroup>
         <Button
-          colorScheme="blue"
           disabled={rawQuizText === ""}
           leftIcon={<CirclePlus />}
           onClick={handleClick}
         >
           追加
         </Button>
-      </HStack>
-    </VStack>
+      </div>
+    </div>
   );
 };
 

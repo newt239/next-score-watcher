@@ -1,15 +1,17 @@
 import { ChangeEventHandler } from "react";
 
-import { Input, Text, VStack, useToast } from "@chakra-ui/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
-import { recordEvent } from "#/utils/ga4";
+import { Database } from "#/utils/schema";
+import { css } from "@panda/css";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
-  const toast = useToast();
+  const supabase = createClientComponentClient<Database>();
 
   const fileReader = new FileReader();
 
@@ -25,18 +27,7 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           });
           const encodedString = Encoding.codeToString(unicodeArray);
           csvFileToArray(encodedString).then((row) => {
-            toast({
-              title: "データをインポートしました",
-              description: `${files[0].name}から${row}件の問題を読み込みました`,
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-            });
-            recordEvent({
-              action: "import_quiz",
-              category: "engagement",
-              value: row,
-            });
+            toast("データをインポートしました");
           });
         }
       };
@@ -58,23 +49,30 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         };
       })
       .filter((row) => row.q !== "");
+    await supabase.from("quizes").insert(filteredRows);
     await db.quizes.bulkPut(filteredRows);
     return filteredRows.length;
   };
 
   return (
-    <VStack align="left" h="30vh" justifyContent="space-between" w="full">
-      <Text>CSVファイルからインポートできます。</Text>
-      <Input
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        h: "30vh",
+      })}
+    >
+      <p>CSVファイルからインポートできます。</p>
+      <input
         accept=".csv"
+        className={css({ flexGrow: 1, height: 100 })}
         disabled={setName === ""}
-        height={100}
         onChange={handleOnChange}
-        sx={{ flexGrow: 1 }}
         type="file"
       />
-      <Text>1列目: 問題番号、 2列目: 問題文 3列目: 答え</Text>
-    </VStack>
+      <p>1列目: 問題番号、 2列目: 問題文 3列目: 答え</p>
+    </div>
   );
 };
 
