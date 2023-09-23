@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 
 import { Flex } from "@radix-ui/themes";
 
-import ButtonLink from "#/components/ButtonLink";
+import ButtonLink from "#/app/_components/ButtonLink";
 import { css } from "@panda/css";
 
 const linkList: { text: string; path: string }[] = [

@@ -9,6 +9,7 @@ export const linkRecipe = cva({
   base: {
     color: "blue.500",
     display: "inline-flex",
+    alignItems: "center",
     _hover: {
       textDecoration: "underline",
     },

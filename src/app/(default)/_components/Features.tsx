@@ -1,12 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-
-import Link from "next/link";
 import { ReactNode } from "react";
 
-import { Link as RadixLink } from "@radix-ui/themes";
-
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import Anchor from "#/app/_components/Anchor";
 import { css } from "@panda/css";
 
 type FeatureProps = {
@@ -16,8 +11,6 @@ type FeatureProps = {
 };
 
 const Features: React.FC = () => {
-  const isDesktop = useDeviceWidth();
-
   const features: FeatureProps[] = [
     {
       title: "基本機能",
@@ -63,9 +56,7 @@ const Features: React.FC = () => {
           <div>
             <h4>表示はカスタマイズ可能</h4>
             <p>
-              <RadixLink asChild>
-                <Link href="/option">アプリ設定</Link>
-              </RadixLink>
+              <Anchor href="/option">アプリ設定</Anchor>
               から、得点表示画面の表示をカスタマイズできます。
             </p>
           </div>

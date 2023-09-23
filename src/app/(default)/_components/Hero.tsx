@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import ButtonLink from "#/components/ButtonLink";
+import ButtonLink from "#/app/_components/ButtonLink";
 import { css } from "@panda/css";
 
 const Hero: React.FC = () => {

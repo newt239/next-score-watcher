@@ -2,7 +2,7 @@ import { ArrowBackUp } from "tabler-icons-react";
 
 import PlayersConfigTab from "./_components/PlayersConfigTab";
 
-import ButtonLink from "#/components/ButtonLink";
+import ButtonLink from "#/app/_components/ButtonLink";
 
 export const metadata = {
   title: "プレイヤー管理 | Score Watcher",

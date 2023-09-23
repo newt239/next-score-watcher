@@ -1,4 +1,4 @@
-import Anchor from "#/components/Anchor";
+import Anchor from "#/app/_components/Anchor";
 
 const Term: React.FC = () => {
   return (

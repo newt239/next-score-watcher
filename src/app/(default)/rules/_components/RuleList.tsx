@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { CirclePlus } from "tabler-icons-react";
 
-import Button from "#/components/Button";
-import Card from "#/components/Card";
+import Button from "#/app/_components/Button";
+import Card from "#/app/_components/Card";
 import { createGame } from "#/utils/functions";
 import { rules } from "#/utils/rules";
 import { RuleNames } from "#/utils/types";
