@@ -44,7 +44,6 @@ export type AllGameProps = {
   [T in RuleNames]: {
     id: string;
     name: string;
-    players: GameDBPlayerProps[];
     rule: T;
     correct_me: number;
     wrong_me: number;
@@ -58,7 +57,6 @@ export type AllGameProps = {
     discord_webhook_url: string;
     options: GameOptionProps[T];
     editable: boolean;
-    last_open: string;
   };
 };
 

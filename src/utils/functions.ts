@@ -1,5 +1,7 @@
-import { cdate } from "cdate";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { nanoid } from "nanoid";
+
+import { Database } from "./schema";
 
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
@@ -13,29 +15,28 @@ export const createGame = async (
         action_type: "copy-rule" | "copy-all";
       }
 ) => {
+  const supabase = createClientComponentClient<Database>();
+  const game_id = nanoid(9);
+
   if (typeof param !== "string") {
     const game_id = await db.games.put({
       ...param.game,
       id: nanoid(),
       name: `${param.game.name}のコピー`,
-      players: param.action_type === "copy-rule" ? [] : param.game.players,
+      // players: param.action_type === "copy-rule" ? [] : param.game.players,
     });
     return game_id;
   } else {
     try {
-      const game_id = nanoid(6);
-      const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> =
-        {
-          id: game_id,
-          players: [],
-          correct_me: 1,
-          wrong_me: -1,
-          discord_webhook_url: "",
-          editable: false,
-          last_open: cdate().text(),
-        };
+      const commonGameProps = {
+        id: game_id,
+        correct_me: 1,
+        wrong_me: -1,
+        discord_webhook_url: "",
+        editable: false,
+      };
       const { description, rows, ...params } = rules[param];
-      await db.games.put({
+      await supabase.from("games").insert({
         ...commonGameProps,
         ...params,
       });

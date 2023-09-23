@@ -17,7 +17,7 @@ const RuleList: React.FC = () => {
 
   const onClick = async (rule_name: RuleNames) => {
     const game_id = await createGame(rule_name);
-    router.push(`/${game_id}/config`);
+    router.push(`/games/${game_id}/config`);
   };
 
   return (
