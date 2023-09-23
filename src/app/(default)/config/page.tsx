@@ -1,11 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import {
-  Box,
-  Button,
   Link as ChakraLink,
-  Container,
   Flex,
   FormControl,
   FormHelperText,
@@ -19,41 +17,23 @@ import {
   Text,
   Th,
   Tr,
-  VStack,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
+import Button from "#/app/_components/Button";
 import Preferences from "#/components/block/Preferences";
-import AlertDialog from "#/components/common/AlertDialog";
-import db from "#/utils/db";
 import { webhookUrlAtom } from "#/utils/jotai";
 
-export const metadata = {
-  title: "アプリ設定 | Score Watcher",
-};
-
 export default function AppConfigPage() {
-  const router = useRouter();
   const [WebhookUrl, setWebhookUrl] = useAtom(webhookUrlAtom);
-  const latestVersion = process.env.NEXT_PUBLIC_VERSION;
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const deleteAppData = () => {
-    localStorage.setItem("scorewatcher-version", latestVersion!);
-    db.delete().then(() => {
-      router.push("");
-    });
-  };
 
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <>
+      <div>
         <h2>アプリ設定</h2>
         <Preferences />
-        <VStack gap="0.5rem" pt={2} px={2}>
+        <div>
           <FormControl>
             <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
             <FormHelperText>
@@ -79,27 +59,18 @@ export default function AppConfigPage() {
                 justifyContent: "space-between",
               }}
             >
-              <Box>
+              <div>
                 <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
                 <FormHelperText>
                   アプリが上手く動作しない場合にお試しください。
                 </FormHelperText>
-              </Box>
-              <Button colorScheme="red" onClick={onOpen}>
-                初期化する
-              </Button>
+              </div>
+              <Button>初期化する</Button>
             </Flex>
           </FormControl>
-        </VStack>
-        <AlertDialog
-          body="アプリのデータを初期化します。この操作は取り消せません。"
-          isOpen={isOpen}
-          onClose={onClose}
-          onConfirm={deleteAppData}
-          title="アプリの初期化"
-        />
-      </Box>
-      <Box pt={5}>
+        </div>
+      </div>
+      <div>
         <h2>アプリ情報</h2>
         <Text>
           アップデート情報は
@@ -157,7 +128,7 @@ export default function AppConfigPage() {
             </Tbody>
           </Table>
         </TableContainer>
-      </Box>
-    </Container>
+      </div>
+    </>
   );
 }

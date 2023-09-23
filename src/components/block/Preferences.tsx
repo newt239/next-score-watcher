@@ -1,3 +1,5 @@
+"use client";
+
 import { useColorMode, VStack } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 

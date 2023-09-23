@@ -30,10 +30,12 @@ const Header: React.FC = () => {
         className={css({
           display: "flex",
           justifyContent: "space-between",
+          gap: "16px",
           px: "16px",
           py: "8px",
           lg: {
             flexDirection: "column",
+            h: "100%",
           },
         })}
       >
@@ -41,9 +43,6 @@ const Header: React.FC = () => {
           className={css({
             transition: "all 0.2s ease-out",
             _hover: { opacity: 0.5 },
-            lg: {
-              mb: 100,
-            },
           })}
         >
           <Link href="/">
@@ -92,10 +91,20 @@ const Header: React.FC = () => {
             lg: {
               display: "block",
             },
+            flexGrow: 1,
+          })}
+        >
+          <SubMenu />
+        </div>
+        <div
+          className={css({
+            display: "none",
+            lg: {
+              display: "block",
+            },
           })}
         >
           <Account />
-          <SubMenu />
         </div>
       </div>
     </header>
