@@ -9,18 +9,24 @@ import { RecipeVariantProps, css } from "@panda/css";
 export type ButtonLinkProps = {
   children: React.ReactNode;
   sx?: SystemStyleObject;
+  variants?: RecipeVariantProps<typeof buttonRecipe>;
   href: string;
-} & React.HTMLAttributes<HTMLAnchorElement> &
-  RecipeVariantProps<typeof buttonRecipe>;
+  // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
+} & React.HTMLAttributes<HTMLAnchorElement>;
 
 const ButtonLink: React.FC<ButtonLinkProps> = ({
   children,
   sx,
+  variants,
   href,
   ...props
 }) => {
   return (
-    <Link className={css(buttonRecipe.raw(props), sx)} href={href} {...props}>
+    <Link
+      className={css(buttonRecipe.raw(variants), sx)}
+      href={href}
+      {...props}
+    >
       {children}
     </Link>
   );

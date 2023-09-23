@@ -18,7 +18,7 @@ export default function PlayersConfigPage({
       <div>
         {searchParams.from && (
           <div>
-            <ButtonLink href={`/${searchParams.from}/config`} variant="ghost">
+            <ButtonLink href={`/${searchParams.from}/config`}>
               ゲーム設定に戻る
               <ArrowBackUp />
             </ButtonLink>

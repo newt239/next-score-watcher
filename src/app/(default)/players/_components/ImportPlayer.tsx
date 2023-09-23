@@ -1,13 +1,18 @@
+"use client";
+
 import { ChangeEventHandler } from "react";
 
-import { Input, Text, VStack, useToast } from "@chakra-ui/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 import db from "#/utils/db";
+import { Database } from "#/utils/schema";
+import { css } from "@panda/css";
 
 const ImportPlayer: React.FC = () => {
-  const toast = useToast();
+  const supabase = createClientComponentClient<Database>();
 
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const fileReader = new FileReader();
@@ -22,13 +27,7 @@ const ImportPlayer: React.FC = () => {
           });
           const encodedString = Encoding.codeToString(unicodeArray);
           csvFileToArray(encodedString).then((row) => {
-            toast({
-              title: "データをインポートしました",
-              description: `${files[0].name}から${row}件のプレイヤーデータを読み込みました`,
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-            });
+            toast("データをインポートしました");
           });
         }
       };
@@ -44,33 +43,34 @@ const ImportPlayer: React.FC = () => {
         return {
           id: nanoid(),
           name: values[0] || "",
-          text: values[1] || "",
+          order: values[1] || "",
           belong: values[2] || "",
-          tags: [],
         };
       })
       .filter((row) => row.name !== "");
+    await supabase.from("players").insert(filteredRows);
     await db.players.bulkPut(filteredRows);
     return filteredRows.length;
   };
 
   return (
-    <VStack
-      alignItems="left"
-      h={["45vh", "45vh", "30vh"]}
-      justifyContent="space-between"
-      w="full"
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        h: ["45vh", "45vh", "30vh"],
+      })}
     >
-      <Text>CSVファイルからインポートできます。</Text>
-      <Input
+      <p>CSVファイルからインポートできます。</p>
+      <input
         accept=".csv"
-        height={[255, 160, 100]}
+        className={css({ flexGrow: 1, height: [255, 160, 100] })}
         onChange={handleOnChange}
-        sx={{ flexGrow: 1 }}
         type="file"
       />
-      <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
-    </VStack>
+      <p>1列目: 氏名、 2列目: 順位、 3列目: 所属</p>
+    </div>
   );
 };
 

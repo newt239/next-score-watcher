@@ -1,27 +1,26 @@
+"use client";
+
 import { useRef, useState } from "react";
 
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Grid,
-  Input,
-  VStack,
-  useToast,
-} from "@chakra-ui/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 import { CirclePlus } from "tabler-icons-react";
 
+import Button from "#/app/_components/Button";
+import FormControl from "#/app/_components/FormControl";
+import TextInput from "#/app/_components/TextInput";
 import db from "#/utils/db";
+import { Database } from "#/utils/schema";
 import { GameDBPlayerProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
+  const supabase = createClientComponentClient<Database>();
   const [playerOrder, setPlayerOrder] = useState<string>("");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const nameInputRef = useRef<HTMLInputElement>(null);
-  const toast = useToast();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== "Enter") return;
@@ -30,21 +29,22 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   };
 
   const addNewPlayer = async () => {
-    const playerId = await db.players.put({
-      id: nanoid(),
+    const player_id = nanoid();
+    const result = await supabase.from("players").insert({
+      id: player_id,
       name: playerName,
-      text: playerOrder,
+      order: 0,
       belong: playerBelong,
-      tags: [],
     });
+    console.log(result);
     if (from) {
       const game = await db.games.get(from);
       if (game) {
         await db.games.update(from, {
           players: [
-            ...game.players,
+            //  ...game.players,
             {
-              id: playerId,
+              id: player_id,
               name: playerName,
               initial_correct: 0,
               initial_wrong: 0,
@@ -55,13 +55,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
         });
       }
     }
-    toast({
-      title: "プレイヤーを作成しました",
-      description: playerName,
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
+    toast.success("プレイヤーを作成しました");
     setPlayerName("");
     setPlayerOrder("");
     setPlayerBelong("");
@@ -69,15 +63,28 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   };
 
   return (
-    <VStack h={["45vh", "45vh", "30vh"]} justifyContent="space-between">
-      <Grid
-        gap={3}
-        templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
-        w="full"
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        h: ["45vh", "45vh", "30vh"],
+      })}
+    >
+      <div
+        className={css({
+          display: "grid",
+          gridTemplateColumns: [
+            "repeat(1, 1fr)",
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+          ],
+          w: "100%",
+          gap: "16px",
+        })}
       >
-        <FormControl>
-          <FormLabel>氏名</FormLabel>
-          <Input
+        <FormControl label="氏名">
+          <TextInput
             onChange={(v) => setPlayerName(v.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="越山識"
@@ -85,36 +92,38 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
             value={playerName}
           />
         </FormControl>
-        <FormControl>
-          <FormLabel>順位</FormLabel>
-          <Input
+        <FormControl label="順位">
+          <TextInput
             onChange={(v) => setPlayerOrder(v.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="24th"
             value={playerOrder}
           />
         </FormControl>
-        <FormControl>
-          <FormLabel>所属</FormLabel>
-          <Input
+        <FormControl label="所属">
+          <TextInput
             onChange={(v) => setPlayerBelong(v.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="文蔵高校"
             value={playerBelong}
           />
         </FormControl>
-      </Grid>
-      <Box textAlign="right" w="full">
+      </div>
+      <div
+        className={css({
+          textAlign: "right",
+          w: "full",
+        })}
+      >
         <Button
-          colorScheme="blue"
           disabled={playerName === ""}
           leftIcon={<CirclePlus />}
           onClick={addNewPlayer}
         >
           追加
         </Button>
-      </Box>
-    </VStack>
+      </div>
+    </div>
   );
 };
 

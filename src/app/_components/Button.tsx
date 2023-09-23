@@ -11,6 +11,15 @@ export const buttonRecipe = cva({
     borderColor: "transparent",
     borderRadius: "md",
     cursor: "pointer",
+    transition: "all 0.2s ease",
+    _disabled: {
+      backgroundColor: "gray.300",
+      color: "white",
+      cursor: "not-allowed",
+      _hover: {
+        backgroundColor: "gray.300",
+      },
+    },
   },
   variants: {
     variant: {
@@ -45,20 +54,21 @@ export const buttonRecipe = cva({
 export type ButtonProps = {
   children: React.ReactNode;
   sx?: SystemStyleObject;
+  variants?: RecipeVariantProps<typeof buttonRecipe>;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-} & React.HTMLAttributes<HTMLButtonElement> &
-  RecipeVariantProps<typeof buttonRecipe>;
+} & JSX.IntrinsicElements["button"];
 
 const Button: React.FC<ButtonProps> = ({
   children,
   sx,
   leftIcon,
   rightIcon,
+  variants,
   ...props
 }) => {
   return (
-    <button className={css(buttonRecipe.raw(props), sx)} {...props}>
+    <button className={css(buttonRecipe.raw(variants), sx)} {...props}>
       {leftIcon && <span className={css({ mr: "4px" })}>{leftIcon}</span>}
       {children}
       {rightIcon && <span className={css({ ml: "4px" })}>{rightIcon}</span>}

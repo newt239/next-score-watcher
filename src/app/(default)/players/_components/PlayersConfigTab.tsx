@@ -1,10 +1,8 @@
-"use client";
-
 import CreatePlayer from "./CreatePlayer";
 import ImportPlayer from "./ImportPlayer";
 import LoadPlayer from "./LoadPlayer";
 
-import { Tab, TabItem } from "#/components/Tab";
+import { Tab, TabItem } from "#/app/_components/Tab";
 
 type PlayersConfigTabProps = {
   from?: string;

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   createContext,
   PropsWithChildren,
@@ -7,6 +9,8 @@ import {
   useMemo,
   useState,
 } from "react";
+
+import { css } from "@panda/css";
 
 type TabState = {
   activeKey: string;
@@ -53,18 +57,59 @@ export const Tab: React.FC<PropsWithChildren<TabProps>> = ({
 
   return (
     <TabContext.Provider value={state}>
-      <div className="tab-wrap">
-        {tabs.map(({ title, key }) => (
-          <div
-            className={`tab-item ${activeKey === key ? "active" : ""}`}
-            key={key}
-            onClick={() => setActiveKey(key)}
-          >
-            {title}
-          </div>
-        ))}
+      <div
+        className={css({
+          display: "flex",
+          flexDirection: "column",
+          w: "100%",
+          my: "16px",
+        })}
+      >
+        <div
+          className={css({
+            display: "flex",
+            gap: "16px",
+            borderBottomWidth: "2px",
+            borderBottomColor: "emerald.500",
+          })}
+          role="tablist"
+        >
+          {tabs.map(({ title, key }) => (
+            <button
+              aria-selected={activeKey === key}
+              className={css({
+                padding: "8px 16px",
+                borderRadius: "8px 8px 0 0",
+                cursor: "pointer",
+                backgroundColor: "white",
+                color: "emerald.500",
+                borderWidth: "2px 2px 0 2px",
+                borderColor: "emerald.500",
+                _hover: {
+                  backgroundColor: "emerald.500",
+                  color: "white",
+                },
+                _selected: {
+                  backgroundColor: "emerald.500",
+                  color: "white",
+                },
+              })}
+              key={key}
+              onClick={() => setActiveKey(key)}
+              role="tab"
+            >
+              {title}
+            </button>
+          ))}
+        </div>
+        <div
+          className={css({
+            py: "16px",
+          })}
+        >
+          {children}
+        </div>
       </div>
-      {children}
     </TabContext.Provider>
   );
 };

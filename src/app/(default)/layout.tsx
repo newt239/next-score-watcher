@@ -1,6 +1,10 @@
+import { ToastContainer } from "react-toastify";
+
 import Header from "./_components/Header";
 
 import { css } from "@panda/css";
+
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DefaultLayout({
   children,
@@ -31,6 +35,7 @@ export default function DefaultLayout({
       >
         {children}
       </div>
+      <ToastContainer />
     </div>
   );
 }

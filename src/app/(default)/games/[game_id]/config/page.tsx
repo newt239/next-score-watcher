@@ -1,8 +1,6 @@
-"use client";
-
+import { Metadata } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -18,7 +16,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { cdate } from "cdate";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
@@ -30,20 +28,27 @@ import PlayersConfig from "#/app/(default)/games/[game_id]/config/_components/Se
 import SelectQuizset from "#/app/(default)/games/[game_id]/config/_components/SelectQuizSet";
 import AlertDialog from "#/components/common/AlertDialog";
 import InputLayout from "#/components/common/InputLayout";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
 import { rules } from "#/utils/rules";
+import { Database } from "#/utils/schema";
 
-export default function GameConfigPage({
+export const metadata: Metadata = {
+  title: "ゲーム設定 | Score Watcher",
+};
+
+export default async function GameConfigPage({
   params,
 }: {
   params: { game_id: string };
 }) {
   const router = useRouter();
-  const isDesktop = useDeviceWidth();
+  const supabase = createClientComponentClient<Database>();
   const toast = useToast();
-  const game = useLiveQuery(() => db.games.get(params.game_id as string));
+  const game = supabase
+    .from("games")
+    .select("*")
+    .eq("id", params.game_id)
+    .single();
   const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: params.game_id as string }).toArray(),
@@ -51,15 +56,8 @@ export default function GameConfigPage({
   );
   const quizes = useLiveQuery(() => db.quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
-  const [tabIndex, setTabIndex] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    setTabIndex(0);
-    db.games.update(params.game_id as string, { last_open: cdate().text() });
-    document.title = "ゲーム設定 | Score Watcher";
-  }, []);
 
   if (!game || !players || !logs) return null;
 
@@ -71,11 +69,6 @@ export default function GameConfigPage({
       status: "error",
       duration: 9000,
       isClosable: true,
-    });
-    recordEvent({
-      action: "delete_game",
-      category: "engagement",
-      label: game.rule,
     });
     router.push("/");
   };

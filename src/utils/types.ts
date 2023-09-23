@@ -65,9 +65,8 @@ export type GamePropsUnion = AllGameProps[RuleNames];
 export type PlayerDBProps = {
   id: string;
   name: string;
-  text: string;
+  order: string;
   belong: string;
-  tags: string[];
 };
 
 export type Variants = "correct" | "wrong" | "through" | "skip";

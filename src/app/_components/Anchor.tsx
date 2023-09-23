@@ -20,6 +20,7 @@ export type LinkProps = {
   children: React.ReactNode;
   href: string;
   sx?: SystemStyleObject;
+  // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
 } & React.HTMLAttributes<HTMLAnchorElement>;
 
 const Anchor: React.FC<LinkProps> = ({ children, href, sx, ...props }) => {

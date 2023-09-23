@@ -35,7 +35,9 @@ const SubMenu: React.FC = () => {
               bgColor: "emerald.500",
             },
           }}
-          variant={link.path === pathname ? "solid" : "ghost"}
+          variants={{
+            variant: link.path === pathname ? "solid" : "ghost",
+          }}
         >
           {link.text}
         </ButtonLink>

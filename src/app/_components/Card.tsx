@@ -17,7 +17,7 @@ export const cardRecipe = cva({
 export type CardProps = {
   children: React.ReactNode;
   sx?: SystemStyleObject;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & JSX.IntrinsicElements["div"];
 
 const Card: React.FC<CardProps> = ({ children, sx, ...props }) => {
   return (
