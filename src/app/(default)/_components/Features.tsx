@@ -56,7 +56,7 @@ const Features: React.FC = () => {
           <div>
             <h4>表示はカスタマイズ可能</h4>
             <p>
-              <Anchor href="/option">アプリ設定</Anchor>
+              <Anchor href="/config">アプリ設定</Anchor>
               から、得点表示画面の表示をカスタマイズできます。
             </p>
           </div>

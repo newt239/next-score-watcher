@@ -1,30 +1,27 @@
+"use client";
+
 import { useRef, useState } from "react";
 
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  useToast,
-} from "@chakra-ui/react";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 import { CirclePlus } from "tabler-icons-react";
 
+import Button from "#/app/_components/Button";
+import FormControl from "#/app/_components/FormControl";
+import TextInput from "#/app/_components/TextInput";
 import db from "#/utils/db";
-import { GameDBPlayerProps } from "#/utils/types";
+import { GameDBPlayerProps, PlayersDB } from "#/utils/types";
+import { css } from "@panda/css";
 
 type CompactCreatePlayerProps = {
   game_id: string;
-  players: GameDBPlayerProps[];
+  players: PlayersDB["Insert"][];
 };
 
 const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
   game_id,
   players,
 }) => {
-  const toast = useToast();
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -40,9 +37,8 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
     const player_id = await db.players.put({
       id: nanoid(),
       name: playerName,
-      text: playerText,
+      order: playerText,
       belong: playerBelong,
-      tags: [],
     });
     await db.games.update(game_id, {
       players: [
@@ -52,18 +48,10 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
           name: playerName,
           initial_correct: 0,
           initial_wrong: 0,
-          base_correct_point: 1,
-          base_wrong_point: -1,
         } as GameDBPlayerProps,
       ],
     });
-    toast({
-      title: "プレイヤーを作成しました",
-      description: playerName,
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
+    toast("プレイヤーを作成しました");
     setPlayerName("");
     setPlayerText("");
     setPlayerBelong("");
@@ -71,10 +59,9 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
   };
 
   return (
-    <Stack spacing={3}>
-      <FormControl>
-        <FormLabel>氏名</FormLabel>
-        <Input
+    <div>
+      <FormControl label="氏名">
+        <TextInput
           onChange={(v) => setPlayerName(v.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="越山識"
@@ -82,36 +69,33 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
           value={playerName}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel>順位</FormLabel>
-        <Input
+      <FormControl label="順位">
+        <TextInput
           onChange={(v) => setPlayerText(v.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="24th"
           value={playerText}
         />
       </FormControl>
-      <FormControl>
-        <FormLabel>所属</FormLabel>
-        <Input
+      <FormControl label="所属">
+        <TextInput
           onChange={(v) => setPlayerBelong(v.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="文蔵高校"
           value={playerBelong}
         />
       </FormControl>
-      <Box sx={{ textAlign: "right" }}>
+      <div className={css({ textAlign: "right" })}>
         <Button
-          colorScheme="blue"
           disabled={playerName === ""}
           leftIcon={<CirclePlus />}
           onClick={addNewPlayer}
-          size="sm"
+          variants={{ size: "sm" }}
         >
           追加
         </Button>
-      </Box>
-    </Stack>
+      </div>
+    </div>
   );
 };
 

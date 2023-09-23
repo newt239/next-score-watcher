@@ -1,5 +1,6 @@
+"use client";
+
 import { useId } from "react";
-import { useParams } from "react-router-dom";
 
 import {
   Flex,
@@ -21,6 +22,7 @@ type ConfigInputProps = {
     label: string;
     disabled?: boolean;
     helperText?: React.ReactNode;
+    game_id: string;
   };
 };
 
@@ -29,9 +31,9 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
   label,
   disabled,
   helperText,
+  game_id,
 }) => {
   const innerId = useId();
-  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
 
   if (!game || !game.options) return null;

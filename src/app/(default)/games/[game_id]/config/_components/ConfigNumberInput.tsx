@@ -1,17 +1,9 @@
 import { useId } from "react";
-import { useParams } from "react-router-dom";
 
-import {
-  FormControl,
-  FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-} from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import FormControl from "#/app/_components/FormControl";
+import NumberInput from "#/app/_components/NumberInput";
 import db from "#/utils/db";
 import { GamePropsUnion } from "#/utils/types";
 
@@ -21,6 +13,7 @@ type ConfigNumberInputProps = {
   min?: number;
   max?: number;
   disabled?: boolean;
+  game_id: string;
 };
 
 const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
@@ -29,9 +22,9 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   min = 0,
   max = 100,
   disabled,
+  game_id,
 }) => {
   const id = useId();
-  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
 
   if (!game) return null;
@@ -39,26 +32,19 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   const value = game[input_id];
 
   return (
-    <FormControl pt={5}>
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+    <FormControl label={label}>
       <NumberInput
+        disabled={disabled}
         id={id}
-        isDisabled={disabled}
         max={max}
         min={min}
-        onChange={(s, n) => {
+        onChange={(e) => {
           db.games.update(game_id as string, {
-            [input_id]: n,
+            [input_id]: e.target.value,
           });
         }}
         value={typeof value === "number" ? value : ""}
-      >
-        <NumberInputField />
-        <NumberInputStepper>
-          <NumberIncrementStepper />
-          <NumberDecrementStepper />
-        </NumberInputStepper>
-      </NumberInput>
+      />
     </FormControl>
   );
 };

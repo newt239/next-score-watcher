@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect, useId, useState } from "react";
-import { useParams } from "react-router-dom";
 
 import {
   FormControl,
@@ -20,6 +21,7 @@ type ConfigInputProps = {
   disabled?: boolean;
   helperText?: React.ReactNode;
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
+  game_id: string;
 };
 
 const ConfigInput: React.FC<ConfigInputProps> = ({
@@ -29,9 +31,9 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   disabled,
   helperText,
   type,
+  game_id,
 }) => {
   const innerId = useId();
-  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
   const debouncedInputText = useDebounce(inputText, 500);
@@ -53,7 +55,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   if (!game) return null;
 
   return (
-    <FormControl p={2}>
+    <FormControl>
       <FormLabel htmlFor={innerId}>{label}</FormLabel>
       <Input
         id={innerId}

@@ -1,27 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { ChevronDown } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
-import { recordEvent } from "#/utils/ga4";
-import { GamePropsUnion } from "#/utils/types";
+import { GameDBProps } from "#/utils/types";
 
 type CopyGamePropsUnion = {
-  game: GamePropsUnion;
+  game: GameDBProps;
 };
 
 const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const onCompleteCopy = (game_id: string) => {
-    recordEvent({
-      action: "copy_game",
-      category: "engagement",
-      label: game.rule,
-    });
-    navigate(`/${game_id}/config`);
-    navigate(0);
+    router.push(`/${game_id}/config`);
   };
 
   return (

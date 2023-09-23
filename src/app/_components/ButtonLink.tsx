@@ -11,6 +11,8 @@ export type ButtonLinkProps = {
   sx?: SystemStyleObject;
   variants?: RecipeVariantProps<typeof buttonRecipe>;
   href: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
   // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
 } & React.HTMLAttributes<HTMLAnchorElement>;
 
@@ -19,6 +21,8 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
   sx,
   variants,
   href,
+  leftIcon,
+  rightIcon,
   ...props
 }) => {
   return (
@@ -27,7 +31,9 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
       href={href}
       {...props}
     >
+      {leftIcon && <span className={css({ mr: "4px" })}>{leftIcon}</span>}
       {children}
+      {rightIcon && <span className={css({ ml: "4px" })}>{rightIcon}</span>}
     </Link>
   );
 };

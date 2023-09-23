@@ -1,36 +1,26 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  ListItem,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  UnorderedList,
-  VStack,
-  useDisclosure,
-  useToast,
-} from "@chakra-ui/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useLiveQuery } from "dexie-react-hooks";
+import { toast } from "react-toastify";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import ConfigInput from "#/app/(default)/games/[game_id]/config/_components/ConfigInput";
-import ConfigTabList from "#/app/(default)/games/[game_id]/config/_components/ConfigTabList";
 import CopyGame from "#/app/(default)/games/[game_id]/config/_components/CopyGame";
+import PlayersConfig from "#/app/(default)/games/[game_id]/config/_components/PlayersConfig";
 import RuleSettings from "#/app/(default)/games/[game_id]/config/_components/RuleSettings";
-import PlayersConfig from "#/app/(default)/games/[game_id]/config/_components/SelectPlayer";
 import SelectQuizset from "#/app/(default)/games/[game_id]/config/_components/SelectQuizSet";
-import AlertDialog from "#/components/common/AlertDialog";
+import Button from "#/app/_components/Button";
+import ButtonLink from "#/app/_components/ButtonLink";
+import Card from "#/app/_components/Card";
+import FormControl from "#/app/_components/FormControl";
+import { Tab, TabItem } from "#/app/_components/Tab";
 import InputLayout from "#/components/common/InputLayout";
 import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 import { Database } from "#/utils/schema";
+import { RuleNames } from "#/utils/types";
+import { css } from "@panda/css";
 
 export const metadata: Metadata = {
   title: "ゲーム設定 | Score Watcher",
@@ -41,51 +31,46 @@ export default async function GameConfigPage({
 }: {
   params: { game_id: string };
 }) {
+  const game_id = params.game_id;
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
-  const toast = useToast();
-  const game = supabase
+  const { data: game } = await supabase
     .from("games")
     .select("*")
-    .eq("id", params.game_id)
+    .eq("id", game_id)
     .single();
-  const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: params.game_id as string }).toArray(),
-    []
-  );
-  const quizes = useLiveQuery(() => db.quizes.toArray(), []);
-  const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
+  const { data: game_players } = await supabase
+    .from("game_players")
+    .select("*")
+    .eq("game_id", game_id)
+    .order("id");
+  const { data: game_logs } = await supabase
+    .from("game_logs")
+    .select("*")
+    .eq("game_id", game_id);
+  const { data: quizsets } = await supabase.from("quizsets").select("*");
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  if (!game || !players || !logs) return null;
+  if (!game || !game_players || !game_logs) return null;
 
   const deleteGame = async () => {
     await db.games.delete(game.id);
-    toast({
-      title: "ゲームを削除しました",
-      description: `${game.name}(${rules[game.rule].name})を削除しました`,
-      status: "error",
-      duration: 9000,
-      isClosable: true,
-    });
+    toast("ゲームを削除しました");
     router.push("/");
   };
 
-  const disabled = logs.length !== 0;
+  const disabled = game_logs.length !== 0;
 
   const errorMessages = [];
-  if (game.players.length === 0)
+  if (game_players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
-  if (game.win_through && game.players.length <= game.win_through)
+  if (game.win_through && game_players.length <= game.win_through)
     errorMessages.push(
       "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
     );
   if (disabled)
     errorMessages.push(
       `現在${
-        logs.length + 1
+        game_logs.length + 1
       }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
     );
 
@@ -94,129 +79,86 @@ export default async function GameConfigPage({
     0;
 
   return (
-    <Container pt={5}>
-      <Card p={2} variant="filled">
-        <h3>{rules[game.rule].name}</h3>
+    <>
+      <Card>
+        <h3>{rules[game.rule as RuleNames].name}</h3>
         <div>
-          {rules[game.rule].description.split("\n").map((p) => (
+          {rules[game.rule as RuleNames].description.split("\n").map((p) => (
             <p key={p}>{p}</p>
           ))}
         </div>
       </Card>
-      <InputLayout
+      <FormControl
         label={
-          <UnorderedList
-            sx={{
+          <ul
+            className={css({
               color: "red.500",
               _dark: {
                 color: "red.300",
               },
-            }}
+            })}
           >
             {errorMessages.map((m) => (
-              <ListItem key={m}>{m}</ListItem>
+              <li key={m}>{m}</li>
             ))}
-          </UnorderedList>
+          </ul>
         }
-        simple
-        vertical={!isDesktop}
-        wrapperStyle={{
-          my: 5,
-          gap: 5,
-          borderStyle: "solid",
-          borderRadius: "md",
-          borderWidth: 2,
-          borderColor: playButtonIsDisabled ? "red.500" : "white",
-          _dark: {
-            borderColor: playButtonIsDisabled ? "red.300" : "gray.800",
-          },
-        }}
       >
-        <Button
-          as={Link}
-          colorScheme="green"
-          href={`/${params.game_id}/board`}
-          isDisabled={playButtonIsDisabled}
+        <ButtonLink
+          aria-disabled={playButtonIsDisabled}
+          href={`/${game_id}/board`}
           leftIcon={<PlayerPlay />}
-          size="lg"
+          variants={{
+            size: "lg",
+          }}
         >
           ゲーム開始
-        </Button>
-      </InputLayout>
-      <Box>
-        <Tabs
-          index={tabIndex}
-          onChange={(index) => setTabIndex(index)}
-          orientation="vertical"
-          position="relative"
-          sx={{
-            flexDirection: isDesktop ? "row" : "column",
-            alignItems: "flex-start",
-          }}
-          variant="unstyled"
-        >
-          <ConfigTabList />
-          <TabPanels>
-            <TabPanel>
-              <h2>形式設定</h2>
-              <RuleSettings disabled={disabled} game={game} />
-            </TabPanel>
-            <TabPanel>
-              <PlayersConfig
-                disabled={disabled}
+        </ButtonLink>
+      </FormControl>
+
+      <div>
+        <Tab defaultKey="rule">
+          <TabItem tabKey="rule" title="形式設定">
+            <RuleSettings disabled={disabled} game={game} />
+          </TabItem>
+          <TabItem tabKey="player" title="プレイヤー設定">
+            <PlayersConfig
+              disabled={disabled}
+              game_id={game.id}
+              playerList={game_players}
+              players={game_players}
+              rule_name={game.rule as RuleNames}
+            />
+          </TabItem>
+          <TabItem tabKey="other" title="その他の設定">
+            <div>
+              <SelectQuizset
                 game_id={game.id}
-                playerList={players}
-                players={game.players}
-                rule_name={game.rule}
+                game_quiz={game.quiz}
+                quizset_names={quizsets}
               />
-            </TabPanel>
-            <TabPanel>
-              <h2>その他の設定</h2>
-              <VStack align="stretch" gap={0} pt={5}>
-                <SelectQuizset
-                  game_id={game.id}
-                  game_quiz={game.quiz}
-                  quizset_names={quizsetList}
-                />
-              </VStack>
-              <VStack align="stretch" gap={0} pt={5}>
-                <h3>オプション</h3>
-                <ConfigInput
-                  input_id="discord_webhook_url"
-                  label="Discord Webhook"
-                  placeholder="https://discord.com/api/webhooks/..."
-                  type="url"
-                />
-              </VStack>
-              <VStack align="stretch" gap={0} pt={5}>
-                <h3>ゲーム</h3>
-                <InputLayout label="ゲームのコピーを作成">
-                  <CopyGame game={game} />
-                </InputLayout>
-                <InputLayout label="ゲームを削除">
-                  <Button
-                    colorScheme="red"
-                    leftIcon={<Trash />}
-                    onClick={onOpen}
-                  >
-                    削除する
-                  </Button>
-                </InputLayout>
-                <AlertDialog
-                  body="ゲームを削除します。この操作は取り消せません。"
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  onConfirm={() => {
-                    deleteGame();
-                    onClose();
-                  }}
-                  title="ゲームを削除"
-                />
-              </VStack>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
-    </Container>
+            </div>
+            <div>
+              <h3>オプション</h3>
+              <ConfigInput
+                input_id="discord_webhook_url"
+                label="Discord Webhook"
+                placeholder="https://discord.com/api/webhooks/..."
+                type="url"
+              />
+            </div>
+            <div>
+              <h3>ゲーム</h3>
+              <InputLayout label="ゲームのコピーを作成">
+                <CopyGame game={game} />
+              </InputLayout>
+              <InputLayout label="ゲームを削除">
+                <Button leftIcon={<Trash />}>削除する</Button>
+              </InputLayout>
+            </div>
+          </TabItem>
+        </Tab>
+      </div>
+    </>
   );
 }

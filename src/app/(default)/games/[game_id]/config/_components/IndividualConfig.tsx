@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 import {
   FormControl,
@@ -29,6 +28,7 @@ type InitialPointConfigModalProps = {
   correct: boolean;
   wrong: boolean;
   disabled?: boolean;
+  game_id: string;
 };
 
 const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
@@ -36,9 +36,9 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   correct,
   wrong,
   disabled,
+  game_id,
 }) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
-  const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [initialCorrect, setInitialCorrect] = useState<number | null>(null);
   const [initialWrong, setInitialWrong] = useState<number | null>(null);

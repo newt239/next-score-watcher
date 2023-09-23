@@ -1,16 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
   Box,
-  Button,
   Checkbox,
   Input,
   InputGroup,
   InputLeftElement,
   Table,
   TableContainer,
-  Tag,
   Tbody,
   Td,
   Text,
@@ -28,17 +25,23 @@ import {
   type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
-import { ArrowNarrowRight, Filter } from "tabler-icons-react";
+import { Filter } from "tabler-icons-react";
 
+import ButtonLink from "#/app/_components/ButtonLink";
 import TablePagenation from "#/components/common/TablePagination";
 import { useDidUpdateEffect } from "#/hooks/useDidUpdateEffect";
 import db from "#/utils/db";
-import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
+import {
+  GameDBPlayerProps,
+  GamePlayersDB,
+  PlayerDBProps,
+  PlayersDB,
+} from "#/utils/types";
 
 type CompactPlayerTableProps = {
   game_id: string;
-  playerList: PlayerDBProps[];
-  gamePlayers: GameDBPlayerProps[];
+  playerList: PlayersDB["Insert"][];
+  gamePlayers: GamePlayersDB["Insert"][];
 };
 
 const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
@@ -54,9 +57,8 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
-      data.text?.includes(searchText) ||
-      data.belong?.includes(searchText) ||
-      data.tags.join("").includes(searchText)
+      data.order?.includes(searchText) ||
+      data.belong?.includes(searchText)
     );
   };
 
@@ -81,23 +83,12 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         header: "氏名",
         footer: (info) => info.column.id,
       }),
-      columnHelper.accessor("text", {
+      columnHelper.accessor("order", {
         header: "順位",
         footer: (info) => info.column.id,
       }),
       columnHelper.accessor("belong", {
         header: "所属",
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("tags", {
-        header: "タグ",
-        cell: (info) => {
-          return info.row.original.tags.map((tag, tagi) => (
-            <Tag colorScheme="green" key={tagi} size="sm">
-              {tag}
-            </Tag>
-          ));
-        },
         footer: (info) => info.column.id,
       }),
     ],
@@ -221,15 +212,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           </TableContainer>
           <TablePagenation table={table} />
           <Box sx={{ pt: 3, textAlign: "right" }}>
-            <Button
-              as={ReactLink}
-              colorScheme="green"
-              rightIcon={<ArrowNarrowRight />}
-              to={`/player?from=${game_id}`}
-              variant="ghost"
-            >
-              詳細設定
-            </Button>
+            <ButtonLink href={`/player?from=${game_id}`}>詳細設定</ButtonLink>
           </Box>
         </Box>
       )}

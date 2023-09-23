@@ -4,10 +4,10 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState } from "#/utils/functions";
-import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
 const variables = async (
-  game: AllGameProps["variables"],
+  game: GameDBProps["variables"],
   gameLogList: LogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];

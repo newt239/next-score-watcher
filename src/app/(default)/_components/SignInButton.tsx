@@ -2,7 +2,7 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-import Button from "#/app/_components/Button";
+import GoogleButton from "./GoogleButton";
 
 export const SignInButton = () => {
   const supabase = createClientComponentClient();
@@ -21,5 +21,5 @@ export const SignInButton = () => {
     await supabase.auth.signOut();
   };
 
-  return <Button onClick={handleSignIn}>Login</Button>;
+  return <GoogleButton onClick={handleSignIn} />;
 };

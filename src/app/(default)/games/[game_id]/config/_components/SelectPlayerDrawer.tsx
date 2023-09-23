@@ -21,12 +21,13 @@ import { Plus, Upload } from "tabler-icons-react";
 
 import CompactCreatePlayer from "#/app/(default)/games/[game_id]/config/_components/CompactCreatePlayer";
 import CompactPlayerTable from "#/app/(default)/games/[game_id]/config/_components/CompactPlayerTable";
-import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
+import ButtonLink from "#/app/_components/ButtonLink";
+import { GamePlayersDB, PlayersDB } from "#/utils/types";
 
 type SelectPlayerDrawerProps = {
   game_id: string;
-  playerList: PlayerDBProps[];
-  players: GameDBPlayerProps[];
+  playerList: GamePlayersDB["Insert"][];
+  players: PlayersDB["Insert"][];
   disabled?: boolean;
 };
 
@@ -41,15 +42,9 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
   return (
     <>
       {playerList.length === 0 ? (
-        <Button
-          as={Link}
-          colorScheme="blue"
-          leftIcon={<Upload />}
-          mt={3}
-          to={`/player?from=${game_id}`}
-        >
+        <ButtonLink href={`/player?from=${game_id}`} leftIcon={<Upload />}>
           プレイヤーデータを読み込む
-        </Button>
+        </ButtonLink>
       ) : (
         <>
           <Button

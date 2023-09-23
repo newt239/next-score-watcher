@@ -4,10 +4,10 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
 
 const attacksurvival = async (
-  game: AllGameProps["attacksurvival"],
+  game: GameDBProps["attacksurvival"],
   gameLogList: LogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];

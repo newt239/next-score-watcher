@@ -1,27 +1,20 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
-import {
-  Box,
-  Card,
-  CardBody,
-  Flex,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react";
 import { ReactSortable } from "react-sortablejs";
 
 import SelectPlayerDrawer from "./SelectPlayerDrawer";
 
 import IndividualConfig from "#/app/(default)/games/[game_id]/config/_components/IndividualConfig";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/types";
+import { GamePlayersDB, PlayersDB, RuleNames } from "#/utils/types";
 
 type SelectPlayerProps = {
   game_id: string;
   rule_name: RuleNames;
-  playerList: PlayerDBProps[];
-  players: GameDBPlayerProps[];
+  playerList: GamePlayersDB["Insert"][];
+  players: PlayersDB["Insert"][];
   disabled?: boolean;
 };
 
@@ -32,7 +25,6 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   players,
   disabled,
 }) => {
-  const isDesktop = useDeviceWidth();
   const [sortableList, setSortableList] = useState(players);
 
   useEffect(() => {
@@ -52,7 +44,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
         />
       </Box>
       <Box pt={5}>
-        <h3>{isDesktop ? "個人設定" : "並び替え"}</h3>
+        <h3>並び替え</h3>
         {players.length !== 0 ? (
           <>
             <Box
@@ -68,14 +60,14 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
               <ReactSortable
                 animation={200}
                 delay={2}
-                direction={isDesktop ? "vertical" : "horizontal"}
+                direction="vertical"
                 list={sortableList}
                 setList={(newState) => {
                   setSortableList(newState);
                 }}
                 style={{
                   display: "flex",
-                  flexDirection: isDesktop ? "row" : "column",
+                  flexDirection: "row",
                   gap: 5,
                 }}
               >
@@ -93,7 +85,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                     <CardBody>
                       <Flex
                         sx={{
-                          flexDirection: isDesktop ? "column" : "row",
+                          flexDirection: "row",
                           gap: 3,
                           justifyContent: "space-between",
                           alignItems: "center",
@@ -102,44 +94,41 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                       >
                         <Box
                           sx={{
-                            writingMode: isDesktop
-                              ? "vertical-rl"
-                              : "horizontal-tb",
+                            writingMode: "horizontal-tb",
                             whiteSpace: "nowrap",
                             textOrientation: "upright",
                           }}
                         >
                           <Text size="xl">{player.name}</Text>
                         </Box>
-                        {isDesktop && (
-                          <IndividualConfig
-                            correct={[
-                              "normal",
-                              "nomx",
-                              "nomx-ad",
-                              "ny",
-                              "nomr",
-                              "nbyn",
-                              "nupdown",
-                              "swedish10",
-                              "backstream",
-                              "variables",
-                              "attacksurvival",
-                            ].includes(rule_name)}
-                            disabled={disabled}
-                            index={index}
-                            wrong={[
-                              "nomx",
-                              "nomx-ad",
-                              "ny",
-                              "nomr",
-                              "nbyn",
-                              "nupdown",
-                              "swedish10",
-                              "backstream",
-                            ].includes(rule_name)}
-                          />
-                        )}
+                        <IndividualConfig
+                          correct={[
+                            "normal",
+                            "nomx",
+                            "nomx-ad",
+                            "ny",
+                            "nomr",
+                            "nbyn",
+                            "nupdown",
+                            "swedish10",
+                            "backstream",
+                            "variables",
+                            "attacksurvival",
+                          ].includes(rule_name)}
+                          disabled={disabled}
+                          game_id={game_id}
+                          index={index}
+                          wrong={[
+                            "nomx",
+                            "nomx-ad",
+                            "ny",
+                            "nomr",
+                            "nbyn",
+                            "nupdown",
+                            "swedish10",
+                            "backstream",
+                          ].includes(rule_name)}
+                        />
                       </Flex>
                     </CardBody>
                   </Card>
@@ -154,32 +143,6 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
           <Box pt={3}>ここに選択されたプレイヤーが表示されます</Box>
         )}
       </Box>
-      {!isDesktop && (
-        <Box pt={5}>
-          <h3>個人設定</h3>
-          <UnorderedList>
-            {sortableList.map((player, index) => (
-              <ListItem key={player.id} lineHeight="3rem">
-                <span>{player.name}</span>
-                <IndividualConfig
-                  correct={[
-                    "normal",
-                    "nomx",
-                    "nomx-ad",
-                    "ny",
-                    "nomr",
-                    "variables",
-                    "attacksurvival",
-                  ].includes(rule_name)}
-                  disabled={disabled}
-                  index={index}
-                  wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(rule_name)}
-                />
-              </ListItem>
-            ))}
-          </UnorderedList>
-        </Box>
-      )}
     </Box>
   );
 };

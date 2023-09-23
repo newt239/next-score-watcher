@@ -1,5 +1,7 @@
 import Dexie, { Table } from "dexie";
 
+import { Database } from "./schema";
+
 export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 
 export type RuleNames =
@@ -40,27 +42,33 @@ export type GameOptionProps = {
   };
 };
 
-export type AllGameProps = {
-  [T in RuleNames]: {
-    id: string;
-    name: string;
-    rule: T;
-    correct_me: number;
-    wrong_me: number;
-    correct_other?: number;
-    wrong_other?: number;
-    win_point?: number;
-    lose_point?: number;
-    win_through?: number;
-    limit?: number;
-    quiz?: GameDBQuizProps;
-    discord_webhook_url: string;
-    options: GameOptionProps[T];
-    editable: boolean;
+export type GameDBProps = {
+  id: string;
+  name: string;
+  rule: string;
+  correct_me: number;
+  wrong_me: number;
+  correct_other?: number;
+  wrong_other?: number;
+  win_point?: number;
+  lose_point?: number;
+  win_through?: number;
+  limit?: number;
+  quiz?: GameDBQuizProps;
+  discord_webhook_url: string;
+  editable: boolean;
+  options?: {
+    [key: string]: boolean;
   };
 };
 
-export type GamePropsUnion = AllGameProps[RuleNames];
+export type GamePropsUnion = Database["public"]["Tables"]["games"]["Row"];
+
+export type GamesDB = Database["public"]["Tables"]["games"];
+
+export type GamePlayersDB = Database["public"]["Tables"]["game_players"];
+
+export type PlayersDB = Database["public"]["Tables"]["players"];
 
 export type PlayerDBProps = {
   id: string;
