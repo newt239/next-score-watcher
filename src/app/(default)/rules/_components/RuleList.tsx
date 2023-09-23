@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { CirclePlus } from "tabler-icons-react";
 
 import Button from "#/components/Button";
+import Card from "#/components/Card";
 import { createGame } from "#/utils/functions";
 import { rules } from "#/utils/rules";
 import { RuleNames } from "#/utils/types";
@@ -26,25 +27,14 @@ const RuleList: React.FC = () => {
         className={css({
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "32px",
+          gap: "16px",
           pt: "24px",
         })}
       >
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].description;
           return (
-            <div
-              className={css({
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                gap: "16px",
-                p: "8px",
-                borderRadius: "lg",
-                bg: "gray.100",
-              })}
-              key={rule_name}
-            >
+            <Card key={rule_name}>
               <div>
                 <h3 style={{ whiteSpace: "nowrap", paddingTop: "0px" }}>
                   {rules[rule_name].name}
@@ -62,12 +52,14 @@ const RuleList: React.FC = () => {
                 </div>
               </div>
               <div className={css({ textAlign: "right" })}>
-                <Button onClick={() => onClick(rule_name)}>
+                <Button
+                  onClick={() => onClick(rule_name)}
+                  rightIcon={<CirclePlus />}
+                >
                   作る
-                  <CirclePlus />
                 </Button>
               </div>
-            </div>
+            </Card>
           );
         })}
       </div>
