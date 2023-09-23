@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import Account from "./Account";
 import SubMenu from "./SubMenu";
 
 import { css } from "@panda/css";
+
+import "./menu.css";
 
 const Header: React.FC = () => {
   return (
@@ -23,7 +26,17 @@ const Header: React.FC = () => {
         },
       })}
     >
-      <div>
+      <div
+        className={css({
+          display: "flex",
+          justifyContent: "space-between",
+          px: "16px",
+          py: "8px",
+          lg: {
+            flexDirection: "column",
+          },
+        })}
+      >
         <div
           className={css({
             transition: "all 0.2s ease-out",
@@ -53,12 +66,35 @@ const Header: React.FC = () => {
         </div>
         <div
           className={css({
+            display: "block",
+            lg: {
+              display: "none",
+            },
+          })}
+        >
+          <input className="menu-toggle" id="menu-toggle" type="checkbox" />
+          <label className="menu-icon" htmlFor="menu-toggle">
+            <div>
+              <div className="bar"></div>
+              <div className="bar"></div>
+              <div className="bar"></div>
+            </div>
+            <div>メニュー</div>
+          </label>
+          <nav className="menu">
+            <Account />
+            <SubMenu />
+          </nav>
+        </div>
+        <div
+          className={css({
             display: "none",
             lg: {
               display: "block",
             },
           })}
         >
+          <Account />
           <SubMenu />
         </div>
       </div>

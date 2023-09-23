@@ -21,7 +21,7 @@ export default function DefaultLayout({
       <div
         className={css({
           p: "16px",
-          mt: "34px",
+          mt: "50px",
           maxW: "1300px",
           lg: {
             mt: "0px",
