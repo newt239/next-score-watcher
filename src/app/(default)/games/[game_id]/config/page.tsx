@@ -1,25 +1,23 @@
 import { Metadata } from "next";
-import { useRouter } from "next/navigation";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { toast } from "react-toastify";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import ConfigInput from "#/app/(default)/games/[game_id]/config/_components/ConfigInput";
-import CopyGame from "#/app/(default)/games/[game_id]/config/_components/CopyGame";
-import PlayersConfig from "#/app/(default)/games/[game_id]/config/_components/PlayersConfig";
-import RuleSettings from "#/app/(default)/games/[game_id]/config/_components/RuleSettings";
-import SelectQuizset from "#/app/(default)/games/[game_id]/config/_components/SelectQuizSet";
+import ConfigInput from "./_components/ConfigInput";
+import CopyGame from "./_components/CopyGame";
+import PlayersConfig from "./_components/PlayersConfig";
+import RuleSettings from "./_components/RuleSettings";
+import SelectQuizset from "./_components/SelectQuizSet";
+
 import Button from "#/app/_components/Button";
 import ButtonLink from "#/app/_components/ButtonLink";
 import Card from "#/app/_components/Card";
 import FormControl from "#/app/_components/FormControl";
 import { Tab, TabItem } from "#/app/_components/Tab";
 import InputLayout from "#/components/common/InputLayout";
-import db from "#/utils/db";
 import { rules } from "#/utils/rules";
 import { Database } from "#/utils/schema";
-import { RuleNames } from "#/utils/types";
+import { GameDBQuizProps, RuleNames } from "#/utils/types";
 import { css } from "@panda/css";
 
 export const metadata: Metadata = {
@@ -32,13 +30,13 @@ export default async function GameConfigPage({
   params: { game_id: string };
 }) {
   const game_id = params.game_id;
-  const router = useRouter();
   const supabase = createClientComponentClient<Database>();
   const { data: game } = await supabase
     .from("games")
-    .select("*")
+    .select()
     .eq("id", game_id)
     .single();
+  const { data: players } = await supabase.from("players").select("*");
   const { data: game_players } = await supabase
     .from("game_players")
     .select("*")
@@ -51,12 +49,6 @@ export default async function GameConfigPage({
   const { data: quizsets } = await supabase.from("quizsets").select("*");
 
   if (!game || !game_players || !game_logs) return null;
-
-  const deleteGame = async () => {
-    await db.games.delete(game.id);
-    toast("ゲームを削除しました");
-    router.push("/");
-  };
 
   const disabled = game_logs.length !== 0;
 
@@ -115,18 +107,21 @@ export default async function GameConfigPage({
           ゲーム開始
         </ButtonLink>
       </FormControl>
-
       <div>
         <Tab defaultKey="rule">
           <TabItem tabKey="rule" title="形式設定">
-            <RuleSettings disabled={disabled} game={game} />
+            <RuleSettings
+              disabled={disabled}
+              game={game}
+              game_players={game_players}
+            />
           </TabItem>
           <TabItem tabKey="player" title="プレイヤー設定">
             <PlayersConfig
               disabled={disabled}
               game_id={game.id}
               playerList={game_players}
-              players={game_players}
+              players={players || []}
               rule_name={game.rule as RuleNames}
             />
           </TabItem>
@@ -134,13 +129,14 @@ export default async function GameConfigPage({
             <div>
               <SelectQuizset
                 game_id={game.id}
-                game_quiz={game.quiz}
+                game_quiz={game.quiz as GameDBQuizProps}
                 quizset_names={quizsets}
               />
             </div>
             <div>
               <h3>オプション</h3>
               <ConfigInput
+                game_id={game_id}
                 input_id="discord_webhook_url"
                 label="Discord Webhook"
                 placeholder="https://discord.com/api/webhooks/..."

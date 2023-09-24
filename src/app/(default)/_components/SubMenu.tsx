@@ -2,8 +2,6 @@
 
 import { usePathname } from "next/navigation";
 
-import { Flex } from "@radix-ui/themes";
-
 import ButtonLink from "#/app/_components/ButtonLink";
 import { css } from "@panda/css";
 
@@ -18,7 +16,7 @@ const SubMenu: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <Flex
+    <div
       className={css({
         display: "flex",
         flexDirection: "column",
@@ -42,7 +40,7 @@ const SubMenu: React.FC = () => {
           {link.text}
         </ButtonLink>
       ))}
-    </Flex>
+    </div>
   );
 };
 

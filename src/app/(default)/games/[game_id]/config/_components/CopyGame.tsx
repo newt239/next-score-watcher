@@ -1,13 +1,15 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
 import { ChevronDown } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
-import { GameDBProps } from "#/utils/types";
+import { GamesDB } from "#/utils/types";
 
 type CopyGamePropsUnion = {
-  game: GameDBProps;
+  game: GamesDB["Insert"];
 };
 
 const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
@@ -18,31 +20,33 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
   };
 
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDown />}>
-        コピーする
-      </MenuButton>
-      <MenuList minW="auto">
-        <MenuItem
-          onClick={async () => {
-            const game_id = await createGame({
-              game,
-              action_type: "copy-rule",
-            });
-            onCompleteCopy(game_id as string);
-          }}
-        >
-          形式設定のみコピー
-        </MenuItem>
-        <MenuItem
-          onClick={async () => {
-            const game_id = await createGame({ game, action_type: "copy-all" });
-            onCompleteCopy(game_id as string);
-          }}
-        >
-          すべてコピー
-        </MenuItem>
-      </MenuList>
+    <Menu
+      menuButton={
+        <MenuButton>
+          <ChevronDown />
+          コピーする
+        </MenuButton>
+      }
+    >
+      <MenuItem
+        onClick={async () => {
+          const game_id = await createGame({
+            game,
+            action_type: "copy-rule",
+          });
+          onCompleteCopy(game_id as string);
+        }}
+      >
+        形式設定のみコピー
+      </MenuItem>
+      <MenuItem
+        onClick={async () => {
+          const game_id = await createGame({ game, action_type: "copy-all" });
+          onCompleteCopy(game_id as string);
+        }}
+      >
+        すべてコピー
+      </MenuItem>
     </Menu>
   );
 };

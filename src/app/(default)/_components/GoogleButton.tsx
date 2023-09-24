@@ -29,7 +29,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ ...props }) => {
       })}
       {...props}
     >
-      <Image alt="Google" height={24} src="./google-color.svg" width={24} />
+      <Image alt="Google" height={24} src="/google-color.svg" width={24} />
       Googleでログイン
     </button>
   );

@@ -1,23 +1,16 @@
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  Switch,
-} from "@chakra-ui/react";
-
+import FormControl from "#/app/_components/FormControl";
+import NumberInput from "#/app/_components/NumberInput";
+import Switch from "#/app/_components/Switch";
 import db from "#/utils/db";
+import { str2num } from "#/utils/functions";
 import { RuleNames } from "#/utils/types";
+import { css } from "@panda/css";
 
 type ConfigLimitProps = {
   rule: RuleNames;
   game_id: string;
-  limit: number | undefined;
-  win_through: number | undefined;
+  limit: number | null;
+  win_through: number | null;
 };
 
 const ConfigLimit: React.FC<ConfigLimitProps> = ({
@@ -38,56 +31,56 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
   };
 
   return (
-    <Flex direction="column" pt={5}>
-      <FormControl alignItems="center" display="flex">
-        <FormLabel htmlFor="game-limit-toggle" mb="0">
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        pt: "16px",
+      })}
+    >
+      <FormControl label="限定問題数を設定する">
+        <Switch id="game-limit-toggle" onChange={onGameLimitToggle}>
           限定問題数を設定する
-        </FormLabel>
-        <Switch id="game-limit-toggle" onChange={onGameLimitToggle} />
+        </Switch>
       </FormControl>
-      <Flex gap={3} p={3}>
-        <FormControl isDisabled={!limit}>
-          <FormLabel htmlFor="limit-input">限定問題数</FormLabel>
+      <div
+        className={css({
+          display: "flex",
+          flexDirection: "column",
+          gap: "12px",
+          p: "16px",
+        })}
+      >
+        <FormControl label="限定問題数">
           <NumberInput
+            disabled={!limit}
             id="limit-input"
             max={100}
             min={0}
-            onChange={(s, n) => {
+            onChange={(s) => {
               db.games.update(game_id, {
-                limit: n,
+                limit: str2num(s),
               });
             }}
-            value={limit}
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+            value={typeof limit === "number" ? limit : undefined}
+          />
         </FormControl>
-        <FormControl isDisabled={!win_through}>
-          <FormLabel htmlFor="win_through-input">勝ち抜け人数</FormLabel>
+        <FormControl label="勝ち抜け人数">
           <NumberInput
+            disabled={!win_through}
             id="win_through-input"
             max={100}
             min={0}
-            onChange={(s, n) => {
+            onChange={(s) => {
               db.games.update(game_id, {
-                win_through: n,
+                win_through: str2num(s),
               });
             }}
-            value={win_through}
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+            value={typeof win_through === "number" ? win_through : undefined}
+          />
         </FormControl>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

@@ -1,25 +1,19 @@
-import Link from "next/link";
-
-import {
-  Button,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  Select,
-  VStack,
-} from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
+import ButtonLink from "#/app/_components/ButtonLink";
+import FormControl from "#/app/_components/FormControl";
+import NumberInput from "#/app/_components/NumberInput";
+import Select from "#/app/_components/Select";
 import InputLayout from "#/components/common/InputLayout";
 import db from "#/utils/db";
-import { GameDBQuizProps } from "#/utils/types";
+import { str2num } from "#/utils/functions";
+import { GameDBQuizProps, QuizsetsDB } from "#/utils/types";
+import { css } from "@panda/css";
 
 type SelectQuizsetProps = {
   game_id: string;
   game_quiz: GameDBQuizProps | undefined;
-  quizset_names: string[];
+  quizset_names: QuizsetsDB["Insert"][] | null;
 };
 
 const SelectQuizset: React.FC<SelectQuizsetProps> = ({
@@ -28,9 +22,14 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   quizset_names,
 }) => {
   return (
-    <VStack align="stretch" gap={0}>
+    <div
+      className={css({
+        display: "flex",
+        alignItems: "stretch",
+      })}
+    >
       <h3>問題設定</h3>
-      {quizset_names.length !== 0 ? (
+      {quizset_names && quizset_names.length !== 0 ? (
         <>
           <InputLayout label="セット名">
             <Select
@@ -43,52 +42,38 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                   } as GameDBQuizProps,
                 });
               }}
-              w="auto"
             >
               <option value="">問題を表示しない</option>
               {quizset_names.map((setname) => (
-                <option key={setname} value={setname}>
-                  {setname}
+                <option key={setname.id} value={setname.id}>
+                  {setname.name}
                 </option>
               ))}
             </Select>
           </InputLayout>
           {game_quiz && game_quiz.set_name !== "" && (
-            <InputLayout label="オフセット">
+            <FormControl label="オフセット">
               <NumberInput
                 min={0}
-                onChange={(_s, n) => {
+                onChange={(s) => {
                   db.games.update(game_id as string, {
                     quiz: {
                       set_name: game_quiz.set_name,
-                      offset: n,
+                      offset: str2num(s),
                     } as GameDBQuizProps,
                   });
                 }}
                 value={game_quiz.offset}
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </InputLayout>
+              />
+            </FormControl>
           )}
         </>
       ) : (
-        <InputLayout label="">
-          <Button
-            as={Link}
-            colorScheme="blue"
-            href={`/quiz?from=${game_id}`}
-            leftIcon={<Upload />}
-          >
-            問題データを読み込む
-          </Button>
-        </InputLayout>
+        <ButtonLink href={`/quiz?from=${game_id}`} leftIcon={<Upload />}>
+          問題データを読み込む
+        </ButtonLink>
       )}
-    </VStack>
+    </div>
   );
 };
 

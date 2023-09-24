@@ -17,6 +17,7 @@
     "@radix-ui/themes": "^1.1.2",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/supabase-js": "^2.36.0",
+    "@szhsin/react-menu": "^4.0.3",
     "@tanstack/react-table": "^8.9.3",
     "cdate": "^0.0.7",
     "dexie": "^3.2.4",

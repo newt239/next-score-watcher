@@ -2,11 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Account from "./Account";
+import Hamburger from "./Hamburger";
 import SubMenu from "./SubMenu";
 
 import { css } from "@panda/css";
-
-import "./menu.css";
 
 const Header: React.FC = () => {
   return (
@@ -63,47 +62,19 @@ const Header: React.FC = () => {
             />
           </Link>
         </div>
-        <div
-          className={css({
-            display: "block",
-            lg: {
-              display: "none",
-            },
-          })}
-        >
-          <input className="menu-toggle" id="menu-toggle" type="checkbox" />
-          <label className="menu-icon" htmlFor="menu-toggle">
-            <div>
-              <div className="bar"></div>
-              <div className="bar"></div>
-              <div className="bar"></div>
-            </div>
-            <div>メニュー</div>
-          </label>
-          <nav className="menu">
-            <SubMenu />
-            <Account />
-          </nav>
-        </div>
+        <Hamburger>
+          <SubMenu />
+          <Account />
+        </Hamburger>
         <div
           className={css({
             display: "none",
             lg: {
               display: "block",
             },
-            flexGrow: 1,
           })}
         >
           <SubMenu />
-        </div>
-        <div
-          className={css({
-            display: "none",
-            lg: {
-              display: "block",
-            },
-          })}
-        >
           <Account />
         </div>
       </div>
