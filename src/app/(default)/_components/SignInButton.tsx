@@ -17,9 +17,5 @@ export const SignInButton = () => {
     });
   };
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-  };
-
   return <GoogleButton onClick={handleSignIn} />;
 };

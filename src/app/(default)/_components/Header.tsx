@@ -81,8 +81,8 @@ const Header: React.FC = () => {
             <div>メニュー</div>
           </label>
           <nav className="menu">
-            <Account />
             <SubMenu />
+            <Account />
           </nav>
         </div>
         <div

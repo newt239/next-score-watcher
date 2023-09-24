@@ -1,51 +1,35 @@
+"use client";
+
+import Image from "next/image";
+
 import { css } from "@panda/css";
 
-const GoogleButton: React.FC = ({
-  ...props
-}: React.ComponentPropsWithRef<"button">) => {
+type GoogleButtonProps = JSX.IntrinsicElements["button"];
+
+const GoogleButton: React.FC<GoogleButtonProps> = ({ ...props }) => {
   return (
     <button
       className={css({
-        display: "inline-flex",
+        padding: "0.5rem 1rem",
+        border: "1px solid #CBD5E0",
+        margin: "0 auto",
+        display: "flex",
         alignItems: "center",
+        justifyContent: "space-between",
+        gap: "0.5rem",
         borderRadius: "0.375rem",
-        backgroundColor: "#4285F4",
-        padding: "0.625rem 1.25rem",
-        textAlign: "center",
-        fontSize: "0.875rem",
-        fontWeight: "500",
-        color: "#ffffff",
+        color: "#4A5568",
+        transition: "border 0.15s, color 0.15s, box-shadow 0.15s",
         cursor: "pointer",
-        transition: "background-color 0.3s ease",
         _hover: {
-          backgroundColor: "#4285F4/90",
-        },
-        _focus: {
-          outline: "none",
-          boxShadow: "0 0 0 0.1875rem rgba(66, 133, 244, 0.5)",
-        },
-        _dark: {
-          _focus: {
-            boxShadow: "0 0 0 0.1875rem rgba(66, 133, 244, 0.5)",
-          },
+          borderColor: "#CBD5E0",
+          color: "#2D3748",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         },
       })}
       {...props}
     >
-      <svg
-        aria-hidden="true"
-        className="-ml-1 mr-2 h-4 w-4"
-        data-icon="google"
-        data-prefix="fab"
-        role="img"
-        viewBox="0 0 488 512"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-          fill="currentColor"
-        ></path>
-      </svg>
+      <Image alt="Google" height={24} src="./google-color.svg" width={24} />
       Googleでログイン
     </button>
   );

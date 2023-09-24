@@ -39,11 +39,14 @@
   left: 0;
   right: 0;
   padding: 16px;
+  box-shadow: 0px 8px 4px -4px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: 0.4s;
 }
 
 .menu-toggle:checked + .menu-icon + .menu {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   opacity: 1;
 }
