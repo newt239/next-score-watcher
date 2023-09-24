@@ -85,6 +85,7 @@ export const Tab: React.FC<PropsWithChildren<TabProps>> = ({
                 color: "emerald.500",
                 borderWidth: "2px 2px 0 2px",
                 borderColor: "emerald.500",
+                transition: "all 0.2s ease",
                 _hover: {
                   backgroundColor: "emerald.500",
                   color: "white",

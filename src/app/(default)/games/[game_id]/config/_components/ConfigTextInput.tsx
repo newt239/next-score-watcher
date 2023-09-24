@@ -4,31 +4,31 @@ import { useId, useTransition } from "react";
 
 import { Loader } from "tabler-icons-react";
 
-import NumberInput from "#/app/_components/NumberInput";
+import TextInput from "#/app/_components/TextInput";
 import { onGameRecordUpdate } from "#/utils/actions";
 import { GamesDB } from "#/utils/types";
 import { css } from "@panda/css";
 
-type ConfigNumberInputProps = {
+type ConfigTextInputProps = {
   game_id: string;
   input_id: keyof GamesDB["Row"];
-  defaultValue: number;
+  defaultValue: string;
   disabled?: boolean;
   label: string;
   helperText?: string;
-  min?: number;
-  max?: number;
+  placeholder: string;
+  type?: "url" | "text";
 };
 
-const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
+const ConfigTextInput: React.FC<ConfigTextInputProps> = ({
   game_id,
   input_id,
   defaultValue,
   disabled,
   label,
   helperText,
-  min = 0,
-  max = 100,
+  placeholder,
+  type = "text",
 }) => {
   const innerId = useId();
   const [isPending, startTransition] = useTransition();
@@ -71,12 +71,10 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
             flexDirection: "row",
           })}
         >
-          <NumberInput
-            defaultValue={defaultValue.toString()}
+          <TextInput
+            defaultValue={defaultValue}
             disabled={disabled}
             id={innerId}
-            max={max}
-            min={min}
             onChange={(e) =>
               startTransition(() =>
                 onGameRecordUpdate({
@@ -86,7 +84,10 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
                 })
               )
             }
+            placeholder={placeholder}
+            type={type}
           />
+          {isPending && <Loader />}
         </div>
       </label>
       {helperText && (
@@ -103,4 +104,4 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   );
 };
 
-export default ConfigNumberInput;
+export default ConfigTextInput;

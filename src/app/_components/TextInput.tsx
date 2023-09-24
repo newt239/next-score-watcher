@@ -8,11 +8,16 @@ export const TextInputRecipe = cva({
     borderWidth: "2px",
     borderRadius: "md",
     borderColor: "gray.300",
+    width: "100%",
     transition: "all 0.2s ease",
     _focusVisible: {
       outline: "none",
       borderColor: "emerald.500",
       boxShadow: "#10b981 0px 0px 0px 1px",
+    },
+    _disabled: {
+      opacity: 0.5,
+      cursor: "not-allowed",
     },
   },
   variants: {

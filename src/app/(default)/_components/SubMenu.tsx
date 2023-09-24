@@ -7,6 +7,7 @@ import { css } from "@panda/css";
 
 const linkList: { text: string; path: string }[] = [
   { text: "ホーム", path: "/" },
+  { text: "作成したゲーム", path: "/games" },
   { text: "プレイヤー管理", path: "/players" },
   { text: "問題管理", path: "/quizes" },
   { text: "アプリ設定", path: "/config" },

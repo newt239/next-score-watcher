@@ -26,6 +26,7 @@ export default function DefaultLayout({
         className={css({
           p: "16px",
           mt: "50px",
+          w: "100%",
           maxW: "1300px",
           lg: {
             mt: "0px",

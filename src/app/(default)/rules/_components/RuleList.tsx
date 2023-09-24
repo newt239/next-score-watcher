@@ -34,30 +34,28 @@ const RuleList: React.FC = () => {
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].description;
           return (
-            <Card key={rule_name}>
-              <div>
-                <h3 style={{ whiteSpace: "nowrap", paddingTop: "0px" }}>
-                  {rules[rule_name].name}
-                </h3>
-                <div
-                  className={css({
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    "-webkit-box-orient": "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  } as any)}
-                >
-                  {description}
-                </div>
-              </div>
-              <div className={css({ textAlign: "right" })}>
+            <Card
+              action={
                 <Button
                   onClick={() => onClick(rule_name)}
                   rightIcon={<CirclePlus />}
                 >
                   作る
                 </Button>
+              }
+              key={rule_name}
+              title={rules[rule_name].name}
+            >
+              <div
+                className={css({
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  "-webkit-box-orient": "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                } as any)}
+              >
+                {description}
               </div>
             </Card>
           );

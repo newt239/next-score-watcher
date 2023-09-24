@@ -41,7 +41,7 @@ export const buttonRecipe = cva({
     size: {
       sm: { px: "8px", py: "6px", fontSize: "12px" },
       md: { px: "8px", py: "6px", fontSize: "18px" },
-      lg: { px: "8px", py: "6px", fontSize: "24px" },
+      lg: { px: "12px", py: "8px", fontSize: "24px", borderRadius: "12px" },
       xl: { px: "20px", py: "12px", fontSize: "32px", borderRadius: "full" },
     },
   },

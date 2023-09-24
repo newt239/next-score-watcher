@@ -1,6 +1,6 @@
-import ConfigInput from "./ConfigInput";
 import ConfigLimit from "./ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
+import ConfigTextInput from "./ConfigTextInput";
 
 import { GamePlayersDB, GamesDB, RuleNames } from "#/utils/types";
 import { css } from "@panda/css";
@@ -18,7 +18,8 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
 }) => {
   return (
     <>
-      <ConfigInput
+      <ConfigTextInput
+        defaultValue={game.name}
         game_id={game.id}
         input_id="name"
         label="ゲーム名"
@@ -34,12 +35,15 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
       )}
       <div
         className={css({
+          display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
+          pt: "16px",
         })}
       >
         {["nomx", "nomx-ad", "nomr"].includes(game.rule as RuleNames) && (
           <ConfigNumberInput
+            defaultValue={game.win_point || 0}
             disabled={disabled}
             game_id={game.id}
             input_id="win_point"
@@ -49,6 +53,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         )}
         {["ny", "variables"].includes(game.rule as RuleNames) && (
           <ConfigNumberInput
+            defaultValue={game.win_point || 0}
             disabled={disabled}
             game_id={game.id}
             input_id="win_point"
@@ -59,6 +64,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         )}
         {["nbyn", "nupdown"].includes(game.rule as RuleNames) && (
           <ConfigNumberInput
+            defaultValue={game.win_point || 0}
             disabled={disabled}
             game_id={game.id}
             input_id="win_point"
@@ -68,6 +74,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         )}
         {["squarex", "freezex"].includes(game.rule as RuleNames) && (
           <ConfigNumberInput
+            defaultValue={game.win_point || 0}
             disabled={disabled}
             game_id={game.id}
             input_id="win_point"
@@ -79,6 +86,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
           game.rule as RuleNames
         ) && (
           <ConfigNumberInput
+            defaultValue={game.lose_point || 0}
             disabled={disabled}
             game_id={game.id}
             input_id="lose_point"
@@ -89,6 +97,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         {["attacksurvival"].includes(game.rule as RuleNames) && (
           <>
             <ConfigNumberInput
+              defaultValue={game.win_point || 0}
               disabled={disabled}
               game_id={game.id}
               input_id="win_point"
@@ -97,6 +106,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
               min={1}
             />
             <ConfigNumberInput
+              defaultValue={game.win_through || 0}
               disabled={disabled}
               game_id={game.id}
               input_id="win_through"
@@ -104,6 +114,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
               max={game_players.length}
             />
             <ConfigNumberInput
+              defaultValue={game.lose_point || 0}
               disabled={disabled}
               game_id={game.id}
               input_id="correct_me"
@@ -111,6 +122,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
               min={-10}
             />
             <ConfigNumberInput
+              defaultValue={game.wrong_me || 0}
               disabled={disabled}
               game_id={game.id}
               input_id="wrong_me"
@@ -118,6 +130,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
               min={-10}
             />
             <ConfigNumberInput
+              defaultValue={game.correct_other || 0}
               disabled={disabled}
               game_id={game.id}
               input_id="correct_other"
@@ -125,6 +138,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
               min={-10}
             />
             <ConfigNumberInput
+              defaultValue={game.wrong_other || 0}
               disabled={disabled}
               game_id={game.id}
               input_id="wrong_other"

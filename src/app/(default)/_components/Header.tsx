@@ -68,6 +68,7 @@ const Header: React.FC = () => {
         </Hamburger>
         <div
           className={css({
+            flexGrow: 1,
             display: "none",
             lg: {
               display: "block",
@@ -75,6 +76,15 @@ const Header: React.FC = () => {
           })}
         >
           <SubMenu />
+        </div>
+        <div
+          className={css({
+            display: "none",
+            lg: {
+              display: "block",
+            },
+          })}
+        >
           <Account />
         </div>
       </div>

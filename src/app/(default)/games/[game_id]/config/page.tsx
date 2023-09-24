@@ -1,9 +1,10 @@
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import ConfigInput from "./_components/ConfigInput";
+import ConfigTextInput from "./_components/ConfigTextInput";
 import CopyGame from "./_components/CopyGame";
 import PlayersConfig from "./_components/PlayersConfig";
 import RuleSettings from "./_components/RuleSettings";
@@ -12,7 +13,6 @@ import SelectQuizset from "./_components/SelectQuizSet";
 import Button from "#/app/_components/Button";
 import ButtonLink from "#/app/_components/ButtonLink";
 import Card from "#/app/_components/Card";
-import FormControl from "#/app/_components/FormControl";
 import { Tab, TabItem } from "#/app/_components/Tab";
 import InputLayout from "#/components/common/InputLayout";
 import { rules } from "#/utils/rules";
@@ -30,7 +30,7 @@ export default async function GameConfigPage({
   params: { game_id: string };
 }) {
   const game_id = params.game_id;
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createServerComponentClient<Database>({ cookies });
   const { data: game } = await supabase
     .from("games")
     .select()
@@ -72,16 +72,27 @@ export default async function GameConfigPage({
 
   return (
     <>
-      <Card>
-        <h3>{rules[game.rule as RuleNames].name}</h3>
+      <Card title={rules[game.rule as RuleNames].name}>
         <div>
           {rules[game.rule as RuleNames].description.split("\n").map((p) => (
             <p key={p}>{p}</p>
           ))}
         </div>
       </Card>
-      <FormControl
-        label={
+      <div
+        className={css({
+          w: "100%",
+          py: "16px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          md: {
+            flexDirection: "row",
+          },
+        })}
+      >
+        <div>
           <ul
             className={css({
               color: "red.500",
@@ -94,8 +105,7 @@ export default async function GameConfigPage({
               <li key={m}>{m}</li>
             ))}
           </ul>
-        }
-      >
+        </div>
         <ButtonLink
           aria-disabled={playButtonIsDisabled}
           href={`/${game_id}/board`}
@@ -106,7 +116,7 @@ export default async function GameConfigPage({
         >
           ゲーム開始
         </ButtonLink>
-      </FormControl>
+      </div>
       <div>
         <Tab defaultKey="rule">
           <TabItem tabKey="rule" title="形式設定">
@@ -135,7 +145,8 @@ export default async function GameConfigPage({
             </div>
             <div>
               <h3>オプション</h3>
-              <ConfigInput
+              <ConfigTextInput
+                defaultValue={game.discord_webhook_url || ""}
                 game_id={game_id}
                 input_id="discord_webhook_url"
                 label="Discord Webhook"
