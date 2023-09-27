@@ -16,12 +16,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
     <>
       <ConfigInput input_id="name" label="ゲーム名" placeholder="〇〇大会" />
       {game.rule !== "normal" && (
-        <ConfigLimit
-          game_id={game.id}
-          limit={game.limit}
-          rule={game.rule}
-          win_through={game.win_through}
-        />
+        <ConfigLimit game_id={game.id} rule={game.rule} />
       )}
       <Grid
         sx={{
