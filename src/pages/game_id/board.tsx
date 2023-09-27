@@ -106,11 +106,17 @@ const BoardPage = () => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
-        if (playerIndex <= players.length) {
+        console.log(playerIndex);
+        if (
+          typeof playerIndex === "number" &&
+          !isNaN(playerIndex) &&
+          playerIndex <= players.length &&
+          playerIndex > 0
+        ) {
           await db.logs.put({
             id: nanoid(),
             game_id: game.id,
-            player_id: players[playerIndex === 0 ? 9 : playerIndex - 1].id,
+            player_id: players[playerIndex - 1].id,
             variant: event.shiftKey ? "wrong" : "correct",
             system: false,
             timestamp: cdate().text(),
