@@ -79,6 +79,8 @@ const ConfigPage = () => {
   const errorMessages = [];
   if (game.players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
+  if (game.players.length > 14)
+    errorMessages.push("プレイヤー人数は14人以内で設定してください。");
   if (game.win_through && game.players.length <= game.win_through)
     errorMessages.push(
       "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
@@ -157,7 +159,7 @@ const ConfigPage = () => {
           variant="unstyled"
         >
           <ConfigTabList />
-          <TabPanels>
+          <TabPanels sx={{ w: ["100%", "100%", "75%"] }}>
             <TabPanel>
               <h2>形式設定</h2>
               <RuleSettings disabled={disabled} game={game} />
