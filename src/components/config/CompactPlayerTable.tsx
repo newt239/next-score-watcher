@@ -135,7 +135,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);
-      const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map(
+      const sortedNewGamePlayerIds = [
+        ...gamePlayerIds.filter((gamePlayerId) =>
+          newGamePlayerIds.includes(gamePlayerId)
+        ),
+        ...newGamePlayerIds.filter(
+          (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
+        ),
+      ];
+      const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
         (player_id) => {
           const previousGamePlayer = gamePlayers.find(
             (gamePlayer) => gamePlayer.id === player_id
