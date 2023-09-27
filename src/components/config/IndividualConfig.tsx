@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -40,66 +39,6 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
   const { isOpen, onToggle, onClose } = useDisclosure();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
-  const [initialCorrect, setInitialCorrect] = useState<number | null>(null);
-  const [initialWrong, setInitialWrong] = useState<number | null>(null);
-  const [baseCorrectPoint, setBaseCorrectPoint] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (game) {
-      setInitialCorrect(game.players[index].initial_correct);
-      setInitialWrong(game.players[index].initial_wrong);
-      setBaseCorrectPoint(game.players[index].base_correct_point);
-    }
-  }, [game?.id]);
-
-  useEffect(() => {
-    if (game && initialCorrect !== null) {
-      db.games.update(game_id as string, {
-        players: game.players.map((gamePlayer, pi) =>
-          pi === index
-            ? {
-                ...gamePlayer,
-                initial_correct: initialCorrect,
-              }
-            : gamePlayer
-        ),
-      });
-    }
-  }, [game_id, initialCorrect]);
-
-  useEffect(() => {
-    if (game && initialWrong !== null) {
-      db.games.update(game_id as string, {
-        players: game.players.map((gamePlayer, pi) =>
-          pi === index
-            ? {
-                ...gamePlayer,
-                initial_wrong: initialWrong,
-              }
-            : gamePlayer
-        ),
-      });
-    }
-  }, [game_id, initialWrong]);
-
-  useEffect(() => {
-    if (game && baseCorrectPoint !== null) {
-      db.games.update(game_id as string, {
-        players: game.players.map((gamePlayer, pi) =>
-          pi === index
-            ? {
-                ...gamePlayer,
-                base_correct_point: baseCorrectPoint,
-                base_wrong_point: Math.min(
-                  -baseCorrectPoint * (baseCorrectPoint - 2),
-                  -3
-                ),
-              }
-            : gamePlayer
-        ),
-      });
-    }
-  }, [game_id, baseCorrectPoint]);
 
   if ((!correct && !wrong) || !game || game.players.length <= index)
     return null;
@@ -132,11 +71,22 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                   : "初期正答数"}
               </FormLabel>
               <NumberInput
+                defaultValue={game.players[index]?.initial_correct || 0}
                 min={game.rule !== "attacksurvival" ? 0 : undefined}
                 onChange={async (s, n) => {
-                  setInitialCorrect(n);
+                  if (game) {
+                    db.games.update(game_id as string, {
+                      players: game.players.map((gamePlayer, pi) =>
+                        pi === index
+                          ? {
+                              ...gamePlayer,
+                              initial_correct: n,
+                            }
+                          : gamePlayer
+                      ),
+                    });
+                  }
                 }}
-                value={initialCorrect || 0}
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -150,12 +100,23 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             <FormControl pt={3}>
               <FormLabel>初期誤答数</FormLabel>
               <NumberInput
+                defaultValue={game.players[index]?.initial_wrong || 0}
                 max={game.rule === "backstream" ? 4 : undefined}
                 min={0}
                 onChange={(s, n) => {
-                  setInitialWrong(n);
+                  if (game) {
+                    db.games.update(game_id as string, {
+                      players: game.players.map((gamePlayer, pi) =>
+                        pi === index
+                          ? {
+                              ...gamePlayer,
+                              initial_wrong: n,
+                            }
+                          : gamePlayer
+                      ),
+                    });
+                  }
                 }}
-                value={initialWrong || 0}
               >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -169,11 +130,23 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
             <FormControl pt={3}>
               <FormLabel>N</FormLabel>
               <NumberInput
+                defaultValue={game.players[index]?.base_correct_point || 0}
                 min={3}
                 onChange={(s, n) => {
-                  setBaseCorrectPoint(n);
+                  if (game) {
+                    db.games.update(game_id as string, {
+                      players: game.players.map((gamePlayer, pi) =>
+                        pi === index
+                          ? {
+                              ...gamePlayer,
+                              base_correct_point: n,
+                              base_wrong_point: Math.min(-n * (n - 2), -3),
+                            }
+                          : gamePlayer
+                      ),
+                    });
+                  }
                 }}
-                value={baseCorrectPoint || 0}
               >
                 <NumberInputField />
                 <NumberInputStepper>

@@ -47,8 +47,11 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   gamePlayers,
 }) => {
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
+    {}
+  );
   const [searchText, setSearchText] = useState<string>("");
+  const [updateFlag, setUpdateFlag] = useState<boolean>(false);
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
     const data = row.original;
@@ -121,13 +124,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   });
 
   useEffect(() => {
-    const initialPlayerIdList: { [key: number]: boolean } = {};
-    playerList.forEach((player, i) => {
-      if (gamePlayerIds.includes(player.id)) {
-        initialPlayerIdList[i] = true;
-      }
-    });
-    setRowSelection(initialPlayerIdList);
+    (async () => {
+      const initialPlayerIdList: { [key: number]: boolean } = {};
+      playerList.forEach((player, i) => {
+        if (gamePlayerIds.includes(player.id)) {
+          initialPlayerIdList[i] = true;
+        }
+      });
+      setRowSelection(initialPlayerIdList);
+    })();
   }, []);
 
   useDidUpdateEffect(() => {
@@ -135,11 +140,9 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);
-      console.log(newGamePlayerIds);
-      console.log(gamePlayerIds);
-      if (
-        Array.from(newGamePlayerIds).sort() !== Array.from(gamePlayerIds).sort()
-      ) {
+      if (!updateFlag) {
+        setUpdateFlag(true);
+      } else if (newGamePlayerIds.length !== gamePlayerIds.length) {
         const sortedNewGamePlayerIds = [
           ...gamePlayerIds.filter((gamePlayerId) =>
             newGamePlayerIds.includes(gamePlayerId)

@@ -75,10 +75,12 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                 list={sortableList}
                 setList={(newState) => {
                   (async () => {
-                    setSortableList(newState);
-                    await db.games.update(game_id, {
-                      players: newState,
-                    });
+                    if (newState.length === players.length) {
+                      await db.games.update(game_id, {
+                        players: newState,
+                      });
+                      setSortableList(newState);
+                    }
                   })();
                 }}
                 style={{
