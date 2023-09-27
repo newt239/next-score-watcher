@@ -9,6 +9,7 @@ import {
   NumberInputStepper,
   Switch,
 } from "@chakra-ui/react";
+import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "#/utils/db";
 import { RuleNames } from "#/utils/types";
@@ -16,16 +17,13 @@ import { RuleNames } from "#/utils/types";
 type ConfigLimitProps = {
   rule: RuleNames;
   game_id: string;
-  limit: number | undefined;
-  win_through: number | undefined;
 };
 
-const ConfigLimit: React.FC<ConfigLimitProps> = ({
-  rule,
-  game_id,
-  limit,
-  win_through,
-}) => {
+const ConfigLimit: React.FC<ConfigLimitProps> = ({ rule, game_id }) => {
+  const game = useLiveQuery(() => db.games.get(game_id as string));
+
+  if (!game) return null;
+
   const onGameLimitToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     db.games.update(game_id, {
       limit: event.target.checked ? 10 : undefined,
@@ -46,7 +44,7 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
         <Switch id="game-limit-toggle" onChange={onGameLimitToggle} />
       </FormControl>
       <Flex gap={3} p={3}>
-        <FormControl isDisabled={!limit}>
+        <FormControl isDisabled={typeof game?.limit === "undefined"}>
           <FormLabel htmlFor="limit-input">限定問題数</FormLabel>
           <NumberInput
             id="limit-input"
@@ -54,10 +52,10 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
             min={0}
             onChange={(s, n) => {
               db.games.update(game_id, {
-                limit: n,
+                limit: isNaN(n) ? 0 : n,
               });
             }}
-            value={limit}
+            value={game.limit}
           >
             <NumberInputField />
             <NumberInputStepper>
@@ -66,7 +64,7 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
             </NumberInputStepper>
           </NumberInput>
         </FormControl>
-        <FormControl isDisabled={!win_through}>
+        <FormControl isDisabled={typeof game?.win_through === "undefined"}>
           <FormLabel htmlFor="win_through-input">勝ち抜け人数</FormLabel>
           <NumberInput
             id="win_through-input"
@@ -74,10 +72,10 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
             min={0}
             onChange={(s, n) => {
               db.games.update(game_id, {
-                win_through: n,
+                win_through: isNaN(n) ? 0 : n,
               });
             }}
-            value={win_through}
+            value={game.win_through}
           >
             <NumberInputField />
             <NumberInputStepper>
