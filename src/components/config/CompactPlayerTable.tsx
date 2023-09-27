@@ -135,37 +135,45 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);
-      const sortedNewGamePlayerIds = [
-        ...gamePlayerIds.filter((gamePlayerId) =>
-          newGamePlayerIds.includes(gamePlayerId)
-        ),
-        ...newGamePlayerIds.filter(
-          (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
-        ),
-      ];
-      const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
-        (player_id) => {
-          const previousGamePlayer = gamePlayers.find(
-            (gamePlayer) => gamePlayer.id === player_id
-          );
-          if (previousGamePlayer) {
-            return previousGamePlayer;
-          } else {
-            const player = playerList.find((player) => player.id === player_id);
-            return {
-              id: player_id,
-              name: player ? player.name : "不明なユーザー",
-              initial_correct: 0,
-              initial_wrong: 0,
-              base_correct_point: 1,
-              base_wrong_point: -1,
-            } as GameDBPlayerProps;
+      console.log(newGamePlayerIds);
+      console.log(gamePlayerIds);
+      if (
+        Array.from(newGamePlayerIds).sort() !== Array.from(gamePlayerIds).sort()
+      ) {
+        const sortedNewGamePlayerIds = [
+          ...gamePlayerIds.filter((gamePlayerId) =>
+            newGamePlayerIds.includes(gamePlayerId)
+          ),
+          ...newGamePlayerIds.filter(
+            (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
+          ),
+        ];
+        const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
+          (player_id) => {
+            const previousGamePlayer = gamePlayers.find(
+              (gamePlayer) => gamePlayer.id === player_id
+            );
+            if (previousGamePlayer) {
+              return previousGamePlayer;
+            } else {
+              const player = playerList.find(
+                (player) => player.id === player_id
+              );
+              return {
+                id: player_id,
+                name: player ? player.name : "不明なユーザー",
+                initial_correct: 0,
+                initial_wrong: 0,
+                base_correct_point: 1,
+                base_wrong_point: -1,
+              } as GameDBPlayerProps;
+            }
           }
-        }
-      );
-      await db.games.update(game_id, {
-        players: newGamePlayers,
-      });
+        );
+        await db.games.update(game_id, {
+          players: newGamePlayers,
+        });
+      }
     })();
   }, [rowSelection]);
 

@@ -15,6 +15,7 @@ import SelectPlayerDrawer from "./SelectPlayerDrawer";
 
 import IndividualConfig from "#/components/config/IndividualConfig";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
+import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/types";
 
 type SelectPlayerProps = {
@@ -36,7 +37,9 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   const [sortableList, setSortableList] = useState(players);
 
   useEffect(() => {
-    setSortableList(players);
+    if (players.length !== sortableList.length) {
+      setSortableList(players);
+    }
   }, [players]);
 
   return (
@@ -71,7 +74,12 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                 direction={isDesktop ? "vertical" : "horizontal"}
                 list={sortableList}
                 setList={(newState) => {
-                  setSortableList(newState);
+                  (async () => {
+                    setSortableList(newState);
+                    await db.games.update(game_id, {
+                      players: newState,
+                    });
+                  })();
                 }}
                 style={{
                   display: "flex",
