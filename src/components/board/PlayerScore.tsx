@@ -1,22 +1,23 @@
 import { Flex, useColorMode } from "@chakra-ui/react";
-import { useAtomValue } from "jotai";
 
 import PlayerScoreButton from "#/components/board/PlayerScoreButton";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { numberSign } from "#/utils/functions";
-import { verticalViewAtom } from "#/utils/jotai";
 import { ComputedScoreProps, GamePropsUnion } from "#/utils/types";
 
 type PlayerScoreProps = {
   game: GamePropsUnion;
   player: ComputedScoreProps;
+  isVerticalView: boolean;
 };
 
-const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
+const PlayerScore: React.FC<PlayerScoreProps> = ({
+  game,
+  player,
+  isVerticalView,
+}) => {
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
-  const isVerticalView =
-    (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
 
   const props = {
     game_id: game.id,

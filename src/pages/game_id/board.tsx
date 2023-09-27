@@ -172,13 +172,21 @@ const BoardPage = () => {
         id="players-area"
         sx={{
           display: "flex",
-          flexDirection: isDesktop && !isVerticalView ? "row" : "column",
+          flexDirection:
+            (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
+              ? "column"
+              : "row",
           justifyContent:
-            isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
-          flexWrap: isVerticalView ? "wrap" : "nowrap",
+            (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
+              ? "flex-start"
+              : "space-evenly",
+          flexWrap:
+            isDesktop && (isVerticalView || players.length > 10)
+              ? "wrap"
+              : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: ["90vh", "90vh", "85vh"],
+          h: isDesktop ? ["90vh", "90vh", "85vh"] : undefined,
           px: "1vw",
           pt: "3vh",
         }}
@@ -187,6 +195,7 @@ const BoardPage = () => {
           <SlideFade delay={0.5 + i * 0.1} in key={i} offsetX={20} offsetY={20}>
             <Player
               index={i}
+              isVerticalView={isVerticalView || players.length > 10}
               key={i}
               player={player}
               score={scores.find(
