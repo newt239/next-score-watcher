@@ -1,19 +1,21 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
+import { reversePlayerInfoAtom } from "#/utils/jotai";
 
 type PlayerHeaderProps = {
   index: number;
   text: string;
   belong: string;
+  isVerticalView: boolean;
 };
 
-const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
-  const isDesktop = useDeviceWidth();
-  const isVerticalView =
-    (useAtomValue(verticalViewAtom) && isDesktop) || !isDesktop;
+const PlayerHeader: React.FC<PlayerHeaderProps> = ({
+  index,
+  text,
+  belong,
+  isVerticalView,
+}) => {
   const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   return (

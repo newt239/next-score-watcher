@@ -13,27 +13,26 @@ import {
   Stack,
   useColorMode,
 } from "@chakra-ui/react";
-import { useAtomValue } from "jotai";
 import { Edit } from "tabler-icons-react";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { verticalViewAtom } from "#/utils/jotai";
 import { States } from "#/utils/types";
 
 type PlayerColorConfigProps = {
   colorState: string | undefined;
   editableState: States;
   setEditableState: Dispatch<SetStateAction<States>>;
+  isVerticalView: boolean;
 };
 
 const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
   colorState,
   editableState,
   setEditableState,
+  isVerticalView,
 }) => {
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom);
 
   return (
     <Box

@@ -1,17 +1,18 @@
 import { Flex } from "@chakra-ui/react";
-import { useAtomValue } from "jotai";
 
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import { zenkaku2Hankaku } from "#/utils/functions";
-import { verticalViewAtom } from "#/utils/jotai";
 
 type PlayerNameProps = {
   player_name: string;
+  isVerticalView: boolean;
 };
 
-const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
+const PlayerName: React.FC<PlayerNameProps> = ({
+  player_name,
+  isVerticalView,
+}) => {
   const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom);
 
   return (
     <Flex

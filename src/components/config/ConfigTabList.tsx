@@ -35,7 +35,7 @@ const ConfigTabList: React.FC = () => {
           },
         },
       }}
-      w={{ base: "100%", md: "30%" }}
+      w={{ base: "100%", md: "25%" }}
     >
       <Tab>形式設定</Tab>
       <Tab>プレイヤー設定</Tab>

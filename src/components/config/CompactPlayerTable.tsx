@@ -47,8 +47,11 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   gamePlayers,
 }) => {
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
+    {}
+  );
   const [searchText, setSearchText] = useState<string>("");
+  const [updateFlag, setUpdateFlag] = useState<boolean>(false);
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
     const data = row.original;
@@ -121,13 +124,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   });
 
   useEffect(() => {
-    const initialPlayerIdList: { [key: number]: boolean } = {};
-    playerList.forEach((player, i) => {
-      if (gamePlayerIds.includes(player.id)) {
-        initialPlayerIdList[i] = true;
-      }
-    });
-    setRowSelection(initialPlayerIdList);
+    (async () => {
+      const initialPlayerIdList: { [key: number]: boolean } = {};
+      playerList.forEach((player, i) => {
+        if (gamePlayerIds.includes(player.id)) {
+          initialPlayerIdList[i] = true;
+        }
+      });
+      setRowSelection(initialPlayerIdList);
+    })();
   }, []);
 
   useDidUpdateEffect(() => {
@@ -135,29 +140,43 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);
-      const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map(
-        (player_id) => {
-          const previousGamePlayer = gamePlayers.find(
-            (gamePlayer) => gamePlayer.id === player_id
-          );
-          if (previousGamePlayer) {
-            return previousGamePlayer;
-          } else {
-            const player = playerList.find((player) => player.id === player_id);
-            return {
-              id: player_id,
-              name: player ? player.name : "不明なユーザー",
-              initial_correct: 0,
-              initial_wrong: 0,
-              base_correct_point: 1,
-              base_wrong_point: -1,
-            } as GameDBPlayerProps;
+      if (!updateFlag) {
+        setUpdateFlag(true);
+      } else if (newGamePlayerIds.length !== gamePlayerIds.length) {
+        const sortedNewGamePlayerIds = [
+          ...gamePlayerIds.filter((gamePlayerId) =>
+            newGamePlayerIds.includes(gamePlayerId)
+          ),
+          ...newGamePlayerIds.filter(
+            (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
+          ),
+        ];
+        const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
+          (player_id) => {
+            const previousGamePlayer = gamePlayers.find(
+              (gamePlayer) => gamePlayer.id === player_id
+            );
+            if (previousGamePlayer) {
+              return previousGamePlayer;
+            } else {
+              const player = playerList.find(
+                (player) => player.id === player_id
+              );
+              return {
+                id: player_id,
+                name: player ? player.name : "不明なユーザー",
+                initial_correct: 0,
+                initial_wrong: 0,
+                base_correct_point: 1,
+                base_wrong_point: -1,
+              } as GameDBPlayerProps;
+            }
           }
-        }
-      );
-      await db.games.update(game_id, {
-        players: newGamePlayers,
-      });
+        );
+        await db.games.update(game_id, {
+          players: newGamePlayers,
+        });
+      }
     })();
   }, [rowSelection]);
 

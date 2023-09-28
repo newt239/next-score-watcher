@@ -106,15 +106,30 @@ const BoardPage = () => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
-        if (playerIndex <= players.length) {
-          await db.logs.put({
-            id: nanoid(),
-            game_id: game.id,
-            player_id: players[playerIndex === 0 ? 9 : playerIndex - 1].id,
-            variant: event.shiftKey ? "wrong" : "correct",
-            system: false,
-            timestamp: cdate().text(),
-          });
+        if (
+          typeof playerIndex === "number" &&
+          !isNaN(playerIndex) &&
+          playerIndex <= players.length
+        ) {
+          if (playerIndex === 0 && players.length >= 10) {
+            await db.logs.put({
+              id: nanoid(),
+              game_id: game.id,
+              player_id: players[9].id,
+              variant: event.shiftKey ? "wrong" : "correct",
+              system: false,
+              timestamp: cdate().text(),
+            });
+          } else if (playerIndex > 0) {
+            await db.logs.put({
+              id: nanoid(),
+              game_id: game.id,
+              player_id: players[playerIndex - 1].id,
+              variant: event.shiftKey ? "wrong" : "correct",
+              system: false,
+              timestamp: cdate().text(),
+            });
+          }
         }
       } else if (["Minus", "Equal", "IntlYen"].includes(event.code)) {
         const playerIndex =
@@ -172,13 +187,21 @@ const BoardPage = () => {
         id="players-area"
         sx={{
           display: "flex",
-          flexDirection: isDesktop && !isVerticalView ? "row" : "column",
+          flexDirection:
+            (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
+              ? "column"
+              : "row",
           justifyContent:
-            isDesktop && !isVerticalView ? "space-evenly" : "flex-start",
-          flexWrap: isVerticalView ? "wrap" : "nowrap",
+            (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
+              ? "flex-start"
+              : "space-evenly",
+          flexWrap:
+            isDesktop && (isVerticalView || players.length > 10)
+              ? "wrap"
+              : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: ["90vh", "90vh", "85vh"],
+          h: isDesktop ? ["90vh", "90vh", "85vh"] : undefined,
           px: "1vw",
           pt: "3vh",
         }}
@@ -187,6 +210,7 @@ const BoardPage = () => {
           <SlideFade delay={0.5 + i * 0.1} in key={i} offsetX={20} offsetY={20}>
             <Player
               index={i}
+              isVerticalView={isVerticalView || players.length > 10}
               key={i}
               player={player}
               score={scores.find(

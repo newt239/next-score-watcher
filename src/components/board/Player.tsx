@@ -11,7 +11,7 @@ import PlayerName from "#/components/board/PlayerName";
 import PlayerScore from "#/components/board/PlayerScore";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
-import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
+import { reversePlayerInfoAtom } from "#/utils/jotai";
 import { rules } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps, States } from "#/utils/types";
 
@@ -19,15 +19,20 @@ type PlayerProps = {
   player: PlayerDBProps;
   index: number;
   score: ComputedScoreProps | undefined;
+  isVerticalView: boolean;
 };
 
-const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
+const Player: React.FC<PlayerProps> = ({
+  player,
+  index,
+  score,
+  isVerticalView,
+}) => {
   const { colorMode } = useColorMode();
   const { game_id } = useParams();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
   const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom);
   const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   useEffect(() => {
@@ -78,7 +83,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
             : `clamp(8vw, ${
                 (98 - game.players.length) / game.players.length
               }vw, 15vw)`
-          : "100%",
+          : "96vw",
         h: isDesktop ? (!isVerticalView ? "80vh" : "10vh") : undefined,
         backgroundColor: getColor(editedScore.state),
         color:
@@ -99,7 +104,7 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
       <Flex
         sx={{
           flexGrow: 1,
-          w: !isDesktop || isVerticalView ? "40vw" : "100%",
+          w: isDesktop ? (isVerticalView ? "40vw" : "100%") : "100%",
           h:
             isDesktop && !isVerticalView
               ? `calc(100% - ${rows * 2}vh)`
@@ -114,18 +119,24 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
           <PlayerColorConfig
             colorState={getColor(editedScore.state)}
             editableState={editableState}
+            isVerticalView={isVerticalView}
             setEditableState={setEditableState}
           />
         ) : (
           <PlayerHeader
             belong={player.belong}
             index={index}
+            isVerticalView={(isVerticalView && isDesktop) || !isDesktop}
             text={player.text}
           />
         )}
-        <PlayerName player_name={player.name} />
+        <PlayerName isVerticalView={isVerticalView} player_name={player.name} />
       </Flex>
-      <PlayerScore game={game} player={editedScore} />
+      <PlayerScore
+        game={game}
+        isVerticalView={(isVerticalView && isDesktop) || !isDesktop}
+        player={editedScore}
+      />
     </Flex>
   );
 };
