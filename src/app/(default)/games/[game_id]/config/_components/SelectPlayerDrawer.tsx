@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { useState } from "react";
 
@@ -42,7 +44,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
   return (
     <>
       {playerList.length === 0 ? (
-        <ButtonLink href={`/player?from=${game_id}`} leftIcon={<Upload />}>
+        <ButtonLink href={`/players?from=${game_id}`} leftIcon={<Upload />}>
           プレイヤーデータを読み込む
         </ButtonLink>
       ) : (

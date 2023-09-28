@@ -17,7 +17,7 @@ export const cardRecipe = cva({
 export type CardProps = {
   children: React.ReactNode;
   sx?: SystemStyleObject;
-  title: string;
+  title?: string;
   action?: React.ReactNode;
 } & JSX.IntrinsicElements["div"];
 
@@ -30,16 +30,18 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div className={css(cardRecipe.raw(), sx)} {...props}>
-      <h4
-        className={css({
-          fontSize: "1.5rem",
-          fontWeight: "800",
-          whiteSpace: "nowrap",
-          overflowX: "auto",
-        })}
-      >
-        {title}
-      </h4>
+      {title && (
+        <h4
+          className={css({
+            fontSize: "1.5rem",
+            fontWeight: "800",
+            whiteSpace: "nowrap",
+            overflowX: "auto",
+          })}
+        >
+          {title}
+        </h4>
+      )}
       <div
         className={css({
           flexGrow: 1,

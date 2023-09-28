@@ -7,10 +7,10 @@ import {
   ChevronsRight,
 } from "tabler-icons-react";
 
-import { PlayerDBProps, QuizDBProps } from "#/utils/types";
+import { PlayersDB, QuizDBProps } from "#/utils/types";
 
 type Props = {
-  table: Table<PlayerDBProps> | Table<QuizDBProps>;
+  table: Table<PlayersDB["Row"]> | Table<QuizDBProps>;
 };
 
 const TablePagenation: React.FC<Props> = ({ table }) => {

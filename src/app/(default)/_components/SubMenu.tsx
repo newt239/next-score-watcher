@@ -35,7 +35,7 @@ const SubMenu: React.FC = () => {
             },
           }}
           variants={{
-            variant: link.path === pathname ? "solid" : "ghost",
+            variant: link.path === pathname ? "solid" : "subtle",
           }}
         >
           {link.text}

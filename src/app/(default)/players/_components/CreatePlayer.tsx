@@ -33,7 +33,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
     const result = await supabase.from("players").insert({
       id: player_id,
       name: playerName,
-      order: 0,
+      order: playerOrder,
       belong: playerBelong,
     });
     console.log(result);

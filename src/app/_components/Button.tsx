@@ -31,10 +31,10 @@ export const buttonRecipe = cva({
         },
       },
       outline: { borderColor: "emerald.500" },
-      ghost: {
+      subtle: {
         color: "emerald.500",
         _hover: {
-          bgColor: "neutral.200",
+          bgColor: "neutral.100",
         },
       },
     },

@@ -8,13 +8,13 @@ body {
 h2 {
   font-size: 32px;
   font-weight: 700;
-  padding-top: 32px;
+  padding-top: 16px;
 }
 
 h3 {
   font-size: 24px;
   font-weight: 700;
-  padding-top: 24px;
+  padding-top: 12px;
 }
 
 ul {
