@@ -30,13 +30,12 @@ const SubMenu: React.FC = () => {
           key={link.path}
           sx={{
             w: "100%",
+            justifyContent: "flex-start",
             _currentPage: {
               bgColor: "emerald.500",
             },
           }}
-          variants={{
-            variant: link.path === pathname ? "solid" : "subtle",
-          }}
+          variant={link.path === pathname ? "solid" : "subtle"}
         >
           {link.text}
         </ButtonLink>

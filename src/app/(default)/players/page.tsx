@@ -32,9 +32,7 @@ export default async function PlayersConfigPage({
           <ButtonLink
             href={`/games/${searchParams.from}/config`}
             leftIcon={<ArrowBackUp />}
-            variants={{
-              variant: "subtle",
-            }}
+            variant="subtle"
           >
             ゲーム設定に戻る
           </ButtonLink>
@@ -45,12 +43,18 @@ export default async function PlayersConfigPage({
             display: "flex",
             flexDirection: "column",
             gap: "16px",
-            lg: {
+            xl: {
               flexDirection: "row",
             },
           })}
         >
-          <div>
+          <div
+            className={css({
+              xl: {
+                width: "50%",
+              },
+            })}
+          >
             <h3>プレイヤーの読み込み</h3>
             <Tab defaultKey="create-player">
               <TabItem tabKey="create-player" title="個別に追加">
@@ -64,7 +68,13 @@ export default async function PlayersConfigPage({
               </TabItem>
             </Tab>
           </div>
-          <div>
+          <div
+            className={css({
+              xl: {
+                width: "50%",
+              },
+            })}
+          >
             <h3>プレイヤー一覧</h3>
             <PlayerTable players={players} />
           </div>

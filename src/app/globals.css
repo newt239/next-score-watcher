@@ -21,3 +21,18 @@ ul {
   list-style: disc;
   margin-left: 24px;
 }
+
+table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+td,
+th {
+  border-bottom: 1px solid #d1d5db;
+  padding: 4px 8px;
+}
+
+th {
+  font-weight: 700;
+}

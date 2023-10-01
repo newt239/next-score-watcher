@@ -6,10 +6,10 @@ export const buttonRecipe = cva({
   base: {
     display: "inline-flex",
     alignItems: "center",
-    width: "fit-content",
+    justifyContent: "center",
     borderWidth: "1px",
     borderColor: "transparent",
-    borderRadius: "md",
+    width: "fit-content",
     cursor: "pointer",
     transition: "all 0.2s ease",
     _disabled: {
@@ -39,8 +39,8 @@ export const buttonRecipe = cva({
       },
     },
     size: {
-      sm: { px: "8px", py: "6px", fontSize: "12px" },
-      md: { px: "8px", py: "6px", fontSize: "18px" },
+      sm: { px: "8px", py: "4px", fontSize: "12px", borderRadius: "4px" },
+      md: { px: "8px", py: "6px", fontSize: "18px", borderRadius: "8px" },
       lg: { px: "12px", py: "8px", fontSize: "24px", borderRadius: "12px" },
       xl: { px: "20px", py: "12px", fontSize: "32px", borderRadius: "full" },
     },
@@ -54,21 +54,22 @@ export const buttonRecipe = cva({
 export type ButtonProps = {
   children: React.ReactNode;
   sx?: SystemStyleObject;
-  variants?: RecipeVariantProps<typeof buttonRecipe>;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-} & JSX.IntrinsicElements["button"];
+} & JSX.IntrinsicElements["button"] &
+  RecipeVariantProps<typeof buttonRecipe>;
 
 const Button: React.FC<ButtonProps> = ({
   children,
   sx,
   leftIcon,
   rightIcon,
-  variants,
+  variant,
+  size,
   ...props
 }) => {
   return (
-    <button className={css(buttonRecipe.raw(variants), sx)} {...props}>
+    <button className={css(buttonRecipe.raw({ variant, size }), sx)} {...props}>
       {leftIcon && <span className={css({ mr: "4px" })}>{leftIcon}</span>}
       {children}
       {rightIcon && <span className={css({ ml: "4px" })}>{rightIcon}</span>}

@@ -1,55 +1,88 @@
-import { SystemStyleObject } from "@pandacss/dev";
+import { Select as ArkSelect, Portal } from "@ark-ui/react";
+import { Check, Selector } from "tabler-icons-react";
 
-import { RecipeVariantProps, css, cva } from "@panda/css";
-
-export const selectRecipe = cva({
-  base: {
-    display: "inline-flex",
-    alignItems: "center",
-    width: "fit-content",
-    borderWidth: "1px",
-    borderColor: "gray.300",
-    borderRadius: "md",
-    cursor: "pointer",
-    position: "relative",
-    _disabled: {
-      backgroundColor: "gray.300",
-      color: "white",
-      cursor: "not-allowed",
-      _hover: {
-        backgroundColor: "gray.300",
-      },
-    },
-  },
-  variants: {
-    size: {
-      sm: { px: "8px", py: "6px", fontSize: "12px" },
-      md: { px: "8px", py: "6px", fontSize: "18px" },
-      lg: { px: "8px", py: "6px", fontSize: "24px" },
-      xl: { px: "20px", py: "12px", fontSize: "32px", borderRadius: "full" },
-    },
-  },
-  defaultVariants: {
-    size: "md",
-  },
-});
+import { css } from "@panda/css";
 
 export type SelectProps = {
-  children: React.ReactNode;
-  sx?: SystemStyleObject;
-  variants?: RecipeVariantProps<typeof selectRecipe>;
-} & JSX.IntrinsicElements["select"];
+  items: { value: string; label: string }[];
+  label?: string;
+} & React.ComponentProps<typeof ArkSelect.Root>;
 
-const Select: React.FC<SelectProps> = ({
-  children,
-  sx,
-  variants,
-  ...props
-}) => {
+const Select: React.FC<SelectProps> = ({ items, label, value, onChange }) => {
   return (
-    <select className={css(selectRecipe.raw(variants), sx)} {...props}>
-      {children}
-    </select>
+    <ArkSelect.Root
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+      })}
+      closeOnSelect
+      items={items}
+      onChange={onChange}
+      positioning={{ sameWidth: true }}
+      value={value}
+    >
+      {label && <ArkSelect.Label>{label}</ArkSelect.Label>}
+      <ArkSelect.Control>
+        <ArkSelect.Trigger
+          className={css({
+            display: "inline-flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+            position: "relative",
+            cursor: "pointer",
+            backgroundColor: "gray.100",
+            borderColor: "gray.300",
+            borderWidth: "1px",
+            borderStyle: "solid",
+            borderRadius: "md",
+            p: "8px",
+            gap: "8px",
+          })}
+        >
+          <ArkSelect.Value />
+          <Selector />
+        </ArkSelect.Trigger>
+      </ArkSelect.Control>
+      <Portal>
+        <ArkSelect.Positioner>
+          <ArkSelect.Content
+            className={css({
+              backgroundColor: "gray.200",
+              borderRadius: "md",
+              boxShadow: "md",
+              display: "flex",
+              flexDirection: "column",
+            })}
+          >
+            {items.map((item) => (
+              <ArkSelect.Item
+                className={css({
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  borderRadius: "md",
+                  cursor: "pointer",
+                  p: "8px",
+                  _hover: {
+                    backgroundColor: "gray.300",
+                  },
+                })}
+                item={item}
+                key={item.value}
+              >
+                <ArkSelect.ItemText>{item.label}</ArkSelect.ItemText>
+                <ArkSelect.ItemIndicator>
+                  <Check />
+                </ArkSelect.ItemIndicator>
+              </ArkSelect.Item>
+            ))}
+          </ArkSelect.Content>
+        </ArkSelect.Positioner>
+      </Portal>
+    </ArkSelect.Root>
   );
 };
 

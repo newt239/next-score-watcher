@@ -10,7 +10,7 @@ export const cardRecipe = cva({
     gap: "8px",
     p: "8px",
     borderRadius: "lg",
-    bgColor: "gray.200",
+    backgroundColor: "gray.200",
   },
 });
 

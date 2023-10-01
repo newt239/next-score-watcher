@@ -2,18 +2,6 @@
 "use client";
 
 import {
-  Box,
-  Checkbox,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -23,11 +11,12 @@ import {
   type ColumnDef,
 } from "@tanstack/react-table";
 
+import Checkbox from "#/app/_components/Checkbox";
 import TablePagination from "#/components/common/TablePagination";
 import { PlayersDB } from "#/utils/types";
 
 type PlayerTableProps = {
-  players: PlayersDB["Row"][];
+  players: PlayersDB["Row"][] | null;
 };
 
 const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
@@ -37,8 +26,7 @@ const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
       header: ({ table }) => {
         return (
           <Checkbox
-            isChecked={table.getIsAllRowsSelected()}
-            isIndeterminate={table.getIsSomeRowsSelected()}
+            checked={table.getIsAllRowsSelected()}
             onChange={() => table.toggleAllRowsSelected()}
           />
         );
@@ -46,7 +34,7 @@ const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
       cell: ({ row }) => {
         return (
           <Checkbox
-            isChecked={row.getIsSelected()}
+            checked={row.getIsSelected()}
             onChange={() => row.toggleSelected()}
           />
         );
@@ -74,56 +62,53 @@ const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
   if (!players) return null;
 
   return (
-    <Box pt={5}>
-      <h3>プレイヤー一覧</h3>
+    <>
       {players.length === 0 ? (
-        <Box p={3}>
-          <Text>プレイヤーが登録されていません。</Text>
-        </Box>
+        <p>プレイヤーが登録されていません。</p>
       ) : (
         <>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
+          <div>
+            <table>
+              <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <Tr key={headerGroup.id}>
+                  <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header, i) => (
-                      <Th colSpan={header.colSpan} key={i}>
+                      <th colSpan={header.colSpan} key={i}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                      </Th>
+                      </th>
                     ))}
-                  </Tr>
+                  </tr>
                 ))}
-              </Thead>
-              <Tbody>
+              </thead>
+              <tbody>
                 {table.getRowModel().rows.map((row) => {
                   return (
-                    <Tr key={row.original.id}>
+                    <tr key={row.original.id}>
                       {row.getVisibleCells().map((cell, i) => {
                         return (
-                          <Td key={`${row.original.id}_${i}`}>
+                          <td key={`${row.original.id}_${i}`}>
                             {flexRender(
                               cell.column.columnDef.cell,
                               cell.getContext()
                             )}
-                          </Td>
+                          </td>
                         );
                       })}
-                    </Tr>
+                    </tr>
                   );
                 })}
-              </Tbody>
-            </Table>
-          </TableContainer>
+              </tbody>
+            </table>
+          </div>
           <TablePagination table={table} />
         </>
       )}
-    </Box>
+    </>
   );
 };
 export default PlayerTable;

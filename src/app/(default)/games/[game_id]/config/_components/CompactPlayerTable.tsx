@@ -1,20 +1,8 @@
+/* eslint-disable import/named */
+"use client";
+
 import { useEffect, useMemo, useState } from "react";
 
-import {
-  Box,
-  Checkbox,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
 import {
   createColumnHelper,
   flexRender,
@@ -25,55 +13,52 @@ import {
   type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
-import { Filter } from "tabler-icons-react";
+import { useAtom } from "jotai";
+import { ArrowRight } from "tabler-icons-react";
 
 import ButtonLink from "#/app/_components/ButtonLink";
+import Checkbox from "#/app/_components/Checkbox";
+import TextInput from "#/app/_components/TextInput";
 import TablePagenation from "#/components/common/TablePagination";
 import { useDidUpdateEffect } from "#/hooks/useDidUpdateEffect";
-import db from "#/utils/db";
-import {
-  GameDBPlayerProps,
-  GamePlayersDB,
-  PlayerDBProps,
-  PlayersDB,
-} from "#/utils/types";
+import { onGamePlayersUpdate } from "#/utils/actions";
+import { globalGamePlayersAtom } from "#/utils/jotai";
+import { PlayersDB } from "#/utils/types";
 
 type CompactPlayerTableProps = {
   game_id: string;
-  playerList: PlayersDB["Insert"][];
-  gamePlayers: GamePlayersDB["Insert"][];
+  players: PlayersDB["Row"][];
+  game_player_ids: string[];
 };
 
 const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   game_id,
-  playerList,
-  gamePlayers,
+  players,
+  game_player_ids,
 }) => {
-  const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
+  const [globalGamePlayers, setGlobalGamePlayers] = useAtom(
+    globalGamePlayersAtom
+  );
   const [rowSelection, setRowSelection] = useState({});
   const [searchText, setSearchText] = useState<string>("");
 
-  const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
-    const data = row.original;
+  const fuzzyFilter: FilterFn<PlayersDB["Row"]> = ({ original }) => {
     return (
-      data.name?.includes(searchText) ||
-      data.order?.includes(searchText) ||
-      data.belong?.includes(searchText)
+      original.name?.includes(searchText) ||
+      original.order?.includes(searchText)
     );
   };
 
-  const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns = useMemo<ColumnDef<PlayerDBProps, any>[]>(
+  const columnHelper = createColumnHelper<PlayersDB["Row"]>();
+  const columns = useMemo<ColumnDef<PlayersDB["Row"], any>[]>(
     () => [
       columnHelper.accessor("id", {
         header: "",
         cell: ({ row }) => {
           return (
             <Checkbox
-              {...{
-                isChecked: row.getIsSelected(),
-                onChange: row.getToggleSelectedHandler(),
-              }}
+              checked={row.getIsSelected()}
+              onChange={() => row.toggleSelected()}
             />
           );
         },
@@ -95,8 +80,8 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     []
   );
 
-  const table = useReactTable<PlayerDBProps>({
-    data: playerList,
+  const table = useReactTable<PlayersDB["Row"]>({
+    data: players,
     columns,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
@@ -113,8 +98,8 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
 
   useEffect(() => {
     const initialPlayerIdList: { [key: number]: boolean } = {};
-    playerList.forEach((player, i) => {
-      if (gamePlayerIds.includes(player.id)) {
+    players.forEach((player, i) => {
+      if (game_player_ids.includes(player.id)) {
         initialPlayerIdList[i] = true;
       }
     });
@@ -123,30 +108,16 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
 
   useDidUpdateEffect(() => {
     (async () => {
-      const newGamePlayerIds = table
+      const newGamePlayers = table
         .getSelectedRowModel()
-        .rows.map(({ original }) => (original as PlayerDBProps).id);
-      const newGamePlayers: GameDBPlayerProps[] = newGamePlayerIds.map(
-        (player_id) => {
-          const previousGamePlayer = gamePlayers.find(
-            (gamePlayer) => gamePlayer.id === player_id
-          );
-          if (previousGamePlayer) {
-            return previousGamePlayer;
-          } else {
-            const player = playerList.find((player) => player.id === player_id);
-            return {
-              id: player_id,
-              name: player ? player.name : "不明なユーザー",
-              initial_correct: 0,
-              initial_wrong: 0,
-              base_correct_point: 1,
-              base_wrong_point: -1,
-            } as GameDBPlayerProps;
-          }
-        }
-      );
-      await db.games.update(game_id, {
+        .rows.map(({ original }) => {
+          return {
+            id: original.id,
+            name: original.name,
+          };
+        });
+      onGamePlayersUpdate({
+        game_id,
         players: newGamePlayers,
       });
     })();
@@ -154,67 +125,64 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
 
   return (
     <>
-      <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          <Filter />
-        </InputLeftElement>
-        <Input
-          onChange={(e) => setSearchText(e.target.value)}
-          placeholder="フリーワードで検索"
-          value={searchText}
-        />
-      </InputGroup>
+      <TextInput
+        onChange={(e) => setSearchText(e.target.value)}
+        placeholder="フリーワードで検索"
+        value={searchText}
+      />
       {table.getRowModel().rows.length === 0 ? (
-        <Box p={3}>
-          <Text>
-            「{searchText}」に一致するプレイヤーは見つかりませんでした。
-          </Text>
-        </Box>
+        <p>「{searchText}」に一致するプレイヤーは見つかりませんでした。</p>
       ) : (
-        <Box>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
+        <div>
+          <div>
+            <table>
+              <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <Tr key={headerGroup.id}>
+                  <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
-                      <Th colSpan={header.colSpan} key={header.id}>
+                      <th colSpan={header.colSpan} key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                      </Th>
+                      </th>
                     ))}
-                  </Tr>
+                  </tr>
                 ))}
-              </Thead>
-              <Tbody>
+              </thead>
+              <tbody>
                 {table.getRowModel().rows.map((row) => {
                   return (
-                    <Tr key={row.id}>
+                    <tr key={row.id}>
                       {row.getVisibleCells().map((cell) => {
                         return (
-                          <Td key={cell.id}>
+                          <td key={cell.id}>
                             {flexRender(
                               cell.column.columnDef.cell,
                               cell.getContext()
                             )}
-                          </Td>
+                          </td>
                         );
                       })}
-                    </Tr>
+                    </tr>
                   );
                 })}
-              </Tbody>
-            </Table>
-          </TableContainer>
+              </tbody>
+            </table>
+          </div>
           <TablePagenation table={table} />
-          <Box sx={{ pt: 3, textAlign: "right" }}>
-            <ButtonLink href={`/player?from=${game_id}`}>詳細設定</ButtonLink>
-          </Box>
-        </Box>
+          <div>
+            <ButtonLink
+              href={`/players?from=${game_id}`}
+              rightIcon={<ArrowRight />}
+              variant="subtle"
+            >
+              プレイヤーを作る
+            </ButtonLink>
+          </div>
+        </div>
       )}
     </>
   );

@@ -37,3 +37,29 @@ export const onGameLimitToggle = async (props: OnGameLimitToggleProps) => {
   await supabase.from("games").update(newData).eq("id", props.game_id);
   revalidatePath(`games/${props.game_id}/config`);
 };
+
+type OnGamePlayersUpdateProps = {
+  game_id: string;
+  players: {
+    id: string;
+    name: string;
+  }[];
+};
+
+export const onGamePlayersUpdate = async (props: OnGamePlayersUpdateProps) => {
+  await supabase
+    .from("games")
+    .update({ players: props.players.map((player) => player.id) })
+    .eq("id", props.game_id);
+  await supabase.from("game_players").upsert(
+    props.players.map((player) => {
+      return {
+        id: `${props.game_id}_${player.id}`,
+        game_id: props.game_id,
+        player_id: player.id,
+        name: player.name,
+      };
+    })
+  );
+  revalidatePath(`games/${props.game_id}/config`);
+};

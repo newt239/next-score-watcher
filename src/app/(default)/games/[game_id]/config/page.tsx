@@ -40,8 +40,7 @@ export default async function GameConfigPage({
   const { data: game_players } = await supabase
     .from("game_players")
     .select("*")
-    .eq("game_id", game_id)
-    .order("id");
+    .eq("game_id", game_id);
   const { data: game_logs } = await supabase
     .from("game_logs")
     .select("*")
@@ -53,9 +52,13 @@ export default async function GameConfigPage({
   const disabled = game_logs.length !== 0;
 
   const errorMessages = [];
-  if (game_players.length === 0)
+  if (!game.players || game.players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
-  if (game.win_through && game_players.length <= game.win_through)
+  if (
+    game.win_through &&
+    game.players &&
+    game.players.length <= game.win_through
+  )
     errorMessages.push(
       "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
     );
@@ -87,12 +90,17 @@ export default async function GameConfigPage({
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
+          gap: "16px",
           md: {
             flexDirection: "row",
           },
         })}
       >
-        <div>
+        <div
+          className={css({
+            flexGrow: 1,
+          })}
+        >
           <ul
             className={css({
               color: "red.500",
@@ -110,8 +118,12 @@ export default async function GameConfigPage({
           aria-disabled={playButtonIsDisabled}
           href={`/${game_id}/board`}
           leftIcon={<PlayerPlay />}
-          variants={{
-            size: "lg",
+          size="lg"
+          sx={{
+            width: "100%",
+            sm: {
+              width: "auto",
+            },
           }}
         >
           ゲーム開始
@@ -130,7 +142,8 @@ export default async function GameConfigPage({
             <PlayersConfig
               disabled={disabled}
               game_id={game.id}
-              playerList={game_players}
+              game_player_ids={game.players || []}
+              game_players={game_players || []}
               players={players || []}
               rule_name={game.rule as RuleNames}
             />
@@ -140,7 +153,7 @@ export default async function GameConfigPage({
               <SelectQuizset
                 game_id={game.id}
                 game_quiz={game.quiz as GameDBQuizProps}
-                quizset_names={quizsets}
+                quizsets={quizsets}
               />
             </div>
             <div>

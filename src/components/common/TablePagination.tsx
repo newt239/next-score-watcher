@@ -1,13 +1,11 @@
-import { Box, HStack, IconButton, Select } from "@chakra-ui/react";
+/* eslint-disable import/named */
 import { Table } from "@tanstack/react-table";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from "tabler-icons-react";
+import { ChevronLeft, ChevronRight, ChevronsRight } from "tabler-icons-react";
 
+import Button from "#/app/_components/Button";
+import Select from "#/app/_components/Select";
 import { PlayersDB, QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type Props = {
   table: Table<PlayersDB["Row"]> | Table<QuizDBProps>;
@@ -15,54 +13,64 @@ type Props = {
 
 const TablePagenation: React.FC<Props> = ({ table }) => {
   return (
-    <HStack justifyContent="flex-end" pt={3}>
-      <IconButton
+    <div
+      className={css({
+        py: "8px",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        gap: "8px",
+      })}
+    >
+      <Button
         aria-label="最初のページに移動"
         disabled={!table.getCanPreviousPage()}
-        icon={<ChevronsLeft />}
         onClick={() => table.setPageIndex(0)}
-        size="xs"
-      />
-      <IconButton
+        size="sm"
+      >
+        <ChevronLeft />
+      </Button>
+      <Button
         aria-label="1ページ戻る"
         disabled={!table.getCanPreviousPage()}
-        icon={<ChevronLeft />}
         onClick={() => table.previousPage()}
-        size="xs"
-      />
+        size="sm"
+      >
+        <ChevronLeft />
+      </Button>
       <div>
         {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
       </div>
-      <IconButton
+      <Button
         aria-label="1ページ進む"
         disabled={!table.getCanNextPage()}
-        icon={<ChevronRight />}
         onClick={() => table.nextPage()}
-        size="xs"
-      />
-      <IconButton
+        size="sm"
+      >
+        <ChevronRight />
+      </Button>
+      <Button
         aria-label="最後のページに移動"
         disabled={!table.getCanNextPage()}
-        icon={<ChevronsRight />}
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-        size="xs"
-      />
-      <Box>
+        size="sm"
+      >
+        <ChevronsRight />
+      </Button>
+      <div>
         <Select
+          items={[10, 20, 30, 40, 50].map((pageSize) => {
+            return { value: `${pageSize}`, label: `${pageSize}件` };
+          })}
           onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
+            console.log(e);
+            table.setPageSize(Number(e.value[0]));
           }}
-          size="sm"
-          value={table.getState().pagination.pageSize}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}件
-            </option>
-          ))}
-        </Select>
-      </Box>
-    </HStack>
+          value={[`${table.getState().pagination.pageSize}`]}
+        />
+      </div>
+    </div>
   );
 };
 

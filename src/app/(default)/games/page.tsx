@@ -48,17 +48,7 @@ export default async function PlayersConfigPage({
           })}
         >
           {games.map((game) => (
-            <Card
-              className={css({
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                gap: 3,
-                p: 3,
-              })}
-              key={game.id}
-              title={game.name}
-            >
+            <Card key={game.id} title={game.name}>
               <div>
                 <p>
                   {game.type} ／ {game.player_count}人
@@ -78,7 +68,7 @@ export default async function PlayersConfigPage({
                 <ButtonLink
                   href={`games/${game.id}/config`}
                   leftIcon={<AdjustmentsHorizontal />}
-                  variants={{ size: "sm" }}
+                  size="sm"
                 >
                   開く
                 </ButtonLink>

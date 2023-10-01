@@ -13,13 +13,13 @@ import { css } from "@panda/css";
 type SelectQuizsetProps = {
   game_id: string;
   game_quiz: GameDBQuizProps | undefined;
-  quizset_names: QuizsetsDB["Insert"][] | null;
+  quizsets: QuizsetsDB["Row"][] | null;
 };
 
 const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   game_id,
   game_quiz,
-  quizset_names,
+  quizsets,
 }) => {
   return (
     <div
@@ -29,27 +29,26 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
       })}
     >
       <h3>問題設定</h3>
-      {quizset_names && quizset_names.length !== 0 ? (
+      {quizsets && quizsets.length !== 0 ? (
         <>
           <InputLayout label="セット名">
             <Select
-              defaultValue={game_quiz?.set_name || ""}
+              items={quizsets.map((quizset) => {
+                return {
+                  value: quizset.id,
+                  label: quizset.name,
+                };
+              })}
               onChange={async (v) => {
                 await db.games.update(game_id as string, {
                   quiz: {
-                    set_name: v.target.value,
+                    set_name: v.value[0],
                     offset: game_quiz?.offset || 0,
                   } as GameDBQuizProps,
                 });
               }}
-            >
-              <option value="">問題を表示しない</option>
-              {quizset_names.map((setname) => (
-                <option key={setname.id} value={setname.id}>
-                  {setname.name}
-                </option>
-              ))}
-            </Select>
+              value={game_quiz ? [game_quiz?.set_name] : [""]}
+            />
           </InputLayout>
           {game_quiz && game_quiz.set_name !== "" && (
             <FormControl label="オフセット">
