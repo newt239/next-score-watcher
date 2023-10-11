@@ -125,7 +125,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
 
   useEffect(() => {
     (async () => {
-      console.log("b");
       const initialPlayerIdList: { [key: number]: boolean } = {};
       playerList.forEach((player, i) => {
         if (gamePlayerIds.includes(player.id)) {
@@ -138,7 +137,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
 
   useDidUpdateEffect(() => {
     (async () => {
-      console.log("a");
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);

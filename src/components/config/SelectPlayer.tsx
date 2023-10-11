@@ -38,7 +38,6 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
 
   useEffect(() => {
     if (players.length !== sortableList.length) {
-      console.log("c");
       setSortableList(players);
     }
   }, [players]);
