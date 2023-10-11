@@ -74,18 +74,19 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 defaultValue={game.players[index]?.initial_correct || 0}
                 min={game.rule !== "attacksurvival" ? 0 : undefined}
                 onChange={async (s, n) => {
-                  if (game) {
-                    db.games.update(game_id as string, {
-                      players: game.players.map((gamePlayer, pi) =>
-                        pi === index
-                          ? {
-                              ...gamePlayer,
-                              initial_correct: n,
-                            }
-                          : gamePlayer
-                      ),
-                    });
-                  }
+                  const newPlayers = game.players.map((gamePlayer, pi) => {
+                    if (pi === index) {
+                      return {
+                        ...gamePlayer,
+                        initial_correct: n,
+                      };
+                    } else {
+                      return gamePlayer;
+                    }
+                  });
+                  await db.games.update(game_id as string, {
+                    players: newPlayers,
+                  });
                 }}
               >
                 <NumberInputField />
@@ -103,9 +104,9 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 defaultValue={game.players[index]?.initial_wrong || 0}
                 max={game.rule === "backstream" ? 4 : undefined}
                 min={0}
-                onChange={(s, n) => {
+                onChange={async (s, n) => {
                   if (game) {
-                    db.games.update(game_id as string, {
+                    await db.games.update(game_id as string, {
                       players: game.players.map((gamePlayer, pi) =>
                         pi === index
                           ? {
@@ -132,9 +133,9 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
               <NumberInput
                 defaultValue={game.players[index]?.base_correct_point || 0}
                 min={3}
-                onChange={(s, n) => {
+                onChange={async (s, n) => {
                   if (game) {
-                    db.games.update(game_id as string, {
+                    await db.games.update(game_id as string, {
                       players: game.players.map((gamePlayer, pi) =>
                         pi === index
                           ? {
