@@ -4,14 +4,12 @@ import { useParams } from "react-router-dom";
 import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
 import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
 import GameLogs from "#/components/board/GameLogs";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import db from "#/utils/db";
-import { showLogsAtom } from "#/utils/jotai";
 import { AQLGamePropsUnion } from "#/utils/types";
 
 type AQLPlayerStateProps = {
@@ -33,7 +31,6 @@ const AQLBoardPage: React.FC = () => {
     []
   );
   const [end, setEnd] = useState<boolean>(false);
-  const showLogs = useAtomValue(showLogsAtom);
   const { colorMode } = useColorMode();
 
   useEffect(() => {
@@ -390,11 +387,9 @@ const AQLBoardPage: React.FC = () => {
         <EachGroup position="left" />
         <EachGroup position="right" />
       </Flex>
-      {showLogs && (
-        <Flex sx={{ justifyContent: "center" }}>
-          <GameLogs logs={logs} players={getPlayerList()} quiz={game.quiz} />
-        </Flex>
-      )}
+      <Flex sx={{ justifyContent: "center" }}>
+        <GameLogs logs={logs} players={getPlayerList()} quiz={game.quiz} />
+      </Flex>
     </>
   );
 };

@@ -23,7 +23,7 @@ import WinModal from "#/components/board/WinModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
 import db from "#/utils/db";
-import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
+import { verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
 
@@ -40,7 +40,6 @@ const BoardPage = () => {
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
-  const showLogs = useAtomValue(showLogsAtom);
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
@@ -101,9 +100,10 @@ const BoardPage = () => {
     }
   }, [logs]);
 
-  if (!game || !logs) {
+  if (!game || !logs) return null;
+
+  if (game.players.length === 0) {
     navigate(`/${game_id}/config`);
-    return;
   }
 
   window.document.onkeydown = async (event) => {
@@ -225,7 +225,7 @@ const BoardPage = () => {
           </SlideFade>
         ))}
       </Flex>
-      {showLogs && <GameLogs logs={logs} players={players} quiz={game.quiz} />}
+      <GameLogs logs={logs} players={players} quiz={game.quiz} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
