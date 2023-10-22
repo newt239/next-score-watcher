@@ -76,10 +76,17 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                 setList={(newState) => {
                   (async () => {
                     if (newState.length === players.length) {
-                      await db.games.update(game_id, {
-                        players: newState,
-                      });
-                      setSortableList(newState);
+                      for (let i = 0; i < players.length; i++) {
+                        // 並び替えが行われたときのみ1回だけ処理する
+                        // 選択プレイヤーの変更と個人の初期値設定の変更のケースを除外
+                        if (players[i].id !== newState[i].id) {
+                          await db.games.update(game_id, {
+                            players: newState,
+                          });
+                          setSortableList(newState);
+                          break;
+                        }
+                      }
                     }
                   })();
                 }}

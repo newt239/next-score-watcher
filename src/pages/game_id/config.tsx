@@ -135,16 +135,26 @@ const ConfigPage = () => {
           },
         }}
       >
-        <Button
-          as={ReactLink}
-          colorScheme="green"
-          isDisabled={playButtonIsDisabled}
-          leftIcon={<PlayerPlay />}
-          size="lg"
-          to={`/${game_id}/board`}
-        >
-          ゲーム開始
-        </Button>
+        {playButtonIsDisabled ? (
+          <Button
+            colorScheme="green"
+            isDisabled={playButtonIsDisabled}
+            leftIcon={<PlayerPlay />}
+            size="lg"
+          >
+            ゲーム開始
+          </Button>
+        ) : (
+          <Button
+            as={ReactLink}
+            colorScheme="green"
+            leftIcon={<PlayerPlay />}
+            size="lg"
+            to={`/${game_id}/board`}
+          >
+            ゲーム開始
+          </Button>
+        )}
       </InputLayout>
       <Box>
         <Tabs

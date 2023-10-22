@@ -5,7 +5,6 @@ import AppOptionSwitch from "#/components/block/AppOptionSwitch";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import {
   reversePlayerInfoAtom,
-  showLogsAtom,
   showQnAtom,
   showSignStringAtom,
   showWinthroughPopupAtom,
@@ -19,7 +18,6 @@ const Preferences = () => {
   const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
     showWinthroughPopupAtom
   );
-  const [showLogs, setShowLogs] = useAtom(showLogsAtom);
   const [showQn, setShowQn] = useAtom(showQnAtom);
   const [showSignString, setShowSignString] = useAtom(showSignStringAtom);
   const [reversePlayerInfo, setReversePlayerInfo] = useAtom(
@@ -41,11 +39,6 @@ const Preferences = () => {
         isChecked={showWinthroughPopup}
         onChange={() => showSetWinthroughPopup((v) => !v)}
         title="勝ち抜け時にポップアップを表示"
-      />
-      <AppOptionSwitch
-        isChecked={showLogs}
-        onChange={() => setShowLogs((v) => !v)}
-        title="得点表示画面下にログを表示"
       />
       <AppOptionSwitch
         isChecked={showQn}

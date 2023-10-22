@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Box,
@@ -23,12 +23,13 @@ import WinModal from "#/components/board/WinModal";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import computeScore from "#/utils/computeScore";
 import db from "#/utils/db";
-import { showLogsAtom, verticalViewAtom } from "#/utils/jotai";
+import { verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
 
 const BoardPage = () => {
   const { game_id } = useParams();
+  const navigate = useNavigate();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
@@ -39,7 +40,6 @@ const BoardPage = () => {
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
-  const showLogs = useAtomValue(showLogsAtom);
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
@@ -101,6 +101,10 @@ const BoardPage = () => {
   }, [logs]);
 
   if (!game || !logs) return null;
+
+  if (game.players.length === 0) {
+    navigate(`/${game_id}/config`);
+  }
 
   window.document.onkeydown = async (event) => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
@@ -221,7 +225,7 @@ const BoardPage = () => {
           </SlideFade>
         ))}
       </Flex>
-      {showLogs && <GameLogs logs={logs} players={players} quiz={game.quiz} />}
+      <GameLogs logs={logs} players={players} quiz={game.quiz} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}

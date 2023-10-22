@@ -10,48 +10,18 @@ const Term: React.FC = () => {
           データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。
         </ListItem>
         <ListItem>
-          本アプリの開発者はユーザーが本アプリを使用したことにより生じる損害について、いかなる責任も負いません。
-        </ListItem>
-        <ListItem>
-          お問い合わせは
+          2024年3月までの期間、本サービスへのお問い合わせの受付を停止します。詳細は
           <Link
             color="blue.500"
-            href="https://discord.gg/rct5sx6rbZ"
+            href="https://newt-house.notion.site/Score-Watcher-Info-e3605dc670724bc8adf0a5ee3f0c8392"
             isExternal
           >
-            開発者のDiscordサーバー
+            Notion上で公開しているページ
             <Icon>
               <ExternalLink />
             </Icon>
           </Link>
-          やTwitter からお願いします。
-        </ListItem>
-        <ListItem>
-          本アプリを利用した際はぜひ
-          <Link
-            color="blue.500"
-            href="https://twitter.com/hashtag/ScoreWatcher?f=live"
-            isExternal
-          >
-            #ScoreWatcher
-            <Icon>
-              <ExternalLink />
-            </Icon>
-          </Link>
-          でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
-        </ListItem>
-        <ListItem>
-          <Link
-            color="blue.500"
-            href="https://forms.gle/T6CGBZntoGAiQSxH9"
-            isExternal
-          >
-            Googleフォーム
-            <Icon>
-              <ExternalLink />
-            </Icon>
-          </Link>
-          でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
+          をご確認ください。
         </ListItem>
       </UnorderedList>
     </Box>

@@ -40,6 +40,8 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
         </Box>
+      ) : text === "" && belong === "" ? (
+        <Box sx={{ my: "0.5rem", opacity: 0.3, h: "3rem" }}>{index + 1}</Box>
       ) : (
         <Flex
           sx={{
@@ -49,29 +51,21 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
             w: "100%",
             fontWeight: 800,
             whiteSpace: "nowrap",
-            lineHeight: "1rem",
+            lineHeight: "1.5rem",
+            h: "3rem",
           }}
         >
-          {text === "" && belong === "" ? (
-            <Box sx={{ h: "1rem", my: "0.5rem", opacity: 0.3 }}>
-              {index + 1}
-            </Box>
-          ) : (
-            <>
-              <Box sx={{ h: "1rem" }}>{text}</Box>
-              <Box
-                sx={{
-                  w: "100%",
-                  h: "1rem",
-                  overflowX: "hidden",
-                  textOverflow: "ellipsis",
-                  textAlign: "center",
-                }}
-              >
-                {belong}
-              </Box>
-            </>
-          )}
+          <Box>{text}</Box>
+          <Box
+            sx={{
+              w: "100%",
+              overflowX: "hidden",
+              textOverflow: "ellipsis",
+              textAlign: "center",
+            }}
+          >
+            {belong}
+          </Box>
         </Flex>
       )}
     </>
