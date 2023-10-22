@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Box,
@@ -29,6 +29,7 @@ import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
 
 const BoardPage = () => {
   const { game_id } = useParams();
+  const navigate = useNavigate();
   const game = useLiveQuery(() => db.games.get(game_id as string));
   const logs = useLiveQuery(
     () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
@@ -100,7 +101,10 @@ const BoardPage = () => {
     }
   }, [logs]);
 
-  if (!game || !logs) return null;
+  if (!game || !logs) {
+    navigate(`/${game_id}/config`);
+    return;
+  }
 
   window.document.onkeydown = async (event) => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
