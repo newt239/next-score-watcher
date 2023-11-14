@@ -133,7 +133,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       {table.getRowModel().rows.length === 0 ? (
         <p>「{searchText}」に一致するプレイヤーは見つかりませんでした。</p>
       ) : (
-        <div>
+        <>
           <div>
             <table>
               <thead>
@@ -182,7 +182,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
               プレイヤーを作る
             </ButtonLink>
           </div>
-        </div>
+        </>
       )}
     </>
   );

@@ -10,9 +10,6 @@ import {
   StatLabel,
   StatNumber,
 } from "@chakra-ui/react";
-import { useAtomValue } from "jotai";
-
-import { showWinthroughPopupAtom } from "#/utils/jotai";
 
 type WinModalProps = {
   onClose: () => void;
@@ -25,16 +22,10 @@ const WinModal: React.FC<WinModalProps> = ({
   winTroughPlayer,
   roundName,
 }) => {
-  const showWinthroughPopup = useAtomValue(showWinthroughPopupAtom);
-
   if (winTroughPlayer.name === "") return null;
 
   return (
-    <Modal
-      isCentered
-      isOpen={showWinthroughPopup && winTroughPlayer.name !== ""}
-      onClose={onClose}
-    >
+    <Modal isCentered isOpen={winTroughPlayer.name !== ""} onClose={onClose}>
       <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
         <ModalHeader>Congratulations!</ModalHeader>

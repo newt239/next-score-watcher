@@ -90,7 +90,7 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
           disabled={playerName === ""}
           leftIcon={<CirclePlus />}
           onClick={addNewPlayer}
-          variants={{ size: "sm" }}
+          size="sm"
         >
           追加
         </Button>

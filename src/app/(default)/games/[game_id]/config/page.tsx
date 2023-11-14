@@ -101,33 +101,46 @@ export default async function GameConfigPage({
             flexGrow: 1,
           })}
         >
-          <ul
-            className={css({
-              color: "red.500",
-              _dark: {
-                color: "red.300",
-              },
-            })}
-          >
-            {errorMessages.map((m) => (
-              <li key={m}>{m}</li>
-            ))}
-          </ul>
+          {errorMessages.length === 0 ? (
+            <p>ゲームを開始する準備が整いました。</p>
+          ) : (
+            <ul
+              className={css({
+                color: "red.500",
+                _dark: {
+                  color: "red.300",
+                },
+              })}
+            >
+              {errorMessages.map((m) => (
+                <li key={m}>{m}</li>
+              ))}
+            </ul>
+          )}
         </div>
-        <ButtonLink
-          aria-disabled={playButtonIsDisabled}
-          href={`/${game_id}/board`}
-          leftIcon={<PlayerPlay />}
-          size="lg"
-          sx={{
+        <div
+          className={css({
             width: "100%",
-            sm: {
-              width: "auto",
+            md: {
+              width: "fit-content",
             },
-          }}
+          })}
         >
-          ゲーム開始
-        </ButtonLink>
+          <ButtonLink
+            aria-disabled={playButtonIsDisabled}
+            href={`/games/${game_id}/board`}
+            leftIcon={<PlayerPlay />}
+            size="lg"
+            sx={{
+              width: "100%",
+              md: {
+                width: "fit-content",
+              },
+            }}
+          >
+            ゲーム開始
+          </ButtonLink>
+        </div>
       </div>
       <div>
         <Tab defaultKey="rule">
@@ -150,6 +163,7 @@ export default async function GameConfigPage({
           </TabItem>
           <TabItem tabKey="other" title="その他の設定">
             <div>
+              <h3>問題設定</h3>
               <SelectQuizset
                 game_id={game.id}
                 game_quiz={game.quiz as GameDBQuizProps}
@@ -169,10 +183,10 @@ export default async function GameConfigPage({
             </div>
             <div>
               <h3>ゲーム</h3>
-              <InputLayout label="ゲームのコピーを作成">
+              <InputLayout label="ゲームのコピーを作成" vertical>
                 <CopyGame game={game} />
               </InputLayout>
-              <InputLayout label="ゲームを削除">
+              <InputLayout label="ゲームを削除" vertical>
                 <Button leftIcon={<Trash />}>削除する</Button>
               </InputLayout>
             </div>

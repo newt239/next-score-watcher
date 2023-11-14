@@ -1,34 +1,34 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
-import { Flex, useColorMode } from "@chakra-ui/react";
-import { useLiveQuery } from "dexie-react-hooks";
-import { useAtomValue } from "jotai";
+import PlayerColorConfig from "./PlayerColorConfig";
+import PlayerHeader from "./PlayerHeader";
+import PlayerName from "./PlayerName";
+import PlayerScore from "./PlayerScore";
 
-import PlayerColorConfig from "#/app/(board)/games/[game_id]/board/_components/PlayerColorConfig";
-import PlayerHeader from "#/app/(board)/games/[game_id]/board/_components/PlayerHeader";
-import PlayerName from "#/app/(board)/games/[game_id]/board/_components/PlayerName";
-import PlayerScore from "#/app/(board)/games/[game_id]/board/_components/PlayerScore";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
-import { reversePlayerInfoAtom, verticalViewAtom } from "#/utils/jotai";
 import { rules } from "#/utils/rules";
-import { ComputedScoreProps, PlayerDBProps, States } from "#/utils/types";
+import {
+  ComputedScoreProps,
+  GamesDB,
+  PlayersDB,
+  RuleNames,
+  States,
+} from "#/utils/types";
+import { css } from "@panda/css";
 
 type PlayerProps = {
-  player: PlayerDBProps;
+  game: GamesDB["Row"];
+  game_id: string;
+  rule: RuleNames;
+  player: PlayersDB["Row"];
   index: number;
   score: ComputedScoreProps | undefined;
+  editable: boolean | undefined;
 };
 
-const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
-  const { colorMode } = useColorMode();
-  const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
   const [editableState, setEditableState] = useState<States>("playing");
-  const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom);
-  const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);
 
   useEffect(() => {
     if (score) {
@@ -36,83 +36,91 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
     }
   }, [score]);
 
-  if (!game || !score) return null;
+  if (!score) return null;
 
-  const rows = rules[game.rule].rows;
+  const rows = rules[game.rule as RuleNames].rows;
 
   const editedScore: ComputedScoreProps = {
     ...score,
     state: game.editable ? editableState : score.state,
   };
 
-  const flexDirection =
-    !isVerticalView && isDesktop
-      ? reversePlayerInfo
-        ? "column-reverse"
-        : "column"
-      : reversePlayerInfo
-      ? "row-reverse"
-      : "row";
-
-  const getColor = (state: States) => {
+  const getLightModeColor = (state: States) => {
     return state === "win"
-      ? colorMode === "light"
-        ? "red.600"
-        : "red.300"
+      ? "red.600"
       : state == "lose"
-      ? colorMode === "light"
-        ? "blue.600"
-        : "blue.300"
+      ? "blue.600"
       : undefined;
   };
 
+  const getDarkModeColor = (state: States) => {
+    return state === "win"
+      ? "red.300"
+      : state == "lose"
+      ? "blue.300"
+      : undefined;
+  };
+
+  if (!game.players) return null;
+
   return (
-    <Flex
-      sx={{
-        flexDirection,
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "stretch",
-        w: isDesktop
-          ? isVerticalView
-            ? "48vw"
-            : `clamp(8vw, ${
-                (98 - game.players.length) / game.players.length
-              }vw, 15vw)`
-          : "100%",
-        h: isDesktop ? (!isVerticalView ? "80vh" : "10vh") : undefined,
-        backgroundColor: getColor(editedScore.state),
-        color:
-          getColor(editedScore.state) &&
-          (colorMode === "light" ? "white" : "gray.800"),
+        w: "100%",
+        h: "10vh",
+        backgroundColor: getLightModeColor(editedScore.state),
+        color: getLightModeColor(editedScore.state) && "white",
         borderWidth: 3,
         borderStyle: "solid",
         borderColor:
-          getColor(editedScore.state) ||
-          getColor(editedScore.reach_state) ||
-          (colorMode === "dark" ? "gray.700" : "gray.100"),
+          getLightModeColor(editedScore.state) ||
+          getLightModeColor(editedScore.reach_state) ||
+          "gray.100",
         borderRadius: "1rem",
         overflowX: "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
-      }}
+        lg: {
+          w: `clamp(8vw, ${
+            (98 - game.players.length || 0) / game.players.length
+          }vw, 15vw)`,
+          h: "inherit",
+        },
+        _dark: {
+          backgroundColor: getDarkModeColor(editedScore.state),
+          color: getDarkModeColor(editedScore.state) && "gray.800",
+          borderColor:
+            getDarkModeColor(editedScore.state) ||
+            getDarkModeColor(editedScore.reach_state) ||
+            "gray.700",
+        },
+      })}
     >
-      <Flex
-        sx={{
+      <div
+        className={css({
+          display: "flex",
           flexGrow: 1,
-          w: !isDesktop || isVerticalView ? "40vw" : "100%",
-          h:
-            isDesktop && !isVerticalView
-              ? `calc(100% - ${rows * 2}vh)`
-              : "100%",
-          flexDirection: reversePlayerInfo ? "column-reverse" : "column",
-          alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
-          pl: !isVerticalView && isDesktop ? undefined : "0.5rem",
+          w: "40vw",
+          h: "100%",
+          flexDirection: "column",
+          alignItems: "center",
+          pl: "0.5rem",
           overflowX: "hidden",
-        }}
+          lg: {
+            w: "100%",
+            h: `calc(100% - ${rows * 2}vh)`,
+            alignItems: "flex-start",
+            pl: "inherit",
+          },
+        })}
       >
         {game.editable ? (
           <PlayerColorConfig
-            colorState={getColor(editedScore.state)}
+            colorState={getLightModeColor(editedScore.state)}
             editableState={editableState}
             setEditableState={setEditableState}
           />
@@ -120,13 +128,13 @@ const Player: React.FC<PlayerProps> = ({ player, index, score }) => {
           <PlayerHeader
             belong={player.belong}
             index={index}
-            text={player.text}
+            text={player.order}
           />
         )}
         <PlayerName player_name={player.name} />
-      </Flex>
+      </div>
       <PlayerScore game={game} player={editedScore} />
-    </Flex>
+    </div>
   );
 };
 

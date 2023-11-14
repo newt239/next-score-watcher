@@ -8,7 +8,6 @@ import InputLayout from "#/components/common/InputLayout";
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
 import { GameDBQuizProps, QuizsetsDB } from "#/utils/types";
-import { css } from "@panda/css";
 
 type SelectQuizsetProps = {
   game_id: string;
@@ -22,13 +21,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
   quizsets,
 }) => {
   return (
-    <div
-      className={css({
-        display: "flex",
-        alignItems: "stretch",
-      })}
-    >
-      <h3>問題設定</h3>
+    <div>
       {quizsets && quizsets.length !== 0 ? (
         <>
           <InputLayout label="セット名">

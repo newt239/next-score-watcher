@@ -1,24 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 
-import {
-  Box,
-  IconButton,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Radio,
-  RadioGroup,
-  Stack,
-  useColorMode,
-} from "@chakra-ui/react";
-import { useAtomValue } from "jotai";
-import { Edit } from "tabler-icons-react";
+import { Popover, RadioGroup } from "@ark-ui/react";
+import { Edit, Radio } from "tabler-icons-react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { verticalViewAtom } from "#/utils/jotai";
+import Button from "#/app/_components/Button";
 import { States } from "#/utils/types";
+import { css } from "@panda/css";
 
 type PlayerColorConfigProps = {
   colorState: string | undefined;
@@ -31,53 +18,46 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
   editableState,
   setEditableState,
 }) => {
-  const { colorMode } = useColorMode();
-  const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom);
-
   return (
-    <Box
-      sx={{
-        margin: !isVerticalView && isDesktop ? "auto" : undefined,
-      }}
+    <div
+      className={css({
+        lg: {
+          margin: "auto",
+        },
+      })}
     >
-      <Popover>
-        <PopoverTrigger>
-          <IconButton
+      <Popover.Root>
+        <Popover.Trigger>
+          <Button
             aria-label="プレイヤーの状態を上書きします"
-            color={colorState && (colorMode === "light" ? "white" : "gray.800")}
-            colorScheme={colorState}
-            icon={<Edit />}
-            size="xs"
-            variant="ghost"
-          />
-        </PopoverTrigger>
-        <PopoverContent
-          sx={{
-            w: "auto",
-            color: "black",
-            _dark: {
+            className={css({
               color: "white",
-              bgColor: "gray.800",
-            },
-          }}
-        >
-          <PopoverHeader>背景色を変更</PopoverHeader>
-          <PopoverBody>
-            <RadioGroup
-              onChange={(newState: States) => setEditableState(newState)}
-              value={editableState}
-            >
-              <Stack direction="row" spacing={5}>
-                <Radio value="playing">デフォルト</Radio>
-                <Radio value="win">赤</Radio>
-                <Radio value="lose">青</Radio>
-              </Stack>
-            </RadioGroup>
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    </Box>
+            })}
+            size="sm"
+            variant="subtle"
+          >
+            <Edit />
+          </Button>
+        </Popover.Trigger>
+        <Popover.Positioner>
+          <Popover.Content>
+            <Popover.Title>背景色を変更</Popover.Title>
+            <Popover.Description>
+              <RadioGroup
+                onChange={(newState: States) => setEditableState(newState)}
+                value={editableState}
+              >
+                <div>
+                  <Radio value="playing">デフォルト</Radio>
+                  <Radio value="win">赤</Radio>
+                  <Radio value="lose">青</Radio>
+                </div>
+              </RadioGroup>
+            </Popover.Description>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover.Root>
+    </div>
   );
 };
 

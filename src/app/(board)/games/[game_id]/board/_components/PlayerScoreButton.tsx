@@ -1,21 +1,13 @@
 import React, { useId } from "react";
 
-import {
-  Button,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  SystemStyleObject,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Editable } from "@ark-ui/react";
+import { SystemStyleObject } from "@pandacss/dev";
 import { cdate } from "cdate";
-import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import Button from "#/app/_components/Button";
 import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
-import { verticalViewAtom } from "#/utils/jotai";
+import { css } from "@panda/css";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
@@ -46,45 +38,40 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     ? "wrong"
     : "none";
   const id = useId();
-  const { colorMode } = useColorMode();
-  const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom);
 
-  const defaultColor = colorMode === "light" ? "white" : "gray.800";
-  const variantColor =
+  const defaultLightModeColor = "white";
+  const defaultDarkModeColor = "gray.800";
+  const variantLightModeColor =
     color === "gray"
       ? "gray.300"
       : ["red", "win"].includes(color)
-      ? colorMode === "light"
-        ? "red.600"
-        : "red.300"
+      ? "red.600"
       : ["blue", "lose"].includes(color)
-      ? colorMode === "light"
-        ? "blue.600"
-        : "blue.300"
-      : colorMode === "light"
-      ? "green.600"
+      ? "blue.600"
+      : "green.600";
+  const variantDarkModeColor =
+    color === "gray"
+      ? "gray.300"
+      : ["red", "win"].includes(color)
+      ? "red.300"
+      : ["blue", "lose"].includes(color)
+      ? "blue.300"
       : "yellow.300";
 
   const ButtonCssStyle: SystemStyleObject = {
     display: "block",
-    fontSize: isDesktop
-      ? `clamp(1.5rem, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
-          children.length - (numberSign !== "none" ? 1 : 0),
-          2
-        )}), 3rem)`
-      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${Math.max(
-          children.length - (numberSign !== "none" ? 1 : 0),
-          2
-        )}), 3.5vw))`,
+    fontSize: `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${Math.max(
+      children.length - (numberSign !== "none" ? 1 : 0),
+      2
+    )}), 3.5vw))`,
     fontWeight: 800,
-    lineHeight: !isVerticalView ? "3rem" : "100%",
-    w: isDesktop ? (compact ? "50%" : "100%") : compact ? "3.5rem" : "6rem",
-    h: isDesktop && !isVerticalView ? "3rem" : "100%",
+    lineHeight: "3rem",
+    w: compact ? "3.5rem" : "6rem",
+    h: "100%",
     textAlign: "center",
     borderRadius: 0,
-    bgColor: filled ? variantColor : "transparent",
-    color: filled ? defaultColor : variantColor,
+    bgColor: filled ? variantLightModeColor : "transparent",
+    color: filled ? defaultLightModeColor : variantLightModeColor,
     whiteSpace: "nowrap",
     overflow: "hidden",
     cursor:
@@ -93,6 +80,15 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
         : disabled || color === "green" || editable
         ? "default"
         : "pointer",
+    lg: {
+      fontSize: `clamp(1.5rem, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
+        children.length - (numberSign !== "none" ? 1 : 0),
+        2
+      )}), 3rem)`,
+      w: compact ? "50%" : "100%",
+      h: "3rem",
+    },
+    _hover: { opacity: disabled ? 1 : 0.5 },
   };
 
   const handleClick = async () => {
@@ -106,11 +102,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           system: false,
           timestamp: cdate().text(),
         });
-        recordEvent({
-          action: "click_score_button",
-          category: "engagement",
-          label: game_id,
-        });
       } catch (err) {
         console.log(err);
       }
@@ -120,37 +111,25 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   return (
     <>
       {editable ? (
-        <Editable
-          alignItems="center"
-          defaultValue={children}
-          display="flex"
-          justifyContent="center"
-          sx={{ ...ButtonCssStyle, h: "auto" }}
-        >
-          <EditablePreview my={1} p={0} />
-          <EditableInput
-            id={id}
-            name={id}
-            sx={{
-              p: 0,
-              my: 1,
-              w: isDesktop
-                ? compact
-                  ? "calc(100% - 0.5rem)"
-                  : "calc(100% - 0.5rem)"
-                : compact
-                ? "2.5rem"
-                : "5.5rem",
-            }}
-          />
-        </Editable>
+        <Editable.Root activationMode="dblclick" placeholder="Placeholder">
+          <Editable.Label>Label</Editable.Label>
+          <Editable.Area>
+            <Editable.Input
+              className={css({
+                p: 0,
+                my: 1,
+                w: compact ? "2.5rem" : "5.5rem",
+                lg: {
+                  w: compact ? "calc(100% - 0.5rem)" : "calc(100% - 0.5rem)",
+                },
+              })}
+              defaultValue={children}
+            />
+            <Editable.Preview />
+          </Editable.Area>
+        </Editable.Root>
       ) : (
-        <Button
-          _hover={{ opacity: disabled ? 1 : 0.5 }}
-          onClick={handleClick}
-          sx={ButtonCssStyle}
-          variant="unstyled"
-        >
+        <Button onClick={handleClick} sx={ButtonCssStyle}>
           {numberSign === "none" ? (
             children
           ) : (

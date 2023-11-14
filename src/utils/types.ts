@@ -72,6 +72,8 @@ export type PlayersDB = Database["public"]["Tables"]["players"];
 
 export type QuizsetsDB = Database["public"]["Tables"]["quizsets"];
 
+export type GameLogsDB = Database["public"]["Tables"]["game_logs"];
+
 export type PlayerDBProps = {
   id: string;
   name: string;

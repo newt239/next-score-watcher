@@ -1,3 +1,6 @@
+import { cookies } from "next/headers";
+
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cdate } from "cdate";
 
 import attacksurvival from "#/utils/computeScore/attacksurvival";
@@ -14,7 +17,7 @@ import squarex from "#/utils/computeScore/squarex";
 import swedish10 from "#/utils/computeScore/swedish10";
 import variables from "#/utils/computeScore/variables";
 import z from "#/utils/computeScore/z";
-import db from "#/utils/db";
+import { Database } from "#/utils/schema";
 import {
   ComputedScoreProps,
   GameDBPlayerProps,
@@ -24,11 +27,18 @@ import {
 } from "#/utils/types";
 
 const computeScore = async (game_id: string) => {
-  const game = await db.games.get(game_id);
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const { data: game } = await supabase
+    .from("games")
+    .select()
+    .eq("id", game_id)
+    .single();
   if (!game) return { scores: [], win_players: [], incapacity_players: [] };
-  const gameLogList = await db.logs
-    .where({ game_id: game_id })
-    .sortBy("timestamp");
+
+  const { data: game_logs } = await supabase
+    .from("game_logs")
+    .select("*")
+    .eq("game_id", game_id);
 
   let result: {
     scores: ComputedScoreProps[];
@@ -36,46 +46,46 @@ const computeScore = async (game_id: string) => {
   };
   switch (game.rule) {
     case "normal":
-      result = await normal(game, gameLogList);
+      result = await normal(game, game_logs);
       break;
     case "nomx":
-      result = await nomx(game, gameLogList);
+      result = await nomx(game, game_logs);
       break;
     case "nomx-ad":
-      result = await nomxAd(game, gameLogList);
+      result = await nomxAd(game, game_logs);
       break;
     case "ny":
-      result = await ny(game, gameLogList);
+      result = await ny(game, game_logs);
       break;
     case "nomr":
-      result = await nomr(game, gameLogList);
+      result = await nomr(game, game_logs);
       break;
     case "nbyn":
-      result = await nbyn(game, gameLogList);
+      result = await nbyn(game, game_logs);
       break;
     case "nupdown":
-      result = await nupdown(game, gameLogList);
+      result = await nupdown(game, game_logs);
       break;
     case "swedish10":
-      result = await swedish10(game, gameLogList);
+      result = await swedish10(game, game_logs);
       break;
     case "backstream":
-      result = await backstream(game, gameLogList);
+      result = await backstream(game, game_logs);
       break;
     case "attacksurvival":
-      result = await attacksurvival(game, gameLogList);
+      result = await attacksurvival(game, game_logs);
       break;
     case "squarex":
-      result = await squarex(game, gameLogList);
+      result = await squarex(game, game_logs);
       break;
     case "z":
-      result = await z(game, gameLogList);
+      result = await z(game, game_logs);
       break;
     case "freezex":
-      result = await freezex(game, gameLogList);
+      result = await freezex(game, game_logs);
       break;
     case "variables":
-      result = await variables(game, gameLogList);
+      result = await variables(game, game_logs);
       break;
   }
 

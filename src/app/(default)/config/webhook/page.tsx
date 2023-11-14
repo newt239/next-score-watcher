@@ -1,15 +1,7 @@
-import Link from "next/link";
-
-import {
-  Box,
-  Button,
-  Link as ChakraLink,
-  Code,
-  Container,
-  Icon,
-  Text,
-} from "@chakra-ui/react";
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
+
+import Anchor from "#/app/_components/Anchor";
+import ButtonLink from "#/app/_components/ButtonLink";
 
 export const metadata = {
   title: "Webhookについて | Score Watcher",
@@ -21,70 +13,52 @@ export default function WebhookPage({
   searchParams: { from: string };
 }) {
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <div>
+      <div>
         {searchParams.from ? (
-          <Button
-            as={Link}
-            colorScheme="green"
+          <ButtonLink
             href={`/${searchParams.from}/config`}
-            leftIcon={<ArrowBackUp />}
             size="sm"
-            variant="ghost"
+            variant="subtle"
           >
+            <ArrowBackUp />
             ゲーム設定に戻る
-          </Button>
+          </ButtonLink>
         ) : (
-          <Button
-            as={Link}
-            colorScheme="green"
-            href="/option"
-            leftIcon={<ArrowBackUp />}
-            size="sm"
-            variant="ghost"
-          >
+          <ButtonLink href="/option" size="sm" variant="subtle">
+            <ArrowBackUp />
             アプリ設定に戻る
-          </Button>
+          </ButtonLink>
         )}
-        <Box>
+        <div>
           <h2>Discord Webhookについて</h2>
-          <Text>プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。</Text>
-          <Text>
-            まずメッセージを受け取りたいチャンネルの設定を開いてください。
-          </Text>
-          <Text>
+          <p>プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。</p>
+          <p>まずメッセージを受け取りたいチャンネルの設定を開いてください。</p>
+          <p>
             「連携サービス」タブ内に「ウェブフック」という項目があるので、「ウェブフックを作成」をクリックし、「ウェブフックURLをコピー」してください。
-          </Text>
-          <Text>
+          </p>
+          <p>
             コピーしたURLを設定内に貼り付けることで、通知が行われるようになります。
-          </Text>
-        </Box>
-        <Box pt={5}>
+          </p>
+        </div>
+        <div>
           <h2>Webhookについて</h2>
-          <Text color="red.500">
-            ※こちらは開発者向けの高度な機能となります。
-          </Text>
-          <Text>
+          <p color="red.500">※こちらは開発者向けの高度な機能となります。</p>
+          <p>
             ゲームが進行するたびに、設定されたURLへPOSTリクエストを行います。
-          </Text>
-          <Text>
-            POSTされるデータは<Code>info</Code>, <Code>logs</Code>,{" "}
-            <Code>scores</Code>で構成されています。
-          </Text>
-          <Text>詳細は実際にご利用の上お確かめください。</Text>
+          </p>
+          <p>
+            POSTされるデータは<code>info</code>, <code>logs</code>,{" "}
+            <code>scores</code>で構成されています。
+          </p>
+          <p>詳細は実際にご利用の上お確かめください。</p>
           <h3>Response Example</h3>
-          <ChakraLink
-            color="blue.500"
-            href="https://gist.github.com/newt239/e03f8ed7fbc00852999bced29d80e8af"
-            isExternal
-          >
+          <Anchor href="https://gist.github.com/newt239/e03f8ed7fbc00852999bced29d80e8af">
             Webhookで提供されるjsonの例｜Score Watcher
-            <Icon>
-              <ExternalLink />
-            </Icon>
-          </ChakraLink>
-        </Box>
-      </Box>
-    </Container>
+            <ExternalLink />
+          </Anchor>
+        </div>
+      </div>
+    </div>
   );
 }
