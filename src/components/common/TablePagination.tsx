@@ -4,11 +4,11 @@ import { ChevronLeft, ChevronRight, ChevronsRight } from "tabler-icons-react";
 
 import Button from "#/app/_components/Button";
 import Select from "#/app/_components/Select";
-import { PlayersDB, QuizDBProps } from "#/utils/types";
+import { PlayerPropsOnSupabase, QuizDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 type Props = {
-  table: Table<PlayersDB["Row"]> | Table<QuizDBProps>;
+  table: Table<PlayerPropsOnSupabase["Row"]> | Table<QuizDBProps>;
 };
 
 const TablePagenation: React.FC<Props> = ({ table }) => {

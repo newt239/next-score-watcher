@@ -7,7 +7,6 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Switch,
@@ -15,9 +14,7 @@ import {
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 import {
-  AdjustmentsHorizontal,
   ArrowBackUp,
-  Ballon,
   Comet,
   HandClick,
   Maximize,
@@ -26,12 +23,12 @@ import {
 
 import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
-import { GameLogsDB, GamePropsUnion } from "#/utils/types";
+import { GameDBProps, GameLogPropsOnSupabase } from "#/utils/types";
 import { css } from "@panda/css";
 
 type BoardHeaderProps = {
-  game: GamePropsUnion;
-  logs: GameLogsDB["Row"][];
+  game: GameDBProps;
+  logs: GameLogPropsOnSupabase[];
 };
 
 const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
@@ -39,6 +36,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     <>
       <div
         className={css({
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           gap: [0, 0, 3],
@@ -56,11 +54,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       >
         <div
           className={css({
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
             p: 0,
             maxWidth: [`calc(100vw - 10rem)`, null, "30vw"],
             color: "green.600",
-            flexDirection: "column",
-            justifyContent: "center",
             h: "100%",
             _dark: {
               color: "green.300",
@@ -74,7 +73,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         </div>
         <div
           className={css({
-            flexDirection: "column",
+            display: "flex",
             justifyContent: "center",
             alignItems: "center",
           })}
@@ -196,17 +195,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 フルスクリーン
               </MenuItem>
             )}
-            <MenuItem closeOnSelect icon={<Ballon />} onClick={onOpen}>
-              表示設定
-            </MenuItem>
-            <MenuDivider />
-            <MenuItem
-              as={ReactLink}
-              icon={<AdjustmentsHorizontal />}
-              to={`/${game.id}/config`}
-            >
-              ゲーム設定
-            </MenuItem>
           </MenuList>
         </Menu>
       </div>

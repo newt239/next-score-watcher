@@ -7,13 +7,13 @@ import { SortAscending, SortDescending } from "tabler-icons-react";
 
 import Button from "#/app/_components/Button";
 import db from "#/utils/db";
-import { GameLogsDB, QuizDBProps } from "#/utils/types";
+import { GameLogPropsOnSupabase, QuizDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];
-  logs: GameLogsDB["Row"][];
-  quiz: { set_name: string; offset: number } | undefined;
+  logs: GameLogPropsOnSupabase[];
+  quiz: { set_name: string; offset: number } | null;
 };
 
 const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
@@ -83,8 +83,8 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                           {log.variant === "correct"
                             ? "o"
                             : log.variant === "wrong"
-                            ? "x"
-                            : "-"}
+                              ? "x"
+                              : "-"}
                         </td>
                         <td
                           title={cdate(log.timestamp).format(

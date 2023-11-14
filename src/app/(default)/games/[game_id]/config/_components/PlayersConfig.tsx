@@ -6,14 +6,18 @@ import CompactPlayerTable from "./CompactPlayerTable";
 import PlayersColumn from "./PlayersColumn";
 
 import ButtonLink from "#/app/_components/ButtonLink";
-import { GamePlayersDB, PlayersDB, RuleNames } from "#/utils/types";
+import {
+  GamePlayerPropsOnSupabase,
+  PlayerPropsOnSupabase,
+  RuleNames,
+} from "#/utils/types";
 import { css } from "@panda/css";
 
 type SelectPlayerProps = {
   game_id: string;
   rule_name: RuleNames;
-  players: PlayersDB["Row"][];
-  game_players: GamePlayersDB["Row"][];
+  players: PlayerPropsOnSupabase[];
+  game_players: GamePlayerPropsOnSupabase[];
   game_player_ids: string[];
   disabled?: boolean;
 };

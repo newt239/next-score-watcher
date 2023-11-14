@@ -1,91 +1,84 @@
-import { cookies } from "next/headers";
-
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cdate } from "cdate";
 
-import attacksurvival from "#/utils/computeScore/attacksurvival";
-import backstream from "#/utils/computeScore/backstream";
-import freezex from "#/utils/computeScore/freezex";
-import nbyn from "#/utils/computeScore/nbyn";
-import nomr from "#/utils/computeScore/nomr";
-import nomx from "#/utils/computeScore/nomx";
-import nomxAd from "#/utils/computeScore/nomx-ad";
-import normal from "#/utils/computeScore/normal";
-import nupdown from "#/utils/computeScore/nupdown";
-import ny from "#/utils/computeScore/ny";
-import squarex from "#/utils/computeScore/squarex";
-import swedish10 from "#/utils/computeScore/swedish10";
-import variables from "#/utils/computeScore/variables";
-import z from "#/utils/computeScore/z";
-import { Database } from "#/utils/schema";
+import attacksurvival from "./attacksurvival";
+import backstream from "./backstream";
+import freezex from "./freezex";
+import nbyn from "./nbyn";
+import nomr from "./nomr";
+import nomx from "./nomx";
+import nomxAd from "./nomx-ad";
+import normal from "./normal";
+import nupdown from "./nupdown";
+import ny from "./ny";
+import squarex from "./squarex";
+import swedish10 from "./swedish10";
+import variables from "./variables";
+import z from "./z";
+
 import {
   ComputedScoreProps,
-  GameDBPlayerProps,
-  GamePropsUnion,
+  GameDBProps,
+  GameLogDBProps,
+  GamePlayerDBProps,
   States,
   WinPlayerProps,
 } from "#/utils/types";
 
-const computeScore = async (game_id: string) => {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const { data: game } = await supabase
-    .from("games")
-    .select()
-    .eq("id", game_id)
-    .single();
-  if (!game) return { scores: [], win_players: [], incapacity_players: [] };
-
-  const { data: game_logs } = await supabase
-    .from("game_logs")
-    .select("*")
-    .eq("game_id", game_id);
-
+const computeScore = async ({
+  game,
+  game_players,
+  game_logs,
+}: {
+  game: GameDBProps;
+  game_players: GamePlayerDBProps[];
+  game_logs: GameLogDBProps[];
+}) => {
   let result: {
     scores: ComputedScoreProps[];
     winPlayers: WinPlayerProps[];
   };
   switch (game.rule) {
     case "normal":
-      result = await normal(game, game_logs);
+      result = await normal(game, game_players, game_logs);
       break;
     case "nomx":
-      result = await nomx(game, game_logs);
+      result = await nomx(game, game_players, game_logs);
       break;
     case "nomx-ad":
-      result = await nomxAd(game, game_logs);
+      result = await nomxAd(game, game_players, game_logs);
       break;
     case "ny":
-      result = await ny(game, game_logs);
+      result = await ny(game, game_players, game_logs);
       break;
     case "nomr":
-      result = await nomr(game, game_logs);
+      result = await nomr(game, game_players, game_logs);
       break;
     case "nbyn":
-      result = await nbyn(game, game_logs);
+      result = await nbyn(game, game_players, game_logs);
       break;
     case "nupdown":
-      result = await nupdown(game, game_logs);
+      result = await nupdown(game, game_players, game_logs);
       break;
     case "swedish10":
-      result = await swedish10(game, game_logs);
+      result = await swedish10(game, game_players, game_logs);
       break;
     case "backstream":
-      result = await backstream(game, game_logs);
+      result = await backstream(game, game_players, game_logs);
       break;
     case "attacksurvival":
-      result = await attacksurvival(game, game_logs);
+      result = await attacksurvival(game, game_players, game_logs);
       break;
     case "squarex":
-      result = await squarex(game, game_logs);
+      result = await squarex(game, game_players, game_logs);
       break;
     case "z":
-      result = await z(game, game_logs);
+      result = await z(game, game_players, game_logs);
       break;
     case "freezex":
-      result = await freezex(game, game_logs);
+      result = await freezex(game, game_players, game_logs);
       break;
     case "variables":
-      result = await variables(game, game_logs);
+      result = await variables(game, game_players, game_logs);
       break;
   }
 
@@ -105,8 +98,8 @@ const computeScore = async (game_id: string) => {
   };
 
   if (result.winPlayers.length !== 0) {
-    const playerName = game.players?.find(
-      (player) => player.id! === result.winPlayers[0].player_id
+    const playerName = game_players?.find(
+      (player) => player.player_id === result.winPlayers[0].player_id
     )?.name;
 
     if (playerName) {
@@ -151,7 +144,7 @@ const computeScore = async (game_id: string) => {
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
   if (webhookUrl && webhookUrl.includes("http")) {
     const url = webhookUrl.split('"')[1];
-    const data = { info: game, logs: gameLogList, scores: result.scores };
+    const data = { info: game, logs: game_logs, scores: result.scores };
     console.log(data);
     await fetch(url, {
       method: "POST",
@@ -170,7 +163,7 @@ const initialBackstreamWrong = (wrong_num: number) => {
   return wrong_num < 5 ? minusCountArray[clipNumber(wrong_num, 0, 4)] : 10;
 };
 
-const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
+const getInitialScore = (game: GameDBProps, player: GamePlayerDBProps) => {
   switch (game.rule) {
     case "attacksurvival":
       return game.win_point! + player.initial_correct;
@@ -187,8 +180,11 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
   }
 };
 
-export const getInitialPlayersState = (game: GamePropsUnion) => {
-  const initialPlayersState = game.players.map(
+export const getInitialPlayersState = (
+  game: GameDBProps,
+  game_players: GamePlayerDBProps[]
+) => {
+  const initialPlayersState = game_players.map(
     (gamePlayer): ComputedScoreProps => {
       const playerState = {
         game_id: game.id,

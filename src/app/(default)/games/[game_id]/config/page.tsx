@@ -17,7 +17,7 @@ import { Tab, TabItem } from "#/app/_components/Tab";
 import InputLayout from "#/components/common/InputLayout";
 import { rules } from "#/utils/rules";
 import { Database } from "#/utils/schema";
-import { GameDBQuizProps, RuleNames } from "#/utils/types";
+import { GameDBProps, GameDBQuizProps, RuleNames } from "#/utils/types";
 import { css } from "@panda/css";
 
 export const metadata: Metadata = {
@@ -31,11 +31,12 @@ export default async function GameConfigPage({
 }) {
   const game_id = params.game_id;
   const supabase = createServerComponentClient<Database>({ cookies });
-  const { data: game } = await supabase
+  const response = await supabase
     .from("games")
     .select()
     .eq("id", game_id)
     .single();
+  const game = response.data as GameDBProps;
   const { data: players } = await supabase.from("players").select("*");
   const { data: game_players } = await supabase
     .from("game_players")

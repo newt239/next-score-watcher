@@ -35,44 +35,40 @@ export type GameDBQuizProps = {
 };
 
 export type GameOptionProps = {
-  [key in Exclude<RuleNames, "nomx-ad">]: undefined;
+  [key in Exclude<RuleNames, "nomx-ad">]: null;
 } & {
   "nomx-ad": {
     streak_over3: boolean;
   };
 };
 
-export type GameDBProps = {
-  id: string;
-  name: string;
-  rule: string;
-  correct_me: number;
-  wrong_me: number;
-  correct_other?: number;
-  wrong_other?: number;
-  win_point?: number;
-  lose_point?: number;
-  win_through?: number;
-  limit?: number;
-  quiz?: GameDBQuizProps;
-  discord_webhook_url: string;
-  editable: boolean;
-  options?: {
-    [key: string]: boolean;
+export type GamePropsOnSupabase = Database["public"]["Tables"]["games"]["Row"];
+
+export type GameDBPropsUnion = {
+  [T in RuleNames]: GamePropsOnSupabase & {
+    rule: T;
+    players: string[];
+    quiz: {
+      set_name: string;
+      offset: number;
+    } | null;
+    options: GameOptionProps[T];
   };
 };
 
-export type GamePropsUnion = Database["public"]["Tables"]["games"]["Row"];
+export type GameDBProps = GameDBPropsUnion[RuleNames];
 
-export type GamesDB = Database["public"]["Tables"]["games"];
+export type GamePlayerPropsOnSupabase =
+  Database["public"]["Tables"]["game_players"]["Row"];
 
-export type GamePlayersDB = Database["public"]["Tables"]["game_players"];
+export type GamePlayerDBProps = GamePlayerPropsOnSupabase & {
+  options: {
+    [key: string]: boolean;
+  } | null;
+};
 
-export type PlayersDB = Database["public"]["Tables"]["players"];
-
-export type QuizsetsDB = Database["public"]["Tables"]["quizsets"];
-
-export type GameLogsDB = Database["public"]["Tables"]["game_logs"];
+export type PlayerPropsOnSupabase =
+  Database["public"]["Tables"]["players"]["Row"];
 
 export type PlayerDBProps = {
   id: string;
@@ -81,14 +77,19 @@ export type PlayerDBProps = {
   belong: string;
 };
 
+export type QuizsetPropsOnSupabase =
+  Database["public"]["Tables"]["quizsets"]["Row"];
+
+export type GameLogPropsOnSupabase =
+  Database["public"]["Tables"]["game_logs"]["Row"];
+
 export type Variants = "correct" | "wrong" | "through" | "skip";
-export type LogDBProps = {
-  id: string;
-  game_id: string;
-  player_id: string;
+
+export type GameLogDBProps = GameLogPropsOnSupabase & {
   variant: Variants;
-  system: boolean;
-  timestamp: string;
+  options: {
+    [key: string]: boolean;
+  } | null;
 };
 
 export type States = "win" | "lose" | "playing";
@@ -119,9 +120,9 @@ export type QuizDBProps = {
 };
 
 export interface ScoreWatcherDBTables extends DexieDatabase {
-  games: Table<GamePropsUnion>;
+  games: Table<GamePropsOnSupabase>;
   players: Table<PlayerDBProps>;
-  logs: Table<LogDBProps>;
+  logs: Table<GameLogDBProps>;
   quizes: Table<QuizDBProps>;
 }
 

@@ -4,14 +4,20 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
 const squarex = async (
-  game: GameDBProps["squarex"],
-  gameLogList: LogDBProps[]
+  game: GameDBPropsUnion["squarex"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -73,8 +79,8 @@ const squarex = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : numberSign("pt", playerState.score);
+          ? "LOSE"
+          : numberSign("pt", playerState.score);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

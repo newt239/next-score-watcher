@@ -7,7 +7,9 @@ import BoardHeader from "./_components/BoardHeader";
 import GameLogs from "./_components/GameLogs";
 import Player from "./_components/Player";
 
+import computeScore from "#/utils/computeScore";
 import { Database } from "#/utils/schema";
+import { GameDBProps, GameLogDBProps, GamePlayerDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 export const metadata: Metadata = {
@@ -21,21 +23,32 @@ export default async function GameBoardPage({
 }) {
   const game_id = params.game_id;
   const supabase = createServerComponentClient<Database>({ cookies });
-  const { data: game } = await supabase
+  const gameDBResponse = await supabase
     .from("games")
     .select()
     .eq("id", game_id)
     .single();
-  const { data: game_players } = await supabase
+  const gamePlayerDBResponse = await supabase
     .from("game_players")
     .select("*")
     .eq("game_id", game_id);
-  const { data: game_logs } = await supabase
+  const gameLogDBResponse = await supabase
     .from("game_logs")
     .select("*")
     .eq("game_id", game_id);
 
-  if (!game || !game_logs || !game_players) return null;
+  if (
+    !gameDBResponse.data ||
+    !gamePlayerDBResponse.data ||
+    !gameLogDBResponse.data
+  )
+    return null;
+
+  const game = gameDBResponse.data as GameDBProps;
+  const game_players = gamePlayerDBResponse.data as GamePlayerDBProps[];
+  const game_logs = gameLogDBResponse.data as GameLogDBProps[];
+
+  const result = await computeScore({ game, game_players, game_logs });
 
   return (
     <>
@@ -72,10 +85,11 @@ export default async function GameBoardPage({
       >
         {game_players.map((player, i) => (
           <Player
+            game={game}
             index={i}
             key={i}
             player={player}
-            score={scores.find(
+            score={result.scores.find(
               (score) =>
                 score.game_id === game.id && score.player_id === player.id
             )}

@@ -4,15 +4,21 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
 // scoreをwrong ptとして利用
 const swedish10 = async (
-  game: GameDBProps["swedish10"],
-  gameLogList: LogDBProps[]
+  game: GameDBPropsUnion["swedish10"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -83,8 +89,8 @@ const swedish10 = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : numberSign("pt", playerState.correct);
+          ? "LOSE"
+          : numberSign("pt", playerState.correct);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

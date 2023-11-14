@@ -6,10 +6,10 @@ import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
 import { ChevronDown } from "tabler-icons-react";
 
 import { createGame } from "#/utils/functions";
-import { GamesDB } from "#/utils/types";
+import { GameDBProps } from "#/utils/types";
 
 type CopyGamePropsUnion = {
-  game: GamesDB["Insert"];
+  game: GameDBProps;
 };
 
 const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {

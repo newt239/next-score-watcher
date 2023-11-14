@@ -2,12 +2,16 @@ import ConfigLimit from "./ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
 import ConfigTextInput from "./ConfigTextInput";
 
-import { GamePlayersDB, GamesDB, RuleNames } from "#/utils/types";
+import {
+  GameDBProps,
+  GamePlayerPropsOnSupabase,
+  RuleNames,
+} from "#/utils/types";
 import { css } from "@panda/css";
 
 type RuleSettingsProps = {
-  game: GamesDB["Row"];
-  game_players: GamePlayersDB["Insert"][];
+  game: GameDBProps;
+  game_players: GamePlayerPropsOnSupabase[];
   disabled: boolean;
 };
 

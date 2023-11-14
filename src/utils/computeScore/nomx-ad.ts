@@ -4,18 +4,24 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
 /*
 stageの値が2のときアドバンテージ状態を表す
 */
 
 const nomxAd = async (
-  game: GameDBProps["nomx-ad"],
-  gameLogList: LogDBProps[]
+  game: GameDBPropsUnion["nomx-ad"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   let last_correct_player: string = "";
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
@@ -90,8 +96,8 @@ const nomxAd = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : numberSign("pt", playerState.score);
+          ? "LOSE"
+          : numberSign("pt", playerState.score);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

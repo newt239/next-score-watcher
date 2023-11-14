@@ -23,11 +23,11 @@ import TablePagenation from "#/components/common/TablePagination";
 import { useDidUpdateEffect } from "#/hooks/useDidUpdateEffect";
 import { onGamePlayersUpdate } from "#/utils/actions";
 import { globalGamePlayersAtom } from "#/utils/jotai";
-import { PlayersDB } from "#/utils/types";
+import { PlayerPropsOnSupabase } from "#/utils/types";
 
 type CompactPlayerTableProps = {
   game_id: string;
-  players: PlayersDB["Row"][];
+  players: PlayerPropsOnSupabase[];
   game_player_ids: string[];
 };
 
@@ -42,15 +42,15 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   const [rowSelection, setRowSelection] = useState({});
   const [searchText, setSearchText] = useState<string>("");
 
-  const fuzzyFilter: FilterFn<PlayersDB["Row"]> = ({ original }) => {
+  const fuzzyFilter: FilterFn<PlayerPropsOnSupabase> = ({ original }) => {
     return (
       original.name?.includes(searchText) ||
       original.order?.includes(searchText)
     );
   };
 
-  const columnHelper = createColumnHelper<PlayersDB["Row"]>();
-  const columns = useMemo<ColumnDef<PlayersDB["Row"], any>[]>(
+  const columnHelper = createColumnHelper<PlayerPropsOnSupabase>();
+  const columns = useMemo<ColumnDef<PlayerPropsOnSupabase, any>[]>(
     () => [
       columnHelper.accessor("id", {
         header: "",
@@ -80,7 +80,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     []
   );
 
-  const table = useReactTable<PlayersDB["Row"]>({
+  const table = useReactTable<PlayerPropsOnSupabase>({
     data: players,
     columns,
     globalFilterFn: fuzzyFilter,

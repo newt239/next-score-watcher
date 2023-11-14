@@ -4,23 +4,31 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
 const variables = async (
-  game: GameDBProps["variables"],
-  gameLogList: LogDBProps[]
+  game: GameDBPropsUnion["variables"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
           case "correct":
-            const correct_point = game.players.find(
+            const correct_point = game_players.find(
               (gamePlayer) => gamePlayer.id === playerState.player_id
-            )?.base_correct_point!;
-            const newScore = playerState.score + correct_point;
+            )?.options?.base_correct_point;
+            const newScore =
+              playerState.score +
+              (typeof correct_point === "number" ? correct_point : 0);
             if (newScore >= game.win_point!) {
               return {
                 ...playerState,
@@ -29,7 +37,11 @@ const variables = async (
                 last_correct: qn,
                 state: "win",
               };
-            } else if (newScore + correct_point >= game.win_point!) {
+            } else if (
+              newScore +
+                (typeof correct_point === "number" ? correct_point : 0) >=
+              game.win_point!
+            ) {
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
@@ -45,13 +57,15 @@ const variables = async (
               };
             }
           case "wrong":
-            const wrong_point = game.players.find(
+            const wrong_point = game_players.find(
               (gamePlayer) => gamePlayer.id === playerState.player_id
-            )?.base_wrong_point!;
+            )?.options?.base_wrong_point!;
             return {
               ...playerState,
               wrong: playerState.wrong + 1,
-              score: playerState.score + wrong_point,
+              score:
+                playerState.score +
+                (typeof wrong_point === "number" ? wrong_point : 0),
               last_wrong: qn,
             };
           default:
@@ -77,8 +91,8 @@ const variables = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : `${playerState.score}pt`;
+          ? "LOSE"
+          : `${playerState.score}pt`;
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

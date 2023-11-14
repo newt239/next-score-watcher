@@ -6,12 +6,12 @@ import { Loader } from "tabler-icons-react";
 
 import NumberInput from "#/app/_components/NumberInput";
 import { onGameRecordUpdate } from "#/utils/actions";
-import { GamesDB } from "#/utils/types";
+import { GameDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 type ConfigNumberInputProps = {
   game_id: string;
-  input_id: keyof GamesDB["Row"];
+  input_id: keyof GameDBProps;
   defaultValue: number;
   disabled?: boolean;
   label: string;

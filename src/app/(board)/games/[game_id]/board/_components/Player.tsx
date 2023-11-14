@@ -10,21 +10,18 @@ import PlayerScore from "./PlayerScore";
 import { rules } from "#/utils/rules";
 import {
   ComputedScoreProps,
-  GamesDB,
-  PlayersDB,
+  GameDBProps,
+  GamePlayerPropsOnSupabase,
   RuleNames,
   States,
 } from "#/utils/types";
 import { css } from "@panda/css";
 
 type PlayerProps = {
-  game: GamesDB["Row"];
-  game_id: string;
-  rule: RuleNames;
-  player: PlayersDB["Row"];
+  game: GameDBProps;
+  player: GamePlayerPropsOnSupabase;
   index: number;
   score: ComputedScoreProps | undefined;
-  editable: boolean | undefined;
 };
 
 const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
@@ -49,16 +46,16 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
     return state === "win"
       ? "red.600"
       : state == "lose"
-      ? "blue.600"
-      : undefined;
+        ? "blue.600"
+        : undefined;
   };
 
   const getDarkModeColor = (state: States) => {
     return state === "win"
       ? "red.300"
       : state == "lose"
-      ? "blue.300"
-      : undefined;
+        ? "blue.300"
+        : undefined;
   };
 
   if (!game.players) return null;

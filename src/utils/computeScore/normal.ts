@@ -2,13 +2,18 @@ import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
 } from "#/utils/computeScore";
-import { GameLogsDB, GamesDB } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+} from "#/utils/types";
 
 const normal = async (
-  game: GamesDB["Row"],
-  gameLogList: GameLogsDB["Row"][]
+  game: GameDBPropsUnion["normal"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
 ) => {
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {

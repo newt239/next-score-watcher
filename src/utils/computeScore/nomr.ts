@@ -4,11 +4,20 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState, numberSign } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
-const nomr = async (game: GameDBProps["nomr"], gameLogList: LogDBProps[]) => {
+const nomr = async (
+  game: GameDBPropsUnion["nomr"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
+) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -78,10 +87,10 @@ const nomr = async (game: GameDBProps["nomr"], gameLogList: LogDBProps[]) => {
       state === "win"
         ? indicator(order)
         : playerState.is_incapacity
-        ? `${
-            game.lose_point! - gameLogList.length + playerState.last_wrong + 1
-          }休`
-        : numberSign("pt", playerState.correct);
+          ? `${
+              game.lose_point! - gameLogList.length + playerState.last_wrong + 1
+            }休`
+          : numberSign("pt", playerState.correct);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

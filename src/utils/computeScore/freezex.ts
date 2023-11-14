@@ -4,14 +4,20 @@ import {
   indicator,
 } from "#/utils/computeScore";
 import { detectPlayerState } from "#/utils/functions";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
 const freezex = async (
-  game: GameDBProps["freezex"],
-  gameLogList: LogDBProps[]
+  game: GameDBPropsUnion["freezex"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
 ) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
@@ -61,8 +67,8 @@ const freezex = async (
       state === "win"
         ? indicator(order)
         : remainIncapacity > 0
-        ? `${remainIncapacity}休`
-        : `${playerState.correct}○`;
+          ? `${remainIncapacity}休`
+          : `${playerState.correct}○`;
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

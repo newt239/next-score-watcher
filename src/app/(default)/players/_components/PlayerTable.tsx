@@ -13,15 +13,15 @@ import {
 
 import Checkbox from "#/app/_components/Checkbox";
 import TablePagination from "#/components/common/TablePagination";
-import { PlayersDB } from "#/utils/types";
+import { PlayerPropsOnSupabase } from "#/utils/types";
 
 type PlayerTableProps = {
-  players: PlayersDB["Row"][] | null;
+  players: PlayerPropsOnSupabase["Row"][] | null;
 };
 
 const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
-  const columnHelper = createColumnHelper<PlayersDB["Row"]>();
-  const columns: ColumnDef<PlayersDB["Row"], any>[] = [
+  const columnHelper = createColumnHelper<PlayerPropsOnSupabase["Row"]>();
+  const columns: ColumnDef<PlayerPropsOnSupabase["Row"], any>[] = [
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (
@@ -51,7 +51,7 @@ const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
     }),
   ];
 
-  const table = useReactTable<PlayersDB["Row"]>({
+  const table = useReactTable<PlayerPropsOnSupabase["Row"]>({
     data: players || [],
     columns,
     getCoreRowModel: getCoreRowModel(),

@@ -3,11 +3,20 @@ import {
   getSortedPlayerOrderList,
   indicator,
 } from "#/utils/computeScore";
-import { GameDBProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+import {
+  GameDBPropsUnion,
+  GameLogDBProps,
+  GamePlayerDBProps,
+  WinPlayerProps,
+} from "#/utils/types";
 
-const z = async (game: GameDBProps["z"], gameLogList: LogDBProps[]) => {
+const z = async (
+  game: GameDBPropsUnion["z"],
+  game_players: GamePlayerDBProps[],
+  gameLogList: GameLogDBProps[]
+) => {
   const winPlayers: WinPlayerProps[] = [];
-  let playersState = getInitialPlayersState(game);
+  let playersState = getInitialPlayersState(game, game_players);
   gameLogList.map((log, qn) => {
     const lastCorrectPlayer = playersState.find(
       (playerState) => playerState.player_id === log.player_id
@@ -86,10 +95,10 @@ const z = async (game: GameDBProps["z"], gameLogList: LogDBProps[]) => {
       playerState.state === "win"
         ? indicator(order)
         : playerState.is_incapacity ||
-          (gameLogList.length === playerState.last_wrong + 1 &&
-            playerState.stage === 1)
-        ? "休"
-        : `Stage${playerState.stage}`;
+            (gameLogList.length === playerState.last_wrong + 1 &&
+              playerState.stage === 1)
+          ? "休"
+          : `Stage${playerState.stage}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

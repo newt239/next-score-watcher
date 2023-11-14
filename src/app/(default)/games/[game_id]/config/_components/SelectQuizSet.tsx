@@ -7,12 +7,12 @@ import Select from "#/app/_components/Select";
 import InputLayout from "#/components/common/InputLayout";
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
-import { GameDBQuizProps, QuizsetsDB } from "#/utils/types";
+import { GameDBQuizProps, QuizsetPropsOnSupabase } from "#/utils/types";
 
 type SelectQuizsetProps = {
   game_id: string;
   game_quiz: GameDBQuizProps | undefined;
-  quizsets: QuizsetsDB["Row"][] | null;
+  quizsets: QuizsetPropsOnSupabase["Row"][] | null;
 };
 
 const SelectQuizset: React.FC<SelectQuizsetProps> = ({

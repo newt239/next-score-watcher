@@ -10,12 +10,12 @@ import Button from "#/app/_components/Button";
 import FormControl from "#/app/_components/FormControl";
 import TextInput from "#/app/_components/TextInput";
 import db from "#/utils/db";
-import { GameDBPlayerProps, PlayersDB } from "#/utils/types";
+import { GameDBPlayerProps, PlayerPropsOnSupabase } from "#/utils/types";
 import { css } from "@panda/css";
 
 type CompactCreatePlayerProps = {
   game_id: string;
-  players: PlayersDB["Insert"][];
+  players: PlayerPropsOnSupabase[];
 };
 
 const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({

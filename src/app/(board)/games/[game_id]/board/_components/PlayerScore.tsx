@@ -1,10 +1,10 @@
 import PlayerScoreButton from "#/app/(board)/games/[game_id]/board/_components/PlayerScoreButton";
 import { numberSign } from "#/utils/functions";
-import { ComputedScoreProps, GamesDB } from "#/utils/types";
+import { ComputedScoreProps, GameDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 type PlayerScoreProps = {
-  game: GamesDB["Row"];
+  game: GameDBProps;
   player: ComputedScoreProps;
 };
 
