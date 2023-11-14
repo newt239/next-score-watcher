@@ -20,9 +20,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
   return (
     <div
       className={css({
-        w: "100%",
+        display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        w: "100%",
         justifyContent: "flex-end",
         backgroundColor: "white",
         pr: "0.5rem",

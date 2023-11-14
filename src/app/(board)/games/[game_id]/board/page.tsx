@@ -9,7 +9,11 @@ import Player from "./_components/Player";
 
 import computeScore from "#/utils/computeScore";
 import { Database } from "#/utils/schema";
-import { GameDBProps, GameLogDBProps, GamePlayerDBProps } from "#/utils/types";
+import {
+  GameDBProps,
+  GameLogDBProps,
+  GamePlayerWithProfileProps,
+} from "#/utils/types";
 import { css } from "@panda/css";
 
 export const metadata: Metadata = {
@@ -30,7 +34,7 @@ export default async function GameBoardPage({
     .single();
   const gamePlayerDBResponse = await supabase
     .from("game_players")
-    .select("*")
+    .select("*, players (*)")
     .eq("game_id", game_id);
   const gameLogDBResponse = await supabase
     .from("game_logs")
@@ -45,10 +49,16 @@ export default async function GameBoardPage({
     return null;
 
   const game = gameDBResponse.data as GameDBProps;
-  const game_players = gamePlayerDBResponse.data as GamePlayerDBProps[];
+  const game_players =
+    gamePlayerDBResponse.data as GamePlayerWithProfileProps[];
+  console.log(game_players);
   const game_logs = gameLogDBResponse.data as GameLogDBProps[];
 
-  const result = await computeScore({ game, game_players, game_logs });
+  const result = await computeScore({
+    game,
+    game_players,
+    game_logs,
+  });
 
   return (
     <>
@@ -77,24 +87,31 @@ export default async function GameBoardPage({
           flexWrap: "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: ["90vh", "90vh", "85vh"],
+          h: "100%",
           px: "1vw",
           pt: "3vh",
+          lg: {
+            flexDirection: "row",
+            h: "80vh",
+          },
         })}
         id="players-area"
       >
-        {game_players.map((player, i) => (
-          <Player
-            game={game}
-            index={i}
-            key={i}
-            player={player}
-            score={result.scores.find(
-              (score) =>
-                score.game_id === game.id && score.player_id === player.id
-            )}
-          />
-        ))}
+        {game_players.map((game_player, i) => {
+          return (
+            <Player
+              game={game}
+              index={i}
+              key={i}
+              player={game_player}
+              score={result.scores.find(
+                (score) =>
+                  score.game_id === game.id &&
+                  score.player_id === game_player.id
+              )}
+            />
+          );
+        })}
       </div>
       <GameLogs logs={game_logs} players={game_players} quiz={game.quiz} />
     </>

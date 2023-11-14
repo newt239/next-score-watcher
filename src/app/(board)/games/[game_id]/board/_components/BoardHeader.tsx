@@ -74,15 +74,16 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         <div
           className={css({
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
           })}
         >
           <div className={css({ whiteSpace: "nowrap", lineHeight: "2.5rem" })}>
             第
-            <div className={css({ fontSize: "2.5rem", fontWeight: 800 })}>
+            <span className={css({ fontSize: "2.5rem", fontWeight: 800 })}>
               {logs.length + 1}
-            </div>
+            </span>
             問
           </div>
         </div>

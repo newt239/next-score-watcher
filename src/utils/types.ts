@@ -70,6 +70,10 @@ export type GamePlayerDBProps = GamePlayerPropsOnSupabase & {
 export type PlayerPropsOnSupabase =
   Database["public"]["Tables"]["players"]["Row"];
 
+export type GamePlayerWithProfileProps = GamePlayerPropsOnSupabase & {
+  players: PlayerPropsOnSupabase;
+};
+
 export type PlayerDBProps = {
   id: string;
   name: string;

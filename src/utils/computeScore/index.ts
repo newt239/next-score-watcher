@@ -20,6 +20,7 @@ import {
   GameDBProps,
   GameLogDBProps,
   GamePlayerDBProps,
+  GamePlayerWithProfileProps,
   States,
   WinPlayerProps,
 } from "#/utils/types";
@@ -30,55 +31,61 @@ const computeScore = async ({
   game_logs,
 }: {
   game: GameDBProps;
-  game_players: GamePlayerDBProps[];
+  game_players: GamePlayerWithProfileProps[];
   game_logs: GameLogDBProps[];
 }) => {
   let result: {
     scores: ComputedScoreProps[];
     winPlayers: WinPlayerProps[];
   };
+
+  const omittedGamePlayers = game_players.map((game_player) => {
+    const { players, ...rest } = game_player;
+    return rest as GamePlayerDBProps;
+  });
+
   switch (game.rule) {
     case "normal":
-      result = await normal(game, game_players, game_logs);
+      result = await normal(game, omittedGamePlayers, game_logs);
       break;
     case "nomx":
-      result = await nomx(game, game_players, game_logs);
+      result = await nomx(game, omittedGamePlayers, game_logs);
       break;
     case "nomx-ad":
-      result = await nomxAd(game, game_players, game_logs);
+      result = await nomxAd(game, omittedGamePlayers, game_logs);
       break;
     case "ny":
-      result = await ny(game, game_players, game_logs);
+      result = await ny(game, omittedGamePlayers, game_logs);
       break;
     case "nomr":
-      result = await nomr(game, game_players, game_logs);
+      result = await nomr(game, omittedGamePlayers, game_logs);
       break;
     case "nbyn":
-      result = await nbyn(game, game_players, game_logs);
+      result = await nbyn(game, omittedGamePlayers, game_logs);
       break;
     case "nupdown":
-      result = await nupdown(game, game_players, game_logs);
+      result = await nupdown(game, omittedGamePlayers, game_logs);
       break;
     case "swedish10":
-      result = await swedish10(game, game_players, game_logs);
+      result = await swedish10(game, omittedGamePlayers, game_logs);
       break;
     case "backstream":
-      result = await backstream(game, game_players, game_logs);
+      result = await backstream(game, omittedGamePlayers, game_logs);
       break;
     case "attacksurvival":
-      result = await attacksurvival(game, game_players, game_logs);
+      result = await attacksurvival(game, omittedGamePlayers, game_logs);
       break;
     case "squarex":
-      result = await squarex(game, game_players, game_logs);
+      result = await squarex(game, omittedGamePlayers, game_logs);
       break;
     case "z":
-      result = await z(game, game_players, game_logs);
+      result = await z(game, omittedGamePlayers, game_logs);
       break;
     case "freezex":
-      result = await freezex(game, game_players, game_logs);
+      result = await freezex(game, omittedGamePlayers, game_logs);
       break;
     case "variables":
-      result = await variables(game, game_players, game_logs);
+      result = await variables(game, omittedGamePlayers, game_logs);
       break;
   }
 
@@ -141,7 +148,7 @@ const computeScore = async ({
     }
   }
 
-  const webhookUrl = localStorage.getItem("scorew-webhook-url");
+  const webhookUrl = "no"; // TODO: webhook urlをユーザー設定から追加できるようにする
   if (webhookUrl && webhookUrl.includes("http")) {
     const url = webhookUrl.split('"')[1];
     const data = { info: game, logs: game_logs, scores: result.scores };

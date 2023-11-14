@@ -10,17 +10,20 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
   return (
     <div
       className={css({
+        display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         justifyContent: "center",
         w: "100%",
         fontWeight: 800,
         whiteSpace: "nowrap",
         lineHeight: "1rem",
+        lg: {
+          alignItems: "center",
+        },
       })}
     >
       {text === "" && belong === "" ? (
-        <div className={css({ h: "1rem", my: "0.5rem", opacity: 0.3 })}>
+        <div className={css({ h: "1rem", opacity: 0.3, lg: { my: "0.5rem" } })}>
           {index + 1}
         </div>
       ) : (
@@ -29,10 +32,11 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           <div
             className={css({
               w: "100%",
-              h: "1rem",
               overflowX: "hidden",
               textOverflow: "ellipsis",
-              textAlign: "center",
+              lg: {
+                h: "1rem",
+              },
             })}
           >
             {belong}

@@ -11,7 +11,7 @@ import { rules } from "#/utils/rules";
 import {
   ComputedScoreProps,
   GameDBProps,
-  GamePlayerPropsOnSupabase,
+  GamePlayerWithProfileProps,
   RuleNames,
   States,
 } from "#/utils/types";
@@ -19,7 +19,7 @@ import { css } from "@panda/css";
 
 type PlayerProps = {
   game: GameDBProps;
-  player: GamePlayerPropsOnSupabase;
+  player: GamePlayerWithProfileProps;
   index: number;
   score: ComputedScoreProps | undefined;
 };
@@ -64,7 +64,7 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
     <div
       className={css({
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "stretch",
         w: "100%",
@@ -78,10 +78,11 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
           getLightModeColor(editedScore.reach_state) ||
           "gray.100",
         borderRadius: "1rem",
-        overflowX: "scroll",
+        overflowX: "auto",
         overflowY: "hidden",
         transition: "all 0.2s ease",
         lg: {
+          flexDirection: "column",
           w: `clamp(8vw, ${
             (98 - game.players.length || 0) / game.players.length
           }vw, 15vw)`,
@@ -100,17 +101,16 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
       <div
         className={css({
           display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
           flexGrow: 1,
           w: "40vw",
           h: "100%",
-          flexDirection: "column",
-          alignItems: "center",
           pl: "0.5rem",
-          overflowX: "hidden",
           lg: {
+            alignItems: "center",
             w: "100%",
             h: `calc(100% - ${rows * 2}vh)`,
-            alignItems: "flex-start",
             pl: "inherit",
           },
         })}
@@ -123,9 +123,9 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
           />
         ) : (
           <PlayerHeader
-            belong={player.belong}
+            belong={player.players.belong}
             index={index}
-            text={player.order}
+            text={player.players.order}
           />
         )}
         <PlayerName player_name={player.name} />

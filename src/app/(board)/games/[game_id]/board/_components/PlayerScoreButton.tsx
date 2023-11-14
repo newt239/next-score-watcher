@@ -5,7 +5,6 @@ import { SystemStyleObject } from "@pandacss/dev";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import Button from "#/app/_components/Button";
 import db from "#/utils/db";
 import { css } from "@panda/css";
 
@@ -33,10 +32,10 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const numberSign = children.endsWith("pt")
     ? "pt"
     : children.endsWith("○")
-    ? "correct"
-    : children.endsWith("✕")
-    ? "wrong"
-    : "none";
+      ? "correct"
+      : children.endsWith("✕")
+        ? "wrong"
+        : "none";
   const id = useId();
 
   const defaultLightModeColor = "white";
@@ -45,25 +44,22 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     color === "gray"
       ? "gray.300"
       : ["red", "win"].includes(color)
-      ? "red.600"
-      : ["blue", "lose"].includes(color)
-      ? "blue.600"
-      : "green.600";
+        ? "red.600"
+        : ["blue", "lose"].includes(color)
+          ? "blue.600"
+          : "green.600";
   const variantDarkModeColor =
     color === "gray"
       ? "gray.300"
       : ["red", "win"].includes(color)
-      ? "red.300"
-      : ["blue", "lose"].includes(color)
-      ? "blue.300"
-      : "yellow.300";
+        ? "red.300"
+        : ["blue", "lose"].includes(color)
+          ? "blue.300"
+          : "yellow.300";
 
-  const ButtonCssStyle: SystemStyleObject = {
+  const buttonCssStyle: SystemStyleObject = {
     display: "block",
-    fontSize: `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${Math.max(
-      children.length - (numberSign !== "none" ? 1 : 0),
-      2
-    )}), 3.5vw))`,
+    fontSize: "3.5vw",
     fontWeight: 800,
     lineHeight: "3rem",
     w: compact ? "3.5rem" : "6rem",
@@ -78,15 +74,16 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       disabled && color === "gray"
         ? "not-allowed"
         : disabled || color === "green" || editable
-        ? "default"
-        : "pointer",
+          ? "default"
+          : "pointer",
+    _dark: {
+      bgColor: filled ? variantDarkModeColor : "transparent",
+      color: filled ? defaultDarkModeColor : variantDarkModeColor,
+    },
     lg: {
-      fontSize: `clamp(1.5rem, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
-        children.length - (numberSign !== "none" ? 1 : 0),
-        2
-      )}), 3rem)`,
+      fontSize: "3rem",
       w: compact ? "50%" : "100%",
-      h: "3rem",
+      h: "4rem",
     },
     _hover: { opacity: disabled ? 1 : 0.5 },
   };
@@ -129,7 +126,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           </Editable.Area>
         </Editable.Root>
       ) : (
-        <Button onClick={handleClick} sx={ButtonCssStyle}>
+        <button className={css(buttonCssStyle)} onClick={handleClick}>
           {numberSign === "none" ? (
             children
           ) : (
@@ -140,7 +137,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
               </span>
             </>
           )}
-        </Button>
+        </button>
       )}
     </>
   );

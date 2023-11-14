@@ -12,16 +12,17 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
         display: "flex",
         flexGrow: 1,
         alignItems: "flex-start",
-        justifyContent: "center",
-        textOrientation: "upright",
-        writingMode: "horizontal-tb",
         whiteSpace: "nowrap",
         fontFamily: "BIZ UDGothic",
         fontSize: "2rem",
         fontWeight: 800,
         w: "100%",
-        overflowX: "hidden",
         textOverflow: "ellipsis",
+        lg: {
+          justifyContent: "center",
+          textOrientation: "upright",
+          writingMode: "horizontal-tb",
+        },
       })}
     >
       {zenkaku2Hankaku(player_name)}
