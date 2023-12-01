@@ -1,18 +1,6 @@
 "use client";
 
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Switch,
-} from "@chakra-ui/react";
-import { cdate } from "cdate";
-import { nanoid } from "nanoid";
+import { Flex, FormControl, FormLabel, Switch } from "@chakra-ui/react";
 import {
   ArrowBackUp,
   Comet,
@@ -21,6 +9,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
+import Menu, { MenuItem } from "#/app/_components/Menu";
 import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
 import { GameDBProps, GameLogPropsOnSupabase } from "#/utils/types";
@@ -119,84 +108,57 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </div>
           </div>
         )}
-        <Menu closeOnSelect={false}>
-          <MenuButton
-            as={IconButton}
-            icon={<Settings />}
-            sx={{
-              borderColor: "gray.300",
-              _dark: {
-                borderColor: "gray.500",
-              },
+        <Menu label={<Settings />}>
+          <MenuItem disabled={game.editable}>
+            <Comet />
+            スルー
+          </MenuItem>
+          <MenuItem
+            disabled={logs.length === 0 || game.editable}
+            onClick={async () => {
+              if (logs.length !== 0) {
+                await db.logs.delete(logs[logs.length - 1].id);
+              }
             }}
-            variant="outline"
-          />
-          <MenuList>
+          >
+            <ArrowBackUp />
+            一つ戻す
+          </MenuItem>
+          <MenuItem
+            onClick={async () => {
+              await db.games.update(game.id, {
+                editable: !game.editable,
+              });
+            }}
+          >
+            <FormControl
+              as={Flex}
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <FormLabel mb="0">
+                <HandClick />
+                スコアの手動更新
+              </FormLabel>
+              <Switch isChecked={game.editable} />
+            </FormControl>
+          </MenuItem>
+          {document.fullscreenEnabled && (
             <MenuItem
-              icon={<Comet />}
-              isDisabled={game.editable}
-              onClick={async () => {
-                try {
-                  await db.logs.put({
-                    id: nanoid(),
-                    game_id: game.id,
-                    player_id: "-",
-                    variant: "through",
-                    system: false,
-                    timestamp: cdate().text(),
-                  });
-                } catch (e) {
-                  console.log(e);
+              onClick={() => {
+                if (document.fullscreenElement) {
+                  document.exitFullscreen();
+                } else {
+                  document.documentElement.requestFullscreen();
                 }
               }}
             >
-              スルー
+              <Maximize />
+              フルスクリーン
             </MenuItem>
-            <MenuItem
-              icon={<ArrowBackUp />}
-              isDisabled={logs.length === 0 || game.editable}
-              onClick={async () => {
-                if (logs.length !== 0) {
-                  await db.logs.delete(logs[logs.length - 1].id);
-                }
-              }}
-            >
-              一つ戻す
-            </MenuItem>
-            <MenuItem
-              icon={<HandClick />}
-              onClick={async () => {
-                await db.games.update(game.id, {
-                  editable: !game.editable,
-                });
-              }}
-            >
-              <FormControl
-                as={Flex}
-                sx={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <FormLabel mb="0">スコアの手動更新</FormLabel>
-                <Switch isChecked={game.editable} />
-              </FormControl>
-            </MenuItem>
-            {document.fullscreenEnabled && (
-              <MenuItem
-                icon={<Maximize />}
-                onClick={() => {
-                  if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                  } else {
-                    document.documentElement.requestFullscreen();
-                  }
-                }}
-              >
-                フルスクリーン
-              </MenuItem>
-            )}
-          </MenuList>
+          )}
         </Menu>
       </div>
       {/* <PreferenceModal isOpen={isOpen} onClose={onClose} /> */}

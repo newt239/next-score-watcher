@@ -7,11 +7,9 @@ import AppOptionSwitch from "#/components/block/AppOptionSwitch";
 import useDeviceWidth from "#/hooks/useDeviceWidth";
 import {
   reversePlayerInfoAtom,
-  showLogsAtom,
   showQnAtom,
   showSignStringAtom,
   showWinthroughPopupAtom,
-  verticalViewAtom,
   wrongNumberAtom,
 } from "#/utils/jotai";
 
@@ -21,13 +19,11 @@ const Preferences = () => {
   const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
     showWinthroughPopupAtom
   );
-  const [showLogs, setShowLogs] = useAtom(showLogsAtom);
   const [showQn, setShowQn] = useAtom(showQnAtom);
   const [showSignString, setShowSignString] = useAtom(showSignStringAtom);
   const [reversePlayerInfo, setReversePlayerInfo] = useAtom(
     reversePlayerInfoAtom
   );
-  const [verticalView, setVerticalView] = useAtom(verticalViewAtom);
   const [wrongNumber, setWrongNumber] = useAtom(wrongNumberAtom);
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -45,11 +41,6 @@ const Preferences = () => {
         title="勝ち抜け時にポップアップを表示"
       />
       <AppOptionSwitch
-        isChecked={showLogs}
-        onChange={() => setShowLogs((v) => !v)}
-        title="得点表示画面下にログを表示"
-      />
-      <AppOptionSwitch
         isChecked={showQn}
         onChange={() => setShowQn((v) => !v)}
         title="ヘッダーに問題番号を表示"
@@ -62,15 +53,8 @@ const Preferences = () => {
       <AppOptionSwitch
         isChecked={reversePlayerInfo}
         onChange={() => setReversePlayerInfo((v) => !v)}
-        title={`スコアを名前の${desktop && !verticalView ? "上" : "左"}に表示`}
+        title={`スコアを名前の左に表示`}
       />
-      {desktop && (
-        <AppOptionSwitch
-          isChecked={verticalView}
-          onChange={() => setVerticalView((v) => !v)}
-          title="プレイヤーを垂直に並べる"
-        />
-      )}
       <AppOptionSwitch
         isChecked={wrongNumber}
         label="誤答数が0のときは中黒・で表示されます。"

@@ -54,8 +54,7 @@ const Header: React.FC = () => {
                 height: "clamp(20px, 10vw, 50px)!important",
                 margin: "auto",
                 cursor: "pointer",
-                objectFit: "contain",
-                position: "relative!important",
+                position: "relative",
               })}
               fill
               src="/logo.png"

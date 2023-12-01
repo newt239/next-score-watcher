@@ -4,8 +4,6 @@ import { cookies } from "next/headers";
 
 import NextTopLoader from "nextjs-toploader";
 
-import "@szhsin/react-menu/dist/index.css";
-import "@szhsin/react-menu/dist/transitions/slide.css";
 import "./globals.css";
 
 const biz_font = BIZ_UDPGothic({ subsets: ["latin"], weight: ["400", "700"] });

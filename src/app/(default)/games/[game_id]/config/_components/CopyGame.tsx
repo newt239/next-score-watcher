@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 
-import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
 import { ChevronDown } from "tabler-icons-react";
 
+import Menu, { MenuItem } from "#/app/_components/Menu";
 import { createGame } from "#/utils/functions";
 import { GameDBProps } from "#/utils/types";
 
@@ -21,11 +21,11 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
 
   return (
     <Menu
-      menuButton={
-        <MenuButton>
+      label={
+        <>
           <ChevronDown />
           コピーする
-        </MenuButton>
+        </>
       }
     >
       <MenuItem

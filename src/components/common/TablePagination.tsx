@@ -8,7 +8,7 @@ import { PlayerPropsOnSupabase, QuizDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 type Props = {
-  table: Table<PlayerPropsOnSupabase["Row"]> | Table<QuizDBProps>;
+  table: Table<PlayerPropsOnSupabase> | Table<QuizDBProps>;
 };
 
 const TablePagenation: React.FC<Props> = ({ table }) => {
@@ -63,9 +63,9 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           items={[10, 20, 30, 40, 50].map((pageSize) => {
             return { value: `${pageSize}`, label: `${pageSize}件` };
           })}
-          onChange={(e) => {
+          onValueChange={(e) => {
             console.log(e);
-            table.setPageSize(Number(e.value[0]));
+            table.setPageSize(Number(e.value));
           }}
           value={[`${table.getState().pagination.pageSize}`]}
         />

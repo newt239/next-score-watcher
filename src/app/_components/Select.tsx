@@ -20,6 +20,7 @@ const Select: React.FC<SelectProps> = ({ items, label, value, onChange }) => {
       items={items}
       onChange={onChange}
       positioning={{ sameWidth: true }}
+      unmountOnExit
       value={value}
     >
       {label && <ArkSelect.Label>{label}</ArkSelect.Label>}
@@ -41,7 +42,7 @@ const Select: React.FC<SelectProps> = ({ items, label, value, onChange }) => {
             gap: "8px",
           })}
         >
-          <ArkSelect.Value />
+          <ArkSelect.ValueText />
           <Selector />
         </ArkSelect.Trigger>
       </ArkSelect.Control>
