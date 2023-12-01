@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
           w: "80%",
         })}
       >
-        <p
+        <div
           className={css({
             fontSize: { base: "3xl", md: "4xl", lg: "5xl" },
             fontWeight: "700",
@@ -42,11 +42,10 @@ const Hero: React.FC = () => {
           <span className={css({ position: "relative", bgColor: "white" })}>
             競技クイズのための
           </span>
-          <div></div>
           <span className={css({ color: "green.500", bgColor: "white" })}>
             得点表示アプリ
           </span>
-        </p>
+        </div>
         <div
           className={css({
             color: "white",

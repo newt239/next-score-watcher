@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { BIZ_UDPGothic } from "next/font/google";
 import { cookies } from "next/headers";
 
+import NextTopLoader from "nextjs-toploader";
+
 import "@szhsin/react-menu/dist/index.css";
 import "@szhsin/react-menu/dist/transitions/slide.css";
 import "./globals.css";
@@ -46,7 +48,10 @@ export default function RootLayout({
         <meta content="@newt239" name="twitter:creator" />
         <meta content="score-watcher.newt239.dev" name="twitter:domain" />
       </head>
-      <body className={biz_font.className}>{children}</body>
+      <body className={biz_font.className}>
+        <NextTopLoader color="#28A745" showSpinner={false} />
+        {children}
+      </body>
     </html>
   );
 }
