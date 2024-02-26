@@ -44,6 +44,10 @@ export const buttonRecipe = cva({
       lg: { px: "12px", py: "8px", fontSize: "24px", borderRadius: "12px" },
       xl: { px: "20px", py: "12px", fontSize: "32px", borderRadius: "full" },
     },
+    color: {
+      black: { color: "black" },
+      white: { color: "white" },
+    },
   },
   defaultVariants: {
     variant: "solid",

@@ -9,13 +9,16 @@ import { css } from "@panda/css";
 export type MenuProps = {
   label: React.ReactNode;
   children: React.ReactNode;
+  closeOnSelect?: boolean;
 } & React.ComponentProps<typeof ArkMenu.Root>;
 
-const Menu: React.FC<MenuProps> = ({ label, children }) => {
+const Menu: React.FC<MenuProps> = ({ label, children, closeOnSelect }) => {
   return (
-    <ArkMenu.Root unmountOnExit>
+    <ArkMenu.Root closeOnSelect={closeOnSelect} unmountOnExit>
       <ArkMenu.Trigger
-        className={css(buttonRecipe.raw({ variant: "subtle", size: "sm" }))}
+        className={css(
+          buttonRecipe.raw({ variant: "subtle", size: "sm", color: "black" })
+        )}
       >
         {label}
       </ArkMenu.Trigger>

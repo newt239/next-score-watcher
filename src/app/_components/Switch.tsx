@@ -1,3 +1,4 @@
+import { Switch as ArkSwitch } from "@ark-ui/react";
 import { SystemStyleObject } from "@pandacss/dev";
 
 import { RecipeVariantProps, css, cva } from "@panda/css";
@@ -33,7 +34,7 @@ export type SwitchProps = {
   children: React.ReactNode;
   sx?: SystemStyleObject;
   variants?: RecipeVariantProps<typeof switchRecipe>;
-} & JSX.IntrinsicElements["input"];
+} & React.ComponentProps<typeof ArkSwitch.Root>;
 
 const Switch: React.FC<SwitchProps> = ({
   children,
@@ -42,10 +43,33 @@ const Switch: React.FC<SwitchProps> = ({
   ...props
 }) => {
   return (
-    <label className={css(switchRecipe.raw(variants), sx)}>
-      <input type="checkbox" {...props} />
-      <span>{children}</span>
-    </label>
+    <ArkSwitch.Root className={css(switchRecipe.raw(variants), sx)} {...props}>
+      <ArkSwitch.Control
+        className={css({
+          w: "32px",
+          borderRadius: "full",
+          backgroundColor: "gray.300",
+          _checked: {
+            backgroundColor: "emerald.500",
+          },
+        })}
+      >
+        <ArkSwitch.Thumb
+          className={css({
+            display: "block",
+            w: "16px",
+            h: "16px",
+            p: "2px",
+            backgroundColor: "black",
+            borderRadius: "full",
+            _checked: {
+              backgroundColor: "white",
+            },
+          })}
+        />
+      </ArkSwitch.Control>
+      <ArkSwitch.Label>{children}</ArkSwitch.Label>
+    </ArkSwitch.Root>
   );
 };
 

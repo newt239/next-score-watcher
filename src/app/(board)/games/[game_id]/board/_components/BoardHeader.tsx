@@ -1,15 +1,8 @@
 "use client";
-
-import { Flex, FormControl, FormLabel, Switch } from "@chakra-ui/react";
-import {
-  ArrowBackUp,
-  Comet,
-  HandClick,
-  Maximize,
-  Settings,
-} from "tabler-icons-react";
+import { ArrowBackUp, Comet, Maximize, Settings } from "tabler-icons-react";
 
 import Menu, { MenuItem } from "#/app/_components/Menu";
+import Switch from "#/app/_components/Switch";
 import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
 import { GameDBProps, GameLogPropsOnSupabase } from "#/utils/types";
@@ -108,7 +101,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </div>
           </div>
         )}
-        <Menu label={<Settings />}>
+        <Menu closeOnSelect={false} label={<Settings />}>
           <MenuItem disabled={game.editable}>
             <Comet />
             スルー
@@ -131,19 +124,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               });
             }}
           >
-            <FormControl
-              as={Flex}
-              sx={{
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <FormLabel mb="0">
-                <HandClick />
-                スコアの手動更新
-              </FormLabel>
-              <Switch isChecked={game.editable} />
-            </FormControl>
+            <Switch checked={game.editable}>スコアの手動更新</Switch>
           </MenuItem>
           {document.fullscreenEnabled && (
             <MenuItem
