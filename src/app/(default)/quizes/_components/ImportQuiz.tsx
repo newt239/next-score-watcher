@@ -5,9 +5,10 @@ import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 
+import { Database } from "../../../../../supabase/schema";
+
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
-import { Database } from "#/utils/schema";
 import { css } from "@panda/css";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
@@ -22,8 +23,8 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         const buffer = ev.target?.result;
         if (buffer instanceof ArrayBuffer) {
           const unicodeArray = Encoding.convert(new Uint8Array(buffer), {
-            to: "UNICODE",
             from: "AUTO",
+            to: "UNICODE",
           });
           const encodedString = Encoding.codeToString(unicodeArray);
           csvFileToArray(encodedString).then((row) => {
@@ -41,10 +42,10 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       .map((row) => {
         const values = row.split(",");
         return {
+          a: values[2] || "",
           id: nanoid(),
           n: str2num(values[0]),
           q: values[1] || "",
-          a: values[2] || "",
           set_name: setName,
         };
       })
@@ -59,8 +60,8 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         h: "30vh",
+        justifyContent: "space-between",
       })}
     >
       <p>CSVファイルからインポートできます。</p>

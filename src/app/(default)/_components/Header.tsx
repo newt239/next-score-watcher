@@ -11,64 +11,63 @@ const Header: React.FC = () => {
   return (
     <header
       className={css({
-        w: "100%",
-        p: "0px",
         backgroundColor: "white",
-        zIndex: 100,
-        position: "fixed",
-        top: 0,
         left: 0,
         lg: {
+          height: "100vh",
           p: "16px",
           width: 300,
-          height: "100vh",
         },
+        p: "0px",
+        position: "fixed",
+        top: 0,
+        w: "100%",
+        zIndex: 100,
       })}
     >
       <div
         className={css({
           display: "flex",
-          justifyContent: "space-between",
           gap: "16px",
-          px: "16px",
-          py: "8px",
+          justifyContent: "space-between",
           lg: {
             flexDirection: "column",
             h: "100%",
           },
+          px: "16px",
+          py: "8px",
         })}
       >
-        <div
+        <Link
           className={css({
-            transition: "all 0.2s ease-out",
             _hover: { opacity: 0.5 },
+            transition: "all 0.2s ease-out",
           })}
+          href="/"
         >
-          <Link href="/">
-            <Image
-              alt="app logo"
-              className={css({
-                pb: 2,
-                pl: [0, 2],
-                width: "auto!important",
-                height: "clamp(20px, 10vw, 50px)!important",
-                margin: "auto",
-                cursor: "pointer",
-                position: "relative",
-              })}
-              fill
-              src="/logo.png"
-            />
-          </Link>
-        </div>
+          <Image
+            alt="app logo"
+            className={css({
+              cursor: "pointer",
+              height: "clamp(20px, 10vw, 50px)!important",
+              margin: "auto",
+              pb: 2,
+              pl: [0, 2],
+              width: "auto!important",
+            })}
+            height={50}
+            src="/logo.png"
+            width={236}
+          />
+        </Link>
         <Hamburger>
           <SubMenu />
           <Account />
         </Hamburger>
         <div
           className={css({
-            flexGrow: 1,
             display: "none",
+            flexGrow: 1,
             lg: {
               display: "block",
             },

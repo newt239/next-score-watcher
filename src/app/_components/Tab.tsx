@@ -42,7 +42,7 @@ export const Tab: React.FC<PropsWithChildren<TabProps>> = ({
       if (tabs.findIndex((item) => item.key === key) >= 0) {
         return tabs;
       } else {
-        return [...tabs, { title, key }];
+        return [...tabs, { key, title }];
       }
     });
   }, []);
@@ -61,16 +61,16 @@ export const Tab: React.FC<PropsWithChildren<TabProps>> = ({
         className={css({
           display: "flex",
           flexDirection: "column",
-          w: "100%",
           my: "16px",
+          w: "100%",
         })}
       >
         <div
           className={css({
+            borderBottomColor: "emerald.500",
+            borderBottomWidth: "2px",
             display: "flex",
             gap: "16px",
-            borderBottomWidth: "2px",
-            borderBottomColor: "emerald.500",
           })}
           role="tablist"
         >
@@ -78,14 +78,6 @@ export const Tab: React.FC<PropsWithChildren<TabProps>> = ({
             <button
               aria-selected={activeKey === key}
               className={css({
-                padding: "8px 16px",
-                borderRadius: "8px 8px 0 0",
-                cursor: "pointer",
-                backgroundColor: "white",
-                color: "emerald.500",
-                borderWidth: "2px 2px 0 2px",
-                borderColor: "emerald.500",
-                transition: "all 0.2s ease",
                 _hover: {
                   backgroundColor: "emerald.500",
                   color: "white",
@@ -94,6 +86,14 @@ export const Tab: React.FC<PropsWithChildren<TabProps>> = ({
                   backgroundColor: "emerald.500",
                   color: "white",
                 },
+                backgroundColor: "white",
+                borderColor: "emerald.500",
+                borderRadius: "8px 8px 0 0",
+                borderWidth: "2px 2px 0 2px",
+                color: "emerald.500",
+                cursor: "pointer",
+                padding: "8px 16px",
+                transition: "all 0.2s ease",
               })}
               key={key}
               onClick={() => setActiveKey(key)}

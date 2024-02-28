@@ -10,22 +10,22 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ ...props }) => {
   return (
     <button
       className={css({
-        padding: "0.5rem 1rem",
-        border: "1px solid #CBD5E0",
-        margin: "0 auto",
-        display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        gap: "0.5rem",
+        border: "1px solid #CBD5E0",
         borderRadius: "0.375rem",
-        color: "#4A5568",
-        transition: "border 0.15s, color 0.15s, box-shadow 0.15s",
-        cursor: "pointer",
         _hover: {
           borderColor: "#CBD5E0",
-          color: "#2D3748",
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+          color: "#2D3748",
         },
+        color: "#4A5568",
+        cursor: "pointer",
+        display: "flex",
+        gap: "0.5rem",
+        justifyContent: "space-between",
+        margin: "0 auto",
+        padding: "0.5rem 1rem",
+        transition: "border 0.15s, color 0.15s, box-shadow 0.15s",
       })}
       {...props}
     >

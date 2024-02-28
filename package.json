@@ -52,6 +52,7 @@
     "eslint-config-next": "14.0.2",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "supabase": "^1.145.4",

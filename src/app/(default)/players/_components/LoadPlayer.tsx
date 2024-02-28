@@ -8,10 +8,11 @@ import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import { CirclePlus } from "tabler-icons-react";
 
+import { Database } from "../../../../../supabase/schema";
+
 import Button from "#/app/_components/Button";
 import Textarea from "#/app/_components/Textarea";
 import db from "#/utils/db";
-import { Database } from "#/utils/schema";
 import { PlayerDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
@@ -34,7 +35,7 @@ const LoadPlayer: React.FC = () => {
         const belong =
           playerRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
         if (name !== "") {
-          dataArray.push({ id: nanoid(), name, order, belong });
+          dataArray.push({ belong, id: nanoid(), name, order });
         }
       }
       await supabase.from("players").insert(dataArray);
@@ -57,15 +58,15 @@ const LoadPlayer: React.FC = () => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         h: ["45vh", "45vh", "30vh"],
+        justifyContent: "space-between",
       })}
     >
       <div
         className={css({
-          flexGrow: 1,
           display: "flex",
           flexDirection: "column",
+          flexGrow: 1,
           w: "full",
         })}
       >
@@ -81,9 +82,9 @@ const LoadPlayer: React.FC = () => {
         <div
           className={css({
             display: "flex",
-            pt: 3,
             gap: 3,
             justifyContent: "flex-end",
+            pt: 3,
             w: "full",
           })}
         >

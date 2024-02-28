@@ -49,9 +49,9 @@ const nomr = async (
             const newWrong = playerState.wrong + 1;
             return {
               ...playerState,
-              wrong: newWrong,
-              last_wrong: qn,
               is_incapacity: true,
+              last_wrong: qn,
+              wrong: newWrong,
             };
           default:
             return playerState;
@@ -63,8 +63,8 @@ const nomr = async (
         ) {
           return {
             ...playerState,
-            state: "playing",
             is_incapacity: false,
+            state: "playing",
           };
         } else {
           return playerState;

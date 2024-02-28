@@ -28,25 +28,25 @@ const ny = async (
             if (newScore >= game.win_point!) {
               return {
                 ...playerState,
-                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
+                score: newScore,
                 state: "win",
               };
             } else if (newScore === game.win_point!) {
               return {
                 ...playerState,
-                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
                 reach_state: "win",
+                score: newScore,
               };
             } else {
               return {
                 ...playerState,
-                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
+                score: newScore,
               };
             }
           case "wrong":
@@ -54,10 +54,10 @@ const ny = async (
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
-                score: playerState.score - 1,
-                wrong: newWrong,
                 last_wrong: qn,
+                score: playerState.score - 1,
                 state: "lose",
+                wrong: newWrong,
               };
             } else if (
               newWrong + 1 === game.lose_point! &&
@@ -65,17 +65,17 @@ const ny = async (
             ) {
               return {
                 ...playerState,
-                score: playerState.score - 1,
-                wrong: newWrong,
                 last_wrong: qn,
                 reach_state: "lose",
+                score: playerState.score - 1,
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
+                last_wrong: qn,
                 score: playerState.score - 1,
                 wrong: newWrong,
-                last_wrong: qn,
               };
             }
           default:

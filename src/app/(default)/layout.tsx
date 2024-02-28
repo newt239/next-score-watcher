@@ -24,14 +24,14 @@ export default function DefaultLayout({
       <Header />
       <div
         className={css({
-          p: "16px",
-          mt: "50px",
-          w: "100%",
-          maxW: "1300px",
           lg: {
-            mt: "0px",
             ml: "300px",
+            mt: "0px",
           },
+          maxW: "1300px",
+          mt: "50px",
+          p: "16px",
+          w: "100%",
         })}
       >
         {children}

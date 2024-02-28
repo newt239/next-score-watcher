@@ -1,6 +1,7 @@
 "use client";
 import { ArrowBackUp, Comet, Maximize, Settings } from "tabler-icons-react";
 
+import Anchor from "#/app/_components/Anchor";
 import Menu, { MenuItem } from "#/app/_components/Menu";
 import Switch from "#/app/_components/Switch";
 import db from "#/utils/db";
@@ -18,34 +19,34 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     <>
       <div
         className={css({
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: [0, 0, 3],
-          height: ["10vh", "10vh", "15vh"],
-          px: 1,
-          borderStyle: "solid",
-          borderWidth: "0px 0px thin",
-          borderColor: "gray.300",
-          bgColor: "gray.50",
           _dark: {
             borderColor: "gray.500",
             bgColor: "gray.700",
           },
+          alignItems: "center",
+          bgColor: "gray.50",
+          borderColor: "gray.300",
+          borderStyle: "solid",
+          borderWidth: "0px 0px thin",
+          display: "flex",
+          gap: [0, 0, 3],
+          height: ["10vh", "10vh", "15vh"],
+          justifyContent: "space-between",
+          px: 1,
         })}
       >
         <div
           className={css({
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            p: 0,
-            maxWidth: [`calc(100vw - 10rem)`, null, "30vw"],
-            color: "green.600",
-            h: "100%",
             _dark: {
               color: "green.300",
             },
+            color: "green.600",
+            display: "flex",
+            flexDirection: "column",
+            h: "100%",
+            justifyContent: "center",
+            maxWidth: [`calc(100vw - 10rem)`, null, "30vw"],
+            p: 0,
           })}
         >
           <h2 style={{ lineHeight: "2rem", overflow: "hidden" }}>
@@ -55,13 +56,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         </div>
         <div
           className={css({
+            alignItems: "center",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center",
           })}
         >
-          <div className={css({ whiteSpace: "nowrap", lineHeight: "2.5rem" })}>
+          <div className={css({ lineHeight: "2.5rem", whiteSpace: "nowrap" })}>
             第
             <span className={css({ fontSize: "2.5rem", fontWeight: 800 })}>
               {logs.length + 1}
@@ -72,12 +73,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         {game.quiz && (
           <div
             className={css({
-              flexGrow: 1,
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
+              flexGrow: 1,
               fontSize: "1.5rem",
+              height: "100%",
+              justifyContent: "space-between",
               lineHeight: "1.5rem",
               overflow: "hidden",
             })}
@@ -87,14 +88,14 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </div>
             <div
               className={css({
-                textAlign: "right",
-                color: "red.600",
-                bgColor: "gray.50",
-                fontWeight: 800,
                 _dark: {
-                  color: "red.300",
                   bgColor: "gray.700",
+                  color: "red.300",
                 },
+                bgColor: "gray.50",
+                color: "red.600",
+                fontWeight: 800,
+                textAlign: "right",
               })}
             >
               ここに答えが表示されます
@@ -102,19 +103,18 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           </div>
         )}
         <Menu closeOnSelect={false} label={<Settings />}>
-          <MenuItem disabled={game.editable}>
-            <Comet />
+          <MenuItem disabled={game.editable} icon={<Comet />}>
             スルー
           </MenuItem>
           <MenuItem
             disabled={logs.length === 0 || game.editable}
+            icon={<ArrowBackUp />}
             onClick={async () => {
               if (logs.length !== 0) {
                 await db.logs.delete(logs[logs.length - 1].id);
               }
             }}
           >
-            <ArrowBackUp />
             一つ戻す
           </MenuItem>
           <MenuItem
@@ -126,8 +126,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
           >
             <Switch checked={game.editable}>スコアの手動更新</Switch>
           </MenuItem>
-          {document.fullscreenEnabled && (
+          {typeof window !== "undefined" && document.fullscreenEnabled && (
             <MenuItem
+              icon={<Maximize />}
               onClick={() => {
                 if (document.fullscreenElement) {
                   document.exitFullscreen();
@@ -136,10 +137,18 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 }
               }}
             >
-              <Maximize />
               フルスクリーン
             </MenuItem>
           )}
+          <Anchor
+            className={css({
+              color: "inherit",
+              textDecoration: "none",
+            })}
+            href={`/games/${game.id}/config`}
+          >
+            <MenuItem icon={<Settings />}>設定に戻る</MenuItem>
+          </Anchor>
         </Menu>
       </div>
       {/* <PreferenceModal isOpen={isOpen} onClose={onClose} /> */}

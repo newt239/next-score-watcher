@@ -7,11 +7,12 @@ import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import { CirclePlus } from "tabler-icons-react";
 
+import { Database } from "../../../../../supabase/schema";
+
 import Button from "#/app/_components/Button";
 import FormControl from "#/app/_components/FormControl";
 import TextInput from "#/app/_components/TextInput";
 import db from "#/utils/db";
-import { Database } from "#/utils/schema";
 import { GameDBPlayerProps } from "#/utils/types";
 import { css } from "@panda/css";
 
@@ -31,10 +32,10 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   const addNewPlayer = async () => {
     const player_id = nanoid();
     const result = await supabase.from("players").insert({
+      belong: playerBelong,
       id: player_id,
       name: playerName,
       order: playerOrder,
-      belong: playerBelong,
     });
     console.log(result);
     if (from) {
@@ -44,12 +45,12 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           players: [
             //  ...game.players,
             {
-              id: player_id,
-              name: playerName,
-              initial_correct: 0,
-              initial_wrong: 0,
               base_correct_point: 1,
               base_wrong_point: -1,
+              id: player_id,
+              initial_correct: 0,
+              initial_wrong: 0,
+              name: playerName,
             } as GameDBPlayerProps,
           ],
         });
@@ -67,20 +68,20 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         h: ["45vh", "45vh", "30vh"],
+        justifyContent: "space-between",
       })}
     >
       <div
         className={css({
           display: "grid",
+          gap: "16px",
           gridTemplateColumns: [
             "repeat(1, 1fr)",
             "repeat(1, 1fr)",
             "repeat(2, 1fr)",
           ],
           w: "100%",
-          gap: "16px",
         })}
       >
         <FormControl label="氏名">

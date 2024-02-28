@@ -9,9 +9,10 @@ import "./globals.css";
 const biz_font = BIZ_UDPGothic({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
-  title: "Score Watcher",
   description:
     "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
+  metadataBase: new URL("https://score-watcher.newt239.dev"),
+  title: "Score Watcher",
 };
 
 export default function RootLayout({

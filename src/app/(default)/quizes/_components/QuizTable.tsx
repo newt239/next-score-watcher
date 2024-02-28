@@ -79,20 +79,20 @@ const QuizTable: React.FC = () => {
   const columnHelper = createColumnHelper<QuizDBProps>();
   const columns: ColumnDef<QuizDBProps, any>[] = [
     columnHelper.accessor("id", {
+      cell: ({ row }) => {
+        return (
+          <Checkbox
+            isChecked={row.getIsSelected()}
+            onChange={() => row.toggleSelected()}
+          />
+        );
+      },
       header: ({ table }) => {
         return (
           <Checkbox
             isChecked={table.getIsAllRowsSelected()}
             isIndeterminate={table.getIsSomeRowsSelected()}
             onChange={() => table.toggleAllRowsSelected()}
-          />
-        );
-      },
-      cell: ({ row }) => {
-        return (
-          <Checkbox
-            isChecked={row.getIsSelected()}
-            onChange={() => row.toggleSelected()}
           />
         );
       },
@@ -112,7 +112,6 @@ const QuizTable: React.FC = () => {
       header: "セット名",
     }),
     columnHelper.accessor("id", {
-      header: "",
       cell: (info) => {
         return (
           <IconButton
@@ -126,22 +125,23 @@ const QuizTable: React.FC = () => {
           </IconButton>
         );
       },
+      header: "",
     }),
   ];
 
   const table = useReactTable<QuizDBProps>({
-    data: quizes || [],
     columns,
-    state: {
-      rowSelection: selectedQuizes,
-      globalFilter: searchText,
-    },
-    onRowSelectionChange: setSelectedQuizes,
-    globalFilterFn: fuzzyFilter,
-    onGlobalFilterChange: setSearchText,
+    data: quizes || [],
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    globalFilterFn: fuzzyFilter,
+    onGlobalFilterChange: setSearchText,
+    onRowSelectionChange: setSelectedQuizes,
+    state: {
+      globalFilter: searchText,
+      rowSelection: selectedQuizes,
+    },
   });
 
   if (!quizes) return null;
@@ -156,7 +156,7 @@ const QuizTable: React.FC = () => {
       ) : (
         <Box>
           {
-            <Flex sx={{ py: 5, gap: 3, justifyContent: "flex-end" }}>
+            <Flex sx={{ gap: 3, justifyContent: "flex-end", py: 5 }}>
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button
@@ -169,12 +169,12 @@ const QuizTable: React.FC = () => {
                           .rows.map(({ original: quiz }) => quiz.id)
                       );
                       toast({
+                        duration: 9000,
+                        isClosable: true,
+                        status: "success",
                         title: `${
                           table.getSelectedRowModel().rows.length
                         } 件の問題を削除しました`,
-                        status: "success",
-                        duration: 9000,
-                        isClosable: true,
                       });
                       setSelectedQuizes([]);
                     }}

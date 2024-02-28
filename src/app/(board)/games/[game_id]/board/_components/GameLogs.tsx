@@ -37,26 +37,26 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
     <div
       className={css({
         display: "flex",
-        p: 3,
-        my: 10,
-        maxW: "100vw",
         justifyContent: "center",
+        maxW: "100vw",
+        my: 10,
+        p: 3,
       })}
     >
       <div
         className={css({
-          borderStyle: "solid",
-          borderWidth: 1,
-          borderColor: "gray.100",
-          p: 3,
-          borderRadius: "0.5rem",
           _dark: {
             borderColor: "gray.700",
           },
+          borderColor: "gray.100",
+          borderRadius: "0.5rem",
+          borderStyle: "solid",
+          borderWidth: 1,
           lg: {
-            borderWidth: 3,
             borderRadius: "1rem",
+            borderWidth: 3,
           },
+          p: 3,
         })}
       >
         <Button

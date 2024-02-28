@@ -28,25 +28,25 @@ const nupdown = async (
             if (newScore >= game.win_point!) {
               return {
                 ...playerState,
-                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
+                score: newScore,
                 state: "win",
               };
             } else if (newScore + 1 === game.win_point!) {
               return {
                 ...playerState,
-                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
                 reach_state: "win",
+                score: newScore,
               };
             } else {
               return {
                 ...playerState,
-                score: newScore,
                 correct: newCorrect,
                 last_correct: qn,
+                score: newScore,
               };
             }
           case "wrong":
@@ -54,10 +54,10 @@ const nupdown = async (
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
-                score: 0,
-                wrong: newWrong,
                 last_wrong: qn,
+                score: 0,
                 state: "lose",
+                wrong: newWrong,
               };
             } else if (
               newWrong + 1 === game.lose_point! &&
@@ -65,17 +65,17 @@ const nupdown = async (
             ) {
               return {
                 ...playerState,
-                score: 0,
-                wrong: newWrong,
                 last_wrong: qn,
                 reach_state: "lose",
+                score: 0,
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
+                last_wrong: qn,
                 score: 0,
                 wrong: newWrong,
-                last_wrong: qn,
               };
             }
           default:

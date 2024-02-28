@@ -21,8 +21,8 @@ export default async function Account() {
   return (
     <div
       className={css({
-        display: "flex",
         alignItems: "center",
+        display: "flex",
         gap: "16px",
       })}
     >
@@ -30,9 +30,9 @@ export default async function Account() {
         <img
           alt="アカウントのアバター"
           className={css({
+            aspectRatio: "1/1",
             borderRadius: "full",
             w: "64px",
-            aspectRatio: "1/1",
           })}
           src={session.user?.user_metadata.avatar_url}
         />

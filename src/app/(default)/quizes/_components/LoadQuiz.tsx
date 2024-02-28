@@ -6,11 +6,12 @@ import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import { CirclePlus } from "tabler-icons-react";
 
+import { Database } from "../../../../../supabase/schema";
+
 import Button from "#/app/_components/Button";
 import Textarea from "#/app/_components/Textarea";
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
-import { Database } from "#/utils/schema";
 import { QuizDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
@@ -33,10 +34,10 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           quizRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
         if (n !== "") {
           dataArray.push({
+            a,
             id: nanoid(),
             n: str2num(n),
             q,
-            a,
             set_name: setName,
           });
         }
@@ -61,15 +62,15 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         h: "30vh",
+        justifyContent: "space-between",
       })}
     >
       <div
         className={css({
-          flexGrow: 1,
           display: "flex",
           flexDirection: "column",
+          flexGrow: 1,
           w: "full",
         })}
       >
@@ -87,9 +88,9 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       <div
         className={css({
           display: "flex",
-          pt: 3,
           gap: 3,
           justifyContent: "flex-end",
+          pt: 3,
           w: "full",
         })}
       >

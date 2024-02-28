@@ -50,9 +50,9 @@ const ConfigTextInput: React.FC<ConfigTextInputProps> = ({
       >
         <div
           className={css({
+            alignItems: "center",
             display: "flex",
             flexDirection: "row",
-            alignItems: "center",
             gap: "8px",
           })}
         >
@@ -93,8 +93,8 @@ const ConfigTextInput: React.FC<ConfigTextInputProps> = ({
       {helperText && (
         <div
           className={css({
-            fontSize: "12px",
             color: "gray.500",
+            fontSize: "12px",
           })}
         >
           {helperText}

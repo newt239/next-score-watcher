@@ -6,11 +6,11 @@ import ButtonLink from "#/app/_components/ButtonLink";
 import { css } from "@panda/css";
 
 const linkList: { text: string; path: string }[] = [
-  { text: "ホーム", path: "/" },
-  { text: "作成したゲーム", path: "/games" },
-  { text: "プレイヤー管理", path: "/players" },
-  { text: "問題管理", path: "/quizes" },
-  { text: "アプリ設定", path: "/config" },
+  { path: "/", text: "ホーム" },
+  { path: "/games", text: "作成したゲーム" },
+  { path: "/players", text: "プレイヤー管理" },
+  { path: "/quizes", text: "問題管理" },
+  { path: "/config", text: "アプリ設定" },
 ];
 
 const SubMenu: React.FC = () => {
@@ -29,11 +29,11 @@ const SubMenu: React.FC = () => {
           href={link.path}
           key={link.path}
           sx={{
-            w: "100%",
-            justifyContent: "flex-start",
             _currentPage: {
               bgColor: "emerald.500",
             },
+            justifyContent: "flex-start",
+            w: "100%",
           }}
           variant={link.path === pathname ? "solid" : "subtle"}
         >

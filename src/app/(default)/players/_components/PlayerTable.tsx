@@ -23,19 +23,19 @@ const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
   const columnHelper = createColumnHelper<PlayerPropsOnSupabase["Row"]>();
   const columns: ColumnDef<PlayerPropsOnSupabase["Row"], any>[] = [
     columnHelper.accessor("id", {
-      header: ({ table }) => {
-        return (
-          <Checkbox
-            checked={table.getIsAllRowsSelected()}
-            onChange={() => table.toggleAllRowsSelected()}
-          />
-        );
-      },
       cell: ({ row }) => {
         return (
           <Checkbox
             checked={row.getIsSelected()}
             onChange={() => row.toggleSelected()}
+          />
+        );
+      },
+      header: ({ table }) => {
+        return (
+          <Checkbox
+            checked={table.getIsAllRowsSelected()}
+            onChange={() => table.toggleAllRowsSelected()}
           />
         );
       },
@@ -52,8 +52,8 @@ const PlayerTable: React.FC<PlayerTableProps> = ({ players }) => {
   ];
 
   const table = useReactTable<PlayerPropsOnSupabase["Row"]>({
-    data: players || [],
     columns,
+    data: players || [],
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

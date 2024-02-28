@@ -1,14 +1,11 @@
 import { Metadata } from "next";
-import { cookies } from "next/headers";
-
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import BoardHeader from "./_components/BoardHeader";
 import GameLogs from "./_components/GameLogs";
 import Player from "./_components/Player";
 
 import computeScore from "#/utils/computeScore";
-import { Database } from "#/utils/schema";
+import { serverClient } from "#/utils/supabase";
 import {
   GameDBProps,
   GameLogDBProps,
@@ -26,17 +23,16 @@ export default async function GameBoardPage({
   params: { game_id: string };
 }) {
   const game_id = params.game_id;
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const gameDBResponse = await supabase
+  const gameDBResponse = await serverClient
     .from("games")
     .select()
     .eq("id", game_id)
     .single();
-  const gamePlayerDBResponse = await supabase
+  const gamePlayerDBResponse = await serverClient
     .from("game_players")
     .select("*, players (*)")
     .eq("game_id", game_id);
-  const gameLogDBResponse = await supabase
+  const gameLogDBResponse = await serverClient
     .from("game_logs")
     .select("*")
     .eq("game_id", game_id);
@@ -56,9 +52,11 @@ export default async function GameBoardPage({
 
   const result = await computeScore({
     game,
-    game_players,
     game_logs,
+    game_players,
   });
+
+  console.log(result);
 
   return (
     <>
@@ -66,15 +64,15 @@ export default async function GameBoardPage({
       {game.rule === "squarex" && (
         <div
           className={css({
-            position: "absolute",
-            writingMode: "vertical-rl",
-            textOverflow: "ellipsis",
-            textOrientation: "upright",
-            h: "100vh",
-            w: "1vw",
             bgColor: "green.500",
+            h: "100vh",
             left: game_logs.length % 2 === 0 ? 0 : undefined,
+            position: "absolute",
             right: game_logs.length % 2 === 1 ? 0 : undefined,
+            textOrientation: "upright",
+            textOverflow: "ellipsis",
+            w: "1vw",
+            writingMode: "vertical-rl",
             zIndex: 10,
           })}
         />
@@ -83,17 +81,17 @@ export default async function GameBoardPage({
         className={css({
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-evenly",
           flexWrap: "nowrap",
           gap: "1.5vh 1vw",
-          w: "100%",
           h: "100%",
-          px: "1vw",
-          pt: "3vh",
+          justifyContent: "space-evenly",
           lg: {
             flexDirection: "row",
             h: "80vh",
           },
+          pt: "3vh",
+          px: "1vw",
+          w: "100%",
         })}
         id="players-area"
       >

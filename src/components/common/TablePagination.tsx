@@ -15,12 +15,12 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
   return (
     <div
       className={css({
-        py: "8px",
+        alignItems: "center",
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-end",
         gap: "8px",
+        justifyContent: "flex-end",
+        py: "8px",
       })}
     >
       <Button
@@ -61,7 +61,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
       <div>
         <Select
           items={[10, 20, 30, 40, 50].map((pageSize) => {
-            return { value: `${pageSize}`, label: `${pageSize}件` };
+            return { label: `${pageSize}件`, value: `${pageSize}` };
           })}
           onValueChange={(e) => {
             console.log(e);

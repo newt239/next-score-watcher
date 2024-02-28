@@ -53,17 +53,17 @@ const swedish10 = async (
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
-                wrong: newWrong,
-                score: newWrong,
                 last_wrong: qn,
+                score: newWrong,
                 state: "lose",
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
-                wrong: newWrong,
-                score: newWrong,
                 last_wrong: qn,
+                score: newWrong,
+                wrong: newWrong,
               };
             }
           default:

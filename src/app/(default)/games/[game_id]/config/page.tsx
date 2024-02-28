@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
+import { Database } from "../../../../../../supabase/schema";
+
 import ConfigTextInput from "./_components/ConfigTextInput";
 import CopyGame from "./_components/CopyGame";
 import PlayersConfig from "./_components/PlayersConfig";
@@ -16,7 +18,6 @@ import Card from "#/app/_components/Card";
 import { Tab, TabItem } from "#/app/_components/Tab";
 import InputLayout from "#/components/common/InputLayout";
 import { rules } from "#/utils/rules";
-import { Database } from "#/utils/schema";
 import { GameDBProps, GameDBQuizProps, RuleNames } from "#/utils/types";
 import { css } from "@panda/css";
 
@@ -85,16 +86,16 @@ export default async function GameConfigPage({
       </Card>
       <div
         className={css({
-          w: "100%",
-          py: "16px",
+          alignItems: "center",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "center",
           gap: "16px",
+          justifyContent: "space-between",
           md: {
             flexDirection: "row",
           },
+          py: "16px",
+          w: "100%",
         })}
       >
         <div
@@ -107,10 +108,10 @@ export default async function GameConfigPage({
           ) : (
             <ul
               className={css({
-                color: "red.500",
                 _dark: {
                   color: "red.300",
                 },
+                color: "red.500",
               })}
             >
               {errorMessages.map((m) => (
@@ -121,10 +122,10 @@ export default async function GameConfigPage({
         </div>
         <div
           className={css({
-            width: "100%",
             md: {
               width: "fit-content",
             },
+            width: "100%",
           })}
         >
           <ButtonLink
@@ -133,10 +134,10 @@ export default async function GameConfigPage({
             leftIcon={<PlayerPlay />}
             size="lg"
             sx={{
-              width: "100%",
               md: {
                 width: "fit-content",
               },
+              width: "100%",
             }}
           >
             ゲーム開始

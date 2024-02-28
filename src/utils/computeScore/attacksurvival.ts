@@ -33,17 +33,17 @@ const attacksurvival = async (
             if (newScore + game.wrong_me <= 0) {
               return {
                 ...playerState,
-                score: newScore,
                 correct: playerState.correct + 1,
                 last_wrong: qn,
                 reach_state: "lose",
+                score: newScore,
               };
             } else {
               return {
                 ...playerState,
-                score: newScore,
                 correct: playerState.correct + 1,
                 last_wrong: qn,
+                score: newScore,
               };
             }
           case "wrong":
@@ -51,25 +51,25 @@ const attacksurvival = async (
             if (newScore <= 0) {
               return {
                 ...playerState,
-                score: newScore,
-                wrong: newWrong,
                 last_wrong: qn,
+                score: newScore,
                 state: "lose",
+                wrong: newWrong,
               };
             } else if (newScore + game.wrong_me <= 0) {
               return {
                 ...playerState,
-                score: newScore,
-                wrong: newWrong,
                 last_wrong: qn,
                 reach_state: "lose",
+                score: newScore,
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
+                last_wrong: qn,
                 score: newScore,
                 wrong: newWrong,
-                last_wrong: qn,
               };
             }
           default:
@@ -95,8 +95,8 @@ const attacksurvival = async (
         ) {
           return {
             ...playerState,
-            score: newScore,
             reach_state: "lose",
+            score: newScore,
           };
         } else {
           return {

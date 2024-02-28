@@ -6,13 +6,14 @@
     "plugin:import/warnings",
     "prettier"
   ],
-  "plugins": [],
+  "plugins": ["sort-keys-fix"],
   "rules": {
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react-hooks/exhaustive-deps": "off",
     "react/jsx-sort-props": "warn",
+    "sort-keys-fix/sort-keys-fix": "warn",
     "import/order": [
       "error",
       {

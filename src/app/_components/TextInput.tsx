@@ -4,32 +4,32 @@ import { RecipeVariantProps, css, cva } from "@panda/css";
 
 export const TextInputRecipe = cva({
   base: {
-    display: "block",
-    borderWidth: "2px",
-    borderRadius: "md",
-    borderColor: "gray.300",
-    width: "100%",
-    transition: "all 0.2s ease",
+    _disabled: {
+      cursor: "not-allowed",
+      opacity: 0.5,
+    },
     _focusVisible: {
-      outline: "none",
       borderColor: "emerald.500",
       boxShadow: "#10b981 0px 0px 0px 1px",
+      outline: "none",
     },
-    _disabled: {
-      opacity: 0.5,
-      cursor: "not-allowed",
-    },
-  },
-  variants: {
-    size: {
-      sm: { px: "8px", py: "6px", fontSize: "12px" },
-      md: { px: "8px", py: "6px", fontSize: "18px" },
-      lg: { px: "8px", py: "6px", fontSize: "24px" },
-      xl: { px: "20px", py: "12px", fontSize: "32px", borderRadius: "full" },
-    },
+    borderColor: "gray.300",
+    borderRadius: "md",
+    borderWidth: "2px",
+    display: "block",
+    transition: "all 0.2s ease",
+    width: "100%",
   },
   defaultVariants: {
     size: "md",
+  },
+  variants: {
+    size: {
+      lg: { fontSize: "24px", px: "8px", py: "6px" },
+      md: { fontSize: "18px", px: "8px", py: "6px" },
+      sm: { fontSize: "12px", px: "8px", py: "6px" },
+      xl: { borderRadius: "full", fontSize: "32px", px: "20px", py: "12px" },
+    },
   },
 });
 

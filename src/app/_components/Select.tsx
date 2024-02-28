@@ -27,19 +27,19 @@ const Select: React.FC<SelectProps> = ({ items, label, value, onChange }) => {
       <ArkSelect.Control>
         <ArkSelect.Trigger
           className={css({
-            display: "inline-flex",
-            justifyContent: "space-between",
             alignItems: "center",
-            width: "100%",
-            position: "relative",
-            cursor: "pointer",
             backgroundColor: "gray.100",
             borderColor: "gray.300",
-            borderWidth: "1px",
-            borderStyle: "solid",
             borderRadius: "md",
-            p: "8px",
+            borderStyle: "solid",
+            borderWidth: "1px",
+            cursor: "pointer",
+            display: "inline-flex",
             gap: "8px",
+            justifyContent: "space-between",
+            p: "8px",
+            position: "relative",
+            width: "100%",
           })}
         >
           <ArkSelect.ValueText />
@@ -60,16 +60,16 @@ const Select: React.FC<SelectProps> = ({ items, label, value, onChange }) => {
             {items.map((item) => (
               <ArkSelect.Item
                 className={css({
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  borderRadius: "md",
-                  cursor: "pointer",
-                  p: "8px",
                   _hover: {
                     backgroundColor: "gray.300",
                   },
+                  alignItems: "center",
+                  borderRadius: "md",
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  p: "8px",
                 })}
                 item={item}
                 key={item.value}

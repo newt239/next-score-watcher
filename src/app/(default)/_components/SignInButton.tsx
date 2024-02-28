@@ -10,10 +10,10 @@ export const SignInButton = () => {
   const handleSignIn = async () => {
     const redirectURL = `${window.location.protocol}//${window.location.host}/auth/callback`;
     await supabase.auth.signInWithOAuth({
-      provider: "google",
       options: {
         redirectTo: redirectURL,
       },
+      provider: "google",
     });
   };
 

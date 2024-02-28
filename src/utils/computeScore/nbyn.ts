@@ -30,16 +30,16 @@ const nbyn = async (
               return {
                 ...playerState,
                 correct: newCorrect,
-                score: newScoreInCorrectCase,
                 last_correct: qn,
+                score: newScoreInCorrectCase,
                 state: "win",
               };
             } else {
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newScoreInCorrectCase,
                 last_correct: qn,
+                score: newScoreInCorrectCase,
               };
             }
           case "wrong":
@@ -49,17 +49,17 @@ const nbyn = async (
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
-                wrong: newWrong,
-                score: newScoreInWrongCase,
                 last_wrong: qn,
+                score: newScoreInWrongCase,
                 state: "lose",
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
-                wrong: newWrong,
-                score: newScoreInWrongCase,
                 last_wrong: qn,
+                score: newScoreInWrongCase,
+                wrong: newWrong,
               };
             }
           default:

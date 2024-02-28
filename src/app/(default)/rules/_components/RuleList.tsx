@@ -26,8 +26,8 @@ const RuleList: React.FC = () => {
       <div
         className={css({
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
           gap: "16px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
           pt: "24px",
         })}
       >
@@ -48,9 +48,9 @@ const RuleList: React.FC = () => {
             >
               <div
                 className={css({
-                  display: "-webkit-box",
-                  WebkitLineClamp: 3,
                   "-webkit-box-orient": "vertical",
+                  WebkitLineClamp: 3,
+                  display: "-webkit-box",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 } as any)}

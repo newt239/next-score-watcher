@@ -5,7 +5,8 @@ import { cookies } from "next/headers";
 
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 
-import { Database } from "./schema";
+import { Database } from "../../supabase/schema";
+
 import { RuleNames } from "./types";
 
 const supabase = createServerActionClient<Database>({ cookies });
@@ -54,10 +55,10 @@ export const onGamePlayersUpdate = async (props: OnGamePlayersUpdateProps) => {
   await supabase.from("game_players").upsert(
     props.players.map((player) => {
       return {
-        id: `${props.game_id}_${player.id}`,
         game_id: props.game_id,
-        player_id: player.id,
+        id: `${props.game_id}_${player.id}`,
         name: player.name,
+        player_id: player.id,
       };
     })
   );

@@ -7,12 +7,12 @@ import { css, cva } from "@panda/css";
 
 export const linkRecipe = cva({
   base: {
-    color: "blue.500",
-    display: "inline-flex",
-    alignItems: "center",
     _hover: {
       textDecoration: "underline",
     },
+    alignItems: "center",
+    color: "blue.500",
+    display: "inline-flex",
   },
 });
 

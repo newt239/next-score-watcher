@@ -99,9 +99,9 @@ const computeScore = async ({
     }
   });
   const data = {
+    incapacity_players: incapacity_players,
     scores: result.scores,
     win_players: result.winPlayers,
-    incapacity_players: incapacity_players,
   };
 
   if (result.winPlayers.length !== 0) {
@@ -121,28 +121,28 @@ const computeScore = async ({
           ${result.winPlayers[0].name}さんが勝ち抜けました:tada:
           `;
         await fetch(game.discord_webhook_url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify({
-            username: "Score Watcher",
             avatar_url:
               "https://score-watcher.newt239.dev/icons/icon-512x512.png",
             embeds: [
               {
-                title: game.name,
-                description,
-                timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
                 color: 2664261,
+                description,
                 footer: {
-                  text: "© 2023 newt",
                   icon_url:
                     "https://pbs.twimg.com/profile_images/1621275964436258816/k0bKlqzs_400x400.jpg",
+                  text: "© 2023 newt",
                 },
+                timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
+                title: game.name,
               },
             ],
+            username: "Score Watcher",
           }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
         });
       }
     }
@@ -154,11 +154,11 @@ const computeScore = async ({
     const data = { info: game, logs: game_logs, scores: result.scores };
     console.log(data);
     await fetch(url, {
-      method: "POST",
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(data),
+      method: "POST",
     });
   }
 
@@ -194,26 +194,26 @@ export const getInitialPlayersState = (
   const initialPlayersState = game_players.map(
     (gamePlayer): ComputedScoreProps => {
       const playerState = {
-        game_id: game.id,
-        player_id: gamePlayer.id,
-        state: "playing" as States,
-        reach_state: "playing" as States,
-        score: getInitialScore(game, gamePlayer),
         correct: ["attacksurvival", "variables"].includes(game.rule)
           ? 0
           : gamePlayer.initial_correct,
+        even_score: 0,
+        game_id: game.id,
+        is_incapacity: false,
+        last_correct: -10,
+        last_wrong: -10,
+        odd_score: 0,
+        order: 0,
+        player_id: gamePlayer.id,
+        reach_state: "playing" as States,
+        score: getInitialScore(game, gamePlayer),
+        stage: 1,
+        state: "playing" as States,
+        text: "",
         wrong:
           game.rule === "backstream"
             ? initialBackstreamWrong(gamePlayer.initial_wrong)
             : gamePlayer.initial_wrong,
-        last_correct: -10,
-        last_wrong: -10,
-        odd_score: 0,
-        even_score: 0,
-        stage: 1,
-        is_incapacity: false,
-        order: 0,
-        text: "",
       };
       return playerState;
     }

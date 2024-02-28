@@ -4,13 +4,13 @@ import { css, cva } from "@panda/css";
 
 export const cardRecipe = cva({
   base: {
+    backgroundColor: "gray.200",
+    borderRadius: "lg",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
     gap: "8px",
+    justifyContent: "space-between",
     p: "8px",
-    borderRadius: "lg",
-    backgroundColor: "gray.200",
   },
 });
 
@@ -35,8 +35,8 @@ const Card: React.FC<CardProps> = ({
           className={css({
             fontSize: "1.5rem",
             fontWeight: "800",
-            whiteSpace: "nowrap",
             overflowX: "auto",
+            whiteSpace: "nowrap",
           })}
         >
           {title}

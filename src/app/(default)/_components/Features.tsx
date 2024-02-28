@@ -13,34 +13,33 @@ type FeatureProps = {
 const Features: React.FC = () => {
   const features: FeatureProps[] = [
     {
-      title: "基本機能",
-      image: "score-watcher_feature_basic.webp",
       description:
         "得点表示に不可欠なスコアの表示・勝ち抜け or 敗退の表示に加え、問題文の表示にも対応しています。得点表示画面はスマートフォンなどでも表示が可能です。",
+      image: "score-watcher_feature_basic.webp",
+      title: "基本機能",
     },
     {
-      title: "一つ戻す",
-      image: "score-watcher_feature_undo.gif",
       description: "操作を間違えても、変更を取り消すことが出来ます。",
+      image: "score-watcher_feature_undo.gif",
+      title: "一つ戻す",
     },
     {
-      title: "勝ち抜けを表示",
-      image: "score-watcher_feature_winthrough.webp",
       description: "プレイヤーが勝ち抜けると、画面中央で大きく表示されます。",
+      image: "score-watcher_feature_winthrough.webp",
+      title: "勝ち抜けを表示",
     },
     {
-      title: "スコアの手動更新",
-      image: "score-watcher_feature_editable.gif",
       description:
         "プログラムが想定外の挙動をしたときも大丈夫。プレイヤーのスコアや背景の色を自由に変更できるモードを搭載しています。限定問題数に達したときの判定勝ち抜けなどにも使えます。",
+      image: "score-watcher_feature_editable.gif",
+      title: "スコアの手動更新",
     },
     {
-      title: "カラーモード",
-      image: "score-watcher_feature_colormode.webp",
       description: "暗い会場でも見やすいダークモードでの表示に対応しています。",
+      image: "score-watcher_feature_colormode.webp",
+      title: "カラーモード",
     },
     {
-      title: "その他",
       description: (
         <>
           <div>
@@ -62,6 +61,7 @@ const Features: React.FC = () => {
           </div>
         </>
       ),
+      title: "その他",
     },
   ];
 
@@ -71,8 +71,8 @@ const Features: React.FC = () => {
       <div
         className={css({
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap: "0 32px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
         })}
       >
         {features.map((feature) => (

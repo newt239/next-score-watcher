@@ -34,27 +34,27 @@ const squarex = async (
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newOddScore * newEvenScore,
-                odd_score: newOddScore,
                 even_score: newEvenScore,
                 last_correct: qn,
+                odd_score: newOddScore,
+                score: newOddScore * newEvenScore,
                 state: "win",
               };
             } else {
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newOddScore * newEvenScore,
-                odd_score: newOddScore,
                 even_score: newEvenScore,
                 last_correct: qn,
+                odd_score: newOddScore,
+                score: newOddScore * newEvenScore,
               };
             }
           case "wrong":
             return {
               ...playerState,
-              wrong: playerState.wrong + 1,
               last_wrong: qn,
+              wrong: playerState.wrong + 1,
             };
           default:
             return playerState;

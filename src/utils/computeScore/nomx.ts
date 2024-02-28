@@ -50,9 +50,9 @@ const nomx = async (
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
-                wrong: newWrong,
                 last_wrong: qn,
                 state: "lose",
+                wrong: newWrong,
               };
             } else if (
               newWrong + 1 === game.lose_point! &&
@@ -60,15 +60,15 @@ const nomx = async (
             ) {
               return {
                 ...playerState,
-                wrong: newWrong,
                 last_wrong: qn,
                 reach_state: "lose",
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
-                wrong: newWrong,
                 last_wrong: qn,
+                wrong: newWrong,
               };
             }
           default:

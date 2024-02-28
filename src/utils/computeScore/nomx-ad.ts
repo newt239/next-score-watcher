@@ -38,17 +38,17 @@ const nomxAd = async (
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newScore,
                 last_correct: qn,
-                state: "win",
+                score: newScore,
                 stage: next_ad ? 2 : 1,
+                state: "win",
               };
             } else {
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newScore,
                 last_correct: qn,
+                score: newScore,
                 stage: next_ad ? 2 : 1,
               };
             }
@@ -60,17 +60,17 @@ const nomxAd = async (
             if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
-                wrong: newWrong,
                 last_wrong: qn,
-                state: "lose",
                 stage: 1,
+                state: "lose",
+                wrong: newWrong,
               };
             } else {
               return {
                 ...playerState,
-                wrong: newWrong,
                 last_wrong: qn,
                 stage: 1,
+                wrong: newWrong,
               };
             }
           default:

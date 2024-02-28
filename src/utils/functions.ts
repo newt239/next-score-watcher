@@ -1,16 +1,16 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { nanoid } from "nanoid";
 
-import { Database } from "./schema";
+import { Database } from "../../supabase/schema";
 
 import { rules } from "#/utils/rules";
-import { GamePropsUnion, GamesDB, RuleNames, States } from "#/utils/types";
+import { GameDBProps, RuleNames, States } from "#/utils/types";
 
 export const createGame = async (
   param:
     | RuleNames
     | {
-        game: GamesDB["Insert"];
+        game: GameDBProps;
         action_type: "copy-rule" | "copy-all";
       }
 ) => {
@@ -25,11 +25,11 @@ export const createGame = async (
     });
   } else {
     const commonGameProps = {
-      id: game_id,
       correct_me: 1,
-      wrong_me: -1,
       discord_webhook_url: "",
       editable: false,
+      id: game_id,
+      wrong_me: -1,
     };
     const { description, rows, ...params } = rules[param];
     const result = await supabase.from("games").insert({
@@ -45,8 +45,8 @@ export const numberSign = (
   type: "correct" | "wrong" | "pt",
   score?: number
 ) => {
-  const showSignString = localStorage.getItem("scorew-show-sign-string");
-  const wrongNumber = localStorage.getItem("scorew-wrong-number");
+  const showSignString = "true";
+  const wrongNumber = null;
   if (typeof score === "undefined") {
     switch (type) {
       case "correct":
@@ -108,7 +108,7 @@ export const zenkaku2Hankaku = (str: string) => {
 };
 
 export const detectPlayerState = (
-  game: GamePropsUnion,
+  game: GameDBProps,
   state: States,
   order: number,
   qn: number
@@ -124,4 +124,40 @@ export const detectPlayerState = (
     }
   }
   return state;
+};
+
+export const getColor = (
+  mode: "light" | "dark",
+  type: "text" | "bg",
+  state: States
+) => {
+  if (type === "text") {
+    if (mode === "light") {
+      return state === "win"
+        ? "red.600"
+        : state == "lose"
+          ? "blue.600"
+          : "black";
+    } else {
+      return state === "win"
+        ? "red.300"
+        : state == "lose"
+          ? "blue.300"
+          : "white";
+    }
+  } else {
+    if (mode === "light") {
+      return state === "win"
+        ? "red.50"
+        : state == "lose"
+          ? "blue.50"
+          : "gray.50";
+    } else {
+      return state === "win"
+        ? "red.800"
+        : state == "lose"
+          ? "blue.800"
+          : "gray.800";
+    }
+  }
 };

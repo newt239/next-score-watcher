@@ -53,7 +53,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   const columns = useMemo<ColumnDef<PlayerPropsOnSupabase, any>[]>(
     () => [
       columnHelper.accessor("id", {
-        header: "",
         cell: ({ row }) => {
           return (
             <Checkbox
@@ -63,33 +62,34 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           );
         },
         footer: (info) => info.column.id,
+        header: "",
       }),
       columnHelper.accessor("name", {
-        header: "氏名",
         footer: (info) => info.column.id,
+        header: "氏名",
       }),
       columnHelper.accessor("order", {
-        header: "順位",
         footer: (info) => info.column.id,
+        header: "順位",
       }),
       columnHelper.accessor("belong", {
-        header: "所属",
         footer: (info) => info.column.id,
+        header: "所属",
       }),
     ],
     []
   );
 
   const table = useReactTable<PlayerPropsOnSupabase>({
-    data: players,
     columns,
-    globalFilterFn: fuzzyFilter,
-    onGlobalFilterChange: setSearchText,
+    data: players,
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    globalFilterFn: fuzzyFilter,
+    onGlobalFilterChange: setSearchText,
+    onRowSelectionChange: setRowSelection,
     state: {
       globalFilter: searchText,
       rowSelection,

@@ -12,34 +12,34 @@ const BottomBar = () => {
   return (
     <Box
       sx={{
-        position: "fixed",
-        display: "flex",
-        justifyContent: "space-between",
-        bottom: 0,
-        left: 0,
-        width: "100%",
         bgColor: "gray.50",
-        color: "black",
-        transition: "all 0.5s ease",
-        whiteSpace: "nowrap",
+        bottom: 0,
         boxShadow: "0 5px 10px 0 black",
-        zIndex: 100,
         _dark: {
           bgColor: "gray.900",
           color: "white",
         },
+        color: "black",
+        display: "flex",
+        justifyContent: "space-between",
+        left: 0,
+        position: "fixed",
+        transition: "all 0.5s ease",
+        whiteSpace: "nowrap",
+        width: "100%",
+        zIndex: 100,
       }}
     >
-      <Link href="/" style={{ width: "25%", textAlign: "center" }}>
+      <Link href="/" style={{ textAlign: "center", width: "25%" }}>
         <LinkBox
           aria-label="ホーム"
           color={pathname === "/" ? "green.500" : undefined}
           sx={{
-            width: "100%",
             borderRadius: 0,
+            width: "100%",
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <Flex sx={{ alignItems: "center", flexDirection: "column", my: 1 }}>
             <Home />
             <span>ホーム</span>
           </Flex>
@@ -50,11 +50,11 @@ const BottomBar = () => {
           aria-label="プレイヤー"
           color={pathname === "/player" ? "green.500" : undefined}
           sx={{
-            width: "100%",
             borderRadius: 0,
+            width: "100%",
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <Flex sx={{ alignItems: "center", flexDirection: "column", my: 1 }}>
             <User />
             <span>プレイヤ－</span>
           </Flex>
@@ -65,11 +65,11 @@ const BottomBar = () => {
           aria-label="問題"
           color={pathname === "/quiz" ? "green.500" : undefined}
           sx={{
-            width: "100%",
             borderRadius: 0,
+            width: "100%",
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <Flex sx={{ alignItems: "center", flexDirection: "column", my: 1 }}>
             <QuestionMark />
             <span>問題</span>
           </Flex>
@@ -80,11 +80,11 @@ const BottomBar = () => {
           aria-label="設定"
           color={pathname === "/option" ? "green.500" : undefined}
           sx={{
-            width: "100%",
             borderRadius: 0,
+            width: "100%",
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <Flex sx={{ alignItems: "center", flexDirection: "column", my: 1 }}>
             <Settings2 />
             <span>設定</span>
           </Flex>

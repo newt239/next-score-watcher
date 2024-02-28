@@ -28,7 +28,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
 }) => {
   return (
     <Link
-      className={css(buttonRecipe.raw({ variant, size }), sx)}
+      className={css(buttonRecipe.raw({ size, variant }), sx)}
       href={href}
       {...props}
     >

@@ -29,9 +29,9 @@ const DroppablePlayerCard: React.FC<DroppablePlayerCardType> = ({
     <div
       ref={setNodeRef}
       style={{
-        padding: "8px",
-        borderRadius: "8px",
         backgroundColor: "white",
+        borderRadius: "8px",
+        padding: "8px",
         transform: CSS.Transform.toString(transform),
         transition,
       }}
@@ -44,8 +44,8 @@ const DroppablePlayerCard: React.FC<DroppablePlayerCardType> = ({
       >
         <div
           className={css({
-            position: "relative",
             cursor: isDragging ? "grabbing" : "grab",
+            position: "relative",
           })}
           {...attributes}
           {...listeners}

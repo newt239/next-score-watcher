@@ -40,8 +40,8 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
       <div
         className={css({
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           pt: "16px",
         })}
       >

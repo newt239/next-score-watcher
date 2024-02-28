@@ -12,18 +12,18 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        w: "100%",
         fontWeight: 800,
-        whiteSpace: "nowrap",
-        lineHeight: "1rem",
+        justifyContent: "center",
         lg: {
           alignItems: "center",
         },
+        lineHeight: "1rem",
+        w: "100%",
+        whiteSpace: "nowrap",
       })}
     >
       {text === "" && belong === "" ? (
-        <div className={css({ h: "1rem", opacity: 0.3, lg: { my: "0.5rem" } })}>
+        <div className={css({ h: "1rem", lg: { my: "0.5rem" }, opacity: 0.3 })}>
           {index + 1}
         </div>
       ) : (
@@ -31,12 +31,12 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({ index, text, belong }) => {
           <div className={css({ h: "1rem" })}>{text}</div>
           <div
             className={css({
-              w: "100%",
-              overflowX: "hidden",
-              textOverflow: "ellipsis",
               lg: {
                 h: "1rem",
               },
+              overflowX: "hidden",
+              textOverflow: "ellipsis",
+              w: "100%",
             })}
           >
             {belong}

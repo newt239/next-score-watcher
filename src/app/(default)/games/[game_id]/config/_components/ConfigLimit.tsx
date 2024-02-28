@@ -35,9 +35,9 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
     >
       <div
         className={css({
+          alignItems: "center",
           display: "flex",
           flexDirection: "row",
-          alignItems: "center",
           gap: "8px",
         })}
       >
@@ -46,9 +46,9 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
           onChange={(e) =>
             startTransition(() =>
               onGameLimitToggle({
+                checked: e.target.checked,
                 game_id,
                 rule,
-                checked: e.target.checked,
               })
             )
           }
@@ -60,8 +60,8 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({
       <div
         className={css({
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
         })}
       >
         <ConfigNumberInput

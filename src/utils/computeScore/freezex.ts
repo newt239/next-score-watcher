@@ -39,8 +39,8 @@ const freezex = async (
         } else if (log.variant === "wrong") {
           return {
             ...playerState,
-            wrong: playerState.wrong + 1,
             last_wrong: qn,
+            wrong: playerState.wrong + 1,
           };
         } else {
           return playerState;

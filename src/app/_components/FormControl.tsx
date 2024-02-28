@@ -4,12 +4,12 @@ import { css, cva } from "@panda/css";
 
 export const FormControlRecipe = cva({
   base: {
+    alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     md: {
-      flexDirection: "row",
       alignItems: "stretch",
+      flexDirection: "row",
     },
   },
 });
@@ -35,8 +35,8 @@ const FormControl: React.FC<FormControlProps> = ({
       {helperText && (
         <p
           className={css({
-            fontSize: "12px",
             color: "gray.500",
+            fontSize: "12px",
           })}
         >
           {helperText}

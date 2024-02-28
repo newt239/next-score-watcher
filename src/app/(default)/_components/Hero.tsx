@@ -7,48 +7,48 @@ const Hero: React.FC = () => {
   return (
     <div
       className={css({
-        w: "100%",
         position: "relative",
+        w: "100%",
       })}
     >
       <img
         alt={"大会画像"}
         className={css({
-          width: "100%",
+          borderRadius: "3xl",
           height: "80vh",
           objectFit: "cover",
-          borderRadius: "3xl",
+          width: "100%",
         })}
         src="/images/hero.webp"
       />
       <div
         className={css({
-          position: "absolute",
-          top: "50%",
+          backdropFilter: "blur(3px)",
+          color: "white",
+          border: "solid rgba(194,224,255,.08)",
           left: "50%",
-          transform: "translate(-50%, -50%)",
-          textAlign: "center",
+          borderRadius: "3xl",
           m: "16px",
+          p: "16px",
+          position: "absolute",
+          textAlign: "center",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
           w: "80%",
         })}
       >
         <div
           className={css({
-            fontSize: { base: "3xl", md: "4xl", lg: "5xl" },
+            fontSize: { base: "3xl", lg: "5xl", md: "4xl" },
             fontWeight: "700",
             lineHeight: "initial",
           })}
         >
-          <span className={css({ position: "relative", bgColor: "white" })}>
-            競技クイズのための
-          </span>
-          <span className={css({ color: "green.500", bgColor: "white" })}>
-            得点表示アプリ
-          </span>
+          <div>競技クイズのための</div>
+          <div>得点表示アプリ</div>
         </div>
         <div
           className={css({
-            color: "white",
             my: "16px",
           })}
         >

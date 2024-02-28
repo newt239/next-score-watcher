@@ -7,6 +7,7 @@ import PlayerHeader from "./PlayerHeader";
 import PlayerName from "./PlayerName";
 import PlayerScore from "./PlayerScore";
 
+import { getColor } from "#/utils/functions";
 import { rules } from "#/utils/rules";
 import {
   ComputedScoreProps,
@@ -42,82 +43,66 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
     state: game.editable ? editableState : score.state,
   };
 
-  const getLightModeColor = (state: States) => {
-    return state === "win"
-      ? "red.600"
-      : state == "lose"
-        ? "blue.600"
-        : undefined;
-  };
-
-  const getDarkModeColor = (state: States) => {
-    return state === "win"
-      ? "red.300"
-      : state == "lose"
-        ? "blue.300"
-        : undefined;
-  };
-
   if (!game.players) return null;
 
   return (
     <div
       className={css({
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: "stretch",
-        w: "100%",
-        h: "10vh",
-        backgroundColor: getLightModeColor(editedScore.state),
-        color: getLightModeColor(editedScore.state) && "white",
-        borderWidth: 3,
-        borderStyle: "solid",
+        backgroundColor: getColor("light", "bg", editedScore.state),
         borderColor:
-          getLightModeColor(editedScore.state) ||
-          getLightModeColor(editedScore.reach_state) ||
+          getColor("light", "bg", editedScore.state) ||
+          getColor("light", "bg", editedScore.reach_state) ||
           "gray.100",
         borderRadius: "1rem",
-        overflowX: "auto",
-        overflowY: "hidden",
-        transition: "all 0.2s ease",
+        borderWidth: 3,
+        borderStyle: "solid",
+        display: "flex",
+        _dark: {
+          backgroundColor: getColor("dark", "bg", editedScore.state),
+          borderColor:
+            getColor("dark", "bg", editedScore.state) ||
+            getColor("dark", "bg", editedScore.reach_state) ||
+            "gray.700",
+          color: getColor("dark", "text", editedScore.state) && "gray.800",
+        },
+        flexDirection: "row",
+        color: getColor("light", "text", editedScore.state),
+        h: "10vh",
+        justifyContent: "space-between",
         lg: {
           flexDirection: "column",
+          h: "inherit",
           w: `clamp(8vw, ${
             (98 - game.players.length || 0) / game.players.length
           }vw, 15vw)`,
-          h: "inherit",
         },
-        _dark: {
-          backgroundColor: getDarkModeColor(editedScore.state),
-          color: getDarkModeColor(editedScore.state) && "gray.800",
-          borderColor:
-            getDarkModeColor(editedScore.state) ||
-            getDarkModeColor(editedScore.reach_state) ||
-            "gray.700",
-        },
+        overflowX: "auto",
+        w: "100%",
+        overflowY: "hidden",
+        transition: "all 0.2s ease",
       })}
     >
       <div
         className={css({
+          alignItems: "flex-start",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
           flexGrow: 1,
-          w: "40vw",
           h: "100%",
-          pl: "0.5rem",
           lg: {
             alignItems: "center",
-            w: "100%",
             h: `calc(100% - ${rows * 2}vh)`,
             pl: "inherit",
+            w: "100%",
           },
+          pl: "0.5rem",
+          w: "40vw",
         })}
       >
         {game.editable ? (
           <PlayerColorConfig
-            colorState={getLightModeColor(editedScore.state)}
+            colorState={getColor("light", "bg", editedScore.state)}
             editableState={editableState}
             setEditableState={setEditableState}
           />

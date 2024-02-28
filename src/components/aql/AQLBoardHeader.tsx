@@ -83,37 +83,37 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
     <>
       <Flex
         sx={{
-          justifyContent: "space-between",
           alignItems: "center",
-          gap: 3,
-          height: ["10vh", "10vh", "15vh"],
-          px: 1,
+          _dark: {
+            bgColor: "gray.700",
+            borderColor: "gray.500",
+          },
+          bgColor: "gray.50",
+          borderColor: "gray.300",
           borderStyle: "solid",
           borderWidth: "0px 0px thin",
-          borderColor: "gray.300",
-          bgColor: "gray.50",
+          gap: 3,
+          height: ["10vh", "10vh", "15vh"],
+          justifyContent: "space-between",
           overflow: "hidden",
-          _dark: {
-            borderColor: "gray.500",
-            bgColor: "gray.700",
-          },
+          px: 1,
         }}
       >
         <Flex
           sx={{
-            flexDirection: "column",
-            justifyContent: "center",
-            borderStyle: "solid",
-            borderWidth: [0, 0, "thin"],
             borderColor: "gray.300",
-            borderRadius: "xl",
-            p: [0, 0, 3],
-            maxW: "70vw",
-            maxH: "95%",
-            overflow: "hidden",
             _dark: {
               borderColor: "gray.500",
             },
+            borderRadius: "xl",
+            borderStyle: "solid",
+            borderWidth: [0, 0, "thin"],
+            flexDirection: "column",
+            justifyContent: "center",
+            maxH: "95%",
+            maxW: "70vw",
+            overflow: "hidden",
+            p: [0, 0, 3],
           }}
         >
           <h2 className="p0">{name}</h2>
@@ -133,12 +133,12 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             {quiz_set && quizList.length > logs.length && (
               <Box
                 sx={{
-                  flexGrow: 1,
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
+                  flexGrow: 1,
                   fontSize: "1.5rem",
+                  height: "100%",
+                  justifyContent: "space-between",
                   lineHeight: "1.5rem",
                   overflow: "hidden",
                 }}
@@ -150,14 +150,14 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 </Box>
                 <Box
                   sx={{
-                    textAlign: "right",
-                    color: "red.600",
-                    bgColor: "gray.50",
-                    fontWeight: 800,
                     _dark: {
-                      color: "red.300",
                       bgColor: "gray.700",
+                      color: "red.300",
                     },
+                    bgColor: "gray.50",
+                    color: "red.600",
+                    fontWeight: 800,
+                    textAlign: "right",
                   }}
                 >
                   {qn === 0
@@ -174,10 +174,10 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               as={IconButton}
               icon={<Settings />}
               sx={{
-                borderColor: "gray.300",
                 _dark: {
                   borderColor: "gray.500",
                 },
+                borderColor: "gray.300",
               }}
               variant="outline"
             />
@@ -187,12 +187,12 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 onClick={async () => {
                   try {
                     await db.logs.put({
-                      id: nanoid(),
                       game_id: game_id,
+                      id: nanoid(),
                       player_id: "-",
-                      variant: "through",
                       system: false,
                       timestamp: cdate().text(),
+                      variant: "through",
                     });
                   } catch (e) {
                     console.log(e);

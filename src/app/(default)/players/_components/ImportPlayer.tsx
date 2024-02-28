@@ -7,8 +7,9 @@ import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 
+import { Database } from "../../../../../supabase/schema";
+
 import db from "#/utils/db";
-import { Database } from "#/utils/schema";
 import { css } from "@panda/css";
 
 const ImportPlayer: React.FC = () => {
@@ -22,8 +23,8 @@ const ImportPlayer: React.FC = () => {
         const buffer = ev.target?.result;
         if (buffer instanceof ArrayBuffer) {
           const unicodeArray = Encoding.convert(new Uint8Array(buffer), {
-            to: "UNICODE",
             from: "AUTO",
+            to: "UNICODE",
           });
           const encodedString = Encoding.codeToString(unicodeArray);
           csvFileToArray(encodedString).then((row) => {
@@ -41,10 +42,10 @@ const ImportPlayer: React.FC = () => {
       .map((row) => {
         const values = row.split(",");
         return {
+          belong: values[2] || "",
           id: nanoid(),
           name: values[0] || "",
           order: values[1] || "",
-          belong: values[2] || "",
         };
       })
       .filter((row) => row.name !== "");
@@ -58,8 +59,8 @@ const ImportPlayer: React.FC = () => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         h: ["45vh", "45vh", "30vh"],
+        justifyContent: "space-between",
       })}
     >
       <p>CSVファイルからインポートできます。</p>

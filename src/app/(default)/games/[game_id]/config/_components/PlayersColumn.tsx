@@ -89,9 +89,9 @@ const PlayersColumn: React.FC<PlayersColumnProps> = ({
       <SortableContext items={globalGamePlayers}>
         <div
           className={css({
+            alignItems: "stretch",
             display: "flex",
             flexDirection: "column",
-            alignItems: "stretch",
             gap: "8px",
           })}
         >

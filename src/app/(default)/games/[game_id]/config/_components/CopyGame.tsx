@@ -31,8 +31,8 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
       <MenuItem
         onClick={async () => {
           const game_id = await createGame({
-            game,
             action_type: "copy-rule",
+            game,
           });
           onCompleteCopy(game_id as string);
         }}
@@ -41,7 +41,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
       </MenuItem>
       <MenuItem
         onClick={async () => {
-          const game_id = await createGame({ game, action_type: "copy-all" });
+          const game_id = await createGame({ action_type: "copy-all", game });
           onCompleteCopy(game_id as string);
         }}
       >

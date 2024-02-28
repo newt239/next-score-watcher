@@ -45,8 +45,8 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
       className={css({
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         gap: "16px",
+        justifyContent: "space-between",
         lg: {
           flexDirection: "row-reverse",
         },
@@ -86,12 +86,12 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
           <>
             <div
               className={css({
-                mt: 3,
-                p: 3,
-                bgColor: "gray.300",
                 _dark: {
                   bgColor: "gray.600",
                 },
+                bgColor: "gray.300",
+                mt: 3,
+                p: 3,
               })}
             >
               <PlayersColumn

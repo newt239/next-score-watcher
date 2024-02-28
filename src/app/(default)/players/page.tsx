@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ArrowBackUp } from "tabler-icons-react";
 
+import { Database } from "../../../../supabase/schema";
+
 import CreatePlayer from "./_components/CreatePlayer";
 import ImportPlayer from "./_components/ImportPlayer";
 import LoadPlayer from "./_components/LoadPlayer";
@@ -10,7 +12,6 @@ import PlayerTable from "./_components/PlayerTable";
 
 import ButtonLink from "#/app/_components/ButtonLink";
 import { Tab, TabItem } from "#/app/_components/Tab";
-import { Database } from "#/utils/schema";
 import { css } from "@panda/css";
 
 export const metadata = {

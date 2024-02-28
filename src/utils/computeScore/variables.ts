@@ -33,8 +33,8 @@ const variables = async (
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newScore,
                 last_correct: qn,
+                score: newScore,
                 state: "win",
               };
             } else if (
@@ -45,9 +45,9 @@ const variables = async (
               return {
                 ...playerState,
                 correct: playerState.correct + 1,
-                score: newScore,
                 last_correct: qn,
                 reach_state: "win",
+                score: newScore,
               };
             } else {
               return {
@@ -62,11 +62,11 @@ const variables = async (
             )?.options?.base_wrong_point!;
             return {
               ...playerState,
-              wrong: playerState.wrong + 1,
+              last_wrong: qn,
               score:
                 playerState.score +
                 (typeof wrong_point === "number" ? wrong_point : 0),
-              last_wrong: qn,
+              wrong: playerState.wrong + 1,
             };
           default:
             return playerState;

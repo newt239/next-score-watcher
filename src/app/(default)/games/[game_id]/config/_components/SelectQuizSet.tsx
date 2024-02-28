@@ -28,15 +28,15 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
             <Select
               items={quizsets.map((quizset) => {
                 return {
-                  value: quizset.id,
                   label: quizset.name,
+                  value: quizset.id,
                 };
               })}
               onChange={async (v) => {
                 await db.games.update(game_id as string, {
                   quiz: {
-                    set_name: v.value[0],
                     offset: game_quiz?.offset || 0,
+                    set_name: v.value[0],
                   } as GameDBQuizProps,
                 });
               }}
@@ -50,8 +50,8 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                 onChange={(s) => {
                   db.games.update(game_id as string, {
                     quiz: {
-                      set_name: game_quiz.set_name,
                       offset: str2num(s),
+                      set_name: game_quiz.set_name,
                     } as GameDBQuizProps,
                   });
                 }}

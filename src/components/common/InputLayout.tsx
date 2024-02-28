@@ -27,18 +27,18 @@ const InputLayout: React.FC<InputLayoutProps> = ({
   return (
     <FormControl
       className={css({
-        display: "flex",
-        flexDirection: vertical ? "column" : "row",
-        justifyContent: "space-between",
-        alignItems: vertical ? "stretch" : "center",
-        borderStyle: "solid",
-        borderColor: "gray.200",
-        borderBottomWidth: simple ? 0 : 1,
-        p: 2,
-        transition: "all ease 0.2s",
         _dark: {
           borderColor: "gray.700",
         },
+        alignItems: vertical ? "stretch" : "center",
+        borderBottomWidth: simple ? 0 : 1,
+        borderColor: "gray.200",
+        borderStyle: "solid",
+        display: "flex",
+        flexDirection: vertical ? "column" : "row",
+        justifyContent: "space-between",
+        p: 2,
+        transition: "all ease 0.2s",
         ...wrapperStyle,
       })}
       helperText={helperText}

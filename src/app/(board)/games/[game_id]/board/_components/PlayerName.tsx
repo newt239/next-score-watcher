@@ -9,20 +9,20 @@ const PlayerName: React.FC<PlayerNameProps> = ({ player_name }) => {
   return (
     <div
       className={css({
+        alignItems: "flex-start",
         display: "flex",
         flexGrow: 1,
-        alignItems: "flex-start",
-        whiteSpace: "nowrap",
         fontFamily: "BIZ UDGothic",
         fontSize: "2rem",
         fontWeight: 800,
-        w: "100%",
-        textOverflow: "ellipsis",
         lg: {
           justifyContent: "center",
           textOrientation: "upright",
           writingMode: "horizontal-tb",
         },
+        textOverflow: "ellipsis",
+        w: "100%",
+        whiteSpace: "nowrap",
       })}
     >
       {zenkaku2Hankaku(player_name)}

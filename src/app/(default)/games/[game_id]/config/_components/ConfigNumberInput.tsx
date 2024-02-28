@@ -50,9 +50,9 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
       >
         <div
           className={css({
+            alignItems: "center",
             display: "flex",
             flexDirection: "row",
-            alignItems: "center",
             gap: "8px",
           })}
         >
@@ -92,8 +92,8 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
       {helperText && (
         <div
           className={css({
-            fontSize: "12px",
             color: "gray.500",
+            fontSize: "12px",
           })}
         >
           {helperText}

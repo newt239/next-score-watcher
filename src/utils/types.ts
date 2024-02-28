@@ -1,6 +1,6 @@
 import Dexie, { Table } from "dexie";
 
-import { Database } from "./schema";
+import { Database } from "../../supabase/schema";
 
 export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 

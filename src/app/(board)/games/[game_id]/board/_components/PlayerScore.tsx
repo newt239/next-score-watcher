@@ -10,9 +10,9 @@ type PlayerScoreProps = {
 
 const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
   const props = {
+    editable: game.editable,
     game_id: game.id,
     player_id: player.player_id,
-    editable: game.editable,
   };
 
   if (!game.players) return null;
@@ -20,21 +20,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
   return (
     <div
       className={css({
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        w: "100%",
-        justifyContent: "flex-end",
-        backgroundColor: "white",
-        pr: "0.5rem",
-        gap: "0.5rem 0",
         _dark: {
           backgroundColor: "gray.800",
         },
+        alignItems: "center",
+        backgroundColor: "gray.50",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem 0",
+        justifyContent: "flex-end",
         lg: {
-          w: "100%",
           pr: "inherit",
+          w: "100%",
         },
+        pr: "0.5rem",
+        w: "100%",
       })}
     >
       {game.rule === "normal" && (
