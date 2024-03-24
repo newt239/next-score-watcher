@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint --fix ./src/**/*.{js,jsx,ts,tsx}",
     "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
-    "prepare": "husky install & panda codegen",
+    "prepare": "panda codegen",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -69,7 +69,6 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-storybook": "^0.8.0",
-    "husky": "^8.0.3",
     "lint-staged": "^13.3.0",
     "prettier": "3.0.1",
     "storybook": "^8.0.4",
