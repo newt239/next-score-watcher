@@ -22,6 +22,7 @@ export const buttonRecipe = cva({
     width: "fit-content",
   },
   defaultVariants: {
+    color: "white",
     size: "md",
     variant: "solid",
   },
