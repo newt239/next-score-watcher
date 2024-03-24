@@ -5,14 +5,12 @@ import FormControl from "#/app/_components/FormControl";
 import NumberInput from "#/app/_components/NumberInput";
 import Select from "#/app/_components/Select";
 import InputLayout from "#/components/common/InputLayout";
-import db from "#/utils/db";
-import { str2num } from "#/utils/functions";
 import { GameDBQuizProps, QuizsetPropsOnSupabase } from "#/utils/types";
 
 type SelectQuizsetProps = {
   game_id: string;
   game_quiz: GameDBQuizProps | undefined;
-  quizsets: QuizsetPropsOnSupabase["Row"][] | null;
+  quizsets: QuizsetPropsOnSupabase[] | null;
 };
 
 const SelectQuizset: React.FC<SelectQuizsetProps> = ({
@@ -33,12 +31,14 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
                 };
               })}
               onChange={async (v) => {
+                /*
                 await db.games.update(game_id as string, {
                   quiz: {
                     offset: game_quiz?.offset || 0,
                     set_name: v.value[0],
                   } as GameDBQuizProps,
                 });
+                */
               }}
               value={game_quiz ? [game_quiz?.set_name] : [""]}
             />
@@ -48,12 +48,14 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
               <NumberInput
                 min={0}
                 onChange={(s) => {
+                  /*
                   db.games.update(game_id as string, {
                     quiz: {
                       offset: str2num(s),
                       set_name: game_quiz.set_name,
                     } as GameDBQuizProps,
                   });
+                  */
                 }}
                 value={game_quiz.offset}
               />

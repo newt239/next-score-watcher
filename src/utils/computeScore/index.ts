@@ -204,7 +204,7 @@ export const getInitialPlayersState = (
         last_wrong: -10,
         odd_score: 0,
         order: 0,
-        player_id: gamePlayer.id,
+        player_id: gamePlayer.player_id,
         reach_state: "playing" as States,
         score: getInitialScore(game, gamePlayer),
         stage: 1,

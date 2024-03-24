@@ -28,26 +28,21 @@ export default async function GameBoardPage({
     .select()
     .eq("id", game_id)
     .single();
+  if (!gameDBResponse.data) return null;
+  const game = gameDBResponse.data as GameDBProps;
   const gamePlayerDBResponse = await serverClient
     .from("game_players")
     .select("*, players (*)")
-    .eq("game_id", game_id);
+    .eq("game_id", game_id)
+    .in("player_id", game.players);
   const gameLogDBResponse = await serverClient
     .from("game_logs")
     .select("*")
     .eq("game_id", game_id);
 
-  if (
-    !gameDBResponse.data ||
-    !gamePlayerDBResponse.data ||
-    !gameLogDBResponse.data
-  )
-    return null;
-
-  const game = gameDBResponse.data as GameDBProps;
+  if (!gamePlayerDBResponse.data || !gameLogDBResponse.data) return null;
   const game_players =
     gamePlayerDBResponse.data as GamePlayerWithProfileProps[];
-  console.log(game_players);
   const game_logs = gameLogDBResponse.data as GameLogDBProps[];
 
   const result = await computeScore({
@@ -55,8 +50,6 @@ export default async function GameBoardPage({
     game_logs,
     game_players,
   });
-
-  console.log(result);
 
   return (
     <>
@@ -105,7 +98,7 @@ export default async function GameBoardPage({
               score={result.scores.find(
                 (score) =>
                   score.game_id === game.id &&
-                  score.player_id === game_player.id
+                  score.player_id === game_player.player_id
               )}
             />
           );

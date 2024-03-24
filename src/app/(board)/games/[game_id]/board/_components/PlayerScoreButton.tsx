@@ -1,15 +1,11 @@
 "use client";
 
-import React, { useId } from "react";
+import React, { useTransition } from "react";
 
 import { Editable } from "@ark-ui/react";
 import { SystemStyleObject } from "@pandacss/dev";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cdate } from "cdate";
-import { nanoid } from "nanoid";
 
-import { Database } from "../../../../../../../supabase/schema";
-
+import { onScoreButtonClick } from "#/utils/actions";
 import { css } from "@panda/css";
 
 type PlayerScoreButtonProps = {
@@ -33,7 +29,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   editable,
   disabled,
 }) => {
-  const supabase = createClientComponentClient<Database>();
+  const [isPending, startTransition] = useTransition();
   const numberSign = children.endsWith("pt")
     ? "pt"
     : children.endsWith("○")
@@ -41,7 +37,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       : children.endsWith("✕")
         ? "wrong"
         : "none";
-  const id = useId();
 
   const defaultLightModeColor = "white";
   const defaultDarkModeColor = "gray.800";
@@ -63,22 +58,22 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           : "yellow.300";
 
   const buttonCssStyle: SystemStyleObject = {
-    bgColor: filled ? variantLightModeColor : "transparent",
-    borderRadius: 0,
-    color: filled ? defaultLightModeColor : variantLightModeColor,
     _dark: {
       bgColor: filled ? variantDarkModeColor : "transparent",
       color: filled ? defaultDarkModeColor : variantDarkModeColor,
     },
-    display: "block",
     _hover: { opacity: disabled ? 1 : 0.5 },
-    fontSize: "3.5vw",
+    bgColor: filled ? variantLightModeColor : "transparent",
+    borderRadius: 0,
+    color: filled ? defaultLightModeColor : variantLightModeColor,
     cursor:
       disabled && color === "gray"
         ? "not-allowed"
         : disabled || color === "green" || editable
           ? "default"
           : "pointer",
+    display: "block",
+    fontSize: "3.5vw",
     fontWeight: 800,
     h: "100%",
     lg: {
@@ -91,22 +86,6 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
     textAlign: "center",
     w: compact ? "3.5rem" : "6rem",
     whiteSpace: "nowrap",
-  };
-
-  const handleClick = async () => {
-    if (color !== "green" && !disabled) {
-      try {
-        await supabase.from("game_logs").insert({
-          game_id,
-          id: nanoid(),
-          player_id,
-          timestamp: cdate().text(),
-          variant: color === "red" ? "correct" : "wrong",
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    }
   };
 
   return (
@@ -130,7 +109,15 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           </Editable.Area>
         </Editable.Root>
       ) : (
-        <button className={css(buttonCssStyle)} onClick={handleClick}>
+        <button
+          className={css(buttonCssStyle)}
+          disabled={isPending}
+          onClick={() => {
+            startTransition(() =>
+              onScoreButtonClick({ color, game_id, player_id })
+            );
+          }}
+        >
           {numberSign === "none" ? (
             children
           ) : (

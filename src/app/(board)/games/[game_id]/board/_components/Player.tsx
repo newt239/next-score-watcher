@@ -48,16 +48,6 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
   return (
     <div
       className={css({
-        alignItems: "stretch",
-        backgroundColor: getColor("light", "bg", editedScore.state),
-        borderColor:
-          getColor("light", "bg", editedScore.state) ||
-          getColor("light", "bg", editedScore.reach_state) ||
-          "gray.100",
-        borderRadius: "1rem",
-        borderWidth: 3,
-        borderStyle: "solid",
-        display: "flex",
         _dark: {
           backgroundColor: getColor("dark", "bg", editedScore.state),
           borderColor:
@@ -66,21 +56,33 @@ const Player: React.FC<PlayerProps> = ({ game, player, index, score }) => {
             "gray.700",
           color: getColor("dark", "text", editedScore.state) && "gray.800",
         },
-        flexDirection: "row",
+        alignItems: "stretch",
+        backgroundColor:
+          getColor("light", "bg", editedScore.state) || "gray.100",
+        borderColor:
+          getColor("light", "bg", editedScore.state) ||
+          getColor("light", "bg", editedScore.reach_state) ||
+          "gray.100",
+        borderRadius: "1rem",
+        borderStyle: "solid",
+        borderWidth: 3,
         color: getColor("light", "text", editedScore.state),
+        display: "flex",
+        flexDirection: "row",
         h: "10vh",
         justifyContent: "space-between",
         lg: {
           flexDirection: "column",
           h: "inherit",
+          maxWidth: "15vw",
           w: `clamp(8vw, ${
             (98 - game.players.length || 0) / game.players.length
           }vw, 15vw)`,
         },
         overflowX: "auto",
-        w: "100%",
         overflowY: "hidden",
         transition: "all 0.2s ease",
+        w: "100%",
       })}
     >
       <div

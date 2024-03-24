@@ -6,7 +6,6 @@ import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
 import Button from "#/app/_components/Button";
-import db from "#/utils/db";
 import { GameLogPropsOnSupabase, QuizDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
@@ -23,9 +22,8 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   useEffect(() => {
     const getQuizes = async () => {
       if (quiz) {
-        setQuizList(
-          await db.quizes.where({ set_name: quiz.set_name }).sortBy("n")
-        );
+        setQuizList([]);
+        // await db.quizes.where({ set_name: quiz.set_name }).sortBy("n")
       }
     };
     getQuizes();

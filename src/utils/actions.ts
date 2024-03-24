@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { cdate } from "cdate";
+import { nanoid } from "nanoid";
 
 import { Database } from "../../supabase/schema";
 
@@ -22,6 +24,38 @@ export const onGameRecordUpdate = async (props: OnGameRecordUpdateProps) => {
     .from("games")
     .update({ [props.input_id]: props.new_value })
     .eq("id", props.game_id);
+};
+
+type onScoreButtonClickProps = {
+  game_id: string;
+  player_id: string;
+  color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
+};
+
+export const onScoreButtonClick = async (props: onScoreButtonClickProps) => {
+  const result = await supabase.from("game_logs").insert({
+    game_id: props.game_id,
+    id: nanoid(),
+    player_id: props.player_id,
+    timestamp: cdate().text(),
+    variant: props.color === "red" ? "correct" : "wrong",
+  });
+  console.log(result);
+  revalidatePath(`games/${props.game_id}/board`);
+};
+
+type undoGameProps = {
+  game_id: string;
+};
+
+export const undoGame = async (props: undoGameProps) => {
+  await supabase
+    .from("game_logs")
+    .delete()
+    .eq("game_id", props.game_id)
+    .order("timestamp", { ascending: true })
+    .limit(1);
+  revalidatePath(`games/${props.game_id}/board`);
 };
 
 type OnGameLimitToggleProps = {

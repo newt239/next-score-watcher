@@ -36,7 +36,6 @@ export const createGame = async (
       ...commonGameProps,
       ...params,
     });
-    console.log(result);
   }
   return game_id;
 };
@@ -131,31 +130,31 @@ export const getColor = (
   type: "text" | "bg",
   state: States
 ) => {
-  if (type === "text") {
-    if (mode === "light") {
+  if (mode === "light") {
+    if (type === "text") {
       return state === "win"
         ? "red.600"
-        : state == "lose"
+        : state === "lose"
           ? "blue.600"
-          : "black";
+          : undefined;
     } else {
       return state === "win"
-        ? "red.300"
-        : state == "lose"
-          ? "blue.300"
-          : "white";
+        ? "red.50"
+        : state === "lose"
+          ? "blue.50"
+          : undefined;
     }
   } else {
-    if (mode === "light") {
+    if (type === "text") {
       return state === "win"
-        ? "red.50"
-        : state == "lose"
-          ? "blue.50"
-          : "gray.50";
+        ? "red.300"
+        : state === "lose"
+          ? "blue.300"
+          : "white";
     } else {
       return state === "win"
         ? "red.800"
-        : state == "lose"
+        : state === "lose"
           ? "blue.800"
           : "gray.800";
     }

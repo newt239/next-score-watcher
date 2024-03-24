@@ -14,7 +14,14 @@ export type MenuProps = {
 
 const Menu: React.FC<MenuProps> = ({ label, children, closeOnSelect }) => {
   return (
-    <ArkMenu.Root closeOnSelect={closeOnSelect} unmountOnExit>
+    <ArkMenu.Root
+      closeOnSelect={closeOnSelect}
+      positioning={{
+        placement: "bottom-end",
+        strategy: "fixed",
+      }}
+      unmountOnExit
+    >
       <ArkMenu.Trigger
         className={css(
           buttonRecipe.raw({ color: "black", size: "sm", variant: "subtle" })
@@ -22,23 +29,17 @@ const Menu: React.FC<MenuProps> = ({ label, children, closeOnSelect }) => {
       >
         {label}
       </ArkMenu.Trigger>
-      <ArkMenu.Positioner
-        className={css({
-          isolation: "isolate",
-          left: "0px",
-          minWidth: "max-content",
-          position: "absolute",
-          top: "0px",
-        })}
-      >
+      <ArkMenu.Positioner>
         <ArkMenu.Content
           className={css({
             backgroundColor: "white",
+            borderColor: "gray.200",
             borderRadius: "md",
+            borderStyle: "solid",
+            borderWidth: 1,
             boxShadow: "md",
             display: "flex",
             flexDirection: "column",
-            width: "calc(100% + 2rem)",
           })}
         >
           {children}

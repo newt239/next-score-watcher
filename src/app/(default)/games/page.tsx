@@ -16,9 +16,12 @@ export const metadata = {
 export default async function PlayersConfigPage({
   searchParams,
 }: {
-  searchParams: { order?: "last_open" | "name" };
+  searchParams: { order?: "updated_at" | "name" };
 }) {
-  const { data: games } = await serverClient.from("games").select();
+  const { data: games } = await serverClient
+    .from("games")
+    .select()
+    .order(searchParams.order || "updated_at", { ascending: true });
 
   return (
     <>

@@ -64,7 +64,6 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
             return { label: `${pageSize}件`, value: `${pageSize}` };
           })}
           onValueChange={(e) => {
-            console.log(e);
             table.setPageSize(Number(e.value));
           }}
           value={[`${table.getState().pagination.pageSize}`]}

@@ -1,10 +1,11 @@
 "use client";
+
 import { ArrowBackUp, Comet, Maximize, Settings } from "tabler-icons-react";
 
 import Anchor from "#/app/_components/Anchor";
 import Menu, { MenuItem } from "#/app/_components/Menu";
 import Switch from "#/app/_components/Switch";
-import db from "#/utils/db";
+import { undoGame } from "#/utils/actions";
 import { getRuleStringByType } from "#/utils/rules";
 import { GameDBProps, GameLogPropsOnSupabase } from "#/utils/types";
 import { css } from "@panda/css";
@@ -20,8 +21,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       <div
         className={css({
           _dark: {
-            borderColor: "gray.500",
             bgColor: "gray.700",
+            borderColor: "gray.500",
           },
           alignItems: "center",
           bgColor: "gray.50",
@@ -111,35 +112,33 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             icon={<ArrowBackUp />}
             onClick={async () => {
               if (logs.length !== 0) {
-                await db.logs.delete(logs[logs.length - 1].id);
+                await undoGame({ game_id: game.id });
               }
             }}
           >
             一つ戻す
           </MenuItem>
-          <MenuItem
-            onClick={async () => {
-              await db.games.update(game.id, {
-                editable: !game.editable,
-              });
-            }}
-          >
-            <Switch checked={game.editable}>スコアの手動更新</Switch>
+          <MenuItem disabled>
+            <Switch checked={game.editable} disabled>
+              スコアの手動更新
+            </Switch>
           </MenuItem>
-          {typeof window !== "undefined" && document.fullscreenEnabled && (
-            <MenuItem
-              icon={<Maximize />}
-              onClick={() => {
-                if (document.fullscreenElement) {
-                  document.exitFullscreen();
-                } else {
-                  document.documentElement.requestFullscreen();
-                }
-              }}
-            >
-              フルスクリーン
-            </MenuItem>
-          )}
+          {typeof window !== "undefined" &&
+            window.document.fullscreenEnabled && (
+              <MenuItem
+                icon={<Maximize />}
+                onClick={() => {
+                  console.log(document.fullscreenElement);
+                  if (document.fullscreenElement) {
+                    window.document.exitFullscreen();
+                  } else {
+                    window.document.documentElement.requestFullscreen();
+                  }
+                }}
+              >
+                フルスクリーン
+              </MenuItem>
+            )}
           <Anchor
             className={css({
               color: "inherit",

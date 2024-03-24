@@ -12,8 +12,6 @@ import { Database } from "../../../../../supabase/schema";
 import Button from "#/app/_components/Button";
 import FormControl from "#/app/_components/FormControl";
 import TextInput from "#/app/_components/TextInput";
-import db from "#/utils/db";
-import { GameDBPlayerProps } from "#/utils/types";
 import { css } from "@panda/css";
 
 const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
@@ -31,14 +29,14 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
 
   const addNewPlayer = async () => {
     const player_id = nanoid();
-    const result = await supabase.from("players").insert({
+    await supabase.from("players").insert({
       belong: playerBelong,
       id: player_id,
       name: playerName,
       order: playerOrder,
     });
-    console.log(result);
     if (from) {
+      /*
       const game = await db.games.get(from);
       if (game) {
         await db.games.update(from, {
@@ -55,6 +53,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           ],
         });
       }
+    */
     }
     toast.success("プレイヤーを作成しました");
     setPlayerName("");

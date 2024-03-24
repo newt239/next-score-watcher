@@ -1,5 +1,5 @@
 import PlayerScoreButton from "#/app/(board)/games/[game_id]/board/_components/PlayerScoreButton";
-import { numberSign } from "#/utils/functions";
+import { getColor, numberSign } from "#/utils/functions";
 import { ComputedScoreProps, GameDBProps } from "#/utils/types";
 import { css } from "@panda/css";
 
@@ -24,7 +24,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({ game, player }) => {
           backgroundColor: "gray.800",
         },
         alignItems: "center",
-        backgroundColor: "gray.50",
+        backgroundColor: getColor("light", "bg", player.state) || "gray.100",
         display: "flex",
         flexDirection: "column",
         gap: "0.5rem 0",
