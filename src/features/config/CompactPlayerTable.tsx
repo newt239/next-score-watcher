@@ -30,8 +30,8 @@ import {
 } from "@tanstack/react-table";
 import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
-import TablePagenation from "#/components/common/TablePagination";
-import { useDidUpdateEffect } from "#/hooks/useDidUpdateEffect";
+import TablePagenation from "#/components/TablePagination";
+import { useDidUpdateEffect } from "#/features/hooks/useDidUpdateEffect";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
 

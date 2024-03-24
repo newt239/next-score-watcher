@@ -16,9 +16,9 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import ImportQuiz from "#/components/quiz/ImportQuiz";
-import LoadQuiz from "#/components/quiz/LoadQuiz";
-import QuizTable from "#/components/quiz/QuizTable";
+import ImportQuiz from "#/features/quizes/ImportQuiz";
+import LoadQuiz from "#/features/quizes/LoadQuiz";
+import QuizTable from "#/features/quizes/QuizTable";
 
 const QuizPage = () => {
   const navigate = useNavigate();

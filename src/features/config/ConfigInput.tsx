@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import { useDebounce } from "#/hooks/useDebounce";
+import { useDebounce } from "#/features/hooks/useDebounce";
 import db from "#/utils/db";
 import { GamePropsUnion } from "#/utils/types";
 

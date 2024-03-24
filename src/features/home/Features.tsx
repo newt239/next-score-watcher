@@ -19,7 +19,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 
 type FeatureProps = {
   title: string;

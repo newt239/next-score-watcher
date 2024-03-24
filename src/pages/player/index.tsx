@@ -13,10 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import CreatePlayer from "#/components/player/CreatePlayer";
-import ImportPlayer from "#/components/player/ImportPlayer";
-import LoadPlayer from "#/components/player/LoadPlayer";
-import PlayerTable from "#/components/player/PlayerTable";
+import CreatePlayer from "#/features/players/CreatePlayer";
+import ImportPlayer from "#/features/players/ImportPlayer";
+import LoadPlayer from "#/features/players/LoadPlayer";
+import PlayerTable from "#/features/players/PlayerTable";
 
 const PlayerPage = () => {
   const [params] = useSearchParams();

@@ -54,8 +54,8 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { DeviceFloppy, Edit, Filter, Tags, Trash, X } from "tabler-icons-react";
 
-import TablePagination from "#/components/common/TablePagination";
-import EditPlayertagsModal from "#/components/player/EditPlayerTagsModal";
+import TablePagination from "#/components/TablePagination";
+import EditPlayertagsModal from "#/features/players/EditPlayerTagsModal";
 import db from "#/utils/db";
 import { PlayerDBProps } from "#/utils/types";
 

@@ -13,8 +13,8 @@ import { ReactSortable } from "react-sortablejs";
 
 import SelectPlayerDrawer from "./SelectPlayerDrawer";
 
-import IndividualConfig from "#/components/config/IndividualConfig";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import IndividualConfig from "#/features/config/IndividualConfig";
+import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/types";
 

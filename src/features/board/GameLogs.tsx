@@ -13,7 +13,7 @@ import {
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { LogDBProps, QuizDBProps } from "#/utils/types";
 

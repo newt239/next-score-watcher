@@ -12,7 +12,7 @@ import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { recordEvent } from "#/utils/ga4";
 import { verticalViewAtom } from "#/utils/jotai";

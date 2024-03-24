@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Edit } from "tabler-icons-react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import { States } from "#/utils/types";
 
 type PlayerColorConfigProps = {
