@@ -17,4 +17,6 @@ export default defineConfig({
 
   // The output directory for your css system
   outdir: "styled-system",
+  // https://panda-css.com/docs/overview/faq#hmr-does-not-work-when-i-use-tsconfig-paths
+  importMap: "@panda",
 });

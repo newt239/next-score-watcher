@@ -4,20 +4,14 @@
   "version": "2.4.5",
   "type": "module",
   "scripts": {
+    "prepare": "panda codegen",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --fix ./src/**/*.{js,jsx,ts,tsx}",
     "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
-    "prepare": "panda codegen",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
   },
   "dependencies": {
     "@ark-ui/react": "^2.2.3",

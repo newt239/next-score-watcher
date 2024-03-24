@@ -21,6 +21,6 @@
       "@panda/*": ["./styled-system/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "styled-system"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
