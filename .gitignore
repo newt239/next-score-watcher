@@ -25,3 +25,6 @@ dist-ssr
 # Sentry Auth Token
 .env.sentry-build-plugin
 *storybook.log
+## Panda
+styled-system
+styled-system-studio

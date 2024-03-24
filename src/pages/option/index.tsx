@@ -25,8 +25,8 @@ import {
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import AlertDialog from "#/components/AlertDialog";
-import Preferences from "#/components/Preferences";
+import AlertDialog from "#/features/components/AlertDialog";
+import Preferences from "#/features/components/Preferences";
 import db from "#/utils/db";
 import { webhookUrlAtom } from "#/utils/jotai";
 

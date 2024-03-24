@@ -2,7 +2,7 @@ import { useId } from "react";
 
 import { FormHelperText, Switch } from "@chakra-ui/react";
 
-import InputLayout from "#/components/InputLayout";
+import InputLayout from "#/features/components/InputLayout";
 
 type AppOptionSwitchProps = {
   title: string;

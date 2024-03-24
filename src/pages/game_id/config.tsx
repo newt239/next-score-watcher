@@ -19,8 +19,8 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import AlertDialog from "#/components/AlertDialog";
-import InputLayout from "#/components/InputLayout";
+import AlertDialog from "#/features/components/AlertDialog";
+import InputLayout from "#/features/components/InputLayout";
 import ConfigInput from "#/features/config/ConfigInput";
 import ConfigTabList from "#/features/config/ConfigTabList";
 import CopyGame from "#/features/config/CopyGame";

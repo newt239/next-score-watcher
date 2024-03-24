@@ -3,7 +3,7 @@ import { Link as ReactLink, useLocation } from "react-router-dom";
 import { Box, Flex, Image, Spacer, useColorMode } from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
-import SubMenu from "#/components/SubMenu";
+import SubMenu from "#/features/components/SubMenu";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {

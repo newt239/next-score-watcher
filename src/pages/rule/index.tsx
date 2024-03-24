@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { Container } from "@chakra-ui/react";
 
-import RuleList from "#/components/RuleList";
+import RuleList from "#/features/components/RuleList";
 import OtherRules from "#/features/home/OtherRules";
 
 const RulePage: React.FC = () => {

@@ -2,11 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
-import BottomBar from "#/components/BottomBar";
-import Footer from "#/components/Footer";
-import Header from "#/components/Header";
-import ScrollTop from "#/components/ScrollTop";
-import UpdateModal from "#/components/UpdateModal";
+import BottomBar from "#/features/components/BottomBar";
+import Footer from "#/features/components/Footer";
+import Header from "#/features/components/Header";
+import ScrollTop from "#/features/components/ScrollTop";
+import UpdateModal from "#/features/components/UpdateModal";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import HomePage from "#/pages";
 import AQLPage from "#/pages/aql";

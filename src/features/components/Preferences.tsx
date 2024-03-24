@@ -1,7 +1,7 @@
 import { useColorMode, VStack } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 
-import AppOptionSwitch from "#/components/AppOptionSwitch";
+import AppOptionSwitch from "#/features/components/AppOptionSwitch";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import {
   reversePlayerInfoAtom,

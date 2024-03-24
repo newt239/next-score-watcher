@@ -20,6 +20,7 @@
     ]
   },
   "dependencies": {
+    "@ark-ui/react": "^2.2.3",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "1.2.25",
+    "@pandacss/dev": "^0.36.1",
     "@sentry/react": "^7.74.1",
     "@storybook/addon-essentials": "^8.0.4",
     "@storybook/addon-interactions": "^8.0.4",
