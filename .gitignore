@@ -24,3 +24,4 @@ dist-ssr
 .env
 # Sentry Auth Token
 .env.sentry-build-plugin
+*storybook.log

@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "lint": "eslint --fix ./src/**/*.{js,jsx,ts,tsx}",
     "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -39,7 +41,16 @@
     "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "1.2.25",
     "@sentry/react": "^7.74.1",
+    "@storybook/addon-essentials": "^8.0.4",
+    "@storybook/addon-interactions": "^8.0.4",
+    "@storybook/addon-links": "^8.0.4",
+    "@storybook/addon-onboarding": "^8.0.4",
+    "@storybook/blocks": "^8.0.4",
+    "@storybook/react": "^8.0.4",
+    "@storybook/react-vite": "^8.0.4",
+    "@storybook/test": "^8.0.4",
     "@types/encoding-japanese": "^2.0.3",
     "@types/gtag.js": "^0.0.12",
     "@types/node": "^18.18.6",
@@ -55,9 +66,11 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-storybook": "^0.8.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.3.0",
     "prettier": "3.0.1",
+    "storybook": "^8.0.4",
     "typescript": "^5.2.2",
     "vite": "^4.5.0",
     "vite-plugin-pwa": "^0.16.5"
