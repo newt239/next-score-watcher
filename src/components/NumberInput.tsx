@@ -1,6 +1,5 @@
-import { SystemStyleObject } from "@pandacss/dev";
-
-import { RecipeVariantProps, css, cva } from "@panda/css";
+import { RecipeVariantProps, css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export const NumberInputRecipe = cva({
   base: {
@@ -35,17 +34,15 @@ export const NumberInputRecipe = cva({
 
 export type NumberInputProps = {
   sx?: SystemStyleObject;
-  variants?: RecipeVariantProps<typeof NumberInputRecipe>;
-} & JSX.IntrinsicElements["input"];
+} & JSX.IntrinsicElements["input"] &
+  RecipeVariantProps<typeof NumberInputRecipe>;
 
-const NumberInput: React.FC<NumberInputProps> = ({
-  sx,
-  variants,
-  ...props
-}) => {
+const NumberInput: React.FC<NumberInputProps> = (props) => {
+  const { sx, ...rest } = props;
+  const [componentProps, restProps] = NumberInputRecipe.splitVariantProps(rest);
   return (
     <input
-      className={css(NumberInputRecipe.raw(variants), sx)}
+      className={cx(NumberInputRecipe(componentProps), css(sx))}
       type="number"
       {...props}
     />

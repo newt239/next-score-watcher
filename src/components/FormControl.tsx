@@ -1,6 +1,5 @@
-import { SystemStyleObject } from "@pandacss/dev";
-
 import { css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export const formControlRecipe = cva({
   base: {
@@ -16,18 +15,18 @@ export const formControlRecipe = cva({
 
 export type FormControlProps = {
   children: React.ReactNode;
-  sx?: SystemStyleObject;
   label: React.ReactNode;
   helperText?: string;
+  sx?: SystemStyleObject;
 } & JSX.IntrinsicElements["fieldset"];
 
 const FormControl: React.FC<FormControlProps> = (props) => {
-  const { children, label, helperText, ...rest } = props;
-  const [componentProps, cssProps] = formControlRecipe.splitVariantProps(rest);
+  const { children, label, helperText, sx, ...rest } = props;
+  const [componentProps, restProps] = formControlRecipe.splitVariantProps(rest);
   return (
     <fieldset
-      className={cx(formControlRecipe(componentProps), css(cssProps))}
-      {...props}
+      className={cx(formControlRecipe(componentProps), css(sx))}
+      {...restProps}
     >
       <legend>{label}</legend>
       {children}

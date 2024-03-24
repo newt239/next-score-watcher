@@ -1,6 +1,5 @@
-import { SystemStyleObject } from "@pandacss/dev";
-
 import { css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export const cardRecipe = cva({
   base: {
@@ -16,16 +15,16 @@ export const cardRecipe = cva({
 
 export type CardProps = {
   children: React.ReactNode;
-  sx?: SystemStyleObject;
   title?: string;
   action?: React.ReactNode;
+  sx?: SystemStyleObject;
 } & JSX.IntrinsicElements["div"];
 
 const Card: React.FC<CardProps> = (props) => {
-  const { children, title, action, ...rest } = props;
-  const [componentProps, cssProps] = cardRecipe.splitVariantProps(rest);
+  const { children, title, action, sx, ...rest } = props;
+  const [componentProps, restProps] = cardRecipe.splitVariantProps(rest);
   return (
-    <div className={cx(cardRecipe(componentProps), css(cssProps))} {...props}>
+    <div className={cx(cardRecipe(componentProps), css(sx))} {...restProps}>
       {title && (
         <h4
           className={css({

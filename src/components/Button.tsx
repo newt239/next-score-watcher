@@ -1,4 +1,5 @@
 import { RecipeVariantProps, css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export const buttonRecipe = cva({
   base: {
@@ -54,17 +55,18 @@ export type ButtonProps = {
   children: React.ReactNode;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-} & React.ButtonHTMLAttributes<HTMLButtonElement> &
+  sx?: SystemStyleObject;
+} & JSX.IntrinsicElements["button"] &
   RecipeVariantProps<typeof buttonRecipe>;
 
-const Button = (props: ButtonProps) => {
+const Button: React.FC<ButtonProps> = (props) => {
   // https://panda-css.com/docs/overview/faq#how-do-i-split-recipe-props-from-the-rest
-  const { children, leftIcon, rightIcon, ...rest } = props;
-  const [componentProps, cssProps] = buttonRecipe.splitVariantProps(rest);
+  const { children, leftIcon, rightIcon, sx, ...rest } = props;
+  const [componentProps, restProps] = buttonRecipe.splitVariantProps(rest);
   return (
     <button
-      className={cx(buttonRecipe(componentProps), css(cssProps))}
-      {...props}
+      className={cx(buttonRecipe(componentProps), css(sx))}
+      {...restProps}
     >
       {leftIcon && <span className={css({ mr: "4px" })}>{leftIcon}</span>}
       {children}

@@ -1,7 +1,7 @@
 import { Switch as ArkSwitch } from "@ark-ui/react";
-import { SystemStyleObject } from "@pandacss/dev";
 
 import { RecipeVariantProps, css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export const switchRecipe = cva({
   base: {
@@ -37,12 +37,12 @@ export type SwitchProps = {
   RecipeVariantProps<typeof switchRecipe>;
 
 const Switch: React.FC<SwitchProps> = (props) => {
-  const { children, ...rest } = props;
-  const [componentProps, cssProps] = switchRecipe.splitVariantProps(rest);
+  const { children, sx, ...rest } = props;
+  const [componentProps, restProps] = switchRecipe.splitVariantProps(rest);
   return (
     <ArkSwitch.Root
-      className={cx(switchRecipe(componentProps), css(cssProps))}
-      {...props}
+      className={cx(switchRecipe(componentProps), css(sx))}
+      {...restProps}
     >
       <ArkSwitch.Control
         className={css({

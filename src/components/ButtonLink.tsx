@@ -1,29 +1,28 @@
 import { Link } from "react-router-dom";
 
-import { SystemStyleObject } from "@pandacss/dev";
-
 import { buttonRecipe } from "./Button";
 
 import { RecipeVariantProps, css, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export type ButtonLinkProps = {
   children: React.ReactNode;
-  sx?: SystemStyleObject;
   href: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  sx?: SystemStyleObject;
   // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
 } & React.HTMLAttributes<HTMLAnchorElement> &
   RecipeVariantProps<typeof buttonRecipe>;
 
 const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
-  const { children, href, leftIcon, rightIcon, ...rest } = props;
-  const [componentProps, cssProps] = buttonRecipe.splitVariantProps(rest);
+  const { children, href, leftIcon, rightIcon, sx, ...rest } = props;
+  const [componentProps, restProps] = buttonRecipe.splitVariantProps(rest);
   return (
     <Link
-      className={cx(buttonRecipe(componentProps), css(cssProps))}
+      className={cx(buttonRecipe(componentProps), css(sx))}
       to={href}
-      {...props}
+      {...restProps}
     >
       {leftIcon && <span className={css({ mr: "4px" })}>{leftIcon}</span>}
       {children}

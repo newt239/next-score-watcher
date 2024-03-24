@@ -1,6 +1,5 @@
-import { SystemStyleObject } from "@pandacss/dev";
-
 import { RecipeVariantProps, css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 export const textareaRecipe = cva({
   base: {
@@ -34,12 +33,12 @@ export type TextareaProps = {
   RecipeVariantProps<typeof textareaRecipe>;
 
 const Textarea: React.FC<TextareaProps> = (props) => {
-  const { ...rest } = props;
-  const [componentProps, cssProps] = textareaRecipe.splitVariantProps(rest);
+  const { sx, ...rest } = props;
+  const [componentProps, restProps] = textareaRecipe.splitVariantProps(rest);
   return (
     <textarea
-      className={cx(textareaRecipe(componentProps), css(cssProps))}
-      {...props}
+      className={cx(textareaRecipe(componentProps), css(sx))}
+      {...restProps}
     />
   );
 };

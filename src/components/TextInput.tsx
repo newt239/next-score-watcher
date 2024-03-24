@@ -1,8 +1,7 @@
-import { SystemStyleObject } from "@pandacss/dev";
+import { RecipeVariantProps, css, cva, cx } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
-import { RecipeVariantProps, css, cva } from "@panda/css";
-
-export const TextInputRecipe = cva({
+export const textInputRecipe = cva({
   base: {
     _disabled: {
       cursor: "not-allowed",
@@ -35,15 +34,17 @@ export const TextInputRecipe = cva({
 
 export type TextInputProps = {
   sx?: SystemStyleObject;
-  variants?: RecipeVariantProps<typeof TextInputRecipe>;
-} & JSX.IntrinsicElements["input"];
+} & JSX.IntrinsicElements["input"] &
+  RecipeVariantProps<typeof textInputRecipe>;
 
-const TextInput: React.FC<TextInputProps> = ({ sx, variants, ...props }) => {
+const TextInput: React.FC<TextInputProps> = (props) => {
+  const { sx, ...rest } = props;
+  const [componentProps, restProps] = textInputRecipe.splitVariantProps(rest);
   return (
     <input
-      className={css(TextInputRecipe.raw(variants), sx)}
+      className={cx(textInputRecipe(componentProps), css(sx))}
       type="text"
-      {...props}
+      {...restProps}
     />
   );
 };
