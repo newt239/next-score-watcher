@@ -1,5 +1,3 @@
-import { SystemStyleObject } from "@pandacss/dev";
-
 import { RecipeVariantProps, css, cva, cx } from "@panda/css";
 
 export const buttonRecipe = cva({
@@ -20,22 +18,18 @@ export const buttonRecipe = cva({
     justifyContent: "center",
     transition: "all 0.2s ease",
     width: "fit-content",
+    color: "emerald.500",
   },
   defaultVariants: {
-    color: "white",
     size: "md",
     variant: "solid",
   },
   variants: {
-    color: {
-      black: { color: "black" },
-      white: { color: "white" },
-    },
     size: {
+      sm: { borderRadius: "4px", fontSize: "12px", px: "8px", py: "2px" },
+      md: { borderRadius: "8px", fontSize: "18px", px: "12px", py: "4px" },
       lg: { borderRadius: "12px", fontSize: "24px", px: "12px", py: "8px" },
-      md: { borderRadius: "8px", fontSize: "18px", px: "8px", py: "6px" },
-      sm: { borderRadius: "4px", fontSize: "12px", px: "8px", py: "4px" },
-      xl: { borderRadius: "full", fontSize: "32px", px: "20px", py: "12px" },
+      xl: { borderRadius: "18px", fontSize: "32px", px: "24px", py: "12px" },
     },
     variant: {
       outline: { borderColor: "emerald.500" },
@@ -58,13 +52,12 @@ export const buttonRecipe = cva({
 
 export type ButtonProps = {
   children: React.ReactNode;
-  sx?: SystemStyleObject;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
-} & JSX.IntrinsicElements["button"] &
+} & React.ButtonHTMLAttributes<HTMLButtonElement> &
   RecipeVariantProps<typeof buttonRecipe>;
 
-const Button: React.FC<ButtonProps> = (props) => {
+const Button = (props: ButtonProps) => {
   // https://panda-css.com/docs/overview/faq#how-do-i-split-recipe-props-from-the-rest
   const { children, leftIcon, rightIcon, ...rest } = props;
   const [componentProps, cssProps] = buttonRecipe.splitVariantProps(rest);
