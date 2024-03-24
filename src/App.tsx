@@ -2,12 +2,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
-import BottomBar from "#/components/block/BottomBar";
-import Footer from "#/components/block/Footer";
-import Header from "#/components/block/Header";
-import ScrollTop from "#/components/block/ScrollTop";
-import UpdateModal from "#/components/block/UpdateModal";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import BottomBar from "#/features/components/BottomBar";
+import Footer from "#/features/components/Footer";
+import Header from "#/features/components/Header";
+import ScrollTop from "#/features/components/ScrollTop";
+import UpdateModal from "#/features/components/UpdateModal";
+import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import HomePage from "#/pages";
 import AQLPage from "#/pages/aql";
 import AQLBoardPage from "#/pages/aql/game_id";
@@ -20,6 +20,7 @@ import QuizPage from "#/pages/quiz";
 import RulePage from "#/pages/rule";
 
 import "#/globals.css";
+import "#/index.css";
 
 function App() {
   const isDesktop = useDeviceWidth();
