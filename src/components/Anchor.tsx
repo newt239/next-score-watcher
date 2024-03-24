@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 
-import { SystemStyleObject } from "@pandacss/dev";
 import { ExternalLink } from "tabler-icons-react";
 
-import { css, cva, cx } from "@panda/css";
+import { RecipeVariantProps, css, cva, cx } from "@panda/css";
 
 export const anchorRecipe = cva({
   base: {
@@ -19,9 +18,9 @@ export const anchorRecipe = cva({
 export type LinkProps = {
   children: React.ReactNode;
   href: string;
-  sx?: SystemStyleObject;
   // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
-} & React.HTMLAttributes<HTMLAnchorElement>;
+} & React.HTMLAttributes<HTMLAnchorElement> &
+  RecipeVariantProps<typeof anchorRecipe>;
 
 const Anchor: React.FC<LinkProps> = (props) => {
   const { children, href, ...rest } = props;

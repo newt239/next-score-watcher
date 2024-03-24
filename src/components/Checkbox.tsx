@@ -34,7 +34,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
               cursor: "pointer",
             })}
           >
-            {api.isChecked ? (
+            {!api.isIndeterminate && api.isChecked ? (
               <svg
                 className="icon icon-tabler icon-tabler-square-check-filled"
                 fill="none"

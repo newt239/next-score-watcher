@@ -23,9 +23,7 @@ const Menu: React.FC<MenuProps> = ({ label, children, closeOnSelect }) => {
       unmountOnExit
     >
       <ArkMenu.Trigger
-        className={css(
-          buttonRecipe.raw({ color: "black", size: "sm", variant: "subtle" })
-        )}
+        className={css(buttonRecipe.raw({ size: "sm", variant: "subtle" }))}
       >
         {label}
       </ArkMenu.Trigger>
