@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button, Table, TableContainer, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Button, Table } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
@@ -66,9 +66,9 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         </Button>
         {logs.length !== 0 ? (
           <>
-            <TableContainer>
-              <Table size="sm" variant="simple">
-                <Tbody>
+            <div>
+              <table>
+                <tbody>
                   {
                     // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c
                     (reverse ? logs.slice().reverse() : logs).map((log, qn) => {
@@ -76,46 +76,46 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                         (p) => p.id === log.player_id
                       );
                       return (
-                        <Tr key={log.id}>
-                          <Td>{reverse ? logs.length - qn : qn + 1}.</Td>
-                          <Td>{player ? player.name : "-"}</Td>
-                          <Td>
+                        <tr key={log.id}>
+                          <td>{reverse ? logs.length - qn : qn + 1}.</td>
+                          <td>{player ? player.name : "-"}</td>
+                          <td>
                             {log.variant === "correct"
                               ? "o"
                               : log.variant === "wrong"
                               ? "x"
                               : "-"}
-                          </Td>
-                          <Td
+                          </td>
+                          <td
                             title={cdate(log.timestamp).format(
                               "YYYY年MM月DD日 HH時mm分ss秒"
                             )}
                           >
                             {cdate(log.timestamp).format("HH:mm:ss")}
-                          </Td>
+                          </td>
                           {!containSkipLog && quizList.length > qn && (
                             <>
-                              <Td>
+                              <td>
                                 {
                                   quizList[reverse ? logs.length - qn - 1 : qn]
                                     ?.q
                                 }
-                              </Td>
-                              <Td>
+                              </td>
+                              <td>
                                 {
                                   quizList[reverse ? logs.length - qn - 1 : qn]
                                     ?.a
                                 }
-                              </Td>
+                              </td>
                             </>
                           )}
-                        </Tr>
+                        </tr>
                       );
                     })
                   }
-                </Tbody>
+                </tbody>
               </Table>
-            </TableContainer>
+            </div>
           </>
         ) : (
           <p>ここに解答者の一覧が表示されます。</p>

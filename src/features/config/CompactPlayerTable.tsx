@@ -8,14 +8,9 @@ import {
   InputGroup,
   InputLeftElement,
   Table,
-  TableContainer,
   Tag,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
+  Thead
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -200,44 +195,44 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         </div>
       ) : (
         <div>
-          <TableContainer>
-            <Table size="sm">
+          <div>
+            <table>
               <Thead>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <Tr key={headerGroup.id}>
+                  <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
-                      <Th colSpan={header.colSpan} key={header.id}>
+                      <th colSpan={header.colSpan} key={header.id}>
                         {header.isPlaceholder
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                      </Th>
+                      </th>
                     ))}
-                  </Tr>
+                  </tr>
                 ))}
               </Thead>
-              <Tbody>
+              <tbody>
                 {table.getRowModel().rows.map((row) => {
                   return (
-                    <Tr key={row.id}>
+                    <tr key={row.id}>
                       {row.getVisibleCells().map((cell) => {
                         return (
-                          <Td key={cell.id}>
+                          <td key={cell.id}>
                             {flexRender(
                               cell.column.columnDef.cell,
                               cell.getContext()
                             )}
-                          </Td>
+                          </td>
                         );
                       })}
-                    </Tr>
+                    </tr>
                   );
                 })}
-              </Tbody>
+              </tbody>
             </Table>
-          </TableContainer>
+          </div>
           <TablePagenation table={table} />
           <div className={css({ pt: 3, textAlign: "right" })}>
             <Button

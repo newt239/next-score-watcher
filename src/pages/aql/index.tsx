@@ -14,12 +14,7 @@ import {
   NumberInputStepper,
   Select,
   Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
+  Thead
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -113,20 +108,20 @@ const AQLPage = () => {
         {aqlGames && aqlGames.length !== 0 && (
           <div>
             <h3>作成したゲーム</h3>
-            <TableContainer pt={2}>
-              <Table size="sm" variant="simple">
+            <div>
+              <table>
                 <Thead>
-                  <Tr>
-                    <Th>ラウンド名</Th>
-                    <Th></Th>
-                  </Tr>
+                  <tr>
+                    <th>ラウンド名</th>
+                    <th></th>
+                  </tr>
                 </Thead>
-                <Tbody>
+                <tbody>
                   {aqlGames.map((game, i) => {
                     return (
-                      <Tr key={game.id}>
-                        <Td>{game.name}</Td>
-                        <Td isNumeric>
+                      <tr key={game.id}>
+                        <td>{game.name}</td>
+                        <td>
                           <Button
                             as={ReactLink}
                             colorScheme="green"
@@ -148,13 +143,13 @@ const AQLPage = () => {
                           >
                             削除
                           </Button>
-                        </Td>
-                      </Tr>
+                        </td>
+                      </tr>
                     );
                   })}
-                </Tbody>
+                </tbody>
               </Table>
-            </TableContainer>
+            </div>
           </div>
         )}
         <div>

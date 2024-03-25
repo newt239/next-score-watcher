@@ -25,19 +25,14 @@ import {
   ModalHeader,
   ModalOverlay,
   Table,
-  TableContainer,
   Tag,
   TagLabel,
   TagRightIcon,
-  Tbody,
-  Td,
   Text,
-  Th,
   Thead,
-  Tr,
   UnorderedList,
   useDisclosure,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -274,44 +269,44 @@ const PlayerTable: React.FC = () => {
             </div>
           ) : (
             <>
-              <TableContainer>
-                <Table size="sm">
+              <div>
+                <table>
                   <Thead>
                     {table.getHeaderGroups().map((headerGroup) => (
-                      <Tr key={headerGroup.id}>
+                      <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header, i) => (
-                          <Th colSpan={header.colSpan} key={i}>
+                          <th colSpan={header.colSpan} key={i}>
                             {header.isPlaceholder
                               ? null
                               : flexRender(
                                   header.column.columnDef.header,
                                   header.getContext()
                                 )}
-                          </Th>
+                          </th>
                         ))}
-                      </Tr>
+                      </tr>
                     ))}
                   </Thead>
-                  <Tbody>
+                  <tbody>
                     {table.getRowModel().rows.map((row) => {
                       return (
-                        <Tr key={row.original.id}>
+                        <tr key={row.original.id}>
                           {row.getVisibleCells().map((cell, i) => {
                             return (
-                              <Td key={`${row.original.id}_${i}`}>
+                              <td key={`${row.original.id}_${i}`}>
                                 {flexRender(
                                   cell.column.columnDef.cell,
                                   cell.getContext()
                                 )}
-                              </Td>
+                              </td>
                             );
                           })}
-                        </Tr>
+                        </tr>
                       );
                     })}
-                  </Tbody>
+                  </tbody>
                 </Table>
-              </TableContainer>
+              </div>
               <TablePagination table={table} />
             </>
           )}

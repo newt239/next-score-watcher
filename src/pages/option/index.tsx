@@ -11,14 +11,9 @@ import {
   Input,
   Link,
   Table,
-  TableContainer,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Tr,
   VStack,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
@@ -114,18 +109,18 @@ const OptionPage = () => {
           </Link>
           をご確認ください。
         </Text>
-        <TableContainer>
-          <Table>
-            <Tbody>
-              <Tr>
-                <Th>バージョン</Th>
-                <Td isNumeric>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th>バージョン</th>
+                <td>
                   v{localStorage.getItem("scorewatcher-version")}
-                </Td>
-              </Tr>
-              <Tr>
-                <Th>開発者</Th>
-                <Td isNumeric>
+                </td>
+              </tr>
+              <tr>
+                <th>開発者</th>
+                <td>
                   <Link
                     color="blue.500"
                     href="https://twitter.com/newt239"
@@ -136,11 +131,11 @@ const OptionPage = () => {
                       <ExternalLink />
                     </Icon>
                   </Link>
-                </Td>
-              </Tr>
-              <Tr>
-                <Th>リポジトリ</Th>
-                <Td isNumeric>
+                </td>
+              </tr>
+              <tr>
+                <th>リポジトリ</th>
+                <td>
                   <Link
                     color="blue.500"
                     href="https://github.com/newt239/next-score-watcher"
@@ -151,11 +146,11 @@ const OptionPage = () => {
                       <ExternalLink />
                     </Icon>
                   </Link>
-                </Td>
-              </Tr>
-            </Tbody>
+                </td>
+              </tr>
+            </tbody>
           </Table>
-        </TableContainer>
+        </div>
       </div>
     </Container>
   );
