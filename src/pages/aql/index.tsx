@@ -4,7 +4,6 @@ import { Link as ReactLink, useNavigate } from "react-router-dom";
 import {
   Button,
   Container,
-  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -160,7 +159,13 @@ const AQLPage = () => {
         )}
         <div>
           <h3>新規作成</h3>
-          <Flex direction={isDesktop ? "row" : "column"} gap={3}>
+          <div
+            className={css({
+              display: "flex",
+              flexDirection: isDesktop ? "row" : "column",
+              gap: 3,
+            })}
+          >
             <FormControl pt={2}>
               <FormLabel>ラウンド名</FormLabel>
               <Input
@@ -185,11 +190,11 @@ const AQLPage = () => {
                 value={rightTeamName}
               />
             </FormControl>
-          </Flex>
+          </div>
         </div>
         <div>
           {quizset_names.length !== 0 ? (
-            <Flex sx={{ gap: 5 }}>
+            <div className={css({ gap: 5 })}>
               <FormControl pt={5} width={200}>
                 <FormLabel>セット名</FormLabel>
                 <Select
@@ -220,7 +225,7 @@ const AQLPage = () => {
                   </NumberInput>
                 </FormControl>
               )}
-            </Flex>
+            </div>
           ) : (
             <div>
               <Button

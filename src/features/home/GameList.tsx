@@ -1,15 +1,7 @@
 import { useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
-import {
-  Button,
-  Card,
-  Flex,
-  Link,
-  Select,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Card, Link, Select, SimpleGrid, Text } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
@@ -56,7 +48,12 @@ const GameList: React.FC = () => {
 
   return (
     <div>
-      <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <div
+        className={css({
+          justifyContent: "space-between",
+          alignItems: "center",
+        })}
+      >
         <h2>作成したゲーム</h2>
         <Select
           defaultValue={orderType}
@@ -66,7 +63,7 @@ const GameList: React.FC = () => {
           <option value="last_open">最終閲覧順</option>
           <option value="name">ゲーム名順</option>
         </Select>
-      </Flex>
+      </div>
       {parsedGameList.length === 0 ? (
         <Text px={5} py={10}>
           作成済みのゲームはありません。
@@ -98,7 +95,13 @@ const GameList: React.FC = () => {
                 </Text>
                 <Text>進行状況: {game.state}</Text>
               </div>
-              <Flex alignItems="center" justifyContent="space-between">
+              <div
+                className={css({
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                })}
+              >
                 <div className={css({ fontSize: "70%", opacity: 0.5 })}>
                   {cdate(game.last_open).format("MM/DD HH:mm")}
                 </div>
@@ -111,7 +114,7 @@ const GameList: React.FC = () => {
                 >
                   開く
                 </Button>
-              </Flex>
+              </div>
             </Card>
           ))}
         </SimpleGrid>

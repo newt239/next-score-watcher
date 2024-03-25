@@ -19,7 +19,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Switch,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
@@ -81,8 +81,9 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
 
   return (
     <>
-      <Flex
-        sx={{
+      <div
+        className={css({
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           gap: 3,
@@ -97,10 +98,11 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             borderColor: "gray.500",
             bgColor: "gray.700",
           },
-        }}
+        })}
       >
-        <Flex
-          sx={{
+        <div
+          className={css({
+            display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             borderStyle: "solid",
@@ -114,11 +116,11 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             _dark: {
               borderColor: "gray.500",
             },
-          }}
+          })}
         >
           <h2 className="p0">{name}</h2>
           <p>AQL</p>
-        </Flex>
+        </div>
         {isDesktop && (
           <>
             {showQn && (
@@ -242,7 +244,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
             </MenuList>
           </Menu>
         </div>
-      </Flex>
+      </div>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>

@@ -4,7 +4,6 @@ import { Link as ReactLink, useNavigate } from "react-router-dom";
 import {
   Button,
   Container,
-  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -28,6 +27,7 @@ import AlertDialog from "#/features/components/AlertDialog";
 import Preferences from "#/features/components/Preferences";
 import db from "#/utils/db";
 import { webhookUrlAtom } from "#/utils/jotai";
+import { css } from "@panda/css";
 
 const OptionPage = () => {
   const navigate = useNavigate();
@@ -72,11 +72,11 @@ const OptionPage = () => {
             />
           </FormControl>
           <FormControl>
-            <Flex
-              sx={{
+            <div
+              className={css({
                 alignItems: "center",
                 justifyContent: "space-between",
-              }}
+              })}
             >
               <div>
                 <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
@@ -87,7 +87,7 @@ const OptionPage = () => {
               <Button colorScheme="red" onClick={onOpen}>
                 初期化する
               </Button>
-            </Flex>
+            </div>
           </FormControl>
         </VStack>
         <AlertDialog

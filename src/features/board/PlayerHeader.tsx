@@ -1,4 +1,3 @@
-import { Flex } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import { reversePlayerInfoAtom } from "#/utils/jotai";
@@ -46,8 +45,9 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
           {index + 1}
         </div>
       ) : (
-        <Flex
-          sx={{
+        <div
+          className={css({
+            display: "flex",
             flexDirection: reversePlayerInfo ? "column-reverse" : "column",
             alignItems: "center",
             justifyContent: "center",
@@ -56,7 +56,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
             whiteSpace: "nowrap",
             lineHeight: "1.5rem",
             h: "3rem",
-          }}
+          })}
         >
           <div>{text}</div>
           <div
@@ -69,7 +69,7 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
           >
             {belong}
           </div>
-        </Flex>
+        </div>
       )}
     </>
   );

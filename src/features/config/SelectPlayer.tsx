@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
-  Flex,
   ListItem,
   Text,
   UnorderedList,
@@ -108,14 +107,14 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                     }}
                   >
                     <CardBody>
-                      <Flex
-                        sx={{
+                      <div
+                        className={css({
                           flexDirection: isDesktop ? "column" : "row",
                           gap: 3,
                           justifyContent: "space-between",
                           alignItems: "center",
                           height: "100%",
-                        }}
+                        })}
                       >
                         <div
                           className={css({
@@ -157,7 +156,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                             ].includes(rule_name)}
                           />
                         )}
-                      </Flex>
+                      </div>
                     </CardBody>
                   </Card>
                 ))}

@@ -1,5 +1,4 @@
 import {
-  Flex,
   FormControl,
   FormLabel,
   NumberDecrementStepper,
@@ -13,6 +12,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "#/utils/db";
 import { RuleNames } from "#/utils/types";
+import { css } from "@panda/css";
 
 type ConfigLimitProps = {
   rule: RuleNames;
@@ -36,14 +36,26 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({ rule, game_id }) => {
   };
 
   return (
-    <Flex direction="column" pt={5}>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        paddingTop: 5,
+      })}
+    >
       <FormControl alignItems="center" display="flex">
         <FormLabel htmlFor="game-limit-toggle" mb="0">
           限定問題数を設定する
         </FormLabel>
         <Switch id="game-limit-toggle" onChange={onGameLimitToggle} />
       </FormControl>
-      <Flex gap={3} p={3}>
+      <div
+        className={css({
+          display: "flex",
+          gap: 3,
+          paddingTop: 5,
+        })}
+      >
         <FormControl isDisabled={typeof game?.limit === "undefined"}>
           <FormLabel htmlFor="limit-input">限定問題数</FormLabel>
           <NumberInput
@@ -84,8 +96,8 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({ rule, game_id }) => {
             </NumberInputStepper>
           </NumberInput>
         </FormControl>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

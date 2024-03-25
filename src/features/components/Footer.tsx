@@ -1,12 +1,14 @@
-import { Flex, Image, Link } from "@chakra-ui/react";
+import { Image, Link } from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
+import { css } from "@panda/css";
 
 const Footer: React.FC = () => {
   return (
     <>
-      <Flex
-        sx={{
+      <div
+        className={css({
+          display: "flex",
           gap: "0.5rem",
           justifyContent: "center",
           alignItems: "flex-end",
@@ -15,7 +17,7 @@ const Footer: React.FC = () => {
           h: "1rem",
           lineHeight: "0.8rem",
           fontSize: "0.5rem",
-        }}
+        })}
       >
         <Image alt="Score Watcher" src={Logo} sx={{ h: "100%" }} />
         <div>
@@ -24,7 +26,7 @@ const Footer: React.FC = () => {
             @newt239
           </Link>
         </div>
-      </Flex>
+      </div>
     </>
   );
 };

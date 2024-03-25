@@ -1,7 +1,6 @@
-import { Flex } from "@chakra-ui/react";
-
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import { zenkaku2Hankaku } from "#/utils/functions";
+import { css } from "@panda/css";
 
 type PlayerNameProps = {
   player_name: string;
@@ -15,9 +14,10 @@ const PlayerName: React.FC<PlayerNameProps> = ({
   const isDesktop = useDeviceWidth();
 
   return (
-    <Flex
-      direction={isVerticalView ? "row" : "column"}
-      sx={{
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: isVerticalView ? "row" : "column",
         flexGrow: 1,
         alignItems: isVerticalView ? "center" : "flex-start",
         justifyContent: isVerticalView ? "flex-start" : "center",
@@ -35,10 +35,10 @@ const PlayerName: React.FC<PlayerNameProps> = ({
         pt: !isVerticalView && isDesktop ? 3 : undefined,
         overflowX: "hidden",
         textOverflow: "ellipsis",
-      }}
+      })}
     >
       {zenkaku2Hankaku(player_name)}
-    </Flex>
+    </div>
   );
 };
 

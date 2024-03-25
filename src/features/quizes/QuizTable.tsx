@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import {
   Button,
   Checkbox,
-  Flex,
   FormControl,
   FormLabel,
   HStack,
@@ -46,6 +45,7 @@ import { DeviceFloppy, Edit, Filter, Trash } from "tabler-icons-react";
 import TablePagenation from "#/features/components/TablePagination";
 import db from "#/utils/db";
 import { QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const QuizTable: React.FC = () => {
   const quizes = useLiveQuery(
@@ -155,7 +155,7 @@ const QuizTable: React.FC = () => {
       ) : (
         <div>
           {
-            <Flex sx={{ py: 5, gap: 3, justifyContent: "flex-end" }}>
+            <div className={css({ py: 5, gap: 3, justifyContent: "flex-end" })}>
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button
@@ -196,7 +196,7 @@ const QuizTable: React.FC = () => {
                   />
                 </InputGroup>
               </div>
-            </Flex>
+            </div>
           }
           {table.getRowModel().rows.length === 0 ? (
             <div>

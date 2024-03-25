@@ -9,7 +9,6 @@ import {
   AlertDialogOverlay,
   Button,
   Checkbox,
-  Flex,
   FormControl,
   FormLabel,
   HStack,
@@ -57,6 +56,7 @@ import TablePagination from "#/features/components/TablePagination";
 import EditPlayertagsModal from "#/features/players/EditPlayerTagsModal";
 import db from "#/utils/db";
 import { PlayerDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const PlayerTable: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray(), []);
@@ -223,7 +223,7 @@ const PlayerTable: React.FC = () => {
       ) : (
         <div>
           {
-            <Flex sx={{ pb: 5, gap: 3, justifyContent: "flex-end" }}>
+            <div className={css({ pb: 5, gap: 3, justifyContent: "flex-end" })}>
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <HStack>
                   <Button
@@ -264,7 +264,7 @@ const PlayerTable: React.FC = () => {
                   />
                 </InputGroup>
               </div>
-            </Flex>
+            </div>
           }
           {table.getRowModel().rows.length === 0 ? (
             <div>

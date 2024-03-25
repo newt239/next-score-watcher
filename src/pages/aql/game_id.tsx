@@ -1,7 +1,7 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Button, Flex, useColorMode } from "@chakra-ui/react";
+import { Button, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -212,8 +212,8 @@ const AQLBoardPage: React.FC = () => {
     }
 
     return (
-      <Flex
-        sx={{
+      <div
+        className={css({
           flexDirection: "column",
           textAlign: "center",
           fontSize: "max(1.5rem, 1.5vw)",
@@ -233,7 +233,7 @@ const AQLBoardPage: React.FC = () => {
                 ? "blue.300"
                 : undefined,
           },
-        }}
+        })}
       >
         <div
           className={css({
@@ -257,12 +257,12 @@ const AQLBoardPage: React.FC = () => {
           {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
         </div>
-        <Flex
-          sx={{
+        <div
+          className={css({
             flexDirection: isDesktop ? "row" : "column",
             justifyContent: "space-between",
             gap: 1,
-          }}
+          })}
         >
           {(position === "left" ? [0, 1, 2, 3, 4] : [5, 6, 7, 8, 9]).map(
             (n) => {
@@ -272,9 +272,8 @@ const AQLBoardPage: React.FC = () => {
                   : gameState.rightTeamReachStates[n - 5];
               const wrong = gameState.scores[n].wrong;
               return (
-                <Flex
-                  key={n}
-                  sx={{
+                <div
+                  className={css({
                     flexDirection: isDesktop ? "column" : "row",
                     alignItems: "center",
                     gap: 3,
@@ -318,7 +317,8 @@ const AQLBoardPage: React.FC = () => {
                           ? "blue.300"
                           : "gray.800",
                     },
-                  }}
+                  })}
+                  key={n}
                 >
                   <div>No.{position === "left" ? n + 1 : n - 4}</div>
                   <div
@@ -358,12 +358,12 @@ const AQLBoardPage: React.FC = () => {
                   >
                     {wrong}✕
                   </Button>
-                </Flex>
+                </div>
               );
             }
           )}
-        </Flex>
-      </Flex>
+        </div>
+      </div>
     );
   };
 
@@ -378,9 +378,8 @@ const AQLBoardPage: React.FC = () => {
         quiz_offset={game.quiz.offset}
         quiz_set={game.quiz.set_name}
       />
-      <Flex
-        onKeyDown={keyboardShortcutHandler}
-        sx={{
+      <div
+        className={css({
           gap: "1.5vh 1vw",
           w: "100%",
           h: ["90vh", "90vh", "85vh"],
@@ -388,15 +387,16 @@ const AQLBoardPage: React.FC = () => {
           pt: "3vh",
           justifyContent: "space-around",
           flexDirection: isDesktop ? "row" : "column",
-        }}
+        })}
+        onKeyDown={keyboardShortcutHandler}
         tabIndex={-1}
       >
         <EachGroup position="left" />
         <EachGroup position="right" />
-      </Flex>
-      <Flex sx={{ justifyContent: "center" }}>
+      </div>
+      <div className={css({ justifyContent: "center" })}>
         <GameLogs logs={logs} players={getPlayerList()} quiz={game.quiz} />
-      </Flex>
+      </div>
     </>
   );
 };

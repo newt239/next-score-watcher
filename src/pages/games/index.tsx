@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import { Flex } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
@@ -51,7 +50,12 @@ const GamesPage: React.FC = () => {
 
   return (
     <div>
-      <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <div
+        className={css({
+          justifyContent: "space-between",
+          alignItems: "center",
+        })}
+      >
         <h2>作成したゲーム</h2>
         <Select
           items={[
@@ -63,7 +67,7 @@ const GamesPage: React.FC = () => {
           <option value="last_open">最終閲覧順</option>
           <option value="name">ゲーム名順</option>
         </Select>
-      </Flex>
+      </div>
       {parsedGameList.length === 0 ? (
         <p>
           作成済みのゲームはありません。

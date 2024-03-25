@@ -1,6 +1,6 @@
 import { Link as ReactLink, useLocation } from "react-router-dom";
 
-import { Flex, LinkBox } from "@chakra-ui/react";
+import { LinkBox } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
 
 import { css } from "@panda/css";
@@ -38,10 +38,16 @@ const BottomBar = () => {
             borderRadius: 0,
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <div
+            className={css({
+              flexDirection: "column",
+              alignItems: "center",
+              my: 1,
+            })}
+          >
             <Home />
             <span>ホーム</span>
-          </Flex>
+          </div>
         </LinkBox>
       </ReactLink>
       <ReactLink style={{ width: "25%" }} to="/player">
@@ -53,10 +59,16 @@ const BottomBar = () => {
             borderRadius: 0,
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <div
+            className={css({
+              flexDirection: "column",
+              alignItems: "center",
+              my: 1,
+            })}
+          >
             <User />
             <span>プレイヤ－</span>
-          </Flex>
+          </div>
         </LinkBox>
       </ReactLink>
       <ReactLink style={{ width: "25%" }} to="/quiz">
@@ -68,10 +80,16 @@ const BottomBar = () => {
             borderRadius: 0,
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <div
+            className={css({
+              flexDirection: "column",
+              alignItems: "center",
+              my: 1,
+            })}
+          >
             <QuestionMark />
             <span>問題</span>
-          </Flex>
+          </div>
         </LinkBox>
       </ReactLink>
       <ReactLink style={{ width: "25%" }} to="/option">
@@ -83,10 +101,16 @@ const BottomBar = () => {
             borderRadius: 0,
           }}
         >
-          <Flex sx={{ flexDirection: "column", alignItems: "center", my: 1 }}>
+          <div
+            className={css({
+              flexDirection: "column",
+              alignItems: "center",
+              my: 1,
+            })}
+          >
             <Settings2 />
             <span>設定</span>
-          </Flex>
+          </div>
         </LinkBox>
       </ReactLink>
     </div>

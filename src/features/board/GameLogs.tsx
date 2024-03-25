@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-  Button,
-  Flex,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Tr,
-} from "@chakra-ui/react";
+import { Button, Table, TableContainer, Tbody, Td, Tr } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
@@ -43,13 +35,14 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
-    <Flex
-      sx={{
+    <div
+      className={css({
+        display: "flex",
         p: 3,
         my: 10,
         maxW: "100vw",
         justifyContent: "center",
-      }}
+      })}
     >
       <div
         className={css({
@@ -128,7 +121,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           <p>ここに解答者の一覧が表示されます。</p>
         )}
       </div>
-    </Flex>
+    </div>
   );
 };
 

@@ -80,8 +80,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   return (
     <>
-      <Flex
-        sx={{
+      <div
+        className={css({
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           gap: [0, 0, 3],
@@ -95,10 +96,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             borderColor: "gray.500",
             bgColor: "gray.700",
           },
-        }}
+        })}
       >
-        <Flex
-          sx={{
+        <div
+          className={css({
+            display: "flex",
             p: 0,
             maxWidth: [`calc(100vw - ${showQn ? 10 : 3}rem)`, null, "30vw"],
             color: "green.600",
@@ -108,20 +110,21 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             _dark: {
               color: "green.300",
             },
-          }}
+          })}
         >
           <h2 style={{ lineHeight: "2rem", overflow: "hidden" }}>
             {game.name}
           </h2>
           <p>{getRuleStringByType(game)}</p>
-        </Flex>
+        </div>
         {showQn && (
-          <Flex
-            sx={{
+          <div
+            className={css({
+              display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-            }}
+            })}
           >
             <div
               className={css({ whiteSpace: "nowrap", lineHeight: "2.5rem" })}
@@ -155,7 +158,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 </Button>
               </ButtonGroup>
             )}
-          </Flex>
+          </div>
         )}
         {isDesktop && (
           <>
@@ -302,7 +305,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </MenuItem>
           </MenuList>
         </Menu>
-      </Flex>
+      </div>
       <PreferenceModal isOpen={isOpen} onClose={onClose} />
     </>
   );
