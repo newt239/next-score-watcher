@@ -1,20 +1,12 @@
 import { useRef, useState } from "react";
 
-import {
-  Button,
-  HStack,
-  Radio,
-  RadioGroup,
-  Stack,
-  Textarea,
-  VStack,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, Radio, RadioGroup, VStack, useToast } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
 import db from "#/utils/db";
 import { PlayerDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const LoadPlayer: React.FC = () => {
   const toast = useToast();
@@ -66,24 +58,31 @@ const LoadPlayer: React.FC = () => {
     >
       <VStack align="left" sx={{ flexGrow: 1 }} w="full">
         <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
-        <Textarea
+        <textarea
+          className={css({ flexGrow: 1 })}
           onChange={(e) => setRawPlayerText(e.target.value)}
           placeholder={placeholderText}
           ref={textareaRef}
-          sx={{ flexGrow: 1 }}
           value={rawPlayerText}
         />
         <p>A列: 氏名、 B列: 順位、 C列: 所属</p>
       </VStack>
-      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
+      <div
+        className={css({
+          pt: 3,
+          gap: 3,
+          justifyContent: "flex-end",
+          width: "100%",
+        })}
+      >
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}
           value={separateType}
         >
-          <Stack direction="row">
+          <div className={css({ display: "flex", flexDirection: "row" })}>
             <Radio value="comma">カンマ区切り</Radio>
             <Radio value="tab">タブ区切り</Radio>
-          </Stack>
+          </div>
         </RadioGroup>
         <Button
           colorScheme="blue"
@@ -93,7 +92,7 @@ const LoadPlayer: React.FC = () => {
         >
           追加
         </Button>
-      </HStack>
+      </div>
     </VStack>
   );
 };

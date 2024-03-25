@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button, Table } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
@@ -114,7 +114,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                     })
                   }
                 </tbody>
-              </Table>
+              </table>
             </div>
           </>
         ) : (

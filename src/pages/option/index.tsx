@@ -9,9 +9,8 @@ import {
   Icon,
   Input,
   Link,
-  Table,
   VStack,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
@@ -112,9 +111,7 @@ const OptionPage = () => {
             <tbody>
               <tr>
                 <th>バージョン</th>
-                <td>
-                  v{localStorage.getItem("scorewatcher-version")}
-                </td>
+                <td>v{localStorage.getItem("scorewatcher-version")}</td>
               </tr>
               <tr>
                 <th>開発者</th>
@@ -147,7 +144,7 @@ const OptionPage = () => {
                 </td>
               </tr>
             </tbody>
-          </Table>
+          </table>
         </div>
       </div>
     </div>

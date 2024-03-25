@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Stack,
   useToast,
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
@@ -13,6 +12,7 @@ import { CirclePlus } from "tabler-icons-react";
 
 import db from "#/utils/db";
 import { GameDBPlayerProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type CompactCreatePlayerProps = {
   game_id: string;
@@ -70,7 +70,12 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
   };
 
   return (
-    <Stack spacing={3}>
+    <div
+      className={css({
+        display: "flex",
+        gap: "1rem",
+      })}
+    >
       <FormControl>
         <FormLabel>氏名</FormLabel>
         <Input
@@ -110,7 +115,7 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
           追加
         </Button>
       </div>
-    </Stack>
+    </div>
   );
 };
 

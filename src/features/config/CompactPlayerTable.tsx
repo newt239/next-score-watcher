@@ -7,9 +7,8 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Table,
   Tag,
-  Thead
+  Thead,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -188,9 +187,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       </InputGroup>
       {table.getRowModel().rows.length === 0 ? (
         <div>
-          <p>
-            「{searchText}」に一致するプレイヤーは見つかりませんでした。
-          </p>
+          <p>「{searchText}」に一致するプレイヤーは見つかりませんでした。</p>
         </div>
       ) : (
         <div>
@@ -230,7 +227,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                   );
                 })}
               </tbody>
-            </Table>
+            </table>
           </div>
           <TablePagenation table={table} />
           <div className={css({ pt: 3, textAlign: "right" })}>

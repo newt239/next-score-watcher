@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
   Radio,
   RadioGroup,
-  Stack,
   useColorMode,
 } from "@chakra-ui/react";
 import { Edit } from "tabler-icons-react";
@@ -67,11 +66,17 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
               onChange={(newState: States) => setEditableState(newState)}
               value={editableState}
             >
-              <Stack direction="row" spacing={5}>
+              <div
+                className={css({
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 5,
+                })}
+              >
                 <Radio value="playing">デフォルト</Radio>
                 <Radio value="win">赤</Radio>
                 <Radio value="lose">青</Radio>
-              </Stack>
+              </div>
             </RadioGroup>
           </PopoverBody>
         </PopoverContent>

@@ -12,8 +12,7 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Table,
-  Thead
+  Thead,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -147,7 +146,7 @@ const AQLPage = () => {
                     );
                   })}
                 </tbody>
-              </Table>
+              </table>
             </div>
           </div>
         )}

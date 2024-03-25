@@ -1,21 +1,13 @@
 import { useRef, useState } from "react";
 
-import {
-  Button,
-  HStack,
-  Radio,
-  RadioGroup,
-  Stack,
-  Textarea,
-  VStack,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, Radio, RadioGroup, VStack, useToast } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
 import { QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();
@@ -67,25 +59,32 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
     <VStack h="30vh" justifyContent="space-between">
       <VStack align="left" sx={{ flexGrow: 1 }} w="full">
         <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
-        <Textarea
+        <textarea
+          className={css({ flexGrow: 1 })}
           disabled={setName === ""}
           onChange={(e) => setRawQuizText(e.target.value)}
           placeholder={placeholderText}
           ref={textareaRef}
-          sx={{ flexGrow: 1 }}
           value={rawQuizText}
         />
         <p>A列: 問題番号、 B列: 問題文 C列: 答え</p>
       </VStack>
-      <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
+      <div
+        className={css({
+          pt: 3,
+          gap: 3,
+          justifyContent: "flex-end",
+          width: "100%",
+        })}
+      >
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}
           value={separateType}
         >
-          <Stack direction="row">
+          <div className={css({ display: "flex", flexDirection: "row" })}>
             <Radio value="comma">カンマ区切り</Radio>
             <Radio value="tab">タブ区切り</Radio>
-          </Stack>
+          </div>
         </RadioGroup>
         <Button
           colorScheme="blue"
@@ -95,7 +94,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         >
           追加
         </Button>
-      </HStack>
+      </div>
     </VStack>
   );
 };

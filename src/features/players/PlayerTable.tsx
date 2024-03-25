@@ -11,7 +11,6 @@ import {
   Checkbox,
   FormControl,
   FormLabel,
-  HStack,
   IconButton,
   Input,
   InputGroup,
@@ -24,14 +23,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Table,
   Tag,
   TagLabel,
   TagRightIcon,
   Thead,
   UnorderedList,
   useDisclosure,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -219,7 +217,7 @@ const PlayerTable: React.FC = () => {
           {
             <div className={css({ pb: 5, gap: 3, justifyContent: "flex-end" })}>
               {table.getSelectedRowModel().rows.length !== 0 && (
-                <HStack>
+                <div>
                   <Button
                     colorScheme="red"
                     leftIcon={<Trash />}
@@ -243,7 +241,7 @@ const PlayerTable: React.FC = () => {
                       .getSelectedRowModel()
                       .rows.map((row) => row.original)}
                   />
-                </HStack>
+                </div>
               )}
               <div>
                 <InputGroup>
@@ -304,7 +302,7 @@ const PlayerTable: React.FC = () => {
                       );
                     })}
                   </tbody>
-                </Table>
+                </table>
               </div>
               <TablePagination table={table} />
             </>

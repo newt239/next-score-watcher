@@ -5,7 +5,6 @@ import {
   Checkbox,
   FormControl,
   FormLabel,
-  HStack,
   IconButton,
   Input,
   InputGroup,
@@ -17,11 +16,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Table,
-  Textarea,
   Thead,
   useDisclosure,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -151,7 +148,7 @@ const QuizTable: React.FC = () => {
           {
             <div className={css({ py: 5, gap: 3, justifyContent: "flex-end" })}>
               {table.getSelectedRowModel().rows.length !== 0 && (
-                <HStack>
+                <div>
                   <Button
                     colorScheme="red"
                     leftIcon={<Trash />}
@@ -175,7 +172,7 @@ const QuizTable: React.FC = () => {
                   >
                     削除
                   </Button>
-                </HStack>
+                </div>
               )}
               <div>
                 <InputGroup>
@@ -225,9 +222,11 @@ const QuizTable: React.FC = () => {
                           {row.getVisibleCells().map((cell, i) => {
                             return (
                               <td
+                                className={css({
+                                  maxWidth: cell.column.id === "q" ? 500 : 300,
+                                  overflow: "hidden",
+                                })}
                                 key={`${row.original.id}_${i}`}
-                                maxW={cell.column.id === "q" ? 500 : 300}
-                                overflow="hidden"
                               >
                                 {flexRender(
                                   cell.column.columnDef.cell,
@@ -240,7 +239,7 @@ const QuizTable: React.FC = () => {
                       );
                     })}
                   </tbody>
-                </Table>
+                </table>
               </div>
               <TablePagenation table={table} />
             </>
@@ -262,7 +261,7 @@ const QuizTable: React.FC = () => {
               <ModalBody pb={6}>
                 <FormControl>
                   <FormLabel>問題文</FormLabel>
-                  <Textarea
+                  <textarea
                     onChange={(e) =>
                       setCurrentQuiz({
                         ...currentQuiz,

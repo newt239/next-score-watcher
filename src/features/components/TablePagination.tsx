@@ -1,4 +1,4 @@
-import { HStack, IconButton, Select } from "@chakra-ui/react";
+import { IconButton, Select } from "@chakra-ui/react";
 import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
@@ -8,6 +8,7 @@ import {
 } from "tabler-icons-react";
 
 import { PlayerDBProps, QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type Props = {
   table: Table<PlayerDBProps> | Table<QuizDBProps>;
@@ -15,7 +16,13 @@ type Props = {
 
 const TablePagenation: React.FC<Props> = ({ table }) => {
   return (
-    <HStack justifyContent="flex-end" pt={3}>
+    <div
+      className={css({
+        display: "flex",
+        justifyContent: "flex-end",
+        pt: 3,
+      })}
+    >
       <IconButton
         aria-label="最初のページに移動"
         disabled={!table.getCanPreviousPage()}
@@ -62,7 +69,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           ))}
         </Select>
       </div>
-    </HStack>
+    </div>
   );
 };
 
