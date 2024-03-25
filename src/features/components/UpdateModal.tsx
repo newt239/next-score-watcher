@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Icon,
   Link,
@@ -53,34 +52,34 @@ const UpdateModal: React.FC = () => {
           {feature && (
             <>
               {feature.news && (
-                <Box pt={5}>
+                <div>
                   <h3>📢お知らせ</h3>
                   {feature.news}
-                </Box>
+                </div>
               )}
               {feature.feature.length > 0 && (
-                <Box pt={5}>
+                <div>
                   <h3>🎉新機能</h3>
                   <UnorderedList>
                     {feature.feature.map((v, i) => (
                       <ListItem key={i}>{v}</ListItem>
                     ))}
                   </UnorderedList>
-                </Box>
+                </div>
               )}
               {feature.bugfix.length > 0 && (
-                <Box pt={5}>
+                <div>
                   <h3>🐛不具合修正</h3>
                   <UnorderedList>
                     {feature.bugfix.map((v, i) => (
                       <ListItem key={i}>{v}</ListItem>
                     ))}
                   </UnorderedList>
-                </Box>
+                </div>
               )}
             </>
           )}
-          <Box pt={5}>
+          <div>
             詳細は
             <Link
               color="blue.500"
@@ -93,7 +92,7 @@ const UpdateModal: React.FC = () => {
               </Icon>
             </Link>
             をご確認ください。
-          </Box>
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button colorScheme="blue" onClick={update}>

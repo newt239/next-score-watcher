@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Container,
   Flex,
@@ -50,7 +49,7 @@ const OptionPage = () => {
 
   return (
     <Container pt={5}>
-      <Box pt={5}>
+      <div>
         <h2>アプリ設定</h2>
         <Preferences />
         <VStack gap="0.5rem" pt={2} px={2}>
@@ -79,12 +78,12 @@ const OptionPage = () => {
                 justifyContent: "space-between",
               }}
             >
-              <Box>
+              <div>
                 <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
                 <FormHelperText>
                   アプリが上手く動作しない場合にお試しください。
                 </FormHelperText>
-              </Box>
+              </div>
               <Button colorScheme="red" onClick={onOpen}>
                 初期化する
               </Button>
@@ -98,8 +97,8 @@ const OptionPage = () => {
           onConfirm={deleteAppData}
           title="アプリの初期化"
         />
-      </Box>
-      <Box pt={5}>
+      </div>
+      <div>
         <h2>アプリ情報</h2>
         <Text>
           アップデート情報は
@@ -157,7 +156,7 @@ const OptionPage = () => {
             </Tbody>
           </Table>
         </TableContainer>
-      </Box>
+      </div>
     </Container>
   );
 };

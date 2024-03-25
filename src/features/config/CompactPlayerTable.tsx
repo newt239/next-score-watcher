@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Checkbox,
   Input,
@@ -34,6 +33,7 @@ import TablePagenation from "#/features/components/TablePagination";
 import { useDidUpdateEffect } from "#/features/hooks/useDidUpdateEffect";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type CompactPlayerTableProps = {
   game_id: string;
@@ -193,13 +193,13 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         />
       </InputGroup>
       {table.getRowModel().rows.length === 0 ? (
-        <Box p={3}>
+        <div>
           <Text>
             「{searchText}」に一致するプレイヤーは見つかりませんでした。
           </Text>
-        </Box>
+        </div>
       ) : (
-        <Box>
+        <div>
           <TableContainer>
             <Table size="sm">
               <Thead>
@@ -239,7 +239,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             </Table>
           </TableContainer>
           <TablePagenation table={table} />
-          <Box sx={{ pt: 3, textAlign: "right" }}>
+          <div className={css({ pt: 3, textAlign: "right" })}>
             <Button
               as={ReactLink}
               colorScheme="green"
@@ -249,8 +249,8 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             >
               詳細設定
             </Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
     </>
   );

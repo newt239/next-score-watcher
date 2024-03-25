@@ -7,7 +7,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Box,
   Button,
   Checkbox,
   Flex,
@@ -215,14 +214,14 @@ const PlayerTable: React.FC = () => {
   };
 
   return (
-    <Box pt={5}>
+    <div>
       <h3>プレイヤー一覧</h3>
       {players.length === 0 ? (
-        <Box p={3}>
+        <div>
           <Text>プレイヤーが登録されていません。</Text>
-        </Box>
+        </div>
       ) : (
-        <Box>
+        <div>
           {
             <Flex sx={{ pb: 5, gap: 3, justifyContent: "flex-end" }}>
               {table.getSelectedRowModel().rows.length !== 0 && (
@@ -252,7 +251,7 @@ const PlayerTable: React.FC = () => {
                   />
                 </HStack>
               )}
-              <Box>
+              <div>
                 <InputGroup>
                   <InputLeftElement pointerEvents="none">
                     <Filter />
@@ -264,15 +263,15 @@ const PlayerTable: React.FC = () => {
                     value={searchText}
                   />
                 </InputGroup>
-              </Box>
+              </div>
             </Flex>
           }
           {table.getRowModel().rows.length === 0 ? (
-            <Box p={3}>
+            <div>
               <Text>
                 「{searchText}」に一致するプレイヤーは見つかりませんでした。
               </Text>
-            </Box>
+            </div>
           ) : (
             <>
               <TableContainer>
@@ -316,7 +315,7 @@ const PlayerTable: React.FC = () => {
               <TablePagination table={table} />
             </>
           )}
-        </Box>
+        </div>
       )}
       <Modal
         finalFocusRef={finalRef}
@@ -426,7 +425,7 @@ const PlayerTable: React.FC = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </Box>
+    </div>
   );
 };
 export default PlayerTable;

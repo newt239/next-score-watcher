@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link as ReactLink, useSearchParams } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Container,
   Tab,
@@ -28,9 +27,9 @@ const PlayerPage = () => {
 
   return (
     <Container pt={5}>
-      <Box pt={5}>
+      <div>
         {from && (
-          <Box>
+          <div>
             <Button
               as={ReactLink}
               colorScheme="green"
@@ -40,10 +39,10 @@ const PlayerPage = () => {
             >
               ゲーム設定に戻る
             </Button>
-          </Box>
+          </div>
         )}
         <h2>プレイヤー管理</h2>
-        <Box pt={5}>
+        <div>
           <h3>プレイヤーの読み込み</h3>
           <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
             <TabList mb="1em">
@@ -63,9 +62,9 @@ const PlayerPage = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-        </Box>
+        </div>
         <PlayerTable />
-      </Box>
+      </div>
     </Container>
   );
 };

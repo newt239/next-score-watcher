@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import {
-  Box,
   Card,
   CardBody,
   Flex,
@@ -17,6 +16,7 @@ import IndividualConfig from "#/features/config/IndividualConfig";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "#/utils/types";
+import { css } from "@panda/css";
 
 type SelectPlayerProps = {
   game_id: string;
@@ -43,9 +43,9 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   }, [players]);
 
   return (
-    <Box>
+    <div>
       <h2>プレイヤー設定</h2>
-      <Box pt={5}>
+      <div>
         <h3>プレイヤー選択</h3>
         <SelectPlayerDrawer
           disabled={disabled}
@@ -53,20 +53,20 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
           playerList={playerList}
           players={players}
         />
-      </Box>
-      <Box pt={5}>
+      </div>
+      <div>
         <h3>{isDesktop ? "個人設定" : "並び替え"}</h3>
         {players.length !== 0 ? (
           <>
-            <Box
-              sx={{
+            <div
+              className={css({
                 mt: 3,
                 p: 3,
                 bgColor: "gray.300",
                 _dark: {
                   bgColor: "gray.600",
                 },
-              }}
+              })}
             >
               <ReactSortable
                 animation={200}
@@ -117,17 +117,17 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                           height: "100%",
                         }}
                       >
-                        <Box
-                          sx={{
+                        <div
+                          className={css({
                             writingMode: isDesktop
                               ? "vertical-rl"
                               : "horizontal-tb",
                             whiteSpace: "nowrap",
                             textOrientation: "upright",
-                          }}
+                          })}
                         >
                           <Text size="xl">{player.name}</Text>
-                        </Box>
+                        </div>
                         {isDesktop && (
                           <IndividualConfig
                             correct={[
@@ -162,17 +162,17 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                   </Card>
                 ))}
               </ReactSortable>
-            </Box>
+            </div>
             <Text pt={2}>
               ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
             </Text>
           </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
         ) : (
-          <Box pt={3}>ここに選択されたプレイヤーが表示されます</Box>
+          <div>ここに選択されたプレイヤーが表示されます</div>
         )}
-      </Box>
+      </div>
       {!isDesktop && (
-        <Box pt={5}>
+        <div>
           <h3>個人設定</h3>
           <UnorderedList>
             {sortableList.map((player, index) => (
@@ -195,9 +195,9 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
               </ListItem>
             ))}
           </UnorderedList>
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 

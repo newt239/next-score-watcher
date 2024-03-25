@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Card, SimpleGrid } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
+import Button from "#/components/Button";
+import Card from "#/components/Card";
 import { createGame } from "#/utils/functions";
 import { rules } from "#/utils/rules";
 import { RuleNames } from "#/utils/types";
+import { css } from "@panda/css";
 
 const RuleList: React.FC = () => {
   const navigate = useNavigate();
@@ -13,57 +15,51 @@ const RuleList: React.FC = () => {
 
   const onClick = async (rule_name: RuleNames) => {
     const game_id = await createGame(rule_name);
-    navigate(`/${game_id}/config`);
+    navigate(`/games/${game_id}/config`);
   };
 
   return (
-    <Box pt={5}>
+    <div>
       <h2>形式一覧</h2>
-      <SimpleGrid
-        pt={3}
-        spacing={3}
-        templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+      <div
+        className={css({
+          display: "grid",
+          gap: "16px",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          pt: "24px",
+        })}
       >
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].description;
           return (
             <Card
-              gap={3}
-              justifyContent="space-between"
-              key={rule_name}
-              p={3}
-              variant="filled"
-            >
-              <Box>
-                <h3 style={{ whiteSpace: "nowrap" }}>
-                  {rules[rule_name].name}
-                </h3>
-                <Box
-                  sx={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {description}
-                </Box>
-              </Box>
-              <Box textAlign="end">
+              action={
                 <Button
-                  colorScheme="green"
-                  leftIcon={<CirclePlus />}
                   onClick={() => onClick(rule_name)}
-                  size="sm"
+                  rightIcon={<CirclePlus />}
                 >
                   作る
                 </Button>
-              </Box>
+              }
+              key={rule_name}
+              title={rules[rule_name].name}
+            >
+              <div
+                className={css({
+                  "-webkit-box-orient": "vertical",
+                  WebkitLineClamp: 3,
+                  display: "-webkit-box",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                } as any)}
+              >
+                {description}
+              </div>
             </Card>
           );
         })}
-      </SimpleGrid>
-    </Box>
+      </div>
+    </div>
   );
 };
 

@@ -1,7 +1,8 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import { reversePlayerInfoAtom } from "#/utils/jotai";
+import { css } from "@panda/css";
 
 type PlayerHeaderProps = {
   index: number;
@@ -21,8 +22,8 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
   return (
     <>
       {isVerticalView ? (
-        <Box
-          sx={{
+        <div
+          className={css({
             w: "100%",
             fontSize: "0.8rem",
             lineHeight: "0.8rem",
@@ -31,17 +32,19 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
             whiteSpace: "nowrap",
             overflowX: "hidden",
             textOverflow: "ellipsis",
-          }}
+          })}
         >
           {text === "" && belong === "" && (
-            <Box sx={{ opacity: 0.3 }}>プレイヤー{index + 1}</Box>
+            <div className={css({ opacity: 0.3 })}>プレイヤー{index + 1}</div>
           )}
           <span>{text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
-        </Box>
+        </div>
       ) : text === "" && belong === "" ? (
-        <Box sx={{ my: "0.5rem", opacity: 0.3, h: "3rem" }}>{index + 1}</Box>
+        <div className={css({ my: "0.5rem", opacity: 0.3, h: "3rem" })}>
+          {index + 1}
+        </div>
       ) : (
         <Flex
           sx={{
@@ -55,17 +58,17 @@ const PlayerHeader: React.FC<PlayerHeaderProps> = ({
             h: "3rem",
           }}
         >
-          <Box>{text}</Box>
-          <Box
-            sx={{
+          <div>{text}</div>
+          <div
+            className={css({
               w: "100%",
               overflowX: "hidden",
               textOverflow: "ellipsis",
               textAlign: "center",
-            }}
+            })}
           >
             {belong}
-          </Box>
+          </div>
         </Flex>
       )}
     </>

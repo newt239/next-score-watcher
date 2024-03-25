@@ -7,7 +7,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Box,
   Button,
   Drawer,
   DrawerBody,
@@ -74,9 +73,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
                 <Accordion defaultIndex={1}>
                   <AccordionItem>
                     <AccordionButton>
-                      <Box as="span" flex="1" textAlign="left">
-                        新しく追加
-                      </Box>
+                      <div>新しく追加</div>
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={4}>
@@ -88,19 +85,17 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
                   </AccordionItem>
                   <AccordionItem>
                     <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        データベースから追加
-                      </Box>
+                      <div>データベースから追加</div>
                       <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={4}>
                       {playerList.length === 0 ? (
-                        <Box py={3}>
+                        <div>
                           <Link as={ReactLink} color="blue.500" to="/player">
                             プレイヤー管理
                           </Link>
                           ページから一括でプレイヤー情報を登録できます。
-                        </Box>
+                        </div>
                       ) : (
                         <CompactPlayerTable
                           gamePlayers={players}

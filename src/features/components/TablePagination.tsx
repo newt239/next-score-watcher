@@ -1,4 +1,4 @@
-import { Box, HStack, IconButton, Select } from "@chakra-ui/react";
+import { HStack, IconButton, Select } from "@chakra-ui/react";
 import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
@@ -47,7 +47,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         size="xs"
       />
-      <Box>
+      <div>
         <Select
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
@@ -61,7 +61,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
             </option>
           ))}
         </Select>
-      </Box>
+      </div>
     </HStack>
   );
 };

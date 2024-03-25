@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Container,
   Flex,
@@ -30,6 +29,7 @@ import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
+import { css } from "@panda/css";
 
 export type AQLGamePropsUnion = {
   id: string;
@@ -109,10 +109,10 @@ const AQLPage = () => {
 
   return (
     <Container pt={5}>
-      <Box pt={5}>
+      <div>
         <h2>AQLルール</h2>
         {aqlGames && aqlGames.length !== 0 && (
-          <Box pt={5}>
+          <div>
             <h3>作成したゲーム</h3>
             <TableContainer pt={2}>
               <Table size="sm" variant="simple">
@@ -156,9 +156,9 @@ const AQLPage = () => {
                 </Tbody>
               </Table>
             </TableContainer>
-          </Box>
+          </div>
         )}
-        <Box pt={5}>
+        <div>
           <h3>新規作成</h3>
           <Flex direction={isDesktop ? "row" : "column"} gap={3}>
             <FormControl pt={2}>
@@ -186,8 +186,8 @@ const AQLPage = () => {
               />
             </FormControl>
           </Flex>
-        </Box>
-        <Box pt={5}>
+        </div>
+        <div>
           {quizset_names.length !== 0 ? (
             <Flex sx={{ gap: 5 }}>
               <FormControl pt={5} width={200}>
@@ -222,7 +222,7 @@ const AQLPage = () => {
               )}
             </Flex>
           ) : (
-            <Box>
+            <div>
               <Button
                 as={ReactLink}
                 colorScheme="blue"
@@ -236,10 +236,10 @@ const AQLPage = () => {
               >
                 問題データを読み込む
               </Button>
-            </Box>
+            </div>
           )}
-        </Box>
-        <Box sx={{ textAlign: "right", pt: 5 }}>
+        </div>
+        <div className={css({ textAlign: "right", pt: 5 })}>
           <Button
             colorScheme="green"
             leftIcon={<CirclePlus />}
@@ -247,8 +247,8 @@ const AQLPage = () => {
           >
             作る
           </Button>
-        </Box>
-      </Box>
+        </div>
+      </div>
     </Container>
   );
 };

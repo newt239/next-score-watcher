@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Flex,
   FormControl,
@@ -20,7 +19,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Switch,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
@@ -40,6 +39,7 @@ import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { showQnAtom } from "#/utils/jotai";
 import { LogDBProps, QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type AQLBoardHeaderProps = {
   name: string;
@@ -122,17 +122,17 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
         {isDesktop && (
           <>
             {showQn && (
-              <Box sx={{ whiteSpace: "nowrap" }}>
+              <div className={css({ whiteSpace: "nowrap" })}>
                 第
                 <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
                   {logs.length + 1}
                 </span>
                 問
-              </Box>
+              </div>
             )}
             {quiz_set && quizList.length > logs.length && (
-              <Box
-                sx={{
+              <div
+                className={css({
                   flexGrow: 1,
                   display: "flex",
                   flexDirection: "column",
@@ -141,15 +141,15 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   fontSize: "1.5rem",
                   lineHeight: "1.5rem",
                   overflow: "hidden",
-                }}
+                })}
               >
-                <Box sx={{ maxHeight: "8vh" }}>
+                <div className={css({ maxHeight: "8vh" })}>
                   {qn === 0
                     ? "ここに問題文が表示されます"
                     : quizList[quiz_offset + qn - 1].q}
-                </Box>
-                <Box
-                  sx={{
+                </div>
+                <div
+                  className={css({
                     textAlign: "right",
                     color: "red.600",
                     bgColor: "gray.50",
@@ -158,17 +158,17 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                       color: "red.300",
                       bgColor: "gray.700",
                     },
-                  }}
+                  })}
                 >
                   {qn === 0
                     ? "ここに答えが表示されます"
                     : quizList[quiz_offset + qn - 1].a}
-                </Box>
-              </Box>
+                </div>
+              </div>
             )}
           </>
         )}
-        <Box>
+        <div>
           <Menu closeOnSelect={false}>
             <MenuButton
               as={IconButton}
@@ -241,7 +241,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               </MenuItem>
             </MenuList>
           </Menu>
-        </Box>
+        </div>
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

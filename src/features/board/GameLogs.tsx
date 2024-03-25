@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import {
-  Box,
   Button,
   Flex,
   Table,
@@ -16,6 +15,7 @@ import { SortAscending, SortDescending } from "tabler-icons-react";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { LogDBProps, QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];
@@ -51,8 +51,8 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         justifyContent: "center",
       }}
     >
-      <Box
-        sx={{
+      <div
+        className={css({
           borderStyle: "solid",
           borderWidth: desktop ? 3 : 1,
           borderColor: "gray.100",
@@ -61,7 +61,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           _dark: {
             borderColor: "gray.700",
           },
-        }}
+        })}
       >
         <Button
           leftIcon={reverse ? <SortAscending /> : <SortDescending />}
@@ -127,7 +127,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         ) : (
           <p>ここに解答者の一覧が表示されます。</p>
         )}
-      </Box>
+      </div>
     </Flex>
   );
 };

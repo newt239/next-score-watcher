@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import {
-  Box,
   Button,
   Checkbox,
   Flex,
@@ -147,14 +146,14 @@ const QuizTable: React.FC = () => {
   if (!quizes) return null;
 
   return (
-    <Box pt={5}>
+    <div>
       <h3>問題一覧</h3>
       {quizes.length === 0 ? (
-        <Box p={3}>
+        <div>
           <Text>問題が登録されていません。</Text>
-        </Box>
+        </div>
       ) : (
-        <Box>
+        <div>
           {
             <Flex sx={{ py: 5, gap: 3, justifyContent: "flex-end" }}>
               {table.getSelectedRowModel().rows.length !== 0 && (
@@ -184,7 +183,7 @@ const QuizTable: React.FC = () => {
                   </Button>
                 </HStack>
               )}
-              <Box>
+              <div>
                 <InputGroup>
                   <InputLeftElement pointerEvents="none">
                     <Filter />
@@ -196,15 +195,15 @@ const QuizTable: React.FC = () => {
                     value={searchText}
                   />
                 </InputGroup>
-              </Box>
+              </div>
             </Flex>
           }
           {table.getRowModel().rows.length === 0 ? (
-            <Box p={3}>
+            <div>
               <Text>
                 「{searchText}」に一致する問題データは見つかりませんでした。
               </Text>
-            </Box>
+            </div>
           ) : (
             <>
               <TableContainer>
@@ -252,7 +251,7 @@ const QuizTable: React.FC = () => {
               <TablePagenation table={table} />
             </>
           )}
-        </Box>
+        </div>
       )}
       <Modal
         finalFocusRef={finalRef}
@@ -322,7 +321,7 @@ const QuizTable: React.FC = () => {
           )}
         </ModalContent>
       </Modal>
-    </Box>
+    </div>
   );
 };
 

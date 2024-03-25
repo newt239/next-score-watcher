@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
 import {
-  Box,
   IconButton,
   Popover,
   PopoverBody,
@@ -17,6 +16,7 @@ import { Edit } from "tabler-icons-react";
 
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import { States } from "#/utils/types";
+import { css } from "@panda/css";
 
 type PlayerColorConfigProps = {
   colorState: string | undefined;
@@ -35,10 +35,10 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
   const isDesktop = useDeviceWidth();
 
   return (
-    <Box
-      sx={{
+    <div
+      className={css({
         margin: !isVerticalView && isDesktop ? "auto" : undefined,
-      }}
+      })}
     >
       <Popover>
         <PopoverTrigger>
@@ -76,7 +76,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
           </PopoverBody>
         </PopoverContent>
       </Popover>
-    </Box>
+    </div>
   );
 };
 

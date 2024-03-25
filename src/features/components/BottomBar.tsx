@@ -1,14 +1,16 @@
 import { Link as ReactLink, useLocation } from "react-router-dom";
 
-import { Box, Flex, LinkBox } from "@chakra-ui/react";
+import { Flex, LinkBox } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
+
+import { css } from "@panda/css";
 
 const BottomBar = () => {
   const location = useLocation();
 
   return (
-    <Box
-      sx={{
+    <div
+      className={css({
         position: "fixed",
         display: "flex",
         justifyContent: "space-between",
@@ -25,7 +27,7 @@ const BottomBar = () => {
           bgColor: "gray.900",
           color: "white",
         },
-      }}
+      })}
     >
       <ReactLink style={{ width: "25%", textAlign: "center" }} to="/">
         <LinkBox
@@ -87,7 +89,7 @@ const BottomBar = () => {
           </Flex>
         </LinkBox>
       </ReactLink>
-    </Box>
+    </div>
   );
 };
 

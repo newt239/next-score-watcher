@@ -43,7 +43,7 @@ export const buttonRecipe = cva({
       },
       subtle: {
         _hover: {
-          bgColor: "neutral.100",
+          bgColor: "neutral.200",
         },
         color: "emerald.500",
       },

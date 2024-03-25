@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink, useNavigate, useParams } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Card,
   Container,
@@ -156,7 +155,7 @@ const ConfigPage = () => {
           </Button>
         )}
       </InputLayout>
-      <Box>
+      <div>
         <Tabs
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
@@ -229,7 +228,7 @@ const ConfigPage = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </Box>
+      </div>
     </Container>
   );
 };

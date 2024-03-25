@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -37,6 +36,7 @@ import { recordEvent } from "#/utils/ga4";
 import { showQnAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { GamePropsUnion, LogDBProps, QuizDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 type BoardHeaderProps = {
   game: GamePropsUnion;
@@ -123,13 +123,15 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               alignItems: "center",
             }}
           >
-            <Box sx={{ whiteSpace: "nowrap", lineHeight: "2.5rem" }}>
+            <div
+              className={css({ whiteSpace: "nowrap", lineHeight: "2.5rem" })}
+            >
               第
               <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
                 {game.editable ? manualQuizPosition + 1 : logs.length + 1}
               </span>
               問
-            </Box>
+            </div>
             {game.editable && (
               <ButtonGroup
                 isAttached
@@ -158,8 +160,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         {isDesktop && (
           <>
             {game.quiz && quizList.length > quizPosition && (
-              <Box
-                sx={{
+              <div
+                className={css({
                   flexGrow: 1,
                   display: "flex",
                   flexDirection: "column",
@@ -168,15 +170,15 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                   fontSize: "1.5rem",
                   lineHeight: "1.5rem",
                   overflow: "hidden",
-                }}
+                })}
               >
-                <Box sx={{ maxHeight: "8vh" }}>
+                <div className={css({ maxHeight: "8vh" })}>
                   {qn === 0 || quizPosition < 0
                     ? "ここに問題文が表示されます"
                     : quizList[quizPosition].q}
-                </Box>
-                <Box
-                  sx={{
+                </div>
+                <div
+                  className={css({
                     textAlign: "right",
                     color: "red.600",
                     bgColor: "gray.50",
@@ -185,13 +187,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                       color: "red.300",
                       bgColor: "gray.700",
                     },
-                  }}
+                  })}
                 >
                   {qn === 0 || quizPosition < 0
                     ? "ここに答えが表示されます"
                     : quizList[quizPosition].a}
-                </Box>
-              </Box>
+                </div>
+              </div>
             )}
           </>
         )}

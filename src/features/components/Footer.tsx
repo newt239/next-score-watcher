@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Link } from "@chakra-ui/react";
+import { Flex, Image, Link } from "@chakra-ui/react";
 
 import Logo from "#/assets/logo.png";
 
@@ -18,12 +18,12 @@ const Footer: React.FC = () => {
         }}
       >
         <Image alt="Score Watcher" src={Logo} sx={{ h: "100%" }} />
-        <Box>
+        <div>
           by{" "}
           <Link color="blue.500" href="https://twitter.com/newt239" isExternal>
             @newt239
           </Link>
-        </Box>
+        </div>
       </Flex>
     </>
   );

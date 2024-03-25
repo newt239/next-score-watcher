@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
@@ -100,7 +99,7 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
           value={playerBelong}
         />
       </FormControl>
-      <Box sx={{ textAlign: "right" }}>
+      <div className={css({ textAlign: "right" })}>
         <Button
           colorScheme="blue"
           disabled={playerName === ""}
@@ -110,7 +109,7 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
         >
           追加
         </Button>
-      </Box>
+      </div>
     </Stack>
   );
 };

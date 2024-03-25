@@ -1,7 +1,7 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -11,6 +11,7 @@ import GameLogs from "#/features/board/GameLogs";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { AQLGamePropsUnion } from "#/utils/types";
+import { css } from "@panda/css";
 
 type AQLPlayerStateProps = {
   score: number;
@@ -234,28 +235,28 @@ const AQLBoardPage: React.FC = () => {
           },
         }}
       >
-        <Box
-          sx={{
+        <div
+          className={css({
             color:
               state !== "playing" && colorMode === "dark"
                 ? "gray.800"
                 : undefined,
-          }}
+          })}
         >
           {position === "left" ? game.left_team : game.right_team}
-        </Box>
-        <Box
-          sx={{
+        </div>
+        <div
+          className={css({
             fontSize: "4.5rem",
             color:
               state !== "playing" && colorMode === "dark"
                 ? "gray.800"
                 : undefined,
-          }}
+          })}
         >
           {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
-        </Box>
+        </div>
         <Flex
           sx={{
             flexDirection: isDesktop ? "row" : "column",
@@ -319,10 +320,16 @@ const AQLBoardPage: React.FC = () => {
                     },
                   }}
                 >
-                  <Box>No.{position === "left" ? n + 1 : n - 4}</Box>
-                  <Box sx={{ flexGrow: 1, fontSize: "3rem", fontWeight: 800 }}>
+                  <div>No.{position === "left" ? n + 1 : n - 4}</div>
+                  <div
+                    className={css({
+                      flexGrow: 1,
+                      fontSize: "3rem",
+                      fontWeight: 800,
+                    })}
+                  >
                     {gameState.scores[n].score}
-                  </Box>
+                  </div>
                   <Button
                     colorScheme="red"
                     isDisabled={wrong >= 2}

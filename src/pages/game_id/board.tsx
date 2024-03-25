@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  Box,
   Button,
   Flex,
   IconButton,
@@ -26,6 +25,7 @@ import db from "#/utils/db";
 import { verticalViewAtom } from "#/utils/jotai";
 import { getRuleStringByType } from "#/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
+import { css } from "@panda/css";
 
 const BoardPage = () => {
   const { game_id } = useParams();
@@ -172,8 +172,8 @@ const BoardPage = () => {
     <>
       <BoardHeader game={game} logs={logs} />
       {game.rule === "squarex" && (
-        <Box
-          sx={{
+        <div
+          className={css({
             position: "absolute",
             writingMode: "vertical-rl",
             textOverflow: "ellipsis",
@@ -184,7 +184,7 @@ const BoardPage = () => {
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
             zIndex: 10,
-          }}
+          })}
         />
       )}
       <Flex
@@ -243,7 +243,7 @@ const BoardPage = () => {
           p={3}
           rounded="2xl"
         >
-          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
+          <div>すべてのプレイヤーが休みの状態です。1問スルーしますか？</div>
           <Flex gap={1}>
             <Button
               colorScheme="blue"

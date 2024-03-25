@@ -1,15 +1,7 @@
 import { useEffect } from "react";
 import { Link as ReactLink, useSearchParams } from "react-router-dom";
 
-import {
-  Box,
-  Button,
-  Code,
-  Container,
-  Icon,
-  Link,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Code, Container, Icon, Link, Text } from "@chakra-ui/react";
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
 
 const WebhookPage = () => {
@@ -22,7 +14,7 @@ const WebhookPage = () => {
 
   return (
     <Container pt={5}>
-      <Box pt={5}>
+      <div>
         {from ? (
           <Button
             as={ReactLink}
@@ -46,7 +38,7 @@ const WebhookPage = () => {
             アプリ設定に戻る
           </Button>
         )}
-        <Box>
+        <div>
           <h2>Discord Webhookについて</h2>
           <Text>プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。</Text>
           <Text>
@@ -58,8 +50,8 @@ const WebhookPage = () => {
           <Text>
             コピーしたURLを設定内に貼り付けることで、通知が行われるようになります。
           </Text>
-        </Box>
-        <Box pt={5}>
+        </div>
+        <div>
           <h2>Webhookについて</h2>
           <Text color="red.500">
             ※こちらは開発者向けの高度な機能となります。
@@ -83,8 +75,8 @@ const WebhookPage = () => {
               <ExternalLink />
             </Icon>
           </Link>
-        </Box>
-      </Box>
+        </div>
+      </div>
     </Container>
   );
 };
