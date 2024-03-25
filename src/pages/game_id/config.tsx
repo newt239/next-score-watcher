@@ -4,7 +4,6 @@ import { Link as ReactLink, useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Card,
-  Container,
   ListItem,
   TabPanel,
   TabPanels,
@@ -96,7 +95,7 @@ const ConfigPage = () => {
     0;
 
   return (
-    <Container pt={5}>
+    <div>
       <Card p={2} variant="filled">
         <h3>{rules[game.rule].name}</h3>
         <div>
@@ -229,7 +228,7 @@ const ConfigPage = () => {
           </TabPanels>
         </Tabs>
       </div>
-    </Container>
+    </div>
   );
 };
 

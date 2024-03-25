@@ -3,7 +3,6 @@ import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
   Button,
-  Container,
   FormControl,
   FormLabel,
   Input,
@@ -102,7 +101,7 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <Container pt={5}>
+    <div>
       <div>
         <h2>AQLルール</h2>
         {aqlGames && aqlGames.length !== 0 && (
@@ -249,7 +248,7 @@ const AQLPage = () => {
           </Button>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 

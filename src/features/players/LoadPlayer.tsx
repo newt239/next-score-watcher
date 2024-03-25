@@ -6,7 +6,6 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  Text,
   Textarea,
   VStack,
   useToast,
@@ -66,9 +65,7 @@ const LoadPlayer: React.FC = () => {
       w="full"
     >
       <VStack align="left" sx={{ flexGrow: 1 }} w="full">
-        <Text>
-          Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </Text>
+        <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
         <Textarea
           onChange={(e) => setRawPlayerText(e.target.value)}
           placeholder={placeholderText}
@@ -76,7 +73,7 @@ const LoadPlayer: React.FC = () => {
           sx={{ flexGrow: 1 }}
           value={rawPlayerText}
         />
-        <Text>A列: 氏名、 B列: 順位、 C列: 所属</Text>
+        <p>A列: 氏名、 B列: 順位、 C列: 所属</p>
       </VStack>
       <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
         <RadioGroup

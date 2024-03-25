@@ -3,7 +3,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   Button,
-  Container,
   FormControl,
   FormLabel,
   Input,
@@ -30,7 +29,7 @@ const QuizPage = () => {
   }, []);
 
   return (
-    <Container pt={5}>
+    <div>
       <div>
         {from && (
           <div>
@@ -73,7 +72,7 @@ const QuizPage = () => {
         </div>
         <QuizTable />
       </div>
-    </Container>
+    </div>
   );
 };
 

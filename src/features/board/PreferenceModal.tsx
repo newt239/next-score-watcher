@@ -12,7 +12,6 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@chakra-ui/react";
 
 import ShortcutGuide from "#/features/board/ShortcutGuide";
@@ -38,9 +37,9 @@ const PreferenceModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <Text>
+                <p>
                   一部の設定はボタンクリック等何らかのアクション後に反映されます。
-                </Text>
+                </p>
                 <Preferences />
               </TabPanel>
               <TabPanel>

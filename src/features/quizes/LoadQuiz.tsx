@@ -6,7 +6,6 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  Text,
   Textarea,
   VStack,
   useToast,
@@ -67,9 +66,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   return (
     <VStack h="30vh" justifyContent="space-between">
       <VStack align="left" sx={{ flexGrow: 1 }} w="full">
-        <Text>
-          Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </Text>
+        <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
         <Textarea
           disabled={setName === ""}
           onChange={(e) => setRawQuizText(e.target.value)}
@@ -78,7 +75,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           sx={{ flexGrow: 1 }}
           value={rawQuizText}
         />
-        <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
+        <p>A列: 問題番号、 B列: 問題文 C列: 答え</p>
       </VStack>
       <HStack sx={{ pt: 3, gap: 3, justifyContent: "flex-end" }} w="full">
         <RadioGroup

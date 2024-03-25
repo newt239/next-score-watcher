@@ -9,7 +9,6 @@ import {
   InputLeftElement,
   Table,
   Tag,
-  Text,
   Thead
 } from "@chakra-ui/react";
 import {
@@ -189,9 +188,9 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       </InputGroup>
       {table.getRowModel().rows.length === 0 ? (
         <div>
-          <Text>
+          <p>
             「{searchText}」に一致するプレイヤーは見つかりませんでした。
-          </Text>
+          </p>
         </div>
       ) : (
         <div>

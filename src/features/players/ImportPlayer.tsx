@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react";
 
-import { Input, Text, VStack, useToast } from "@chakra-ui/react";
+import { Input, VStack, useToast } from "@chakra-ui/react";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
@@ -67,7 +67,7 @@ const ImportPlayer: React.FC = () => {
       justifyContent="space-between"
       w="full"
     >
-      <Text>CSVファイルからインポートできます。</Text>
+      <p>CSVファイルからインポートできます。</p>
       <Input
         accept=".csv"
         height={[255, 160, 100]}
@@ -75,7 +75,7 @@ const ImportPlayer: React.FC = () => {
         sx={{ flexGrow: 1 }}
         type="file"
       />
-      <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
+      <p>1列目: 氏名、 2列目: 順位、 3列目: 所属</p>
     </VStack>
   );
 };

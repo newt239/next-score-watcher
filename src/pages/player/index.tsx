@@ -3,7 +3,6 @@ import { Link as ReactLink, useSearchParams } from "react-router-dom";
 
 import {
   Button,
-  Container,
   Tab,
   TabList,
   TabPanel,
@@ -26,7 +25,7 @@ const PlayerPage = () => {
   }, []);
 
   return (
-    <Container pt={5}>
+    <div>
       <div>
         {from && (
           <div>
@@ -65,7 +64,7 @@ const PlayerPage = () => {
         </div>
         <PlayerTable />
       </div>
-    </Container>
+    </div>
   );
 };
 

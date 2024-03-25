@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-  Card,
-  CardBody,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Card, CardBody, ListItem, UnorderedList } from "@chakra-ui/react";
 import { ReactSortable } from "react-sortablejs";
 
 import SelectPlayerDrawer from "./SelectPlayerDrawer";
@@ -125,7 +119,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                             textOrientation: "upright",
                           })}
                         >
-                          <Text size="xl">{player.name}</Text>
+                          <p>{player.name}</p>
                         </div>
                         {isDesktop && (
                           <IndividualConfig
@@ -162,9 +156,9 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                 ))}
               </ReactSortable>
             </div>
-            <Text pt={2}>
+            <p>
               ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
-            </Text>
+            </p>
           </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
         ) : (
           <div>ここに選択されたプレイヤーが表示されます</div>

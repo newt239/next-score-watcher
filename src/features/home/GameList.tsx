@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
-import { Button, Card, Link, Select, SimpleGrid, Text } from "@chakra-ui/react";
+import { Button, Card, Link, Select, SimpleGrid } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
@@ -65,13 +65,13 @@ const GameList: React.FC = () => {
         </Select>
       </div>
       {parsedGameList.length === 0 ? (
-        <Text px={5} py={10}>
+        <p>
           作成済みのゲームはありません。
           <Link as={ReactLink} color="blue.500" to="/option">
             形式一覧
           </Link>
           ページから新しいゲームを作ることが出来ます。
-        </Text>
+        </p>
       ) : (
         <SimpleGrid
           pt={3}
@@ -90,10 +90,10 @@ const GameList: React.FC = () => {
                 <h3 style={{ whiteSpace: "nowrap", overflowX: "scroll" }}>
                   {game.name}
                 </h3>
-                <Text>
+                <p>
                   {game.type} ／ {game.player_count}人
-                </Text>
-                <Text>進行状況: {game.state}</Text>
+                </p>
+                <p>進行状況: {game.state}</p>
               </div>
               <div
                 className={css({

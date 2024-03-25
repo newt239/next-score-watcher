@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react";
 
-import { Input, Text, VStack, useToast } from "@chakra-ui/react";
+import { Input, VStack, useToast } from "@chakra-ui/react";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
@@ -64,7 +64,7 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
 
   return (
     <VStack align="left" h="30vh" justifyContent="space-between" w="full">
-      <Text>CSVファイルからインポートできます。</Text>
+      <p>CSVファイルからインポートできます。</p>
       <Input
         accept=".csv"
         disabled={setName === ""}
@@ -73,7 +73,7 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         sx={{ flexGrow: 1 }}
         type="file"
       />
-      <Text>1列目: 問題番号、 2列目: 問題文 3列目: 答え</Text>
+      <p>1列目: 問題番号、 2列目: 問題文 3列目: 答え</p>
     </VStack>
   );
 };

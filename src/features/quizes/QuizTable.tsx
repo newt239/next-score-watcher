@@ -18,7 +18,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Table,
-  Text,
   Textarea,
   Thead,
   useDisclosure,
@@ -145,7 +144,7 @@ const QuizTable: React.FC = () => {
       <h3>問題一覧</h3>
       {quizes.length === 0 ? (
         <div>
-          <Text>問題が登録されていません。</Text>
+          <p>問題が登録されていません。</p>
         </div>
       ) : (
         <div>
@@ -195,9 +194,9 @@ const QuizTable: React.FC = () => {
           }
           {table.getRowModel().rows.length === 0 ? (
             <div>
-              <Text>
+              <p>
                 「{searchText}」に一致する問題データは見つかりませんでした。
-              </Text>
+              </p>
             </div>
           ) : (
             <>

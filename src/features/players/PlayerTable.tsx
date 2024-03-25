@@ -28,7 +28,6 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
-  Text,
   Thead,
   UnorderedList,
   useDisclosure,
@@ -213,7 +212,7 @@ const PlayerTable: React.FC = () => {
       <h3>プレイヤー一覧</h3>
       {players.length === 0 ? (
         <div>
-          <Text>プレイヤーが登録されていません。</Text>
+          <p>プレイヤーが登録されていません。</p>
         </div>
       ) : (
         <div>
@@ -263,9 +262,9 @@ const PlayerTable: React.FC = () => {
           }
           {table.getRowModel().rows.length === 0 ? (
             <div>
-              <Text>
+              <p>
                 「{searchText}」に一致するプレイヤーは見つかりませんでした。
-              </Text>
+              </p>
             </div>
           ) : (
             <>

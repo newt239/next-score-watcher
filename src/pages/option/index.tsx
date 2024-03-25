@@ -3,7 +3,6 @@ import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
   Button,
-  Container,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -11,7 +10,6 @@ import {
   Input,
   Link,
   Table,
-  Text,
   VStack,
   useDisclosure
 } from "@chakra-ui/react";
@@ -43,7 +41,7 @@ const OptionPage = () => {
   };
 
   return (
-    <Container pt={5}>
+    <div>
       <div>
         <h2>アプリ設定</h2>
         <Preferences />
@@ -95,7 +93,7 @@ const OptionPage = () => {
       </div>
       <div>
         <h2>アプリ情報</h2>
-        <Text>
+        <p>
           アップデート情報は
           <Link
             color="blue.500"
@@ -108,7 +106,7 @@ const OptionPage = () => {
             </Icon>
           </Link>
           をご確認ください。
-        </Text>
+        </p>
         <div>
           <table>
             <tbody>
@@ -152,7 +150,7 @@ const OptionPage = () => {
           </Table>
         </div>
       </div>
-    </Container>
+    </div>
   );
 };
 
