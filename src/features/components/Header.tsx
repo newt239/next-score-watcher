@@ -1,79 +1,81 @@
-import { Link as ReactLink, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { Box, Flex, Image, Spacer, useColorMode } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 
-import Logo from "#/assets/logo.png";
+import Hamburger from "./Hamburger";
+
 import SubMenu from "#/features/components/SubMenu";
-import useDeviceWidth from "#/features/hooks/useDeviceWidth";
+import { css } from "@panda/css";
 
 const Header: React.FC = () => {
-  const location = useLocation();
-  const desktop = useDeviceWidth();
-  const { colorMode } = useColorMode();
-
-  if (
-    location.pathname.includes("board") ||
-    location.pathname.includes("/aql/")
-  )
-    return null;
-
   return (
-    <Box
-      sx={{
-        px: 2,
-        w: "100%",
-        margin: "auto",
-        position: "sticky",
-        top: 0,
+    <header
+      className={css({
+        backgroundColor: "white",
         left: 0,
-        zIndex: 10,
-        backdropFilter: "blur(8px)",
-        borderStyle: "solid",
-        borderWidth: "0px 0px thin",
-        borderColor:
-          colorMode === "light"
-            ? "rgb(231, 235, 240)"
-            : "rgba(194, 224, 255, 0.08)",
-        backgroundColor:
-          colorMode === "light"
-            ? "rgba(255, 255, 255, 0.5)"
-            : "rgba(10, 25, 41, 0.7)",
-      }}
+        lg: {
+          height: "100vh",
+          p: "16px",
+          width: 300,
+        },
+        p: "0px",
+        position: "fixed",
+        top: 0,
+        w: "100%",
+        zIndex: 100,
+      })}
     >
-      <Flex
-        sx={{
-          maxW: 1000,
-          margin: "auto",
-          alignItems: "center",
-          justifyContent: !desktop ? "center" : undefined,
-        }}
+      <div
+        className={css({
+          display: "flex",
+          gap: "16px",
+          justifyContent: "space-between",
+          lg: {
+            flexDirection: "column",
+            h: "100%",
+          },
+          px: "16px",
+          py: "8px",
+        })}
       >
-        <Box _hover={{ opacity: 0.5 }} sx={{ transition: "all 0.2s ease-out" }}>
-          <ReactLink to="/">
-            <Image
-              alt="app logo"
-              src={Logo}
-              sx={{
-                height: "auto",
-                width: "auto",
-                pb: 2,
-                pl: desktop ? 2 : 0,
-                maxHeight: "7vh",
-                maxWidth: "300px",
-                margin: "auto",
-                cursor: "pointer",
-              }}
-            />
-          </ReactLink>
-        </Box>
-        {desktop && (
-          <>
-            <Spacer />
-            <SubMenu />
-          </>
-        )}
-      </Flex>
-    </Box>
+        <Link
+          className={css({
+            _hover: { opacity: 0.5 },
+            transition: "all 0.2s ease-out",
+          })}
+          to="/"
+        >
+          <Image
+            alt="app logo"
+            className={css({
+              cursor: "pointer",
+              height: "clamp(20px, 10vw, 50px)!important",
+              margin: "auto",
+              pb: 2,
+              pl: [0, 2],
+              width: "auto!important",
+            })}
+            height={50}
+            src="/logo.png"
+            width={236}
+          />
+        </Link>
+        <Hamburger>
+          <SubMenu />
+        </Hamburger>
+        <div
+          className={css({
+            display: "none",
+            flexGrow: 1,
+            lg: {
+              display: "block",
+            },
+          })}
+        >
+          <SubMenu />
+        </div>
+      </div>
+    </header>
   );
 };
 

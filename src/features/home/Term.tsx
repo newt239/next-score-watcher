@@ -1,30 +1,38 @@
-import { Box, Icon, Link, ListItem, UnorderedList } from "@chakra-ui/react";
-import { ExternalLink } from "tabler-icons-react";
+import Anchor from "#/components/Anchor";
 
 const Term: React.FC = () => {
   return (
-    <Box pt={5}>
+    <div>
       <h2>ご利用にあたって</h2>
-      <UnorderedList>
-        <ListItem>
+      <ul>
+        <li>
           データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。
-        </ListItem>
-        <ListItem>
-          2024年3月までの期間、本サービスへのお問い合わせの受付を停止します。詳細は
-          <Link
-            color="blue.500"
-            href="https://newt-house.notion.site/Score-Watcher-Info-e3605dc670724bc8adf0a5ee3f0c8392"
-            isExternal
-          >
-            Notion上で公開しているページ
-            <Icon>
-              <ExternalLink />
-            </Icon>
-          </Link>
-          をご確認ください。
-        </ListItem>
-      </UnorderedList>
-    </Box>
+        </li>
+        <li>
+          本アプリの開発者はユーザーが本アプリを使用したことにより生じる損害について、いかなる責任も負いません。
+        </li>
+        <li>
+          お問い合わせは
+          <Anchor href="https://discord.gg/rct5sx6rbZ">
+            開発者のDiscordサーバー
+          </Anchor>
+          やTwitter からお願いします。
+        </li>
+        <li>
+          本アプリを利用した際はぜひ
+          <Anchor href="https://twitter.com/hashtag/ScoreWatcher?f=live">
+            #ScoreWatcher
+          </Anchor>
+          でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
+        </li>
+        <li>
+          <Anchor href="https://forms.gle/T6CGBZntoGAiQSxH9">
+            Googleフォーム
+          </Anchor>
+          でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
+        </li>
+      </ul>
+    </div>
   );
 };
 
