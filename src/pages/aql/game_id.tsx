@@ -331,29 +331,29 @@ const AQLBoardPage: React.FC = () => {
                     {gameState.scores[n].score}
                   </div>
                   <Button
-                    colorScheme="red"
-                    isDisabled={wrong >= 2}
-                    onClick={() => onClickHandler("correct", n)}
                     className={css({
                       color: "red.600",
                       _dark: {
                         color: "red.300",
                       },
-                    }}
+                    })}
+                    colorScheme="red"
+                    isDisabled={wrong >= 2}
+                    onClick={() => onClickHandler("correct", n)}
                     variant="ghost"
                   >
                     {Math.max(0, gameState.scores[n].score - wrong)}○
                   </Button>
                   <Button
-                    colorScheme="blue"
-                    isDisabled={wrong >= 2}
-                    onClick={() => onClickHandler("wrong", n)}
                     className={css({
                       color: "blue.600",
                       _dark: {
                         color: "blue.300",
                       },
-                    }}
+                    })}
+                    colorScheme="blue"
+                    isDisabled={wrong >= 2}
+                    onClick={() => onClickHandler("wrong", n)}
                     variant="ghost"
                   >
                     {wrong}✕

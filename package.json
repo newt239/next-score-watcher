@@ -36,7 +36,6 @@
     "tabler-icons-react": "^1.56.0"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "1.2.25",
     "@pandacss/dev": "^0.36.1",
     "@sentry/react": "^7.74.1",
     "@storybook/addon-essentials": "^8.0.4",
@@ -63,7 +62,6 @@
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-storybook": "^0.8.0",
-    "lint-staged": "^13.3.0",
     "prettier": "3.0.1",
     "storybook": "^8.0.4",
     "storybook-addon-remix-react-router": "^3.0.0",

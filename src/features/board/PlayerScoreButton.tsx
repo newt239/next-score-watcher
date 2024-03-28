@@ -1,12 +1,11 @@
 import React, { useId } from "react";
 
 import {
-    Button,
-    Editable,
-    EditableInput,
-    EditablePreview,
-    SystemStyleObject,
-    useColorMode,
+  Button,
+  Editable,
+  EditableInput,
+  EditablePreview,
+  useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
@@ -16,6 +15,8 @@ import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { recordEvent } from "#/utils/ga4";
 import { verticalViewAtom } from "#/utils/jotai";
+import { css } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 type PlayerScoreButtonProps = {
   color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
@@ -122,15 +123,13 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       {editable ? (
         <Editable
           alignItems="center"
+          className={css({ ...ButtonCssStyle, h: "auto" })}
           defaultValue={children}
           display="flex"
           justifyContent="center"
-          className={css({ ...ButtonCssStyle, h: "auto" }}
         >
           <EditablePreview my={1} p={0} />
           <EditableInput
-            id={id}
-            name={id}
             className={css({
               p: 0,
               my: 1,
@@ -141,14 +140,16 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
                 : compact
                 ? "2.5rem"
                 : "5.5rem",
-            }}
+            })}
+            id={id}
+            name={id}
           />
         </Editable>
       ) : (
         <Button
           _hover={{ opacity: disabled ? 1 : 0.5 }}
+          className={css(ButtonCssStyle)}
           onClick={handleClick}
-          sx={ButtonCssStyle}
           variant="unstyled"
         >
           {numberSign === "none" ? (

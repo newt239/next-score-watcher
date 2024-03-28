@@ -1,18 +1,19 @@
 import {
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
-    Stat,
-    StatHelpText,
-    StatLabel,
-    StatNumber,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Stat,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
 } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
 import { showWinthroughPopupAtom } from "#/utils/jotai";
+import { css } from "@panda/css";
 
 type WinModalProps = {
   onClose: () => void;
@@ -40,11 +41,14 @@ const WinModal: React.FC<WinModalProps> = ({
         <ModalHeader>Congratulations!</ModalHeader>
         <ModalCloseButton />
         <ModalBody py={10}>
-          <Stat key={winTroughPlayer.text} className={css({ textAlign: "center" }}>
-            <StatLabel className={css({ fontSize: "1.5rem" }}>
+          <Stat
+            className={css({ textAlign: "center" })}
+            key={winTroughPlayer.text}
+          >
+            <StatLabel className={css({ fontSize: "1.5rem" })}>
               {winTroughPlayer.text}
             </StatLabel>
-            <StatNumber className={css({ fontSize: "2.5rem" }}>
+            <StatNumber className={css({ fontSize: "2.5rem" })}>
               {winTroughPlayer.name}
             </StatNumber>
             <StatHelpText>{roundName}</StatHelpText>
