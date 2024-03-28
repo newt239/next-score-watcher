@@ -6,8 +6,8 @@ import { AdjustmentsHorizontal, Select } from "tabler-icons-react";
 
 import { Card } from "@chakra-ui/react";
 import { css } from "@panda/css";
-import Anchor from "~/components/custom/Anchor";
 import ButtonLink from "~/components/custom/ButtonLink";
+import Link from "~/components/custom/Link";
 import db from "~/utils/db";
 import { getRuleStringByType } from "~/utils/rules";
 
@@ -72,7 +72,7 @@ const GamesPage: React.FC = () => {
       {parsedGameList.length === 0 ? (
         <p>
           作成済みのゲームはありません。
-          <Anchor href="/option">形式一覧</Anchor>
+          <Link href="/option">形式一覧</Link>
           ページから新しいゲームを作ることが出来ます。
         </p>
       ) : (

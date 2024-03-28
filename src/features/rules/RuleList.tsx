@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Card, SimpleGrid } from "@chakra-ui/react";
+import { Box, Card, SimpleGrid } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
+import { Button } from "~/components/ui/button";
 import { createGame } from "~/utils/functions";
 import { rules } from "~/utils/rules";
 import { RuleNames } from "~/utils/types";
@@ -50,13 +51,9 @@ const RuleList: React.FC = () => {
                 </Box>
               </Box>
               <Box textAlign="end">
-                <Button
-                  colorScheme="green"
-                  leftIcon={<CirclePlus />}
-                  onClick={() => onClick(rule_name)}
-                  size="sm"
-                >
+                <Button onClick={() => onClick(rule_name)} size="sm">
                   作る
+                  <CirclePlus />
                 </Button>
               </Box>
             </Card>

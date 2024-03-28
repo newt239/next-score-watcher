@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
-import Header from "~/features/components/Header";
 import HomePage from "~/pages";
 import AQLPage from "~/pages/aql";
 import AQLBoardPage from "~/pages/aql/game_id";
@@ -20,33 +19,37 @@ import GamesPage from "~/pages/games";
 
 import "~/globals.css";
 import "~/index.css";
+import Layout from "~/layouts/default";
+import BoardPage from "~/pages/game_id/board";
 
 function App() {
   return (
-    <ChakraProvider resetCSS={false}>
+    <ChakraProvider>
       <BrowserRouter>
-        <Header />
         <ScrollTop />
-        <Box sx={{ minH: "100vh" }}>
+        <div>
           <Routes>
-            <Route element={<HomePage />} index />
-            <Route path="games">
-              <Route element={<GamesPage />} index />
-              <Route element={<ConfigPage />} path=":game_id/config" />
-            </Route>
-            <Route path="aql">
-              <Route element={<AQLPage />} index />
-              <Route element={<AQLBoardPage />} path=":game_id" />
-            </Route>
-            <Route element={<RulePage />} path="rules" />
-            <Route element={<PlayerPage />} path="players" />
-            <Route element={<QuizPage />} path="quizes" />
-            <Route path="option">
-              <Route element={<OptionPage />} index />
-              <Route element={<WebhookPage />} path="webhook" />
+            <Route element={<BoardPage />} path="/games/:game_id/board" />
+            <Route element={<Layout />} path="/">
+              <Route element={<HomePage />} index />
+              <Route path="games">
+                <Route element={<GamesPage />} index />
+                <Route element={<ConfigPage />} path=":game_id/config" />
+              </Route>
+              <Route path="aql">
+                <Route element={<AQLPage />} index />
+                <Route element={<AQLBoardPage />} path=":game_id" />
+              </Route>
+              <Route element={<RulePage />} path="rules" />
+              <Route element={<PlayerPage />} path="players" />
+              <Route element={<QuizPage />} path="quizes" />
+              <Route path="option">
+                <Route element={<OptionPage />} index />
+                <Route element={<WebhookPage />} path="webhook" />
+              </Route>
             </Route>
           </Routes>
-        </Box>
+        </div>
         <Footer />
         <UpdateModal />
       </BrowserRouter>

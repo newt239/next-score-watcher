@@ -18,11 +18,11 @@ const Layout: React.FC = () => {
       <div
         className={css({
           lg: {
-            ml: "300px",
+            ml: 300,
             mt: "0px",
           },
           maxW: "1300px",
-          mt: "50px",
+          mt: 50,
           p: "16px",
           w: "100%",
         })}

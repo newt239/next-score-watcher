@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 import { Image } from "@chakra-ui/react";
 
-import Hamburger from "./Hamburger";
+import Hamburger from "~/features/components/Hamburger";
+import SubMenu from "~/features/components/SubMenu";
 
 import { css } from "@panda/css";
-import SubMenu from "~/features/components/SubMenu";
 
 const Header: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ const Header: React.FC = () => {
           p: "16px",
           width: 300,
         },
-        p: "0px",
+        p: 0,
         position: "fixed",
         top: 0,
         w: "100%",
@@ -60,9 +60,18 @@ const Header: React.FC = () => {
             width={236}
           />
         </Link>
-        <Hamburger>
-          <SubMenu />
-        </Hamburger>
+        <div
+          className={css({
+            display: "block",
+            lg: {
+              display: "none",
+            },
+          })}
+        >
+          <Hamburger>
+            <SubMenu />
+          </Hamburger>
+        </div>
         <div
           className={css({
             display: "none",

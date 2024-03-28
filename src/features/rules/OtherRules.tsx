@@ -1,4 +1,4 @@
-import Anchor from "~/components/custom/Anchor";
+import Link from "~/components/custom/Link";
 
 const OtherRules: React.FC = () => {
   return (
@@ -6,7 +6,7 @@ const OtherRules: React.FC = () => {
       <h2>その他の形式</h2>
       <ul>
         <li>
-          <Anchor href="/aql">AQLルール</Anchor>
+          <Link href="/aql">AQLルール</Link>
         </li>
       </ul>
     </div>
