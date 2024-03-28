@@ -79,7 +79,7 @@ const GamesPage: React.FC = () => {
           })}
         >
           {parsedGameList.map((game) => (
-            <Card key={game.id} title={game.name}>
+            <Card variant="filled" key={game.id} title={game.name}>
               <div>
                 <h3 style={{ whiteSpace: "nowrap", overflowX: "scroll" }}>
                   {game.name}
@@ -101,6 +101,7 @@ const GamesPage: React.FC = () => {
                   href={`/games/${game.id}/config`}
                   leftIcon={<AdjustmentsHorizontal />}
                   size="sm"
+                  colorScheme="green"
                 >
                   開く
                 </ButtonLink>

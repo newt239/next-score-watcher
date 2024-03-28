@@ -106,26 +106,9 @@ const ConfigPage = () => {
           ))}
         </div>
       </Card>
-      <InputLayout
-        label={
-          <UnorderedList
-            className={css({
-              color: "red.500",
-              _dark: {
-                color: "red.300",
-              },
-            })}
-          >
-            {errorMessages.map((m) => (
-              <ListItem key={m}>{m}</ListItem>
-            ))}
-          </UnorderedList>
-        }
-        simple
-        vertical={!isDesktop}
-        wrapperStyle={{
+      <div
+        className={css({
           my: 5,
-          gap: 5,
           borderStyle: "solid",
           borderRadius: "md",
           borderWidth: 2,
@@ -133,23 +116,46 @@ const ConfigPage = () => {
           _dark: {
             borderColor: playButtonIsDisabled ? "red.300" : "gray.800",
           },
-        }}
+        })}
       >
-        {playButtonIsDisabled ? (
-          <Button
-            colorScheme="green"
-            isDisabled={playButtonIsDisabled}
-            leftIcon={<PlayerPlay />}
-            size="lg"
-          >
-            ゲーム開始
-          </Button>
-        ) : (
-          <ButtonLink href={`/${game_id}/board`} leftIcon={<PlayerPlay />}>
-            ゲーム開始
-          </ButtonLink>
-        )}
-      </InputLayout>
+        <InputLayout
+          label={
+            <UnorderedList
+              className={css({
+                color: "red.500",
+                _dark: {
+                  color: "red.300",
+                },
+              })}
+            >
+              {errorMessages.map((m) => (
+                <ListItem key={m}>{m}</ListItem>
+              ))}
+            </UnorderedList>
+          }
+          simple
+          vertical={!isDesktop}
+        >
+          {playButtonIsDisabled ? (
+            <Button
+              colorScheme="green"
+              isDisabled={playButtonIsDisabled}
+              leftIcon={<PlayerPlay />}
+              size="lg"
+            >
+              ゲーム開始
+            </Button>
+          ) : (
+            <ButtonLink
+              colorScheme="green"
+              href={`/games/${game_id}/board`}
+              leftIcon={<PlayerPlay />}
+            >
+              ゲーム開始
+            </ButtonLink>
+          )}
+        </InputLayout>
+      </div>
       <div>
         <Tabs
           className={css({

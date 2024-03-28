@@ -294,7 +294,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             <MenuItem
               as={ReactLink}
               icon={<AdjustmentsHorizontal />}
-              to={`/${game.id}/config`}
+              to={`/games/${game.id}/config`}
             >
               ゲーム設定
             </MenuItem>

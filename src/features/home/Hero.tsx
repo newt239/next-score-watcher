@@ -13,6 +13,8 @@ const Hero: React.FC = () => {
       <img
         alt="大会画像"
         className={css({
+          height: "80vh",
+          width: "100%",
           borderRadius: "3xl",
           objectFit: "cover",
         })}
@@ -22,7 +24,6 @@ const Hero: React.FC = () => {
         className={css({
           backdropFilter: "blur(3px)",
           color: "white",
-          border: "solid rgba(194,224,255,.08)",
           left: "50%",
           borderRadius: "3xl",
           margin: "16px",
@@ -57,7 +58,7 @@ const Hero: React.FC = () => {
             スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
           </p>
         </div>
-        <Button as={Link} to="/rules" size="xl" colorScheme="green">
+        <Button as={Link} to="/rules" size="lg" colorScheme="green">
           ゲームを作る
         </Button>
       </div>

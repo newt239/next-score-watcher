@@ -34,23 +34,23 @@ const RuleList: React.FC = () => {
               p={3}
               variant="filled"
             >
-              <Box>
-                <h3 style={{ whiteSpace: "nowrap" }}>
-                  {rules[rule_name].name}
-                </h3>
-                <Box
-                  sx={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {description}
-                </Box>
+              <h3 style={{ whiteSpace: "nowrap" }}>{rules[rule_name].name}</h3>
+              <Box
+                sx={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {description}
               </Box>
               <Box textAlign="end">
-                <Button onClick={() => onClick(rule_name)} size="sm">
+                <Button
+                  colorScheme="green"
+                  onClick={() => onClick(rule_name)}
+                  size="sm"
+                >
                   作る
                   <CirclePlus />
                 </Button>
