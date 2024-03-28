@@ -19,7 +19,7 @@ const Layout: React.FC = () => {
         className={css({
           lg: {
             ml: 300,
-            mt: "0px",
+            mt: 0,
           },
           maxW: "1300px",
           mt: 50,

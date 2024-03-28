@@ -5,11 +5,11 @@ import {
   FormHelperText,
   FormLabel,
   HStack,
-  SystemStyleObject,
   VStack,
 } from "@chakra-ui/react";
 
 import { css } from "@panda/css";
+import { SystemStyleObject } from "@panda/types";
 
 type InputLayoutProps = {
   id?: string;
@@ -51,7 +51,7 @@ const InputLayout: React.FC<InputLayoutProps> = ({
       })}
     >
       <VStack align="stretch" gap={0}>
-        <FormLabel htmlFor={id} m={0} sx={labelStyle}>
+        <FormLabel htmlFor={id} m={0} className={css(labelStyle)}>
           {label}
         </FormLabel>
         {helperText && <FormHelperText>{helperText}</FormHelperText>}

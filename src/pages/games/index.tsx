@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal, Select } from "tabler-icons-react";
+import { AdjustmentsHorizontal } from "tabler-icons-react";
 
-import { Card } from "@chakra-ui/react";
+import { Card, Select } from "@chakra-ui/react";
 import { css } from "@panda/css";
 import ButtonLink from "~/components/custom/ButtonLink";
 import Link from "~/components/custom/Link";
@@ -57,12 +57,6 @@ const GamesPage: React.FC = () => {
       >
         <h2>作成したゲーム</h2>
         <Select
-          /*
-          items={[
-            { value: "last_open", label: "最終閲覧順" },
-            { value: "name", label: "ゲーム名順" },
-          ]}
-          */
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
         >
           <option value="last_open">最終閲覧順</option>

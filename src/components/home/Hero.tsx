@@ -1,6 +1,4 @@
-import { Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
-
-import { Button } from "../ui/button";
+import { Button, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
 
 const Hero: React.FC = () => {
   return (
