@@ -1,6 +1,6 @@
 import { Box, Flex, Image, Link } from "@chakra-ui/react";
 
-import Logo from "#/assets/logo.png";
+import Logo from "~/assets/logo.png";
 
 const Footer: React.FC = () => {
   return (

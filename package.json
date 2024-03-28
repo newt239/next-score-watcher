@@ -35,7 +35,6 @@
   "devDependencies": {
     "@ark-ui/react": "^2.2.3",
     "@pandacss/dev": "^0.36.1",
-    "@park-ui/panda-preset": "^0.36.1",
     "@sentry/react": "^7.108.0",
     "@types/encoding-japanese": "^2.0.5",
     "@types/gtag.js": "^0.0.12",
@@ -55,7 +54,6 @@
     "prettier": "3.0.1",
     "typescript": "^5.4.3",
     "vite": "^4.5.3",
-    "vite-plugin-pwa": "^0.16.7",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-plugin-pwa": "^0.19.7"
   }
 }

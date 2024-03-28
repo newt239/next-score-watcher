@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
       })}
     >
       <img
-        alt={"大会画像"}
+        alt="大会画像"
         className={css({
           borderRadius: "3xl",
           objectFit: "cover",
