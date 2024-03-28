@@ -1,10 +1,10 @@
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
-import { rules } from "#/utils/rules";
-import { GamePropsUnion, RuleNames, States } from "#/utils/types";
+import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
+import { rules } from "~/utils/rules";
+import { GamePropsUnion, RuleNames, States } from "~/utils/types";
 
 export const createGame = async (
   param:

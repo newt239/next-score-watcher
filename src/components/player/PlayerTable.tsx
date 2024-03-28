@@ -54,10 +54,10 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { DeviceFloppy, Edit, Filter, Tags, Trash, X } from "tabler-icons-react";
 
-import TablePagination from "#/components/common/TablePagination";
-import EditPlayertagsModal from "#/components/player/EditPlayerTagsModal";
-import db from "#/utils/db";
-import { PlayerDBProps } from "#/utils/types";
+import TablePagination from "~/components/common/TablePagination";
+import EditPlayertagsModal from "~/components/player/EditPlayerTagsModal";
+import db from "~/utils/db";
+import { PlayerDBProps } from "~/utils/types";
 
 const PlayerTable: React.FC = () => {
   const games = useLiveQuery(() => db.games.toArray(), []);

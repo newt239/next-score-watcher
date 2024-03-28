@@ -28,8 +28,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
 
 export type AQLGamePropsUnion = {
   id: string;

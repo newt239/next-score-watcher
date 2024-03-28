@@ -1,8 +1,8 @@
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
-} from "#/utils/computeScore";
-import { AllGameProps, LogDBProps } from "#/utils/types";
+} from "~/utils/computeScore";
+import { AllGameProps, LogDBProps } from "~/utils/types";
 
 const normal = async (
   game: AllGameProps["normal"],

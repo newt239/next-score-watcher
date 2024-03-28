@@ -30,13 +30,13 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import PreferenceModal from "#/components/board/PreferenceModal";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
-import { showQnAtom } from "#/utils/jotai";
-import { getRuleStringByType } from "#/utils/rules";
-import { GamePropsUnion, LogDBProps, QuizDBProps } from "#/utils/types";
+import PreferenceModal from "~/components/board/PreferenceModal";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
+import { showQnAtom } from "~/utils/jotai";
+import { getRuleStringByType } from "~/utils/rules";
+import { GamePropsUnion, LogDBProps, QuizDBProps } from "~/utils/types";
 
 type BoardHeaderProps = {
   game: GamePropsUnion;

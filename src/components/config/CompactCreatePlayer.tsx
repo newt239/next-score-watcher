@@ -12,8 +12,8 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import db from "#/utils/db";
-import { GameDBPlayerProps } from "#/utils/types";
+import db from "~/utils/db";
+import { GameDBPlayerProps } from "~/utils/types";
 
 type CompactCreatePlayerProps = {
   game_id: string;

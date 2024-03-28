@@ -15,8 +15,8 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
 
-import db from "#/utils/db";
-import { getRuleStringByType } from "#/utils/rules";
+import db from "~/utils/db";
+import { getRuleStringByType } from "~/utils/rules";
 
 const GameList: React.FC = () => {
   const games = useLiveQuery(

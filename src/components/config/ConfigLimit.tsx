@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import db from "#/utils/db";
-import { RuleNames } from "#/utils/types";
+import db from "~/utils/db";
+import { RuleNames } from "~/utils/types";
 
 type ConfigLimitProps = {
   rule: RuleNames;

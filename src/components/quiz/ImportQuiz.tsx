@@ -4,9 +4,9 @@ import { Input, Text, VStack, useToast } from "@chakra-ui/react";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
-import db from "#/utils/db";
-import { str2num } from "#/utils/functions";
-import { recordEvent } from "#/utils/ga4";
+import db from "~/utils/db";
+import { str2num } from "~/utils/functions";
+import { recordEvent } from "~/utils/ga4";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();

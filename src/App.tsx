@@ -2,24 +2,25 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
-import BottomBar from "#/components/block/BottomBar";
-import Footer from "#/components/block/Footer";
-import Header from "#/components/block/Header";
-import ScrollTop from "#/components/block/ScrollTop";
-import UpdateModal from "#/components/block/UpdateModal";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import HomePage from "#/pages";
-import AQLPage from "#/pages/aql";
-import AQLBoardPage from "#/pages/aql/game_id";
-import BoardPage from "#/pages/game_id/board";
-import ConfigPage from "#/pages/game_id/config";
-import OptionPage from "#/pages/option";
-import WebhookPage from "#/pages/option/webhook";
-import PlayerPage from "#/pages/player";
-import QuizPage from "#/pages/quiz";
-import RulePage from "#/pages/rule";
+import BottomBar from "~/components/block/BottomBar";
+import Footer from "~/components/block/Footer";
+import Header from "~/components/block/Header";
+import ScrollTop from "~/components/block/ScrollTop";
+import UpdateModal from "~/components/block/UpdateModal";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import HomePage from "~/pages";
+import AQLPage from "~/pages/aql";
+import AQLBoardPage from "~/pages/aql/game_id";
+import BoardPage from "~/pages/game_id/board";
+import ConfigPage from "~/pages/game_id/config";
+import OptionPage from "~/pages/option";
+import WebhookPage from "~/pages/option/webhook";
+import PlayerPage from "~/pages/player";
+import QuizPage from "~/pages/quiz";
+import RulePage from "~/pages/rule";
 
-import "#/globals.css";
+import "~/globals.css";
+import "~/index.css";
 
 function App() {
   const isDesktop = useDeviceWidth();

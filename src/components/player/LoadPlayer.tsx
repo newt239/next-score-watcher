@@ -14,8 +14,8 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import db from "#/utils/db";
-import { PlayerDBProps } from "#/utils/types";
+import db from "~/utils/db";
+import { PlayerDBProps } from "~/utils/types";
 
 const LoadPlayer: React.FC = () => {
   const toast = useToast();

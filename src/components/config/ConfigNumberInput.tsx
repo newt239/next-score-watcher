@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import db from "#/utils/db";
-import { GamePropsUnion } from "#/utils/types";
+import db from "~/utils/db";
+import { GamePropsUnion } from "~/utils/types";
 
 type ConfigNumberInputProps = {
   input_id: keyof GamePropsUnion;

@@ -12,9 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
-import InputLayout from "#/components/common/InputLayout";
-import db from "#/utils/db";
-import { GameDBQuizProps } from "#/utils/types";
+import InputLayout from "~/components/common/InputLayout";
+import db from "~/utils/db";
+import { GameDBQuizProps } from "~/utils/types";
 
 type SelectQuizsetProps = {
   game_id: string;

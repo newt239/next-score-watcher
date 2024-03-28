@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 
-import { ScoreWatcherDBTables } from "#/utils/types";
+import { ScoreWatcherDBTables } from "~/utils/types";
 
 const db = new Dexie("score_watcher") as ScoreWatcherDBTables;
 db.version(3)

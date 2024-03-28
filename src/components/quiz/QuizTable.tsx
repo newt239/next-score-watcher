@@ -44,9 +44,9 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { DeviceFloppy, Edit, Filter, Trash } from "tabler-icons-react";
 
-import TablePagenation from "#/components/common/TablePagination";
-import db from "#/utils/db";
-import { QuizDBProps } from "#/utils/types";
+import TablePagenation from "~/components/common/TablePagination";
+import db from "~/utils/db";
+import { QuizDBProps } from "~/utils/types";
 
 const QuizTable: React.FC = () => {
   const quizes = useLiveQuery(

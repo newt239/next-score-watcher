@@ -19,18 +19,18 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import AlertDialog from "#/components/common/AlertDialog";
-import InputLayout from "#/components/common/InputLayout";
-import ConfigInput from "#/components/config/ConfigInput";
-import ConfigTabList from "#/components/config/ConfigTabList";
-import CopyGame from "#/components/config/CopyGame";
-import RuleSettings from "#/components/config/RuleSettings";
-import PlayersConfig from "#/components/config/SelectPlayer";
-import SelectQuizset from "#/components/config/SelectQuizSet";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
-import { recordEvent } from "#/utils/ga4";
-import { rules } from "#/utils/rules";
+import AlertDialog from "~/components/common/AlertDialog";
+import InputLayout from "~/components/common/InputLayout";
+import ConfigInput from "~/components/config/ConfigInput";
+import ConfigTabList from "~/components/config/ConfigTabList";
+import CopyGame from "~/components/config/CopyGame";
+import RuleSettings from "~/components/config/RuleSettings";
+import PlayersConfig from "~/components/config/SelectPlayer";
+import SelectQuizset from "~/components/config/SelectQuizSet";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
+import { rules } from "~/utils/rules";
 
 const ConfigPage = () => {
   const navigate = useNavigate();

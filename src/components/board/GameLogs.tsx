@@ -13,9 +13,9 @@ import {
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
-import { LogDBProps, QuizDBProps } from "#/utils/types";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
+import { LogDBProps, QuizDBProps } from "~/utils/types";
 
 type GameLogsProps = {
   players: { id: string; name: string }[];

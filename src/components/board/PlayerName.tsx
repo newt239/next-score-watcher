@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { zenkaku2Hankaku } from "#/utils/functions";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import { zenkaku2Hankaku } from "~/utils/functions";
 
 type PlayerNameProps = {
   player_name: string;

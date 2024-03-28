@@ -25,10 +25,10 @@ import {
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import Preferences from "#/components/block/Preferences";
-import AlertDialog from "#/components/common/AlertDialog";
-import db from "#/utils/db";
-import { webhookUrlAtom } from "#/utils/jotai";
+import Preferences from "~/components/block/Preferences";
+import AlertDialog from "~/components/common/AlertDialog";
+import db from "~/utils/db";
+import { webhookUrlAtom } from "~/utils/jotai";
 
 const OptionPage = () => {
   const navigate = useNavigate();

@@ -6,11 +6,11 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import AQLBoardHeader from "#/components/aql/AQLBoardHeader";
-import GameLogs from "#/components/board/GameLogs";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
-import { AQLGamePropsUnion } from "#/utils/types";
+import AQLBoardHeader from "~/components/aql/AQLBoardHeader";
+import GameLogs from "~/components/board/GameLogs";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
+import { AQLGamePropsUnion } from "~/utils/types";
 
 type AQLPlayerStateProps = {
   score: number;

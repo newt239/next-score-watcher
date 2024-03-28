@@ -2,8 +2,8 @@ import { useEffect } from "react";
 
 import { Container } from "@chakra-ui/react";
 
-import RuleList from "#/components/block/RuleList";
-import OtherRules from "#/components/home/OtherRules";
+import RuleList from "~/components/block/RuleList";
+import OtherRules from "~/components/home/OtherRules";
 
 const RulePage: React.FC = () => {
   useEffect(() => {

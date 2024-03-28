@@ -7,7 +7,7 @@ import {
   ChevronsRight,
 } from "tabler-icons-react";
 
-import { PlayerDBProps, QuizDBProps } from "#/utils/types";
+import { PlayerDBProps, QuizDBProps } from "~/utils/types";
 
 type Props = {
   table: Table<PlayerDBProps> | Table<QuizDBProps>;

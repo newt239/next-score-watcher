@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
-import { showWinthroughPopupAtom } from "#/utils/jotai";
+import { showWinthroughPopupAtom } from "~/utils/jotai";
 
 type WinModalProps = {
   onClose: () => void;

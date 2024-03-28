@@ -1,9 +1,9 @@
 import { Flex, useColorMode } from "@chakra-ui/react";
 
-import PlayerScoreButton from "#/components/board/PlayerScoreButton";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import { numberSign } from "#/utils/functions";
-import { ComputedScoreProps, GamePropsUnion } from "#/utils/types";
+import PlayerScoreButton from "~/components/board/PlayerScoreButton";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import { numberSign } from "~/utils/functions";
+import { ComputedScoreProps, GamePropsUnion } from "~/utils/types";
 
 type PlayerScoreProps = {
   game: GamePropsUnion;

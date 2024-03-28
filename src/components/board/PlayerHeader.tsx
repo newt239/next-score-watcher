@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
-import { reversePlayerInfoAtom } from "#/utils/jotai";
+import { reversePlayerInfoAtom } from "~/utils/jotai";
 
 type PlayerHeaderProps = {
   index: number;

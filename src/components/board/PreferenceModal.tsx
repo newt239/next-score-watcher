@@ -15,8 +15,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import Preferences from "#/components/block/Preferences";
-import ShortcutGuide from "#/components/board/ShortcutGuide";
+import Preferences from "~/components/block/Preferences";
+import ShortcutGuide from "~/components/board/ShortcutGuide";
 
 type ModalProps = {
   isOpen: boolean;

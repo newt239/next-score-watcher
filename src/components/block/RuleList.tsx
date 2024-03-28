@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Card, SimpleGrid } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
-import { createGame } from "#/utils/functions";
-import { rules } from "#/utils/rules";
-import { RuleNames } from "#/utils/types";
+import { createGame } from "~/utils/functions";
+import { rules } from "~/utils/rules";
+import { RuleNames } from "~/utils/types";
 
 const RuleList: React.FC = () => {
   const navigate = useNavigate();

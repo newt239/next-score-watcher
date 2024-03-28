@@ -35,11 +35,11 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import ShortcutGuide from "#/components/board/ShortcutGuide";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import db from "#/utils/db";
-import { showQnAtom } from "#/utils/jotai";
-import { LogDBProps, QuizDBProps } from "#/utils/types";
+import ShortcutGuide from "~/components/board/ShortcutGuide";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
+import { showQnAtom } from "~/utils/jotai";
+import { LogDBProps, QuizDBProps } from "~/utils/types";
 
 type AQLBoardHeaderProps = {
   name: string;

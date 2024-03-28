@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
-import { features } from "#/utils/features";
+import { features } from "~/utils/features";
 
 const UpdateModal: React.FC = () => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { Link as ReactLink } from "react-router-dom";
 import { Button, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import db from "#/utils/db";
+import db from "~/utils/db";
 
 const Hero: React.FC = () => {
   const games = useLiveQuery(

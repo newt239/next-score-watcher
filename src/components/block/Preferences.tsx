@@ -1,8 +1,8 @@
 import { useColorMode, VStack } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 
-import AppOptionSwitch from "#/components/block/AppOptionSwitch";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import AppOptionSwitch from "~/components/block/AppOptionSwitch";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
 import {
   reversePlayerInfoAtom,
   showQnAtom,
@@ -10,7 +10,7 @@ import {
   showWinthroughPopupAtom,
   verticalViewAtom,
   wrongNumberAtom,
-} from "#/utils/jotai";
+} from "~/utils/jotai";
 
 const Preferences = () => {
   const desktop = useDeviceWidth();

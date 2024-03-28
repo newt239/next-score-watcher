@@ -2,9 +2,9 @@ import { Link as ReactLink, useLocation } from "react-router-dom";
 
 import { Box, Flex, Image, Spacer, useColorMode } from "@chakra-ui/react";
 
-import Logo from "#/assets/logo.png";
-import SubMenu from "#/components/block/SubMenu";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
+import Logo from "~/assets/logo.png";
+import SubMenu from "~/components/block/SubMenu";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
 
 const Header: React.FC = () => {
   const location = useLocation();

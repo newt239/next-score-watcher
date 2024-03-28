@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import db from "#/utils/db";
-import { GameOptionProps, RuleNames } from "#/utils/types";
+import db from "~/utils/db";
+import { GameOptionProps, RuleNames } from "~/utils/types";
 
 type ConfigInputProps = {
   [T in RuleNames]: {
