@@ -26,7 +26,7 @@ function App() {
   const isDesktop = useDeviceWidth();
 
   return (
-    <ChakraProvider>
+    <ChakraProvider resetCSS={false}>
       <BrowserRouter>
         <Header />
         <ScrollTop />

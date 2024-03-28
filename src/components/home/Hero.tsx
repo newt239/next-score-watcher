@@ -1,16 +1,8 @@
-import { Link as ReactLink } from "react-router-dom";
+import { Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
 
-import { Button, Flex, Heading, Image, Stack, Text } from "@chakra-ui/react";
-import { useLiveQuery } from "dexie-react-hooks";
-
-import db from "~/utils/db";
+import { Button } from "../ui/button";
 
 const Hero: React.FC = () => {
-  const games = useLiveQuery(
-    () => db.games.orderBy("last_open").reverse().toArray(),
-    []
-  );
-
   return (
     <Stack direction={{ base: "column", md: "row" }} minH={"100vh"}>
       <Flex align={"center"} flex={1} justify={"center"} p={8}>
@@ -29,22 +21,12 @@ const Hero: React.FC = () => {
             Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
           </Text>
           <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-            <Button
-              _hover={{
-                bg: "green.500",
-              }}
-              as={ReactLink}
-              colorScheme="green"
-              rounded={"full"}
-              to="/rule"
-            >
-              ゲームを作る
-            </Button>
+            <Button>ゲームを作る</Button>
             <Button
               onClick={() =>
                 window.scrollBy(0, document.documentElement.clientHeight)
               }
-              rounded={"full"}
+              variant="outline"
             >
               作成したゲームを見る
             </Button>
