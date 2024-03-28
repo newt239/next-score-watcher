@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 
-import { Container } from "@chakra-ui/react";
-
 import OtherRules from "~/features/rules/OtherRules";
 import RuleList from "~/features/rules/RuleList";
 
@@ -11,10 +9,10 @@ const RulePage: React.FC = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <RuleList />
       <OtherRules />
-    </Container>
+    </>
   );
 };
 
