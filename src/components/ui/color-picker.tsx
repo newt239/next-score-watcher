@@ -1,7 +1,9 @@
 'use client'
 
-import { ColorPicker } from '@ark-ui/react/color-picker'
 import type { ComponentProps } from 'react'
+
+import { ColorPicker } from '@ark-ui/react/color-picker'
+
 import { styled } from 'styled-system/jsx'
 import { colorPicker } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

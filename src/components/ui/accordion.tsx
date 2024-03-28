@@ -1,7 +1,9 @@
 'use client'
 
-import { Accordion } from '@ark-ui/react/accordion'
 import type { ComponentProps } from 'react'
+
+import { Accordion } from '@ark-ui/react/accordion'
+
 import { styled } from 'styled-system/jsx'
 import { accordion } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

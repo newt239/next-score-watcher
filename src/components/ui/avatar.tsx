@@ -1,9 +1,14 @@
-import { Avatar as ArkAvatar, type AvatarRootProps } from '@ark-ui/react/avatar'
 import { forwardRef } from 'react'
+
+import { Avatar as ArkAvatar, type AvatarRootProps } from '@ark-ui/react/avatar'
+
+import type { Assign, JsxStyleProps } from 'styled-system/types'
+
 import { css, cx } from 'styled-system/css'
 import { splitCssProps } from 'styled-system/jsx'
 import { avatar, type AvatarVariantProps } from 'styled-system/recipes'
-import type { Assign, JsxStyleProps } from 'styled-system/types'
+
+
 
 export interface AvatarProps extends Assign<JsxStyleProps, AvatarRootProps>, AvatarVariantProps {
   name?: string
@@ -17,11 +22,11 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const styles = avatar(variantProps)
 
   return (
-    <ArkAvatar.Root ref={ref} className={cx(styles.root, css(cssProps), className)} {...rootProps}>
+    <ArkAvatar.Root className={cx(styles.root, css(cssProps), className)} ref={ref} {...rootProps}>
       <ArkAvatar.Fallback className={styles.fallback}>
         {getInitials(name) || <UserIcon />}
       </ArkAvatar.Fallback>
-      <ArkAvatar.Image className={styles.image} src={src} alt={name} />
+      <ArkAvatar.Image alt={name} className={styles.image} src={src} />
     </ArkAvatar.Root>
   )
 })
@@ -30,11 +35,11 @@ Avatar.displayName = 'Avatar'
 
 const UserIcon = () => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <title>User Icon</title>
     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />

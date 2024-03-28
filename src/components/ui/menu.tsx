@@ -1,7 +1,9 @@
 'use client'
 
-import { Menu } from '@ark-ui/react/menu'
 import type { ComponentProps } from 'react'
+
+import { Menu } from '@ark-ui/react/menu'
+
 import { styled } from 'styled-system/jsx'
 import { menu } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

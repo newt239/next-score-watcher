@@ -1,7 +1,9 @@
 'use client'
 
-import { Clipboard } from '@ark-ui/react/clipboard'
 import type { ComponentProps } from 'react'
+
+import { Clipboard } from '@ark-ui/react/clipboard'
+
 import { styled } from 'styled-system/jsx'
 import { clipboard } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

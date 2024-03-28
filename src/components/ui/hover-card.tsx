@@ -1,7 +1,9 @@
 'use client'
 
-import { HoverCard } from '@ark-ui/react/hover-card'
 import type { ComponentProps } from 'react'
+
+import { HoverCard } from '@ark-ui/react/hover-card'
+
 import { styled } from 'styled-system/jsx'
 import { hoverCard } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

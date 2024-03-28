@@ -1,9 +1,14 @@
-import { Switch as ArkSwitch, type SwitchRootProps } from '@ark-ui/react/switch'
 import { forwardRef, type ReactNode } from 'react'
+
+import { Switch as ArkSwitch, type SwitchRootProps } from '@ark-ui/react/switch'
+
+import type { Assign, JsxStyleProps } from 'styled-system/types'
+
 import { css, cx } from 'styled-system/css'
 import { splitCssProps } from 'styled-system/jsx'
 import { switchRecipe, type SwitchRecipeVariantProps } from 'styled-system/recipes'
-import type { Assign, JsxStyleProps } from 'styled-system/types'
+
+
 
 export interface SwitchProps
   extends Assign<JsxStyleProps, SwitchRootProps>,
@@ -18,7 +23,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>((props, ref) => 
   const styles = switchRecipe(variantProps)
 
   return (
-    <ArkSwitch.Root ref={ref} className={cx(styles.root, css(cssProps), className)} {...rootProps}>
+    <ArkSwitch.Root className={cx(styles.root, css(cssProps), className)} ref={ref} {...rootProps}>
       <ArkSwitch.Control className={styles.control}>
         <ArkSwitch.Thumb className={styles.thumb} />
       </ArkSwitch.Control>

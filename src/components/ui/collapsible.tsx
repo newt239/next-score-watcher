@@ -1,7 +1,9 @@
 'use client'
 
-import { Collapsible } from '@ark-ui/react/collapsible'
 import type { ComponentProps } from 'react'
+
+import { Collapsible } from '@ark-ui/react/collapsible'
+
 import { styled } from 'styled-system/jsx'
 import { collapsible } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

@@ -1,7 +1,9 @@
 'use client'
 
-import { Tabs } from '@ark-ui/react/tabs'
 import type { ComponentProps } from 'react'
+
+import { Tabs } from '@ark-ui/react/tabs'
+
 import { styled } from 'styled-system/jsx'
 import { tabs } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

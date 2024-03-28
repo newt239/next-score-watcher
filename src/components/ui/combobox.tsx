@@ -1,7 +1,9 @@
 'use client'
 
-import { Combobox } from '@ark-ui/react/combobox'
 import type { ComponentProps } from 'react'
+
+import { Combobox } from '@ark-ui/react/combobox'
+
 import { styled } from 'styled-system/jsx'
 import { combobox } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

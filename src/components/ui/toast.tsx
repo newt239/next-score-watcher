@@ -1,7 +1,9 @@
 'use client'
 
-import { Toast } from '@ark-ui/react/toast'
 import type { ComponentProps } from 'react'
+
+import { Toast } from '@ark-ui/react/toast'
+
 import { styled } from 'styled-system/jsx'
 import { toast } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

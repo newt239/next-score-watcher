@@ -1,9 +1,12 @@
-import { PinInput as ArkPinInput, type PinInputRootProps } from '@ark-ui/react/pin-input'
 import { forwardRef, type ReactNode } from 'react'
+
+import { PinInput as ArkPinInput, type PinInputRootProps } from '@ark-ui/react/pin-input'
+
+import type { Assign, JsxStyleProps } from 'styled-system/types'
+
 import { css, cx } from 'styled-system/css'
 import { splitCssProps } from 'styled-system/jsx'
 import { pinInput, type PinInputVariantProps } from 'styled-system/recipes'
-import type { Assign, JsxStyleProps } from 'styled-system/types'
 import { Input } from '~/components/ui/input'
 
 export interface PinInputProps
@@ -33,7 +36,7 @@ export const PinInput = forwardRef<HTMLDivElement, PinInputProps>((props, ref) =
       {children && <ArkPinInput.Label className={styles.label}>{children}</ArkPinInput.Label>}
       <ArkPinInput.Control className={styles.control}>
         {Array.from({ length }, (_, index) => index).map((id, index) => (
-          <ArkPinInput.Input className={styles.input} key={id} index={index} asChild>
+          <ArkPinInput.Input asChild className={styles.input} index={index} key={id}>
             <Input size={variantProps.size} />
           </ArkPinInput.Input>
         ))}

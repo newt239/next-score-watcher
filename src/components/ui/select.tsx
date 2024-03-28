@@ -1,7 +1,9 @@
 'use client'
 
-import { Select } from '@ark-ui/react/select'
 import type { ComponentProps } from 'react'
+
+import { Select } from '@ark-ui/react/select'
+
 import { styled } from 'styled-system/jsx'
 import { select } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

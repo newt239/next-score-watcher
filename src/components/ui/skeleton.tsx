@@ -1,5 +1,7 @@
-import { ark } from '@ark-ui/react/factory'
 import { forwardRef, type ReactNode } from 'react'
+
+import { ark } from '@ark-ui/react/factory'
+
 import { styled, type HTMLStyledProps } from 'styled-system/jsx'
 import { skeleton } from 'styled-system/recipes'
 

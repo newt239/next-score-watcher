@@ -1,12 +1,17 @@
+import { forwardRef, type ReactNode } from 'react'
+
 import {
   RatingGroup as ArkRatingGroup,
   type RatingGroupRootProps,
 } from '@ark-ui/react/rating-group'
-import { forwardRef, type ReactNode } from 'react'
+
+import type { Assign, JsxStyleProps } from 'styled-system/types'
+
 import { css, cx } from 'styled-system/css'
 import { splitCssProps } from 'styled-system/jsx'
 import { ratingGroup, type RatingGroupVariantProps } from 'styled-system/recipes'
-import type { Assign, JsxStyleProps } from 'styled-system/types'
+
+
 
 export interface RatingGroupProps
   extends Assign<JsxStyleProps, RatingGroupRootProps>,
@@ -22,15 +27,15 @@ export const RatingGroup = forwardRef<HTMLDivElement, RatingGroupProps>((props, 
 
   return (
     <ArkRatingGroup.Root
-      ref={ref}
       className={cx(styles.root, css(cssProps), className)}
+      ref={ref}
       {...rootProps}
     >
       {children && <ArkRatingGroup.Label className={styles.label}>{children}</ArkRatingGroup.Label>}
       <ArkRatingGroup.Control className={styles.control}>
         {({ items }) =>
           items.map((index) => (
-            <ArkRatingGroup.Item className={styles.item} key={index} index={index}>
+            <ArkRatingGroup.Item className={styles.item} index={index} key={index}>
               {({ isHalf }) => <StarIcon isHalf={isHalf} />}
             </ArkRatingGroup.Item>
           ))
@@ -48,15 +53,15 @@ type IconProps = {
 
 const StarIcon = (props: IconProps) => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
     fill="inherit"
+    height="24"
     stroke="inherit"
-    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    width="24"
+    xmlns="http://www.w3.org/2000/svg"
   >
     <title>Star Icon</title>
     <defs>

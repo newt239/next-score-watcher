@@ -1,9 +1,12 @@
-import { Pagination as ArkPagination, type PaginationRootProps } from '@ark-ui/react/pagination'
 import { forwardRef } from 'react'
+
+import { Pagination as ArkPagination, type PaginationRootProps } from '@ark-ui/react/pagination'
+
+import type { Assign, JsxStyleProps } from 'styled-system/types'
+
 import { css, cx } from 'styled-system/css'
 import { splitCssProps } from 'styled-system/jsx'
 import { pagination, type PaginationVariantProps } from 'styled-system/recipes'
-import type { Assign, JsxStyleProps } from 'styled-system/types'
 import { Button } from '~/components/ui/button'
 import { IconButton } from '~/components/ui/icon-button'
 
@@ -26,8 +29,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>((props, ref) 
     >
       {({ pages }) => (
         <>
-          <ArkPagination.PrevTrigger className={styles.prevTrigger} asChild>
-            <IconButton variant="ghost" aria-label="Next Page">
+          <ArkPagination.PrevTrigger asChild className={styles.prevTrigger}>
+            <IconButton aria-label="Next Page" variant="ghost">
               <ChevronLeftIcon />
             </IconButton>
           </ArkPagination.PrevTrigger>
@@ -37,13 +40,13 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>((props, ref) 
                 <Button variant="outline">{page.value}</Button>
               </ArkPagination.Item>
             ) : (
-              <ArkPagination.Ellipsis className={styles.ellipsis} key={index} index={index}>
+              <ArkPagination.Ellipsis className={styles.ellipsis} index={index} key={index}>
                 &#8230;
               </ArkPagination.Ellipsis>
             ),
           )}
-          <ArkPagination.NextTrigger className={styles.nextTrigger} asChild>
-            <IconButton variant="ghost" aria-label="Next Page">
+          <ArkPagination.NextTrigger asChild className={styles.nextTrigger}>
+            <IconButton aria-label="Next Page" variant="ghost">
               <ChevronRightIcon />
             </IconButton>
           </ArkPagination.NextTrigger>
@@ -56,29 +59,29 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>((props, ref) 
 Pagination.displayName = 'Pagination'
 
 const ChevronLeftIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <title>Chevron Left Icon</title>
     <path
+      d="m15 18l-6-6l6-6"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
-      d="m15 18l-6-6l6-6"
     />
   </svg>
 )
 
 const ChevronRightIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <title>Chevron Right Icon</title>
     <path
+      d="m9 18l6-6l-6-6"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"
-      d="m9 18l6-6l-6-6"
     />
   </svg>
 )

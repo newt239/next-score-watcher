@@ -1,7 +1,9 @@
 'use client'
 
-import { Carousel } from '@ark-ui/react/carousel'
 import type { ComponentProps } from 'react'
+
+import { Carousel } from '@ark-ui/react/carousel'
+
 import { styled } from 'styled-system/jsx'
 import { carousel } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

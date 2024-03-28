@@ -1,9 +1,14 @@
-import { Slider as ArkSlider, type SliderRootProps } from '@ark-ui/react/slider'
 import { forwardRef, type ReactNode } from 'react'
+
+import { Slider as ArkSlider, type SliderRootProps } from '@ark-ui/react/slider'
+
+import type { Assign, JsxStyleProps } from 'styled-system/types'
+
 import { css, cx } from 'styled-system/css'
 import { splitCssProps } from 'styled-system/jsx'
 import { slider, type SliderVariantProps } from 'styled-system/recipes'
-import type { Assign, JsxStyleProps } from 'styled-system/types'
+
+
 
 export interface SliderProps extends Assign<JsxStyleProps, SliderRootProps>, SliderVariantProps {
   children?: ReactNode
@@ -20,7 +25,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
   const styles = slider(variantProps)
 
   return (
-    <ArkSlider.Root ref={ref} className={cx(styles.root, css(cssProps), className)} {...rootProps}>
+    <ArkSlider.Root className={cx(styles.root, css(cssProps), className)} ref={ref} {...rootProps}>
       {(api) => (
         <>
           {children && <ArkSlider.Label className={styles.label}>{children}</ArkSlider.Label>}
@@ -29,13 +34,13 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
               <ArkSlider.Range className={styles.range} />
             </ArkSlider.Track>
             {api.value.map((_, index) => (
-              <ArkSlider.Thumb key={index} index={index} className={styles.thumb} />
+              <ArkSlider.Thumb className={styles.thumb} index={index} key={index} />
             ))}
           </ArkSlider.Control>
           {props.marks && (
             <ArkSlider.MarkerGroup className={styles.markerGroup}>
               {props.marks.map((mark) => (
-                <ArkSlider.Marker key={mark.value} value={mark.value} className={styles.marker}>
+                <ArkSlider.Marker className={styles.marker} key={mark.value} value={mark.value}>
                   {mark.label}
                 </ArkSlider.Marker>
               ))}

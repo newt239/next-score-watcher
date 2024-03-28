@@ -1,7 +1,9 @@
 'use client'
 
-import { Tooltip } from '@ark-ui/react/tooltip'
 import type { ComponentProps } from 'react'
+
+import { Tooltip } from '@ark-ui/react/tooltip'
+
 import { styled } from 'styled-system/jsx'
 import { tooltip } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'

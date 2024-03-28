@@ -1,7 +1,9 @@
 'use client'
 
-import { TagsInput } from '@ark-ui/react/tags-input'
 import type { ComponentProps } from 'react'
+
+import { TagsInput } from '@ark-ui/react/tags-input'
+
 import { styled } from 'styled-system/jsx'
 import { tagsInput } from 'styled-system/recipes'
 import { createStyleContext } from '~/lib/create-style-context'
