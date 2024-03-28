@@ -17,10 +17,10 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#/*": ["./src/*"],
+      "~/*": ["./src/*"],
       "@panda/*": ["./styled-system/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "styled-system"],
+  "include": ["src", "styled-system"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { DeviceFloppy } from "tabler-icons-react";
 
-import db from "#/utils/db";
-import { PlayerDBProps } from "#/utils/types";
+import db from "~/utils/db";
+import { PlayerDBProps } from "~/utils/types";
 
 type EditPlayertagsModalProps = {
   selectedPlayers: PlayerDBProps[];

@@ -1,16 +1,10 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import {
-  Box,
-  Button,
-  Code,
-  Container,
-  Icon,
-  Link,
-  Text,
-} from "@chakra-ui/react";
+import { Code, Icon, Link } from "@chakra-ui/react";
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
+
+import ButtonLink from "#/components/ButtonLink";
 
 const WebhookPage = () => {
   const [params] = useSearchParams();
@@ -21,57 +15,39 @@ const WebhookPage = () => {
   }, []);
 
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <div>
+      <div>
         {from ? (
-          <Button
-            as={ReactLink}
-            colorScheme="green"
-            leftIcon={<ArrowBackUp />}
-            size="sm"
-            to={`/${from}/config`}
-            variant="ghost"
-          >
+          <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
             ゲーム設定に戻る
-          </Button>
+          </ButtonLink>
         ) : (
-          <Button
-            as={ReactLink}
-            colorScheme="green"
-            leftIcon={<ArrowBackUp />}
-            size="sm"
-            to="/option"
-            variant="ghost"
-          >
+          <ButtonLink href="/option" leftIcon={<ArrowBackUp />} size="sm">
             アプリ設定に戻る
-          </Button>
+          </ButtonLink>
         )}
-        <Box>
+        <div>
           <h2>Discord Webhookについて</h2>
-          <Text>プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。</Text>
-          <Text>
-            まずメッセージを受け取りたいチャンネルの設定を開いてください。
-          </Text>
-          <Text>
+          <p>プレイヤーの勝ち抜け時にDiscordへメッセージを送信します。</p>
+          <p>まずメッセージを受け取りたいチャンネルの設定を開いてください。</p>
+          <p>
             「連携サービス」タブ内に「ウェブフック」という項目があるので、「ウェブフックを作成」をクリックし、「ウェブフックURLをコピー」してください。
-          </Text>
-          <Text>
+          </p>
+          <p>
             コピーしたURLを設定内に貼り付けることで、通知が行われるようになります。
-          </Text>
-        </Box>
-        <Box pt={5}>
+          </p>
+        </div>
+        <div>
           <h2>Webhookについて</h2>
-          <Text color="red.500">
-            ※こちらは開発者向けの高度な機能となります。
-          </Text>
-          <Text>
+          <p>※こちらは開発者向けの高度な機能となります。</p>
+          <p>
             ゲームが進行するたびに、設定されたURLへPOSTリクエストを行います。
-          </Text>
-          <Text>
+          </p>
+          <p>
             POSTされるデータは<Code>info</Code>, <Code>logs</Code>,{" "}
             <Code>scores</Code>で構成されています。
-          </Text>
-          <Text>詳細は実際にご利用の上お確かめください。</Text>
+          </p>
+          <p>詳細は実際にご利用の上お確かめください。</p>
           <h3>Response Example</h3>
           <Link
             color="blue.500"
@@ -83,9 +59,9 @@ const WebhookPage = () => {
               <ExternalLink />
             </Icon>
           </Link>
-        </Box>
-      </Box>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 

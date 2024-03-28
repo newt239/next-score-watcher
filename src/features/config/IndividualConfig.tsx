@@ -21,7 +21,7 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
 
-import db from "#/utils/db";
+import db from "~/utils/db";
 
 type InitialPointConfigModalProps = {
   index: number;

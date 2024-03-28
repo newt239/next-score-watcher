@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
-  Box,
   Button,
-  Container,
   FormControl,
   FormLabel,
   Input,
@@ -16,9 +14,9 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import ImportQuiz from "#/features/quizes/ImportQuiz";
-import LoadQuiz from "#/features/quizes/LoadQuiz";
-import QuizTable from "#/features/quizes/QuizTable";
+import ImportQuiz from "~/components/quiz/ImportQuiz";
+import LoadQuiz from "~/components/quiz/LoadQuiz";
+import QuizTable from "~/components/quiz/QuizTable";
 
 const QuizPage = () => {
   const navigate = useNavigate();
@@ -31,10 +29,10 @@ const QuizPage = () => {
   }, []);
 
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <div>
+      <div>
         {from && (
-          <Box>
+          <div>
             <Button
               colorScheme="green"
               leftIcon={<ArrowBackUp />}
@@ -43,10 +41,10 @@ const QuizPage = () => {
             >
               設定に戻る
             </Button>
-          </Box>
+          </div>
         )}
         <h2>問題管理</h2>
-        <Box pt={5}>
+        <div>
           <h3>問題の読み込み</h3>
           <FormControl py={5}>
             <FormLabel>セット名</FormLabel>
@@ -71,10 +69,10 @@ const QuizPage = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-        </Box>
+        </div>
         <QuizTable />
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 };
 

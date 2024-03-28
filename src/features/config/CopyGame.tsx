@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { ChevronDown } from "tabler-icons-react";
 
-import { createGame } from "#/utils/functions";
-import { recordEvent } from "#/utils/ga4";
-import { GamePropsUnion } from "#/utils/types";
+import { createGame } from "~/utils/functions";
+import { recordEvent } from "~/utils/ga4";
+import { GamePropsUnion } from "~/utils/types";
 
 type CopyGamePropsUnion = {
   game: GamePropsUnion;

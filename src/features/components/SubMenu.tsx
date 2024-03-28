@@ -1,29 +1,44 @@
-import { Link as ReactLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import { Button, Flex } from "@chakra-ui/react";
+import ButtonLink from "#/components/ButtonLink";
+import { css } from "@panda/css";
 
 const linkList: { text: string; path: string }[] = [
-  { text: "ホーム", path: "/" },
-  { text: "プレイヤー管理", path: "/player" },
-  { text: "問題管理", path: "/quiz" },
-  { text: "アプリ設定", path: "/option" },
+  { path: "/", text: "ホーム" },
+  { path: "/games", text: "作成したゲーム" },
+  { path: "/players", text: "プレイヤー管理" },
+  { path: "/quizes", text: "問題管理" },
+  { path: "/config", text: "アプリ設定" },
 ];
 
 const SubMenu: React.FC = () => {
+  const location = useLocation();
+
   return (
-    <Flex fontWeight={800}>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+      })}
+    >
       {linkList.map((link) => (
-        <Button
-          as={ReactLink}
+        <ButtonLink
+          aria-current={link.path === location.pathname}
+          className={css({
+            _currentPage: {
+              bgColor: "emerald.500",
+            },
+            justifyContent: "flex-start",
+            w: "100%",
+          })}
+          href={link.path}
           key={link.path}
-          size="sm"
-          to={link.path}
-          variant="ghost"
+          variant={link.path === location.pathname ? "solid" : "subtle"}
         >
           {link.text}
-        </Button>
+        </ButtonLink>
       ))}
-    </Flex>
+    </div>
   );
 };
 

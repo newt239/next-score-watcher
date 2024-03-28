@@ -1,13 +1,16 @@
 import { Tab, TabList } from "@chakra-ui/react";
 
+import { css } from "@panda/css";
+
 const ConfigTabList: React.FC = () => {
   return (
     <TabList
-      sx={{
+      className={css({
         borderRadius: "0.5rem",
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: "gray.200",
+        /*
         button: {
           justifyContent: "flex-start",
         },
@@ -24,8 +27,10 @@ const ConfigTabList: React.FC = () => {
           bgColor: "blue.500",
           color: "white",
         },
+        */
         _dark: {
           borderColor: "gray.700",
+          /*
           "button:hover": {
             bgColor: "gray.700",
           },
@@ -33,8 +38,9 @@ const ConfigTabList: React.FC = () => {
             bgColor: "blue.500",
             color: "white",
           },
+          */
         },
-      }}
+      })}
       w={{ base: "100%", md: "25%" }}
     >
       <Tab>形式設定</Tab>

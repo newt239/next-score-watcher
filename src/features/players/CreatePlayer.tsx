@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
@@ -13,8 +12,8 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import db from "#/utils/db";
-import { GameDBPlayerProps } from "#/utils/types";
+import db from "~/utils/db";
+import { GameDBPlayerProps } from "~/utils/types";
 
 const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
@@ -104,7 +103,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           />
         </FormControl>
       </Grid>
-      <Box textAlign="right" w="full">
+      <div>
         <Button
           colorScheme="blue"
           disabled={playerName === ""}
@@ -113,7 +112,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
         >
           追加
         </Button>
-      </Box>
+      </div>
     </VStack>
   );
 };

@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  Box,
   Button,
-  Flex,
   IconButton,
   Slide,
   SlideFade,
   Tooltip,
+  css,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -16,16 +15,16 @@ import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
-import BoardHeader from "#/features/board/BoardHeader";
-import GameLogs from "#/features/board/GameLogs";
-import Player from "#/features/board/Player";
-import WinModal from "#/features/board/WinModal";
-import useDeviceWidth from "#/features/hooks/useDeviceWidth";
-import computeScore from "#/utils/computeScore";
-import db from "#/utils/db";
-import { verticalViewAtom } from "#/utils/jotai";
-import { getRuleStringByType } from "#/utils/rules";
-import { ComputedScoreProps, PlayerDBProps } from "#/utils/types";
+import BoardHeader from "~/components/board/BoardHeader";
+import GameLogs from "~/components/board/GameLogs";
+import Player from "~/components/board/Player";
+import WinModal from "~/components/board/WinModal";
+import useDeviceWidth from "~/hooks/useDeviceWidth";
+import computeScore from "~/utils/computeScore";
+import db from "~/utils/db";
+import { verticalViewAtom } from "~/utils/jotai";
+import { getRuleStringByType } from "~/utils/rules";
+import { ComputedScoreProps, PlayerDBProps } from "~/utils/types";
 
 const BoardPage = () => {
   const { game_id } = useParams();
@@ -172,8 +171,8 @@ const BoardPage = () => {
     <>
       <BoardHeader game={game} logs={logs} />
       {game.rule === "squarex" && (
-        <Box
-          sx={{
+        <div
+          className={css({
             position: "absolute",
             writingMode: "vertical-rl",
             textOverflow: "ellipsis",
@@ -184,12 +183,11 @@ const BoardPage = () => {
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
             zIndex: 10,
-          }}
+          })}
         />
       )}
-      <Flex
-        id="players-area"
-        sx={{
+      <div
+        className={css({
           display: "flex",
           flexDirection:
             (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
@@ -208,7 +206,8 @@ const BoardPage = () => {
           h: isDesktop ? ["90vh", "90vh", "85vh"] : undefined,
           px: "1vw",
           pt: "3vh",
-        }}
+        })}
+        id="players-area"
       >
         {players.map((player, i) => (
           <SlideFade delay={0.5 + i * 0.1} in key={i} offsetX={20} offsetY={20}>
@@ -224,7 +223,7 @@ const BoardPage = () => {
             />
           </SlideFade>
         ))}
-      </Flex>
+      </div>
       <GameLogs logs={logs} players={players} quiz={game.quiz} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
@@ -232,19 +231,29 @@ const BoardPage = () => {
         winTroughPlayer={winThroughPlayer}
       />
       <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
-        <Flex
-          _dark={{ bg: "gray.700", color: "white" }}
-          alignItems="center"
-          bg="gray.100"
-          flexDirection={["column", "column", "row"]}
-          gap={1}
-          justifyContent="space-between"
-          m={5}
-          p={3}
-          rounded="2xl"
+        <div
+          className={css({
+            display: "flex",
+            flexDirection: ["column", "column", "row"],
+            gap: 1,
+            justifyContent: "space-between",
+            m: 5,
+            p: 3,
+            rounded: "2xl",
+            alignItems: "center",
+            _dark: {
+              bg: "gray.700",
+              color: "white",
+            },
+          })}
         >
-          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
-          <Flex gap={1}>
+          <div>すべてのプレイヤーが休みの状態です。1問スルーしますか？</div>
+          <div
+            className={css({
+              display: "flex",
+              gap: 1,
+            })}
+          >
             <Button
               colorScheme="blue"
               onClick={() =>
@@ -288,8 +297,8 @@ const BoardPage = () => {
             >
               <X />
             </IconButton>
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       </Slide>
     </>
   );
