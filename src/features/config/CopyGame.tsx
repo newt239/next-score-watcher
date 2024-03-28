@@ -20,7 +20,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
       category: "engagement",
       label: game.rule,
     });
-    navigate(`/${game_id}/config`);
+    navigate(`/games/${game_id}/config`);
     navigate(0);
   };
 

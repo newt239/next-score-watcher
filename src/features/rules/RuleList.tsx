@@ -13,7 +13,7 @@ const RuleList: React.FC = () => {
 
   const onClick = async (rule_name: RuleNames) => {
     const game_id = await createGame(rule_name);
-    navigate(`/${game_id}/config`);
+    navigate(`/games/${game_id}/config`);
   };
 
   return (

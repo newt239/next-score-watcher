@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import { useParams } from "react-router-dom";
 
 import { Button, useColorMode } from "@chakra-ui/react";

@@ -20,6 +20,7 @@ import BoardPage from "~/pages/game_id/board";
 import GamesPage from "~/pages/games";
 
 import "~/globals.css";
+import "~/index.css";
 
 function App() {
   return (

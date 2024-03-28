@@ -57,11 +57,9 @@ const Hero: React.FC = () => {
             スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
           </p>
         </div>
-        <Link to="/rules">
-          <Button size="xl" colorScheme="green">
-            ゲームを作る
-          </Button>
-        </Link>
+        <Button as={Link} to="/rules" size="xl" colorScheme="green">
+          ゲームを作る
+        </Button>
       </div>
     </div>
   );

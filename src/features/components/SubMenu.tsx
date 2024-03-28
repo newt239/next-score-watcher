@@ -8,7 +8,7 @@ const linkList: { text: string; path: string }[] = [
   { path: "/games", text: "作成したゲーム" },
   { path: "/players", text: "プレイヤー管理" },
   { path: "/quizes", text: "問題管理" },
-  { path: "/config", text: "アプリ設定" },
+  { path: "/option", text: "アプリ設定" },
 ];
 
 const SubMenu: React.FC = () => {
