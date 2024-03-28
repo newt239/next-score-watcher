@@ -63,7 +63,15 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     getQuizList();
   }, [game.quiz]);
 
-  const qn = logs.filter((log) => log.variant !== "skip").length;
+  const qn = logs.filter((log) =>
+    [
+      "correct",
+      "wrong",
+      "through",
+      "multiple_correct",
+      "multiple_wrong",
+    ].includes(log.variant)
+  ).length;
   const quizPosition = game.editable
     ? manualQuizPosition
     : game.quiz
