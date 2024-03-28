@@ -297,7 +297,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           <PlayerScoreButton
             color="blue"
             onClick={async () => {
-              console.log(logs);
               if (logs.length > 0) {
                 const last_log = logs[logs.length - 1];
                 if (last_log.variant === "multiple_wrong") {
