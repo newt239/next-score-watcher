@@ -8,7 +8,8 @@
     "plugin:react/recommended",
     "plugin:import/recommended",
     "plugin:import/warnings",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

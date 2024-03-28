@@ -2,24 +2,15 @@ import { useEffect } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
-  Box,
   Button,
-  Container,
-  Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   Icon,
   Input,
   Link,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Tr,
   VStack,
+  css,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
@@ -49,13 +40,13 @@ const OptionPage = () => {
   };
 
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <div>
+      <div>
         <h2>アプリ設定</h2>
         <Preferences />
         <VStack gap="0.5rem" pt={2} px={2}>
           <FormControl>
-            <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
+            <FormLabel className={css({ flexGrow: 1 })}>Webhook</FormLabel>
             <FormHelperText>
               イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
               <Link as={ReactLink} color="blue.500" to="/option/webhook">
@@ -73,22 +64,24 @@ const OptionPage = () => {
             />
           </FormControl>
           <FormControl>
-            <Flex
-              sx={{
+            <div
+              className={css({
                 alignItems: "center",
                 justifyContent: "space-between",
-              }}
+              })}
             >
-              <Box>
-                <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
+              <div>
+                <FormLabel className={css({ flexGrow: 1 })}>
+                  アプリの初期化
+                </FormLabel>
                 <FormHelperText>
                   アプリが上手く動作しない場合にお試しください。
                 </FormHelperText>
-              </Box>
+              </div>
               <Button colorScheme="red" onClick={onOpen}>
                 初期化する
               </Button>
-            </Flex>
+            </div>
           </FormControl>
         </VStack>
         <AlertDialog
@@ -98,10 +91,10 @@ const OptionPage = () => {
           onConfirm={deleteAppData}
           title="アプリの初期化"
         />
-      </Box>
-      <Box pt={5}>
+      </div>
+      <div>
         <h2>アプリ情報</h2>
-        <Text>
+        <p>
           アップデート情報は
           <Link
             color="blue.500"
@@ -114,19 +107,17 @@ const OptionPage = () => {
             </Icon>
           </Link>
           をご確認ください。
-        </Text>
-        <TableContainer>
-          <Table>
-            <Tbody>
-              <Tr>
-                <Th>バージョン</Th>
-                <Td isNumeric>
-                  v{localStorage.getItem("scorewatcher-version")}
-                </Td>
-              </Tr>
-              <Tr>
-                <Th>開発者</Th>
-                <Td isNumeric>
+        </p>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <th>バージョン</th>
+                <td>v{localStorage.getItem("scorewatcher-version")}</td>
+              </tr>
+              <tr>
+                <th>開発者</th>
+                <td>
                   <Link
                     color="blue.500"
                     href="https://twitter.com/newt239"
@@ -137,11 +128,11 @@ const OptionPage = () => {
                       <ExternalLink />
                     </Icon>
                   </Link>
-                </Td>
-              </Tr>
-              <Tr>
-                <Th>リポジトリ</Th>
-                <Td isNumeric>
+                </td>
+              </tr>
+              <tr>
+                <th>リポジトリ</th>
+                <td>
                   <Link
                     color="blue.500"
                     href="https://github.com/newt239/next-score-watcher"
@@ -152,13 +143,13 @@ const OptionPage = () => {
                       <ExternalLink />
                     </Icon>
                   </Link>
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
-    </Container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   );
 };
 

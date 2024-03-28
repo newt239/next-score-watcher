@@ -1,7 +1,19 @@
+@layer reset, base, tokens, recipes, utilities;
+
 * {
   box-sizing: border-box;
-  font-family: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, Segoe UI,
-    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+  font-family:
+    "BIZ UDPGothic",
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
     sans-serif;
   scroll-behavior: smooth;
 }
@@ -13,33 +25,37 @@
 
 html,
 body {
-  padding: 0;
-  margin: 0;
-  transition: all 0.2s ease;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+  max-width: 100vw;
 }
 
 h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  font-family: "BIZ UDPGothic", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  font-size: 32px;
+  font-weight: 700;
+  padding-top: 16px;
 }
 
 h3 {
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 700;
+  padding-top: 12px;
 }
 
-.p0 {
-  padding: 0;
+ul {
+  list-style: disc;
+  margin-left: 24px;
 }
 
-li {
-  line-height: 2rem;
+table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+td,
+th {
+  border-bottom: 1px solid #d1d5db;
+  padding: 4px 8px;
+}
+
+th {
+  font-weight: 700;
 }

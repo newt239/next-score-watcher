@@ -1,0 +1,36 @@
+import { Outlet } from "react-router-dom";
+
+import Header from "#/features/components/Header";
+import { css } from "@panda/css";
+
+const Layout: React.FC = () => {
+  return (
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        lg: {
+          flexDirection: "row",
+        },
+      })}
+    >
+      <Header />
+      <div
+        className={css({
+          lg: {
+            ml: "300px",
+            mt: "0px",
+          },
+          maxW: "1300px",
+          mt: "50px",
+          p: "16px",
+          w: "100%",
+        })}
+      >
+        <Outlet />
+      </div>
+    </div>
+  );
+};
+
+export default Layout;

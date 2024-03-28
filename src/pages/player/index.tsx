@@ -1,18 +1,10 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import {
-  Box,
-  Button,
-  Container,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
+import ButtonLink from "~/components/ButtonLink";
 import CreatePlayer from "~/components/player/CreatePlayer";
 import ImportPlayer from "~/components/player/ImportPlayer";
 import LoadPlayer from "~/components/player/LoadPlayer";
@@ -27,23 +19,17 @@ const PlayerPage = () => {
   }, []);
 
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <div>
+      <div>
         {from && (
-          <Box>
-            <Button
-              as={ReactLink}
-              colorScheme="green"
-              leftIcon={<ArrowBackUp />}
-              to={`/${from}/config`}
-              variant="ghost"
-            >
+          <div>
+            <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
               ゲーム設定に戻る
-            </Button>
-          </Box>
+            </ButtonLink>
+          </div>
         )}
         <h2>プレイヤー管理</h2>
-        <Box pt={5}>
+        <div>
           <h3>プレイヤーの読み込み</h3>
           <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
             <TabList mb="1em">
@@ -63,10 +49,10 @@ const PlayerPage = () => {
               </TabPanel>
             </TabPanels>
           </Tabs>
-        </Box>
+        </div>
         <PlayerTable />
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 };
 

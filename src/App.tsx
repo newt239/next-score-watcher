@@ -7,11 +7,9 @@ import Footer from "~/components/block/Footer";
 import Header from "~/components/block/Header";
 import ScrollTop from "~/components/block/ScrollTop";
 import UpdateModal from "~/components/block/UpdateModal";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import HomePage from "~/pages";
 import AQLPage from "~/pages/aql";
 import AQLBoardPage from "~/pages/aql/game_id";
-import BoardPage from "~/pages/game_id/board";
 import ConfigPage from "~/pages/game_id/config";
 import OptionPage from "~/pages/option";
 import WebhookPage from "~/pages/option/webhook";
@@ -21,10 +19,9 @@ import RulePage from "~/pages/rule";
 
 import "~/globals.css";
 import "~/index.css";
+import GamesPage from "./pages/games";
 
 function App() {
-  const isDesktop = useDeviceWidth();
-
   return (
     <ChakraProvider resetCSS={false}>
       <BrowserRouter>
@@ -33,17 +30,17 @@ function App() {
         <Box sx={{ minH: "100vh" }}>
           <Routes>
             <Route element={<HomePage />} index />
-            <Route path=":game_id">
-              <Route element={<ConfigPage />} path="config" />
-              <Route element={<BoardPage />} path="board" />
+            <Route path="games">
+              <Route element={<GamesPage />} index />
+              <Route element={<ConfigPage />} path=":game_id/config" />
             </Route>
             <Route path="aql">
               <Route element={<AQLPage />} index />
               <Route element={<AQLBoardPage />} path=":game_id" />
             </Route>
-            <Route element={<RulePage />} path="rule" />
-            <Route element={<PlayerPage />} path="player" />
-            <Route element={<QuizPage />} path="quiz" />
+            <Route element={<RulePage />} path="rules" />
+            <Route element={<PlayerPage />} path="players" />
+            <Route element={<QuizPage />} path="quizes" />
             <Route path="option">
               <Route element={<OptionPage />} index />
               <Route element={<WebhookPage />} path="webhook" />

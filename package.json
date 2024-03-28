@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare": "panda codegen",
+    "prepare": "panda codegen",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",

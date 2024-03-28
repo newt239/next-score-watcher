@@ -1,7 +1,7 @@
 import { KeyboardEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
+import { Button, css, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -211,8 +211,8 @@ const AQLBoardPage: React.FC = () => {
     }
 
     return (
-      <Flex
-        sx={{
+      <div
+        className={css({
           flexDirection: "column",
           textAlign: "center",
           fontSize: "max(1.5rem, 1.5vw)",
@@ -232,36 +232,36 @@ const AQLBoardPage: React.FC = () => {
                 ? "blue.300"
                 : undefined,
           },
-        }}
+        })}
       >
-        <Box
-          sx={{
+        <div
+          className={css({
             color:
               state !== "playing" && colorMode === "dark"
                 ? "gray.800"
                 : undefined,
-          }}
+          })}
         >
           {position === "left" ? game.left_team : game.right_team}
-        </Box>
-        <Box
-          sx={{
+        </div>
+        <div
+          className={css({
             fontSize: "4.5rem",
             color:
               state !== "playing" && colorMode === "dark"
                 ? "gray.800"
                 : undefined,
-          }}
+          })}
         >
           {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
-        </Box>
-        <Flex
-          sx={{
+        </div>
+        <div
+          className={css({
             flexDirection: isDesktop ? "row" : "column",
             justifyContent: "space-between",
             gap: 1,
-          }}
+          })}
         >
           {(position === "left" ? [0, 1, 2, 3, 4] : [5, 6, 7, 8, 9]).map(
             (n) => {
@@ -271,9 +271,8 @@ const AQLBoardPage: React.FC = () => {
                   : gameState.rightTeamReachStates[n - 5];
               const wrong = gameState.scores[n].wrong;
               return (
-                <Flex
-                  key={n}
-                  sx={{
+                <div
+                  className={css({
                     flexDirection: isDesktop ? "column" : "row",
                     alignItems: "center",
                     gap: 3,
@@ -317,46 +316,53 @@ const AQLBoardPage: React.FC = () => {
                           ? "blue.300"
                           : "gray.800",
                     },
-                  }}
+                  })}
+                  key={n}
                 >
-                  <Box>No.{position === "left" ? n + 1 : n - 4}</Box>
-                  <Box sx={{ flexGrow: 1, fontSize: "3rem", fontWeight: 800 }}>
+                  <div>No.{position === "left" ? n + 1 : n - 4}</div>
+                  <div
+                    className={css({
+                      flexGrow: 1,
+                      fontSize: "3rem",
+                      fontWeight: 800,
+                    })}
+                  >
                     {gameState.scores[n].score}
-                  </Box>
+                  </div>
                   <Button
-                    colorScheme="red"
-                    isDisabled={wrong >= 2}
-                    onClick={() => onClickHandler("correct", n)}
-                    sx={{
+                    className={css({
                       color: "red.600",
                       _dark: {
                         color: "red.300",
                       },
-                    }}
+                    })}
+                    colorScheme="red"
+                    isDisabled={wrong >= 2}
+                    onClick={() => onClickHandler("correct", n)}
                     variant="ghost"
                   >
                     {Math.max(0, gameState.scores[n].score - wrong)}○
                   </Button>
                   <Button
-                    colorScheme="blue"
-                    isDisabled={wrong >= 2}
-                    onClick={() => onClickHandler("wrong", n)}
-                    sx={{
+                    className={css({
                       color: "blue.600",
                       _dark: {
                         color: "blue.300",
                       },
-                    }}
+                    })}
+                    colorScheme="blue"
+                    isDisabled={wrong >= 2}
+                    onClick={() => onClickHandler("wrong", n)}
                     variant="ghost"
                   >
                     {wrong}✕
                   </Button>
-                </Flex>
+                </div>
               );
             }
           )}
-        </Flex>
-      </Flex>
+        </div>
+      </div>
     );
   };
 
@@ -371,9 +377,8 @@ const AQLBoardPage: React.FC = () => {
         quiz_offset={game.quiz.offset}
         quiz_set={game.quiz.set_name}
       />
-      <Flex
-        onKeyDown={keyboardShortcutHandler}
-        sx={{
+      <div
+        className={css({
           gap: "1.5vh 1vw",
           w: "100%",
           h: ["90vh", "90vh", "85vh"],
@@ -381,15 +386,16 @@ const AQLBoardPage: React.FC = () => {
           pt: "3vh",
           justifyContent: "space-around",
           flexDirection: isDesktop ? "row" : "column",
-        }}
+        })}
+        onKeyDown={keyboardShortcutHandler}
         tabIndex={-1}
       >
         <EachGroup position="left" />
         <EachGroup position="right" />
-      </Flex>
-      <Flex sx={{ justifyContent: "center" }}>
+      </div>
+      <div className={css({ justifyContent: "center" })}>
         <GameLogs logs={logs} players={getPlayerList()} quiz={game.quiz} />
-      </Flex>
+      </div>
     </>
   );
 };

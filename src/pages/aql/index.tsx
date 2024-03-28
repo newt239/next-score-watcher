@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link as ReactLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
-  Box,
   Button,
-  Container,
-  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -15,19 +12,14 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
+  css,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
+import ButtonLink from "~/components/ButtonLink";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 
@@ -108,36 +100,32 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <Container pt={5}>
-      <Box pt={5}>
+    <div>
+      <div>
         <h2>AQLルール</h2>
         {aqlGames && aqlGames.length !== 0 && (
-          <Box pt={5}>
+          <div>
             <h3>作成したゲーム</h3>
-            <TableContainer pt={2}>
-              <Table size="sm" variant="simple">
-                <Thead>
-                  <Tr>
-                    <Th>ラウンド名</Th>
-                    <Th></Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ラウンド名</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
                   {aqlGames.map((game, i) => {
                     return (
-                      <Tr key={game.id}>
-                        <Td>{game.name}</Td>
-                        <Td isNumeric>
-                          <Button
-                            as={ReactLink}
-                            colorScheme="green"
+                      <tr key={game.id}>
+                        <td>{game.name}</td>
+                        <td>
+                          <ButtonLink
+                            href={`/aql/${game.id}`}
                             leftIcon={<Chalkboard />}
-                            size="sm"
-                            to={`/aql/${game.id}`}
-                            variant="ghost"
                           >
                             開く
-                          </Button>
+                          </ButtonLink>
                           <Button
                             colorScheme="red"
                             leftIcon={<Trash />}
@@ -149,18 +137,24 @@ const AQLPage = () => {
                           >
                             削除
                           </Button>
-                        </Td>
-                      </Tr>
+                        </td>
+                      </tr>
                     );
                   })}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </Box>
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
-        <Box pt={5}>
+        <div>
           <h3>新規作成</h3>
-          <Flex direction={isDesktop ? "row" : "column"} gap={3}>
+          <div
+            className={css({
+              display: "flex",
+              flexDirection: isDesktop ? "row" : "column",
+              gap: 3,
+            })}
+          >
             <FormControl pt={2}>
               <FormLabel>ラウンド名</FormLabel>
               <Input
@@ -185,11 +179,11 @@ const AQLPage = () => {
                 value={rightTeamName}
               />
             </FormControl>
-          </Flex>
-        </Box>
-        <Box pt={5}>
+          </div>
+        </div>
+        <div>
           {quizset_names.length !== 0 ? (
-            <Flex sx={{ gap: 5 }}>
+            <div className={css({ gap: 5 })}>
               <FormControl pt={5} width={200}>
                 <FormLabel>セット名</FormLabel>
                 <Select
@@ -220,26 +214,24 @@ const AQLPage = () => {
                   </NumberInput>
                 </FormControl>
               )}
-            </Flex>
+            </div>
           ) : (
-            <Box>
-              <Button
-                as={ReactLink}
-                colorScheme="blue"
+            <div>
+              <ButtonLink
                 disabled={
                   roundName === "" ||
                   leftTeamName === "" ||
                   rightTeamName === ""
                 }
+                href="/quiz"
                 leftIcon={<Upload />}
-                to="/quiz"
               >
                 問題データを読み込む
-              </Button>
-            </Box>
+              </ButtonLink>
+            </div>
           )}
-        </Box>
-        <Box sx={{ textAlign: "right", pt: 5 }}>
+        </div>
+        <div className={css({ textAlign: "right", pt: 5 })}>
           <Button
             colorScheme="green"
             leftIcon={<CirclePlus />}
@@ -247,9 +239,9 @@ const AQLPage = () => {
           >
             作る
           </Button>
-        </Box>
-      </Box>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };
 
