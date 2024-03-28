@@ -14,13 +14,8 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 
-<<<<<<< HEAD:src/components/board/PreferenceModal.tsx
-import Preferences from "~/components/block/Preferences";
-import ShortcutGuide from "~/components/board/ShortcutGuide";
-=======
-import ShortcutGuide from "#/features/board/ShortcutGuide";
-import Preferences from "#/features/components/Preferences";
->>>>>>> develop:src/features/board/PreferenceModal.tsx
+import ShortcutGuide from "~/features/board/ShortcutGuide";
+import Preferences from "~/features/components/Preferences";
 
 type ModalProps = {
   isOpen: boolean;

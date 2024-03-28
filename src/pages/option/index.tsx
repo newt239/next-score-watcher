@@ -10,14 +10,14 @@ import {
   Input,
   Link,
   VStack,
-  css,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import Preferences from "~/components/block/Preferences";
-import AlertDialog from "~/components/common/AlertDialog";
+import { css } from "@panda/css";
+import AlertDialog from "~/features/components/AlertDialog";
+import Preferences from "~/features/components/Preferences";
 import db from "~/utils/db";
 import { webhookUrlAtom } from "~/utils/jotai";
 

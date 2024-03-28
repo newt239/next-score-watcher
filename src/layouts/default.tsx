@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import Header from "#/features/components/Header";
 import { css } from "@panda/css";
+import Header from "~/features/components/Header";
 
 const Layout: React.FC = () => {
   return (

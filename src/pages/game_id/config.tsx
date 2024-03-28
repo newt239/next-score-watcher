@@ -10,7 +10,6 @@ import {
   Tabs,
   UnorderedList,
   VStack,
-  css,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -18,15 +17,16 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import ButtonLink from "~/components/ButtonLink";
-import AlertDialog from "~/components/common/AlertDialog";
-import InputLayout from "~/components/common/InputLayout";
-import ConfigInput from "~/components/config/ConfigInput";
-import ConfigTabList from "~/components/config/ConfigTabList";
-import CopyGame from "~/components/config/CopyGame";
-import RuleSettings from "~/components/config/RuleSettings";
-import PlayersConfig from "~/components/config/SelectPlayer";
-import SelectQuizset from "~/components/config/SelectQuizSet";
+import { css } from "@panda/css";
+import ButtonLink from "~/components/custom/ButtonLink";
+import AlertDialog from "~/features/components/AlertDialog";
+import InputLayout from "~/features/components/InputLayout";
+import ConfigInput from "~/features/config/ConfigInput";
+import ConfigTabList from "~/features/config/ConfigTabList";
+import CopyGame from "~/features/config/CopyGame";
+import RuleSettings from "~/features/config/RuleSettings";
+import PlayersConfig from "~/features/config/SelectPlayer";
+import SelectQuizset from "~/features/config/SelectQuizSet";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";

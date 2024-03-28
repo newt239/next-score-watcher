@@ -2,15 +2,14 @@ import { useState } from "react";
 
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal } from "tabler-icons-react";
+import { AdjustmentsHorizontal, Select } from "tabler-icons-react";
 
-import Anchor from "#/components/Anchor";
-import ButtonLink from "#/components/ButtonLink";
-import Card from "#/components/Card";
-import Select from "#/components/Select";
-import db from "#/utils/db";
-import { getRuleStringByType } from "#/utils/rules";
+import { Card } from "@chakra-ui/react";
 import { css } from "@panda/css";
+import Anchor from "~/components/custom/Anchor";
+import ButtonLink from "~/components/custom/ButtonLink";
+import db from "~/utils/db";
+import { getRuleStringByType } from "~/utils/rules";
 
 const GamesPage: React.FC = () => {
   const games = useLiveQuery(
@@ -58,10 +57,12 @@ const GamesPage: React.FC = () => {
       >
         <h2>作成したゲーム</h2>
         <Select
+          /*
           items={[
             { value: "last_open", label: "最終閲覧順" },
             { value: "name", label: "ゲーム名順" },
           ]}
+          */
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
         >
           <option value="last_open">最終閲覧順</option>

@@ -4,8 +4,8 @@ import { Image } from "@chakra-ui/react";
 
 import Hamburger from "./Hamburger";
 
-import SubMenu from "#/features/components/SubMenu";
 import { css } from "@panda/css";
+import SubMenu from "~/features/components/SubMenu";
 
 const Header: React.FC = () => {
   return (

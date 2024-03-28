@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 
-import ButtonLink from "#/components/ButtonLink";
 import { css } from "@panda/css";
+import ButtonLink from "~/components/custom/ButtonLink";
 
 const linkList: { text: string; path: string }[] = [
   { path: "/", text: "ホーム" },

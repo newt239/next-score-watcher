@@ -1,5 +1,17 @@
+import { Link } from "react-router-dom";
+
 import { RecipeVariantProps, css, cva, cx } from "@panda/css";
 import { SystemStyleObject } from "@panda/types";
+
+export type ButtonLinkProps = {
+  children: React.ReactNode;
+  href: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  sx?: SystemStyleObject;
+  // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
+} & React.HTMLAttributes<HTMLAnchorElement> &
+  RecipeVariantProps<typeof buttonRecipe>;
 
 export const buttonRecipe = cva({
   base: {
@@ -43,7 +55,7 @@ export const buttonRecipe = cva({
       },
       subtle: {
         _hover: {
-          bgColor: "neutral.200",
+          bgColor: "neutral.100",
         },
         color: "emerald.500",
       },
@@ -51,28 +63,20 @@ export const buttonRecipe = cva({
   },
 });
 
-export type ButtonProps = {
-  children: React.ReactNode;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  sx?: SystemStyleObject;
-} & JSX.IntrinsicElements["button"] &
-  RecipeVariantProps<typeof buttonRecipe>;
-
-const Button: React.FC<ButtonProps> = (props) => {
-  // https://panda-css.com/docs/overview/faq#how-do-i-split-recipe-props-from-the-rest
-  const { children, leftIcon, rightIcon, sx, ...rest } = props;
+const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
+  const { children, href, leftIcon, rightIcon, sx, ...rest } = props;
   const [componentProps, restProps] = buttonRecipe.splitVariantProps(rest);
   return (
-    <button
+    <Link
       className={cx(buttonRecipe(componentProps), css(sx))}
+      to={href}
       {...restProps}
     >
       {leftIcon && <span className={css({ mr: "4px" })}>{leftIcon}</span>}
       {children}
       {rightIcon && <span className={css({ ml: "4px" })}>{rightIcon}</span>}
-    </button>
+    </Link>
   );
 };
 
-export default Button;
+export default ButtonLink;

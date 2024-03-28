@@ -1,5 +1,5 @@
-import ButtonLink from "#/components/ButtonLink";
 import { css } from "@panda/css";
+import ButtonLink from "~/components/custom/ButtonLink";
 
 const Hero: React.FC = () => {
   return (

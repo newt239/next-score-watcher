@@ -2,24 +2,24 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Box, ChakraProvider } from "@chakra-ui/react";
 
-import BottomBar from "~/components/block/BottomBar";
-import Footer from "~/components/block/Footer";
-import Header from "~/components/block/Header";
-import ScrollTop from "~/components/block/ScrollTop";
-import UpdateModal from "~/components/block/UpdateModal";
+import Header from "~/features/components/Header";
 import HomePage from "~/pages";
 import AQLPage from "~/pages/aql";
 import AQLBoardPage from "~/pages/aql/game_id";
 import ConfigPage from "~/pages/game_id/config";
 import OptionPage from "~/pages/option";
 import WebhookPage from "~/pages/option/webhook";
-import PlayerPage from "~/pages/player";
+import PlayerPage from "~/pages/players";
 import QuizPage from "~/pages/quiz";
-import RulePage from "~/pages/rule";
+import RulePage from "~/pages/rules";
+
+import { Footer } from "~/components/ui/card";
+import ScrollTop from "~/features/components/ScrollTop";
+import UpdateModal from "~/features/components/UpdateModal";
+import GamesPage from "~/pages/games";
 
 import "~/globals.css";
 import "~/index.css";
-import GamesPage from "./pages/games";
 
 function App() {
   return (
@@ -48,12 +48,6 @@ function App() {
           </Routes>
         </Box>
         <Footer />
-        {!isDesktop && (
-          <>
-            <Box sx={{ height: "10vh" }} />
-            <BottomBar />
-          </>
-        )}
         <UpdateModal />
       </BrowserRouter>
     </ChakraProvider>

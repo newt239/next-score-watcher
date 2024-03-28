@@ -12,14 +12,14 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  css,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
-import ButtonLink from "~/components/ButtonLink";
+import { css } from "@panda/css";
+import ButtonLink from "~/components/custom/ButtonLink";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 
@@ -218,11 +218,13 @@ const AQLPage = () => {
           ) : (
             <div>
               <ButtonLink
+                /*
                 disabled={
                   roundName === "" ||
                   leftTeamName === "" ||
                   rightTeamName === ""
                 }
+                */
                 href="/quiz"
                 leftIcon={<Upload />}
               >
