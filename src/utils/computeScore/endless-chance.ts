@@ -41,34 +41,65 @@ const endlessChance = async (
             }
           case "multiple_wrong":
             const newWrong = playerState.wrong + 1;
-            if (newWrong >= game.lose_point!) {
+            if (game.options.use_r) {
               return {
                 ...playerState,
                 wrong: newWrong,
                 last_wrong: qn,
-                state: "lose",
-              };
-            } else if (
-              newWrong + 1 === game.lose_point! &&
-              playerState.correct + 1 !== game.win_point!
-            ) {
-              return {
-                ...playerState,
-                wrong: newWrong,
-                last_wrong: qn,
-                reach_state: "lose",
+                is_incapacity: true,
               };
             } else {
-              return {
-                ...playerState,
-                wrong: newWrong,
-                last_wrong: qn,
-              };
+              if (newWrong >= game.lose_point!) {
+                return {
+                  ...playerState,
+                  wrong: newWrong,
+                  last_wrong: qn,
+                  state: "lose",
+                };
+              } else if (
+                newWrong + 1 === game.lose_point! &&
+                playerState.correct + 1 !== game.win_point!
+              ) {
+                return {
+                  ...playerState,
+                  wrong: newWrong,
+                  last_wrong: qn,
+                  reach_state: "lose",
+                };
+              } else {
+                return {
+                  ...playerState,
+                  wrong: newWrong,
+                  last_wrong: qn,
+                };
+              }
             }
           default:
             return playerState;
         }
       } else {
+        if (game.options.use_r) {
+          if (
+            playerState.is_incapacity &&
+            game.lose_point! <
+              gameLogList.filter((log) =>
+                [
+                  "correct",
+                  "wrong",
+                  "through",
+                  "multiple_correct",
+                  "multiple_wrong",
+                ].includes(log.variant)
+              ).length -
+                playerState.last_wrong
+          ) {
+            return {
+              ...playerState,
+              state: "playing",
+              is_incapacity: false,
+            };
+          }
+        }
         return playerState;
       }
     });
@@ -82,11 +113,15 @@ const endlessChance = async (
       game,
       playerState.state,
       order,
-      gameLogList.length
+      gameLogList.length // TODO: logの長さチェックについて確認
     );
     const text =
       state === "win"
         ? indicator(order)
+        : playerState.is_incapacity
+        ? `${
+            game.lose_point! - gameLogList.length + playerState.last_wrong + 1
+          }休`
         : playerState.state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);

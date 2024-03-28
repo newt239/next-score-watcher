@@ -36,7 +36,15 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
 
   if (!game || !game.options) return null;
 
-  const isChecked = game.options[input_id] as boolean;
+  let isChecked = false;
+
+  if (game.rule === "nomx-ad" && input_id === "streak_over3") {
+    isChecked = game.options[input_id] as boolean;
+  } else if (game.rule === "endless-chance" && input_id === "use_r") {
+    isChecked = game.options[input_id] as boolean;
+  } else {
+    return null;
+  }
 
   return (
     <FormControl

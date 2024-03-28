@@ -290,13 +290,18 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "endless-chance" && (
         <>
-          <PlayerScoreButton color="red" {...props}>
+          <PlayerScoreButton
+            disabled={player.is_incapacity}
+            color="red"
+            {...props}
+          >
             {player.state === "win"
               ? player.text
               : numberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton
             color="blue"
+            disabled={player.is_incapacity}
             onClick={async () => {
               if (logs.length > 0) {
                 const last_log = logs[logs.length - 1];
@@ -338,7 +343,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             }}
             {...props}
           >
-            {player.state === "lose"
+            {player.state === "lose" || player.is_incapacity
               ? player.text
               : numberSign("wrong", player.wrong)}
           </PlayerScoreButton>

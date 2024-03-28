@@ -40,7 +40,7 @@ export type GameOptionProps = {
     streak_over3: boolean;
   };
   "endless-chance": {
-    x_or_r: "x" | "r";
+    use_r: boolean;
   };
 };
 
