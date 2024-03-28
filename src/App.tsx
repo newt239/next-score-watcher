@@ -12,15 +12,15 @@ import PlayerPage from "~/pages/players";
 import QuizPage from "~/pages/quiz";
 import RulePage from "~/pages/rules";
 
-import { Footer } from "~/components/ui/card";
+import Footer from "~/features/components/Footer";
 import ScrollTop from "~/features/components/ScrollTop";
 import UpdateModal from "~/features/components/UpdateModal";
+import Layout from "~/layouts/default";
+import BoardPage from "~/pages/game_id/board";
 import GamesPage from "~/pages/games";
 
 import "~/globals.css";
 import "~/index.css";
-import Layout from "~/layouts/default";
-import BoardPage from "~/pages/game_id/board";
 
 function App() {
   return (

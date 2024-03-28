@@ -1,6 +1,5 @@
+import { Button, ButtonProps } from "@chakra-ui/react";
 import { Link as ReactLink } from "react-router-dom";
-
-import { Button, ButtonProps } from "../ui/button";
 
 export type ButtonLinkProps = {
   children: React.ReactNode;

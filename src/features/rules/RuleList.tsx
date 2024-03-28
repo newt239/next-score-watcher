@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Card, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, Card, SimpleGrid } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
-import { Button } from "~/components/ui/button";
 import { createGame } from "~/utils/functions";
 import { rules } from "~/utils/rules";
 import { RuleNames } from "~/utils/types";

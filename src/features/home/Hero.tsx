@@ -1,6 +1,6 @@
+import { Button } from "@chakra-ui/react";
 import { css } from "@panda/css";
 import { Link } from "react-router-dom";
-import { Button } from "~/components/ui/button";
 
 const Hero: React.FC = () => {
   return (
@@ -58,7 +58,7 @@ const Hero: React.FC = () => {
           </p>
         </div>
         <Link to="/rules">
-          <Button size="2xl" colorPalette="green">
+          <Button size="xl" colorScheme="green">
             ゲームを作る
           </Button>
         </Link>
