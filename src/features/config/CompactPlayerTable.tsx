@@ -244,7 +244,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
               as={ReactLink}
               colorScheme="green"
               rightIcon={<ArrowNarrowRight />}
-              to={`/player?from=${game_id}`}
+              to={`/players?from=${game_id}`}
               variant="ghost"
             >
               詳細設定

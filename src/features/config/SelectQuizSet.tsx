@@ -82,7 +82,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
             as={ReactLink}
             colorScheme="blue"
             leftIcon={<Upload />}
-            to={`/quiz?from=${game_id}`}
+            to={`/quizes?from=${game_id}`}
           >
             問題データを読み込む
           </Button>

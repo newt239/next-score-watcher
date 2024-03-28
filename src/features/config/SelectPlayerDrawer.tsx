@@ -46,7 +46,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
           colorScheme="blue"
           leftIcon={<Upload />}
           mt={3}
-          to={`/player?from=${game_id}`}
+          to={`/players?from=${game_id}`}
         >
           プレイヤーデータを読み込む
         </Button>
@@ -96,7 +96,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
                     <AccordionPanel pb={4}>
                       {playerList.length === 0 ? (
                         <Box py={3}>
-                          <Link as={ReactLink} color="blue.500" to="/player">
+                          <Link as={ReactLink} color="blue.500" to="/players">
                             プレイヤー管理
                           </Link>
                           ページから一括でプレイヤー情報を登録できます。

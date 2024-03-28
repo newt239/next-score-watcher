@@ -50,14 +50,14 @@ const BottomBar = () => {
           </div>
         </LinkBox>
       </ReactLink>
-      <ReactLink style={{ width: "25%" }} to="/player">
+      <ReactLink style={{ width: "25%" }} to="/players">
         <LinkBox
           aria-label="プレイヤー"
           className={css({
             width: "100%",
             borderRadius: 0,
           })}
-          color={location.pathname === "/player" ? "green.500" : undefined}
+          color={location.pathname === "/players" ? "green.500" : undefined}
         >
           <div
             className={css({
@@ -71,14 +71,14 @@ const BottomBar = () => {
           </div>
         </LinkBox>
       </ReactLink>
-      <ReactLink style={{ width: "25%" }} to="/quiz">
+      <ReactLink style={{ width: "25%" }} to="/quizes">
         <LinkBox
           aria-label="問題"
           className={css({
             width: "100%",
             borderRadius: 0,
           })}
-          color={location.pathname === "/quiz" ? "green.500" : undefined}
+          color={location.pathname === "/quizes" ? "green.500" : undefined}
         >
           <div
             className={css({

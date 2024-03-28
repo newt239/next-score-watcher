@@ -218,14 +218,14 @@ const AQLPage = () => {
           ) : (
             <div>
               <ButtonLink
-                /*
+                /* TODO
                 disabled={
                   roundName === "" ||
                   leftTeamName === "" ||
                   rightTeamName === ""
                 }
                 */
-                href="/quiz"
+                href="/quizes"
                 leftIcon={<Upload />}
               >
                 問題データを読み込む
