@@ -1,8 +1,10 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import { Button, Code, Icon, Link } from "@chakra-ui/react";
+import { Code, Icon, Link } from "@chakra-ui/react";
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
+
+import ButtonLink from "#/components/ButtonLink";
 
 const WebhookPage = () => {
   const [params] = useSearchParams();
@@ -16,27 +18,13 @@ const WebhookPage = () => {
     <div>
       <div>
         {from ? (
-          <Button
-            as={ReactLink}
-            colorScheme="green"
-            leftIcon={<ArrowBackUp />}
-            size="sm"
-            to={`/${from}/config`}
-            variant="ghost"
-          >
+          <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
             ゲーム設定に戻る
-          </Button>
+          </ButtonLink>
         ) : (
-          <Button
-            as={ReactLink}
-            colorScheme="green"
-            leftIcon={<ArrowBackUp />}
-            size="sm"
-            to="/option"
-            variant="ghost"
-          >
+          <ButtonLink href="/option" leftIcon={<ArrowBackUp />} size="sm">
             アプリ設定に戻る
-          </Button>
+          </ButtonLink>
         )}
         <div>
           <h2>Discord Webhookについて</h2>

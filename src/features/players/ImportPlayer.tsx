@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 
 import db from "#/utils/db";
 import { recordEvent } from "#/utils/ga4";
+import { css } from "@panda/css";
 
 const ImportPlayer: React.FC = () => {
   const toast = useToast();
@@ -70,9 +71,9 @@ const ImportPlayer: React.FC = () => {
       <p>CSVファイルからインポートできます。</p>
       <Input
         accept=".csv"
+        className={css({ flexGrow: 1 })}
         height={[255, 160, 100]}
         onChange={handleOnChange}
-        sx={{ flexGrow: 1 }}
         type="file"
       />
       <p>1列目: 氏名、 2列目: 順位、 3列目: 所属</p>

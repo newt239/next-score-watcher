@@ -1,16 +1,10 @@
 import { useEffect } from "react";
-import { Link as ReactLink, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import {
-  Button,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
+import ButtonLink from "#/components/ButtonLink";
 import CreatePlayer from "#/features/players/CreatePlayer";
 import ImportPlayer from "#/features/players/ImportPlayer";
 import LoadPlayer from "#/features/players/LoadPlayer";
@@ -29,15 +23,9 @@ const PlayerPage = () => {
       <div>
         {from && (
           <div>
-            <Button
-              as={ReactLink}
-              colorScheme="green"
-              leftIcon={<ArrowBackUp />}
-              to={`/${from}/config`}
-              variant="ghost"
-            >
+            <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
               ゲーム設定に戻る
-            </Button>
+            </ButtonLink>
           </div>
         )}
         <h2>プレイヤー管理</h2>

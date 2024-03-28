@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link as ReactLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   Button,
@@ -17,6 +17,7 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
+import ButtonLink from "#/components/ButtonLink";
 import AlertDialog from "#/features/components/AlertDialog";
 import InputLayout from "#/features/components/InputLayout";
 import ConfigInput from "#/features/config/ConfigInput";
@@ -29,6 +30,7 @@ import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { recordEvent } from "#/utils/ga4";
 import { rules } from "#/utils/rules";
+import { css } from "@panda/css";
 
 const ConfigPage = () => {
   const navigate = useNavigate();
@@ -107,12 +109,12 @@ const ConfigPage = () => {
       <InputLayout
         label={
           <UnorderedList
-            sx={{
+            className={css({
               color: "red.500",
               _dark: {
                 color: "red.300",
               },
-            }}
+            })}
           >
             {errorMessages.map((m) => (
               <ListItem key={m}>{m}</ListItem>
@@ -143,31 +145,25 @@ const ConfigPage = () => {
             ゲーム開始
           </Button>
         ) : (
-          <Button
-            as={ReactLink}
-            colorScheme="green"
-            leftIcon={<PlayerPlay />}
-            size="lg"
-            to={`/${game_id}/board`}
-          >
+          <ButtonLink href={`/${game_id}/board`} leftIcon={<PlayerPlay />}>
             ゲーム開始
-          </Button>
+          </ButtonLink>
         )}
       </InputLayout>
       <div>
         <Tabs
+          className={css({
+            flexDirection: isDesktop ? "row" : "column",
+            alignItems: "flex-start",
+          })}
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
           orientation="vertical"
           position="relative"
-          sx={{
-            flexDirection: isDesktop ? "row" : "column",
-            alignItems: "flex-start",
-          }}
           variant="unstyled"
         >
           <ConfigTabList />
-          <TabPanels sx={{ w: ["100%", "100%", "75%"] }}>
+          <TabPanels className={css({ w: ["100%", "100%", "75%"] })}>
             <TabPanel>
               <h2>形式設定</h2>
               <RuleSettings disabled={disabled} game={game} />

@@ -1,7 +1,4 @@
-import { Link as ReactLink } from "react-router-dom";
-
 import {
-  Button,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -12,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
+import ButtonLink from "#/components/ButtonLink";
 import InputLayout from "#/features/components/InputLayout";
 import db from "#/utils/db";
 import { GameDBQuizProps } from "#/utils/types";
@@ -78,14 +76,9 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
         </>
       ) : (
         <InputLayout label="">
-          <Button
-            as={ReactLink}
-            colorScheme="blue"
-            leftIcon={<Upload />}
-            to={`/quiz?from=${game_id}`}
-          >
+          <ButtonLink href={`/quiz?from=${game_id}`} leftIcon={<Upload />}>
             問題データを読み込む
-          </Button>
+          </ButtonLink>
         </InputLayout>
       )}
     </VStack>

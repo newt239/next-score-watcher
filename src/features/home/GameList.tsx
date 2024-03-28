@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
-import { Button, Card, Link, Select, SimpleGrid } from "@chakra-ui/react";
+import { Card, Link, Select, SimpleGrid } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
 
+import ButtonLink from "#/components/ButtonLink";
 import db from "#/utils/db";
 import { getRuleStringByType } from "#/utils/rules";
 import { css } from "@panda/css";
@@ -105,15 +106,12 @@ const GameList: React.FC = () => {
                 <div className={css({ fontSize: "70%", opacity: 0.5 })}>
                   {cdate(game.last_open).format("MM/DD HH:mm")}
                 </div>
-                <Button
-                  as={ReactLink}
-                  colorScheme="green"
+                <ButtonLink
+                  href={`/${game.id}/config`}
                   leftIcon={<AdjustmentsHorizontal />}
-                  size="sm"
-                  to={`/${game.id}/config`}
                 >
                   開く
-                </Button>
+                </ButtonLink>
               </div>
             </Card>
           ))}

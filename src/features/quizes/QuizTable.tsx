@@ -16,7 +16,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Thead,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -180,9 +179,9 @@ const QuizTable: React.FC = () => {
                     <Filter />
                   </InputLeftElement>
                   <Input
+                    className={css({ maxW: 300 })}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder="問題文・答え・セット名で検索"
-                    sx={{ maxW: 300 }}
                     value={searchText}
                   />
                 </InputGroup>
@@ -199,7 +198,7 @@ const QuizTable: React.FC = () => {
             <>
               <div>
                 <table>
-                  <Thead>
+                  <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                       <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header, i) => (
@@ -214,7 +213,7 @@ const QuizTable: React.FC = () => {
                         ))}
                       </tr>
                     ))}
-                  </Thead>
+                  </thead>
                   <tbody>
                     {table.getRowModel().rows.map((row) => {
                       return (

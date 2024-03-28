@@ -10,13 +10,14 @@ export type ButtonLinkProps = {
   href: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  disabled?: boolean; // TODO: disabledのスタイルを実装
   sx?: SystemStyleObject;
   // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
 } & React.HTMLAttributes<HTMLAnchorElement> &
   RecipeVariantProps<typeof buttonRecipe>;
 
 const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
-  const { children, href, leftIcon, rightIcon, sx, ...rest } = props;
+  const { children, href, leftIcon, rightIcon, disabled, sx, ...rest } = props;
   const [componentProps, restProps] = buttonRecipe.splitVariantProps(rest);
   return (
     <Link

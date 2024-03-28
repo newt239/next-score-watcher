@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
   Accordion,
@@ -14,10 +13,11 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  Link,
 } from "@chakra-ui/react";
 import { Plus, Upload } from "tabler-icons-react";
 
+import Anchor from "#/components/Anchor";
+import ButtonLink from "#/components/ButtonLink";
 import CompactCreatePlayer from "#/features/config/CompactCreatePlayer";
 import CompactPlayerTable from "#/features/config/CompactPlayerTable";
 import { GameDBPlayerProps, PlayerDBProps } from "#/utils/types";
@@ -40,15 +40,9 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
   return (
     <>
       {playerList.length === 0 ? (
-        <Button
-          as={ReactLink}
-          colorScheme="blue"
-          leftIcon={<Upload />}
-          mt={3}
-          to={`/player?from=${game_id}`}
-        >
+        <ButtonLink href={`/player?from=${game_id}`} leftIcon={<Upload />}>
           プレイヤーデータを読み込む
-        </Button>
+        </ButtonLink>
       ) : (
         <>
           <Button
@@ -91,9 +85,7 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
                     <AccordionPanel pb={4}>
                       {playerList.length === 0 ? (
                         <div>
-                          <Link as={ReactLink} color="blue.500" to="/player">
-                            プレイヤー管理
-                          </Link>
+                          <Anchor href="/player">プレイヤー管理</Anchor>
                           ページから一括でプレイヤー情報を登録できます。
                         </div>
                       ) : (

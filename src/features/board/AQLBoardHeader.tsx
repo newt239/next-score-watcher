@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Button,
-  Flex,
   FormControl,
   FormLabel,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -34,6 +31,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
+import Button from "#/components/Button";
 import ShortcutGuide from "#/features/board/ShortcutGuide";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
@@ -173,14 +171,14 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
         <div>
           <Menu closeOnSelect={false}>
             <MenuButton
-              as={IconButton}
-              icon={<Settings />}
-              sx={{
+              as={Button}
+              className={css({
                 borderColor: "gray.300",
                 _dark: {
                   borderColor: "gray.500",
                 },
-              }}
+              })}
+              leftIcon={<Settings />}
               variant="outline"
             />
             <MenuList>
@@ -216,11 +214,10 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
               </MenuItem>
               <MenuItem icon={<PlayerStop />} onClick={onEndChange}>
                 <FormControl
-                  as={Flex}
-                  sx={{
+                  className={css({
                     alignItems: "center",
                     justifyContent: "space-between",
-                  }}
+                  })}
                 >
                   <FormLabel mb="0">試合を終了</FormLabel>
                   <Switch isChecked={end} />
@@ -255,7 +252,6 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           </ModalBody>
           <ModalFooter>
             <Button
-              colorScheme="blue"
               onClick={() => {
                 onClose();
                 document.getElementById("players-area")?.focus();

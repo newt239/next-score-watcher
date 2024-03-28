@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
           fontSize: "0.5rem",
         })}
       >
-        <Image alt="Score Watcher" src={Logo} sx={{ h: "100%" }} />
+        <Image alt="Score Watcher" className={css({ h: "100%" })} src={Logo} />
         <div>
           by{" "}
           <Link color="blue.500" href="https://twitter.com/newt239" isExternal>

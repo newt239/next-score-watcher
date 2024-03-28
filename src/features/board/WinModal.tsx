@@ -1,14 +1,14 @@
 import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  Stat,
-  StatHelpText,
-  StatLabel,
-  StatNumber,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalHeader,
+    ModalOverlay,
+    Stat,
+    StatHelpText,
+    StatLabel,
+    StatNumber,
 } from "@chakra-ui/react";
 import { useAtomValue } from "jotai";
 
@@ -40,11 +40,11 @@ const WinModal: React.FC<WinModalProps> = ({
         <ModalHeader>Congratulations!</ModalHeader>
         <ModalCloseButton />
         <ModalBody py={10}>
-          <Stat key={winTroughPlayer.text} sx={{ textAlign: "center" }}>
-            <StatLabel sx={{ fontSize: "1.5rem" }}>
+          <Stat key={winTroughPlayer.text} className={css({ textAlign: "center" }}>
+            <StatLabel className={css({ fontSize: "1.5rem" }}>
               {winTroughPlayer.text}
             </StatLabel>
-            <StatNumber sx={{ fontSize: "2.5rem" }}>
+            <StatNumber className={css({ fontSize: "2.5rem" }}>
               {winTroughPlayer.name}
             </StatNumber>
             <StatHelpText>{roundName}</StatHelpText>

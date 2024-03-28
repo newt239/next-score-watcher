@@ -91,14 +91,14 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
               >
                 {sortableList.map((player, index) => (
                   <Card
-                    cursor="grab"
-                    key={player.id}
-                    sx={{
+                    className={css({
                       bgColor: "gray.200",
                       _dark: {
                         bgColor: "gray.700",
                       },
-                    }}
+                    })}
+                    cursor="grab"
+                    key={player.id}
                   >
                     <CardBody>
                       <div

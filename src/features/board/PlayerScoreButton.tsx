@@ -1,12 +1,12 @@
 import React, { useId } from "react";
 
 import {
-  Button,
-  Editable,
-  EditableInput,
-  EditablePreview,
-  SystemStyleObject,
-  useColorMode,
+    Button,
+    Editable,
+    EditableInput,
+    EditablePreview,
+    SystemStyleObject,
+    useColorMode,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useAtomValue } from "jotai";
@@ -125,13 +125,13 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
           defaultValue={children}
           display="flex"
           justifyContent="center"
-          sx={{ ...ButtonCssStyle, h: "auto" }}
+          className={css({ ...ButtonCssStyle, h: "auto" }}
         >
           <EditablePreview my={1} p={0} />
           <EditableInput
             id={id}
             name={id}
-            sx={{
+            className={css({
               p: 0,
               my: 1,
               w: isDesktop

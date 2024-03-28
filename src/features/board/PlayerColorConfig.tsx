@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 
 import {
-  IconButton,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
-  Radio,
-  RadioGroup,
-  useColorMode,
+    IconButton,
+    Popover,
+    PopoverBody,
+    PopoverContent,
+    PopoverHeader,
+    PopoverTrigger,
+    Radio,
+    RadioGroup,
+    useColorMode,
 } from "@chakra-ui/react";
 import { Edit } from "tabler-icons-react";
 
@@ -51,7 +51,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
           />
         </PopoverTrigger>
         <PopoverContent
-          sx={{
+          className={css({
             w: "auto",
             color: "black",
             _dark: {

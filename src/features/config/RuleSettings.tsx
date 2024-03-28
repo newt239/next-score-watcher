@@ -5,6 +5,7 @@ import ConfigInput from "#/features/config/ConfigInput";
 import ConfigLimit from "#/features/config/ConfigLimit";
 import ConfigNumberInput from "#/features/config/ConfigNumberInput";
 import { GamePropsUnion } from "#/utils/types";
+import { css } from "@panda/css";
 
 type RuleSettingsProps = {
   game: GamePropsUnion;
@@ -19,10 +20,10 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
         <ConfigLimit game_id={game.id} rule={game.rule} />
       )}
       <Grid
-        sx={{
+        className={css({
           gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "1rem",
-        }}
+        })}
       >
         {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (
           <ConfigNumberInput

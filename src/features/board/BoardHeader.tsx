@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Button,
   ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
-  IconButton,
   Menu,
   MenuButton,
   MenuDivider,
@@ -29,6 +27,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
+import Button from "#/components/Button";
 import PreferenceModal from "#/features/board/PreferenceModal";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
@@ -143,15 +142,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 variant="outline"
               >
                 <Button
-                  h="auto"
-                  isDisabled={manualQuizPosition < 0}
+                  disabled={manualQuizPosition < 0}
                   onClick={() => setManualQuizPosition((v) => v - 1)}
                 >
                   {"<"}
                 </Button>
                 <Button
-                  h="auto"
-                  isDisabled={manualQuizPosition >= quizList.length - 1}
+                  disabled={manualQuizPosition >= quizList.length - 1}
                   onClick={() => setManualQuizPosition((v) => v + 1)}
                 >
                   {">"}
@@ -202,14 +199,14 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         )}
         <Menu closeOnSelect={false}>
           <MenuButton
-            as={IconButton}
-            icon={<Settings />}
-            sx={{
+            as={Button}
+            className={css({
               borderColor: "gray.300",
               _dark: {
                 borderColor: "gray.500",
               },
-            }}
+            })}
+            leftIcon={<Settings />}
             variant="outline"
           />
           <MenuList>
@@ -264,10 +261,10 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             >
               <FormControl
                 as={Flex}
-                sx={{
+                className={css({
                   alignItems: "center",
                   justifyContent: "space-between",
-                }}
+                })}
               >
                 <FormLabel mb="0">スコアの手動更新</FormLabel>
                 <Switch isChecked={game.editable} />

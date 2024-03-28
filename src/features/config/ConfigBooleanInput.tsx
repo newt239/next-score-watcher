@@ -13,6 +13,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "#/utils/db";
 import { GameOptionProps, RuleNames } from "#/utils/types";
+import { css } from "@panda/css";
 
 type ConfigInputProps = {
   [T in RuleNames]: {
@@ -41,18 +42,18 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
   return (
     <FormControl
       as={Flex}
-      p={2}
-      sx={{
+      className={css({
         justifyContent: ["flex-start", "space-between"],
         alignItems: "center",
         gap: 2,
-      }}
+      })}
+      p={2}
     >
       <VStack
-        gap={0}
-        sx={{
+        className={css({
           alignItems: "flex-start",
-        }}
+        })}
+        gap={0}
       >
         <FormLabel htmlFor={innerId} m={0}>
           {label}

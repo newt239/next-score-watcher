@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import db from "#/utils/db";
 import { str2num } from "#/utils/functions";
 import { recordEvent } from "#/utils/ga4";
+import { css } from "@panda/css";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
   const toast = useToast();
@@ -67,10 +68,10 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
       <p>CSVファイルからインポートできます。</p>
       <Input
         accept=".csv"
+        className={css({ flexGrow: 1 })}
         disabled={setName === ""}
         height={100}
         onChange={handleOnChange}
-        sx={{ flexGrow: 1 }}
         type="file"
       />
       <p>1列目: 問題番号、 2列目: 問題文 3列目: 答え</p>

@@ -57,7 +57,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
 
   return (
     <VStack h="30vh" justifyContent="space-between">
-      <VStack align="left" sx={{ flexGrow: 1 }} w="full">
+      <VStack align="left" className={css({ flexGrow: 1 })} w="full">
         <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
         <textarea
           className={css({ flexGrow: 1 })}

@@ -9,6 +9,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import { css } from "@panda/css";
+
 type InputLayoutProps = {
   id?: string;
   label: React.ReactNode;
@@ -33,7 +35,7 @@ const InputLayout: React.FC<InputLayoutProps> = ({
   return (
     <FormControl
       as={HStack}
-      sx={{
+      className={css({
         flexDirection: vertical ? "column" : "row",
         justifyContent: "space-between",
         alignItems: vertical ? "stretch" : "center",
@@ -46,7 +48,7 @@ const InputLayout: React.FC<InputLayoutProps> = ({
           borderColor: "gray.700",
         },
         ...wrapperStyle,
-      }}
+      })}
     >
       <VStack align="stretch" gap={0}>
         <FormLabel htmlFor={id} m={0} sx={labelStyle}>

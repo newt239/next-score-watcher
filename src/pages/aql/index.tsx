@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link as ReactLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -12,13 +12,13 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Thead,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
+import ButtonLink from "#/components/ButtonLink";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { css } from "@panda/css";
@@ -108,28 +108,24 @@ const AQLPage = () => {
             <h3>作成したゲーム</h3>
             <div>
               <table>
-                <Thead>
+                <thead>
                   <tr>
                     <th>ラウンド名</th>
                     <th></th>
                   </tr>
-                </Thead>
+                </thead>
                 <tbody>
                   {aqlGames.map((game, i) => {
                     return (
                       <tr key={game.id}>
                         <td>{game.name}</td>
                         <td>
-                          <Button
-                            as={ReactLink}
-                            colorScheme="green"
+                          <ButtonLink
+                            href={`/aql/${game.id}`}
                             leftIcon={<Chalkboard />}
-                            size="sm"
-                            to={`/aql/${game.id}`}
-                            variant="ghost"
                           >
                             開く
-                          </Button>
+                          </ButtonLink>
                           <Button
                             colorScheme="red"
                             leftIcon={<Trash />}
@@ -221,19 +217,17 @@ const AQLPage = () => {
             </div>
           ) : (
             <div>
-              <Button
-                as={ReactLink}
-                colorScheme="blue"
+              <ButtonLink
                 disabled={
                   roundName === "" ||
                   leftTeamName === "" ||
                   rightTeamName === ""
                 }
+                href="/quiz"
                 leftIcon={<Upload />}
-                to="/quiz"
               >
                 問題データを読み込む
-              </Button>
+              </ButtonLink>
             </div>
           )}
         </div>

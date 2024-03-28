@@ -1,14 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Button,
   Checkbox,
   Input,
   InputGroup,
   InputLeftElement,
   Tag,
-  Thead,
 } from "@chakra-ui/react";
 import {
   createColumnHelper,
@@ -22,6 +19,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
+import ButtonLink from "#/components/ButtonLink";
 import TablePagenation from "#/features/components/TablePagination";
 import { useDidUpdateEffect } from "#/features/hooks/useDidUpdateEffect";
 import db from "#/utils/db";
@@ -193,7 +191,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         <div>
           <div>
             <table>
-              <Thead>
+              <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map((header) => (
@@ -208,7 +206,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                     ))}
                   </tr>
                 ))}
-              </Thead>
+              </thead>
               <tbody>
                 {table.getRowModel().rows.map((row) => {
                   return (
@@ -231,15 +229,12 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           </div>
           <TablePagenation table={table} />
           <div className={css({ pt: 3, textAlign: "right" })}>
-            <Button
-              as={ReactLink}
-              colorScheme="green"
+            <ButtonLink
+              href={`/player?from=${game_id}`}
               rightIcon={<ArrowNarrowRight />}
-              to={`/player?from=${game_id}`}
-              variant="ghost"
             >
               詳細設定
-            </Button>
+            </ButtonLink>
           </div>
         </div>
       )}

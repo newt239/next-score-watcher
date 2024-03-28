@@ -56,7 +56,7 @@ const LoadPlayer: React.FC = () => {
       justifyContent="space-between"
       w="full"
     >
-      <VStack align="left" sx={{ flexGrow: 1 }} w="full">
+      <VStack align="left" className={css({ flexGrow: 1 })} w="full">
         <p>Excelやスプレッドシートからコピーし、まとめてインポートできます。</p>
         <textarea
           className={css({ flexGrow: 1 })}

@@ -24,15 +24,15 @@ const SubMenu: React.FC = () => {
       {linkList.map((link) => (
         <ButtonLink
           aria-current={link.path === location.pathname}
-          href={link.path}
-          key={link.path}
-          sx={{
+          className={css({
             _currentPage: {
               bgColor: "emerald.500",
             },
             justifyContent: "flex-start",
             w: "100%",
-          }}
+          })}
+          href={link.path}
+          key={link.path}
           variant={link.path === location.pathname ? "solid" : "subtle"}
         >
           {link.text}

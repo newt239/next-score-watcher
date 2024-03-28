@@ -334,7 +334,7 @@ const AQLBoardPage: React.FC = () => {
                     colorScheme="red"
                     isDisabled={wrong >= 2}
                     onClick={() => onClickHandler("correct", n)}
-                    sx={{
+                    className={css({
                       color: "red.600",
                       _dark: {
                         color: "red.300",
@@ -348,7 +348,7 @@ const AQLBoardPage: React.FC = () => {
                     colorScheme="blue"
                     isDisabled={wrong >= 2}
                     onClick={() => onClickHandler("wrong", n)}
-                    sx={{
+                    className={css({
                       color: "blue.600",
                       _dark: {
                         color: "blue.300",

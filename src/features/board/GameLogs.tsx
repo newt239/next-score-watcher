@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { Button } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
+import Button from "#/components/Button";
 import useDeviceWidth from "#/features/hooks/useDeviceWidth";
 import db from "#/utils/db";
 import { LogDBProps, QuizDBProps } from "#/utils/types";
@@ -60,7 +60,6 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           leftIcon={reverse ? <SortAscending /> : <SortDescending />}
           onClick={() => setReverse((v) => !v)}
           size="sm"
-          sx={{ mb: 2 }}
         >
           {reverse ? "降順" : "昇順"}
         </Button>

@@ -32,11 +32,11 @@ const BottomBar = () => {
       <ReactLink style={{ width: "25%", textAlign: "center" }} to="/">
         <LinkBox
           aria-label="ホーム"
-          color={location.pathname === "/" ? "green.500" : undefined}
-          sx={{
+          className={css({
             width: "100%",
             borderRadius: 0,
-          }}
+          })}
+          color={location.pathname === "/" ? "green.500" : undefined}
         >
           <div
             className={css({
@@ -53,11 +53,11 @@ const BottomBar = () => {
       <ReactLink style={{ width: "25%" }} to="/player">
         <LinkBox
           aria-label="プレイヤー"
-          color={location.pathname === "/player" ? "green.500" : undefined}
-          sx={{
+          className={css({
             width: "100%",
             borderRadius: 0,
-          }}
+          })}
+          color={location.pathname === "/player" ? "green.500" : undefined}
         >
           <div
             className={css({
@@ -74,11 +74,11 @@ const BottomBar = () => {
       <ReactLink style={{ width: "25%" }} to="/quiz">
         <LinkBox
           aria-label="問題"
-          color={location.pathname === "/quiz" ? "green.500" : undefined}
-          sx={{
+          className={css({
             width: "100%",
             borderRadius: 0,
-          }}
+          })}
+          color={location.pathname === "/quiz" ? "green.500" : undefined}
         >
           <div
             className={css({
@@ -95,11 +95,11 @@ const BottomBar = () => {
       <ReactLink style={{ width: "25%" }} to="/option">
         <LinkBox
           aria-label="設定"
-          color={location.pathname === "/option" ? "green.500" : undefined}
-          sx={{
+          className={css({
             width: "100%",
             borderRadius: 0,
-          }}
+          })}
+          color={location.pathname === "/option" ? "green.500" : undefined}
         >
           <div
             className={css({

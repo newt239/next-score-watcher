@@ -26,7 +26,6 @@ import {
   Tag,
   TagLabel,
   TagRightIcon,
-  Thead,
   UnorderedList,
   useDisclosure,
   useToast,
@@ -124,6 +123,7 @@ const PlayerTable: React.FC = () => {
           <Tag colorScheme="green" key={tagi} size="sm">
             <TagLabel>{tag}</TagLabel>
             <TagRightIcon
+              className={css({ cursor: "pointer" })}
               onClick={async () => {
                 await db.players.update(info.row.original.id, {
                   tags: info.row.original.tags.filter(
@@ -131,7 +131,6 @@ const PlayerTable: React.FC = () => {
                   ),
                 });
               }}
-              sx={{ cursor: "pointer" }}
             >
               <X />
             </TagRightIcon>
@@ -249,9 +248,9 @@ const PlayerTable: React.FC = () => {
                     <Filter />
                   </InputLeftElement>
                   <Input
+                    className={css({ maxW: 300 })}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder="フリーワードで検索"
-                    sx={{ maxW: 300 }}
                     value={searchText}
                   />
                 </InputGroup>
@@ -268,7 +267,7 @@ const PlayerTable: React.FC = () => {
             <>
               <div>
                 <table>
-                  <Thead>
+                  <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                       <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header, i) => (
@@ -283,7 +282,7 @@ const PlayerTable: React.FC = () => {
                         ))}
                       </tr>
                     ))}
-                  </Thead>
+                  </thead>
                   <tbody>
                     {table.getRowModel().rows.map((row) => {
                       return (
