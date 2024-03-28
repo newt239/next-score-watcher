@@ -3,6 +3,7 @@ import { css } from "@panda/css";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
+import { InfoCircle } from "tabler-icons-react";
 
 import PlayerScoreButton from "~/features/board/PlayerScoreButton";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
@@ -348,6 +349,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                   position: "fixed",
                   bottom: "1rem",
                   right: "1rem",
+                  textAlign: "right",
                 })}
               >
                 <Button
@@ -365,6 +367,19 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 >
                   次の問題へ
                 </Button>
+                <div
+                  className={css({
+                    display: "flex",
+                    borderRadius: "8px",
+                    backgroundColor: "white",
+                    _dark: {
+                      backgroundColor: "gray.800",
+                    },
+                  })}
+                >
+                  <InfoCircle />
+                  誤答ボタンの再クリックで解除
+                </div>
               </div>
             )}
         </>
