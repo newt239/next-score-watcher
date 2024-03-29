@@ -14,10 +14,13 @@ import {
   PopoverTrigger,
   Portal,
   Select,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { css } from "@panda/css";
 import { nanoid } from "nanoid";
 import { Plus } from "tabler-icons-react";
+import db from "~/utils/db";
+import AlertDialog from "./AlertDialog";
 
 const ProfileSelector: React.FC = () => {
   const raw = window.localStorage.getItem("scorew_profile_list");
@@ -29,6 +32,7 @@ const ProfileSelector: React.FC = () => {
   const currentProfileName =
     profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Popover>
@@ -52,6 +56,7 @@ const ProfileSelector: React.FC = () => {
               <FormControl>
                 <FormLabel>選択する</FormLabel>
                 <Select
+                  defaultValue={currentProfile}
                   onChange={(e) => {
                     window.localStorage.setItem(
                       "scorew_current_profile",
@@ -65,9 +70,7 @@ const ProfileSelector: React.FC = () => {
                       {p.name}
                     </option>
                   ))}
-                  {profileList.length === 0 && (
-                    <option value="score_watcher">デフォルト</option>
-                  )}
+                  <option value="score_watcher">デフォルト</option>
                 </Select>
               </FormControl>
               <FormControl>
@@ -104,6 +107,39 @@ const ProfileSelector: React.FC = () => {
                   作成
                 </Button>
               </FormControl>
+              {currentProfile !== "score_watcher" && (
+                <FormControl>
+                  <FormLabel>削除する</FormLabel>
+                  <p>現在のプロファイルを削除します。</p>
+                  <Button colorScheme="red" onClick={onOpen}>
+                    削除
+                  </Button>
+                  <AlertDialog
+                    body={`現在のプロファイル「${currentProfileName}」を削除します。この操作は取り消せません。`}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    onConfirm={() => {
+                      const newProfileList = profileList.filter(
+                        (p) => p.id !== currentProfile
+                      );
+                      window.localStorage.setItem(
+                        "scorew_profile_list",
+                        JSON.stringify(newProfileList)
+                      );
+                      window.localStorage.setItem(
+                        "scorew_current_profile",
+                        "score_watcher"
+                      );
+                      db(currentProfile)
+                        .delete()
+                        .then(() => {
+                          window.location.reload();
+                        });
+                    }}
+                    title="プロファイルの削除"
+                  />
+                </FormControl>
+              )}
             </div>
           </PopoverBody>
         </PopoverContent>
