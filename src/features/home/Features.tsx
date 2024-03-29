@@ -21,7 +21,7 @@ const EachFeature: React.FC<FeatureProps> = ({
         alignItems: side === "left" ? "flex-start" : "flex-end",
         gap: "0.5rem",
         margin: "10px",
-        marginTop: "50px",
+        py: "50px",
         fontSize: "1.5rem",
         lg: {
           margin: "50px",
@@ -112,7 +112,16 @@ const Features: React.FC = () => {
   ];
 
   return (
-    <div>
+    <div
+      className={css({
+        backgroundImage:
+          "linear-gradient(0deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px)),linear-gradient(90deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px))",
+        backgroundSize: "20px 20px",
+        backgroundPosition: "center center",
+        backgroundRepeat: "repeat",
+        zIndex: -2,
+      })}
+    >
       {features.map((feature) => (
         <EachFeature {...feature} />
       ))}
