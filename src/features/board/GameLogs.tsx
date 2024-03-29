@@ -1,18 +1,10 @@
 import { useEffect, useState } from "react";
 
-import {
-  Box,
-  Button,
-  Flex,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Tr,
-} from "@chakra-ui/react";
+import { Button, Table, TableContainer, Tbody, Td, Tr } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
+import { css } from "@panda/css";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { LogDBProps, QuizDBProps } from "~/utils/types";
@@ -43,16 +35,17 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
-    <Flex
-      sx={{
+    <div
+      className={css({
+        display: "flex",
         p: 3,
         my: 10,
         maxW: "100vw",
         justifyContent: "center",
-      }}
+      })}
     >
-      <Box
-        sx={{
+      <div
+        className={css({
           borderStyle: "solid",
           borderWidth: desktop ? 3 : 1,
           borderColor: "gray.100",
@@ -61,7 +54,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           _dark: {
             borderColor: "gray.700",
           },
-        }}
+        })}
       >
         <Button
           leftIcon={reverse ? <SortAscending /> : <SortDescending />}
@@ -127,8 +120,8 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         ) : (
           <p>ここに解答者の一覧が表示されます。</p>
         )}
-      </Box>
-    </Flex>
+      </div>
+    </div>
   );
 };
 

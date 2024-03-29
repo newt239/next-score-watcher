@@ -13,7 +13,7 @@ import {
 } from "~/utils/jotai";
 
 const Preferences = () => {
-  const desktop = useDeviceWidth();
+  const isDesktop = useDeviceWidth();
 
   const [showWinthroughPopup, showSetWinthroughPopup] = useAtom(
     showWinthroughPopupAtom
@@ -53,9 +53,11 @@ const Preferences = () => {
       <AppOptionSwitch
         isChecked={reversePlayerInfo}
         onChange={() => setReversePlayerInfo((v) => !v)}
-        title={`スコアを名前の${desktop && !verticalView ? "上" : "左"}に表示`}
+        title={`スコアを名前の${
+          isDesktop && !verticalView ? "上" : "左"
+        }に表示`}
       />
-      {desktop && (
+      {isDesktop && (
         <AppOptionSwitch
           isChecked={verticalView}
           onChange={() => setVerticalView((v) => !v)}

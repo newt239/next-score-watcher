@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 
 import {
-  Box,
   Button,
   ButtonGroup,
-  Flex,
   FormControl,
   FormLabel,
   IconButton,
@@ -30,8 +28,8 @@ import {
   Settings,
 } from "tabler-icons-react";
 
+import { css } from "@panda/css";
 import PreferenceModal from "~/features/board/PreferenceModal";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 import { showQnAtom } from "~/utils/jotai";
@@ -47,7 +45,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
-  const isDesktop = useDeviceWidth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const showQn = useAtomValue(showQnAtom);
@@ -89,8 +86,9 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   return (
     <>
-      <Flex
-        sx={{
+      <div
+        className={css({
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           gap: [0, 0, 3],
@@ -104,10 +102,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             borderColor: "gray.500",
             bgColor: "gray.700",
           },
-        }}
+        })}
       >
-        <Flex
-          sx={{
+        <div
+          className={css({
+            display: "flex",
             p: 0,
             maxWidth: [`calc(100vw - ${showQn ? 10 : 3}rem)`, null, "30vw"],
             color: "green.600",
@@ -117,28 +116,31 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             _dark: {
               color: "green.300",
             },
-          }}
+          })}
         >
           <h2 style={{ lineHeight: "2rem", overflow: "hidden" }}>
             {game.name}
           </h2>
           <p>{getRuleStringByType(game)}</p>
-        </Flex>
+        </div>
         {showQn && (
-          <Flex
-            sx={{
+          <div
+            className={css({
+              display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-            }}
+            })}
           >
-            <Box sx={{ whiteSpace: "nowrap", lineHeight: "2.5rem" }}>
+            <div
+              className={css({ whiteSpace: "nowrap", lineHeight: "2.5rem" })}
+            >
               第
               <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
                 {game.editable ? manualQuizPosition + 1 : logs.length + 1}
               </span>
               問
-            </Box>
+            </div>
             {game.editable && (
               <ButtonGroup
                 isAttached
@@ -162,58 +164,57 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 </Button>
               </ButtonGroup>
             )}
-          </Flex>
+          </div>
         )}
-        {isDesktop && (
-          <>
-            {game.quiz && quizList.length > quizPosition && (
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                  fontSize: "1.5rem",
-                  lineHeight: "1.5rem",
-                  overflow: "hidden",
-                }}
-              >
-                <Box sx={{ maxHeight: "8vh" }}>
-                  {qn === 0 || quizPosition < 0
-                    ? "ここに問題文が表示されます"
-                    : quizList[quizPosition].q}
-                </Box>
-                <Box
-                  sx={{
-                    textAlign: "right",
-                    color: "red.600",
-                    bgColor: "gray.50",
-                    fontWeight: 800,
-                    _dark: {
-                      color: "red.300",
-                      bgColor: "gray.700",
-                    },
-                  }}
-                >
-                  {qn === 0 || quizPosition < 0
-                    ? "ここに答えが表示されます"
-                    : quizList[quizPosition].a}
-                </Box>
-              </Box>
-            )}
-          </>
+        {game.quiz && quizList.length > quizPosition && (
+          <div
+            className={css({
+              display: "none",
+              lg: {
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "100%",
+                fontSize: "1.5rem",
+                lineHeight: "1.5rem",
+                overflow: "hidden",
+              },
+            })}
+          >
+            <div className={css({ maxHeight: "8vh" })}>
+              {qn === 0 || quizPosition < 0
+                ? "ここに問題文が表示されます"
+                : quizList[quizPosition].q}
+            </div>
+            <div
+              className={css({
+                textAlign: "right",
+                color: "red.600",
+                bgColor: "gray.50",
+                fontWeight: 800,
+                _dark: {
+                  color: "red.300",
+                  bgColor: "gray.700",
+                },
+              })}
+            >
+              {qn === 0 || quizPosition < 0
+                ? "ここに答えが表示されます"
+                : quizList[quizPosition].a}
+            </div>
+          </div>
         )}
         <Menu closeOnSelect={false}>
           <MenuButton
             as={IconButton}
             icon={<Settings />}
-            sx={{
+            className={css({
               borderColor: "gray.300",
               _dark: {
                 borderColor: "gray.500",
               },
-            }}
+            })}
             variant="outline"
           />
           <MenuList>
@@ -271,11 +272,11 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               }}
             >
               <FormControl
-                as={Flex}
-                sx={{
+                className={css({
+                  display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                }}
+                })}
               >
                 <FormLabel mb="0">スコアの手動更新</FormLabel>
                 <Switch isChecked={game.editable} />
@@ -313,7 +314,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </MenuItem>
           </MenuList>
         </Menu>
-      </Flex>
+      </div>
       <PreferenceModal isOpen={isOpen} onClose={onClose} />
     </>
   );

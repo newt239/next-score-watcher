@@ -37,7 +37,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
   return (
     <Box
       sx={{
-        margin: !isVerticalView && isDesktop ? "auto" : undefined,
+        margin: !isVerticalView && isDesktop ? "auto" : 0,
       }}
     >
       <Popover>

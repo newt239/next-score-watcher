@@ -4,11 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Card,
-  ListItem,
   TabPanel,
   TabPanels,
   Tabs,
-  UnorderedList,
   VStack,
   useDisclosure,
   useToast,
@@ -124,7 +122,7 @@ const ConfigPage = () => {
       >
         <InputLayout
           label={
-            <UnorderedList
+            <ul
               className={css({
                 color: "red.500",
                 _dark: {
@@ -133,9 +131,9 @@ const ConfigPage = () => {
               })}
             >
               {errorMessages.map((m) => (
-                <ListItem key={m}>{m}</ListItem>
+                <li key={m}>{m}</li>
               ))}
-            </UnorderedList>
+            </ul>
           }
           simple
           vertical={!isDesktop}
