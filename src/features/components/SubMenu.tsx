@@ -5,6 +5,7 @@ import ButtonLink from "~/components/custom/ButtonLink";
 
 const linkList: { text: string; path: string }[] = [
   { path: "/", text: "ホーム" },
+  { path: "/rules", text: "形式一覧" },
   { path: "/games", text: "作成したゲーム" },
   { path: "/players", text: "プレイヤー管理" },
   { path: "/quizes", text: "問題管理" },

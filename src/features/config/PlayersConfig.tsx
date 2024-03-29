@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 
-import {
-  Box,
-  Card,
-  CardBody,
-  Flex,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Card, CardBody } from "@chakra-ui/react";
 import { ReactSortable } from "react-sortablejs";
 
+import { css } from "@panda/css";
 import IndividualConfig from "~/features/config/IndividualConfig";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
@@ -42,9 +35,9 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   }, [players]);
 
   return (
-    <Box>
+    <>
       <h2>プレイヤー設定</h2>
-      <Box pt={5}>
+      <div>
         <h3>プレイヤー選択</h3>
         <SelectPlayerDrawer
           disabled={disabled}
@@ -52,20 +45,20 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
           playerList={playerList}
           players={players}
         />
-      </Box>
-      <Box pt={5}>
-        <h3>{isDesktop ? "個人設定" : "並び替え"}</h3>
+      </div>
+      <div>
+        <h3>並び替え</h3>
         {players.length !== 0 ? (
           <>
-            <Box
-              sx={{
+            <div
+              className={css({
                 mt: 3,
                 p: 3,
                 bgColor: "gray.300",
                 _dark: {
                   bgColor: "gray.600",
                 },
-              }}
+              })}
             >
               <ReactSortable
                 animation={200}
@@ -89,11 +82,14 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                     }
                   })();
                 }}
-                style={{
+                className={css({
                   display: "flex",
-                  flexDirection: isDesktop ? "row" : "column",
+                  flexDirection: "column",
                   gap: 5,
-                }}
+                  lg: {
+                    flexDirection: "row",
+                  },
+                })}
               >
                 {sortableList.map((player, index) => (
                   <Card
@@ -107,26 +103,28 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                     }}
                   >
                     <CardBody>
-                      <Flex
-                        sx={{
+                      <div
+                        className={css({
+                          display: "flex",
                           flexDirection: isDesktop ? "column" : "row",
                           gap: 3,
                           justifyContent: "space-between",
                           alignItems: "center",
                           height: "100%",
-                        }}
+                        })}
                       >
-                        <Box
-                          sx={{
-                            writingMode: isDesktop
-                              ? "vertical-rl"
-                              : "horizontal-tb",
+                        <div
+                          className={css({
+                            writingMode: "horizontal-tb",
                             whiteSpace: "nowrap",
                             textOrientation: "upright",
-                          }}
+                            lg: {
+                              writingMode: "vertical-rl",
+                            },
+                          })}
                         >
-                          <Text size="xl">{player.name}</Text>
-                        </Box>
+                          <p>{player.name}</p>
+                        </div>
                         {isDesktop && (
                           <IndividualConfig
                             correct={[
@@ -156,47 +154,52 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                             ].includes(rule_name)}
                           />
                         )}
-                      </Flex>
+                      </div>
                     </CardBody>
                   </Card>
                 ))}
               </ReactSortable>
-            </Box>
-            <Text pt={2}>
+            </div>
+            <p>
               ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
-            </Text>
+            </p>
           </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
         ) : (
-          <Box pt={3}>ここに選択されたプレイヤーが表示されます</Box>
+          <div>ここに選択されたプレイヤーが表示されます</div>
         )}
-      </Box>
-      {!isDesktop && (
-        <Box pt={5}>
-          <h3>個人設定</h3>
-          <UnorderedList>
-            {sortableList.map((player, index) => (
-              <ListItem key={player.id} lineHeight="3rem">
-                <span>{player.name}</span>
-                <IndividualConfig
-                  correct={[
-                    "normal",
-                    "nomx",
-                    "nomx-ad",
-                    "ny",
-                    "nomr",
-                    "variables",
-                    "attacksurvival",
-                  ].includes(rule_name)}
-                  disabled={disabled}
-                  index={index}
-                  wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(rule_name)}
-                />
-              </ListItem>
-            ))}
-          </UnorderedList>
-        </Box>
-      )}
-    </Box>
+      </div>
+      <div
+        className={css({
+          display: "block",
+          lg: {
+            display: "none",
+          },
+        })}
+      >
+        <h3>個人設定</h3>
+        <ul>
+          {sortableList.map((player, index) => (
+            <li key={player.id}>
+              <span>{player.name}</span>
+              <IndividualConfig
+                correct={[
+                  "normal",
+                  "nomx",
+                  "nomx-ad",
+                  "ny",
+                  "nomr",
+                  "variables",
+                  "attacksurvival",
+                ].includes(rule_name)}
+                disabled={disabled}
+                index={index}
+                wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(rule_name)}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

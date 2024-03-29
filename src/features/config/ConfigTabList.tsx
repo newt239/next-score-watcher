@@ -14,6 +14,9 @@ const ConfigTab: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         _selected: {
           bgColor: "blue.500",
           color: "white",
+          _hover: {
+            bgColor: "blue.600",
+          },
         },
         _dark: {
           borderColor: "gray.700",

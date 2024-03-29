@@ -1,7 +1,5 @@
 import { Link as ReactLink } from "react-router-dom";
 
-import { ExternalLink } from "tabler-icons-react";
-
 import { RecipeVariantProps, css, cva, cx } from "@panda/css";
 import { SystemStyleObject } from "@panda/types";
 
@@ -35,7 +33,6 @@ const Link: React.FC<LinkProps> = (props) => {
       target={href.startsWith("http") ? "_blank" : "_self"}
     >
       {children}
-      {href.startsWith("http") && <ExternalLink />}
     </ReactLink>
   );
 };

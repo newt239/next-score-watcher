@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Flex, useColorMode } from "@chakra-ui/react";
+import { useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
+import { css } from "@panda/css";
 import PlayerColorConfig from "~/features/board/PlayerColorConfig";
 import PlayerHeader from "~/features/board/PlayerHeader";
 import PlayerName from "~/features/board/PlayerName";
@@ -72,8 +73,9 @@ const Player: React.FC<PlayerProps> = ({
   };
 
   return (
-    <Flex
-      sx={{
+    <div
+      className={css({
+        display: "flex",
         flexDirection,
         justifyContent: "space-between",
         alignItems: "stretch",
@@ -99,10 +101,11 @@ const Player: React.FC<PlayerProps> = ({
         overflowX: "scroll",
         overflowY: "hidden",
         transition: "all 0.2s ease",
-      }}
+      })}
     >
-      <Flex
-        sx={{
+      <div
+        className={css({
+          display: "flex",
           flexGrow: 1,
           w: isDesktop ? (isVerticalView ? "40vw" : "100%") : "100%",
           h:
@@ -113,7 +116,7 @@ const Player: React.FC<PlayerProps> = ({
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
           pl: !isVerticalView && isDesktop ? undefined : "0.5rem",
           overflowX: "hidden",
-        }}
+        })}
       >
         {game.editable ? (
           <PlayerColorConfig
@@ -131,13 +134,13 @@ const Player: React.FC<PlayerProps> = ({
           />
         )}
         <PlayerName isVerticalView={isVerticalView} player_name={player.name} />
-      </Flex>
+      </div>
       <PlayerScore
         game={game}
         isVerticalView={(isVerticalView && isDesktop) || !isDesktop}
         player={editedScore}
       />
-    </Flex>
+    </div>
   );
 };
 

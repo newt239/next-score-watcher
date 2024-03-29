@@ -26,7 +26,9 @@ const Term: React.FC = () => {
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
         </li>
         <li>
-          <Link href="https://forms.gle/T6CGBZntoGAiQSxH9">Googleフォーム</Link>
+          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform">
+            Googleフォーム
+          </Link>
           でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
         </li>
       </ul>
