@@ -25,7 +25,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
     const getQuizes = async () => {
       if (quiz) {
         setQuizList(
-          await db.quizes.where({ set_name: quiz.set_name }).sortBy("n")
+          await db().quizes.where({ set_name: quiz.set_name }).sortBy("n")
         );
       }
     };

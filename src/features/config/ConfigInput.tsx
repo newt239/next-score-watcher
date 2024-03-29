@@ -32,7 +32,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 }) => {
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
   const debouncedInputText = useDebounce(inputText, 500);
 
@@ -44,7 +44,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 
   useEffect(() => {
     if (inputText !== "") {
-      db.games.update(game_id as string, {
+      db().games.update(game_id as string, {
         [input_id]: inputText,
       });
     }

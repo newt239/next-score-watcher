@@ -20,7 +20,7 @@ export const createGame = async (
       category: "engagement",
       label: param.game.rule,
     });
-    const game_id = await db.games.put({
+    const game_id = await db().games.put({
       ...param.game,
       id: nanoid(),
       name: `${param.game.name}のコピー`,
@@ -46,7 +46,7 @@ export const createGame = async (
           last_open: cdate().text(),
         };
       const { description, rows, ...params } = rules[param];
-      await db.games.put({
+      await db().games.put({
         ...commonGameProps,
         ...params,
       });

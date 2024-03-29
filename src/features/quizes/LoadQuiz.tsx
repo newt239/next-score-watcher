@@ -44,7 +44,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           });
         }
       }
-      await db.quizes.bulkPut(dataArray);
+      await db().quizes.bulkPut(dataArray);
       if (dataArray.length !== 0) {
         toast({
           title: "データをインポートしました",

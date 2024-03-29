@@ -35,13 +35,19 @@ const ConfigPage = () => {
   const isDesktop = useDeviceWidth();
   const { game_id } = useParams();
   const toast = useToast();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
-  const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
-  const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).toArray(),
+  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const players = useLiveQuery(
+    () => db().players.orderBy("name").toArray(),
     []
   );
-  const quizes = useLiveQuery(() => db.quizes.toArray(), []);
+  const logs = useLiveQuery(
+    () =>
+      db()
+        .logs.where({ game_id: game_id as string })
+        .toArray(),
+    []
+  );
+  const quizes = useLiveQuery(() => db().quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -49,14 +55,14 @@ const ConfigPage = () => {
 
   useEffect(() => {
     setTabIndex(0);
-    db.games.update(game_id as string, { last_open: cdate().text() });
+    db().games.update(game_id as string, { last_open: cdate().text() });
     document.title = "ゲーム設定 | Score Watcher";
   }, []);
 
   if (!game || !players || !logs) return null;
 
   const deleteGame = async () => {
-    await db.games.delete(game.id);
+    await db().games.delete(game.id);
     toast({
       title: "ゲームを削除しました",
       description: `${game.name}(${rules[game.rule].name})を削除しました`,

@@ -37,14 +37,14 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
   };
 
   const addNewPlayer = async () => {
-    const player_id = await db.players.put({
+    const player_id = await db().players.put({
       id: nanoid(),
       name: playerName,
       text: playerText,
       belong: playerBelong,
       tags: [],
     });
-    await db.games.update(game_id, {
+    await db().games.update(game_id, {
       players: [
         ...players,
         {

@@ -23,20 +23,23 @@ import { ComputedScoreProps, PlayerDBProps } from "~/utils/types";
 const BoardPage = () => {
   const { game_id } = useParams();
   const navigate = useNavigate();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
+    () =>
+      db()
+        .logs.where({ game_id: game_id as string })
+        .sortBy("timestamp"),
     []
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
-  const playerList = useLiveQuery(() => db.players.toArray(), []);
+  const playerList = useLiveQuery(() => db().players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
   const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
-    db.games.update(game_id as string, { last_open: cdate().text() });
+    db().games.update(game_id as string, { last_open: cdate().text() });
   }, []);
 
   useEffect(() => {
@@ -109,7 +112,7 @@ const BoardPage = () => {
           playerIndex <= players.length
         ) {
           if (playerIndex === 0 && players.length >= 10) {
-            await db.logs.put({
+            await db().logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[9].id,
@@ -118,7 +121,7 @@ const BoardPage = () => {
               timestamp: cdate().text(),
             });
           } else if (playerIndex > 0) {
-            await db.logs.put({
+            await db().logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[playerIndex - 1].id,
@@ -132,7 +135,7 @@ const BoardPage = () => {
         const playerIndex =
           ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
         if (playerIndex <= players.length) {
-          await db.logs.put({
+          await db().logs.put({
             id: nanoid(),
             game_id: game.id,
             player_id: players[playerIndex].id,
@@ -146,10 +149,10 @@ const BoardPage = () => {
         (event.code === "KeyZ" && event.ctrlKey)
       ) {
         if (logs.length !== 0) {
-          await db.logs.delete(logs[logs.length - 1].id);
+          await db().logs.delete(logs[logs.length - 1].id);
         }
       } else if (event.code === "Period") {
-        await db.logs.put({
+        await db().logs.put({
           id: nanoid(),
           game_id: game.id,
           player_id: "-",
@@ -249,7 +252,7 @@ const BoardPage = () => {
             <Button
               colorScheme="blue"
               onClick={() =>
-                db.logs.put({
+                db().logs.put({
                   id: nanoid(),
                   game_id: game.id,
                   player_id: "-",
@@ -267,7 +270,7 @@ const BoardPage = () => {
                 <Button
                   colorScheme="green"
                   onClick={() =>
-                    db.logs.put({
+                    db().logs.put({
                       id: nanoid(),
                       game_id: game.id,
                       player_id: "-",

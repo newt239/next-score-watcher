@@ -28,7 +28,10 @@ const AQLBoardPage: React.FC = () => {
       )
     : undefined;
   const logs = useLiveQuery(
-    () => db.logs.where({ game_id: game_id as string }).sortBy("timestamp"),
+    () =>
+      db()
+        .logs.where({ game_id: game_id as string })
+        .sortBy("timestamp"),
     []
   );
   const [end, setEnd] = useState<boolean>(false);
@@ -129,7 +132,7 @@ const AQLBoardPage: React.FC = () => {
   };
 
   const onClickHandler = async (variant: "correct" | "wrong", n: number) => {
-    await db.logs.put({
+    await db().logs.put({
       id: nanoid(),
       game_id: game_id as string,
       player_id: String(n),
@@ -148,7 +151,7 @@ const AQLBoardPage: React.FC = () => {
       if (event.code.startsWith("Digit")) {
         const playerIndex = Number(event.code[5]);
         if (gameState.scores[playerIndex === 0 ? 9 : playerIndex - 1].wrong < 2)
-          await db.logs.put({
+          await db().logs.put({
             id: nanoid(),
             game_id: game.id,
             player_id: playerIndex === 0 ? String(9) : String(playerIndex - 1),
@@ -158,10 +161,10 @@ const AQLBoardPage: React.FC = () => {
           });
       } else if (event.code === "Comma") {
         if (logs.length !== 0) {
-          await db.logs.delete(logs[logs.length - 1].id);
+          await db().logs.delete(logs[logs.length - 1].id);
         }
       } else if (event.code === "Period") {
-        await db.logs.put({
+        await db().logs.put({
           id: nanoid(),
           game_id: game.id,
           player_id: "-",

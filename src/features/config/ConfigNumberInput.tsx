@@ -32,7 +32,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
 }) => {
   const id = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
 
   if (!game) return null;
 
@@ -47,7 +47,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
         max={max}
         min={min}
         onChange={(s, n) => {
-          db.games.update(game_id as string, {
+          db().games.update(game_id as string, {
             [input_id]: n,
           });
         }}

@@ -34,9 +34,11 @@ const OptionPage = () => {
 
   const deleteAppData = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);
-    db.delete().then(() => {
-      navigate(0);
-    });
+    db()
+      .delete()
+      .then(() => {
+        navigate(0);
+      });
   };
 
   return (

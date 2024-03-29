@@ -60,8 +60,11 @@ import db from "~/utils/db";
 import { PlayerDBProps } from "~/utils/types";
 
 const PlayerTable: React.FC = () => {
-  const games = useLiveQuery(() => db.games.toArray(), []);
-  const players = useLiveQuery(() => db.players.orderBy("name").toArray(), []);
+  const games = useLiveQuery(() => db().games.toArray(), []);
+  const players = useLiveQuery(
+    () => db().players.orderBy("name").toArray(),
+    []
+  );
   const [searchText, setSearchText] = useState<string>("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -134,7 +137,7 @@ const PlayerTable: React.FC = () => {
             <TagLabel>{tag}</TagLabel>
             <TagRightIcon
               onClick={async () => {
-                await db.players.update(info.row.original.id, {
+                await db().players.update(info.row.original.id, {
                   tags: info.row.original.tags.filter(
                     (playerTag) => playerTag !== tag
                   ),
@@ -194,10 +197,10 @@ const PlayerTable: React.FC = () => {
 
   const deletePlayers = async () => {
     alertOnClose();
-    await db.players.bulkDelete(deletePlayerList);
-    await db.logs.where("player_id").anyOf(deletePlayerList).delete();
-    await db.games
-      .where("id")
+    await db().players.bulkDelete(deletePlayerList);
+    await db().logs.where("player_id").anyOf(deletePlayerList).delete();
+    await db()
+      .games.where("id")
       .anyOf(affectedGameList.map((game) => game.id))
       .modify({ players: [] });
     toast({
@@ -374,7 +377,7 @@ const PlayerTable: React.FC = () => {
                   colorScheme="blue"
                   leftIcon={<DeviceFloppy />}
                   onClick={async () => {
-                    await db.players.update(currentPlayer.id!, currentPlayer);
+                    await db().players.update(currentPlayer.id!, currentPlayer);
                     onClose();
                   }}
                 >

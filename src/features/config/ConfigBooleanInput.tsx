@@ -32,7 +32,7 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
 }) => {
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
 
   if (!game || !game.options) return null;
 
@@ -72,7 +72,7 @@ const ConfigBooleanInput: React.FC<ConfigInputProps[RuleNames]> = ({
         isChecked={isChecked}
         isDisabled={disabled}
         onChange={(v) => {
-          db.games.update(game_id as string, {
+          db().games.update(game_id as string, {
             options: {
               ...game.options,
               [input_id]: v.target.checked,

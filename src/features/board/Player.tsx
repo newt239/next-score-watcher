@@ -31,7 +31,7 @@ const Player: React.FC<PlayerProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
   const isDesktop = useDeviceWidth();
   const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);

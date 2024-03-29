@@ -20,16 +20,16 @@ type ConfigLimitProps = {
 };
 
 const ConfigLimit: React.FC<ConfigLimitProps> = ({ rule, game_id }) => {
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
 
   if (!game) return null;
 
   const onGameLimitToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    db.games.update(game_id, {
+    db().games.update(game_id, {
       limit: event.target.checked ? 10 : undefined,
     });
     if (rule !== "attacksurvival") {
-      db.games.update(game_id, {
+      db().games.update(game_id, {
         win_through: event.target.checked ? 3 : undefined,
       });
     }
@@ -51,7 +51,7 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({ rule, game_id }) => {
             max={100}
             min={0}
             onChange={(s, n) => {
-              db.games.update(game_id, {
+              db().games.update(game_id, {
                 limit: isNaN(n) ? 0 : n,
               });
             }}
@@ -71,7 +71,7 @@ const ConfigLimit: React.FC<ConfigLimitProps> = ({ rule, game_id }) => {
             max={100}
             min={0}
             onChange={(s, n) => {
-              db.games.update(game_id, {
+              db().games.update(game_id, {
                 win_through: isNaN(n) ? 0 : n,
               });
             }}

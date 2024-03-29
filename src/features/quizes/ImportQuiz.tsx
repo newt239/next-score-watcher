@@ -58,7 +58,7 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         };
       })
       .filter((row) => row.q !== "");
-    await db.quizes.bulkPut(filteredRows);
+    await db().quizes.bulkPut(filteredRows);
     return filteredRows.length;
   };
 

@@ -13,10 +13,10 @@ import { getRuleStringByType } from "~/utils/rules";
 
 const GamesPage: React.FC = () => {
   const games = useLiveQuery(
-    () => db.games.orderBy("last_open").reverse().toArray(),
+    () => db().games.orderBy("last_open").reverse().toArray(),
     []
   );
-  const logs = useLiveQuery(() => db.logs.toArray(), []);
+  const logs = useLiveQuery(() => db().logs.toArray(), []);
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
 
   const parsedGameList = (games || [])

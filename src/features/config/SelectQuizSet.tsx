@@ -36,7 +36,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
             <Select
               defaultValue={game_quiz?.set_name || ""}
               onChange={async (v) => {
-                await db.games.update(game_id as string, {
+                await db().games.update(game_id as string, {
                   quiz: {
                     set_name: v.target.value,
                     offset: game_quiz?.offset || 0,
@@ -58,7 +58,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
               <NumberInput
                 min={0}
                 onChange={(_s, n) => {
-                  db.games.update(game_id as string, {
+                  db().games.update(game_id as string, {
                     quiz: {
                       set_name: game_quiz.set_name,
                       offset: n,

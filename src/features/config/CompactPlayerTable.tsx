@@ -173,7 +173,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             }
           }
         );
-        await db.games.update(game_id, {
+        await db().games.update(game_id, {
           players: newGamePlayers,
         });
       }

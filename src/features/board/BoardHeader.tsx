@@ -53,7 +53,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     const getQuizList = async () => {
       if (game.quiz) {
         setQuizList(
-          await db.quizes.where({ set_name: game.quiz.set_name }).sortBy("n")
+          await db().quizes.where({ set_name: game.quiz.set_name }).sortBy("n")
         );
       }
     };
@@ -223,7 +223,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               isDisabled={game.editable}
               onClick={async () => {
                 try {
-                  await db.logs.put({
+                  await db().logs.put({
                     id: nanoid(),
                     game_id: game.id,
                     player_id: "-",
@@ -247,7 +247,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               }
               onClick={async () => {
                 if (logs.length !== 0) {
-                  await db.logs.delete(logs[logs.length - 1].id);
+                  await db().logs.delete(logs[logs.length - 1].id);
                   recordEvent({
                     action: "undo_log",
                     category: "engagement",
@@ -261,7 +261,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             <MenuItem
               icon={<HandClick />}
               onClick={async () => {
-                await db.games.update(game.id, {
+                await db().games.update(game.id, {
                   editable: !game.editable,
                 });
                 recordEvent({

@@ -100,7 +100,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   const handleClick = async () => {
     if (color !== "green" && !disabled) {
       try {
-        await db.logs.put({
+        await db().logs.put({
           id: nanoid(),
           game_id,
           player_id,

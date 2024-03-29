@@ -39,7 +39,7 @@ const LoadPlayer: React.FC = () => {
           dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
         }
       }
-      await db.players.bulkPut(dataArray);
+      await db().players.bulkPut(dataArray);
       if (dataArray.length !== 0) {
         toast({
           title: "データをインポートしました",

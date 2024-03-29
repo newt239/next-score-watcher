@@ -38,7 +38,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
 }) => {
   const { isOpen, onToggle, onClose } = useDisclosure();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db.games.get(game_id as string));
+  const game = useLiveQuery(() => db().games.get(game_id as string));
 
   if ((!correct && !wrong) || !game || game.players.length <= index)
     return null;
@@ -84,7 +84,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                       return gamePlayer;
                     }
                   });
-                  await db.games.update(game_id as string, {
+                  await db().games.update(game_id as string, {
                     players: newPlayers,
                   });
                 }}
@@ -106,7 +106,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 min={0}
                 onChange={async (s, n) => {
                   if (game) {
-                    await db.games.update(game_id as string, {
+                    await db().games.update(game_id as string, {
                       players: game.players.map((gamePlayer, pi) =>
                         pi === index
                           ? {
@@ -135,7 +135,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
                 min={3}
                 onChange={async (s, n) => {
                   if (game) {
-                    await db.games.update(game_id as string, {
+                    await db().games.update(game_id as string, {
                       players: game.players.map((gamePlayer, pi) =>
                         pi === index
                           ? {

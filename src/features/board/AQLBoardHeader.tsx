@@ -69,7 +69,9 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   useEffect(() => {
     const getQuizList = async () => {
       if (quiz_set) {
-        setQuizList(await db.quizes.where({ set_name: quiz_set }).sortBy("n"));
+        setQuizList(
+          await db().quizes.where({ set_name: quiz_set }).sortBy("n")
+        );
       }
     };
     getQuizList();
@@ -186,7 +188,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 icon={<Comet />}
                 onClick={async () => {
                   try {
-                    await db.logs.put({
+                    await db().logs.put({
                       id: nanoid(),
                       game_id: game_id,
                       player_id: "-",
@@ -206,7 +208,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 icon={<ArrowBackUp />}
                 onClick={async () => {
                   if (logs.length !== 0) {
-                    await db.logs.delete(logs[logs.length - 1].id);
+                    await db().logs.delete(logs[logs.length - 1].id);
                   }
                 }}
               >

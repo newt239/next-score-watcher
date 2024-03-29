@@ -61,7 +61,7 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
               disabled={newTagName === ""}
               leftIcon={<DeviceFloppy />}
               onClick={async () => {
-                await db.players.bulkPut(
+                await db().players.bulkPut(
                   selectedPlayers.map((player) =>
                     player.tags.includes(newTagName)
                       ? player

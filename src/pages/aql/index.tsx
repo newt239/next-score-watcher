@@ -43,7 +43,7 @@ const AQLPage = () => {
   const [quizSet, SetQuizSet] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
 
-  const quizes = useLiveQuery(() => db.quizes.toArray(), []);
+  const quizes = useLiveQuery(() => db().quizes.toArray(), []);
   const quizset_names = Array.from(
     new Set(quizes?.map((quiz) => quiz.set_name))
   );

@@ -56,7 +56,7 @@ const ImportPlayer: React.FC = () => {
         };
       })
       .filter((row) => row.name !== "");
-    await db.players.bulkPut(filteredRows);
+    await db().players.bulkPut(filteredRows);
     return filteredRows.length;
   };
 

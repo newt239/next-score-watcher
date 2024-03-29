@@ -29,7 +29,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
   };
 
   const addNewPlayer = async () => {
-    const playerId = await db.players.put({
+    const playerId = await db().players.put({
       id: nanoid(),
       name: playerName,
       text: playerOrder,
@@ -37,9 +37,9 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
       tags: [],
     });
     if (from) {
-      const game = await db.games.get(from);
+      const game = await db().games.get(from);
       if (game) {
-        await db.games.update(from, {
+        await db().games.update(from, {
           players: [
             ...game.players,
             {
