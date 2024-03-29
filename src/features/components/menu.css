@@ -39,6 +39,18 @@
   transition: 0.4s;
 }
 
+.dark .menu-icon {
+  color: white;
+}
+
+.dark .bar {
+  background-color: white;
+}
+
+.dark .menu {
+  background-color: #1f2937;
+}
+
 .menu-toggle + .menu-icon + .menu {
   display: flex;
   flex-direction: column;

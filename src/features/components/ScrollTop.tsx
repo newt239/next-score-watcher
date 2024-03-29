@@ -11,6 +11,15 @@ function ScrollTop() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const temporalCanonicalLink = document.querySelector(
+      "link[rel='canonical']"
+    );
+    const canonicalLink = !!temporalCanonicalLink
+      ? temporalCanonicalLink
+      : document.createElement("link");
+    canonicalLink.setAttribute("rel", "canonical");
+    canonicalLink.setAttribute("href", `https://score-watcher.com${pathname}`);
+    document.head.appendChild(canonicalLink);
   }, [pathname]);
 
   useEffect(() => {
