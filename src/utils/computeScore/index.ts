@@ -122,8 +122,7 @@ const computeScore = async (game_id: string) => {
           },
           body: JSON.stringify({
             username: "Score Watcher",
-            avatar_url:
-              "https://score-watcher.newt239.dev/icons/icon-512x512.png",
+            avatar_url: "https://score-watcher.com/icons/icon-512x512.png",
             embeds: [
               {
                 title: game.name,

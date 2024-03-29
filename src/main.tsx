@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "production") {
     release: import.meta.env.VITE_APP_VERSION,
     integrations: [
       new Sentry.BrowserTracing({
-        tracePropagationTargets: ["https://score-watcher.newt239.dev/"],
+        tracePropagationTargets: ["https://score-watcher.com/"],
       }),
       new Sentry.Replay(),
     ],
