@@ -12,6 +12,9 @@ const Layout: React.FC = () => {
         lg: {
           flexDirection: "row",
         },
+        _dark: {
+          backgroundColor: "gray.800",
+        },
       })}
     >
       <Header />
