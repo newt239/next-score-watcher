@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { Button, Card } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
 import { css } from "@panda/css";
@@ -29,38 +29,40 @@ const RuleList: React.FC = () => {
         })}
       >
         {ruleNameList.map((rule_name) => {
-          const description = rules[rule_name].description;
+          const description = rules[rule_name].short_description;
           return (
-            <Card
+            <div
               className={css({
                 display: "grid",
-                justifyContent: "space-between",
-                gap: "12px",
+                gridTemplateRows: "subgrid",
+                gridRow: "span 4",
+                backgroundColor: "gray.200",
+                borderRadius: "8px",
                 p: "12px",
               })}
               key={rule_name}
-              variant="filled"
             >
               <h3 style={{ whiteSpace: "nowrap" }}>{rules[rule_name].name}</h3>
+              <div>{description}</div>
               <div
                 className={css({
-                  height: "80px",
-                  overflow: "hidden",
+                  display: "flex",
+                  justifyContent: "flex-end",
                 })}
               >
-                {description}
-              </div>
-              <div>
                 <Button
                   colorScheme="green"
                   onClick={() => onClick(rule_name)}
                   size="sm"
+                  leftIcon={<CirclePlus />}
+                  className={css({
+                    cursor: "pointer",
+                  })}
                 >
                   作る
-                  <CirclePlus />
                 </Button>
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

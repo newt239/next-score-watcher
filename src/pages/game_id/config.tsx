@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
   Button,
-  Card,
   TabPanel,
   TabPanels,
   Tabs,
@@ -107,14 +112,22 @@ const ConfigPage = () => {
 
   return (
     <div>
-      <Card p={2} variant="filled">
-        <h3>{rules[game.rule].name}</h3>
-        <div>
-          {rules[game.rule].description.split("\n").map((p) => (
-            <p key={p}>{p}</p>
-          ))}
-        </div>
-      </Card>
+      <h3>{rules[game.rule].name}</h3>
+      <Accordion allowMultiple defaultIndex={[]}>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                {rules[game.rule].short_description}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            {rules[game.rule]?.description}
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
       <div
         className={css({
           my: 5,

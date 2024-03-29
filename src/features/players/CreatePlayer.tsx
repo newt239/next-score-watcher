@@ -12,6 +12,7 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
+import { css } from "@panda/css";
 import db from "~/utils/db";
 import { GameDBPlayerProps } from "~/utils/types";
 
@@ -104,7 +105,13 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           />
         </FormControl>
       </Grid>
-      <div>
+      <div
+        className={css({
+          display: "flex",
+          justifyContent: "flex-end",
+          width: "100%",
+        })}
+      >
         <Button
           colorScheme="blue"
           disabled={playerName === ""}

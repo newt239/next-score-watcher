@@ -44,8 +44,12 @@ const ConfigTabList: React.FC = () => {
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: "gray.200",
+        width: "100%",
+        md: {
+          width: "25%",
+          minWidth: "150px",
+        },
       })}
-      w={{ base: "100%", md: "25%" }}
     >
       <ConfigTab>形式設定</ConfigTab>
       <ConfigTab>プレイヤー設定</ConfigTab>
