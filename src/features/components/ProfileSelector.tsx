@@ -1,5 +1,9 @@
+import { useState } from "react";
+
 import {
   Button,
+  FormControl,
+  FormLabel,
   Input,
   Popover,
   PopoverArrow,
@@ -11,7 +15,9 @@ import {
   Portal,
   Select,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { css } from "@panda/css";
+import { nanoid } from "nanoid";
+import { Plus } from "tabler-icons-react";
 
 const ProfileSelector: React.FC = () => {
   const raw = window.localStorage.getItem("scorew_profile_list");
@@ -35,45 +41,70 @@ const ProfileSelector: React.FC = () => {
           <PopoverHeader>プロファイルの切り替え</PopoverHeader>
           <PopoverCloseButton />
           <PopoverBody>
-            <h3>選択する</h3>
-            <Select
-              onChange={(e) => {
-                window.localStorage.setItem(
-                  "scorew_current_profile",
-                  e.target.value
-                );
-                window.location.reload();
-              }}
+            <div
+              className={css({
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                p: "8px",
+              })}
             >
-              {profileList.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </Select>
-            <h3>新しく作る</h3>
-            <Input placeholder="プロファイル名" />
-            <Button
-              colorScheme="green"
-              onClick={() => {
-                const newProfileId = `profile_${Date.now()}`;
-                const newProfileList = [
-                  ...profileList,
-                  { name: newProfileName, id: newProfileId },
-                ];
-                window.localStorage.setItem(
-                  "scorew_profile_list",
-                  JSON.stringify(newProfileList)
-                );
-                window.localStorage.setItem(
-                  "scorew_current_profile",
-                  newProfileId
-                );
-                window.location.reload();
-              }}
-            >
-              作成
-            </Button>
+              <FormControl>
+                <FormLabel>選択する</FormLabel>
+                <Select
+                  onChange={(e) => {
+                    window.localStorage.setItem(
+                      "scorew_current_profile",
+                      e.target.value
+                    );
+                    window.location.reload();
+                  }}
+                >
+                  {profileList.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
+                    </option>
+                  ))}
+                  {profileList.length === 0 && (
+                    <option value="score_watcher">デフォルト</option>
+                  )}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <FormLabel>新しく作る</FormLabel>
+                <Input
+                  placeholder="プロファイル名"
+                  value={newProfileName}
+                  onChange={(e) => setNewProfileName(e.target.value)}
+                />
+                <Button
+                  className={css({
+                    mt: "8px",
+                  })}
+                  isDisabled={newProfileName === ""}
+                  leftIcon={<Plus />}
+                  colorScheme="green"
+                  onClick={() => {
+                    const newProfileId = `profile_${nanoid()}`;
+                    const newProfileList = [
+                      ...profileList,
+                      { name: newProfileName, id: newProfileId },
+                    ];
+                    window.localStorage.setItem(
+                      "scorew_profile_list",
+                      JSON.stringify(newProfileList)
+                    );
+                    window.localStorage.setItem(
+                      "scorew_current_profile",
+                      newProfileId
+                    );
+                    window.location.reload();
+                  }}
+                >
+                  作成
+                </Button>
+              </FormControl>
+            </div>
           </PopoverBody>
         </PopoverContent>
       </Portal>
