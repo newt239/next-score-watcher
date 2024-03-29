@@ -8,6 +8,7 @@ import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 
 const ImportPlayer: React.FC = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const toast = useToast();
 
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -56,7 +57,7 @@ const ImportPlayer: React.FC = () => {
         };
       })
       .filter((row) => row.name !== "");
-    await db().players.bulkPut(filteredRows);
+    await db(currentProfile).players.bulkPut(filteredRows);
     return filteredRows.length;
   };
 

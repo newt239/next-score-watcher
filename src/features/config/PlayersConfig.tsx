@@ -25,6 +25,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   players,
   disabled,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const isDesktop = useDeviceWidth();
   const [sortableList, setSortableList] = useState(players);
 
@@ -72,7 +73,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                         // 並び替えが行われたときのみ1回だけ処理する
                         // 選択プレイヤーの変更と個人の初期値設定の変更のケースを除外
                         if (players[i].id !== newState[i].id) {
-                          await db().games.update(game_id, {
+                          await db(currentProfile).games.update(game_id, {
                             players: newState,
                           });
                           setSortableList(newState);

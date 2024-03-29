@@ -9,6 +9,7 @@ import { str2num } from "~/utils/functions";
 import { recordEvent } from "~/utils/ga4";
 
 const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const toast = useToast();
 
   const fileReader = new FileReader();
@@ -58,7 +59,7 @@ const ImportQuiz: React.FC<{ setName: string }> = ({ setName }) => {
         };
       })
       .filter((row) => row.q !== "");
-    await db().quizes.bulkPut(filteredRows);
+    await db(currentProfile).quizes.bulkPut(filteredRows);
     return filteredRows.length;
   };
 

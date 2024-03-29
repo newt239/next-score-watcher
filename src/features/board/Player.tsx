@@ -29,9 +29,12 @@ const Player: React.FC<PlayerProps> = ({
   score,
   isVerticalView,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const { colorMode } = useColorMode();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(game_id as string)
+  );
   const [editableState, setEditableState] = useState<States>("playing");
   const isDesktop = useDeviceWidth();
   const reversePlayerInfo = useAtomValue(reversePlayerInfoAtom);

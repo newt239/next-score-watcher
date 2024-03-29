@@ -36,6 +36,7 @@ export type AQLGamePropsUnion = {
 };
 
 const AQLPage = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const navigate = useNavigate();
   const [roundName, setRoundName] = useState<string>("AQL");
   const [leftTeamName, setLeftTeamName] = useState<string>("チームA");
@@ -43,7 +44,7 @@ const AQLPage = () => {
   const [quizSet, SetQuizSet] = useState<string>("");
   const [offset, setOffset] = useState<number>(0);
 
-  const quizes = useLiveQuery(() => db().quizes.toArray(), []);
+  const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), []);
   const quizset_names = Array.from(
     new Set(quizes?.map((quiz) => quiz.set_name))
   );

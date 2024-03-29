@@ -23,10 +23,12 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   player,
   isVerticalView,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
   const logs = useLiveQuery(
-    () => db().logs.where({ game_id: game.id }).sortBy("timestamp"),
+    () =>
+      db(currentProfile).logs.where({ game_id: game.id }).sortBy("timestamp"),
     []
   );
 
@@ -311,21 +313,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                       .replace(`,${player.player_id}`, "")
                       .replace(player.player_id, "");
                     if (new_player_id === "") {
-                      await db().logs.delete(last_log.id);
+                      await db(currentProfile).logs.delete(last_log.id);
                     } else {
-                      await db().logs.update(last_log.id, {
+                      await db(currentProfile).logs.update(last_log.id, {
                         timestamp: cdate().text(),
                         player_id: new_player_id,
                       });
                     }
                   } else {
-                    await db().logs.update(last_log.id, {
+                    await db(currentProfile).logs.update(last_log.id, {
                       timestamp: cdate().text(),
                       player_id: `${last_log.player_id},${player.player_id}`,
                     });
                   }
                 } else {
-                  await db().logs.put({
+                  await db(currentProfile).logs.put({
                     id: nanoid(),
                     game_id: game.id,
                     player_id: player.player_id,
@@ -360,7 +362,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                 <Button
                   colorScheme="green"
                   onClick={async () => {
-                    await db().logs.put({
+                    await db(currentProfile).logs.put({
                       id: nanoid(),
                       game_id: game.id,
                       player_id: "-",
