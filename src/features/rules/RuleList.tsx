@@ -39,6 +39,9 @@ const RuleList: React.FC = () => {
                 backgroundColor: "gray.200",
                 borderRadius: "8px",
                 p: "12px",
+                _dark: {
+                  backgroundColor: "gray.700",
+                },
               })}
               key={rule_name}
             >
