@@ -12,11 +12,12 @@ import db from "~/utils/db";
 import { getRuleStringByType } from "~/utils/rules";
 
 const GamesPage: React.FC = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const games = useLiveQuery(
-    () => db.games.orderBy("last_open").reverse().toArray(),
+    () => db(currentProfile).games.orderBy("last_open").reverse().toArray(),
     []
   );
-  const logs = useLiveQuery(() => db.logs.toArray(), []);
+  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
 
   const parsedGameList = (games || [])

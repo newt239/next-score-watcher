@@ -19,6 +19,7 @@ import { str2num } from "~/utils/functions";
 import { QuizDBProps } from "~/utils/types";
 
 const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const toast = useToast();
   const [rawQuizText, setRawQuizText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
@@ -44,7 +45,7 @@ const LoadQuiz: React.FC<{ setName: string }> = ({ setName }) => {
           });
         }
       }
-      await db.quizes.bulkPut(dataArray);
+      await db(currentProfile).quizes.bulkPut(dataArray);
       if (dataArray.length !== 0) {
         toast({
           title: "データをインポートしました",

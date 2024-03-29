@@ -60,6 +60,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   end,
   onEndChange,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const isDesktop = useDeviceWidth();
@@ -69,7 +70,11 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   useEffect(() => {
     const getQuizList = async () => {
       if (quiz_set) {
-        setQuizList(await db.quizes.where({ set_name: quiz_set }).sortBy("n"));
+        setQuizList(
+          await db(currentProfile)
+            .quizes.where({ set_name: quiz_set })
+            .sortBy("n")
+        );
       }
     };
     getQuizList();
@@ -186,7 +191,7 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 icon={<Comet />}
                 onClick={async () => {
                   try {
-                    await db.logs.put({
+                    await db(currentProfile).logs.put({
                       id: nanoid(),
                       game_id: game_id,
                       player_id: "-",
@@ -206,7 +211,9 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                 icon={<ArrowBackUp />}
                 onClick={async () => {
                   if (logs.length !== 0) {
-                    await db.logs.delete(logs[logs.length - 1].id);
+                    await db(currentProfile).logs.delete(
+                      logs[logs.length - 1].id
+                    );
                   }
                 }}
               >

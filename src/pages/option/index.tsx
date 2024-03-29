@@ -22,6 +22,7 @@ import db from "~/utils/db";
 import { webhookUrlAtom } from "~/utils/jotai";
 
 const OptionPage = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const navigate = useNavigate();
   const [WebhookUrl, setWebhookUrl] = useAtom(webhookUrlAtom);
   const latestVersion = import.meta.env.VITE_APP_VERSION;
@@ -34,9 +35,11 @@ const OptionPage = () => {
 
   const deleteAppData = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);
-    db.delete().then(() => {
-      navigate(0);
-    });
+    db(currentProfile)
+      .delete()
+      .then(() => {
+        navigate(0);
+      });
   };
 
   return (

@@ -5,6 +5,7 @@ import SubMenu from "~/features/components/SubMenu";
 
 import { css } from "@panda/css";
 import Link from "~/components/custom/Link";
+import ProfileSelector from "./ProfileSelector";
 
 const Header: React.FC = () => {
   return (
@@ -21,7 +22,7 @@ const Header: React.FC = () => {
         position: "fixed",
         top: 0,
         w: "100%",
-        zIndex: 100,
+        zIndex: 3,
         _dark: {
           backgroundColor: "gray.800",
         },
@@ -88,11 +89,19 @@ const Header: React.FC = () => {
           <SubMenu />
           <div
             className={css({
-              fontSize: "0.8rem",
-              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "8px",
             })}
           >
-            <div>
+            <ProfileSelector />
+            <div
+              className={css({
+                fontSize: "0.8rem",
+                textAlign: "center",
+              })}
+            >
               © <Link href="https://twitter.com/newt239">newt239</Link>{" "}
               2022-2024
             </div>

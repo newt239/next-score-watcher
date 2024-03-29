@@ -46,6 +46,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   playerList,
   gamePlayers,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
     {}
@@ -173,7 +174,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             }
           }
         );
-        await db.games.update(game_id, {
+        await db(currentProfile).games.update(game_id, {
           players: newGamePlayers,
         });
       }

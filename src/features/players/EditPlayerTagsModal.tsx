@@ -29,6 +29,7 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [newTagName, setNewTagName] = useState<string>("");
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -61,7 +62,7 @@ const EditPlayertagsModal: React.FC<EditPlayertagsModalProps> = ({
               disabled={newTagName === ""}
               leftIcon={<DeviceFloppy />}
               onClick={async () => {
-                await db.players.bulkPut(
+                await db(currentProfile).players.bulkPut(
                   selectedPlayers.map((player) =>
                     player.tags.includes(newTagName)
                       ? player
