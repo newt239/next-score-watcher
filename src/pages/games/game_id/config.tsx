@@ -115,14 +115,12 @@ const ConfigPage = () => {
       <h3>{rules[game.rule].name}</h3>
       <Accordion allowMultiple defaultIndex={[]}>
         <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                {rules[game.rule].short_description}
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
+          <AccordionButton>
+            <Box as="span" flex="1" textAlign="left">
+              {rules[game.rule].short_description}
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
           <AccordionPanel pb={4}>
             {rules[game.rule]?.description}
           </AccordionPanel>
