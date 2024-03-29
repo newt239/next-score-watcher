@@ -123,7 +123,7 @@ const Features: React.FC = () => {
       })}
     >
       {features.map((feature) => (
-        <EachFeature {...feature} />
+        <EachFeature key={feature.title} {...feature} />
       ))}
     </div>
   );
