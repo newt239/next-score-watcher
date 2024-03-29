@@ -48,6 +48,7 @@ const EachFeature: React.FC<FeatureProps> = ({
             width: 90,
             height: 90,
             opacity: 0.5,
+            filter: "blur(5px)",
             _dark: {
               backgroundColor: "green.700",
             },

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, IconButton, Slide, Tooltip } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useAtomValue } from "jotai";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
@@ -16,7 +15,6 @@ import WinModal from "~/features/board/WinModal";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import computeScore from "~/utils/computeScore";
 import db from "~/utils/db";
-import { verticalViewAtom } from "~/utils/jotai";
 import { getRuleStringByType } from "~/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "~/utils/types";
 
@@ -41,7 +39,6 @@ const BoardPage = () => {
   );
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const isDesktop = useDeviceWidth();
-  const isVerticalView = useAtomValue(verticalViewAtom) && isDesktop;
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
@@ -195,17 +192,12 @@ const BoardPage = () => {
         className={css({
           display: "flex",
           flexDirection:
-            (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
-              ? "column"
-              : "row",
+            (isDesktop && players.length > 10) || !isDesktop ? "column" : "row",
           justifyContent:
-            (isDesktop && (isVerticalView || players.length > 10)) || !isDesktop
+            (isDesktop && players.length > 10) || !isDesktop
               ? "flex-start"
               : "space-evenly",
-          flexWrap:
-            isDesktop && (isVerticalView || players.length > 10)
-              ? "wrap"
-              : "nowrap",
+          flexWrap: isDesktop && players.length > 10 ? "wrap" : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
           h: isDesktop ? ["90vh", "90vh", "85vh"] : undefined,
@@ -217,7 +209,7 @@ const BoardPage = () => {
         {players.map((player, i) => (
           <Player
             index={i}
-            isVerticalView={isVerticalView || players.length > 10}
+            isVerticalView={players.length > 10}
             key={i}
             player={player}
             score={scores.find(

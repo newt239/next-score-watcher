@@ -144,7 +144,7 @@ const computeScore = async (game_id: string) => {
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
-  if (webhookUrl && webhookUrl.includes("http")) {
+  if (webhookUrl && webhookUrl.startsWith("http")) {
     const url = webhookUrl.split('"')[1];
     const data = { info: game, logs: gameLogList, scores: result.scores };
     console.log(data);

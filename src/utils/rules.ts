@@ -184,6 +184,8 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
       return "Z";
     case "freezex":
       return `freeze${game.win_point}`;
+    case "endless-chance":
+      return `エンドレスチャンス`;
     case "variables":
       return `Variables`;
     default:
