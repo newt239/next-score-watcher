@@ -22,6 +22,9 @@ const Header: React.FC = () => {
         top: 0,
         w: "100%",
         zIndex: 100,
+        _dark: {
+          backgroundColor: "gray.800",
+        },
       })}
     >
       <div
