@@ -24,8 +24,8 @@ import InputLayout from "~/features/components/InputLayout";
 import ConfigInput from "~/features/config/ConfigInput";
 import ConfigTabList from "~/features/config/ConfigTabList";
 import CopyGame from "~/features/config/CopyGame";
+import PlayersConfig from "~/features/config/PlayersConfig";
 import RuleSettings from "~/features/config/RuleSettings";
-import PlayersConfig from "~/features/config/SelectPlayer";
 import SelectQuizset from "~/features/config/SelectQuizSet";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
@@ -112,9 +112,13 @@ const ConfigPage = () => {
           borderStyle: "solid",
           borderRadius: "md",
           borderWidth: 2,
-          borderColor: playButtonIsDisabled ? "red.500" : "white",
+          borderColor: playButtonIsDisabled
+            ? "red.500!important"
+            : "white!important",
           _dark: {
-            borderColor: playButtonIsDisabled ? "red.300" : "gray.800",
+            borderColor: playButtonIsDisabled
+              ? "red.300!important"
+              : "gray.800!important",
           },
         })}
       >
@@ -147,6 +151,7 @@ const ConfigPage = () => {
             </Button>
           ) : (
             <ButtonLink
+              size="lg"
               colorScheme="green"
               href={`/games/${game_id}/board`}
               leftIcon={<PlayerPlay />}
@@ -170,11 +175,11 @@ const ConfigPage = () => {
         >
           <ConfigTabList />
           <TabPanels className={css({ w: ["100%", "100%", "75%"] })}>
-            <TabPanel>
+            <TabPanel className={css({ paddingTop: "0px!important" })}>
               <h2>形式設定</h2>
               <RuleSettings disabled={disabled} game={game} />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className={css({ paddingTop: "0px!important" })}>
               <PlayersConfig
                 disabled={disabled}
                 game_id={game.id}
@@ -183,7 +188,7 @@ const ConfigPage = () => {
                 rule_name={game.rule}
               />
             </TabPanel>
-            <TabPanel>
+            <TabPanel className={css({ paddingTop: "0px!important" })}>
               <h2>その他の設定</h2>
               <VStack align="stretch" gap={0} pt={5}>
                 <SelectQuizset

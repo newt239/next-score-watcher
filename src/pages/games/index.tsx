@@ -49,14 +49,16 @@ const GamesPage: React.FC = () => {
 
   return (
     <div>
+      <h2>作成したゲーム</h2>
       <div
         className={css({
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: "8px",
         })}
       >
-        <h2>作成したゲーム</h2>
         <Select
+          width="auto"
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
         >
           <option value="last_open">最終閲覧順</option>
@@ -79,7 +81,17 @@ const GamesPage: React.FC = () => {
           })}
         >
           {parsedGameList.map((game) => (
-            <Card variant="filled" key={game.id} title={game.name}>
+            <Card
+              className={css({
+                display: "grid",
+                justifyContent: "space-between",
+                gap: "12px",
+                p: "12px",
+              })}
+              variant="filled"
+              key={game.id}
+              title={game.name}
+            >
               <div>
                 <h3 style={{ whiteSpace: "nowrap", overflowX: "scroll" }}>
                   {game.name}

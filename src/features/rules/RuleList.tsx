@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Card } from "@chakra-ui/react";
+import { Button, Card } from "@chakra-ui/react";
 import { CirclePlus } from "tabler-icons-react";
 
 import { css } from "@panda/css";
@@ -18,7 +18,7 @@ const RuleList: React.FC = () => {
   };
 
   return (
-    <Box pt={5}>
+    <div>
       <h2>形式一覧</h2>
       <div
         className={css({
@@ -64,7 +64,7 @@ const RuleList: React.FC = () => {
           );
         })}
       </div>
-    </Box>
+    </div>
   );
 };
 

@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Link as ReactLink } from "react-router-dom";
 
 import {
   Accordion,
@@ -10,15 +9,14 @@ import {
   Box,
   Flex,
   Image,
-  Link,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  Text,
 } from "@chakra-ui/react";
 
+import Link from "~/components/custom/Link";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 
 type FeatureProps = {
@@ -62,35 +60,33 @@ const Features: React.FC = () => {
       title: "その他",
       description: (
         <>
-          <Box pb={5}>
+          <div>
             <h3>オフライン対応</h3>
-            <Text>
+            <p>
               一回ページを読み込んでおけば、アプリを利用する上でネット接続は必要ありません。プレイヤーデータや問題データがサーバーに送信されることはありません。
-            </Text>
-          </Box>
-          <Box pb={5}>
+            </p>
+          </div>
+          <div>
             <h3>ショートカットキー</h3>
-            <Text>得点表示画面ではショートカットコマンドが利用できます。</Text>
-          </Box>
-          <Box pb={5}>
+            <p>得点表示画面ではショートカットコマンドが利用できます。</p>
+          </div>
+          <div>
             <h3>表示はカスタマイズ可能</h3>
-            <Text>
-              <Link as={ReactLink} color="blue.500" to="/option">
-                アプリ設定
-              </Link>
+            <p>
+              <Link href="/option">アプリ設定</Link>
               から、得点表示画面の表示をカスタマイズできます。
-            </Text>
-          </Box>
+            </p>
+          </div>
         </>
       ),
     },
   ];
 
   return (
-    <Box pt={10}>
+    <div>
       <h2>主な機能</h2>
       {isDesktop ? (
-        <Tabs colorScheme="green" isManual pt={5} variant="enclosed">
+        <Tabs colorScheme="green" isManual variant="enclosed">
           <TabList>
             {features.map((feature) => (
               <Tab key={feature.title}>{feature.title}</Tab>
@@ -145,7 +141,7 @@ const Features: React.FC = () => {
           ))}
         </Accordion>
       )}
-    </Box>
+    </div>
   );
 };
 
