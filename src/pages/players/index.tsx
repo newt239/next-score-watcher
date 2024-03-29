@@ -23,7 +23,10 @@ const PlayerPage = () => {
       <div>
         {from && (
           <div>
-            <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
+            <ButtonLink
+              href={`/games/${from}/config`}
+              leftIcon={<ArrowBackUp />}
+            >
               ゲーム設定に戻る
             </ButtonLink>
           </div>

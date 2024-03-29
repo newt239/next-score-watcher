@@ -36,7 +36,7 @@ const QuizPage = () => {
             <Button
               colorScheme="green"
               leftIcon={<ArrowBackUp />}
-              onClick={() => navigate({ pathname: `/${from}/config` })}
+              onClick={() => navigate({ pathname: `/games/${from}/config` })}
               variant="link"
             >
               設定に戻る
