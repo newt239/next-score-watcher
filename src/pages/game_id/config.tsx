@@ -120,7 +120,7 @@ const ConfigPage = () => {
           my: 5,
           borderStyle: "solid",
           borderRadius: "md",
-          borderWidth: 2,
+          borderWidth: 1,
           borderColor: playButtonIsDisabled
             ? "red.500!important"
             : "white!important",

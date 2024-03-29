@@ -24,7 +24,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
           gap: "1rem",
         }}
       >
-        {["nomx", "nomx-ad", "nomr"].includes(game.rule) && (
+        {["nomx", "nomx-ad", "nomr", "endless-chance"].includes(game.rule) && (
           <ConfigNumberInput
             disabled={disabled}
             input_id="win_point"
@@ -57,7 +57,14 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             max={100}
           />
         )}
-        {["nomx", "nomx-ad", "nbyn", "nupdown", "nomr"].includes(game.rule) && (
+        {[
+          "nomx",
+          "nomx-ad",
+          "nbyn",
+          "nupdown",
+          "nomr",
+          "endless-chance",
+        ].includes(game.rule) && (
           <ConfigNumberInput
             disabled={disabled}
             input_id="lose_point"

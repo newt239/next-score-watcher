@@ -72,7 +72,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
       "multiple_wrong",
     ].includes(log.variant)
   ).length;
-  const last_log = logs[logs.length - 1];
   const quizPosition = game.editable
     ? manualQuizPosition
     : game.quiz
@@ -243,11 +242,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             </MenuItem>
             <MenuItem
               icon={<ArrowBackUp />}
-              isDisabled={
-                logs.length === 0 ||
-                game.editable ||
-                last_log.variant === "multiple_wrong" // エンドレスチャンスの場合
-              }
+              isDisabled={logs.length === 0 || game.editable}
               onClick={async () => {
                 if (logs.length !== 0) {
                   await db(currentProfile).logs.delete(

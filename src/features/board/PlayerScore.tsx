@@ -380,7 +380,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                     borderRadius: "8px",
                     backgroundColor: "white",
                     _dark: {
-                      backgroundColor: "gray.800",
+                      backgroundColor: "gray.900",
                     },
                   })}
                 >
