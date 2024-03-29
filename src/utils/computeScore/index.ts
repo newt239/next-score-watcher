@@ -22,6 +22,7 @@ import {
   States,
   WinPlayerProps,
 } from "~/utils/types";
+import endlessChance from "./endless-chance";
 
 const computeScore = async (game_id: string) => {
   const game = await db.games.get(game_id);
@@ -73,6 +74,9 @@ const computeScore = async (game_id: string) => {
       break;
     case "freezex":
       result = await freezex(game, gameLogList);
+      break;
+    case "endless-chance":
+      result = await endlessChance(game, gameLogList);
       break;
     case "variables":
       result = await variables(game, gameLogList);

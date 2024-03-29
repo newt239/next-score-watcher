@@ -1,8 +1,15 @@
-import { Flex, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, useColorMode } from "@chakra-ui/react";
+import { css } from "@panda/css";
+import { cdate } from "cdate";
+import { useLiveQuery } from "dexie-react-hooks";
+import { nanoid } from "nanoid";
+import { InfoCircle } from "tabler-icons-react";
 
 import PlayerScoreButton from "~/features/board/PlayerScoreButton";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
+import db from "~/utils/db";
 import { numberSign } from "~/utils/functions";
+import { recordEvent } from "~/utils/ga4";
 import { ComputedScoreProps, GamePropsUnion } from "~/utils/types";
 
 type PlayerScoreProps = {
@@ -18,12 +25,18 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const isDesktop = useDeviceWidth();
+  const logs = useLiveQuery(
+    () => db.logs.where({ game_id: game.id }).sortBy("timestamp"),
+    []
+  );
 
   const props = {
     game_id: game.id,
     player_id: player.player_id,
     editable: game.editable,
   };
+
+  if (logs === undefined) return null;
 
   return (
     <Flex
@@ -273,6 +286,107 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {numberSign("wrong", player.wrong)}
           </PlayerScoreButton>
+        </>
+      )}
+      {game.rule === "endless-chance" && (
+        <>
+          <PlayerScoreButton
+            disabled={player.is_incapacity}
+            color="red"
+            {...props}
+          >
+            {player.state === "win"
+              ? player.text
+              : numberSign("correct", player.correct)}
+          </PlayerScoreButton>
+          <PlayerScoreButton
+            color="blue"
+            disabled={player.is_incapacity}
+            onClick={async () => {
+              if (logs.length > 0) {
+                const last_log = logs[logs.length - 1];
+                if (last_log.variant === "multiple_wrong") {
+                  if (last_log.player_id.includes(player.player_id)) {
+                    const new_player_id = last_log.player_id
+                      .replace(`,${player.player_id}`, "")
+                      .replace(player.player_id, "");
+                    if (new_player_id === "") {
+                      await db.logs.delete(last_log.id);
+                    } else {
+                      await db.logs.update(last_log.id, {
+                        timestamp: cdate().text(),
+                        player_id: new_player_id,
+                      });
+                    }
+                  } else {
+                    await db.logs.update(last_log.id, {
+                      timestamp: cdate().text(),
+                      player_id: `${last_log.player_id},${player.player_id}`,
+                    });
+                  }
+                } else {
+                  await db.logs.put({
+                    id: nanoid(),
+                    game_id: game.id,
+                    player_id: player.player_id,
+                    variant: "multiple_wrong",
+                    system: false,
+                    timestamp: cdate().text(),
+                  });
+                }
+              }
+              recordEvent({
+                action: "click_score_button",
+                category: "engagement",
+                label: game.id,
+              });
+            }}
+            {...props}
+          >
+            {player.state === "lose" || player.is_incapacity
+              ? player.text
+              : numberSign("wrong", player.wrong)}
+          </PlayerScoreButton>
+          {logs.length > 0 &&
+            logs[logs.length - 1].variant === "multiple_wrong" && (
+              <div
+                className={css({
+                  position: "fixed",
+                  bottom: "1rem",
+                  right: "1rem",
+                  textAlign: "right",
+                })}
+              >
+                <Button
+                  colorScheme="green"
+                  onClick={async () => {
+                    await db.logs.put({
+                      id: nanoid(),
+                      game_id: game.id,
+                      player_id: "-",
+                      variant: "blank",
+                      system: false,
+                      timestamp: cdate().text(),
+                    });
+                  }}
+                >
+                  次の問題へ
+                </Button>
+                <div
+                  className={css({
+                    display: "flex",
+                    borderRadius: "8px",
+                    backgroundColor: "white",
+                    _dark: {
+                      backgroundColor: "gray.800",
+                    },
+                  })}
+                >
+                  <InfoCircle />
+                  誤答ボタンの再クリックで解除
+                </div>
+              </div>
+            )}
         </>
       )}
       {game.rule === "variables" && (

@@ -134,6 +134,17 @@ export const rules = {
     options: undefined,
     rows: 2,
   },
+  "endless-chance": {
+    rule: "endless-chance",
+    name: "エンドレスチャンス",
+    description: "同じ問題に対して正答が出るまで複数人が回答できる形式です。",
+    win_point: 7,
+    lose_point: 3,
+    options: {
+      use_r: false,
+    },
+    rows: 3,
+  },
   variables: {
     rule: "variables",
     name: "Variables",

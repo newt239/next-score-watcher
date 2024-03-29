@@ -25,6 +25,7 @@ type PlayerScoreButtonProps = {
   player_id: string;
   editable: boolean;
   disabled?: boolean;
+  onClick?: () => void;
   children: string;
 };
 
@@ -37,6 +38,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   player_id,
   editable,
   disabled,
+  onClick,
 }) => {
   const numberSign = children.endsWith("pt")
     ? "pt"
@@ -147,7 +149,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       ) : (
         <Button
           _hover={{ opacity: disabled ? 1 : 0.5 }}
-          onClick={handleClick}
+          onClick={onClick || handleClick}
           sx={ButtonCssStyle}
           variant="unstyled"
         >

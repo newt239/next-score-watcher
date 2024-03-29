@@ -106,6 +106,14 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             />
           </>
         )}
+        {game.rule === "endless-chance" && (
+          <ConfigBooleanInput
+            input_id="use_r"
+            rule={game.rule}
+            helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
+            label="NOM休を利用する"
+          />
+        )}
       </Grid>
       <VStack py={4}>
         {game.rule === "nomx-ad" && (

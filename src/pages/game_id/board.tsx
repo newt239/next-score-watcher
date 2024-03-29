@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import {
-  Button,
-  IconButton,
-  Slide,
-  SlideFade,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Button, IconButton, Slide, Tooltip } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
@@ -210,18 +204,16 @@ const BoardPage = () => {
         id="players-area"
       >
         {players.map((player, i) => (
-          <SlideFade delay={0.5 + i * 0.1} in key={i} offsetX={20} offsetY={20}>
-            <Player
-              index={i}
-              isVerticalView={isVerticalView || players.length > 10}
-              key={i}
-              player={player}
-              score={scores.find(
-                (score) =>
-                  score.game_id === game.id && score.player_id === player.id
-              )}
-            />
-          </SlideFade>
+          <Player
+            index={i}
+            isVerticalView={isVerticalView || players.length > 10}
+            key={i}
+            player={player}
+            score={scores.find(
+              (score) =>
+                score.game_id === game.id && score.player_id === player.id
+            )}
+          />
         ))}
       </div>
       <GameLogs logs={logs} players={players} quiz={game.quiz} />
