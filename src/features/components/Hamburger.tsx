@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { css } from "@panda/css";
 
+import { useLocation } from "react-router-dom";
 import "./menu.css";
 
 type HamburgerProps = {
@@ -12,6 +13,11 @@ type HamburgerProps = {
 
 const Hamburger: React.FC<HamburgerProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   return (
     <div
