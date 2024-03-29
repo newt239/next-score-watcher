@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
-
-import { Image } from "@chakra-ui/react";
+import { Link as ReactLink } from "react-router-dom";
 
 import Hamburger from "~/features/components/Hamburger";
 import SubMenu from "~/features/components/SubMenu";
 
 import { css } from "@panda/css";
+import Link from "~/components/custom/Link";
 
 const Header: React.FC = () => {
   return (
@@ -38,28 +37,28 @@ const Header: React.FC = () => {
           py: "8px",
         })}
       >
-        <Link
+        <ReactLink
           className={css({
             _hover: { opacity: 0.5 },
             transition: "all 0.2s ease-out",
+            display: "flex",
+            justifyContent: "center",
           })}
           to="/"
         >
-          <Image
+          <img
             alt="app logo"
             className={css({
               cursor: "pointer",
-              height: "clamp(20px, 10vw, 50px)!important",
+              height: "clamp(35px, 10vw, 50px)",
+              width: "auto",
               margin: "auto",
               pb: 2,
               pl: [0, 2],
-              width: "auto!important",
             })}
-            height={50}
             src="/logo.png"
-            width={236}
           />
-        </Link>
+        </ReactLink>
         <div
           className={css({
             display: "block",
@@ -77,11 +76,24 @@ const Header: React.FC = () => {
             display: "none",
             flexGrow: 1,
             lg: {
-              display: "block",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             },
           })}
         >
           <SubMenu />
+          <div
+            className={css({
+              fontSize: "0.8rem",
+              textAlign: "center",
+            })}
+          >
+            <div>
+              © <Link href="https://twitter.com/newt239">newt239</Link>{" "}
+              2022-2024
+            </div>
+          </div>
         </div>
       </div>
     </header>
