@@ -20,11 +20,12 @@ const EachFeature: React.FC<FeatureProps> = ({
         flexDirection: "column",
         alignItems: side === "left" ? "flex-start" : "flex-end",
         gap: "0.5rem",
-        margin: "10px",
-        py: "50px",
+        p: "10px",
+        pt: "50px",
         fontSize: "1.5rem",
         lg: {
-          margin: "50px",
+          p: "50px",
+          pb: 0,
           fontSize: "2rem",
           gap: "1rem",
         },
@@ -32,7 +33,6 @@ const EachFeature: React.FC<FeatureProps> = ({
     >
       <div
         className={css({
-          fontWeight: 700,
           position: "relative",
         })}
       >
@@ -41,12 +41,16 @@ const EachFeature: React.FC<FeatureProps> = ({
             position: "absolute",
             backgroundColor: "green.300",
             borderRadius: "50%",
-            zIndex: -1,
-            top: -10,
-            left: side === "left" ? -10 : undefined,
-            right: side === "right" ? -10 : undefined,
-            width: 40,
-            height: 40,
+            zIndex: 0,
+            top: -5,
+            left: side === "left" ? -5 : undefined,
+            right: side === "right" ? -5 : undefined,
+            width: 90,
+            height: 90,
+            opacity: 0.5,
+            _dark: {
+              backgroundColor: "green.700",
+            },
             lg: {
               top: -30,
               left: side === "left" ? -30 : undefined,
@@ -54,19 +58,18 @@ const EachFeature: React.FC<FeatureProps> = ({
               width: 120,
               height: 120,
             },
-            _dark: {
-              backgroundColor: "green.700",
-            },
           })}
         ></div>
-        <div
-          className={css({
-            textWrap: "balance",
-            textAlign: side === "left" ? "start" : "end",
-          })}
-        >
-          {title}
-        </div>
+      </div>
+      <div
+        className={css({
+          fontWeight: 700,
+          textWrap: "balance",
+          textAlign: side === "left" ? "start" : "end",
+          zIndex: 1,
+        })}
+      >
+        {title}
       </div>
       <img
         className={css({
@@ -114,16 +117,21 @@ const Features: React.FC = () => {
   return (
     <div
       className={css({
+        p: "20px",
         backgroundImage:
           "linear-gradient(0deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px)),linear-gradient(90deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px))",
         backgroundSize: "20px 20px",
         backgroundPosition: "center center",
         backgroundRepeat: "repeat",
-        zIndex: -2,
+        zIndex: -1,
+        _dark: {
+          backgroundImage:
+            "linear-gradient(0deg, transparent calc(100% - 1px), #2d3748 calc(100% - 1px)),linear-gradient(90deg, transparent calc(100% - 1px), #2d3748 calc(100% - 1px))",
+        },
       })}
     >
       {features.map((feature) => (
-        <EachFeature {...feature} />
+        <EachFeature key={feature.title} {...feature} />
       ))}
     </div>
   );
