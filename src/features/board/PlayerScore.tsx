@@ -1,9 +1,7 @@
-import { Button, Flex, useColorMode } from "@chakra-ui/react";
-import { css } from "@panda/css";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
-import { InfoCircle } from "tabler-icons-react";
 
 import PlayerScoreButton from "~/features/board/PlayerScoreButton";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
@@ -349,46 +347,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               ? player.text
               : numberSign("wrong", player.wrong)}
           </PlayerScoreButton>
-          {logs.length > 0 &&
-            logs[logs.length - 1].variant === "multiple_wrong" && (
-              <div
-                className={css({
-                  position: "fixed",
-                  bottom: "1rem",
-                  right: "1rem",
-                  textAlign: "right",
-                })}
-              >
-                <Button
-                  colorScheme="green"
-                  onClick={async () => {
-                    await db(currentProfile).logs.put({
-                      id: nanoid(),
-                      game_id: game.id,
-                      player_id: "-",
-                      variant: "blank",
-                      system: false,
-                      timestamp: cdate().text(),
-                    });
-                  }}
-                >
-                  次の問題へ
-                </Button>
-                <div
-                  className={css({
-                    display: "flex",
-                    borderRadius: "8px",
-                    backgroundColor: "white",
-                    _dark: {
-                      backgroundColor: "gray.900",
-                    },
-                  })}
-                >
-                  <InfoCircle />
-                  誤答ボタンの再クリックで解除
-                </div>
-              </div>
-            )}
         </>
       )}
       {game.rule === "variables" && (

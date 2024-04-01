@@ -12,6 +12,13 @@ const endlessChance = async (
 ) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
+  const realQn =
+    gameLogList.filter((log) => ["correct", "through"].includes(log.variant))
+      .length +
+      gameLogList.length !==
+      0 && gameLogList[gameLogList.length - 1].variant === "multiple_wrong"
+      ? 1
+      : 0;
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (log.player_id.includes(playerState.player_id)) {
@@ -45,7 +52,7 @@ const endlessChance = async (
               return {
                 ...playerState,
                 wrong: newWrong,
-                last_wrong: qn,
+                last_wrong: realQn,
                 is_incapacity: true,
               };
             } else {
@@ -53,7 +60,7 @@ const endlessChance = async (
                 return {
                   ...playerState,
                   wrong: newWrong,
-                  last_wrong: qn,
+                  last_wrong: realQn,
                   state: "lose",
                 };
               } else if (
@@ -63,14 +70,14 @@ const endlessChance = async (
                 return {
                   ...playerState,
                   wrong: newWrong,
-                  last_wrong: qn,
+                  last_wrong: realQn,
                   reach_state: "lose",
                 };
               } else {
                 return {
                   ...playerState,
                   wrong: newWrong,
-                  last_wrong: qn,
+                  last_wrong: realQn,
                 };
               }
             }
@@ -81,17 +88,7 @@ const endlessChance = async (
         if (game.options.use_r) {
           if (
             playerState.is_incapacity &&
-            game.lose_point! <
-              gameLogList.filter((log) =>
-                [
-                  "correct",
-                  "wrong",
-                  "through",
-                  "multiple_correct",
-                  "multiple_wrong",
-                ].includes(log.variant)
-              ).length -
-                playerState.last_wrong
+            game.lose_point! < realQn - playerState.last_wrong
           ) {
             return {
               ...playerState,
@@ -113,15 +110,13 @@ const endlessChance = async (
       game,
       playerState.state,
       order,
-      gameLogList.length // TODO: logの長さチェックについて確認
+      realQn // TODO: logの長さチェックについて確認
     );
     const text =
       state === "win"
         ? indicator(order)
         : playerState.is_incapacity
-        ? `${
-            game.lose_point! - gameLogList.length + playerState.last_wrong + 1
-          }休`
+        ? `${game.lose_point! - realQn + playerState.last_wrong}休`
         : playerState.state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);

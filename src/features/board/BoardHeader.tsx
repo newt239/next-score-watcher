@@ -63,14 +63,8 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     getQuizList();
   }, [game.quiz]);
 
-  const qn = logs.filter((log) =>
-    [
-      "correct",
-      "wrong",
-      "through",
-      "multiple_correct",
-      "multiple_wrong",
-    ].includes(log.variant)
+  const qn = logs.filter(
+    (log) => log.variant === "correct" || log.variant === "through"
   ).length;
   const quizPosition = game.editable
     ? manualQuizPosition
@@ -139,7 +133,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
             >
               第
               <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                {game.editable ? manualQuizPosition + 1 : logs.length + 1}
+                {game.editable ? manualQuizPosition + 1 : qn + 1}
               </span>
               問
             </div>

@@ -24,7 +24,7 @@ const RuleList: React.FC = () => {
         className={css({
           display: "grid",
           gap: "12px",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
           pt: "12px",
         })}
       >
