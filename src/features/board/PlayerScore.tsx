@@ -164,6 +164,21 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           </Flex>
         </>
       )}
+      {game.rule === "divide" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {numberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {numberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
       {game.rule === "swedish10" && (
         <>
           <PlayerScoreButton color={player.state} disabled {...props}>

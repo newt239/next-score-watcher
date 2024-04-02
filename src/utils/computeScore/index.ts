@@ -22,6 +22,7 @@ import {
   States,
   WinPlayerProps,
 } from "~/utils/types";
+import divide from "./divide";
 import endlessChance from "./endless-chance";
 
 const computeScore = async (game_id: string) => {
@@ -57,6 +58,9 @@ const computeScore = async (game_id: string) => {
       break;
     case "nupdown":
       result = await nupdown(game, gameLogList);
+      break;
+    case "divide":
+      result = await divide(game, gameLogList);
       break;
     case "swedish10":
       result = await swedish10(game, gameLogList);
@@ -166,6 +170,8 @@ const initialBackstreamWrong = (wrong_num: number) => {
 
 const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
   switch (game.rule) {
+    case "divide":
+      return game.correct_me; // 初期スコアは10pt
     case "attacksurvival":
       return game.win_point! + player.initial_correct;
     case "ny":

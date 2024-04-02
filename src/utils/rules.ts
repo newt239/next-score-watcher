@@ -87,6 +87,17 @@ export const rules = {
     options: undefined,
     rows: 2,
   },
+  divide: {
+    rule: "divide",
+    name: "Divide",
+    short_description: "誤答回数に応じてスコアの割る数が増加する形式です。",
+    description:
+      "初期値として10ptが与えられており、正解するごとに10pt加算される。1回目の誤答でその値を1で割り、2回目の誤答でその値を2で割り、というように誤答回数を重ねるにつれて割る数が大きくなる。値が100ptに達すると勝ち抜けとなる。",
+    win_point: 100,
+    correct_me: 10,
+    options: undefined,
+    rows: 2,
+  },
   swedish10: {
     rule: "swedish10",
     name: "Swedish10",
@@ -197,6 +208,8 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":
       return `${game.win_point}updown`;
+    case "divide":
+      return `Divide`;
     case "swedish10":
       return `Swedish10`;
     case "backstream":
