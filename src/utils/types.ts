@@ -10,12 +10,14 @@ export type RuleNames =
   | "nomr"
   | "nbyn"
   | "nupdown"
+  | "divide"
   | "swedish10"
   | "backstream"
   | "attacksurvival"
   | "squarex"
   | "z"
   | "freezex"
+  | "endless-chance"
   | "variables";
 
 export type GameDBPlayerProps = {
@@ -33,10 +35,13 @@ export type GameDBQuizProps = {
 };
 
 export type GameOptionProps = {
-  [key in Exclude<RuleNames, "nomx-ad">]: undefined;
+  [key in Exclude<RuleNames, "nomx-ad" | "endless-chance">]: undefined;
 } & {
   "nomx-ad": {
     streak_over3: boolean;
+  };
+  "endless-chance": {
+    use_r: boolean;
   };
 };
 
@@ -72,7 +77,14 @@ export type PlayerDBProps = {
   tags: string[];
 };
 
-export type Variants = "correct" | "wrong" | "through" | "skip";
+export type Variants =
+  | "correct"
+  | "wrong"
+  | "through"
+  | "mutiple_correct"
+  | "multiple_wrong"
+  | "skip"
+  | "blank";
 export type LogDBProps = {
   id: string;
   game_id: string;

@@ -1,61 +1,52 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 
-import BottomBar from "#/components/block/BottomBar";
-import Footer from "#/components/block/Footer";
-import Header from "#/components/block/Header";
-import ScrollTop from "#/components/block/ScrollTop";
-import UpdateModal from "#/components/block/UpdateModal";
-import useDeviceWidth from "#/hooks/useDeviceWidth";
-import HomePage from "#/pages";
-import AQLPage from "#/pages/aql";
-import AQLBoardPage from "#/pages/aql/game_id";
-import BoardPage from "#/pages/game_id/board";
-import ConfigPage from "#/pages/game_id/config";
-import OptionPage from "#/pages/option";
-import WebhookPage from "#/pages/option/webhook";
-import PlayerPage from "#/pages/player";
-import QuizPage from "#/pages/quiz";
-import RulePage from "#/pages/rule";
+import HomePage from "~/pages";
+import AQLPage from "~/pages/aql";
+import AQLBoardPage from "~/pages/aql/game_id";
+import GamesPage from "~/pages/games";
+import BoardPage from "~/pages/games/game_id/board";
+import ConfigPage from "~/pages/games/game_id/config";
+import OptionPage from "~/pages/option";
+import WebhookPage from "~/pages/option/webhook";
+import PlayerPage from "~/pages/players";
+import QuizPage from "~/pages/quiz";
+import RulePage from "~/pages/rules";
 
-import "#/globals.css";
+import ScrollTop from "~/features/components/ScrollTop";
+import UpdateModal from "~/features/components/UpdateModal";
+import Layout from "~/layouts/default";
+
+import "~/globals.css";
+import "~/index.css";
 
 function App() {
-  const isDesktop = useDeviceWidth();
-
   return (
-    <ChakraProvider>
+    <ChakraProvider resetCSS={false}>
       <BrowserRouter>
-        <Header />
         <ScrollTop />
-        <Box sx={{ minH: "100vh" }}>
-          <Routes>
+        <Routes>
+          <Route element={<BoardPage />} path="/games/:game_id/board" />
+          <Route element={<Layout />} path="/">
             <Route element={<HomePage />} index />
-            <Route path=":game_id">
-              <Route element={<ConfigPage />} path="config" />
-              <Route element={<BoardPage />} path="board" />
+            <Route path="games">
+              <Route element={<GamesPage />} index />
+              <Route element={<ConfigPage />} path=":game_id/config" />
             </Route>
             <Route path="aql">
               <Route element={<AQLPage />} index />
               <Route element={<AQLBoardPage />} path=":game_id" />
             </Route>
-            <Route element={<RulePage />} path="rule" />
-            <Route element={<PlayerPage />} path="player" />
-            <Route element={<QuizPage />} path="quiz" />
+            <Route element={<RulePage />} path="rules" />
+            <Route element={<PlayerPage />} path="players" />
+            <Route element={<QuizPage />} path="quizes" />
             <Route path="option">
               <Route element={<OptionPage />} index />
               <Route element={<WebhookPage />} path="webhook" />
             </Route>
-          </Routes>
-        </Box>
-        <Footer />
-        {!isDesktop && (
-          <>
-            <Box sx={{ height: "10vh" }} />
-            <BottomBar />
-          </>
-        )}
+          </Route>
+        </Routes>
         <UpdateModal />
       </BrowserRouter>
     </ChakraProvider>

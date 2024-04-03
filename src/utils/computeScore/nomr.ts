@@ -2,9 +2,9 @@ import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
-} from "#/utils/computeScore";
-import { detectPlayerState, numberSign } from "#/utils/functions";
-import { AllGameProps, LogDBProps, WinPlayerProps } from "#/utils/types";
+} from "~/utils/computeScore";
+import { detectPlayerState, numberSign } from "~/utils/functions";
+import { AllGameProps, LogDBProps, WinPlayerProps } from "~/utils/types";
 
 const nomr = async (game: AllGameProps["nomr"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];

@@ -1,33 +1,36 @@
 import { cdate } from "cdate";
 
-import attacksurvival from "#/utils/computeScore/attacksurvival";
-import backstream from "#/utils/computeScore/backstream";
-import freezex from "#/utils/computeScore/freezex";
-import nbyn from "#/utils/computeScore/nbyn";
-import nomr from "#/utils/computeScore/nomr";
-import nomx from "#/utils/computeScore/nomx";
-import nomxAd from "#/utils/computeScore/nomx-ad";
-import normal from "#/utils/computeScore/normal";
-import nupdown from "#/utils/computeScore/nupdown";
-import ny from "#/utils/computeScore/ny";
-import squarex from "#/utils/computeScore/squarex";
-import swedish10 from "#/utils/computeScore/swedish10";
-import variables from "#/utils/computeScore/variables";
-import z from "#/utils/computeScore/z";
-import db from "#/utils/db";
+import attacksurvival from "~/utils/computeScore/attacksurvival";
+import backstream from "~/utils/computeScore/backstream";
+import freezex from "~/utils/computeScore/freezex";
+import nbyn from "~/utils/computeScore/nbyn";
+import nomr from "~/utils/computeScore/nomr";
+import nomx from "~/utils/computeScore/nomx";
+import nomxAd from "~/utils/computeScore/nomx-ad";
+import normal from "~/utils/computeScore/normal";
+import nupdown from "~/utils/computeScore/nupdown";
+import ny from "~/utils/computeScore/ny";
+import squarex from "~/utils/computeScore/squarex";
+import swedish10 from "~/utils/computeScore/swedish10";
+import variables from "~/utils/computeScore/variables";
+import z from "~/utils/computeScore/z";
+import db from "~/utils/db";
 import {
   ComputedScoreProps,
   GameDBPlayerProps,
   GamePropsUnion,
   States,
   WinPlayerProps,
-} from "#/utils/types";
+} from "~/utils/types";
+import divide from "./divide";
+import endlessChance from "./endless-chance";
 
 const computeScore = async (game_id: string) => {
-  const game = await db.games.get(game_id);
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const game = await db(currentProfile).games.get(game_id);
   if (!game) return { scores: [], win_players: [], incapacity_players: [] };
-  const gameLogList = await db.logs
-    .where({ game_id: game_id })
+  const gameLogList = await db(currentProfile)
+    .logs.where({ game_id: game_id })
     .sortBy("timestamp");
 
   let result: {
@@ -56,6 +59,9 @@ const computeScore = async (game_id: string) => {
     case "nupdown":
       result = await nupdown(game, gameLogList);
       break;
+    case "divide":
+      result = await divide(game, gameLogList);
+      break;
     case "swedish10":
       result = await swedish10(game, gameLogList);
       break;
@@ -73,6 +79,9 @@ const computeScore = async (game_id: string) => {
       break;
     case "freezex":
       result = await freezex(game, gameLogList);
+      break;
+    case "endless-chance":
+      result = await endlessChance(game, gameLogList);
       break;
     case "variables":
       result = await variables(game, gameLogList);
@@ -117,8 +126,7 @@ const computeScore = async (game_id: string) => {
           },
           body: JSON.stringify({
             username: "Score Watcher",
-            avatar_url:
-              "https://score-watcher.newt239.dev/icons/icon-512x512.png",
+            avatar_url: "https://score-watcher.com/icons/icon-512x512.png",
             embeds: [
               {
                 title: game.name,
@@ -139,7 +147,7 @@ const computeScore = async (game_id: string) => {
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
-  if (webhookUrl && webhookUrl.includes("http")) {
+  if (webhookUrl && webhookUrl.startsWith("http")) {
     const url = webhookUrl.split('"')[1];
     const data = { info: game, logs: gameLogList, scores: result.scores };
     console.log(data);
@@ -162,6 +170,8 @@ const initialBackstreamWrong = (wrong_num: number) => {
 
 const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
   switch (game.rule) {
+    case "divide":
+      return game.correct_me; // 初期スコアは10pt
     case "attacksurvival":
       return game.win_point! + player.initial_correct;
     case "ny":
