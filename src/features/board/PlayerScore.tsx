@@ -349,6 +349,15 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                     timestamp: cdate().text(),
                   });
                 }
+              } else {
+                await db(currentProfile).logs.put({
+                  id: nanoid(),
+                  game_id: game.id,
+                  player_id: player.player_id,
+                  variant: "multiple_wrong",
+                  system: false,
+                  timestamp: cdate().text(),
+                });
               }
               recordEvent({
                 action: "click_score_button",

@@ -12,14 +12,18 @@ const endlessChance = async (
 ) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
-  const realQn =
+  const realQuizLength =
     gameLogList.filter((log) => ["correct", "through"].includes(log.variant))
       .length +
-      gameLogList.length !==
-      0 && gameLogList[gameLogList.length - 1].variant === "multiple_wrong"
+    (gameLogList.length !== 0 &&
+    gameLogList[gameLogList.length - 1].variant === "multiple_wrong"
       ? 1
-      : 0;
-  gameLogList.map((log, qn) => {
+      : 0);
+  let currentQn = 0;
+  gameLogList.map((log) => {
+    if (["correct", "through"].includes(log.variant)) {
+      currentQn++;
+    }
     playersState = playersState.map((playerState) => {
       if (log.player_id.includes(playerState.player_id)) {
         switch (log.variant) {
@@ -29,21 +33,21 @@ const endlessChance = async (
               return {
                 ...playerState,
                 correct: newCorrect,
-                last_correct: qn,
+                last_correct: currentQn,
                 state: "win",
               };
             } else if (newCorrect + 1 === game.win_point!) {
               return {
                 ...playerState,
                 correct: newCorrect,
-                last_correct: qn,
+                last_correct: currentQn,
                 reach_state: "win",
               };
             } else {
               return {
                 ...playerState,
                 correct: newCorrect,
-                last_correct: qn,
+                last_correct: currentQn,
               };
             }
           case "multiple_wrong":
@@ -52,7 +56,7 @@ const endlessChance = async (
               return {
                 ...playerState,
                 wrong: newWrong,
-                last_wrong: realQn,
+                last_wrong: currentQn,
                 is_incapacity: true,
               };
             } else {
@@ -60,7 +64,7 @@ const endlessChance = async (
                 return {
                   ...playerState,
                   wrong: newWrong,
-                  last_wrong: realQn,
+                  last_wrong: currentQn,
                   state: "lose",
                 };
               } else if (
@@ -70,14 +74,14 @@ const endlessChance = async (
                 return {
                   ...playerState,
                   wrong: newWrong,
-                  last_wrong: realQn,
+                  last_wrong: currentQn,
                   reach_state: "lose",
                 };
               } else {
                 return {
                   ...playerState,
                   wrong: newWrong,
-                  last_wrong: realQn,
+                  last_wrong: currentQn,
                 };
               }
             }
@@ -88,7 +92,12 @@ const endlessChance = async (
         if (game.options.use_r) {
           if (
             playerState.is_incapacity &&
-            game.lose_point! < realQn - playerState.last_wrong
+            /*
+              本来は currentQn を使った条件分岐をしたいが複雑になりすぎるため、
+              休み状態かどうかに途中過程は関わらず現在の問題においての状況をチェックすれば良いことを利用し、
+              realQuizLength で判定
+            */
+            game.lose_point! <= realQuizLength - playerState.last_wrong - 1
           ) {
             return {
               ...playerState,
@@ -110,13 +119,13 @@ const endlessChance = async (
       game,
       playerState.state,
       order,
-      realQn // TODO: logの長さチェックについて確認
+      realQuizLength
     );
     const text =
       state === "win"
         ? indicator(order)
         : playerState.is_incapacity
-        ? `${game.lose_point! - realQn + playerState.last_wrong}休`
+        ? `${game.lose_point! - realQuizLength + playerState.last_wrong + 1}休`
         : playerState.state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);
