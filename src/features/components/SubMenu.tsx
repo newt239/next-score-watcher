@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
 import { css } from "@panda/css";
+import { ExternalLink } from "tabler-icons-react";
 import ButtonLink from "~/components/custom/ButtonLink";
 
 const linkList: { text: string; path: string }[] = [
@@ -10,6 +11,7 @@ const linkList: { text: string; path: string }[] = [
   { path: "/players", text: "プレイヤー管理" },
   { path: "/quizes", text: "問題管理" },
   { path: "/option", text: "アプリ設定" },
+  { path: "https://docs.score-watcher.com/", text: "使い方を見る" },
 ];
 
 const SubMenu: React.FC = () => {
@@ -31,6 +33,9 @@ const SubMenu: React.FC = () => {
           variant={link.path === location.pathname ? "solid" : "ghost"}
         >
           {link.text}
+          {link.path.startsWith("http") && (
+            <ExternalLink style={{ marginLeft: "0.5rem" }} />
+          )}
         </ButtonLink>
       ))}
     </div>
