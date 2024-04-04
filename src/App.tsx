@@ -20,6 +20,7 @@ import Layout from "~/layouts/default";
 
 import "~/globals.css";
 import "~/index.css";
+import NotFound from "./NotFound";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
               <Route element={<WebhookPage />} path="webhook" />
             </Route>
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <UpdateModal />
       </BrowserRouter>
