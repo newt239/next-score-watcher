@@ -30,7 +30,6 @@ const Hero: React.FC = () => {
           margin: "16px",
           padding: "16px",
           position: "absolute",
-          textAlign: "center",
           top: "50%",
           transform: "translate(-50%, -50%)",
           width: "80%",
@@ -39,7 +38,6 @@ const Hero: React.FC = () => {
         <div
           className={css({
             fontSize: { base: "3xl", lg: "5xl", md: "4xl" },
-            fontWeight: 700,
             lineHeight: "initial",
             textShadow: "black 1px 0 10px",
           })}

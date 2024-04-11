@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@ark-ui/react": "^2.2.3",
-    "@pandacss/dev": "^0.36.1",
+    "@pandacss/dev": "^0.37.2",
     "@sentry/react": "^7.109.0",
     "@types/encoding-japanese": "^2.0.5",
     "@types/gtag.js": "^0.0.12",
