@@ -3,14 +3,15 @@ import { Link as ReactLink } from "react-router-dom";
 import Hamburger from "~/features/components/Hamburger";
 import SubMenu from "~/features/components/SubMenu";
 
-import { css } from "@panda/css";
+import { Box } from "@chakra-ui/react";
 import Link from "~/components/custom/Link";
 import ProfileSelector from "./ProfileSelector";
 
 const Header: React.FC = () => {
   return (
-    <header
-      className={css({
+    <Box
+      as="header"
+      sx={{
         backgroundColor: "white",
         left: 0,
         lg: {
@@ -26,10 +27,10 @@ const Header: React.FC = () => {
         _dark: {
           backgroundColor: "gray.800",
         },
-      })}
+      }}
     >
-      <div
-        className={css({
+      <Box
+        sx={{
           display: "flex",
           gap: "16px",
           justifyContent: "space-between",
@@ -39,44 +40,46 @@ const Header: React.FC = () => {
           },
           px: "16px",
           py: "8px",
-        })}
+        }}
       >
-        <ReactLink
-          className={css({
+        <Box
+          as={ReactLink}
+          sx={{
             _hover: { opacity: 0.5 },
             transition: "all 0.2s ease-out",
             display: "flex",
             justifyContent: "center",
-          })}
+          }}
           to="/"
         >
-          <img
+          <Box
+            as="img"
             alt="app logo"
-            className={css({
+            sx={{
               cursor: "pointer",
               height: "clamp(35px, 10vw, 50px)",
               width: "auto",
               margin: "auto",
               pb: 2,
               pl: [0, 2],
-            })}
+            }}
             src="/logo.png"
           />
-        </ReactLink>
-        <div
-          className={css({
+        </Box>
+        <Box
+          sx={{
             display: "block",
             lg: {
               display: "none",
             },
-          })}
+          }}
         >
           <Hamburger>
             <SubMenu />
           </Hamburger>
-        </div>
-        <div
-          className={css({
+        </Box>
+        <Box
+          sx={{
             display: "none",
             flexGrow: 1,
             lg: {
@@ -84,31 +87,31 @@ const Header: React.FC = () => {
               flexDirection: "column",
               justifyContent: "space-between",
             },
-          })}
+          }}
         >
           <SubMenu />
-          <div
-            className={css({
+          <Box
+            sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               gap: "8px",
-            })}
+            }}
           >
             <ProfileSelector />
-            <div
-              className={css({
+            <Box
+              sx={{
                 fontSize: "0.8rem",
                 textAlign: "center",
-              })}
+              }}
             >
               © <Link href="https://twitter.com/newt239">newt239</Link>{" "}
               2022-2024
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

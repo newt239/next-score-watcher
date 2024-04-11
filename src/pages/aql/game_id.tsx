@@ -1,7 +1,7 @@
 import { useEffect, useState, type KeyboardEvent } from "react";
 import { useParams } from "react-router-dom";
 
-import { Button, useColorMode } from "@chakra-ui/react";
+import { Box, Button, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -216,8 +216,8 @@ const AQLBoardPage: React.FC = () => {
     }
 
     return (
-      <div
-        className={css({
+      <Box
+        sx={{
           flexDirection: "column",
           textAlign: "center",
           fontSize: "max(1.5rem, 1.5vw)",
@@ -237,7 +237,7 @@ const AQLBoardPage: React.FC = () => {
                 ? "blue.300"
                 : undefined,
           },
-        })}
+        }}
       >
         <div
           className={css({
@@ -367,7 +367,7 @@ const AQLBoardPage: React.FC = () => {
             }
           )}
         </div>
-      </div>
+      </Box>
     );
   };
 
