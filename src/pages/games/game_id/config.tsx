@@ -12,6 +12,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  UnorderedList,
   VStack,
   useDisclosure,
   useToast,
@@ -20,7 +21,6 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import { css } from "@panda/css";
 import ButtonLink from "~/components/custom/ButtonLink";
 import AlertDialog from "~/features/components/AlertDialog";
 import InputLayout from "~/features/components/InputLayout";
@@ -111,7 +111,7 @@ const ConfigPage = () => {
     0;
 
   return (
-    <div>
+    <Box>
       <h3>{rules[game.rule].name}</h3>
       <Accordion allowMultiple defaultIndex={[]}>
         <AccordionItem>
@@ -126,8 +126,8 @@ const ConfigPage = () => {
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <div
-        className={css({
+      <Box
+        sx={{
           my: 5,
           borderStyle: "solid",
           borderRadius: "md",
@@ -140,22 +140,22 @@ const ConfigPage = () => {
               ? "red.300!important"
               : "gray.800!important",
           },
-        })}
+        }}
       >
         <InputLayout
           label={
-            <ul
-              className={css({
+            <UnorderedList
+              sx={{
                 color: "red.500",
                 _dark: {
                   color: "red.300",
                 },
-              })}
+              }}
             >
               {errorMessages.map((m) => (
                 <li key={m}>{m}</li>
               ))}
-            </ul>
+            </UnorderedList>
           }
           simple
           vertical={!isDesktop}
@@ -180,13 +180,13 @@ const ConfigPage = () => {
             </ButtonLink>
           )}
         </InputLayout>
-      </div>
-      <div>
+      </Box>
+      <Box>
         <Tabs
-          className={css({
+          sx={{
             flexDirection: isDesktop ? "row" : "column",
             alignItems: "flex-start",
-          })}
+          }}
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
           orientation="vertical"
@@ -194,12 +194,12 @@ const ConfigPage = () => {
           variant="unstyled"
         >
           <ConfigTabList />
-          <TabPanels className={css({ w: ["100%", "100%", "75%"] })}>
-            <TabPanel className={css({ paddingTop: "0px!important" })}>
+          <TabPanels sx={{ w: ["100%", "100%", "75%"] }}>
+            <TabPanel sx={{ paddingTop: "0px!important" }}>
               <h2>形式設定</h2>
               <RuleSettings disabled={disabled} game={game} />
             </TabPanel>
-            <TabPanel className={css({ paddingTop: "0px!important" })}>
+            <TabPanel sx={{ paddingTop: "0px!important" }}>
               <PlayersConfig
                 disabled={disabled}
                 game_id={game.id}
@@ -208,7 +208,7 @@ const ConfigPage = () => {
                 rule_name={game.rule}
               />
             </TabPanel>
-            <TabPanel className={css({ paddingTop: "0px!important" })}>
+            <TabPanel sx={{ paddingTop: "0px!important" }}>
               <h2>その他の設定</h2>
               <VStack align="stretch" gap={0} pt={5}>
                 <SelectQuizset
@@ -254,8 +254,8 @@ const ConfigPage = () => {
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

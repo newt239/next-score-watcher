@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -18,7 +19,6 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
-import { css } from "@panda/css";
 import ButtonLink from "~/components/custom/ButtonLink";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
@@ -101,13 +101,13 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <div>
-      <div>
+    <Box>
+      <Box>
         <h2>AQLルール</h2>
         {aqlGames && aqlGames.length !== 0 && (
-          <div>
+          <Box>
             <h3>作成したゲーム</h3>
-            <div>
+            <Box>
               <table>
                 <thead>
                   <tr>
@@ -144,17 +144,17 @@ const AQLPage = () => {
                   })}
                 </tbody>
               </table>
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
-        <div>
+        <Box>
           <h3>新規作成</h3>
-          <div
-            className={css({
+          <Box
+            sx={{
               display: "flex",
               flexDirection: isDesktop ? "row" : "column",
               gap: 3,
-            })}
+            }}
           >
             <FormControl pt={2}>
               <FormLabel>ラウンド名</FormLabel>
@@ -180,11 +180,11 @@ const AQLPage = () => {
                 value={rightTeamName}
               />
             </FormControl>
-          </div>
-        </div>
-        <div>
+          </Box>
+        </Box>
+        <Box>
           {quizset_names.length !== 0 ? (
-            <div className={css({ gap: 5 })}>
+            <Box sx={{ gap: 5 }}>
               <FormControl pt={5} width={200}>
                 <FormLabel>セット名</FormLabel>
                 <Select
@@ -215,9 +215,9 @@ const AQLPage = () => {
                   </NumberInput>
                 </FormControl>
               )}
-            </div>
+            </Box>
           ) : (
-            <div>
+            <Box>
               <ButtonLink
                 /* TODO
                 disabled={
@@ -231,10 +231,10 @@ const AQLPage = () => {
               >
                 問題データを読み込む
               </ButtonLink>
-            </div>
+            </Box>
           )}
-        </div>
-        <div className={css({ textAlign: "right", pt: 5 })}>
+        </Box>
+        <Box sx={{ textAlign: "right", pt: 5 }}>
           <Button
             colorScheme="green"
             leftIcon={<CirclePlus />}
@@ -242,9 +242,9 @@ const AQLPage = () => {
           >
             作る
           </Button>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

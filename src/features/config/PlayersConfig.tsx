@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { Card, CardBody } from "@chakra-ui/react";
+import { Box, Card, CardBody } from "@chakra-ui/react";
 import { ReactSortable } from "react-sortablejs";
 
-import { css } from "@panda/css";
 import IndividualConfig from "~/features/config/IndividualConfig";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
@@ -38,7 +37,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
   return (
     <>
       <h2>プレイヤー設定</h2>
-      <div>
+      <Box>
         <h3>プレイヤー選択</h3>
         <SelectPlayerDrawer
           disabled={disabled}
@@ -46,20 +45,20 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
           playerList={playerList}
           players={players}
         />
-      </div>
-      <div>
+      </Box>
+      <Box>
         <h3>並び替え</h3>
         {players.length !== 0 ? (
           <>
-            <div
-              className={css({
+            <Box
+              sx={{
                 mt: 3,
                 p: 3,
                 bgColor: "gray.300",
                 _dark: {
                   bgColor: "gray.600",
                 },
-              })}
+              }}
             >
               <ReactSortable
                 animation={200}
@@ -83,14 +82,11 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                     }
                   })();
                 }}
-                className={css({
+                style={{
                   display: "flex",
                   flexDirection: "column",
                   gap: 5,
-                  lg: {
-                    flexDirection: "row",
-                  },
-                })}
+                }}
               >
                 {sortableList.map((player, index) => (
                   <Card
@@ -104,28 +100,28 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                     }}
                   >
                     <CardBody>
-                      <div
-                        className={css({
+                      <Box
+                        sx={{
                           display: "flex",
                           flexDirection: isDesktop ? "column" : "row",
                           gap: 3,
                           justifyContent: "space-between",
                           alignItems: "center",
                           height: "100%",
-                        })}
+                        }}
                       >
-                        <div
-                          className={css({
+                        <Box
+                          sx={{
                             writingMode: "horizontal-tb",
                             whiteSpace: "nowrap",
                             textOrientation: "upright",
                             lg: {
                               writingMode: "vertical-rl",
                             },
-                          })}
+                          }}
                         >
                           <p>{player.name}</p>
-                        </div>
+                        </Box>
                         {isDesktop && (
                           <IndividualConfig
                             correct={[
@@ -155,27 +151,27 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                             ].includes(rule_name)}
                           />
                         )}
-                      </div>
+                      </Box>
                     </CardBody>
                   </Card>
                 ))}
               </ReactSortable>
-            </div>
+            </Box>
             <p>
               ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
             </p>
           </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
         ) : (
-          <div>ここに選択されたプレイヤーが表示されます</div>
+          <Box>ここに選択されたプレイヤーが表示されます</Box>
         )}
-      </div>
-      <div
-        className={css({
+      </Box>
+      <Box
+        sx={{
           display: "block",
           lg: {
             display: "none",
           },
-        })}
+        }}
       >
         <h3>個人設定</h3>
         <ul>
@@ -199,7 +195,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
             </li>
           ))}
         </ul>
-      </div>
+      </Box>
     </>
   );
 };

@@ -1,38 +1,34 @@
 import { Outlet } from "react-router-dom";
 
-import { css } from "@panda/css";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import Header from "~/features/components/Header";
 
 const Layout: React.FC = () => {
+  const [isLargerThanLG] = useMediaQuery("(min-width: 992px)");
+
   return (
-    <div
-      className={css({
+    <Box
+      sx={{
         display: "flex",
-        flexDirection: "column",
-        lg: {
-          flexDirection: "row",
-        },
+        flexDirection: isLargerThanLG ? "row" : "column",
         _dark: {
           backgroundColor: "gray.800",
         },
-      })}
+      }}
     >
       <Header />
-      <div
-        className={css({
-          lg: {
-            ml: 300,
-            mt: 0,
-          },
-          maxW: "1300px",
-          mt: 50,
+      <Box
+        sx={{
+          ml: isLargerThanLG ? 300 : 0,
+          mt: isLargerThanLG ? 0 : 50,
+          maxWidth: "1300px",
           p: "16px",
           w: "100%",
-        })}
+        }}
       >
         <Outlet />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

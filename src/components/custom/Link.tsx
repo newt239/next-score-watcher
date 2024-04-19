@@ -1,39 +1,30 @@
+import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link as ReactLink } from "react-router-dom";
-
-import { RecipeVariantProps, css, cva, cx } from "@panda/css";
-import { SystemStyleObject } from "@panda/types";
-
-export const anchorRecipe = cva({
-  base: {
-    _hover: {
-      textDecoration: "underline",
-    },
-    alignItems: "center",
-    color: "blue.500",
-    display: "inline-flex",
-  },
-});
 
 export type LinkProps = {
   children: React.ReactNode;
   href: string;
-  sx?: SystemStyleObject;
-  // JSX.IntrinsicElements["a"]はnext/linkが受け付けない
-} & React.HTMLAttributes<HTMLAnchorElement> &
-  RecipeVariantProps<typeof anchorRecipe>;
+} & React.HTMLAttributes<HTMLAnchorElement>;
 
 const Link: React.FC<LinkProps> = (props) => {
-  const { children, href, sx, ...rest } = props;
-  const [anchorProps, restProps] = anchorRecipe.splitVariantProps(rest);
+  const { children, href, ...rest } = props;
   return (
-    <ReactLink
-      className={cx(anchorRecipe(anchorProps), css(sx))}
+    <ChakraLink
+      as={ReactLink}
+      sx={{
+        _hover: {
+          textDecoration: "underline",
+        },
+        alignItems: "center",
+        color: "blue.500",
+        display: "inline-flex",
+      }}
       to={href}
-      {...restProps}
+      {...rest}
       target={href.startsWith("http") ? "_blank" : "_self"}
     >
       {children}
-    </ReactLink>
+    </ChakraLink>
   );
 };
 

@@ -19,14 +19,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ children }) => {
   }, [pathname]);
 
   return (
-    <Box
-      sx={{
-        display: "block",
-        lg: {
-          display: "none",
-        },
-      }}
-    >
+    <Box>
       <div className={isOpen ? "menu-toggle" : ""} />
       <button
         aria-controls="global-menu"

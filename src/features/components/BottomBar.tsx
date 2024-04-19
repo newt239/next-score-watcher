@@ -1,16 +1,14 @@
 import { Link as ReactLink, useLocation } from "react-router-dom";
 
-import { LinkBox } from "@chakra-ui/react";
+import { Box, LinkBox } from "@chakra-ui/react";
 import { Home, QuestionMark, Settings2, User } from "tabler-icons-react";
-
-import { css } from "@panda/css";
 
 const BottomBar = () => {
   const location = useLocation();
 
   return (
-    <div
-      className={css({
+    <Box
+      sx={{
         position: "fixed",
         display: "flex",
         justifyContent: "space-between",
@@ -27,93 +25,93 @@ const BottomBar = () => {
           bgColor: "gray.900",
           color: "white",
         },
-      })}
+      }}
     >
       <ReactLink style={{ width: "25%", textAlign: "center" }} to="/">
         <LinkBox
           aria-label="ホーム"
-          className={css({
+          sx={{
             width: "100%",
             borderRadius: 0,
-          })}
+          }}
           color={location.pathname === "/" ? "green.500" : undefined}
         >
-          <div
-            className={css({
+          <Box
+            sx={{
               flexDirection: "column",
               alignItems: "center",
               my: 1,
-            })}
+            }}
           >
             <Home />
             <span>ホーム</span>
-          </div>
+          </Box>
         </LinkBox>
       </ReactLink>
       <ReactLink style={{ width: "25%" }} to="/players">
         <LinkBox
           aria-label="プレイヤー"
-          className={css({
+          sx={{
             width: "100%",
             borderRadius: 0,
-          })}
+          }}
           color={location.pathname === "/players" ? "green.500" : undefined}
         >
-          <div
-            className={css({
+          <Box
+            sx={{
               flexDirection: "column",
               alignItems: "center",
               my: 1,
-            })}
+            }}
           >
             <User />
             <span>プレイヤ－</span>
-          </div>
+          </Box>
         </LinkBox>
       </ReactLink>
       <ReactLink style={{ width: "25%" }} to="/quizes">
         <LinkBox
           aria-label="問題"
-          className={css({
+          sx={{
             width: "100%",
             borderRadius: 0,
-          })}
+          }}
           color={location.pathname === "/quizes" ? "green.500" : undefined}
         >
-          <div
-            className={css({
+          <Box
+            sx={{
               flexDirection: "column",
               alignItems: "center",
               my: 1,
-            })}
+            }}
           >
             <QuestionMark />
             <span>問題</span>
-          </div>
+          </Box>
         </LinkBox>
       </ReactLink>
       <ReactLink style={{ width: "25%" }} to="/option">
         <LinkBox
           aria-label="設定"
-          className={css({
+          sx={{
             width: "100%",
             borderRadius: 0,
-          })}
+          }}
           color={location.pathname === "/option" ? "green.500" : undefined}
         >
-          <div
-            className={css({
+          <Box
+            sx={{
               flexDirection: "column",
               alignItems: "center",
               my: 1,
-            })}
+            }}
           >
             <Settings2 />
             <span>設定</span>
-          </div>
+          </Box>
         </LinkBox>
       </ReactLink>
-    </div>
+    </Box>
   );
 };
 

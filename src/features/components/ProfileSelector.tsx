@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -16,7 +17,6 @@ import {
   Select,
   useDisclosure,
 } from "@chakra-ui/react";
-import { css } from "@panda/css";
 import { nanoid } from "nanoid";
 import { Plus } from "tabler-icons-react";
 import db from "~/utils/db";
@@ -45,13 +45,13 @@ const ProfileSelector: React.FC = () => {
           <PopoverHeader>プロファイルの切り替え</PopoverHeader>
           <PopoverCloseButton />
           <PopoverBody>
-            <div
-              className={css({
+            <Box
+              sx={{
                 display: "flex",
                 flexDirection: "column",
                 gap: "16px",
                 p: "8px",
-              })}
+              }}
             >
               <FormControl>
                 <FormLabel>選択する</FormLabel>
@@ -81,9 +81,9 @@ const ProfileSelector: React.FC = () => {
                   onChange={(e) => setNewProfileName(e.target.value)}
                 />
                 <Button
-                  className={css({
+                  sx={{
                     mt: "8px",
-                  })}
+                  }}
                   isDisabled={newProfileName === ""}
                   leftIcon={<Plus />}
                   colorScheme="green"
@@ -140,7 +140,7 @@ const ProfileSelector: React.FC = () => {
                   />
                 </FormControl>
               )}
-            </div>
+            </Box>
           </PopoverBody>
         </PopoverContent>
       </Portal>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 
 import {
+  Box,
   Button,
   FormControl,
   FormHelperText,
@@ -15,7 +16,6 @@ import {
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import { css } from "@panda/css";
 import AlertDialog from "~/features/components/AlertDialog";
 import Preferences from "~/features/components/Preferences";
 import db from "~/utils/db";
@@ -49,7 +49,7 @@ const OptionPage = () => {
         <Preferences />
         <VStack gap="0.5rem" pt={2} px={2}>
           <FormControl>
-            <FormLabel className={css({ flexGrow: 1 })}>Webhook</FormLabel>
+            <FormLabel sx={{ flexGrow: 1 }}>Webhook</FormLabel>
             <FormHelperText>
               イベント発生時設定されたURLへPOSTリクエストを送信します。詳しくは
               <Link as={ReactLink} color="blue.500" to="/option/webhook">
@@ -67,16 +67,14 @@ const OptionPage = () => {
             />
           </FormControl>
           <FormControl>
-            <div
-              className={css({
+            <Box
+              sx={{
                 alignItems: "center",
                 justifyContent: "space-between",
-              })}
+              }}
             >
               <div>
-                <FormLabel className={css({ flexGrow: 1 })}>
-                  アプリの初期化
-                </FormLabel>
+                <FormLabel sx={{ flexGrow: 1 }}>アプリの初期化</FormLabel>
                 <FormHelperText>
                   アプリが上手く動作しない場合にお試しください。
                 </FormHelperText>
@@ -84,7 +82,7 @@ const OptionPage = () => {
               <Button colorScheme="red" onClick={onOpen}>
                 初期化する
               </Button>
-            </div>
+            </Box>
           </FormControl>
         </VStack>
         <AlertDialog

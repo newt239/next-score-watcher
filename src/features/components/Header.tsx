@@ -3,26 +3,24 @@ import { Link as ReactLink } from "react-router-dom";
 import Hamburger from "~/features/components/Hamburger";
 import SubMenu from "~/features/components/SubMenu";
 
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import Link from "~/components/custom/Link";
 import ProfileSelector from "./ProfileSelector";
 
 const Header: React.FC = () => {
+  const [isLargerThanLG] = useMediaQuery("(min-width: 992px)");
+
   return (
     <Box
       as="header"
       sx={{
         backgroundColor: "white",
         left: 0,
-        lg: {
-          height: "100vh",
-          p: "16px",
-          width: 300,
-        },
-        p: 0,
+        height: isLargerThanLG ? "100vh" : "auto",
+        padding: isLargerThanLG ? "16px" : 0,
         position: "fixed",
         top: 0,
-        w: "100%",
+        width: isLargerThanLG ? 300 : "100%",
         zIndex: 3,
         _dark: {
           backgroundColor: "gray.800",
@@ -32,12 +30,10 @@ const Header: React.FC = () => {
       <Box
         sx={{
           display: "flex",
+          flexDirection: isLargerThanLG ? "column" : "row",
           gap: "16px",
+          height: isLargerThanLG ? "100%" : "auto",
           justifyContent: "space-between",
-          lg: {
-            flexDirection: "column",
-            h: "100%",
-          },
           px: "16px",
           py: "8px",
         }}
@@ -68,10 +64,7 @@ const Header: React.FC = () => {
         </Box>
         <Box
           sx={{
-            display: "block",
-            lg: {
-              display: "none",
-            },
+            display: isLargerThanLG ? "none" : "block",
           }}
         >
           <Hamburger>
@@ -80,13 +73,10 @@ const Header: React.FC = () => {
         </Box>
         <Box
           sx={{
-            display: "none",
+            display: isLargerThanLG ? "flex" : "none",
             flexGrow: 1,
-            lg: {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            },
+            flexDirection: isLargerThanLG ? "column" : "row",
+            justifyContent: "space-between",
           }}
         >
           <SubMenu />

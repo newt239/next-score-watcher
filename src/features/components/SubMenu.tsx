@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-import { css } from "@panda/css";
+import { Flex } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 import ButtonLink from "~/components/custom/ButtonLink";
 
@@ -18,12 +18,7 @@ const SubMenu: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-      })}
-    >
+    <Flex sx={{ flexDirection: "column" }}>
       {linkList.map((link) => (
         <ButtonLink
           colorScheme="green"
@@ -38,7 +33,7 @@ const SubMenu: React.FC = () => {
           )}
         </ButtonLink>
       ))}
-    </div>
+    </Flex>
   );
 };
 

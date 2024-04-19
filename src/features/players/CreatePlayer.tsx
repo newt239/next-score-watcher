@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -12,7 +13,6 @@ import {
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
-import { css } from "@panda/css";
 import db from "~/utils/db";
 import { GameDBPlayerProps } from "~/utils/types";
 
@@ -105,12 +105,12 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
           />
         </FormControl>
       </Grid>
-      <div
-        className={css({
+      <Box
+        sx={{
           display: "flex",
           justifyContent: "flex-end",
           width: "100%",
-        })}
+        }}
       >
         <Button
           colorScheme="blue"
@@ -120,7 +120,7 @@ const CreatePlayer: React.FC<{ from?: string }> = ({ from }) => {
         >
           追加
         </Button>
-      </div>
+      </Box>
     </VStack>
   );
 };

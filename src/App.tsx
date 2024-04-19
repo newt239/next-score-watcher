@@ -24,7 +24,7 @@ import NotFound from "./NotFound";
 
 function App() {
   return (
-    <ChakraProvider resetCSS={false}>
+    <ChakraProvider>
       <BrowserRouter>
         <ScrollTop />
         <Routes>

@@ -1,5 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { css } from "@panda/css";
+import { Box, Flex, Image } from "@chakra-ui/react";
 
 type FeatureProps = {
   title: string;
@@ -73,12 +72,12 @@ const EachFeature: React.FC<FeatureProps> = ({
       >
         {title}
       </Box>
-      <img
-        className={css({
+      <Image
+        sx={{
           borderRadius: "1rem",
           filter: "drop-shadow(1px 2px 3px black)",
           width: "max(75%, 300px)",
-        })}
+        }}
         src={`images/${image}`}
         alt={description}
       />

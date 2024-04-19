@@ -5,11 +5,9 @@ import {
   FormHelperText,
   FormLabel,
   HStack,
+  SystemStyleObject,
   VStack,
 } from "@chakra-ui/react";
-
-import { css } from "@panda/css";
-import { SystemStyleObject } from "@panda/types";
 
 type InputLayoutProps = {
   id?: string;
@@ -35,7 +33,7 @@ const InputLayout: React.FC<InputLayoutProps> = ({
   return (
     <FormControl
       as={HStack}
-      className={css({
+      sx={{
         flexDirection: vertical ? "column" : "row",
         justifyContent: "space-between",
         alignItems: vertical ? "stretch" : "center",
@@ -48,10 +46,10 @@ const InputLayout: React.FC<InputLayoutProps> = ({
           borderColor: "gray.700",
         },
         ...wrapperStyle,
-      })}
+      }}
     >
       <VStack align="stretch" gap={0}>
-        <FormLabel htmlFor={id} m={0} className={css(labelStyle)}>
+        <FormLabel htmlFor={id} m={0} sx={labelStyle}>
           {label}
         </FormLabel>
         {helperText && <FormHelperText>{helperText}</FormHelperText>}

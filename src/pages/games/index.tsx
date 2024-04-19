@@ -4,8 +4,7 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
 
-import { Card, Select } from "@chakra-ui/react";
-import { css } from "@panda/css";
+import { Box, Card, Select } from "@chakra-ui/react";
 import ButtonLink from "~/components/custom/ButtonLink";
 import Link from "~/components/custom/Link";
 import db from "~/utils/db";
@@ -49,14 +48,14 @@ const GamesPage: React.FC = () => {
     });
 
   return (
-    <div>
+    <Box>
       <h2>作成したゲーム</h2>
-      <div
-        className={css({
+      <Box
+        sx={{
           display: "flex",
           justifyContent: "flex-end",
           gap: "8px",
-        })}
+        }}
       >
         <Select
           width="auto"
@@ -65,7 +64,7 @@ const GamesPage: React.FC = () => {
           <option value="last_open">最終閲覧順</option>
           <option value="name">ゲーム名順</option>
         </Select>
-      </div>
+      </Box>
       {parsedGameList.length === 0 ? (
         <p>
           作成済みのゲームはありません。
@@ -73,27 +72,27 @@ const GamesPage: React.FC = () => {
           ページから新しいゲームを作ることが出来ます。
         </p>
       ) : (
-        <div
-          className={css({
+        <Box
+          sx={{
             display: "grid",
             gap: 3,
             gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
             pt: 3,
-          })}
+          }}
         >
           {parsedGameList.map((game) => (
             <Card
-              className={css({
+              sx={{
                 display: "grid",
                 justifyContent: "space-between",
                 gap: "12px",
                 p: "12px",
-              })}
+              }}
               variant="filled"
               key={game.id}
               title={game.name}
             >
-              <div>
+              <Box>
                 <h3 style={{ whiteSpace: "nowrap", overflowX: "scroll" }}>
                   {game.name}
                 </h3>
@@ -101,15 +100,15 @@ const GamesPage: React.FC = () => {
                   {game.type} ／ {game.player_count}人
                 </p>
                 <p>進行状況: {game.state}</p>
-              </div>
-              <div
-                className={css({
+              </Box>
+              <Box
+                sx={{
                   alignItems: "center",
                   display: "flex",
                   justifyContent: "space-between",
-                })}
+                }}
               >
-                <div>{cdate(game.last_open).format("MM/DD HH:mm")}</div>
+                <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
                 <ButtonLink
                   href={`/games/${game.id}/config`}
                   leftIcon={<AdjustmentsHorizontal />}
@@ -118,12 +117,12 @@ const GamesPage: React.FC = () => {
                 >
                   開く
                 </ButtonLink>
-              </div>
+              </Box>
             </Card>
           ))}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
