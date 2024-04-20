@@ -74,7 +74,7 @@ const BoardPage = () => {
   useEffect(() => {
     if (logs) {
       const executeComputeScore = async () => {
-        const result = await computeScore(game_id as string);
+        const { data: result } = await computeScore(game_id as string);
         setScores(result.scores);
         if (result.win_players.length > 0) {
           if (result.win_players[0].name) {

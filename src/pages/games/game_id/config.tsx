@@ -26,6 +26,7 @@ import InputLayout from "~/features/components/InputLayout";
 import ConfigInput from "~/features/config/ConfigInput";
 import ConfigTabList from "~/features/config/ConfigTabList";
 import CopyGame from "~/features/config/CopyGame";
+import ExportGame from "~/features/config/ExportGame";
 import PlayersConfig from "~/features/config/PlayersConfig";
 import RuleSettings from "~/features/config/RuleSettings";
 import SelectQuizset from "~/features/config/SelectQuizSet";
@@ -224,6 +225,9 @@ const ConfigPage = () => {
               <h3>ゲーム</h3>
               <InputLayout label="ゲームのコピーを作成">
                 <CopyGame game={game} />
+              </InputLayout>
+              <InputLayout label="エクスポート">
+                <ExportGame game={game} />
               </InputLayout>
               <InputLayout label="ゲームを削除">
                 <Button colorScheme="red" leftIcon={<Trash />} onClick={onOpen}>

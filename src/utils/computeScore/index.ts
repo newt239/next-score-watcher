@@ -28,7 +28,8 @@ import endlessChance from "./endless-chance";
 const computeScore = async (game_id: string) => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const game = await db(currentProfile).games.get(game_id);
-  if (!game) return { scores: [], win_players: [], incapacity_players: [] };
+  if (!game)
+    return { data: { scores: [], win_players: [], incapacity_players: [] } };
   const gameLogList = await db(currentProfile)
     .logs.where({ game_id: game_id })
     .sortBy("timestamp");
@@ -147,20 +148,20 @@ const computeScore = async (game_id: string) => {
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
+  const postData = { info: game, logs: gameLogList, scores: result.scores };
   if (webhookUrl && webhookUrl.startsWith("http")) {
     const url = webhookUrl.split('"')[1];
-    const data = { info: game, logs: gameLogList, scores: result.scores };
-    console.log(data);
+    console.log(postData);
     await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(postData),
     });
   }
 
-  return data;
+  return { data, postData } as const;
 };
 
 const initialBackstreamWrong = (wrong_num: number) => {
