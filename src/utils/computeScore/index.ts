@@ -2,6 +2,8 @@ import { cdate } from "cdate";
 
 import attacksurvival from "~/utils/computeScore/attacksurvival";
 import backstream from "~/utils/computeScore/backstream";
+import divide from "~/utils/computeScore/divide";
+import endlessChance from "~/utils/computeScore/endless-chance";
 import freezex from "~/utils/computeScore/freezex";
 import nbyn from "~/utils/computeScore/nbyn";
 import nomr from "~/utils/computeScore/nomr";
@@ -22,8 +24,6 @@ import {
   States,
   WinPlayerProps,
 } from "~/utils/types";
-import divide from "./divide";
-import endlessChance from "./endless-chance";
 
 const computeScore = async (game_id: string) => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");

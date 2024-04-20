@@ -10,7 +10,13 @@ export type ButtonLinkProps = {
 const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
   const { children, href, className, ...rest } = props;
   return (
-    <Button as={ReactLink} to={href} className={className} {...rest}>
+    <Button
+      as={ReactLink}
+      to={href}
+      className={className}
+      target={href.startsWith("http") ? "_blank" : "_self"}
+      {...rest}
+    >
       {children}
     </Button>
   );
