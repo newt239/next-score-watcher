@@ -78,7 +78,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           )}
         </>
       ) : (
-        <InputLayout label="">
+        <InputLayout label="問題データを読み込む">
           <Button
             as={ReactLink}
             colorScheme="blue"

@@ -1,17 +1,13 @@
 import { useEffect, useId, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import { useDebounce } from "~/hooks/useDebounce";
 import db from "~/utils/db";
 import { GamePropsUnion } from "~/utils/types";
+import InputLayout from "../components/InputLayout";
 
 type ConfigInputProps = {
   input_id: keyof GamePropsUnion;
@@ -56,8 +52,7 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   if (!game) return null;
 
   return (
-    <FormControl p={2}>
-      <FormLabel htmlFor={innerId}>{label}</FormLabel>
+    <InputLayout label={label} helperText={helperText}>
       <Input
         id={innerId}
         isDisabled={disabled}
@@ -65,9 +60,9 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
         placeholder={placeholder}
         type={type || "text"}
         value={inputText}
+        width="auto"
       />
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
-    </FormControl>
+    </InputLayout>
   );
 };
 

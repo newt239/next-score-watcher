@@ -13,7 +13,6 @@ import {
   TabPanels,
   Tabs,
   UnorderedList,
-  VStack,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -210,47 +209,37 @@ const ConfigPage = () => {
             </TabPanel>
             <TabPanel sx={{ paddingTop: "0px!important" }}>
               <h2>その他の設定</h2>
-              <VStack align="stretch" gap={0} pt={5}>
-                <SelectQuizset
-                  game_id={game.id}
-                  game_quiz={game.quiz}
-                  quizset_names={quizsetList}
-                />
-              </VStack>
-              <VStack align="stretch" gap={0} pt={5}>
-                <h3>オプション</h3>
-                <ConfigInput
-                  input_id="discord_webhook_url"
-                  label="Discord Webhook"
-                  placeholder="https://discord.com/api/webhooks/..."
-                  type="url"
-                />
-              </VStack>
-              <VStack align="stretch" gap={0} pt={5}>
-                <h3>ゲーム</h3>
-                <InputLayout label="ゲームのコピーを作成">
-                  <CopyGame game={game} />
-                </InputLayout>
-                <InputLayout label="ゲームを削除">
-                  <Button
-                    colorScheme="red"
-                    leftIcon={<Trash />}
-                    onClick={onOpen}
-                  >
-                    削除する
-                  </Button>
-                </InputLayout>
-                <AlertDialog
-                  body="ゲームを削除します。この操作は取り消せません。"
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  onConfirm={() => {
-                    deleteGame();
-                    onClose();
-                  }}
-                  title="ゲームを削除"
-                />
-              </VStack>
+              <SelectQuizset
+                game_id={game.id}
+                game_quiz={game.quiz}
+                quizset_names={quizsetList}
+              />
+              <h3>オプション</h3>
+              <ConfigInput
+                label="Discord Webhook"
+                input_id="discord_webhook_url"
+                placeholder="https://discord.com/api/webhooks/..."
+                type="url"
+              />
+              <h3>ゲーム</h3>
+              <InputLayout label="ゲームのコピーを作成">
+                <CopyGame game={game} />
+              </InputLayout>
+              <InputLayout label="ゲームを削除">
+                <Button colorScheme="red" leftIcon={<Trash />} onClick={onOpen}>
+                  削除する
+                </Button>
+              </InputLayout>
+              <AlertDialog
+                body="ゲームを削除します。この操作は取り消せません。"
+                isOpen={isOpen}
+                onClose={onClose}
+                onConfirm={() => {
+                  deleteGame();
+                  onClose();
+                }}
+                title="ゲームを削除"
+              />
             </TabPanel>
           </TabPanels>
         </Tabs>
