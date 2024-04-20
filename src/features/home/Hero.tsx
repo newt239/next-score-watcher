@@ -45,6 +45,7 @@ const Hero: React.FC = () => {
           <Box>
             <Box
               sx={{
+                display: "inline",
                 textShadow: "green 1px 0 10px",
               }}
             >

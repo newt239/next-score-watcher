@@ -84,7 +84,7 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                 }}
                 style={{
                   display: "flex",
-                  flexDirection: "column",
+                  flexDirection: isDesktop ? "row" : "column",
                   gap: 5,
                 }}
               >
@@ -112,12 +112,11 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
                       >
                         <Box
                           sx={{
-                            writingMode: "horizontal-tb",
+                            writingMode: isDesktop
+                              ? "vertical-rl"
+                              : "horizontal-tb",
                             whiteSpace: "nowrap",
                             textOrientation: "upright",
-                            lg: {
-                              writingMode: "vertical-rl",
-                            },
                           }}
                         >
                           <p>{player.name}</p>
@@ -165,37 +164,32 @@ const PlayersConfig: React.FC<SelectPlayerProps> = ({
           <Box>ここに選択されたプレイヤーが表示されます</Box>
         )}
       </Box>
-      <Box
-        sx={{
-          display: "block",
-          lg: {
-            display: "none",
-          },
-        }}
-      >
-        <h3>個人設定</h3>
-        <ul>
-          {sortableList.map((player, index) => (
-            <li key={player.id}>
-              <span>{player.name}</span>
-              <IndividualConfig
-                correct={[
-                  "normal",
-                  "nomx",
-                  "nomx-ad",
-                  "ny",
-                  "nomr",
-                  "variables",
-                  "attacksurvival",
-                ].includes(rule_name)}
-                disabled={disabled}
-                index={index}
-                wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(rule_name)}
-              />
-            </li>
-          ))}
-        </ul>
-      </Box>
+      {!isDesktop && (
+        <Box>
+          <h3>個人設定</h3>
+          <ul>
+            {sortableList.map((player, index) => (
+              <li key={player.id}>
+                <span>{player.name}</span>
+                <IndividualConfig
+                  correct={[
+                    "normal",
+                    "nomx",
+                    "nomx-ad",
+                    "ny",
+                    "nomr",
+                    "variables",
+                    "attacksurvival",
+                  ].includes(rule_name)}
+                  disabled={disabled}
+                  index={index}
+                  wrong={["nomx", "nomx-ad", "ny", "nomr"].includes(rule_name)}
+                />
+              </li>
+            ))}
+          </ul>
+        </Box>
+      )}
     </>
   );
 };

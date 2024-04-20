@@ -83,7 +83,7 @@ const GamesPage: React.FC = () => {
           {parsedGameList.map((game) => (
             <Card
               sx={{
-                display: "grid",
+                display: "flex",
                 justifyContent: "space-between",
                 gap: "12px",
                 p: "12px",

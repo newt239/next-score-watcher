@@ -1,9 +1,10 @@
-import { Tab, TabList } from "@chakra-ui/react";
+import { Tab, TabList, useBreakpointValue } from "@chakra-ui/react";
 
 const ConfigTab: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <Tab
       sx={{
+        display: "flex",
         justifyContent: "flex-start",
         borderRadius: "0.5rem",
         _hover: {
@@ -35,6 +36,8 @@ const ConfigTab: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const ConfigTabList: React.FC = () => {
+  const largerThanMD = useBreakpointValue([false, true]);
+
   return (
     <TabList
       sx={{
@@ -42,10 +45,10 @@ const ConfigTabList: React.FC = () => {
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: "gray.200",
-        width: "100%",
-        md: {
-          width: "25%",
-          minWidth: "150px",
+        width: largerThanMD ? "25%" : "100%",
+        minWidth: "150px",
+        _dark: {
+          borderColor: "gray.700",
         },
       }}
     >
@@ -55,4 +58,5 @@ const ConfigTabList: React.FC = () => {
     </TabList>
   );
 };
+
 export default ConfigTabList;

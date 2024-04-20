@@ -19,7 +19,6 @@ import UpdateModal from "~/features/components/UpdateModal";
 import Layout from "~/layouts/default";
 
 import "~/globals.css";
-import "~/index.css";
 import NotFound from "./NotFound";
 
 function App() {
