@@ -5,8 +5,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
 
 import { Box, Card, Select } from "@chakra-ui/react";
-import ButtonLink from "~/components/custom/ButtonLink";
-import Link from "~/components/custom/Link";
+
+import ButtonLink from "~/components/ButtonLink";
+import Link from "~/components/Link";
 import db from "~/utils/db";
 import { getRuleStringByType } from "~/utils/rules";
 

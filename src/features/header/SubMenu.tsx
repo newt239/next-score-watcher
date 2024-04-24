@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
 
+import ButtonLink from "~/components/ButtonLink";
+
 import { Flex } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
-import ButtonLink from "~/components/custom/ButtonLink";
 
 const linkList: { text: string; path: string }[] = [
   { path: "/", text: "ホーム" },

@@ -19,8 +19,9 @@ import {
 } from "@chakra-ui/react";
 import { nanoid } from "nanoid";
 import { Plus } from "tabler-icons-react";
+
+import AlertDialog from "~/features/components/AlertDialog";
 import db from "~/utils/db";
-import AlertDialog from "./AlertDialog";
 
 const ProfileSelector: React.FC = () => {
   const raw = window.localStorage.getItem("scorew_profile_list");

@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { Code, Icon, Link } from "@chakra-ui/react";
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
 
-import ButtonLink from "~/components/custom/ButtonLink";
+import ButtonLink from "~/components/ButtonLink";
 
 const WebhookPage = () => {
   const [params] = useSearchParams();

@@ -44,7 +44,7 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { DeviceFloppy, Edit, Filter, Trash } from "tabler-icons-react";
 
-import TablePagenation from "~/features/components/TablePagination";
+import TablePagenation from "~/components/TablePagination";
 import db from "~/utils/db";
 import { QuizDBProps } from "~/utils/types";
 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import {
@@ -9,9 +10,9 @@ import {
   useDisclosure,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import ButtonLink from "~/components/custom/ButtonLink";
-import Header from "~/features/components/Header";
+
+import ButtonLink from "~/components/ButtonLink";
+import Header from "~/features/header/Header";
 
 const Layout: React.FC = () => {
   const [isLargerThanLG] = useMediaQuery("(min-width: 992px)");

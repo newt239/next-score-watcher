@@ -9,6 +9,8 @@ import {
   AccordionPanel,
   Box,
   Button,
+  Tab,
+  TabList,
   TabPanel,
   TabPanels,
   Tabs,
@@ -20,11 +22,10 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import ButtonLink from "~/components/custom/ButtonLink";
+import ButtonLink from "~/components/ButtonLink";
+import InputLayout from "~/components/InputLayout";
 import AlertDialog from "~/features/components/AlertDialog";
-import InputLayout from "~/features/components/InputLayout";
 import ConfigInput from "~/features/config/ConfigInput";
-import ConfigTabList from "~/features/config/ConfigTabList";
 import CopyGame from "~/features/config/CopyGame";
 import ExportGame from "~/features/config/ExportGame";
 import PlayersConfig from "~/features/config/PlayersConfig";
@@ -183,23 +184,23 @@ const ConfigPage = () => {
       </Box>
       <Box>
         <Tabs
-          sx={{
-            flexDirection: isDesktop ? "row" : "column",
-            alignItems: "flex-start",
-          }}
+          colorScheme="green"
+          isFitted
+          variant="enclosed"
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
-          orientation="vertical"
-          position="relative"
-          variant="unstyled"
         >
-          <ConfigTabList />
-          <TabPanels sx={{ w: ["100%", "100%", "75%"] }}>
-            <TabPanel sx={{ paddingTop: "0px!important" }}>
+          <TabList>
+            <Tab>形式設定</Tab>
+            <Tab>プレイヤー設定</Tab>
+            <Tab>その他の設定</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
               <h2>形式設定</h2>
               <RuleSettings disabled={disabled} game={game} />
             </TabPanel>
-            <TabPanel sx={{ paddingTop: "0px!important" }}>
+            <TabPanel>
               <PlayersConfig
                 disabled={disabled}
                 game_id={game.id}
@@ -208,7 +209,7 @@ const ConfigPage = () => {
                 rule_name={game.rule}
               />
             </TabPanel>
-            <TabPanel sx={{ paddingTop: "0px!important" }}>
+            <TabPanel>
               <h2>その他の設定</h2>
               <SelectQuizset
                 game_id={game.id}

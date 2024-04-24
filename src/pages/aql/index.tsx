@@ -19,7 +19,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
 
-import ButtonLink from "~/components/custom/ButtonLink";
+import ButtonLink from "~/components/ButtonLink";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 

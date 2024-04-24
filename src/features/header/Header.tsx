@@ -1,11 +1,11 @@
 import { Link as ReactLink } from "react-router-dom";
 
-import Hamburger from "~/features/components/Hamburger";
-import SubMenu from "~/features/components/SubMenu";
+import Link from "~/components/Link";
+import Hamburger from "~/features/header/Hamburger";
+import ProfileSelector from "~/features/header/ProfileSelector";
+import SubMenu from "~/features/header/SubMenu";
 
 import { Box, useMediaQuery } from "@chakra-ui/react";
-import Link from "~/components/custom/Link";
-import ProfileSelector from "./ProfileSelector";
 
 const Header: React.FC = () => {
   const [isLargerThanLG] = useMediaQuery("(min-width: 992px)");
