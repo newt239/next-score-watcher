@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Input,
@@ -17,9 +20,10 @@ import {
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
-import { Chalkboard, CirclePlus, Trash, Upload } from "tabler-icons-react";
+import { Chalkboard, CirclePlus, Trash } from "tabler-icons-react";
 
 import ButtonLink from "~/components/ButtonLink";
+import Link from "~/components/Link";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 
@@ -124,6 +128,8 @@ const AQLPage = () => {
                           <ButtonLink
                             href={`/aql/${game.id}`}
                             leftIcon={<Chalkboard />}
+                            size="sm"
+                            variant="ghost"
                           >
                             開く
                           </ButtonLink>
@@ -182,9 +188,9 @@ const AQLPage = () => {
             </FormControl>
           </Box>
         </Box>
-        <Box>
+        <Box py={5}>
           {quizset_names.length !== 0 ? (
-            <Box sx={{ gap: 5 }}>
+            <Flex sx={{ gap: 5 }}>
               <FormControl pt={5} width={200}>
                 <FormLabel>セット名</FormLabel>
                 <Select
@@ -204,7 +210,7 @@ const AQLPage = () => {
                   <FormLabel>オフセット</FormLabel>
                   <NumberInput
                     min={0}
-                    onChange={(s, n) => setOffset(n)}
+                    onChange={(_s, n) => setOffset(n)}
                     value={offset}
                   >
                     <NumberInputField />
@@ -215,26 +221,16 @@ const AQLPage = () => {
                   </NumberInput>
                 </FormControl>
               )}
-            </Box>
+            </Flex>
           ) : (
-            <Box>
-              <ButtonLink
-                /* TODO
-                disabled={
-                  roundName === "" ||
-                  leftTeamName === "" ||
-                  rightTeamName === ""
-                }
-                */
-                href="/quizes"
-                leftIcon={<Upload />}
-              >
-                問題データを読み込む
-              </ButtonLink>
-            </Box>
+            <Alert status="info" borderRadius="0.5rem">
+              <AlertIcon />
+              <Link href="/quizes">問題管理</Link>
+              ページから問題をアップロードして得点表示画面に表示することができます。
+            </Alert>
           )}
         </Box>
-        <Box sx={{ textAlign: "right", pt: 5 }}>
+        <Box sx={{ textAlign: "right" }}>
           <Button
             colorScheme="green"
             leftIcon={<CirclePlus />}
