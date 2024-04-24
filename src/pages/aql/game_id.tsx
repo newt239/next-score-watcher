@@ -1,7 +1,7 @@
 import { useEffect, useState, type KeyboardEvent } from "react";
 import { useParams } from "react-router-dom";
 
-import { Box, Button, useColorMode } from "@chakra-ui/react";
+import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -215,7 +215,7 @@ const AQLBoardPage: React.FC = () => {
     }
 
     return (
-      <Box
+      <Flex
         sx={{
           flexDirection: "column",
           textAlign: "center",
@@ -260,7 +260,7 @@ const AQLBoardPage: React.FC = () => {
           {Math.min(200, point)}
           {state === "win" ? " / WIN" : state === "lose" ? " / LOSE" : ""}
         </Box>
-        <Box
+        <Flex
           sx={{
             flexDirection: isDesktop ? "row" : "column",
             justifyContent: "space-between",
@@ -275,7 +275,7 @@ const AQLBoardPage: React.FC = () => {
                   : gameState.rightTeamReachStates[n - 5];
               const wrong = gameState.scores[n].wrong;
               return (
-                <Box
+                <Flex
                   sx={{
                     flexDirection: isDesktop ? "column" : "row",
                     alignItems: "center",
@@ -361,12 +361,12 @@ const AQLBoardPage: React.FC = () => {
                   >
                     {wrong}✕
                   </Button>
-                </Box>
+                </Flex>
               );
             }
           )}
-        </Box>
-      </Box>
+        </Flex>
+      </Flex>
     );
   };
 
@@ -381,7 +381,7 @@ const AQLBoardPage: React.FC = () => {
         quiz_offset={game.quiz.offset}
         quiz_set={game.quiz.set_name}
       />
-      <Box
+      <Flex
         sx={{
           gap: "1.5vh 1vw",
           w: "100%",
@@ -396,7 +396,7 @@ const AQLBoardPage: React.FC = () => {
       >
         <EachGroup position="left" />
         <EachGroup position="right" />
-      </Box>
+      </Flex>
       <Box sx={{ justifyContent: "center" }}>
         <GameLogs logs={logs} players={getPlayerList()} quiz={game.quiz} />
       </Box>

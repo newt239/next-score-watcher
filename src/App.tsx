@@ -28,19 +28,19 @@ function App() {
         <ScrollTop />
         <Routes>
           <Route element={<BoardPage />} path="/games/:game_id/board" />
+          <Route element={<AQLBoardPage />} path="/aql/:game_id" />
           <Route element={<Layout />} path="/">
             <Route element={<HomePage />} index />
             <Route path="games">
               <Route element={<GamesPage />} index />
               <Route element={<ConfigPage />} path=":game_id/config" />
             </Route>
-            <Route path="aql">
-              <Route element={<AQLPage />} index />
-              <Route element={<AQLBoardPage />} path=":game_id" />
-            </Route>
             <Route element={<RulePage />} path="rules" />
             <Route element={<PlayerPage />} path="players" />
             <Route element={<QuizPage />} path="quizes" />
+            <Route path="aql">
+              <Route element={<AQLPage />} index />
+            </Route>
             <Route path="option">
               <Route element={<OptionPage />} index />
               <Route element={<WebhookPage />} path="webhook" />
