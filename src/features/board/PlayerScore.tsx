@@ -41,7 +41,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   return (
     <Flex
       sx={{
-        w: isDesktop ? "100%" : undefined,
+        width: ["auto", "auto", "100%"],
         flexDirection: !isVerticalView ? "column" : "row",
         alignItems: "center",
         justifyContent: "flex-end",

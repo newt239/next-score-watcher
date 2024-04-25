@@ -8,7 +8,6 @@ import { nanoid } from "nanoid";
 
 import AQLBoardHeader from "~/features/board/AQLBoardHeader";
 import GameLogs from "~/features/board/GameLogs";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { AQLGamePropsUnion } from "~/utils/types";
 
@@ -19,7 +18,6 @@ type AQLPlayerStateProps = {
 
 const AQLBoardPage: React.FC = () => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
-  const isDesktop = useDeviceWidth(800);
   const { game_id } = useParams();
   const aqlGamesRaw = localStorage.getItem("scorewatcher-aql-games");
   const game = aqlGamesRaw
@@ -262,7 +260,7 @@ const AQLBoardPage: React.FC = () => {
         </Box>
         <Flex
           sx={{
-            flexDirection: isDesktop ? "row" : "column",
+            flexDirection: ["column", "column", "row"],
             justifyContent: "space-between",
             gap: 1,
           }}
@@ -277,7 +275,7 @@ const AQLBoardPage: React.FC = () => {
               return (
                 <Flex
                   sx={{
-                    flexDirection: isDesktop ? "column" : "row",
+                    flexDirection: ["column", "column", "row"],
                     alignItems: "center",
                     gap: 3,
                     borderStyle: "solid",
@@ -389,7 +387,7 @@ const AQLBoardPage: React.FC = () => {
           px: "1vw",
           pt: "3vh",
           justifyContent: "space-around",
-          flexDirection: isDesktop ? "row" : "column",
+          flexDirection: ["column", "column", "row"],
         }}
         onKeyDown={keyboardShortcutHandler}
         tabIndex={-1}

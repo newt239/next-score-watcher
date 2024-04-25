@@ -36,7 +36,6 @@ import {
 } from "tabler-icons-react";
 
 import ShortcutGuide from "~/features/board/ShortcutGuide";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { showQnAtom } from "~/utils/jotai";
 import { LogDBProps, QuizDBProps } from "~/utils/types";
@@ -63,7 +62,6 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
-  const isDesktop = useDeviceWidth();
   const showQn = useAtomValue(showQnAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -124,54 +122,50 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
           <h2 className="p0">{name}</h2>
           <p>AQL</p>
         </Flex>
-        {isDesktop && (
-          <>
-            {showQn && (
-              <Box sx={{ whiteSpace: "nowrap" }}>
-                第
-                <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
-                  {logs.length + 1}
-                </span>
-                問
-              </Box>
-            )}
-            {quiz_set && quizList.length > logs.length && (
-              <Box
-                sx={{
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                  fontSize: "1.5rem",
-                  lineHeight: "1.5rem",
-                  overflow: "hidden",
-                }}
-              >
-                <Box sx={{ maxHeight: "8vh" }}>
-                  {qn === 0
-                    ? "ここに問題文が表示されます"
-                    : quizList[quiz_offset + qn - 1].q}
-                </Box>
-                <Box
-                  sx={{
-                    textAlign: "right",
-                    color: "red.600",
-                    bgColor: "gray.50",
-                    fontWeight: 800,
-                    _dark: {
-                      color: "red.300",
-                      bgColor: "gray.700",
-                    },
-                  }}
-                >
-                  {qn === 0
-                    ? "ここに答えが表示されます"
-                    : quizList[quiz_offset + qn - 1].a}
-                </Box>
-              </Box>
-            )}
-          </>
+        {showQn && (
+          <Box sx={{ whiteSpace: "nowrap", display: ["none", "block"] }}>
+            第
+            <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
+              {logs.length + 1}
+            </span>
+            問
+          </Box>
+        )}
+        {quiz_set && quizList.length > logs.length && (
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: ["none", "flex"],
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+              fontSize: "1.5rem",
+              lineHeight: "1.5rem",
+              overflow: "hidden",
+            }}
+          >
+            <Box sx={{ maxHeight: "8vh" }}>
+              {qn === 0
+                ? "ここに問題文が表示されます"
+                : quizList[quiz_offset + qn - 1].q}
+            </Box>
+            <Box
+              sx={{
+                textAlign: "right",
+                color: "red.600",
+                bgColor: "gray.50",
+                fontWeight: 800,
+                _dark: {
+                  color: "red.300",
+                  bgColor: "gray.700",
+                },
+              }}
+            >
+              {qn === 0
+                ? "ここに答えが表示されます"
+                : quizList[quiz_offset + qn - 1].a}
+            </Box>
+          </Box>
         )}
         <Box>
           <Menu closeOnSelect={false}>
@@ -231,11 +225,14 @@ const AQLBoardHeader: React.FC<AQLBoardHeaderProps> = ({
                   <Switch isChecked={end} />
                 </FormControl>
               </MenuItem>
-              {isDesktop && (
-                <MenuItem closeOnSelect icon={<Command />} onClick={onOpen}>
-                  ショートカットを確認
-                </MenuItem>
-              )}
+              <MenuItem
+                closeOnSelect
+                icon={<Command />}
+                onClick={onOpen}
+                sx={{ display: ["none", "none", "block"] }}
+              >
+                ショートカットを確認
+              </MenuItem>
               <MenuItem
                 as={ReactLink}
                 icon={<AdjustmentsHorizontal />}

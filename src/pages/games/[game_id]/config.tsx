@@ -32,7 +32,6 @@ import ExportGame from "~/features/config/ExportGame";
 import PlayersConfig from "~/features/config/PlayersConfig";
 import RuleSettings from "~/features/config/RuleSettings";
 import SelectQuizset from "~/features/config/SelectQuizSet";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 import { rules } from "~/utils/rules";
@@ -40,7 +39,6 @@ import { rules } from "~/utils/rules";
 const ConfigPage = () => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const navigate = useNavigate();
-  const isDesktop = useDeviceWidth();
   const { game_id } = useParams();
   const toast = useToast();
   const game = useLiveQuery(() =>
@@ -152,6 +150,7 @@ const ConfigPage = () => {
         }}
       >
         <InputLayout
+          sx={{ borderBottomWidth: 0 }}
           label={
             <UnorderedList
               sx={{
@@ -166,8 +165,6 @@ const ConfigPage = () => {
               ))}
             </UnorderedList>
           }
-          simple
-          vertical={!isDesktop}
         >
           {playButtonIsDisabled ? (
             <Button

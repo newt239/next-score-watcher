@@ -24,7 +24,6 @@ import { Chalkboard, CirclePlus, Trash } from "tabler-icons-react";
 
 import ButtonLink from "~/components/ButtonLink";
 import Link from "~/components/Link";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 
 export type AQLGamePropsUnion = {
@@ -59,8 +58,6 @@ const AQLPage = () => {
       ? (JSON.parse(aqlGamesRaw) as { games: AQLGamePropsUnion[] }).games
       : []
   );
-
-  const isDesktop = useDeviceWidth();
 
   useEffect(() => {
     document.title = "AQL設定 | Score Watcher";
@@ -158,7 +155,7 @@ const AQLPage = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: isDesktop ? "row" : "column",
+              flexDirection: ["column", "column", "row"],
               gap: 3,
             }}
           >

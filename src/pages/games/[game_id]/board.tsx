@@ -199,7 +199,7 @@ const BoardPage = () => {
           flexWrap: isDesktop && players.length > 10 ? "wrap" : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: isDesktop ? ["90vh", "90vh", "85vh"] : undefined,
+          h: ["auto", "auto", "90vh", "90vh", "85vh"],
           px: "1vw",
           pt: "3vh",
         }}

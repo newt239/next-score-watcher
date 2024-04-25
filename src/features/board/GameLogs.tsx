@@ -12,7 +12,6 @@ import {
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { LogDBProps, QuizDBProps } from "~/utils/types";
 
@@ -26,7 +25,6 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
-  const desktop = useDeviceWidth();
   const [reverse, setReverse] = useState<Boolean>(true);
 
   useEffect(() => {
@@ -57,10 +55,10 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
       <Box
         sx={{
           borderStyle: "solid",
-          borderWidth: desktop ? 3 : 1,
+          borderWidth: [1, 1, 3],
           borderColor: "gray.100",
           p: 3,
-          borderRadius: desktop ? "1rem" : "0.5rem",
+          borderRadius: ["0.5rem", "0.5rem", "1rem"],
           _dark: {
             borderColor: "gray.700",
           },
