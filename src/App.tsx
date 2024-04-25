@@ -2,16 +2,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 
+import NotFound from "~/NotFound";
 import HomePage from "~/pages";
 import AQLPage from "~/pages/aql";
-import AQLBoardPage from "~/pages/aql/game_id";
+import AQLBoardPage from "~/pages/aql/[game_id]";
 import GamesPage from "~/pages/games";
-import BoardPage from "~/pages/games/game_id/board";
-import ConfigPage from "~/pages/games/game_id/config";
+import BoardPage from "~/pages/games/[game_id]/board";
+import ConfigPage from "~/pages/games/[game_id]/config";
 import OptionPage from "~/pages/option";
 import WebhookPage from "~/pages/option/webhook";
 import PlayerPage from "~/pages/players";
-import QuizPage from "~/pages/quiz";
+import QuizPage from "~/pages/quizes";
 import RulePage from "~/pages/rules";
 
 import ScrollTop from "~/features/components/ScrollTop";
@@ -19,7 +20,6 @@ import UpdateModal from "~/features/components/UpdateModal";
 import Layout from "~/layouts/default";
 
 import "~/globals.css";
-import NotFound from "./NotFound";
 
 function App() {
   return (
