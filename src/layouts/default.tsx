@@ -46,40 +46,43 @@ const Layout: React.FC = () => {
         <Outlet />
       </Box>
 
-      <Slide direction="bottom" in={isOpen} style={{ zIndex: 10 }}>
-        <Flex
-          p="10px"
-          bg="gray.100"
-          rounded="md"
-          shadow="md"
-          color="black"
-          alignItems="center"
-          justifyContent="space-between"
-          gap="4"
-          flexDirection={isLargerThanLG ? "row" : "column"}
-        >
-          <Box>
-            <Text>
-              Score WatcherのURLが変わりました！今後は下記URLをご利用ください！
-            </Text>
-            <Text>
-              <Link href="https://score-watcher.com/" color="blue.500">
-                https://score-watcher.com/
-              </Link>
-            </Text>
-          </Box>
-          <Box>
-            <ButtonLink
-              href="https://score-watcher.com/"
-              variant="filled"
-              backgroundColor="green.500"
-              color="white"
-            >
-              新しいURLにアクセス
-            </ButtonLink>
-          </Box>
-        </Flex>
-      </Slide>
+      {window.location.href.includes("score-watcher.com") || (
+        <Slide direction="bottom" in={isOpen} style={{ zIndex: 10 }}>
+          <Flex
+            p="10px"
+            bg="gray.100"
+            rounded="md"
+            shadow="md"
+            color="black"
+            alignItems="center"
+            justifyContent="space-between"
+            gap="4"
+            flexDirection={isLargerThanLG ? "row" : "column"}
+          >
+            <Box>
+              <Text>
+                Score
+                WatcherのURLが変わりました！今後は下記URLをご利用ください！
+              </Text>
+              <Text>
+                <Link href="https://score-watcher.com/" color="blue.500">
+                  https://score-watcher.com/
+                </Link>
+              </Text>
+            </Box>
+            <Box>
+              <ButtonLink
+                href="https://score-watcher.com/"
+                variant="filled"
+                backgroundColor="green.500"
+                color="white"
+              >
+                新しいURLにアクセス
+              </ButtonLink>
+            </Box>
+          </Flex>
+        </Slide>
+      )}
     </Box>
   );
 };
