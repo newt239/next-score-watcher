@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -19,7 +18,6 @@ import { ExternalLink } from "tabler-icons-react";
 import { features } from "~/utils/features";
 
 const UpdateModal: React.FC = () => {
-  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const currentVersion = localStorage.getItem("scorewatcher-version");
   const latestVersion = import.meta.env.VITE_APP_VERSION;
@@ -32,22 +30,16 @@ const UpdateModal: React.FC = () => {
     }
   }, []);
 
-  const update = () => {
-    localStorage.setItem("scorewatcher-version", latestVersion!);
-    navigate(0);
-  };
-
   const feature = features[latestVersion];
 
   return (
-    <Modal isOpen={modalOpen} onClose={update}>
+    <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>新しいバージョンがあります</ModalHeader>
+        <ModalHeader>新しいバージョンがリリースされました</ModalHeader>
         <ModalBody>
           <p>
-            現在 v.{currentVersion} を使用中です。 v.{latestVersion}{" "}
-            にアップデートします。
+            v.{currentVersion} から v.{latestVersion} にアップデートしました。
           </p>
           {feature && (
             <>
@@ -95,8 +87,8 @@ const UpdateModal: React.FC = () => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" onClick={update}>
-            アップデート
+          <Button colorScheme="blue" onClick={() => setModalOpen(false)}>
+            閉じる
           </Button>
         </ModalFooter>
       </ModalContent>
