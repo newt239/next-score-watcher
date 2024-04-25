@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Box, Button, IconButton, Slide, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Slide,
+  Tooltip,
+} from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -187,9 +194,8 @@ const BoardPage = () => {
           }}
         />
       )}
-      <Box
+      <Flex
         sx={{
-          display: "flex",
           flexDirection:
             (isDesktop && players.length > 10) || !isDesktop ? "column" : "row",
           justifyContent:
@@ -217,7 +223,7 @@ const BoardPage = () => {
             )}
           />
         ))}
-      </Box>
+      </Flex>
       <GameLogs logs={logs} players={players} quiz={game.quiz} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
@@ -242,9 +248,8 @@ const BoardPage = () => {
           }}
         >
           <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
-          <Box
+          <Flex
             sx={{
-              display: "flex",
               gap: 1,
             }}
           >
@@ -291,7 +296,7 @@ const BoardPage = () => {
             >
               <X />
             </IconButton>
-          </Box>
+          </Flex>
         </Box>
       </Slide>
     </>

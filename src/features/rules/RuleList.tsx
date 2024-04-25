@@ -38,6 +38,7 @@ const RuleList: React.FC = () => {
                 backgroundColor: "gray.200",
                 borderRadius: "8px",
                 p: "12px",
+                pb: 0,
                 _dark: {
                   backgroundColor: "gray.700",
                 },

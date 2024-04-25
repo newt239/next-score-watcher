@@ -10,7 +10,6 @@ import {
   InputLeftElement,
   Table,
   TableContainer,
-  Tag,
   Tbody,
   Td,
   Text,
@@ -59,8 +58,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     return (
       data.name?.includes(searchText) ||
       data.text?.includes(searchText) ||
-      data.belong?.includes(searchText) ||
-      data.tags.join("").includes(searchText)
+      data.belong?.includes(searchText)
     );
   };
 
@@ -91,17 +89,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       }),
       columnHelper.accessor("belong", {
         header: "所属",
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("tags", {
-        header: "タグ",
-        cell: (info) => {
-          return info.row.original.tags.map((tag, tagi) => (
-            <Tag colorScheme="green" key={tagi} size="sm">
-              {tag}
-            </Tag>
-          ));
-        },
         footer: (info) => info.column.id,
       }),
     ],

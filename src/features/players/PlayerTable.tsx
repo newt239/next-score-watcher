@@ -13,7 +13,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  HStack,
   IconButton,
   Input,
   InputGroup,
@@ -28,9 +27,6 @@ import {
   ModalOverlay,
   Table,
   TableContainer,
-  Tag,
-  TagLabel,
-  TagRightIcon,
   Tbody,
   Td,
   Text,
@@ -52,10 +48,9 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import { DeviceFloppy, Edit, Filter, Tags, Trash, X } from "tabler-icons-react";
+import { DeviceFloppy, Edit, Filter, Trash } from "tabler-icons-react";
 
 import TablePagination from "~/components/TablePagination";
-import EditPlayertagsModal from "~/features/players/EditPlayerTagsModal";
 import db from "~/utils/db";
 import { PlayerDBProps } from "~/utils/types";
 
@@ -129,28 +124,6 @@ const PlayerTable: React.FC = () => {
     }),
     columnHelper.accessor("belong", {
       header: "所属",
-    }),
-    columnHelper.accessor("tags", {
-      header: "タグ",
-      cell: (info) => {
-        return info.row.original.tags.map((tag, tagi) => (
-          <Tag colorScheme="green" key={tagi} size="sm">
-            <TagLabel>{tag}</TagLabel>
-            <TagRightIcon
-              onClick={async () => {
-                await db(currentProfile).players.update(info.row.original.id, {
-                  tags: info.row.original.tags.filter(
-                    (playerTag) => playerTag !== tag
-                  ),
-                });
-              }}
-              sx={{ cursor: "pointer" }}
-            >
-              <X />
-            </TagRightIcon>
-          </Tag>
-        ));
-      },
     }),
     columnHelper.accessor("id", {
       header: "",
@@ -233,31 +206,14 @@ const PlayerTable: React.FC = () => {
           {
             <Flex sx={{ pb: 5, gap: 3, justifyContent: "flex-end" }}>
               {table.getSelectedRowModel().rows.length !== 0 && (
-                <HStack>
-                  <Button
-                    colorScheme="red"
-                    leftIcon={<Trash />}
-                    onClick={alertOnOpen}
-                    size="sm"
-                  >
-                    削除
-                  </Button>
-                  <Button
-                    colorScheme="green"
-                    leftIcon={<Tags />}
-                    onClick={() => setEditPlayerTagsModal(true)}
-                    size="sm"
-                  >
-                    タグを追加
-                  </Button>
-                  <EditPlayertagsModal
-                    isOpen={editPlayerTagsModal}
-                    onClose={() => setEditPlayerTagsModal(false)}
-                    selectedPlayers={table
-                      .getSelectedRowModel()
-                      .rows.map((row) => row.original)}
-                  />
-                </HStack>
+                <Button
+                  colorScheme="red"
+                  leftIcon={<Trash />}
+                  onClick={alertOnOpen}
+                  size="sm"
+                >
+                  削除
+                </Button>
               )}
               <Box>
                 <InputGroup>

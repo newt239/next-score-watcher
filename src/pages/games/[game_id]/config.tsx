@@ -111,7 +111,7 @@ const ConfigPage = () => {
     0;
 
   return (
-    <Box>
+    <>
       <h3>{rules[game.rule].name}</h3>
       <Accordion allowMultiple defaultIndex={[]}>
         <AccordionItem>
@@ -254,7 +254,7 @@ const ConfigPage = () => {
           </TabPanels>
         </Tabs>
       </Box>
-    </Box>
+    </>
   );
 };
 

@@ -15,7 +15,7 @@ const WebhookPage = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {from ? (
         <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
           ゲーム設定に戻る
@@ -57,7 +57,7 @@ const WebhookPage = () => {
           </Icon>
         </Link>
       </div>
-    </div>
+    </>
   );
 };
 

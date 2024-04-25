@@ -29,50 +29,46 @@ const QuizPage = () => {
   }, []);
 
   return (
-    <div>
-      <div>
-        {from && (
-          <div>
-            <Button
-              colorScheme="green"
-              leftIcon={<ArrowBackUp />}
-              onClick={() => navigate({ pathname: `/games/${from}/config` })}
-              variant="link"
-            >
-              設定に戻る
-            </Button>
-          </div>
-        )}
-        <h2>問題管理</h2>
+    <>
+      {from && (
         <div>
-          <h3>問題の読み込み</h3>
-          <FormControl py={5}>
-            <FormLabel>セット名</FormLabel>
-            <Input
-              errorBorderColor="crimson"
-              isInvalid={setName === ""}
-              onChange={(e) => setSetName(e.target.value)}
-              value={setName}
-            />
-          </FormControl>
-          <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
-            <TabList mb="1em">
-              <Tab>貼り付け</Tab>
-              <Tab>インポート</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <LoadQuiz setName={setName} />
-              </TabPanel>
-              <TabPanel>
-                <ImportQuiz setName={setName} />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
+          <Button
+            colorScheme="green"
+            leftIcon={<ArrowBackUp />}
+            onClick={() => navigate({ pathname: `/games/${from}/config` })}
+            variant="link"
+          >
+            設定に戻る
+          </Button>
         </div>
-        <QuizTable />
-      </div>
-    </div>
+      )}
+      <h2>問題管理</h2>
+      <h3>問題の読み込み</h3>
+      <FormControl py={5}>
+        <FormLabel>セット名</FormLabel>
+        <Input
+          errorBorderColor="crimson"
+          isInvalid={setName === ""}
+          onChange={(e) => setSetName(e.target.value)}
+          value={setName}
+        />
+      </FormControl>
+      <Tabs colorScheme="green" isFitted pt={5} variant="enclosed">
+        <TabList mb="1em">
+          <Tab>貼り付け</Tab>
+          <Tab>インポート</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <LoadQuiz setName={setName} />
+          </TabPanel>
+          <TabPanel>
+            <ImportQuiz setName={setName} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      <QuizTable />
+    </>
   );
 };
 

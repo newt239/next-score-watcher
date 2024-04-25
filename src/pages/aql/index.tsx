@@ -102,142 +102,140 @@ const AQLPage = () => {
   }, [aqlGames]);
 
   return (
-    <Box>
-      <Box>
-        <h2>AQLルール</h2>
-        {aqlGames && aqlGames.length !== 0 && (
-          <Box>
-            <h3>作成したゲーム</h3>
-            <Box>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ラウンド名</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {aqlGames.map((game, i) => {
-                    return (
-                      <tr key={game.id}>
-                        <td>{game.name}</td>
-                        <td>
-                          <ButtonLink
-                            href={`/aql/${game.id}`}
-                            leftIcon={<Chalkboard />}
-                            size="sm"
-                            variant="ghost"
-                          >
-                            開く
-                          </ButtonLink>
-                          <Button
-                            colorScheme="red"
-                            leftIcon={<Trash />}
-                            onClick={() =>
-                              setAqlGames(aqlGames.filter((game, n) => i !== n))
-                            }
-                            size="sm"
-                            variant="ghost"
-                          >
-                            削除
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </Box>
-          </Box>
-        )}
+    <>
+      <h2>AQLルール</h2>
+      {aqlGames && aqlGames.length !== 0 && (
         <Box>
-          <h3>新規作成</h3>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: ["column", "column", "row"],
-              gap: 3,
-            }}
-          >
-            <FormControl pt={2}>
-              <FormLabel>ラウンド名</FormLabel>
-              <Input
-                onChange={(v) => setRoundName(v.target.value)}
-                type="text"
-                value={roundName}
-              />
-            </FormControl>
-            <FormControl pt={2}>
-              <FormLabel>左側のチーム名</FormLabel>
-              <Input
-                onChange={(v) => setLeftTeamName(v.target.value)}
-                type="text"
-                value={leftTeamName}
-              />
-            </FormControl>
-            <FormControl pt={2}>
-              <FormLabel>右側のチーム名</FormLabel>
-              <Input
-                onChange={(v) => setRightTeamName(v.target.value)}
-                type="text"
-                value={rightTeamName}
-              />
-            </FormControl>
+          <h3>作成したゲーム</h3>
+          <Box>
+            <table>
+              <thead>
+                <tr>
+                  <th>ラウンド名</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {aqlGames.map((game, i) => {
+                  return (
+                    <tr key={game.id}>
+                      <td>{game.name}</td>
+                      <td>
+                        <ButtonLink
+                          href={`/aql/${game.id}`}
+                          leftIcon={<Chalkboard />}
+                          size="sm"
+                          variant="ghost"
+                        >
+                          開く
+                        </ButtonLink>
+                        <Button
+                          colorScheme="red"
+                          leftIcon={<Trash />}
+                          onClick={() =>
+                            setAqlGames(aqlGames.filter((game, n) => i !== n))
+                          }
+                          size="sm"
+                          variant="ghost"
+                        >
+                          削除
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </Box>
         </Box>
-        <Box py={5}>
-          {quizset_names.length !== 0 ? (
-            <Flex sx={{ gap: 5 }}>
-              <FormControl pt={5} width={200}>
-                <FormLabel>セット名</FormLabel>
-                <Select
-                  defaultValue={quizSet}
-                  onChange={(v) => SetQuizSet(v.target.value)}
-                >
-                  <option value="">問題を表示しない</option>
-                  {quizset_names.map((setname) => (
-                    <option key={setname} value={setname}>
-                      {setname}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              {quizSet !== "" && (
-                <FormControl pt={5} width={200}>
-                  <FormLabel>オフセット</FormLabel>
-                  <NumberInput
-                    min={0}
-                    onChange={(_s, n) => setOffset(n)}
-                    value={offset}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </FormControl>
-              )}
-            </Flex>
-          ) : (
-            <Alert status="info" borderRadius="0.5rem">
-              <AlertIcon />
-              <Link href="/quizes">問題管理</Link>
-              ページから問題をアップロードして得点表示画面に表示することができます。
-            </Alert>
-          )}
-        </Box>
-        <Box sx={{ textAlign: "right" }}>
-          <Button
-            colorScheme="green"
-            leftIcon={<CirclePlus />}
-            onClick={createAQLGame}
-          >
-            作る
-          </Button>
+      )}
+      <Box>
+        <h3>新規作成</h3>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: ["column", "column", "row"],
+            gap: 3,
+          }}
+        >
+          <FormControl pt={2}>
+            <FormLabel>ラウンド名</FormLabel>
+            <Input
+              onChange={(v) => setRoundName(v.target.value)}
+              type="text"
+              value={roundName}
+            />
+          </FormControl>
+          <FormControl pt={2}>
+            <FormLabel>左側のチーム名</FormLabel>
+            <Input
+              onChange={(v) => setLeftTeamName(v.target.value)}
+              type="text"
+              value={leftTeamName}
+            />
+          </FormControl>
+          <FormControl pt={2}>
+            <FormLabel>右側のチーム名</FormLabel>
+            <Input
+              onChange={(v) => setRightTeamName(v.target.value)}
+              type="text"
+              value={rightTeamName}
+            />
+          </FormControl>
         </Box>
       </Box>
-    </Box>
+      <Box py={5}>
+        {quizset_names.length !== 0 ? (
+          <Flex sx={{ gap: 5 }}>
+            <FormControl pt={5} width={200}>
+              <FormLabel>セット名</FormLabel>
+              <Select
+                defaultValue={quizSet}
+                onChange={(v) => SetQuizSet(v.target.value)}
+              >
+                <option value="">問題を表示しない</option>
+                {quizset_names.map((setname) => (
+                  <option key={setname} value={setname}>
+                    {setname}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            {quizSet !== "" && (
+              <FormControl pt={5} width={200}>
+                <FormLabel>オフセット</FormLabel>
+                <NumberInput
+                  min={0}
+                  onChange={(_s, n) => setOffset(n)}
+                  value={offset}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            )}
+          </Flex>
+        ) : (
+          <Alert status="info" borderRadius="0.5rem">
+            <AlertIcon />
+            <Link href="/quizes">問題管理</Link>
+            ページから問題をアップロードして得点表示画面に表示することができます。
+          </Alert>
+        )}
+      </Box>
+      <Box sx={{ textAlign: "right" }}>
+        <Button
+          colorScheme="green"
+          leftIcon={<CirclePlus />}
+          onClick={createAQLGame}
+        >
+          作る
+        </Button>
+      </Box>
+    </>
   );
 };
 

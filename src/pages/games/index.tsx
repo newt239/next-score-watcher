@@ -49,7 +49,7 @@ const GamesPage: React.FC = () => {
     });
 
   return (
-    <Box>
+    <>
       <h2>作成したゲーム</h2>
       <Box
         sx={{
@@ -123,7 +123,7 @@ const GamesPage: React.FC = () => {
           ))}
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 
