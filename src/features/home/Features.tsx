@@ -1,4 +1,4 @@
-import { css } from "@panda/css";
+import { Box, Flex, Image } from "@chakra-ui/react";
 
 type FeatureProps = {
   title: string;
@@ -14,8 +14,8 @@ const EachFeature: React.FC<FeatureProps> = ({
   side,
 }) => {
   return (
-    <div
-      className={css({
+    <Flex
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: side === "left" ? "flex-start" : "flex-end",
@@ -29,15 +29,15 @@ const EachFeature: React.FC<FeatureProps> = ({
           fontSize: "2rem",
           gap: "1rem",
         },
-      })}
+      }}
     >
-      <div
-        className={css({
+      <Box
+        sx={{
           position: "relative",
-        })}
+        }}
       >
-        <div
-          className={css({
+        <Box
+          sx={{
             position: "absolute",
             backgroundColor: "green.300",
             borderRadius: "50%",
@@ -59,29 +59,29 @@ const EachFeature: React.FC<FeatureProps> = ({
               width: 120,
               height: 120,
             },
-          })}
-        ></div>
-      </div>
-      <div
-        className={css({
+          }}
+        ></Box>
+      </Box>
+      <Box
+        sx={{
           fontWeight: 700,
           textWrap: "balance",
           textAlign: side === "left" ? "start" : "end",
           zIndex: 1,
-        })}
+        }}
       >
         {title}
-      </div>
-      <img
-        className={css({
+      </Box>
+      <Image
+        sx={{
           borderRadius: "1rem",
           filter: "drop-shadow(1px 2px 3px black)",
           width: "max(75%, 300px)",
-        })}
+        }}
         src={`images/${image}`}
         alt={description}
       />
-    </div>
+    </Flex>
   );
 };
 
@@ -116,8 +116,8 @@ const Features: React.FC = () => {
   ];
 
   return (
-    <div
-      className={css({
+    <Box
+      sx={{
         p: "20px",
         backgroundImage:
           "linear-gradient(0deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px)),linear-gradient(90deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px))",
@@ -129,12 +129,12 @@ const Features: React.FC = () => {
           backgroundImage:
             "linear-gradient(0deg, transparent calc(100% - 1px), #2d3748 calc(100% - 1px)),linear-gradient(90deg, transparent calc(100% - 1px), #2d3748 calc(100% - 1px))",
         },
-      })}
+      }}
     >
       {features.map((feature) => (
         <EachFeature key={feature.title} {...feature} />
       ))}
-    </div>
+    </Box>
   );
 };
 

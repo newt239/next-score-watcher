@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 
-import { Button, Table, TableContainer, Tbody, Td, Tr } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Tr,
+} from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
 
-import { css } from "@panda/css";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { LogDBProps, QuizDBProps } from "~/utils/types";
 
@@ -19,7 +25,6 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
-  const desktop = useDeviceWidth();
   const [reverse, setReverse] = useState<Boolean>(true);
 
   useEffect(() => {
@@ -38,26 +43,26 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
   const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
-    <div
-      className={css({
+    <Box
+      sx={{
         display: "flex",
         p: 3,
         my: 10,
         maxW: "100vw",
         justifyContent: "center",
-      })}
+      }}
     >
-      <div
-        className={css({
+      <Box
+        sx={{
           borderStyle: "solid",
-          borderWidth: desktop ? 3 : 1,
+          borderWidth: [1, 1, 3],
           borderColor: "gray.100",
           p: 3,
-          borderRadius: desktop ? "1rem" : "0.5rem",
+          borderRadius: ["0.5rem", "0.5rem", "1rem"],
           _dark: {
             borderColor: "gray.700",
           },
-        })}
+        }}
       >
         <Button
           leftIcon={reverse ? <SortAscending /> : <SortDescending />}
@@ -123,8 +128,8 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         ) : (
           <p>ここに解答者の一覧が表示されます。</p>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,7 +1,9 @@
 import { useLocation } from "react-router-dom";
 
-import { css } from "@panda/css";
-import ButtonLink from "~/components/custom/ButtonLink";
+import ButtonLink from "~/components/ButtonLink";
+
+import { Flex } from "@chakra-ui/react";
+import { ExternalLink } from "tabler-icons-react";
 
 const linkList: { text: string; path: string }[] = [
   { path: "/", text: "ホーム" },
@@ -10,18 +12,14 @@ const linkList: { text: string; path: string }[] = [
   { path: "/players", text: "プレイヤー管理" },
   { path: "/quizes", text: "問題管理" },
   { path: "/option", text: "アプリ設定" },
+  { path: "https://docs.score-watcher.com/", text: "使い方を見る" },
 ];
 
 const SubMenu: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-      })}
-    >
+    <Flex sx={{ flexDirection: "column" }}>
       {linkList.map((link) => (
         <ButtonLink
           colorScheme="green"
@@ -31,9 +29,12 @@ const SubMenu: React.FC = () => {
           variant={link.path === location.pathname ? "solid" : "ghost"}
         >
           {link.text}
+          {link.path.startsWith("http") && (
+            <ExternalLink style={{ marginLeft: "0.5rem" }} />
+          )}
         </ButtonLink>
       ))}
-    </div>
+    </Flex>
   );
 };
 

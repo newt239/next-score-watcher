@@ -1,4 +1,4 @@
-import Link from "~/components/custom/Link";
+import Link from "~/components/Link";
 
 const OtherRules: React.FC = () => {
   return (

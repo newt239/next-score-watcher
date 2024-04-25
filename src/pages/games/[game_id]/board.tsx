@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Button, IconButton, Slide, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Slide,
+  Tooltip,
+} from "@chakra-ui/react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
-import { css } from "@panda/css";
 import BoardHeader from "~/features/board/BoardHeader";
 import GameLogs from "~/features/board/GameLogs";
 import Player from "~/features/board/Player";
@@ -75,7 +81,7 @@ const BoardPage = () => {
   useEffect(() => {
     if (logs) {
       const executeComputeScore = async () => {
-        const result = await computeScore(game_id as string);
+        const { data: result } = await computeScore(game_id as string);
         setScores(result.scores);
         if (result.win_players.length > 0) {
           if (result.win_players[0].name) {
@@ -173,8 +179,8 @@ const BoardPage = () => {
     <>
       <BoardHeader game={game} logs={logs} />
       {game.rule === "squarex" && (
-        <div
-          className={css({
+        <Box
+          sx={{
             position: "absolute",
             writingMode: "vertical-rl",
             textOverflow: "ellipsis",
@@ -185,12 +191,11 @@ const BoardPage = () => {
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
             zIndex: 10,
-          })}
+          }}
         />
       )}
-      <div
-        className={css({
-          display: "flex",
+      <Flex
+        sx={{
           flexDirection:
             (isDesktop && players.length > 10) || !isDesktop ? "column" : "row",
           justifyContent:
@@ -200,10 +205,10 @@ const BoardPage = () => {
           flexWrap: isDesktop && players.length > 10 ? "wrap" : "nowrap",
           gap: "1.5vh 1vw",
           w: "100%",
-          h: isDesktop ? ["90vh", "90vh", "85vh"] : undefined,
+          h: ["auto", "auto", "90vh", "90vh", "85vh"],
           px: "1vw",
           pt: "3vh",
-        })}
+        }}
         id="players-area"
       >
         {players.map((player, i) => (
@@ -218,7 +223,7 @@ const BoardPage = () => {
             )}
           />
         ))}
-      </div>
+      </Flex>
       <GameLogs logs={logs} players={players} quiz={game.quiz} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
@@ -226,8 +231,8 @@ const BoardPage = () => {
         winTroughPlayer={winThroughPlayer}
       />
       <Slide direction="bottom" in={skipSuggest} style={{ zIndex: 1000 }}>
-        <div
-          className={css({
+        <Box
+          sx={{
             display: "flex",
             flexDirection: ["column", "column", "row"],
             gap: 1,
@@ -240,14 +245,13 @@ const BoardPage = () => {
               bg: "gray.700",
               color: "white",
             },
-          })}
+          }}
         >
-          <div>すべてのプレイヤーが休みの状態です。1問スルーしますか？</div>
-          <div
-            className={css({
-              display: "flex",
+          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
+          <Flex
+            sx={{
               gap: 1,
-            })}
+            }}
           >
             <Button
               colorScheme="blue"
@@ -292,8 +296,8 @@ const BoardPage = () => {
             >
               <X />
             </IconButton>
-          </div>
-        </div>
+          </Flex>
+        </Box>
       </Slide>
     </>
   );

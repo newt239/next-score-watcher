@@ -129,10 +129,7 @@ const endlessChance = async (
         : playerState.state === "lose"
         ? "LOSE"
         : numberSign("pt", playerState.score);
-    if (
-      state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+    if (state === "win" && playerState.last_correct === realQuizLength) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, state, text };

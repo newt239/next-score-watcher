@@ -2,7 +2,7 @@ import { useId } from "react";
 
 import { FormHelperText, Switch } from "@chakra-ui/react";
 
-import InputLayout from "~/features/components/InputLayout";
+import InputLayout from "~/components/InputLayout";
 
 type AppOptionSwitchProps = {
   title: string;
@@ -23,6 +23,7 @@ const AppOptionSwitch: React.FC<AppOptionSwitchProps> = ({
       helperText={label && <FormHelperText>{label}</FormHelperText>}
       id={formId}
       label={title}
+      sx={{ flexDirection: "row" }}
     >
       <Switch id={formId} isChecked={isChecked} onChange={onChange} size="lg" />
     </InputLayout>

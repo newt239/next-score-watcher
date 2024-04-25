@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Upload } from "tabler-icons-react";
 
-import InputLayout from "~/features/components/InputLayout";
+import InputLayout from "~/components/InputLayout";
 import db from "~/utils/db";
 import { GameDBQuizProps } from "~/utils/types";
 
@@ -78,7 +78,7 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
           )}
         </>
       ) : (
-        <InputLayout label="">
+        <InputLayout label="問題データを読み込む">
           <Button
             as={ReactLink}
             colorScheme="blue"

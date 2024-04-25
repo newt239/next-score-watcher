@@ -17,8 +17,7 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"],
-      "@panda/*": ["./styled-system/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": ["src", "styled-system"],

@@ -22,6 +22,7 @@ import { Plus, Upload } from "tabler-icons-react";
 import CompactCreatePlayer from "~/features/config/CompactCreatePlayer";
 import CompactPlayerTable from "~/features/config/CompactPlayerTable";
 import { GameDBPlayerProps, PlayerDBProps } from "~/utils/types";
+import SelectPlayerFromExistingGame from "./SelectPlayerFromExistingGame";
 
 type SelectPlayerDrawerProps = {
   game_id: string;
@@ -108,6 +109,17 @@ const SelectPlayerDrawer: React.FC<SelectPlayerDrawerProps> = ({
                           playerList={playerList}
                         />
                       )}
+                    </AccordionPanel>
+                  </AccordionItem>
+                  <AccordionItem>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        既存のゲームからコピー
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <SelectPlayerFromExistingGame game_id={game_id} />
                     </AccordionPanel>
                   </AccordionItem>
                 </Accordion>

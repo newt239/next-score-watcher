@@ -9,10 +9,12 @@ import {
   AccordionPanel,
   Box,
   Button,
+  Tab,
+  TabList,
   TabPanel,
   TabPanels,
   Tabs,
-  VStack,
+  UnorderedList,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -20,17 +22,16 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
-import { css } from "@panda/css";
-import ButtonLink from "~/components/custom/ButtonLink";
+import ButtonLink from "~/components/ButtonLink";
+import InputLayout from "~/components/InputLayout";
+import Link from "~/components/Link";
 import AlertDialog from "~/features/components/AlertDialog";
-import InputLayout from "~/features/components/InputLayout";
 import ConfigInput from "~/features/config/ConfigInput";
-import ConfigTabList from "~/features/config/ConfigTabList";
 import CopyGame from "~/features/config/CopyGame";
+import ExportGame from "~/features/config/ExportGame";
 import PlayersConfig from "~/features/config/PlayersConfig";
 import RuleSettings from "~/features/config/RuleSettings";
 import SelectQuizset from "~/features/config/SelectQuizSet";
-import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 import { rules } from "~/utils/rules";
@@ -38,7 +39,6 @@ import { rules } from "~/utils/rules";
 const ConfigPage = () => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const navigate = useNavigate();
-  const isDesktop = useDeviceWidth();
   const { game_id } = useParams();
   const toast = useToast();
   const game = useLiveQuery(() =>
@@ -111,7 +111,7 @@ const ConfigPage = () => {
     0;
 
   return (
-    <div>
+    <>
       <h3>{rules[game.rule].name}</h3>
       <Accordion allowMultiple defaultIndex={[]}>
         <AccordionItem>
@@ -122,12 +122,19 @@ const ConfigPage = () => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
-            {rules[game.rule]?.description}
+            <p>{rules[game.rule]?.description}</p>
+            <p>
+              より詳細な説明は
+              <Link href={`https://docs.score-watcher.com/rules/${game.rule}`}>
+                ヘルプサイト
+              </Link>
+              をご覧ください。
+            </p>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
-      <div
-        className={css({
+      <Box
+        sx={{
           my: 5,
           borderStyle: "solid",
           borderRadius: "md",
@@ -140,25 +147,24 @@ const ConfigPage = () => {
               ? "red.300!important"
               : "gray.800!important",
           },
-        })}
+        }}
       >
         <InputLayout
+          sx={{ borderBottomWidth: 0 }}
           label={
-            <ul
-              className={css({
+            <UnorderedList
+              sx={{
                 color: "red.500",
                 _dark: {
                   color: "red.300",
                 },
-              })}
+              }}
             >
               {errorMessages.map((m) => (
                 <li key={m}>{m}</li>
               ))}
-            </ul>
+            </UnorderedList>
           }
-          simple
-          vertical={!isDesktop}
         >
           {playButtonIsDisabled ? (
             <Button
@@ -180,26 +186,26 @@ const ConfigPage = () => {
             </ButtonLink>
           )}
         </InputLayout>
-      </div>
-      <div>
+      </Box>
+      <Box>
         <Tabs
-          className={css({
-            flexDirection: isDesktop ? "row" : "column",
-            alignItems: "flex-start",
-          })}
+          colorScheme="green"
+          isFitted
+          variant="enclosed"
           index={tabIndex}
           onChange={(index) => setTabIndex(index)}
-          orientation="vertical"
-          position="relative"
-          variant="unstyled"
         >
-          <ConfigTabList />
-          <TabPanels className={css({ w: ["100%", "100%", "75%"] })}>
-            <TabPanel className={css({ paddingTop: "0px!important" })}>
+          <TabList>
+            <Tab>形式設定</Tab>
+            <Tab>プレイヤー設定</Tab>
+            <Tab>その他の設定</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
               <h2>形式設定</h2>
               <RuleSettings disabled={disabled} game={game} />
             </TabPanel>
-            <TabPanel className={css({ paddingTop: "0px!important" })}>
+            <TabPanel>
               <PlayersConfig
                 disabled={disabled}
                 game_id={game.id}
@@ -208,54 +214,47 @@ const ConfigPage = () => {
                 rule_name={game.rule}
               />
             </TabPanel>
-            <TabPanel className={css({ paddingTop: "0px!important" })}>
+            <TabPanel>
               <h2>その他の設定</h2>
-              <VStack align="stretch" gap={0} pt={5}>
-                <SelectQuizset
-                  game_id={game.id}
-                  game_quiz={game.quiz}
-                  quizset_names={quizsetList}
-                />
-              </VStack>
-              <VStack align="stretch" gap={0} pt={5}>
-                <h3>オプション</h3>
-                <ConfigInput
-                  input_id="discord_webhook_url"
-                  label="Discord Webhook"
-                  placeholder="https://discord.com/api/webhooks/..."
-                  type="url"
-                />
-              </VStack>
-              <VStack align="stretch" gap={0} pt={5}>
-                <h3>ゲーム</h3>
-                <InputLayout label="ゲームのコピーを作成">
-                  <CopyGame game={game} />
-                </InputLayout>
-                <InputLayout label="ゲームを削除">
-                  <Button
-                    colorScheme="red"
-                    leftIcon={<Trash />}
-                    onClick={onOpen}
-                  >
-                    削除する
-                  </Button>
-                </InputLayout>
-                <AlertDialog
-                  body="ゲームを削除します。この操作は取り消せません。"
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  onConfirm={() => {
-                    deleteGame();
-                    onClose();
-                  }}
-                  title="ゲームを削除"
-                />
-              </VStack>
+              <SelectQuizset
+                game_id={game.id}
+                game_quiz={game.quiz}
+                quizset_names={quizsetList}
+              />
+              <h3>オプション</h3>
+              <ConfigInput
+                label="Discord Webhook"
+                input_id="discord_webhook_url"
+                placeholder="https://discord.com/api/webhooks/..."
+                type="url"
+              />
+              <h3>ゲーム</h3>
+              <InputLayout label="ゲームのコピーを作成">
+                <CopyGame game={game} />
+              </InputLayout>
+              <InputLayout label="エクスポート">
+                <ExportGame game={game} />
+              </InputLayout>
+              <InputLayout label="ゲームを削除">
+                <Button colorScheme="red" leftIcon={<Trash />} onClick={onOpen}>
+                  削除する
+                </Button>
+              </InputLayout>
+              <AlertDialog
+                body="ゲームを削除します。この操作は取り消せません。"
+                isOpen={isOpen}
+                onClose={onClose}
+                onConfirm={() => {
+                  deleteGame();
+                  onClose();
+                }}
+                title="ゲームを削除"
+              />
             </TabPanel>
           </TabPanels>
         </Tabs>
-      </div>
-    </div>
+      </Box>
+    </>
   );
 };
 

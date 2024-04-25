@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { css } from "@panda/css";
-
+import { Box } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import "./menu.css";
 
@@ -20,14 +19,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ children }) => {
   }, [pathname]);
 
   return (
-    <div
-      className={css({
-        display: "block",
-        lg: {
-          display: "none",
-        },
-      })}
-    >
+    <Box>
       <div className={isOpen ? "menu-toggle" : ""} />
       <button
         aria-controls="global-menu"
@@ -48,7 +40,7 @@ const Hamburger: React.FC<HamburgerProps> = ({ children }) => {
       <nav className="menu" id="global-menu">
         {children}
       </nav>
-    </div>
+    </Box>
   );
 };
 

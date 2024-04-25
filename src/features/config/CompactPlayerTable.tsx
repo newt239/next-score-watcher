@@ -10,7 +10,6 @@ import {
   InputLeftElement,
   Table,
   TableContainer,
-  Tag,
   Tbody,
   Td,
   Text,
@@ -30,7 +29,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
-import TablePagenation from "~/features/components/TablePagination";
+import TablePagenation from "~/components/TablePagination";
 import { useDidUpdateEffect } from "~/hooks/useDidUpdateEffect";
 import db from "~/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "~/utils/types";
@@ -59,8 +58,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     return (
       data.name?.includes(searchText) ||
       data.text?.includes(searchText) ||
-      data.belong?.includes(searchText) ||
-      data.tags.join("").includes(searchText)
+      data.belong?.includes(searchText)
     );
   };
 
@@ -91,17 +89,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
       }),
       columnHelper.accessor("belong", {
         header: "所属",
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("tags", {
-        header: "タグ",
-        cell: (info) => {
-          return info.row.original.tags.map((tag, tagi) => (
-            <Tag colorScheme="green" key={tagi} size="sm">
-              {tag}
-            </Tag>
-          ));
-        },
         footer: (info) => info.column.id,
       }),
     ],

@@ -2,6 +2,8 @@ import { cdate } from "cdate";
 
 import attacksurvival from "~/utils/computeScore/attacksurvival";
 import backstream from "~/utils/computeScore/backstream";
+import divide from "~/utils/computeScore/divide";
+import endlessChance from "~/utils/computeScore/endless-chance";
 import freezex from "~/utils/computeScore/freezex";
 import nbyn from "~/utils/computeScore/nbyn";
 import nomr from "~/utils/computeScore/nomr";
@@ -22,13 +24,12 @@ import {
   States,
   WinPlayerProps,
 } from "~/utils/types";
-import divide from "./divide";
-import endlessChance from "./endless-chance";
 
 const computeScore = async (game_id: string) => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const game = await db(currentProfile).games.get(game_id);
-  if (!game) return { scores: [], win_players: [], incapacity_players: [] };
+  if (!game)
+    return { data: { scores: [], win_players: [], incapacity_players: [] } };
   const gameLogList = await db(currentProfile)
     .logs.where({ game_id: game_id })
     .sortBy("timestamp");
@@ -147,20 +148,20 @@ const computeScore = async (game_id: string) => {
   }
 
   const webhookUrl = localStorage.getItem("scorew-webhook-url");
+  const postData = { info: game, logs: gameLogList, scores: result.scores };
   if (webhookUrl && webhookUrl.startsWith("http")) {
     const url = webhookUrl.split('"')[1];
-    const data = { info: game, logs: gameLogList, scores: result.scores };
-    console.log(data);
+    console.log(postData);
     await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(postData),
     });
   }
 
-  return data;
+  return { data, postData } as const;
 };
 
 const initialBackstreamWrong = (wrong_num: number) => {

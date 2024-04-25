@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { Code, Icon, Link } from "@chakra-ui/react";
 import { ArrowBackUp, ExternalLink } from "tabler-icons-react";
 
-import ButtonLink from "~/components/custom/ButtonLink";
+import ButtonLink from "~/components/ButtonLink";
 
 const WebhookPage = () => {
   const [params] = useSearchParams();
@@ -15,7 +15,7 @@ const WebhookPage = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {from ? (
         <ButtonLink href={`/${from}/config`} leftIcon={<ArrowBackUp />}>
           ゲーム設定に戻る
@@ -57,7 +57,7 @@ const WebhookPage = () => {
           </Icon>
         </Link>
       </div>
-    </div>
+    </>
   );
 };
 
