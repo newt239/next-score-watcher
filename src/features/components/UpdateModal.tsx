@@ -30,10 +30,15 @@ const UpdateModal: React.FC = () => {
     }
   }, []);
 
+  const onUpdate = () => {
+    localStorage.setItem("scorewatcher-version", latestVersion!);
+    setModalOpen(false);
+  };
+
   const feature = features[latestVersion];
 
   return (
-    <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+    <Modal isOpen={modalOpen} onClose={onUpdate}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>新しいバージョンがリリースされました</ModalHeader>
@@ -87,7 +92,7 @@ const UpdateModal: React.FC = () => {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" onClick={() => setModalOpen(false)}>
+          <Button colorScheme="blue" onClick={onUpdate}>
             閉じる
           </Button>
         </ModalFooter>
