@@ -24,6 +24,7 @@ import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import ButtonLink from "~/components/ButtonLink";
 import InputLayout from "~/components/InputLayout";
+import Link from "~/components/Link";
 import AlertDialog from "~/features/components/AlertDialog";
 import ConfigInput from "~/features/config/ConfigInput";
 import CopyGame from "~/features/config/CopyGame";
@@ -123,7 +124,14 @@ const ConfigPage = () => {
             <AccordionIcon />
           </AccordionButton>
           <AccordionPanel pb={4}>
-            {rules[game.rule]?.description}
+            <p>{rules[game.rule]?.description}</p>
+            <p>
+              より詳細な説明は
+              <Link href={`https://docs.score-watcher.com/rules/${game.rule}`}>
+                ヘルプサイト
+              </Link>
+              をご覧ください。
+            </p>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

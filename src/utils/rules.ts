@@ -16,7 +16,8 @@ export const rules = {
     rule: "normal",
     name: "スコア計算",
     description: "スコアの計算を行います。",
-    short_description: "スコアの計算を行います。",
+    short_description:
+      "ポイント数が表示されている部分をクリックすることでポイントが増加します。",
     options: undefined,
     rows: 1,
   },
@@ -24,7 +25,7 @@ export const rules = {
     rule: "nomx",
     name: "N○M✕",
     description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
-    short_description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
+    short_description: "代表的なものにナナマルサンバツがあります。",
     win_point: 7,
     lose_point: 3,
     options: undefined,
@@ -34,8 +35,7 @@ export const rules = {
     rule: "nomx-ad",
     name: "連答つきN○M✕",
     description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
-    short_description:
-      "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
+    short_description: "abcの新形式に対応しています。",
     win_point: 7,
     lose_point: 3,
     options: {
@@ -58,7 +58,7 @@ export const rules = {
     name: "N○M休",
     short_description:
       "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
-    description: "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
+    description: "プレイヤーは何回でも誤答することができます。",
     win_point: 7,
     lose_point: 3,
     options: undefined,
@@ -80,8 +80,7 @@ export const rules = {
     name: "Nupdown",
     short_description:
       "N回正解で勝ち抜けですが、途中で一度でも誤答すると0に戻る形式です。",
-    description:
-      "N回正解で勝ち抜けですが、途中で一度でも誤答すると0に戻る形式です。",
+    description: "一回の誤答が結果を大きく左右するため、誤答に厳しい形式です。",
     win_point: 5,
     lose_point: 2,
     options: undefined,
@@ -161,7 +160,7 @@ export const rules = {
     rule: "freezex",
     name: "freezeX",
     short_description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
-    description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
+    description: "N◯M休とは誤答時のペナルティが異なるのが特徴です。",
     win_point: 7,
     options: undefined,
     rows: 2,
@@ -171,7 +170,7 @@ export const rules = {
     name: "エンドレスチャンス",
     short_description:
       "同じ問題に対して正答が出るまで複数人が回答できる形式です。",
-    description: "同じ問題に対して正答が出るまで複数人が回答できる形式です。",
+    description: "正解者が出るかスルーになるまで次の問題に進みません。",
     win_point: 7,
     lose_point: 3,
     options: {
@@ -185,7 +184,7 @@ export const rules = {
     short_description:
       "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N✕(N-2)されます。",
     description:
-      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N✕(N-2)されます。",
+      "Nを大きくすればするほど、誤答時のダメージが大きくなる形式です。",
     win_point: 30,
     options: undefined,
     rows: 3,
