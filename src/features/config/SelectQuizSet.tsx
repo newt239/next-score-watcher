@@ -14,6 +14,7 @@ import { Upload } from "tabler-icons-react";
 
 import InputLayout from "~/components/InputLayout";
 import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
 import { GameDBQuizProps } from "~/utils/types";
 
 type SelectQuizsetProps = {
@@ -37,6 +38,10 @@ const SelectQuizset: React.FC<SelectQuizsetProps> = ({
             <Select
               defaultValue={game_quiz?.set_name || ""}
               onChange={async (v) => {
+                recordEvent({
+                  action: "select_quizset",
+                  category: "engagement",
+                });
                 await db(currentProfile).games.update(game_id as string, {
                   quiz: {
                     set_name: v.target.value,

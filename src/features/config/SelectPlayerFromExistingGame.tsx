@@ -1,6 +1,7 @@
 import { Box, Select } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
 
 type SelectPlayerFromExistingGameProps = {
   game_id: string;
@@ -22,6 +23,10 @@ const SelectPlayerFromExistingGame: React.FC<
       <Box mt={3}>
         <Select
           onChange={async (e) => {
+            recordEvent({
+              action: "select_player_from_existing_game",
+              category: "engagement",
+            });
             const selectedGame = games?.find(
               (game) => game.id === e.target.value
             );

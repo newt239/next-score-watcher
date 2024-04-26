@@ -15,8 +15,8 @@ export const rules = {
   normal: {
     rule: "normal",
     name: "スコア計算",
-    description: "スコアの計算を行います。",
-    short_description:
+    short_description: "スコアの計算を行います。",
+    description:
       "ポイント数が表示されている部分をクリックすることでポイントが増加します。",
     options: undefined,
     rows: 1,
@@ -24,8 +24,8 @@ export const rules = {
   nomx: {
     rule: "nomx",
     name: "N○M✕",
-    description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
-    short_description: "代表的なものにナナマルサンバツがあります。",
+    short_description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
+    description: "代表的なものにナナマルサンバツがあります。",
     win_point: 7,
     lose_point: 3,
     options: undefined,
@@ -34,8 +34,9 @@ export const rules = {
   "nomx-ad": {
     rule: "nomx-ad",
     name: "連答つきN○M✕",
-    description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
-    short_description: "abcの新形式に対応しています。",
+    short_description:
+      "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
+    description: "abcの新形式に対応しています。",
     win_point: 7,
     lose_point: 3,
     options: {

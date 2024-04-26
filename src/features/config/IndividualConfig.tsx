@@ -22,6 +22,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
 
 import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
 
 type InitialPointConfigModalProps = {
   index: number;
@@ -53,7 +54,13 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
           aria-label="初期値の変更"
           colorScheme="blue"
           disabled={disabled}
-          onClick={onToggle}
+          onClick={() => {
+            recordEvent({
+              action: "open_individual_config",
+              category: "engagement",
+            });
+            onToggle();
+          }}
           size="sm"
         >
           <AdjustmentsHorizontal />
@@ -76,7 +83,7 @@ const IndividualConfig: React.FC<InitialPointConfigModalProps> = ({
               <NumberInput
                 defaultValue={game.players[index]?.initial_correct || 0}
                 min={game.rule !== "attacksurvival" ? 0 : undefined}
-                onChange={async (s, n) => {
+                onChange={async (_s, n) => {
                   const newPlayers = game.players.map((gamePlayer, pi) => {
                     if (pi === index) {
                       return {
