@@ -63,13 +63,16 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
     getQuizList();
   }, [game.quiz]);
 
-  const qn = logs.filter(
-    (log) => log.variant === "correct" || log.variant === "through"
-  ).length;
+  const qn =
+    game.rule === "endless-chance"
+      ? logs.filter(
+          (log) => log.variant === "correct" || log.variant === "through"
+        ).length
+      : logs.length;
   const quizPosition = game.editable
     ? manualQuizPosition
     : game.quiz
-    ? game.quiz.offset + qn
+    ? game.quiz.offset + qn - 1
     : 0;
 
   useEffect(() => {
