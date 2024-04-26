@@ -19,16 +19,9 @@ const EachFeature: React.FC<FeatureProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: side === "left" ? "flex-start" : "flex-end",
-        gap: "0.5rem",
-        p: "10px",
-        pt: "50px",
-        fontSize: "1.5rem",
-        lg: {
-          p: "50px",
-          pb: 0,
-          fontSize: "2rem",
-          gap: "1rem",
-        },
+        gap: { base: "0.5rem", lg: "1rem" },
+        padding: { base: "10px", lg: "30px" },
+        fontSize: { base: "1.5rem", lg: "2rem" },
       }}
     >
       <Box
@@ -42,22 +35,15 @@ const EachFeature: React.FC<FeatureProps> = ({
             backgroundColor: "green.300",
             borderRadius: "50%",
             zIndex: 0,
-            top: -5,
-            left: side === "left" ? -5 : undefined,
-            right: side === "right" ? -5 : undefined,
-            width: 90,
-            height: 90,
+            top: { base: -5, lg: -30 },
+            left: side === "left" ? { base: -5, lg: -30 } : undefined,
+            right: side === "right" ? { base: -5, lg: -30 } : undefined,
+            width: { base: 90, lg: 120 },
+            height: { base: 90, lg: 120 },
             opacity: 0.5,
             filter: "blur(5px)",
             _dark: {
               backgroundColor: "green.700",
-            },
-            lg: {
-              top: -30,
-              left: side === "left" ? -30 : undefined,
-              right: side === "right" ? -30 : undefined,
-              width: 120,
-              height: 120,
             },
           }}
         ></Box>
