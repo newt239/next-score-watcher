@@ -163,17 +163,14 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         {game.quiz && quizList.length > quizPosition && (
           <Box
             sx={{
-              display: "none",
-              lg: {
-                flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "100%",
-                fontSize: "1.5rem",
-                lineHeight: "1.5rem",
-                overflow: "hidden",
-              },
+              flexGrow: 1,
+              display: ["none", "none", "flex"],
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+              fontSize: "1.5rem",
+              lineHeight: "1.5rem",
+              overflow: "hidden",
             }}
           >
             <Box sx={{ maxHeight: "8vh" }}>
