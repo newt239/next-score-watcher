@@ -51,7 +51,6 @@ const Layout: React.FC = () => {
           <Flex
             p="10px"
             bg="gray.100"
-            rounded="md"
             shadow="md"
             color="black"
             alignItems="center"
