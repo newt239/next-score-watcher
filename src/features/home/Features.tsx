@@ -105,6 +105,7 @@ const Features: React.FC = () => {
     <Box
       sx={{
         p: "20px",
+        pb: 0,
         backgroundImage:
           "linear-gradient(0deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px)),linear-gradient(90deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px))",
         backgroundSize: "20px 20px",

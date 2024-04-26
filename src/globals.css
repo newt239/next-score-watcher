@@ -41,6 +41,7 @@ h3 {
 ul {
   list-style: disc;
   margin-left: 24px;
+  line-height: 2rem;
 }
 
 table {

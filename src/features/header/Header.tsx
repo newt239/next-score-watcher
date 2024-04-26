@@ -86,7 +86,7 @@ const Header: React.FC = () => {
               flexDirection: "column",
               alignItems: "center",
               gap: "8px",
-              mb: "48px",
+              mb: "24px",
             }}
           >
             <ProfileSelector />
