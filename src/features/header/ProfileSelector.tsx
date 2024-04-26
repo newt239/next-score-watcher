@@ -22,6 +22,7 @@ import { Plus } from "tabler-icons-react";
 
 import AlertDialog from "~/features/components/AlertDialog";
 import db from "~/utils/db";
+import { recordEvent } from "~/utils/ga4";
 
 const ProfileSelector: React.FC = () => {
   const raw = window.localStorage.getItem("scorew_profile_list");
@@ -59,6 +60,11 @@ const ProfileSelector: React.FC = () => {
                 <Select
                   defaultValue={currentProfile}
                   onChange={(e) => {
+                    recordEvent({
+                      action: "change_profile",
+                      category: "engagement",
+                      label: e.target.value,
+                    });
                     window.localStorage.setItem(
                       "scorew_current_profile",
                       e.target.value
