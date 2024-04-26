@@ -13,6 +13,7 @@ export const features: { [key: string]: Feature } = {
     bugfix: [
       "AQLルール画面における不具合を修正",
       "エンドレスチャンスにおける不具合を修正",
+      "問題文が適切に表示されない不具合を修正",
     ],
   },
 };
