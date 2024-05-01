@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Icon,
-  Link,
   ListItem,
   Modal,
   ModalBody,
@@ -15,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";
 
+import Link from "~/components/Link";
 import { features } from "~/utils/features";
 
 const UpdateModal: React.FC = () => {
@@ -78,11 +78,7 @@ const UpdateModal: React.FC = () => {
           )}
           <div>
             詳細は
-            <Link
-              color="blue.500"
-              href="https://github.com/newt239/next-score-watcher/releases"
-              isExternal
-            >
+            <Link href="https://github.com/newt239/next-score-watcher/releases">
               リリースノート
               <Icon>
                 <ExternalLink />

@@ -1,14 +1,15 @@
 # next-score-watcher
 
+![version](https://img.shields.io/github/package-json/v/newt239/next-score-watcher?style=flat)
+
 <img
   src="https://raw.githubusercontent.com/newt239/next-score-watcher/main/public/score-watcher-ogp.webp" 
   alt="Score Watcher アイキャッチ画像"
-  style="border-radius: 10px;"
 />
 
 競技クイズにおけるプレイヤーの得点状況を可視化するための Web アプリケーションです。
 
-現在 14 の形式に対応しており、スコアの表示や勝ち抜け / 敗退の情報だけでなく、問題文表示やスマートフォンでの表示も可能です。
+現在 16 の形式に対応しており、スコアの表示や勝ち抜け / 敗退の情報だけでなく、問題文表示やスマートフォンでの表示も可能です。
 
 https://score-watcher.com/
 
@@ -22,7 +23,7 @@ https://score-watcher.com/
 
 ### 起動に必要なもの
 
-- Node.js (v16 以降)
+- Node.js (v22 以降)
 - pnpm
 
 ### 起動方法

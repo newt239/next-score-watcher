@@ -1,13 +1,18 @@
+import { Box } from "@chakra-ui/react";
+import Link from "~/components/Link";
+
 const NotFound: React.FC = () => {
   return (
-    <div>
-      <h1>ページが見つかりません</h1>
+    <Box sx={{ px: "1rem" }}>
+      <h2>ページが見つかりません</h2>
       <p>お探しのページは移動または削除された可能性があります。</p>
       <p>以下のリンクからトップページに戻ってください。</p>
       <p>
-        <a href="https://score-watcher.com/">https://score-watcher.com/</a>
+        <Link color="blue.500" href="https://score-watcher.com/">
+          https://score-watcher.com/
+        </Link>
       </p>
-    </div>
+    </Box>
   );
 };
 

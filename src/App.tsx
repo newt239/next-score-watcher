@@ -3,6 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import NotFound from "~/NotFound";
+import ScrollTop from "~/features/components/ScrollTop";
+import UpdateModal from "~/features/components/UpdateModal";
+import Layout from "~/layouts/default";
 import HomePage from "~/pages";
 import AQLPage from "~/pages/aql";
 import AQLBoardPage from "~/pages/aql/[game_id]";
@@ -14,10 +17,6 @@ import WebhookPage from "~/pages/option/webhook";
 import PlayerPage from "~/pages/players";
 import QuizPage from "~/pages/quizes";
 import RulePage from "~/pages/rules";
-
-import ScrollTop from "~/features/components/ScrollTop";
-import UpdateModal from "~/features/components/UpdateModal";
-import Layout from "~/layouts/default";
 
 import "~/globals.css";
 
@@ -45,8 +44,8 @@ function App() {
               <Route element={<OptionPage />} index />
               <Route element={<WebhookPage />} path="webhook" />
             </Route>
+            <Route element={<NotFound />} path="*" />
           </Route>
-          <Route path="*" element={<NotFound />} />
         </Routes>
         <UpdateModal />
       </BrowserRouter>

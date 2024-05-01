@@ -112,7 +112,7 @@ const Player: React.FC<PlayerProps> = ({
           w: isDesktop ? (isVerticalView ? "40vw" : "100%") : "100%",
           h:
             isDesktop && !isVerticalView
-              ? `calc(100% - ${rows * 2}vh)`
+              ? `calc(80vh - ${rows * 4}rem)`
               : "100%",
           flexDirection: reversePlayerInfo ? "column-reverse" : "column",
           alignItems: !isVerticalView && isDesktop ? "center" : "flex-start",
@@ -135,7 +135,11 @@ const Player: React.FC<PlayerProps> = ({
             text={player.text}
           />
         )}
-        <PlayerName isVerticalView={isVerticalView} player_name={player.name} />
+        <PlayerName
+          isVerticalView={isVerticalView}
+          player_name={player.name}
+          rows={rows}
+        />
       </Box>
       <PlayerScore
         game={game}

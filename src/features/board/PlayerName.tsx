@@ -6,11 +6,13 @@ import { zenkaku2Hankaku } from "~/utils/functions";
 type PlayerNameProps = {
   player_name: string;
   isVerticalView: boolean;
+  rows: number;
 };
 
 const PlayerName: React.FC<PlayerNameProps> = ({
   player_name,
   isVerticalView,
+  rows,
 }) => {
   const isDesktop = useDeviceWidth();
 
@@ -28,7 +30,9 @@ const PlayerName: React.FC<PlayerNameProps> = ({
         fontFamily: "BIZ UDGothic",
         fontSize:
           !isVerticalView && isDesktop
-            ? `min(calc(50vh / ${player_name.length}), clamp(9vh, 2.5rem, 9vw))`
+            ? `clamp(2rem, (70vh - ${rows * 4}rem) / ${
+                player_name.length + 1
+              }, 4rem)`
             : "2rem",
         fontWeight: 800,
         w: "100%",

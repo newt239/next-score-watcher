@@ -22,7 +22,6 @@ dist-ssr
 *.sw?
 
 .env
-# Sentry Auth Token
-.env.sentry-build-plugin
 
-styled-system
+# Sentry Config File
+.env.sentry-build-plugin

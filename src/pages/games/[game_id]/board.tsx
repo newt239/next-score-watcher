@@ -14,6 +14,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
+import NotFound from "~/NotFound";
 import BoardHeader from "~/features/board/BoardHeader";
 import GameLogs from "~/features/board/GameLogs";
 import Player from "~/features/board/Player";
@@ -107,16 +108,17 @@ const BoardPage = () => {
     }
   }, [logs]);
 
-  if (!game || !logs) return null;
-
-  if (game.players.length === 0) {
+  if (game?.players.length === 0) {
     navigate(`/${game_id}/config`);
   }
 
+  if (!game || !logs) return <NotFound />;
+
   window.document.onkeydown = async (event) => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
-      if (event.code.startsWith("Digit")) {
-        const playerIndex = Number(event.code[5]);
+      if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
+        const playerIndex =
+          event.code[0] === "D" ? Number(event.code[5]) : Number(event.code[6]);
         if (
           typeof playerIndex === "number" &&
           !isNaN(playerIndex) &&

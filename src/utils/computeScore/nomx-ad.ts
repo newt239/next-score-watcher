@@ -51,27 +51,25 @@ const nomxAd = async (
             if (last_correct_player === playerState.player_id) {
               last_correct_player = "";
             }
-            if (newWrong >= game.lose_point!) {
-              return {
-                ...playerState,
-                wrong: newWrong,
-                last_wrong: qn,
-                state: "lose",
-                stage: 1,
-              };
-            } else {
-              return {
-                ...playerState,
-                wrong: newWrong,
-                last_wrong: qn,
-                stage: 1,
-              };
-            }
+            return {
+              ...playerState,
+              wrong: newWrong,
+              last_wrong: qn,
+              state: newWrong >= game.lose_point! ? "lose" : "playing",
+              stage: 1,
+            };
           default:
             return playerState;
         }
       } else {
-        return { ...playerState, stage: 1 };
+        if (log.variant === "correct" && playerState.stage === 2) {
+          return {
+            ...playerState,
+            stage: 1,
+          };
+        } else {
+          return playerState;
+        }
       }
     });
   });
