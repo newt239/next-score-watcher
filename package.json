@@ -52,5 +52,8 @@
     "typescript": "^5.4.3",
     "vite": "^4.5.3",
     "vite-plugin-pwa": "^0.19.7"
+  },
+  "volta": {
+    "node": "22.0.0"
   }
 }
