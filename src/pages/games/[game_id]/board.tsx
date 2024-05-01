@@ -48,8 +48,6 @@ const BoardPage = () => {
   const isDesktop = useDeviceWidth();
   const [skipSuggest, setSkipSuggest] = useState(false);
 
-  if (!game || !logs) return <NotFound />;
-
   useEffect(() => {
     db(currentProfile).games.update(game_id as string, {
       last_open: cdate().text(),
@@ -57,13 +55,15 @@ const BoardPage = () => {
   }, []);
 
   useEffect(() => {
-    document.title = `${game.name} | Score Watcher`;
+    if (game) {
+      document.title = `${game.name} | Score Watcher`;
+    }
   }, [game]);
 
   useEffect(() => {
     if (playerList) {
       const gamePlayers = (
-        game.players.map((gamePlayer) =>
+        game?.players.map((gamePlayer) =>
           playerList.find((player) => player.id === gamePlayer.id)
         ) || []
       )
@@ -80,35 +80,39 @@ const BoardPage = () => {
   }>({ name: "", text: "" });
 
   useEffect(() => {
-    const executeComputeScore = async () => {
-      const { data: result } = await computeScore(game_id as string);
-      setScores(result.scores);
-      if (result.win_players.length > 0) {
-        if (result.win_players[0].name) {
-          setWinThroughPlayer({
-            name: result.win_players[0].name,
-            text: result.win_players[0].text,
-          });
+    if (logs) {
+      const executeComputeScore = async () => {
+        const { data: result } = await computeScore(game_id as string);
+        setScores(result.scores);
+        if (result.win_players.length > 0) {
+          if (result.win_players[0].name) {
+            setWinThroughPlayer({
+              name: result.win_players[0].name,
+              text: result.win_players[0].text,
+            });
+          }
         }
-      }
-      const playingPlayers = result.scores.filter(
-        (score) => score.state === "playing"
-      );
-      if (
-        playingPlayers.length > 0 &&
-        playingPlayers.length === result.incapacity_players.length
-      ) {
-        setSkipSuggest(true);
-      } else {
-        setSkipSuggest(false);
-      }
-    };
-    executeComputeScore();
+        const playingPlayers = result.scores.filter(
+          (score) => score.state === "playing"
+        );
+        if (
+          playingPlayers.length > 0 &&
+          playingPlayers.length === result.incapacity_players.length
+        ) {
+          setSkipSuggest(true);
+        } else {
+          setSkipSuggest(false);
+        }
+      };
+      executeComputeScore();
+    }
   }, [logs]);
 
-  if (game.players.length === 0) {
+  if (game?.players.length === 0) {
     navigate(`/${game_id}/config`);
   }
+
+  if (!game || !logs) return <NotFound />;
 
   window.document.onkeydown = async (event) => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
