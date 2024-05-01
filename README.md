@@ -1,5 +1,7 @@
 # next-score-watcher
 
+![version](https://img.shields.io/github/package-json/v/newt239/next-score-watcher?style=flat)
+
 <img
   src="https://raw.githubusercontent.com/newt239/next-score-watcher/main/public/score-watcher-ogp.webp" 
   alt="Score Watcher アイキャッチ画像"
