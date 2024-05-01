@@ -14,7 +14,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@sentry/vite-plugin": "^2.16.0",
+    "@sentry/vite-plugin": "^2.16.1",
     "@tanstack/react-table": "^8.15.3",
     "cdate": "^0.0.6",
     "dexie": "^3.2.7",

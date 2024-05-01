@@ -6,15 +6,19 @@ import * as Sentry from "@sentry/react";
 import App from "~/App";
 import { initializeGA4 } from "~/utils/ga4";
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "local") {
   Sentry.init({
     dsn: "https://7f2a3eb9428148c3a475c7b2c4bef92a@o4505277028433920.ingest.sentry.io/4505277040033792",
     release: import.meta.env.VITE_APP_VERSION,
     integrations: [
-      new Sentry.BrowserTracing({
-        tracePropagationTargets: ["https://score-watcher.com/"],
+      Sentry.browserTracingIntegration({
+        tracePropagationTargets: [
+          "https://develop.score-watcher.com",
+          "https://score-watcher.com/",
+          "https://score-watcher.newt239.dev/",
+        ],
       }),
-      new Sentry.Replay(),
+      Sentry.replayIntegration(),
     ],
     ignoreErrors: [
       "TypeError: Failed to register a ServiceWorker for scope", // PWA
