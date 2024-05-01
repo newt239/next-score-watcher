@@ -45,8 +45,8 @@ function App() {
               <Route element={<OptionPage />} index />
               <Route element={<WebhookPage />} path="webhook" />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Route>
-          <Route path="*" element={<NotFound />} />
         </Routes>
         <UpdateModal />
       </BrowserRouter>
