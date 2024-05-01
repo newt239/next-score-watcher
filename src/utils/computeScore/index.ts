@@ -118,7 +118,8 @@ const computeScore = async (game_id: string) => {
         )
       ) {
         const description = `
-          ${result.winPlayers[0].name}さんが勝ち抜けました:tada:
+          ${result.winPlayers[0].name}さんが勝ち抜けました:tada:\n
+          https://score-watcher.com/games/${game.id}/board
           `;
         await fetch(game.discord_webhook_url, {
           method: "POST",
@@ -135,9 +136,8 @@ const computeScore = async (game_id: string) => {
                 timestamp: cdate().utc().format("YYYY-MM-DD HH:mm:ss"),
                 color: 2664261,
                 footer: {
-                  text: "© 2023 newt",
-                  icon_url:
-                    "https://pbs.twimg.com/profile_images/1621275964436258816/k0bKlqzs_400x400.jpg",
+                  text: "© 2022-2024 newt",
+                  icon_url: "https://score-watcher.com/icons/icon-512x512.png",
                 },
               },
             ],

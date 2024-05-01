@@ -22,6 +22,7 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { PlayerPlay, Trash } from "tabler-icons-react";
 
+import NotFound from "~/NotFound";
 import ButtonLink from "~/components/ButtonLink";
 import InputLayout from "~/components/InputLayout";
 import Link from "~/components/Link";
@@ -69,7 +70,7 @@ const ConfigPage = () => {
     document.title = "ゲーム設定 | Score Watcher";
   }, []);
 
-  if (!game || !players || !logs) return null;
+  if (!game || !players || !logs) return <NotFound />;
 
   const deleteGame = async () => {
     await db(currentProfile).games.delete(game.id);
