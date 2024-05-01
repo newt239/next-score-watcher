@@ -146,8 +146,9 @@ const AQLBoardPage: React.FC = () => {
     event: KeyboardEvent<HTMLDivElement>
   ) => {
     if (game) {
-      if (event.code.startsWith("Digit")) {
-        const playerIndex = Number(event.code[5]);
+      if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
+        const playerIndex =
+          event.code[0] === "D" ? Number(event.code[5]) : Number(event.code[6]);
         if (gameState.scores[playerIndex === 0 ? 9 : playerIndex - 1].wrong < 2)
           await db(currentProfile).logs.put({
             id: nanoid(),
