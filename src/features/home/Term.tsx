@@ -16,7 +16,8 @@ const Term: React.FC = () => {
           <Link href="https://discord.gg/rct5sx6rbZ">
             開発者のDiscordサーバー
           </Link>
-          やTwitter からお願いします。
+          や<Link href="https://twitter.com/newt239">Twitter</Link>
+          からお願いします。
         </li>
         <li>
           本アプリを利用した際はぜひ
