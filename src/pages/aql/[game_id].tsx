@@ -276,7 +276,7 @@ const AQLBoardPage: React.FC = () => {
               return (
                 <Flex
                   sx={{
-                    flexDirection: ["column", "column", "row"],
+                    flexDirection: ["row", "row", "column"],
                     alignItems: "center",
                     gap: 3,
                     borderStyle: "solid",
