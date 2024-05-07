@@ -22,8 +22,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { Chalkboard, CirclePlus, Trash } from "tabler-icons-react";
 
-import ButtonLink from "~/components/ButtonLink";
-import Link from "~/components/Link";
+import ButtonLink from "~/components/common/ButtonLink";
+import Link from "~/components/common/Link";
 import db from "~/utils/db";
 
 export type AQLGamePropsUnion = {

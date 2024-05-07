@@ -11,8 +11,8 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
-import ButtonLink from "~/components/ButtonLink";
-import Header from "~/features/header/Header";
+import ButtonLink from "~/components/common/ButtonLink";
+import Header from "~/components/header/Header";
 
 const Layout: React.FC = () => {
   const [isLargerThanLG] = useMediaQuery("(min-width: 992px)");

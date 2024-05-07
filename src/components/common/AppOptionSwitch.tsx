@@ -2,7 +2,7 @@ import { useId } from "react";
 
 import { FormHelperText, Switch } from "@chakra-ui/react";
 
-import InputLayout from "~/components/InputLayout";
+import InputLayout from "~/components/common/InputLayout";
 import { recordEvent } from "~/utils/ga4";
 
 type AppOptionSwitchProps = {

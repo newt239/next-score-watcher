@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-import ButtonLink from "~/components/ButtonLink";
+import ButtonLink from "~/components/common/ButtonLink";
 
 import { Flex } from "@chakra-ui/react";
 import { ExternalLink } from "tabler-icons-react";

@@ -4,11 +4,11 @@ import { useSearchParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { ArrowBackUp } from "tabler-icons-react";
 
-import ButtonLink from "~/components/ButtonLink";
-import CreatePlayer from "~/features/players/CreatePlayer";
-import ImportPlayer from "~/features/players/ImportPlayer";
-import LoadPlayer from "~/features/players/LoadPlayer";
-import PlayerTable from "~/features/players/PlayerTable";
+import ButtonLink from "~/components/common/ButtonLink";
+import CreatePlayer from "~/components/players/CreatePlayer";
+import ImportPlayer from "~/components/players/ImportPlayer";
+import LoadPlayer from "~/components/players/LoadPlayer";
+import PlayerTable from "~/components/players/PlayerTable";
 
 const PlayerPage = () => {
   const [params] = useSearchParams();

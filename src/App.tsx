@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import NotFound from "~/NotFound";
-import ScrollTop from "~/features/components/ScrollTop";
-import UpdateModal from "~/features/components/UpdateModal";
+import ScrollTop from "~/components/common/ScrollTop";
+import UpdateModal from "~/components/common/UpdateModal";
 import Layout from "~/layouts/default";
 import HomePage from "~/pages";
 import AQLPage from "~/pages/aql";

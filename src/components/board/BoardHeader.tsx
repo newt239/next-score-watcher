@@ -29,7 +29,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import PreferenceModal from "~/features/board/PreferenceModal";
+import PreferenceModal from "~/components/board/PreferenceModal";
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 import { showQnAtom } from "~/utils/jotai";

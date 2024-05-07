@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Box, Card, CardBody } from "@chakra-ui/react";
 import { ReactSortable } from "react-sortablejs";
 
-import IndividualConfig from "~/features/config/IndividualConfig";
+import IndividualConfig from "~/components/config/IndividualConfig";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "~/utils/types";

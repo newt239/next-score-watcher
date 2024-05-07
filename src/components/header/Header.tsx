@@ -1,9 +1,9 @@
 import { Link as ReactLink } from "react-router-dom";
 
-import Link from "~/components/Link";
-import Hamburger from "~/features/header/Hamburger";
-import ProfileSelector from "~/features/header/ProfileSelector";
-import SubMenu from "~/features/header/SubMenu";
+import Link from "~/components/common/Link";
+import Hamburger from "~/components/header/Hamburger";
+import ProfileSelector from "~/components/header/ProfileSelector";
+import SubMenu from "~/components/header/SubMenu";
 
 import { Box, useMediaQuery } from "@chakra-ui/react";
 

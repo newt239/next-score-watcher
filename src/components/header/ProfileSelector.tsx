@@ -20,7 +20,7 @@ import {
 import { nanoid } from "nanoid";
 import { Plus } from "tabler-icons-react";
 
-import AlertDialog from "~/features/components/AlertDialog";
+import AlertDialog from "~/components/common/AlertDialog";
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 

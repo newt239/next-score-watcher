@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-import Features from "~/features/home/Features";
-import Hero from "~/features/home/Hero";
-import Term from "~/features/home/Term";
+import Features from "~/components/home/Features";
+import Hero from "~/components/home/Hero";
+import Term from "~/components/home/Term";
 
 const HomePage: React.FC = () => {
   useEffect(() => {

@@ -3,7 +3,7 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import PlayerScoreButton from "~/features/board/PlayerScoreButton";
+import PlayerScoreButton from "~/components/board/PlayerScoreButton";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { numberSign } from "~/utils/functions";

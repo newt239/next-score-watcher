@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-import OtherRules from "~/features/rules/OtherRules";
-import RuleList from "~/features/rules/RuleList";
+import OtherRules from "~/components/rules/OtherRules";
+import RuleList from "~/components/rules/RuleList";
 
 const RulePage: React.FC = () => {
   useEffect(() => {

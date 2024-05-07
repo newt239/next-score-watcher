@@ -6,8 +6,8 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import AQLBoardHeader from "~/features/board/AQLBoardHeader";
-import GameLogs from "~/features/board/GameLogs";
+import AQLBoardHeader from "~/components/board/AQLBoardHeader";
+import GameLogs from "~/components/board/GameLogs";
 import db from "~/utils/db";
 import { AQLGamePropsUnion } from "~/utils/types";
 

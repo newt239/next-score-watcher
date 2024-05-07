@@ -1,23 +1,17 @@
 import { useRef, useState } from "react";
 
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Checkbox,
   Flex,
   FormControl,
   FormLabel,
+  HStack,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
-  ListItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -30,10 +24,10 @@ import {
   Tbody,
   Td,
   Text,
+  Textarea,
   Th,
   Thead,
   Tr,
-  UnorderedList,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -50,15 +44,14 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { DeviceFloppy, Edit, Filter, Trash } from "tabler-icons-react";
 
-import TablePagination from "~/components/TablePagination";
+import TablePagenation from "~/components/common/TablePagination";
 import db from "~/utils/db";
-import { PlayerDBProps } from "~/utils/types";
+import { QuizDBProps } from "~/utils/types";
 
-const PlayerTable: React.FC = () => {
+const QuizTable: React.FC = () => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
-  const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
-  const players = useLiveQuery(
-    () => db(currentProfile).players.orderBy("name").toArray(),
+  const quizes = useLiveQuery(
+    () => db(currentProfile).quizes.orderBy("set_name").sortBy("n"),
     []
   );
   const [searchText, setSearchText] = useState<string>("");
@@ -66,37 +59,26 @@ const PlayerTable: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
-  const {
-    isOpen: alertIsOpen,
-    onOpen: alertOnOpen,
-    onClose: alertOnClose,
-  } = useDisclosure();
-  const alertCancelRef = useRef(null);
-  const [currentPlayer, setCurrentPlayer] = useState<PlayerDBProps | null>(
-    null
-  );
-  const [selectedPlayers, setSelectedPlayers] = useState({});
-  const [editPlayerTagsModal, setEditPlayerTagsModal] =
-    useState<boolean>(false);
+  const [currentQuiz, setCurrentQuiz] = useState<QuizDBProps | null>(null);
+  const [selectedQuizes, setSelectedQuizes] = useState({});
   const toast = useToast();
 
-  const handleChange = (row: PlayerDBProps) => {
-    setCurrentPlayer(row);
+  const handleChange = (row: QuizDBProps) => {
+    setCurrentQuiz(row);
     onOpen();
   };
 
-  const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
+  const fuzzyFilter: FilterFn<QuizDBProps> = (row) => {
     const data = row.original;
     return (
-      data.name?.includes(searchText) ||
-      data.text?.includes(searchText) ||
-      data.belong?.includes(searchText) ||
-      data.tags.join("").includes(searchText)
+      data.q?.includes(searchText) ||
+      data.a?.includes(searchText) ||
+      data.set_name?.includes(searchText)
     );
   };
 
-  const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns: ColumnDef<PlayerDBProps, any>[] = [
+  const columnHelper = createColumnHelper<QuizDBProps>();
+  const columns: ColumnDef<QuizDBProps, any>[] = [
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (
@@ -116,21 +98,26 @@ const PlayerTable: React.FC = () => {
         );
       },
     }),
-    columnHelper.accessor("name", {
-      header: "氏名",
+    columnHelper.accessor("n", {
+      header: "No.",
     }),
-    columnHelper.accessor("text", {
-      header: "順位",
+    columnHelper.accessor("q", {
+      header: "問題文",
+      size: 500,
     }),
-    columnHelper.accessor("belong", {
-      header: "所属",
+    columnHelper.accessor("a", {
+      header: "答え",
+      size: 250,
+    }),
+    columnHelper.accessor("set_name", {
+      header: "セット名",
     }),
     columnHelper.accessor("id", {
       header: "",
       cell: (info) => {
         return (
           <IconButton
-            aria-label="プレイヤー情報を更新する"
+            aria-label="問題情報を更新する"
             colorScheme="blue"
             onClick={() => handleChange(info.row.original)}
             size="xs"
@@ -143,14 +130,14 @@ const PlayerTable: React.FC = () => {
     }),
   ];
 
-  const table = useReactTable<PlayerDBProps>({
-    data: players || [],
+  const table = useReactTable<QuizDBProps>({
+    data: quizes || [],
     columns,
     state: {
-      rowSelection: selectedPlayers,
+      rowSelection: selectedQuizes,
       globalFilter: searchText,
     },
-    onRowSelectionChange: setSelectedPlayers,
+    onRowSelectionChange: setSelectedQuizes,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
     getCoreRowModel: getCoreRowModel(),
@@ -158,62 +145,45 @@ const PlayerTable: React.FC = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  if (!games || !players) return null;
-
-  const deletePlayerList = table
-    .getSelectedRowModel()
-    .rows.map(({ original: player }) => player.id);
-  const affectedGameList = games.filter((game) =>
-    game.players
-      .map((gamePlayer) => deletePlayerList.includes(gamePlayer.id))
-      .includes(true)
-  );
-
-  const deletePlayers = async () => {
-    alertOnClose();
-    await db(currentProfile).players.bulkDelete(deletePlayerList);
-    await db(currentProfile)
-      .logs.where("player_id")
-      .anyOf(deletePlayerList)
-      .delete();
-    await db(currentProfile)
-      .games.where("id")
-      .anyOf(affectedGameList.map((game) => game.id))
-      .modify({ players: [] });
-    toast({
-      title: `${deletePlayerList.length}人のプレイヤーを削除しました`,
-      description: table
-        .getSelectedRowModel()
-        .rows.map(({ original: player }) => player.name)
-        .join(", ")
-        .slice(0, 20),
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
-    setSelectedPlayers([]);
-  };
+  if (!quizes) return null;
 
   return (
     <Box pt={5}>
-      <h3>プレイヤー一覧</h3>
-      {players.length === 0 ? (
+      <h3>問題一覧</h3>
+      {quizes.length === 0 ? (
         <Box p={3}>
-          <Text>プレイヤーが登録されていません。</Text>
+          <Text>問題が登録されていません。</Text>
         </Box>
       ) : (
         <Box>
           {
-            <Flex sx={{ pb: 5, gap: 3, justifyContent: "flex-end" }}>
+            <Flex sx={{ py: 5, gap: 3, justifyContent: "flex-end" }}>
               {table.getSelectedRowModel().rows.length !== 0 && (
-                <Button
-                  colorScheme="red"
-                  leftIcon={<Trash />}
-                  onClick={alertOnOpen}
-                  size="sm"
-                >
-                  削除
-                </Button>
+                <HStack>
+                  <Button
+                    colorScheme="red"
+                    leftIcon={<Trash />}
+                    onClick={async () => {
+                      await db(currentProfile).quizes.bulkDelete(
+                        table
+                          .getSelectedRowModel()
+                          .rows.map(({ original: quiz }) => quiz.id)
+                      );
+                      toast({
+                        title: `${
+                          table.getSelectedRowModel().rows.length
+                        } 件の問題を削除しました`,
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                      });
+                      setSelectedQuizes([]);
+                    }}
+                    size="sm"
+                  >
+                    削除
+                  </Button>
+                </HStack>
               )}
               <Box>
                 <InputGroup>
@@ -222,7 +192,7 @@ const PlayerTable: React.FC = () => {
                   </InputLeftElement>
                   <Input
                     onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="フリーワードで検索"
+                    placeholder="問題文・答え・セット名で検索"
                     sx={{ maxW: 300 }}
                     value={searchText}
                   />
@@ -233,7 +203,7 @@ const PlayerTable: React.FC = () => {
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>
               <Text>
-                「{searchText}」に一致するプレイヤーは見つかりませんでした。
+                「{searchText}」に一致する問題データは見つかりませんでした。
               </Text>
             </Box>
           ) : (
@@ -262,7 +232,11 @@ const PlayerTable: React.FC = () => {
                         <Tr key={row.original.id}>
                           {row.getVisibleCells().map((cell, i) => {
                             return (
-                              <Td key={`${row.original.id}_${i}`}>
+                              <Td
+                                key={`${row.original.id}_${i}`}
+                                maxW={cell.column.id === "q" ? 500 : 300}
+                                overflow="hidden"
+                              >
                                 {flexRender(
                                   cell.column.columnDef.cell,
                                   cell.getContext()
@@ -276,7 +250,7 @@ const PlayerTable: React.FC = () => {
                   </Tbody>
                 </Table>
               </TableContainer>
-              <TablePagination table={table} />
+              <TablePagenation table={table} />
             </>
           )}
         </Box>
@@ -289,46 +263,47 @@ const PlayerTable: React.FC = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>プレイヤー情報の更新</ModalHeader>
+          <ModalHeader>編集</ModalHeader>
           <ModalCloseButton aria-label="閉じる" />
-          {currentPlayer && (
+          {currentQuiz && (
             <>
               <ModalBody pb={6}>
                 <FormControl>
-                  <FormLabel>氏名</FormLabel>
-                  <Input
+                  <FormLabel>問題文</FormLabel>
+                  <Textarea
                     onChange={(e) =>
-                      setCurrentPlayer({
-                        ...currentPlayer,
-                        name: e.target.value,
+                      setCurrentQuiz({
+                        ...currentQuiz,
+                        q: e.target.value,
                       })
                     }
                     ref={initialRef}
-                    value={currentPlayer.name}
+                    value={currentQuiz.q}
                   />
                 </FormControl>
                 <FormControl mt={4}>
-                  <FormLabel>順位</FormLabel>
+                  <FormLabel>答え</FormLabel>
                   <Input
                     onChange={(e) =>
-                      setCurrentPlayer({
-                        ...currentPlayer,
-                        text: e.target.value,
+                      setCurrentQuiz({
+                        ...currentQuiz,
+                        a: e.target.value,
                       })
                     }
-                    value={currentPlayer.text}
+                    value={currentQuiz.a}
                   />
                 </FormControl>
-                <FormControl mt={4}>
-                  <FormLabel>所属</FormLabel>
+                <FormControl>
+                  <FormLabel>セット名</FormLabel>
                   <Input
                     onChange={(e) =>
-                      setCurrentPlayer({
-                        ...currentPlayer,
-                        belong: e.target.value,
+                      setCurrentQuiz({
+                        ...currentQuiz,
+                        set_name: e.target.value,
                       })
                     }
-                    value={currentPlayer.belong}
+                    ref={initialRef}
+                    value={currentQuiz.set_name}
                   />
                 </FormControl>
               </ModalBody>
@@ -337,9 +312,9 @@ const PlayerTable: React.FC = () => {
                   colorScheme="blue"
                   leftIcon={<DeviceFloppy />}
                   onClick={async () => {
-                    await db(currentProfile).players.update(
-                      currentPlayer.id!,
-                      currentPlayer
+                    await db(currentProfile).quizes.update(
+                      currentQuiz.id,
+                      currentQuiz
                     );
                     onClose();
                   }}
@@ -351,48 +326,8 @@ const PlayerTable: React.FC = () => {
           )}
         </ModalContent>
       </Modal>
-      <AlertDialog
-        isOpen={alertIsOpen}
-        leastDestructiveRef={alertCancelRef}
-        onClose={alertOnClose}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              プレイヤーを削除します
-            </AlertDialogHeader>
-            <AlertDialogBody>
-              選択中のプレイヤー{deletePlayerList.length}
-              人を削除します。
-              {affectedGameList.length !== 0 && (
-                <>
-                  この操作により、以下{affectedGameList.length}
-                  件のゲームのプレイヤーの選択状態及びログがリセットされます。
-                  <UnorderedList>
-                    {affectedGameList.map((game) => (
-                      <ListItem key={game.id}>{game.name}</ListItem>
-                    ))}
-                  </UnorderedList>
-                </>
-              )}
-            </AlertDialogBody>
-            <AlertDialogFooter>
-              <Button onClick={alertOnClose} ref={alertCancelRef}>
-                やめる
-              </Button>
-              <Button
-                colorScheme="red"
-                leftIcon={<Trash />}
-                ml={3}
-                onClick={deletePlayers}
-              >
-                削除する
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
     </Box>
   );
 };
-export default PlayerTable;
+
+export default QuizTable;

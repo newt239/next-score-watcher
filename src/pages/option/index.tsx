@@ -5,9 +5,9 @@ import { Button, Icon, Input, Link, useDisclosure } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { ExternalLink } from "tabler-icons-react";
 
-import InputLayout from "~/components/InputLayout";
-import AlertDialog from "~/features/components/AlertDialog";
-import Preferences from "~/features/components/Preferences";
+import AlertDialog from "~/components/common/AlertDialog";
+import InputLayout from "~/components/common/InputLayout";
+import Preferences from "~/components/common/Preferences";
 import db from "~/utils/db";
 import { webhookUrlAtom } from "~/utils/jotai";
 

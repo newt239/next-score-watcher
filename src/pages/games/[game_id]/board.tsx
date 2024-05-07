@@ -15,10 +15,10 @@ import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
 import NotFound from "~/NotFound";
-import BoardHeader from "~/features/board/BoardHeader";
-import GameLogs from "~/features/board/GameLogs";
-import Player from "~/features/board/Player";
-import WinModal from "~/features/board/WinModal";
+import BoardHeader from "~/components/board/BoardHeader";
+import GameLogs from "~/components/board/GameLogs";
+import Player from "~/components/board/Player";
+import WinModal from "~/components/board/WinModal";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import computeScore from "~/utils/computeScore";
 import db from "~/utils/db";

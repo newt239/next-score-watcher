@@ -35,7 +35,7 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import ShortcutGuide from "~/features/board/ShortcutGuide";
+import ShortcutGuide from "~/components/board/ShortcutGuide";
 import db from "~/utils/db";
 import { showQnAtom } from "~/utils/jotai";
 import { LogDBProps, QuizDBProps } from "~/utils/types";

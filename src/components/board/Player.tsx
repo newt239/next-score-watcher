@@ -5,10 +5,10 @@ import { Box, useColorMode } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useAtomValue } from "jotai";
 
-import PlayerColorConfig from "~/features/board/PlayerColorConfig";
-import PlayerHeader from "~/features/board/PlayerHeader";
-import PlayerName from "~/features/board/PlayerName";
-import PlayerScore from "~/features/board/PlayerScore";
+import PlayerColorConfig from "~/components/board/PlayerColorConfig";
+import PlayerHeader from "~/components/board/PlayerHeader";
+import PlayerName from "~/components/board/PlayerName";
+import PlayerScore from "~/components/board/PlayerScore";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { reversePlayerInfoAtom } from "~/utils/jotai";

@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import Link from "~/components/Link";
+import Link from "~/components/common/Link";
 
 const NotFound: React.FC = () => {
   return (

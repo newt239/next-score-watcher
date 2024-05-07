@@ -1,7 +1,7 @@
 import { useColorMode } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 
-import AppOptionSwitch from "~/components/AppOptionSwitch";
+import AppOptionSwitch from "~/components/common/AppOptionSwitch";
 import {
   reversePlayerInfoAtom,
   showQnAtom,

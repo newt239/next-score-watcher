@@ -4,10 +4,10 @@ import { useParams } from "react-router-dom";
 import { Input } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import InputLayout from "~/components/common/InputLayout";
 import { useDebounce } from "~/hooks/useDebounce";
 import db from "~/utils/db";
 import { GamePropsUnion } from "~/utils/types";
-import InputLayout from "~/components/InputLayout";
 
 type ConfigInputProps = {
   input_id: keyof GamePropsUnion;

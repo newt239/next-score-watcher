@@ -29,7 +29,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowNarrowRight, Filter } from "tabler-icons-react";
 
-import TablePagenation from "~/components/TablePagination";
+import TablePagenation from "~/components/common/TablePagination";
 import { useDidUpdateEffect } from "~/hooks/useDidUpdateEffect";
 import db from "~/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "~/utils/types";

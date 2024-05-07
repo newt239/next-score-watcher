@@ -19,8 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { Plus, Upload } from "tabler-icons-react";
 
-import CompactCreatePlayer from "~/features/config/CompactCreatePlayer";
-import CompactPlayerTable from "~/features/config/CompactPlayerTable";
+import CompactCreatePlayer from "~/components/config/CompactCreatePlayer";
+import CompactPlayerTable from "~/components/config/CompactPlayerTable";
 import { GameDBPlayerProps, PlayerDBProps } from "~/utils/types";
 import SelectPlayerFromExistingGame from "./SelectPlayerFromExistingGame";
 
