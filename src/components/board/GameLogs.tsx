@@ -48,7 +48,6 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
         display: "flex",
         p: 3,
         my: 10,
-        maxW: "100vw",
         justifyContent: "center",
       }}
     >
@@ -58,6 +57,7 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
           borderWidth: [1, 1, 3],
           borderColor: "gray.100",
           p: 3,
+          maxW: "95vw",
           borderRadius: ["0.5rem", "0.5rem", "1rem"],
           _dark: {
             borderColor: "gray.700",
@@ -106,13 +106,13 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
                               <Td>
                                 {
                                   quizList[reverse ? logs.length - qn - 1 : qn]
-                                    ?.q
+                                    ?.a
                                 }
                               </Td>
                               <Td>
                                 {
                                   quizList[reverse ? logs.length - qn - 1 : qn]
-                                    ?.a
+                                    ?.q
                                 }
                               </Td>
                             </>

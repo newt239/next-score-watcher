@@ -35,18 +35,18 @@ export const features: { [key: string]: Feature } = {
 const UpdateModal: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const currentVersion = localStorage.getItem("scorewatcher-version");
-  const latestVersion = import.meta.env.VITE_APP_VERSION;
+  const latestVersion = import.meta.env.VITE_APP_VERSION as string;
 
   useEffect(() => {
     if (!currentVersion) {
-      localStorage.setItem("scorewatcher-version", latestVersion!);
+      localStorage.setItem("scorewatcher-version", latestVersion);
     } else if (currentVersion !== latestVersion) {
       setModalOpen(true);
     }
   }, []);
 
   const onUpdate = () => {
-    localStorage.setItem("scorewatcher-version", latestVersion!);
+    localStorage.setItem("scorewatcher-version", latestVersion);
     setModalOpen(false);
   };
 
