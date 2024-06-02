@@ -7,6 +7,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Th,
   Tr,
 } from "@chakra-ui/react";
 import { cdate } from "cdate";
@@ -77,6 +78,18 @@ const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
             <TableContainer>
               <Table size="sm" variant="simple">
                 <Tbody>
+                  <Tr>
+                    <Th>No.</Th>
+                    <Th>解答者</Th>
+                    <Th>正誤</Th>
+                    <Th>時刻</Th>
+                    {!containSkipLog && (
+                      <>
+                        <Th>解答</Th>
+                        <Th>問題</Th>
+                      </>
+                    )}
+                  </Tr>
                   {
                     // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c
                     (reverse ? logs.slice().reverse() : logs).map((log, qn) => {
