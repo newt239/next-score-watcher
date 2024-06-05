@@ -1,5 +1,6 @@
 import { Box, Button, Image } from "@mantine/core";
 import Link from "next/link";
+import { ArrowRight } from "tabler-icons-react";
 
 export default function Hero() {
   return (
@@ -39,7 +40,12 @@ export default function Hero() {
             スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。
           </p>
         </Box>
-        <Button component={Link} href="/rules" size="lg">
+        <Button
+          component={Link}
+          href="/rules"
+          size="lg"
+          rightSection={<ArrowRight />}
+        >
           ゲームを作る
         </Button>
       </Box>
