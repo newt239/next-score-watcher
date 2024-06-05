@@ -11,7 +11,7 @@ export default function PlayerPage() {
     <>
       <Title order={2}>プレイヤー管理</Title>
       <Title order={3}>プレイヤーの読み込み</Title>
-      <Tabs variant="outline" defaultValue="gallery">
+      <Tabs variant="outline" defaultValue="add">
         <Tabs.List>
           <Tabs.Tab value="add">個別に追加</Tabs.Tab>
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
