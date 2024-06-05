@@ -2,6 +2,7 @@
 
 import { Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 type Props = {
@@ -12,10 +13,11 @@ type Props = {
 
 const Hamburger: React.FC<Props> = ({ children }) => {
   const [opened, { toggle }] = useDisclosure();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (opened) toggle();
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <>
