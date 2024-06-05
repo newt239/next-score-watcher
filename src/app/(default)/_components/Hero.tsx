@@ -6,32 +6,16 @@ export default function Hero() {
     <Box w="100%" pos="relative">
       <Image
         alt="大会画像"
-        h="80vh"
-        w="100%"
         radius="xl"
-        fit="cover"
         src="/images/hero.webp"
+        className="h-[80vh] w-full object-cover"
       />
-      <Box
-        style={{
-          backdropFilter: "blur(3px)",
-          color: "white",
-          left: "50%",
-          borderRadius: "3xl",
-          margin: "16px",
-          padding: "16px",
-          position: "absolute",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "80%",
-        }}
-      >
+      <Box className="absolute left-1/2 top-1/2 m-4 w-4/5 -translate-x-1/2 -translate-y-1/2 rounded-xl p-4 text-white backdrop-blur-sm ">
         <Box
-          fz={{ base: "3xl", lg: "5xl", md: "4xl" }}
           style={{
-            lineHeight: "initial",
             textShadow: "black 1px 0 10px",
           }}
+          className="text-4xl font-bold leading-6 md:text-5xl lg:text-6xl"
         >
           <Box>競技クイズのための</Box>
           <Box>
@@ -46,11 +30,7 @@ export default function Hero() {
             アプリ
           </Box>
         </Box>
-        <Box
-          style={{
-            my: "16px",
-          }}
-        >
+        <Box className="my-4">
           <p>
             Score
             Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。
