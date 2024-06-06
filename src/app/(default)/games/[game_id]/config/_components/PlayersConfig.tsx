@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 
 import { Box, Card } from "@mantine/core";
+import { ReactSortable } from "react-sortablejs";
 
+import IndividualConfig from "./IndivisualConfig";
 import SelectPlayerDrawer from "./SelectPlayerDrawer";
 
 import db from "@/utils/db";
@@ -48,7 +50,7 @@ const PlayersConfig: React.FC<Props> = ({
             <ReactSortable
               animation={200}
               delay={2}
-              direction={isDesktop ? "vertical" : "horizontal"}
+              direction="vertical"
               list={sortableList}
               setList={(newState) => {
                 (async () => {
@@ -75,9 +77,7 @@ const PlayersConfig: React.FC<Props> = ({
                     <Box
                       className="whitespace-nowrap "
                       style={{
-                        writingMode: isDesktop
-                          ? "vertical-rl"
-                          : "horizontal-tb",
+                        writingMode: "vertical-rl",
                         textOrientation: "upright",
                       }}
                     >

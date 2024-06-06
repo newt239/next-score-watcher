@@ -4,6 +4,8 @@ import { Accordion, Box, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Plus, Upload } from "tabler-icons-react";
 
+import CompactCreatePlayer from "./CompactCreatePlayer";
+import CompactPlayerTable from "./CompactPlayerTable";
 import SelectPlayerFromExistingGame from "./SelectPlayerFromExistingGame";
 
 import ButtonLink from "@/app/_components/ButtonLink";

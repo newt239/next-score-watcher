@@ -1,8 +1,7 @@
-import { Box, Select } from "@chakra-ui/react";
+import { Box, NativeSelect } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import db from "~/utils/db";
-import { recordEvent } from "~/utils/ga4";
+import db from "@/utils/db";
 
 type SelectPlayerFromExistingGameProps = {
   game_id: string;
@@ -22,12 +21,8 @@ const SelectPlayerFromExistingGame: React.FC<
         これまでに作成したゲームで選択したプレイヤーをまとめて選択できます。
       </p>
       <Box mt={3}>
-        <Select
+        <NativeSelect
           onChange={async (e) => {
-            recordEvent({
-              action: "select_player_from_existing_game",
-              category: "engagement",
-            });
             const selectedGame = games?.find(
               (game) => game.id === e.target.value
             );
@@ -47,7 +42,7 @@ const SelectPlayerFromExistingGame: React.FC<
                 {game.players.map((player) => player.name).join(", ")} )
               </option>
             ))}
-        </Select>
+        </NativeSelect>
       </Box>
     </>
   );
