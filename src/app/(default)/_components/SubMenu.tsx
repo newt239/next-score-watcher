@@ -1,7 +1,8 @@
 "use client";
 
-import { Button, Flex } from "@mantine/core";
-import Link from "next/link";
+import ButtonLink from "@/app/_components/ButtonLink";
+import { Flex } from "@mantine/core";
+import { usePathname } from "next/navigation";
 import { ExternalLink } from "tabler-icons-react";
 
 const linkList: { text: string; path: string }[] = [
@@ -15,19 +16,20 @@ const linkList: { text: string; path: string }[] = [
 ];
 
 const SubMenu: React.FC = () => {
+  const pathname = usePathname();
+
   return (
     <Flex className="flex-col">
       {linkList.map((link) => (
-        <Button
-          component={Link}
-          aria-current={link.path === location.pathname}
+        <ButtonLink
+          aria-current={link.path === pathname}
           href={link.path}
           key={link.path}
-          variant={link.path === location.pathname ? "filled" : "subtle"}
+          variant={link.path === pathname ? "filled" : "subtle"}
         >
           {link.text}
           {link.path.startsWith("http") && <ExternalLink className="ml-2" />}
-        </Button>
+        </ButtonLink>
       ))}
     </Flex>
   );
