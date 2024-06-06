@@ -18,7 +18,7 @@ const Link: React.FC<Props> = (props) => {
       target={href.startsWith("http") ? "_blank" : "_self"}
     >
       {children}
-      {href.startsWith("http") && <ExternalLink className="ml-2" />}
+      {href.startsWith("http") && <ExternalLink />}
     </Anchor>
   );
 };

@@ -12,7 +12,7 @@ export default function QuizesPage() {
   return (
     <>
       <Title order={2}>問題管理</Title>
-      <Title order={3}>問題の読み込み</Title>
+      <h3>問題の読み込み</h3>
       <TextInput
         label="セット名"
         onChange={(e) => setSetName(e.target.value)}

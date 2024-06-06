@@ -10,7 +10,7 @@ export default function PlayerPage() {
   return (
     <>
       <Title order={2}>プレイヤー管理</Title>
-      <Title order={3}>プレイヤーの読み込み</Title>
+      <h3>プレイヤーの読み込み</h3>
       <Tabs variant="outline" defaultValue="add">
         <Tabs.List>
           <Tabs.Tab value="add">個別に追加</Tabs.Tab>
