@@ -1,4 +1,5 @@
 import { Box, NativeSelect } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
@@ -10,7 +11,10 @@ type SelectPlayerFromExistingGameProps = {
 const SelectPlayerFromExistingGame: React.FC<
   SelectPlayerFromExistingGameProps
 > = ({ game_id }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
 
   if (!games) return null;

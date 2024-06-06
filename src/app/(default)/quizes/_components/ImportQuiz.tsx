@@ -1,6 +1,7 @@
 "use client";
 
 import { FileInput, Flex, Text } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
@@ -13,7 +14,10 @@ type Props = {
 };
 
 const ImportQuiz: React.FC<Props> = ({ set_name }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
 
   const handleOnChange = (file: File | null) => {
     const fileReader = new FileReader();

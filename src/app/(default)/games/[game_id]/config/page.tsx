@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { Accordion, Box, Button, Flex, List, Tabs, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -26,7 +27,10 @@ export default function ConfigPage({
   params: { game_id: string };
 }) {
   const router = useRouter();
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const game = useLiveQuery(() =>
     db(currentProfile).games.get(params.game_id as string)
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { NativeSelect, NumberInput } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { Upload } from "tabler-icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
@@ -18,7 +19,10 @@ const SelectQuizset: React.FC<Props> = ({
   game_quiz,
   quizset_names,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   return (
     <>
       <h3>問題設定</h3>

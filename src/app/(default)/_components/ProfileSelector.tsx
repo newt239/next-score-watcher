@@ -12,6 +12,7 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { nanoid } from "nanoid";
 import { Plus } from "tabler-icons-react";
@@ -19,12 +20,17 @@ import { Plus } from "tabler-icons-react";
 import db from "@/utils/db";
 
 const ProfileSelector: React.FC = () => {
-  const raw = window.localStorage.getItem("scorew_profile_list");
+  const [raw, setProfileListString] = useLocalStorage({
+    key: "scorew_profile_list",
+    defaultValue: "[]",
+  });
   const profileList = (
-    raw === undefined || raw === null || raw === "" ? [] : JSON.parse(raw) || []
+    raw === undefined || raw === null ? [] : JSON.parse(raw) || []
   ) as { name: string; id: string }[];
-  const currentProfile =
-    window.localStorage.getItem("scorew_current_profile") || "score_watcher";
+  const [currentProfile, setCurrentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const currentProfileName =
     profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
@@ -46,11 +52,8 @@ const ProfileSelector: React.FC = () => {
         const newProfileList = profileList.filter(
           (p) => p.id !== currentProfile
         );
-        window.localStorage.setItem(
-          "scorew_profile_list",
-          JSON.stringify(newProfileList)
-        );
-        window.localStorage.setItem("scorew_current_profile", "score_watcher");
+        setProfileListString(JSON.stringify(newProfileList));
+        setCurrentProfile("score_watcher");
         db(currentProfile)
           .delete()
           .then(() => {

@@ -1,4 +1,5 @@
 import { Flex, NumberInput, Switch } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
@@ -10,7 +11,10 @@ type Props = {
 };
 
 const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const game = useLiveQuery(() =>
     db(currentProfile).games.get(game_id as string)
   );

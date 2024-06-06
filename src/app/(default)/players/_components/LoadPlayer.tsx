@@ -11,6 +11,7 @@ import {
   Text,
   Textarea,
 } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
@@ -19,7 +20,10 @@ import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
 const LoadPlayer: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);

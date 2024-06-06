@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
 import { Box, Button, Flex, TextInput } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
@@ -12,7 +13,10 @@ import db from "@/utils/db";
 import { GameDBPlayerProps } from "@/utils/types";
 
 const CreatePlayer: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   const [playerOrder, setPlayerOrder] = useState<string>("");

@@ -2,6 +2,7 @@ import { useParams } from "next/navigation";
 import { useId } from "react";
 
 import { NumberInput } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
@@ -22,7 +23,10 @@ const ConfigNumberInput: React.FC<Props> = ({
   max = 100,
   disabled,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const id = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() =>

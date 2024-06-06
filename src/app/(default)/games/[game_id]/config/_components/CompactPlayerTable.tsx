@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useDidUpdate } from "@mantine/hooks";
+import { useDidUpdate, useLocalStorage } from "@mantine/hooks";
 import {
   createColumnHelper,
   flexRender,
@@ -36,7 +36,10 @@ const CompactPlayerTable: React.FC<Props> = ({
   playerList,
   gamePlayers,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
     {}

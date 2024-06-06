@@ -1,6 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import { Box, Card } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { ReactSortable } from "react-sortablejs";
 
 import IndividualConfig from "./IndivisualConfig";
@@ -24,7 +27,10 @@ const PlayersConfig: React.FC<Props> = ({
   players,
   disabled,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const [currentProfile] = useLocalStorage({
+    key: "scorew_current_profile",
+    defaultValue: "score_watcher",
+  });
   const [sortableList, setSortableList] = useState(players);
 
   useEffect(() => {
