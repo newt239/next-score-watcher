@@ -1,29 +1,29 @@
 import { cdate } from "cdate";
 
-import attacksurvival from "~/utils/computeScore/attacksurvival";
-import backstream from "~/utils/computeScore/backstream";
-import divide from "~/utils/computeScore/divide";
-import endlessChance from "~/utils/computeScore/endless-chance";
-import freezex from "~/utils/computeScore/freezex";
-import nbyn from "~/utils/computeScore/nbyn";
-import nomr from "~/utils/computeScore/nomr";
-import nomx from "~/utils/computeScore/nomx";
-import nomxAd from "~/utils/computeScore/nomx-ad";
-import normal from "~/utils/computeScore/normal";
-import nupdown from "~/utils/computeScore/nupdown";
-import ny from "~/utils/computeScore/ny";
-import squarex from "~/utils/computeScore/squarex";
-import swedish10 from "~/utils/computeScore/swedish10";
-import variables from "~/utils/computeScore/variables";
-import z from "~/utils/computeScore/z";
-import db from "~/utils/db";
+import attacksurvival from "@/utils/computeScore/attacksurvival";
+import backstream from "@/utils/computeScore/backstream";
+import divide from "@/utils/computeScore/divide";
+import endlessChance from "@/utils/computeScore/endless-chance";
+import freezex from "@/utils/computeScore/freezex";
+import nbyn from "@/utils/computeScore/nbyn";
+import nomr from "@/utils/computeScore/nomr";
+import nomx from "@/utils/computeScore/nomx";
+import nomxAd from "@/utils/computeScore/nomx-ad";
+import normal from "@/utils/computeScore/normal";
+import nupdown from "@/utils/computeScore/nupdown";
+import ny from "@/utils/computeScore/ny";
+import squarex from "@/utils/computeScore/squarex";
+import swedish10 from "@/utils/computeScore/swedish10";
+import variables from "@/utils/computeScore/variables";
+import z from "@/utils/computeScore/z";
+import db from "@/utils/db";
 import {
   ComputedScoreProps,
   GameDBPlayerProps,
   GamePropsUnion,
   States,
   WinPlayerProps,
-} from "~/utils/types";
+} from "@/utils/types";
 
 const computeScore = async (game_id: string) => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");

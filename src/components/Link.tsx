@@ -1,30 +1,25 @@
-import { Link as ChakraLink } from "@chakra-ui/react";
-import { Link as ReactLink } from "react-router-dom";
+import { Anchor } from "@mantine/core";
+import { default as NextLink } from "next/link";
+import { ExternalLink } from "tabler-icons-react";
 
-export type LinkProps = {
+type Props = {
   children: React.ReactNode;
   href: string;
 } & React.HTMLAttributes<HTMLAnchorElement>;
 
-const Link: React.FC<LinkProps> = (props) => {
+const Link: React.FC<Props> = (props) => {
   const { children, href, ...rest } = props;
   return (
-    <ChakraLink
-      as={ReactLink}
-      sx={{
-        _hover: {
-          textDecoration: "underline",
-        },
-        alignItems: "center",
-        color: "blue.500",
-        display: "inline-flex",
-      }}
-      to={href}
+    <Anchor
+      component={NextLink}
+      className="inline-flex text-blue-500 hover:underline"
+      href={href}
       {...rest}
       target={href.startsWith("http") ? "_blank" : "_self"}
     >
       {children}
-    </ChakraLink>
+      {href.startsWith("http") && <ExternalLink />}
+    </Anchor>
   );
 };
 
