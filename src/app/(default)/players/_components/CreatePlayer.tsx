@@ -1,15 +1,15 @@
 "use client";
 
-import { Box, Button, Flex, TextInput } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
+import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
+import { Box, Button, Flex, TextInput } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 
 import db from "@/utils/db";
 import { GameDBPlayerProps } from "@/utils/types";
-import { useSearchParams } from "next/navigation";
 
 const CreatePlayer: React.FC = () => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");

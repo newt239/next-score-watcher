@@ -2,22 +2,23 @@
 
 import { useRouter } from "next/navigation";
 
-import { useLiveQuery } from "dexie-react-hooks";
-import { Link, PlayerPlay, Trash } from "tabler-icons-react";
-
-import NotFound from "@/app/(default)/_components/NotFound";
-import ButtonLink from "@/app/_components/ButtonLink";
-import db from "@/utils/db";
-import { rules } from "@/utils/rules";
 import { Accordion, Box, Button, Flex, List, Tabs, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { useLiveQuery } from "dexie-react-hooks";
+import { Link, PlayerPlay, Trash } from "tabler-icons-react";
+
 import ConfigInput from "./_components/ConfigInput";
 import CopyGame from "./_components/CopyGame";
 import ExportGame from "./_components/ExportGame";
 import PlayersConfig from "./_components/PlayersConfig";
 import RuleSettings from "./_components/RuleSettings";
 import SelectQuizset from "./_components/SelectQuizset";
+
+import NotFound from "@/app/(default)/_components/NotFound";
+import ButtonLink from "@/app/_components/ButtonLink";
+import db from "@/utils/db";
+import { rules } from "@/utils/rules";
 
 export default function ConfigPage({
   params,

@@ -1,11 +1,11 @@
 "use client";
 
+import { Button } from "@mantine/core";
 import { cdate } from "cdate";
 import { FileExport } from "tabler-icons-react";
 
 import computeScore from "@/utils/computeScore";
 import { GamePropsUnion } from "@/utils/types";
-import { Button } from "@mantine/core";
 
 type Props = {
   game: GamePropsUnion;

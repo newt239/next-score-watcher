@@ -1,9 +1,10 @@
 "use client";
 
-import { Burger } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+
+import { Burger } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 type Props = {
   children?: React.ReactNode;

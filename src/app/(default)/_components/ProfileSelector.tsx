@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Box,
   Button,
@@ -10,13 +12,11 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { useState } from "react";
-
+import { modals } from "@mantine/modals";
 import { nanoid } from "nanoid";
 import { Plus } from "tabler-icons-react";
 
 import db from "@/utils/db";
-import { modals } from "@mantine/modals";
 
 const ProfileSelector: React.FC = () => {
   const raw = window.localStorage.getItem("scorew_profile_list");

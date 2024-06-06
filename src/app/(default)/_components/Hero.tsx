@@ -1,5 +1,6 @@
-import { Box, Button, Image } from "@mantine/core";
 import Link from "next/link";
+
+import { Box, Button, Image } from "@mantine/core";
 import { ArrowRight } from "tabler-icons-react";
 
 export default function Hero() {

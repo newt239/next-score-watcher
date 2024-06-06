@@ -19,6 +19,7 @@
     "dexie": "^4.0.7",
     "dexie-react-hooks": "^1.1.7",
     "encoding-japanese": "^2.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "next": "14.2.3",
     "postcss-preset-mantine": "^1.15.0",
     "postcss-simple-vars": "^7.0.1",

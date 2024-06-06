@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
+import { Box, Card } from "@mantine/core";
+
+import SelectPlayerDrawer from "./SelectPlayerDrawer";
+
 import db from "@/utils/db";
 import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
-import { Box, Card } from "@mantine/core";
-import SelectPlayerDrawer from "./SelectPlayerDrawer";
 
 type Props = {
   game_id: string;

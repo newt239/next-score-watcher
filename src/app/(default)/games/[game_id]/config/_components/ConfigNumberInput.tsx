@@ -1,10 +1,11 @@
-import { useLiveQuery } from "dexie-react-hooks";
+import { useParams } from "next/navigation";
 import { useId } from "react";
+
+import { NumberInput } from "@mantine/core";
+import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 import { GamePropsUnion } from "@/utils/types";
-import { NumberInput } from "@mantine/core";
-import { useParams } from "next/navigation";
 
 type Props = {
   input_id: keyof GamePropsUnion;

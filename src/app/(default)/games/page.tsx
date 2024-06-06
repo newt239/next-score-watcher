@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { Flex, NativeSelect, Paper, Title } from "@mantine/core";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal, Box } from "tabler-icons-react";
@@ -10,7 +11,6 @@ import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
-import { Flex, NativeSelect, Paper, Title } from "@mantine/core";
 
 export default function GamesPage() {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");

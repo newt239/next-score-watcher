@@ -1,9 +1,11 @@
-import { GamePropsUnion } from "@/utils/types";
 import { Box, Flex } from "@mantine/core";
+
 import ConfigBooleanInput from "./ConfigBooleanInput";
 import ConfigInput from "./ConfigInput";
 import ConfigLimit from "./ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
+
+import { GamePropsUnion } from "@/utils/types";
 
 type RuleSettingsProps = {
   game: GamePropsUnion;

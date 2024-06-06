@@ -1,7 +1,9 @@
+import { useRouter } from "next/navigation";
+
+import { Button, Flex, Title } from "@mantine/core";
+
 import { createGame } from "@/utils/functions";
 import { GamePropsUnion } from "@/utils/types";
-import { Button, Flex, Title } from "@mantine/core";
-import { useRouter } from "next/navigation";
 
 type CopyGamePropsUnion = {
   game: GamePropsUnion;

@@ -1,5 +1,6 @@
-import { Anchor } from "@mantine/core";
 import { default as NextLink } from "next/link";
+
+import { Anchor } from "@mantine/core";
 import { ExternalLink } from "tabler-icons-react";
 
 type Props = {

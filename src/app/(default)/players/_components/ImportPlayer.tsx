@@ -2,7 +2,6 @@
 
 import { FileInput, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 

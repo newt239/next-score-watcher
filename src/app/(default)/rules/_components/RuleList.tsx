@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Button, Flex, Paper, Title } from "@mantine/core";
 import { useRouter } from "next/navigation";
+
+import { Box, Button, Flex, Paper, Title } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 
 import { createGame } from "@/utils/functions";

@@ -1,7 +1,8 @@
 "use client";
 
-import { Tabs, TextInput, Title } from "@mantine/core";
 import { useState } from "react";
+
+import { Tabs, TextInput, Title } from "@mantine/core";
 
 import ImportQuiz from "./_components/ImportQuiz";
 import LoadQuiz from "./_components/LoadQuiz";

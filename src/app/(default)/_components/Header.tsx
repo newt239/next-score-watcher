@@ -1,5 +1,6 @@
-import { Box, Flex, Image } from "@mantine/core";
 import Link from "next/link";
+
+import { Box, Flex, Image } from "@mantine/core";
 
 import Hamburger from "./Hamburger";
 import ProfileSelector from "./ProfileSelector";

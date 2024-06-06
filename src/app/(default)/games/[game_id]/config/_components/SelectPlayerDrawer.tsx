@@ -1,12 +1,14 @@
 "use client";
 
+import { Accordion, Box, Button, Drawer } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { Plus, Upload } from "tabler-icons-react";
+
+import SelectPlayerFromExistingGame from "./SelectPlayerFromExistingGame";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
-import { Accordion, Box, Button, Drawer } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 
 type Props = {
   game_id: string;

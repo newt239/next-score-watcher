@@ -1,9 +1,11 @@
 "use client";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import { Flex } from "@mantine/core";
 import { usePathname } from "next/navigation";
+
+import { Flex } from "@mantine/core";
 import { ExternalLink } from "tabler-icons-react";
+
+import ButtonLink from "@/app/_components/ButtonLink";
 
 const linkList: { text: string; path: string }[] = [
   { path: "/", text: "ホーム" },

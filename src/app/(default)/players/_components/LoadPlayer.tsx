@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 import {
   Box,
   Button,
@@ -10,8 +12,6 @@ import {
   Textarea,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { useRef, useState } from "react";
-
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
 

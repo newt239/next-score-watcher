@@ -1,5 +1,6 @@
 import { Box, Select } from "@chakra-ui/react";
 import { useLiveQuery } from "dexie-react-hooks";
+
 import db from "~/utils/db";
 import { recordEvent } from "~/utils/ga4";
 

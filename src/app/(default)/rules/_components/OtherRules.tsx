@@ -1,5 +1,6 @@
-import { Title } from "@mantine/core";
 import Link from "next/link";
+
+import { Title } from "@mantine/core";
 
 const OtherRules: React.FC = () => {
   return (

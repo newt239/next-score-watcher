@@ -1,13 +1,14 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 
-import db from "@/utils/db";
-import { GamePropsUnion } from "@/utils/types";
 import { TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useParams } from "next/navigation";
+
+import db from "@/utils/db";
+import { GamePropsUnion } from "@/utils/types";
 
 type Props = {
   input_id: keyof GamePropsUnion;

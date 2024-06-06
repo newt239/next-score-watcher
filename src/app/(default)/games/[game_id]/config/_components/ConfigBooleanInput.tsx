@@ -1,10 +1,11 @@
-import { useLiveQuery } from "dexie-react-hooks";
+import { useParams } from "next/navigation";
 import { useId } from "react";
+
+import { Switch } from "@mantine/core";
+import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 import { GameOptionProps, RuleNames } from "@/utils/types";
-import { Switch } from "@mantine/core";
-import { useParams } from "next/navigation";
 
 type Props = {
   [T in RuleNames]: {

@@ -1,13 +1,14 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+
+import { Button, Table, Text, TextInput, Title } from "@mantine/core";
+import { modals } from "@mantine/modals";
 
 import Link from "@/app/_components/Link";
 import Preferences from "@/app/_components/Preferences";
 import db from "@/utils/db";
-import { Button, Table, Text, TextInput, Title } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { useRouter } from "next/navigation";
 
 const OptionPage = () => {
   const currentProfile = window.localStorage.getItem("scorew_current_profile");
