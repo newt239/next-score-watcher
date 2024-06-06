@@ -2,7 +2,7 @@
 
 import { Upload } from "tabler-icons-react";
 
-import ButtonLink from "@/components/ButtonLink";
+import ButtonLink from "@/app/_components/ButtonLink";
 import db from "@/utils/db";
 import { GameDBQuizProps } from "@/utils/types";
 import { NativeSelect, NumberInput } from "@mantine/core";

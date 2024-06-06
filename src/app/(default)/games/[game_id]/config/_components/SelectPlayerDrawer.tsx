@@ -2,8 +2,8 @@
 
 import { Plus, Upload } from "tabler-icons-react";
 
-import ButtonLink from "@/components/ButtonLink";
-import Link from "@/components/Link";
+import ButtonLink from "@/app/_components/ButtonLink";
+import Link from "@/app/_components/Link";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 import { Accordion, Box, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";

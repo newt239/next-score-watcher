@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 
-import Link from "@/components/Link";
-import Preferences from "@/components/Preferences";
+import Link from "@/app/_components/Link";
+import Preferences from "@/app/_components/Preferences";
 import db from "@/utils/db";
 import { Button, Table, Text, TextInput, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";

@@ -6,7 +6,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { Link, PlayerPlay, Trash } from "tabler-icons-react";
 
 import NotFound from "@/app/(default)/_components/NotFound";
-import ButtonLink from "@/components/ButtonLink";
+import ButtonLink from "@/app/_components/ButtonLink";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
 import { Accordion, Box, Button, Flex, List, Tabs, Title } from "@mantine/core";
