@@ -15,18 +15,21 @@ import {
 import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { nanoid } from "nanoid";
-import { Plus } from "tabler-icons-react";
+import { Plus, Trash } from "tabler-icons-react";
 
 import db from "@/utils/db";
 
+type Profile = {
+  name: string;
+  id: string;
+};
+
 const ProfileSelector: React.FC = () => {
-  const [raw, setProfileListString] = useLocalStorage({
+  const [raw, setProfileListString] = useLocalStorage<Profile[]>({
     key: "scorew_profile_list",
-    defaultValue: "[]",
+    defaultValue: [],
   });
-  const profileList = (
-    raw === undefined || raw === null ? [] : JSON.parse(raw) || []
-  ) as { name: string; id: string }[];
+  const profileList = (raw || []) as Profile[];
   const [currentProfile, setCurrentProfile] = useLocalStorage({
     key: "scorew_current_profile",
     defaultValue: "score_watcher",
@@ -52,7 +55,7 @@ const ProfileSelector: React.FC = () => {
         const newProfileList = profileList.filter(
           (p) => p.id !== currentProfile
         );
-        setProfileListString(JSON.stringify(newProfileList));
+        setProfileListString(newProfileList);
         setCurrentProfile("score_watcher");
         db(currentProfile)
           .delete()
@@ -124,11 +127,17 @@ const ProfileSelector: React.FC = () => {
             </Button>
           </Box>
           {currentProfile !== "score_watcher" && (
-            <>
-              <Title>削除する</Title>
+            <Box>
+              <Title order={5}>削除する</Title>
               <Text>現在のプロファイルを削除します。</Text>
-              <Button onClick={openDeleteModal}>削除する</Button>
-            </>
+              <Button
+                onClick={openDeleteModal}
+                color="red"
+                leftSection={<Trash />}
+              >
+                削除する
+              </Button>
+            </Box>
           )}
         </Flex>
       </Popover.Dropdown>
