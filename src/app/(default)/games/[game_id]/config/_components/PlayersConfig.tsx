@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, Card } from "@mantine/core";
+import { Box, Card, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { ReactSortable } from "react-sortablejs";
 
@@ -41,8 +41,8 @@ const PlayersConfig: React.FC<Props> = ({
 
   return (
     <>
-      <h2>プレイヤー設定</h2>
-      <h3>プレイヤー選択</h3>
+      <Title order={2}>プレイヤー設定</Title>
+      <Title order={3}>プレイヤー選択</Title>
       <SelectPlayerDrawer
         disabled={disabled}
         game_id={game_id}

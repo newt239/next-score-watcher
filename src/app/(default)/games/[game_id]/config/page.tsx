@@ -7,7 +7,7 @@ import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Link, PlayerPlay, Trash } from "tabler-icons-react";
+import { PlayerPlay, Trash } from "tabler-icons-react";
 
 import ConfigInput from "./_components/ConfigInput";
 import CopyGame from "./_components/CopyGame";
@@ -18,6 +18,7 @@ import SelectQuizset from "./_components/SelectQuizset";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import ButtonLink from "@/app/_components/ButtonLink";
+import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
 
@@ -132,7 +133,7 @@ export default function ConfigPage({
           },
         }}
       >
-        <Flex>
+        <Flex className="items-center justify-between p-4">
           <List className="text-red-500 dark:text-red-300">
             {errorMessages.map((m) => (
               <List.Item key={m}>{m}</List.Item>
@@ -158,18 +159,18 @@ export default function ConfigPage({
         </Flex>
       </Box>
       <Box>
-        <Tabs variant="outline">
+        <Tabs variant="outline" defaultValue="rule">
           <Tabs.List>
             <Tabs.Tab value="rule">形式設定</Tabs.Tab>
             <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
             <Tabs.Tab value="other">その他の設定</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="rule">
-            <h2>形式設定</h2>
+          <Tabs.Panel value="rule" className="my-4">
+            <Title order={2}>形式設定</Title>
             <RuleSettings disabled={disabled} game={game} />
           </Tabs.Panel>
-          <Tabs.Panel value="player">
+          <Tabs.Panel value="player" className="my-4">
             <PlayersConfig
               disabled={disabled}
               game_id={game.id}
@@ -178,7 +179,7 @@ export default function ConfigPage({
               rule_name={game.rule}
             />
           </Tabs.Panel>
-          <Tabs.Panel value="other">
+          <Tabs.Panel value="other" className="my-4">
             <h2>その他の設定</h2>
             <SelectQuizset
               game_id={game.id}
@@ -193,7 +194,6 @@ export default function ConfigPage({
               type="url"
             />
             <h3>ゲーム</h3>
-            <Title order={4}>ゲームのコピーを作成</Title>
             <CopyGame game={game} />
             <Title order={4}>エクスポート</Title>
             <ExportGame game={game} />

@@ -66,6 +66,7 @@ const ConfigInput: React.FC<Props> = ({
       type={type || "text"}
       value={inputText}
       width="auto"
+      size="md"
     />
   );
 };

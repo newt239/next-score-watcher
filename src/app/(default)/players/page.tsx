@@ -5,6 +5,7 @@ import { Tabs, Title } from "@mantine/core";
 import CreatePlayer from "./_components/CreatePlayer";
 import ImportPlayer from "./_components/ImportPlayer";
 import LoadPlayer from "./_components/LoadPlayer";
+import PlayersTable from "./_components/PlayersTable";
 
 export default function PlayerPage() {
   return (
@@ -28,6 +29,8 @@ export default function PlayerPage() {
           <ImportPlayer />
         </Tabs.Panel>
       </Tabs>
+
+      <PlayersTable />
     </>
   );
 }

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 
-import { Flex, NativeSelect, Paper, Title } from "@mantine/core";
+import { Box, Flex, NativeSelect, Paper, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal, Box } from "tabler-icons-react";
+import { AdjustmentsHorizontal } from "tabler-icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
@@ -80,7 +80,7 @@ export default function GamesPage() {
           {parsedGameList.map((game) => (
             <Paper
               shadow="xs"
-              className="flex justify-between gap-3 p-3"
+              className="flex flex-col justify-between gap-3 p-3"
               key={game.id}
               title={game.name}
             >

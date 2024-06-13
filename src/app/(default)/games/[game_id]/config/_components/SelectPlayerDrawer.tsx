@@ -34,8 +34,9 @@ const SelectPlayerDrawer: React.FC<Props> = ({
           leftSection={<Upload />}
           mt={3}
           href={`/players?from=${game_id}`}
+          size="md"
         >
-          プレイヤーデータを読み込む
+          プレイヤーを読み込む
         </ButtonLink>
       ) : (
         <>
@@ -44,6 +45,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
             leftSection={<Plus />}
             mt={3}
             onClick={open}
+            size="md"
           >
             プレイヤーを選択
           </Button>
@@ -52,8 +54,8 @@ const SelectPlayerDrawer: React.FC<Props> = ({
             onClose={close}
             position="right"
             title="プレイヤー選択"
-            offset={2}
-            radius="md"
+            offset={10}
+            radius="lg"
           >
             <Accordion>
               <Accordion.Item value="add">
@@ -62,7 +64,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
                   <CompactCreatePlayer game_id={game_id} players={players} />
                 </Accordion.Panel>
               </Accordion.Item>
-              <Accordion.Item value="">
+              <Accordion.Item value="select">
                 <Accordion.Control>データベースから追加</Accordion.Control>
                 <Accordion.Panel pb={4}>
                   {playerList.length === 0 ? (

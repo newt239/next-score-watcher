@@ -50,6 +50,7 @@ const ConfigNumberInput: React.FC<Props> = ({
         });
       }}
       value={typeof value === "number" ? value : ""}
+      size="md"
     />
   );
 };
