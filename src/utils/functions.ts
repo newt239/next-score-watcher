@@ -13,9 +13,8 @@ export const createGame = async (
         action_type: "copy-rule" | "copy-all";
       }
 ) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   if (typeof param !== "string") {
-    const game_id = await db(currentProfile).games.put({
+    const game_id = await db().games.put({
       ...param.game,
       id: nanoid(),
       name: `${param.game.name}のコピー`,
@@ -36,7 +35,7 @@ export const createGame = async (
           last_open: cdate().text(),
         };
       const { description, rows, ...params } = rules[param];
-      await db(currentProfile).games.put({
+      await db().games.put({
         ...commonGameProps,
         ...params,
       });
@@ -130,4 +129,8 @@ export const detectPlayerState = (
     }
   }
   return state;
+};
+
+export const isDesktop = () => {
+  return window.innerWidth > 1024;
 };

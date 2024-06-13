@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { Box, Flex, NativeSelect, Paper, Title } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
@@ -14,15 +13,11 @@ import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 
 export default function GamesPage() {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const games = useLiveQuery(
-    () => db(currentProfile).games.orderBy("last_open").reverse().toArray(),
+    () => db().games.orderBy("last_open").reverse().toArray(),
     []
   );
-  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
+  const logs = useLiveQuery(() => db().logs.toArray(), []);
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
 
   const parsedGameList = (games || [])

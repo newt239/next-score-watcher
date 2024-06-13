@@ -2,10 +2,8 @@ import Dexie from "dexie";
 
 import { ScoreWatcherDBTables } from "@/utils/types";
 
-const db = (name?: string | null) => {
-  const db_name =
-    name === undefined || name === null || name === "" ? "score_watcher" : name;
-  const localDB = new Dexie(db_name) as ScoreWatcherDBTables;
+const db = () => {
+  const localDB = new Dexie("score_watcher") as ScoreWatcherDBTables;
   localDB
     .version(3)
     .stores({

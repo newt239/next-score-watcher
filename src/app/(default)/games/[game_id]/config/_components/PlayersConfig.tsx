@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 import { Box, Card, Title } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { ReactSortable } from "react-sortablejs";
 
 import IndividualConfig from "./IndivisualConfig";
@@ -27,10 +26,6 @@ const PlayersConfig: React.FC<Props> = ({
   players,
   disabled,
 }) => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const [sortableList, setSortableList] = useState(players);
 
   useEffect(() => {
@@ -65,7 +60,7 @@ const PlayersConfig: React.FC<Props> = ({
                       // 並び替えが行われたときのみ1回だけ処理する
                       // 選択プレイヤーの変更と個人の初期値設定の変更のケースを除外
                       if (players[i].id !== newState[i].id) {
-                        await db(currentProfile).games.update(game_id, {
+                        await db().games.update(game_id, {
                           players: newState,
                         });
                         setSortableList(newState);

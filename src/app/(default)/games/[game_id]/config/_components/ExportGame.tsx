@@ -28,7 +28,7 @@ const ExportGame: React.FC<Props> = ({ game }) => {
   };
 
   return (
-    <Button onClick={handleCopyGame} rightSection={<FileExport />}>
+    <Button onClick={handleCopyGame} leftSection={<FileExport />}>
       ゲームをエクスポート
     </Button>
   );

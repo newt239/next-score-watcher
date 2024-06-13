@@ -11,7 +11,6 @@ import {
   Text,
   Textarea,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
@@ -20,10 +19,6 @@ import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
 const LoadPlayer: React.FC = () => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,7 +39,7 @@ const LoadPlayer: React.FC = () => {
           dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
         }
       }
-      await db(currentProfile).players.bulkPut(dataArray);
+      await db().players.bulkPut(dataArray);
       if (dataArray.length !== 0) {
         notifications.show({
           title: "データをインポートしました",

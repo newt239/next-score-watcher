@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useDidUpdate, useLocalStorage } from "@mantine/hooks";
+import { useDidUpdate } from "@mantine/hooks";
 import {
   createColumnHelper,
   flexRender,
@@ -36,10 +36,6 @@ const CompactPlayerTable: React.FC<Props> = ({
   playerList,
   gamePlayers,
 }) => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
     {}
@@ -155,7 +151,7 @@ const CompactPlayerTable: React.FC<Props> = ({
             }
           }
         );
-        await db(currentProfile).games.update(game_id, {
+        await db().games.update(game_id, {
           players: newGamePlayers,
         });
       }

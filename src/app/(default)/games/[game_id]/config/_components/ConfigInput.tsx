@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 
 import { TextInput } from "@mantine/core";
-import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
+import { useDebouncedValue } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
@@ -27,15 +27,9 @@ const ConfigInput: React.FC<Props> = ({
   helperText,
   type,
 }) => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db().games.get(game_id as string));
   const [inputText, setInputText] = useState<string>("");
   const debouncedInputText = useDebouncedValue(inputText, 500);
 
@@ -47,7 +41,7 @@ const ConfigInput: React.FC<Props> = ({
 
   useEffect(() => {
     if (inputText !== "") {
-      db(currentProfile).games.update(game_id as string, {
+      db().games.update(game_id as string, {
         [input_id as any]: inputText,
       });
     }

@@ -1,5 +1,4 @@
 import { Flex, NumberInput, Switch } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
@@ -11,22 +10,16 @@ type Props = {
 };
 
 const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db().games.get(game_id as string));
 
   if (!game) return null;
 
   const onGameLimitToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    db(currentProfile).games.update(game_id, {
+    db().games.update(game_id, {
       limit: event.target.checked ? 10 : undefined,
     });
     if (rule !== "attacksurvival") {
-      db(currentProfile).games.update(game_id, {
+      db().games.update(game_id, {
         win_through: event.target.checked ? 3 : undefined,
       });
     }
@@ -47,7 +40,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
           max={100}
           min={0}
           onChange={(n) => {
-            db(currentProfile).games.update(game_id, {
+            db().games.update(game_id, {
               limit: typeof n === "number" ? n : 0,
             });
           }}
@@ -60,7 +53,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
           max={100}
           min={0}
           onChange={(n) => {
-            db(currentProfile).games.update(game_id, {
+            db().games.update(game_id, {
               win_through: typeof n === "number" ? n : 0,
             });
           }}

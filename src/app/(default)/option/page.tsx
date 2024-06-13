@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import { Button, Table, Text, TextInput, Title } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 
 import Link from "@/app/_components/Link";
@@ -12,10 +11,6 @@ import Preferences from "@/app/_components/Preferences";
 import db from "@/utils/db";
 
 const OptionPage = () => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const latestVersion = process.env.VITE_APP_VERSION;
   const router = useRouter();
 
@@ -25,7 +20,7 @@ const OptionPage = () => {
 
   const deleteAppData = () => {
     localStorage.setItem("scorewatcher-version", latestVersion!);
-    db(currentProfile)
+    db()
       .delete()
       .then(() => {
         router.refresh();

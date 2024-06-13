@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 
 import { Accordion, Box, Button, Flex, List, Tabs, Title } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -28,31 +27,25 @@ export default function ConfigPage({
   params: { game_id: string };
 }) {
   const router = useRouter();
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(params.game_id as string)
-  );
+  const game = useLiveQuery(() => db().games.get(params.game_id as string));
   const players = useLiveQuery(
-    () => db(currentProfile).players.orderBy("name").toArray(),
+    () => db().players.orderBy("name").toArray(),
     []
   );
   const logs = useLiveQuery(
     () =>
-      db(currentProfile)
+      db()
         .logs.where({ game_id: params.game_id as string })
         .toArray(),
     []
   );
-  const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), []);
+  const quizes = useLiveQuery(() => db().quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
 
   if (!game || !players || !logs) return <NotFound />;
 
   const deleteGame = async () => {
-    await db(currentProfile).games.delete(game.id);
+    await db().games.delete(game.id);
     notifications.show({
       title: "ゲームを削除しました",
       message: `${game.name}(${rules[game.rule].name})を削除しました`,
@@ -198,7 +191,11 @@ export default function ConfigPage({
             <Title order={4}>エクスポート</Title>
             <ExportGame game={game} />
             <Title order={4}>ゲームを削除</Title>
-            <Button leftSection={<Trash />} onClick={showDeleteGameConfirm}>
+            <Button
+              color="red"
+              leftSection={<Trash />}
+              onClick={showDeleteGameConfirm}
+            >
               削除する
             </Button>
           </Tabs.Panel>

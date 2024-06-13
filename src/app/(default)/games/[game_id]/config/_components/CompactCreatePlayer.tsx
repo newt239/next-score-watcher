@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import { Button, Flex, TextInput } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
@@ -15,10 +14,6 @@ type Props = {
 };
 
 const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -31,14 +26,14 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
   };
 
   const addNewPlayer = async () => {
-    const player_id = await db(currentProfile).players.put({
+    const player_id = await db().players.put({
       id: nanoid(),
       name: playerName,
       text: playerText,
       belong: playerBelong,
       tags: [],
     });
-    await db(currentProfile).games.update(game_id, {
+    await db().games.update(game_id, {
       players: [
         ...players,
         {

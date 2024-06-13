@@ -2,7 +2,6 @@ import { useParams } from "next/navigation";
 import { useId } from "react";
 
 import { Switch } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
@@ -24,15 +23,9 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
   disabled,
   helperText,
 }) => {
-  const [currentProfile] = useLocalStorage({
-    key: "scorew_current_profile",
-    defaultValue: "score_watcher",
-  });
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db().games.get(game_id as string));
 
   if (!game || !game.options) return null;
 
@@ -54,7 +47,7 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
       checked={isChecked}
       disabled={disabled}
       onChange={(v) => {
-        db(currentProfile).games.update(game_id as string, {
+        db().games.update(game_id as string, {
           options: {
             ...game.options,
             [input_id]: v.target.checked,
