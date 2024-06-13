@@ -41,7 +41,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
         alignItems: "center",
         justifyContent: "flex-end",
         backgroundColor: colorMode === "light" ? "white" : "gray.800",
-        pr: !isVerticalView && isDesktop() ? undefined : "0.5rem",
+        paddingRight: !isVerticalView && isDesktop() ? undefined : "0.5rem",
         gap: "0.5rem 0",
       }}
     >

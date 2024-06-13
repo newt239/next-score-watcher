@@ -28,8 +28,8 @@ const PlayerName: React.FC<Props> = ({ player_name, isVerticalView, rows }) => {
               }, 4rem)`
             : "2rem",
         fontWeight: 800,
-        w: "100%",
-        pt: !isVerticalView && isDesktop() ? 3 : undefined,
+        width: "100%",
+        paddingTop: !isVerticalView && isDesktop() ? 3 : undefined,
         overflowX: "hidden",
         textOverflow: "ellipsis",
       }}

@@ -9,7 +9,14 @@ type Props = {
 
 const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
-    <Drawer opened={isOpen} onClose={onClose} title="表示設定">
+    <Drawer
+      opened={isOpen}
+      onClose={onClose}
+      title="表示設定"
+      position="right"
+      offset={10}
+      radius="lg"
+    >
       <Preferences />
     </Drawer>
   );

@@ -9,13 +9,13 @@ import { SortAscending, SortDescending } from "tabler-icons-react";
 import db from "@/utils/db";
 import { LogDBProps, QuizDBProps } from "@/utils/types";
 
-type GameLogsProps = {
+type Props = {
   players: { id: string; name: string }[];
   logs: LogDBProps[];
   quiz: { set_name: string; offset: number } | undefined;
 };
 
-const GameLogs: React.FC<GameLogsProps> = ({ players, logs, quiz }) => {
+const GameLogs: React.FC<Props> = ({ players, logs, quiz }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const [reverse, setReverse] = useState<Boolean>(true);

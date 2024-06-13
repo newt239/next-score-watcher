@@ -1,5 +1,4 @@
 import { Box, Flex } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 
 type Props = {
   index: number;
@@ -14,48 +13,21 @@ const PlayerHeader: React.FC<Props> = ({
   belong,
   isVerticalView,
 }) => {
-  const reversePlayerInfo = useLocalStorage({
-    key: "reversePlayerInfo",
-    defaultValue: false,
-  });
-
   return (
     <>
       {isVerticalView ? (
-        <Box
-          style={{
-            w: "100%",
-            fontSize: "0.8rem",
-            lineHeight: "0.8rem",
-            fontWeight: 800,
-            pt: 1,
-            whiteSpace: "nowrap",
-            overflowX: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
+        <Box className="w-full truncate pt-1 text-xs font-bold leading-3">
           {text === "" && belong === "" && (
-            <Box style={{ opacity: 0.3 }}>プレイヤー{index + 1}</Box>
+            <Box className="opacity-30">プレイヤー{index + 1}</Box>
           )}
           <span>{text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
         </Box>
       ) : text === "" && belong === "" ? (
-        <Box style={{ my: "0.5rem", opacity: 0.3, h: "3rem" }}>{index + 1}</Box>
+        <Box className="my-2 h-12 opacity-30">{index + 1}</Box>
       ) : (
-        <Flex
-          style={{
-            flexDirection: reversePlayerInfo ? "column-reverse" : "column",
-            alignItems: "center",
-            justifyContent: "center",
-            w: "100%",
-            fontWeight: 800,
-            whiteSpace: "nowrap",
-            lineHeight: "1.5rem",
-            h: "3rem",
-          }}
-        >
+        <Flex className="h-12 w-full flex-col items-center justify-center truncate pt-1 text-xs font-bold leading-3">
           <Box>{text}</Box>
           <Box
             style={{

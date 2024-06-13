@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
-import { ColorSchemeScript, MantineProvider, createTheme } from "@mantine/core";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 
+import { theme } from "@/utils/theme";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "./globals.css";
@@ -34,11 +35,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const theme = createTheme({
-    primaryColor: "teal",
-    defaultRadius: "md",
-  });
-
   return (
     <html lang="ja">
       <head>

@@ -82,7 +82,7 @@ const PlayerScoreButton: React.FC<Props> = ({
     height: "4rem",
     textAlign: "center",
     borderRadius: 0,
-    backgroundColor: filled ? variantColor : "transparent",
+    backgroundColor: filled ? variantColor : "teal",
     color: filled ? defaultColor : variantColor,
     whiteSpace: "nowrap",
     overflow: "hidden",
@@ -112,26 +112,18 @@ const PlayerScoreButton: React.FC<Props> = ({
   };
 
   return (
-    <>
-      {
-        <Button
-          onClick={onClick || handleClick}
-          style={ButtonCssStyle}
-          variant="unstyled"
-        >
-          {numberSign === "none" ? (
-            children
-          ) : (
-            <>
-              <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
-              <span style={{ fontSize: "75%" }}>
-                {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
-              </span>
-            </>
-          )}
-        </Button>
-      }
-    </>
+    <Button onClick={onClick || handleClick} style={ButtonCssStyle}>
+      {numberSign === "none" ? (
+        children
+      ) : (
+        <>
+          <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
+          <span style={{ fontSize: "75%" }}>
+            {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
+          </span>
+        </>
+      )}
+    </Button>
   );
 };
 

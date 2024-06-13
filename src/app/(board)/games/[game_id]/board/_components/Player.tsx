@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Flex } from "@mantine/core";
-import { useColorScheme, useLocalStorage } from "@mantine/hooks";
+import { useColorScheme } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "./PlayerColorConfig";
@@ -16,7 +16,7 @@ import { isDesktop } from "@/utils/functions";
 import { rules } from "@/utils/rules";
 import { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
 
-type PlayerProps = {
+type Props = {
   game_id: string;
   player: PlayerDBProps;
   index: number;
@@ -24,7 +24,7 @@ type PlayerProps = {
   isVerticalView: boolean;
 };
 
-const Player: React.FC<PlayerProps> = ({
+const Player: React.FC<Props> = ({
   game_id,
   player,
   index,
@@ -34,10 +34,6 @@ const Player: React.FC<PlayerProps> = ({
   const colorMode = useColorScheme();
   const game = useLiveQuery(() => db().games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
-  const reversePlayerInfo = useLocalStorage({
-    key: "reversePlayerInfo",
-    defaultValue: false,
-  });
 
   useEffect(() => {
     if (score) {
@@ -54,15 +50,6 @@ const Player: React.FC<PlayerProps> = ({
     state: game.editable ? editableState : score.state,
   };
 
-  const flexDirection =
-    !isVerticalView && isDesktop()
-      ? reversePlayerInfo
-        ? "column-reverse"
-        : "column"
-      : reversePlayerInfo
-      ? "row-reverse"
-      : "row";
-
   const getColor = (state: States) => {
     return state === "win"
       ? colorMode === "light"
@@ -77,47 +64,34 @@ const Player: React.FC<PlayerProps> = ({
 
   return (
     <Flex
+      className="items-stretch justify-between overflow-y-hidden overflow-x-scroll rounded-2xl border-4 border-solid transition-all"
       style={{
-        display: "flex",
-        flexDirection,
-        justifyContent: "space-between",
-        alignItems: "stretch",
-        w: isDesktop()
-          ? isVerticalView
-            ? "48vw"
-            : `clamp(8vw, ${
-                (98 - game.players.length) / game.players.length
-              }vw, 15vw)`
-          : "96vw",
-        h: isDesktop() ? (!isVerticalView ? "80vh" : "10vh") : undefined,
+        flexDirection: "column",
+        height: "80vh",
+        width: `clamp(8vw, ${
+          (98 - game.players.length) / game.players.length
+        }vw, 15vw)`,
         backgroundColor: getColor(editedScore.state),
         color:
           getColor(editedScore.state) &&
           (colorMode === "light" ? "white" : "gray.800"),
-        borderWidth: 3,
-        borderStyle: "solid",
         borderColor:
           getColor(editedScore.state) ||
           getColor(editedScore.reach_state) ||
           (colorMode === "dark" ? "gray.700" : "gray.100"),
-        borderRadius: "1rem",
-        overflowX: "scroll",
-        overflowY: "hidden",
-        transition: "all 0.2s ease",
       }}
     >
       <Flex
         style={{
-          display: "flex",
           flexGrow: 1,
-          w: isDesktop() ? (isVerticalView ? "40vw" : "100%") : "100%",
-          h:
+          width: isDesktop() ? (isVerticalView ? "40vw" : "100%") : "100%",
+          height:
             isDesktop() && !isVerticalView
               ? `calc(80vh - ${rows * 4}rem)`
               : "100%",
-          flexDirection: reversePlayerInfo ? "column-reverse" : "column",
+          flexDirection: "column",
           alignItems: !isVerticalView && isDesktop() ? "center" : "flex-start",
-          pl: !isVerticalView && isDesktop() ? undefined : "0.5rem",
+          paddingLeft: !isVerticalView && isDesktop() ? undefined : "0.5rem",
           overflowX: "hidden",
         }}
       >
@@ -125,7 +99,6 @@ const Player: React.FC<PlayerProps> = ({
           <PlayerColorConfig
             colorState={getColor(editedScore.state)}
             editableState={editableState}
-            isVerticalView={isVerticalView}
             setEditableState={setEditableState}
           />
         ) : (

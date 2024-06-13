@@ -9,6 +9,7 @@ import {
   Flex,
   Menu,
   MenuDivider,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 import { cdate } from "cdate";
@@ -22,26 +23,29 @@ import {
   Settings,
 } from "tabler-icons-react";
 
-import PreferenceDrawer from "./PreferenceDrawer";
+import PreferenceDrawer from "../PreferenceDrawer";
+
+import classes from "./BoardHeader.module.css";
 
 import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 import { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 
-type BoardHeaderProps = {
+type Props = {
   game: GamePropsUnion;
   logs: LogDBProps[];
 };
 
-const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
+const BoardHeader: React.FC<Props> = ({ game, logs }) => {
+  const colorScheme = useComputedColorScheme("light");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
   const [opened, { open, close }] = useDisclosure(false);
 
   const showQn = useLocalStorage({
-    key: "scorew_show_qn",
+    key: "showQn",
     defaultValue: true,
   });
 
@@ -78,23 +82,27 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
 
   return (
     <>
-      <Flex className="h-[10vh] items-center justify-between gap-0 border-b border-gray-300 bg-gray-50 px-1 lg:h-[15vh] lg:gap-3 dark:border-gray-500 dark:bg-gray-700">
+      <Flex
+        className="h-[10vh] items-center justify-between gap-0 border-b px-1 lg:h-[15vh] lg:gap-3"
+        style={{
+          borderColor: colorScheme === "light" ? "gray.3" : "gray.7",
+          backgroundColor: colorScheme === "light" ? "gray.1" : "gray.8",
+        }}
+      >
         <Flex
-          className="h-full flex-col justify-center p-0 text-green-600 dark:text-green-300"
+          className="h-full flex-col justify-center p-0"
           style={{
             maxWidth: `calc(100vw - ${showQn ? 10 : 3}rem)`,
           }}
         >
-          <h2 style={{ lineHeight: "2rem", overflow: "hidden" }}>
-            {game.name}
-          </h2>
-          <p>{getRuleStringByType(game)}</p>
+          <div className={classes.game_name}>{game.name}</div>
+          <div>{getRuleStringByType(game)}</div>
         </Flex>
         {showQn && (
           <Flex className="flex-col items-center justify-center">
-            <Box className="whitespace-nowrap leading-10">
+            <Box className="whitespace-nowrap font-bold leading-10">
               第
-              <span style={{ fontSize: "2.5rem", fontWeight: 800 }}>
+              <span className="text-5xl">
                 {game.editable ? manualQuizPosition + 1 : qn + 1}
               </span>
               問
@@ -135,12 +143,13 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
         )}
         <Menu>
           <Menu.Target>
-            <ActionIcon>
+            <ActionIcon variant="subtle" size="xl" color="teal">
               <Settings />
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
+              closeMenuOnClick={false}
               leftSection={<Comet />}
               disabled={game.editable}
               onClick={async () => {
@@ -161,6 +170,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
               スルー
             </Menu.Item>
             <Menu.Item
+              closeMenuOnClick={false}
               leftSection={<ArrowBackUp />}
               disabled={logs.length === 0 || game.editable}
               onClick={async () => {
@@ -185,7 +195,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({ game, logs }) => {
                 フルスクリーン
               </Menu.Item>
             )}
-            <Menu.Item closeMenuOnClick leftSection={<Ballon />} onClick={open}>
+            <Menu.Item leftSection={<Ballon />} onClick={open}>
               表示設定
             </Menu.Item>
             <MenuDivider />

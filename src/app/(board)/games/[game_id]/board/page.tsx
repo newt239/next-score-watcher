@@ -8,7 +8,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
-import BoardHeader from "./_components/BoardHeader";
+import BoardHeader from "./_components/BoardHeader/BoardHeader";
 import GameLogs from "./_components/GameLogs";
 import Player from "./_components/Player";
 import WinModal from "./_components/WinModal";
@@ -16,7 +16,6 @@ import WinModal from "./_components/WinModal";
 import NotFound from "@/app/(default)/_components/NotFound";
 import computeScore from "@/utils/computeScore";
 import db from "@/utils/db";
-import { isDesktop } from "@/utils/functions";
 import { getRuleStringByType } from "@/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
 
@@ -94,8 +93,6 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
     }
   }, [logs]);
 
-  console.log(game);
-
   if (!game || game.players.length === 0 || !logs) return <NotFound />;
 
   window.document.onkeydown = async (event) => {
@@ -166,34 +163,18 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
       <BoardHeader game={game} logs={logs} />
       {game.rule === "squarex" && (
         <Box
-          className="absolute h-full w-[1vw] bg-green-500"
+          className="absolute z-10 h-full w-[1vw] bg-green-500"
           style={{
             writingMode: "vertical-rl",
             textOverflow: "ellipsis",
             textOrientation: "upright",
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
-            zIndex: 10,
           }}
         />
       )}
       <Flex
-        style={{
-          flexDirection:
-            (isDesktop() && players.length > 10) || !isDesktop()
-              ? "column"
-              : "row",
-          justifyContent:
-            (isDesktop() && players.length > 10) || !isDesktop()
-              ? "flex-start"
-              : "space-evenly",
-          flexWrap: isDesktop() && players.length > 10 ? "wrap" : "nowrap",
-          gap: "1.5vh 1vw",
-          w: "100%",
-          h: "90vh",
-          px: "1vw",
-          pt: "3vh",
-        }}
+        className="h-[90vh] w-full flex-row justify-evenly gap-x-[1vw] gap-y-[1.5vh] px-[1vw] pt-[3vh]"
         id="players-area"
       >
         {players.map((player, i) => (
@@ -217,10 +198,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
         winTroughPlayer={winThroughPlayer}
       />
       {skipSuggest && (
-        <Flex
-          className="m-5 flex-col items-center justify-between gap-1 rounded-2xl p-3 lg:flex-row
-      dark:bg-gray-700 dark:text-white"
-        >
+        <Flex className="m-5 flex-row items-center justify-evenly gap-1 rounded-2xl p-3">
           <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
           <Flex className="gap-1">
             <Button

@@ -1,10 +1,7 @@
-import { extendTheme } from "@chakra-ui/react";
+import { createTheme } from "@mantine/core";
 
-const theme = extendTheme({
-  config: {
-    initialColorMode: "light",
-    useSystemColorMode: true,
-  },
+export const theme = createTheme({
+  primaryColor: "teal",
+  defaultRadius: "md",
+  fontFamily: "BIZ UDPGothic",
 });
-
-export default theme;

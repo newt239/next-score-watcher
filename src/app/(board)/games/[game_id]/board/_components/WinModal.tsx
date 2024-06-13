@@ -24,15 +24,8 @@ const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
         <Modal.Header>Congratulations!</Modal.Header>
         <Modal.CloseButton />
         <Modal.Body py={10}>
-          <Stat key={winTroughPlayer.text} sx={{ textAlign: "center" }}>
-            <StatLabel sx={{ fontSize: "1.5rem" }}>
-              {winTroughPlayer.text}
-            </StatLabel>
-            <StatNumber sx={{ fontSize: "2.5rem" }}>
-              {winTroughPlayer.name}
-            </StatNumber>
-            <StatHelpText>{roundName}</StatHelpText>
-          </Stat>
+          {winTroughPlayer.text}
+          {winTroughPlayer.name}
         </Modal.Body>
       </Modal.Content>
     </Modal>
