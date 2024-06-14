@@ -1,5 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
+
 import { Tabs, Title } from "@mantine/core";
 
 import CreatePlayer from "./_components/CreatePlayer";
@@ -20,7 +22,10 @@ export default function PlayerPage() {
         </Tabs.List>
 
         <Tabs.Panel value="add">
-          <CreatePlayer />
+          <Suspense>
+            {/* ref: https://qiita.com/nk175/items/5b437355e9c2c3e59e19 */}
+            <CreatePlayer />
+          </Suspense>
         </Tabs.Panel>
         <Tabs.Panel value="paste">
           <LoadPlayer />
