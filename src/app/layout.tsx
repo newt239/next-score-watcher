@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   },
   description:
     "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
-  themeColor: "#28a745",
   openGraph: {
     title: "Score Watcher",
     description:
@@ -38,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <head>
+        <meta name="theme-color" content="#28a745" />
         <ColorSchemeScript />
       </head>
       <body>
