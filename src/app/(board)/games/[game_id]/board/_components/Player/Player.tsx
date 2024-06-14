@@ -6,10 +6,12 @@ import { Flex } from "@mantine/core";
 import { useColorScheme } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import PlayerColorConfig from "./PlayerColorConfig";
-import PlayerHeader from "./PlayerHeader";
-import PlayerName from "./PlayerName";
-import PlayerScore from "./PlayerScore";
+import PlayerColorConfig from "../PlayerColorConfig";
+import PlayerHeader from "../PlayerHeader/PlayerHeader";
+import PlayerName from "../PlayerName";
+import PlayerScore from "../PlayerScore/PlayerScore";
+
+import classes from "./Player.module.css";
 
 import db from "@/utils/db";
 import { isDesktop } from "@/utils/functions";
@@ -53,21 +55,19 @@ const Player: React.FC<Props> = ({
   const getColor = (state: States) => {
     return state === "win"
       ? colorMode === "light"
-        ? "red.600"
-        : "red.300"
+        ? "red.6"
+        : "red.3"
       : state == "lose"
       ? colorMode === "light"
-        ? "blue.600"
-        : "blue.300"
+        ? "blue.6"
+        : "blue.3"
       : undefined;
   };
 
   return (
     <Flex
-      className="items-stretch justify-between overflow-y-hidden overflow-x-scroll rounded-2xl border-4 border-solid transition-all"
+      className={classes.player}
       style={{
-        flexDirection: "column",
-        height: "80vh",
         width: `clamp(8vw, ${
           (98 - game.players.length) / game.players.length
         }vw, 15vw)`,
@@ -82,17 +82,15 @@ const Player: React.FC<Props> = ({
       }}
     >
       <Flex
+        className={classes.player_info}
         style={{
-          flexGrow: 1,
           width: isDesktop() ? (isVerticalView ? "40vw" : "100%") : "100%",
           height:
             isDesktop() && !isVerticalView
               ? `calc(80vh - ${rows * 4}rem)`
               : "100%",
-          flexDirection: "column",
           alignItems: !isVerticalView && isDesktop() ? "center" : "flex-start",
           paddingLeft: !isVerticalView && isDesktop() ? undefined : "0.5rem",
-          overflowX: "hidden",
         }}
       >
         {game.editable ? (

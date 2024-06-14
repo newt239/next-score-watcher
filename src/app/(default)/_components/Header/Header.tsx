@@ -2,15 +2,14 @@ import Link from "next/link";
 
 import { Box, Flex, Image } from "@mantine/core";
 
-import Hamburger from "./Hamburger";
-import SubMenu from "./SubMenu";
+import Hamburger from "../Hamburger";
+import SubMenu from "../SubMenu";
+
+import classes from "./Header.module.css";
 
 export default function Header() {
   return (
-    <Box
-      component="header"
-      className="fixed left-0 top-0 z-30 h-auto w-full bg-white lg:h-screen lg:w-[300px] lg:p-4"
-    >
+    <Box component="header" className={classes.header}>
       <Flex className="h-auto flex-row items-center justify-between gap-4 px-4 py-2 lg:h-full lg:flex-col">
         <Flex
           component={Link}

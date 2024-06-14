@@ -1,8 +1,10 @@
-import { Box, Flex } from "@mantine/core";
+"use client";
+
+import { Flex } from "@mantine/core";
 
 import ConfigBooleanInput from "./ConfigBooleanInput";
 import ConfigInput from "./ConfigInput";
-import ConfigLimit from "./ConfigLimit";
+import ConfigLimit from "./ConfigLimit/ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
 
 import { GamePropsUnion } from "@/utils/types";
@@ -73,17 +75,8 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
 
   return (
     <>
-      <ConfigInput input_id="name" label="ゲーム名" placeholder="〇〇大会" />
-      {game.rule !== "normal" && (
-        <ConfigLimit game_id={game.id} rule={game.rule} />
-      )}
-      <Box
-        className="grid"
-        style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "1rem",
-        }}
-      >
+      <Flex className="flex-col gap-4">
+        <ConfigInput input_id="name" label="ゲーム名" placeholder="〇〇大会" />
         {[
           "nomx",
           "nomx-ad",
@@ -171,8 +164,6 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             label="NOM休を利用する"
           />
         )}
-      </Box>
-      <Flex py={4}>
         {game.rule === "nomx-ad" && (
           <ConfigBooleanInput
             disabled={disabled}
@@ -181,6 +172,9 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             label="3連答以上によるアドバンテージを有効にする"
             rule={game.rule}
           />
+        )}
+        {game.rule !== "normal" && (
+          <ConfigLimit game_id={game.id} rule={game.rule} />
         )}
       </Flex>
     </>

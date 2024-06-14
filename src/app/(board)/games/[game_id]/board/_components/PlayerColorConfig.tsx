@@ -29,7 +29,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
       <Popover.Target>
         <ActionIcon
           aria-label="プレイヤーの状態を上書きします"
-          color={colorState && (colorScheme === "light" ? "white" : "gray.800")}
+          color={colorState && (colorScheme === "light" ? "white" : "gray.8")}
           variant="subtle"
         >
           <Edit />
@@ -39,7 +39,7 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
         className="w-auto"
         style={{
           color: colorScheme === "light" ? "black" : "white",
-          backgroundColor: colorScheme === "light" ? "white" : "gray.800",
+          backgroundColor: colorScheme === "light" ? "white" : "gray.8",
         }}
       >
         <h4>背景色を変更</h4>

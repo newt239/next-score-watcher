@@ -35,6 +35,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
           mt={3}
           href={`/players?from=${game_id}`}
           size="md"
+          color="blue"
         >
           プレイヤーを読み込む
         </ButtonLink>
@@ -46,6 +47,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
             mt={3}
             onClick={open}
             size="md"
+            color="blue"
           >
             プレイヤーを選択
           </Button>

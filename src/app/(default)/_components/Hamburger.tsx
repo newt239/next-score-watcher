@@ -22,11 +22,9 @@ const Hamburger: React.FC<Props> = ({ children }) => {
 
   return (
     <>
-      <Burger opened={opened} onClick={toggle} />
+      <Burger color="white" opened={opened} onClick={toggle} />
       {opened && (
-        <nav className="fixed left-0 top-16 w-full bg-white p-2">
-          {children}
-        </nav>
+        <nav className="fixed left-0 top-16 w-full p-2">{children}</nav>
       )}
     </>
   );

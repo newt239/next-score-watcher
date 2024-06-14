@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.6.0",
     "@mantine/core": "^7.10.1",
     "@mantine/form": "^7.10.1",
     "@mantine/hooks": "^7.10.1",

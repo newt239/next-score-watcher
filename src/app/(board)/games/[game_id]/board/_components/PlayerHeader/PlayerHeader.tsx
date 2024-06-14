@@ -1,5 +1,7 @@
 import { Box, Flex } from "@mantine/core";
 
+import classes from "./PlayerHeader.module.css";
+
 type Props = {
   index: number;
   text: string;
@@ -16,29 +18,22 @@ const PlayerHeader: React.FC<Props> = ({
   return (
     <>
       {isVerticalView ? (
-        <Box className="w-full truncate pt-1 text-xs font-bold leading-3">
+        <Box className={classes.vertical_player_header}>
           {text === "" && belong === "" && (
-            <Box className="opacity-30">プレイヤー{index + 1}</Box>
+            <Box className={classes.vertical_player_number}>
+              プレイヤー{index + 1}
+            </Box>
           )}
           <span>{text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>
           <span>{belong !== "" && belong}</span>
         </Box>
       ) : text === "" && belong === "" ? (
-        <Box className="my-2 h-12 opacity-30">{index + 1}</Box>
+        <Box className={classes.horizontal_player_number}>{index + 1}</Box>
       ) : (
-        <Flex className="h-12 w-full flex-col items-center justify-center truncate pt-1 text-xs font-bold leading-3">
+        <Flex className={classes.horizontal_player_header}>
           <Box>{text}</Box>
-          <Box
-            style={{
-              w: "100%",
-              overflowX: "hidden",
-              textOverflow: "ellipsis",
-              textAlign: "center",
-            }}
-          >
-            {belong}
-          </Box>
+          <Box className={classes.horizontal_player_belong}>{belong}</Box>
         </Flex>
       )}
     </>

@@ -1,3 +1,5 @@
+"use client";
+
 import { useParams } from "next/navigation";
 import { useId } from "react";
 
@@ -32,6 +34,7 @@ const ConfigNumberInput: React.FC<Props> = ({
 
   return (
     <NumberInput
+      size="md"
       label={label}
       id={id}
       disabled={disabled}
@@ -43,7 +46,6 @@ const ConfigNumberInput: React.FC<Props> = ({
         });
       }}
       value={typeof value === "number" ? value : ""}
-      size="md"
     />
   );
 };

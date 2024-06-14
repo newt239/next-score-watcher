@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, NativeSelect } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 

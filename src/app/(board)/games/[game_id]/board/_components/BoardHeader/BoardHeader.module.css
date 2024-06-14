@@ -1,8 +1,75 @@
+.board_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+
+  @larger-than 992px {
+    height: 15vh;
+    gap: 1rem;
+  }
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+    border-bottom: 1px solid var(--mantine-color-gray-7);
+  }
+}
+
+.game_info_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .game_name {
   font-size: 1.5rem;
   color: black;
 
   @mixin dark {
     color: white;
+  }
+}
+
+.quiz_number_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz_number {
+  white-space: nowrap;
+  font-weight: 700;
+  line-height: 2.5rem;
+  & > span {
+    font-size: 2.5rem;
+  }
+}
+
+.quiz_area {
+  display: none;
+  height: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1rem;
+
+  @mixin larger-than 992px {
+    display: flex;
+  }
+}
+
+.quiz {
+}
+
+.answer {
+  text-align: right;
+  color: var(--mantine-color-red-5);
+
+  @mixin dark {
+    color: var(--mantine-color-red-6);
   }
 }

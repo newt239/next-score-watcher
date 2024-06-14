@@ -1,0 +1,14 @@
+.config_limit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-default);
+
+  @mixin larger-than 992px {
+    flex-direction: row;
+  }
+}

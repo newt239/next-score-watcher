@@ -2,13 +2,14 @@
 
 import React, { CSSProperties, useId } from "react";
 
-import { Button } from "@mantine/core";
+import { UnstyledButton } from "@mantine/core";
 import { useColorScheme } from "@mantine/hooks";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
+import classes from "./PlayerScoreButton.module.css";
+
 import db from "@/utils/db";
-import { isDesktop } from "@/utils/functions";
 
 type Props = {
   color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
@@ -43,49 +44,25 @@ const PlayerScoreButton: React.FC<Props> = ({
   const id = useId();
   const colorMode = useColorScheme();
 
-  const defaultColor = colorMode === "light" ? "white" : "gray.800";
+  const defaultColor = colorMode === "light" ? "white" : "gray.8";
   const variantColor =
     color === "gray"
-      ? "gray.300"
+      ? "gray.3"
       : ["red", "win"].includes(color)
       ? colorMode === "light"
-        ? "red.600"
-        : "red.300"
+        ? "red.6"
+        : "red.3"
       : ["blue", "lose"].includes(color)
       ? colorMode === "light"
-        ? "blue.600"
-        : "blue.300"
+        ? "blue.6"
+        : "blue.3"
       : colorMode === "light"
-      ? "green.600"
-      : "yellow.300";
+      ? "green.6"
+      : "yellow.3";
 
   const ButtonCssStyle: CSSProperties = {
-    display: "block",
-    fontSize: isDesktop()
-      ? `clamp(1.5rem, calc(${compact ? "5vw" : "10vw"} / ${Math.max(
-          children.length - (numberSign !== "none" ? 1 : 0),
-          2
-        )}), 3rem)`
-      : `max(1.5rem, min(calc(${compact ? "6vw" : "12vw"} / ${Math.max(
-          children.length - (numberSign !== "none" ? 1 : 0),
-          2
-        )}), 3.5vw))`,
-    fontWeight: 800,
-    lineHeight: "3rem",
-    width: isDesktop()
-      ? compact
-        ? "50%"
-        : "100%"
-      : compact
-      ? "3.5rem"
-      : "6rem",
-    height: "4rem",
-    textAlign: "center",
-    borderRadius: 0,
-    backgroundColor: filled ? variantColor : "teal",
+    backgroundColor: filled ? variantColor : "transparent",
     color: filled ? defaultColor : variantColor,
-    whiteSpace: "nowrap",
-    overflow: "hidden",
     cursor:
       disabled && color === "gray"
         ? "not-allowed"
@@ -112,7 +89,11 @@ const PlayerScoreButton: React.FC<Props> = ({
   };
 
   return (
-    <Button onClick={onClick || handleClick} style={ButtonCssStyle}>
+    <UnstyledButton
+      onClick={onClick || handleClick}
+      className={classes.player_score_button}
+      style={ButtonCssStyle}
+    >
       {numberSign === "none" ? (
         children
       ) : (
@@ -123,7 +104,7 @@ const PlayerScoreButton: React.FC<Props> = ({
           </span>
         </>
       )}
-    </Button>
+    </UnstyledButton>
   );
 };
 

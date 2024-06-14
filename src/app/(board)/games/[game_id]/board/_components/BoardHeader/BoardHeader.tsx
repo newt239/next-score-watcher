@@ -82,15 +82,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
 
   return (
     <>
-      <Flex
-        className="h-[10vh] items-center justify-between gap-0 border-b px-1 lg:h-[15vh] lg:gap-3"
-        style={{
-          borderColor: colorScheme === "light" ? "gray.3" : "gray.7",
-          backgroundColor: colorScheme === "light" ? "gray.1" : "gray.8",
-        }}
-      >
+      <Flex className={classes.board_header}>
         <Flex
-          className="h-full flex-col justify-center p-0"
+          className={classes.game_info_area}
           style={{
             maxWidth: `calc(100vw - ${showQn ? 10 : 3}rem)`,
           }}
@@ -99,13 +93,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
           <div>{getRuleStringByType(game)}</div>
         </Flex>
         {showQn && (
-          <Flex className="flex-col items-center justify-center">
-            <Box className="whitespace-nowrap font-bold leading-10">
-              第
-              <span className="text-5xl">
-                {game.editable ? manualQuizPosition + 1 : qn + 1}
-              </span>
-              問
+          <Flex className={classes.quiz_number_area}>
+            <Box className={classes.quiz_number}>
+              第<span>{game.editable ? manualQuizPosition + 1 : qn + 1}</span>問
             </Box>
             {game.editable && (
               <Button.Group variant="outline">
@@ -128,13 +118,13 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
           </Flex>
         )}
         {game.quiz && quizList.length > quizPosition && (
-          <Box className="hidden h-full grow flex-col justify-between overflow-hidden text-lg leading-6 lg:flex">
-            <Box className="leading-[8vh]">
+          <Box className={classes.quiz_area}>
+            <Box className={classes.quiz}>
               {qn === 0 || quizPosition < 0
                 ? "ここに問題文が表示されます"
                 : quizList[quizPosition].q}
             </Box>
-            <Box className="bg-gray-50 text-right font-bold text-red-600 dark:bg-gray-700 dark:text-red-300">
+            <Box className={classes.answer}>
               {qn === 0 || quizPosition < 0
                 ? "ここに答えが表示されます"
                 : quizList[quizPosition].a}

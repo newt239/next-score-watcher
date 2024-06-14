@@ -2,10 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+  font-family: "BIZ UDPGothic", -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+    sans-serif;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 0 0 1rem;
+}
+
 h3 {
   font-size: 1.5rem;
   font-weight: 700;
+  padding: 0 0 0.5rem;
+}
+
+ul {
+  list-style: disc;
+  margin-left: 24px;
   line-height: 2rem;
-  border-bottom: 1px solid black;
-  margin: 1rem 0 0.5rem;
 }

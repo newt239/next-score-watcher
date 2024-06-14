@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { Box, Card, Title } from "@mantine/core";
-import { ReactSortable } from "react-sortablejs";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import {
+  Center,
+  Group,
+  NumberInput,
+  ScrollArea,
+  TextInput,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { GripVertical } from "tabler-icons-react";
 
-import IndividualConfig from "./IndivisualConfig";
 import SelectPlayerDrawer from "./SelectPlayerDrawer";
 
 import db from "@/utils/db";
@@ -26,18 +33,69 @@ const PlayersConfig: React.FC<Props> = ({
   players,
   disabled,
 }) => {
-  const [sortableList, setSortableList] = useState(players);
+  const form = useForm({
+    mode: "uncontrolled",
+    initialValues: {
+      players,
+    },
+    onValuesChange: async (values) => {
+      if (values.players.length === players.length) {
+        for (let i = 0; i < players.length; i++) {
+          // 並び替えまたは個人設定の変更が行われたときのみ1回だけ処理する
+          await db().games.update(game_id, {
+            players: values.players,
+          });
+          break;
+        }
+      }
+    },
+  });
 
   useEffect(() => {
-    if (players.length !== sortableList.length) {
-      setSortableList(players);
+    if (players.length !== form.values.players.length) {
+      form.setFieldValue("players", players);
     }
   }, [players]);
 
+  const fields = form.getValues().players.map((item, index) => (
+    <Draggable key={item.id} index={index} draggableId={item.id}>
+      {(provided) => (
+        <ScrollArea
+          offsetScrollbars
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+        >
+          <Group w={500} className="flex-nowrap">
+            <Center {...provided.dragHandleProps}>
+              <GripVertical size="1.2rem" />
+            </Center>
+            <TextInput
+              label="プレイヤー名"
+              placeholder="John Doe"
+              size="md"
+              key={form.key(`players.${index}.name`)}
+              {...form.getInputProps(`players.${index}.name`)}
+            />
+            <NumberInput
+              label="初期正答数"
+              size="md"
+              key={form.key(`players.${index}.initial_correct`)}
+              {...form.getInputProps(`players.${index}.initial_correct`)}
+            />
+            <NumberInput
+              label="初期誤答数"
+              size="md"
+              key={form.key(`players.${index}.initial_wrong`)}
+              {...form.getInputProps(`players.${index}.initial_wrong`)}
+            />
+          </Group>
+        </ScrollArea>
+      )}
+    </Draggable>
+  ));
+
   return (
     <>
-      <Title order={2}>プレイヤー設定</Title>
-      <Title order={3}>プレイヤー選択</Title>
       <SelectPlayerDrawer
         disabled={disabled}
         game_id={game_id}
@@ -46,76 +104,24 @@ const PlayersConfig: React.FC<Props> = ({
       />
       {players.length !== 0 && (
         <>
-          <h3>並び替え</h3>
-          <Box className="mt-3 bg-gray-300 p-3 dark:bg-gray-600">
-            <ReactSortable
-              animation={200}
-              delay={2}
-              direction="vertical"
-              list={sortableList}
-              setList={(newState) => {
-                (async () => {
-                  if (newState.length === players.length) {
-                    for (let i = 0; i < players.length; i++) {
-                      // 並び替えが行われたときのみ1回だけ処理する
-                      // 選択プレイヤーの変更と個人の初期値設定の変更のケースを除外
-                      if (players[i].id !== newState[i].id) {
-                        await db().games.update(game_id, {
-                          players: newState,
-                        });
-                        setSortableList(newState);
-                        break;
-                      }
-                    }
-                  }
-                })();
-              }}
-              className="flex flex-row gap-5 lg:flex-col"
-            >
-              {sortableList.map((player, index) => (
-                <Card key={player.id} className="bg-gray-200 dark:bg-gray-700">
-                  <Box className="flex h-full flex-row items-center justify-between gap-3 lg:flex-col">
-                    <Box
-                      className="whitespace-nowrap "
-                      style={{
-                        writingMode: "vertical-rl",
-                        textOrientation: "upright",
-                      }}
-                    >
-                      <p>{player.name}</p>
-                    </Box>
-                    <IndividualConfig
-                      correct={[
-                        "normal",
-                        "nomx",
-                        "nomx-ad",
-                        "ny",
-                        "nomr",
-                        "nbyn",
-                        "nupdown",
-                        "swedish10",
-                        "backstream",
-                        "variables",
-                        "attacksurvival",
-                      ].includes(rule_name)}
-                      disabled={disabled}
-                      index={index}
-                      wrong={[
-                        "nomx",
-                        "nomx-ad",
-                        "ny",
-                        "nomr",
-                        "nbyn",
-                        "nupdown",
-                        "swedish10",
-                        "backstream",
-                      ].includes(rule_name)}
-                    />
-                  </Box>
-                </Card>
-              ))}
-            </ReactSortable>
-          </Box>
+          <DragDropContext
+            onDragEnd={({ destination, source }) =>
+              destination?.index !== undefined &&
+              form.reorderListItem("players", {
+                from: source.index,
+                to: destination.index,
+              })
+            }
+          >
+            <Droppable droppableId="dnd-list" direction="vertical">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {fields}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           <p>
             ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
           </p>

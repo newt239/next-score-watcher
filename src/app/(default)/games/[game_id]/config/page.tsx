@@ -95,7 +95,7 @@ export default function ConfigPage({
 
   return (
     <>
-      <h3>{rules[game.rule].name}</h3>
+      <h2>{rules[game.rule].name}</h2>
       <Accordion variant="separated">
         <Accordion.Item value="rule_description">
           <Accordion.Control>
@@ -117,17 +117,17 @@ export default function ConfigPage({
         className="my-5 rounded-md border border-solid"
         style={{
           borderColor: playButtonIsDisabled
-            ? "red.500!important"
+            ? "red.5!important"
             : "white!important",
           _dark: {
             borderColor: playButtonIsDisabled
-              ? "red.300!important"
-              : "gray.800!important",
+              ? "red.3!important"
+              : "gray.8!important",
           },
         }}
       >
         <Flex className="items-center justify-between p-4">
-          <List className="text-red-500 dark:text-red-300">
+          <List className="text-red-500">
             {errorMessages.map((m) => (
               <List.Item key={m}>{m}</List.Item>
             ))}
@@ -152,18 +152,19 @@ export default function ConfigPage({
         </Flex>
       </Box>
       <Box>
-        <Tabs variant="outline" defaultValue="rule">
-          <Tabs.List>
-            <Tabs.Tab value="rule">形式設定</Tabs.Tab>
+        <Tabs variant="outline" orientation="horizontal" defaultValue="rule">
+          <Tabs.List grow>
+            <Tabs.Tab size="1.5rem" value="rule">
+              形式設定
+            </Tabs.Tab>
             <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
             <Tabs.Tab value="other">その他の設定</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value="rule" className="my-4">
-            <Title order={2}>形式設定</Title>
+          <Tabs.Panel value="rule">
             <RuleSettings disabled={disabled} game={game} />
           </Tabs.Panel>
-          <Tabs.Panel value="player" className="my-4">
+          <Tabs.Panel value="player">
             <PlayersConfig
               disabled={disabled}
               game_id={game.id}
@@ -172,8 +173,7 @@ export default function ConfigPage({
               rule_name={game.rule}
             />
           </Tabs.Panel>
-          <Tabs.Panel value="other" className="my-4">
-            <h2>その他の設定</h2>
+          <Tabs.Panel value="other">
             <SelectQuizset
               game_id={game.id}
               game_quiz={game.quiz}

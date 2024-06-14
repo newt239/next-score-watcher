@@ -1,0 +1,18 @@
+.player_score {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 0;
+  background-color: white;
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+  }
+}
+
+.player_score_pair {
+  display: flex;
+  width: 100%;
+}

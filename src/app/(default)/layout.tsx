@@ -1,6 +1,6 @@
 import { Box, Flex } from "@mantine/core";
 
-import Header from "./_components/Header";
+import Header from "./_components/Header/Header";
 
 export default function DefaultLayout({
   children,

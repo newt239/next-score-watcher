@@ -1,0 +1,20 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 80vh;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  border-radius: 1rem;
+  border-width: 3px;
+  border-style: solid;
+  transition: all 0.2s;
+}
+
+.player_info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-x: hidden;
+}

@@ -1,6 +1,8 @@
 import { Flex, NumberInput, Switch } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import classes from "./ConfigLimit.module.css";
+
 import db from "@/utils/db";
 import { RuleNames } from "@/utils/types";
 
@@ -26,7 +28,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
   };
 
   return (
-    <Flex direction="column" pt={5}>
+    <Flex className={classes.config_limit}>
       <Switch
         checked={typeof game?.limit !== "undefined"}
         onChange={onGameLimitToggle}
@@ -57,6 +59,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
               win_through: typeof n === "number" ? n : 0,
             });
           }}
+          size="md"
           value={game.win_through}
         />
       </Flex>

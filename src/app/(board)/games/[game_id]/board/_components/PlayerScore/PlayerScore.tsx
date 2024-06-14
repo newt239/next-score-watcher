@@ -6,7 +6,9 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import PlayerScoreButton from "./PlayerScoreButton";
+import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
+
+import classes from "./PlayerScore.module.css";
 
 import db from "@/utils/db";
 import { isDesktop, numberSign } from "@/utils/functions";
@@ -35,14 +37,9 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
 
   return (
     <Flex
-      className="w-auto lg:w-full"
+      className={classes.player_score}
       style={{
-        flexDirection: !isVerticalView ? "column" : "row",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        backgroundColor: colorMode === "light" ? "white" : "gray.800",
         paddingRight: !isVerticalView && isDesktop() ? undefined : "0.5rem",
-        gap: "0.5rem 0",
       }}
     >
       {game.rule === "normal" && (
@@ -82,7 +79,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -101,7 +98,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton
               color={player.is_incapacity ? "gray" : "red"}
               compact
@@ -134,7 +131,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color="green" disabled {...props}>
             {`${player.correct}✕${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -149,7 +146,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -164,7 +161,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -179,7 +176,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton
               color="red"
               compact
@@ -204,7 +201,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -219,7 +216,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -237,7 +234,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color="green" disabled filled {...props}>
             {`${player.odd_score}✕${player.even_score}`}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
@@ -257,7 +254,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton
               color={player.text === "休" ? "gray" : "red"}
               compact
@@ -368,7 +365,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
           <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
-          <Flex style={{ w: isDesktop() ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>

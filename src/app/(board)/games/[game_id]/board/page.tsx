@@ -10,7 +10,7 @@ import { X } from "tabler-icons-react";
 
 import BoardHeader from "./_components/BoardHeader/BoardHeader";
 import GameLogs from "./_components/GameLogs";
-import Player from "./_components/Player";
+import Player from "./_components/Player/Player";
 import WinModal from "./_components/WinModal";
 
 import NotFound from "@/app/(default)/_components/NotFound";
