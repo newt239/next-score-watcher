@@ -2,6 +2,7 @@
   "plugins": ["tailwindcss"],
   "extends": ["next/core-web-vitals", "plugin:tailwindcss/recommended"],
   "rules": {
+    "react-hooks/exhaustive-deps": "off",
     "import/order": [
       "error",
       {
