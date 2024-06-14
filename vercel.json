@@ -1,4 +1,5 @@
 {
+  "installCommand": "bun install",
   "rewrites": [
     {
       "source": "/(.*)",
