@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Button, Table, Text, TextInput, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
@@ -12,16 +12,15 @@ import db from "@/utils/db";
 
 const OptionPage = () => {
   const latestVersion = process.env.VITE_APP_VERSION;
+  const [currentVersion, setCurrentVersion] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
-    document.title = "アプリ設定 | Score Watcher";
+    setCurrentVersion(window.localStorage.getItem("scorewatcher-version")!);
   }, []);
 
   const deleteAppData = () => {
-    if (window) {
-      window.localStorage.setItem("scorewatcher-version", latestVersion!);
-    }
+    window.localStorage.setItem("scorewatcher-version", latestVersion!);
     db()
       .delete()
       .then(() => {
@@ -71,9 +70,7 @@ const OptionPage = () => {
           <Table.Tbody>
             <Table.Tr>
               <Table.Th>バージョン</Table.Th>
-              <Table.Td>
-                v{localStorage.getItem("scorewatcher-version")}
-              </Table.Td>
+              <Table.Td>v{currentVersion}</Table.Td>
             </Table.Tr>
             <Table.Tr>
               <Table.Th>開発者</Table.Th>
