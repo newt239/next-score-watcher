@@ -59,7 +59,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
             offset={10}
             radius="lg"
           >
-            <Accordion>
+            <Accordion defaultValue="add">
               <Accordion.Item value="add">
                 <Accordion.Control>新しく追加</Accordion.Control>
                 <Accordion.Panel pb={4}>

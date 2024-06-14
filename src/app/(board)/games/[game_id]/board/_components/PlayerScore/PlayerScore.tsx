@@ -1,7 +1,6 @@
 "use client";
 
 import { Flex } from "@mantine/core";
-import { useColorScheme } from "@mantine/hooks";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -11,17 +10,15 @@ import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 import classes from "./PlayerScore.module.css";
 
 import db from "@/utils/db";
-import { isDesktop, numberSign } from "@/utils/functions";
+import { numberSign } from "@/utils/functions";
 import { ComputedScoreProps, GamePropsUnion } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;
   player: ComputedScoreProps;
-  isVerticalView: boolean;
 };
 
-const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
-  const colorMode = useColorScheme();
+const PlayerScore: React.FC<Props> = ({ game, player }) => {
   const logs = useLiveQuery(
     () => db().logs.where({ game_id: game.id }).sortBy("timestamp"),
     []
@@ -36,12 +33,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, isVerticalView }) => {
   if (logs === undefined) return null;
 
   return (
-    <Flex
-      className={classes.player_score}
-      style={{
-        paddingRight: !isVerticalView && isDesktop() ? undefined : "0.5rem",
-      }}
-    >
+    <Flex className={classes.player_score}>
       {game.rule === "normal" && (
         <PlayerScoreButton color="red" {...props}>
           {numberSign("pt", player.score)}

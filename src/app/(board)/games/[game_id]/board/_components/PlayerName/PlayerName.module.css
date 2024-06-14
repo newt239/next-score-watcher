@@ -1,0 +1,16 @@
+.player_name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-orientation: upright;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-family: "BIZ UDGothic";
+  font-size: clamp(2rem, 60vh, 4rem);
+  font-weight: 700;
+  width: 100%;
+  padding-top: 0.25rem;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}

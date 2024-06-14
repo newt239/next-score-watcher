@@ -1,9 +1,8 @@
 "use client";
 
-import React, { CSSProperties, useId } from "react";
+import React from "react";
 
-import { UnstyledButton } from "@mantine/core";
-import { useColorScheme } from "@mantine/hooks";
+import { UnstyledButton, useComputedColorScheme } from "@mantine/core";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
@@ -41,35 +40,23 @@ const PlayerScoreButton: React.FC<Props> = ({
     : children.endsWith("✕")
     ? "wrong"
     : "none";
-  const id = useId();
-  const colorMode = useColorScheme();
+  const computedColorScheme = useComputedColorScheme("light");
 
-  const defaultColor = colorMode === "light" ? "white" : "gray.8";
+  const defaultColor = computedColorScheme === "light" ? "white" : "gray.8";
   const variantColor =
     color === "gray"
       ? "gray.3"
       : ["red", "win"].includes(color)
-      ? colorMode === "light"
-        ? "red.6"
+      ? computedColorScheme === "light"
+        ? "red.9"
         : "red.3"
       : ["blue", "lose"].includes(color)
-      ? colorMode === "light"
-        ? "blue.6"
+      ? computedColorScheme === "light"
+        ? "blue.9"
         : "blue.3"
-      : colorMode === "light"
-      ? "green.6"
+      : computedColorScheme === "light"
+      ? "green.9"
       : "yellow.3";
-
-  const ButtonCssStyle: CSSProperties = {
-    backgroundColor: filled ? variantColor : "transparent",
-    color: filled ? defaultColor : variantColor,
-    cursor:
-      disabled && color === "gray"
-        ? "not-allowed"
-        : disabled || color === "green" || editable
-        ? "default"
-        : "pointer",
-  };
 
   const handleClick = async () => {
     if (color !== "green" && !disabled) {
@@ -92,7 +79,16 @@ const PlayerScoreButton: React.FC<Props> = ({
     <UnstyledButton
       onClick={onClick || handleClick}
       className={classes.player_score_button}
-      style={ButtonCssStyle}
+      style={{
+        cursor:
+          disabled && color === "gray"
+            ? "not-allowed"
+            : disabled || color === "green" || editable
+            ? "default"
+            : "pointer",
+      }}
+      c={filled ? defaultColor : variantColor}
+      bg={filled ? variantColor : "transparent"}
     >
       {numberSign === "none" ? (
         children

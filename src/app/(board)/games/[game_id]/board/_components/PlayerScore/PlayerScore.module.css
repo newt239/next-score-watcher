@@ -5,11 +5,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem 0;
-  background-color: white;
-
-  @mixin dark {
-    background-color: var(--mantine-color-gray-8);
-  }
+  background-color: var(--mantine-color-body);
 }
 
 .player_score_pair {

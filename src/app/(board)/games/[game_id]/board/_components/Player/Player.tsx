@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import { Flex } from "@mantine/core";
-import { useColorScheme } from "@mantine/hooks";
+import { Flex, useComputedColorScheme } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "../PlayerColorConfig";
 import PlayerHeader from "../PlayerHeader/PlayerHeader";
-import PlayerName from "../PlayerName";
+import PlayerName from "../PlayerName/PlayerName";
 import PlayerScore from "../PlayerScore/PlayerScore";
 
 import classes from "./Player.module.css";
@@ -33,7 +32,7 @@ const Player: React.FC<Props> = ({
   score,
   isVerticalView,
 }) => {
-  const colorMode = useColorScheme();
+  const computedColorScheme = useComputedColorScheme("light");
   const game = useLiveQuery(() => db().games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
 
@@ -54,12 +53,12 @@ const Player: React.FC<Props> = ({
 
   const getColor = (state: States) => {
     return state === "win"
-      ? colorMode === "light"
-        ? "red.6"
+      ? computedColorScheme === "light"
+        ? "red.9"
         : "red.3"
       : state == "lose"
-      ? colorMode === "light"
-        ? "blue.6"
+      ? computedColorScheme === "light"
+        ? "blue.9"
         : "blue.3"
       : undefined;
   };
@@ -67,18 +66,20 @@ const Player: React.FC<Props> = ({
   return (
     <Flex
       className={classes.player}
+      bg={getColor(editedScore.state)}
+      c={
+        getColor(editedScore.state) &&
+        (computedColorScheme === "light" ? "white" : "gray.8")
+      }
       style={{
         width: `clamp(8vw, ${
           (98 - game.players.length) / game.players.length
         }vw, 15vw)`,
-        backgroundColor: getColor(editedScore.state),
-        color:
-          getColor(editedScore.state) &&
-          (colorMode === "light" ? "white" : "gray.800"),
-        borderColor:
+        borderColor: `var(--mantine-color-${(
           getColor(editedScore.state) ||
           getColor(editedScore.reach_state) ||
-          (colorMode === "dark" ? "gray.700" : "gray.100"),
+          (computedColorScheme === "dark" ? "gray.7" : "gray.1")
+        ).replace(".", "-")})`,
       }}
     >
       <Flex
@@ -90,7 +91,6 @@ const Player: React.FC<Props> = ({
               ? `calc(80vh - ${rows * 4}rem)`
               : "100%",
           alignItems: !isVerticalView && isDesktop() ? "center" : "flex-start",
-          paddingLeft: !isVerticalView && isDesktop() ? undefined : "0.5rem",
         }}
       >
         {game.editable ? (
@@ -107,17 +107,9 @@ const Player: React.FC<Props> = ({
             text={player.text}
           />
         )}
-        <PlayerName
-          isVerticalView={isVerticalView}
-          player_name={player.name}
-          rows={rows}
-        />
+        <PlayerName player_name={player.name} />
       </Flex>
-      <PlayerScore
-        game={game}
-        isVerticalView={(isVerticalView && isDesktop()) || !isDesktop()}
-        player={editedScore}
-      />
+      <PlayerScore game={game} player={editedScore} />
     </Flex>
   );
 };

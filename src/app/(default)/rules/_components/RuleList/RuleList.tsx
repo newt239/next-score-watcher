@@ -2,8 +2,10 @@
 
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Flex, Paper, Title } from "@mantine/core";
+import { Box, Button, Card, Flex, Title } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
+
+import classes from "./RuleList.module.css";
 
 import { createGame } from "@/utils/functions";
 import { rules } from "@/utils/rules";
@@ -21,26 +23,21 @@ const RuleList: React.FC = () => {
   return (
     <Box>
       <Title order={2}>形式一覧</Title>
-      <Box
-        className="grid gap-3 pt-3"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-        }}
-      >
+      <Box className={classes.rule_list_grid}>
         {ruleNameList.map((rule_name) => {
           const description = rules[rule_name].short_description;
           return (
-            <Paper
-              shadow="xs"
-              className="grid bg-gray-200 p-3 pb-0"
-              style={{
-                gridTemplateRows: "subgrid",
-                gridRow: "span 4",
-              }}
-              key={rule_name}
-            >
-              <Title order={4}>{rules[rule_name].name}</Title>
-              <Box>{description}</Box>
+            <Card shadow="xs" key={rule_name} withBorder>
+              <Card.Section
+                withBorder
+                inheritPadding
+                className={classes.rule_name}
+              >
+                {rules[rule_name].name}
+              </Card.Section>
+              <Card.Section className={classes.rule_description}>
+                {description}
+              </Card.Section>
               <Flex className="justify-end">
                 <Button
                   onClick={() => onClick(rule_name)}
@@ -50,7 +47,7 @@ const RuleList: React.FC = () => {
                   作る
                 </Button>
               </Flex>
-            </Paper>
+            </Card>
           );
         })}
       </Box>
