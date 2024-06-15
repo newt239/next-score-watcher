@@ -154,8 +154,13 @@ export default function ConfigPage({
         </Flex>
       </Box>
       <Box>
-        <Tabs variant="outline" orientation="horizontal" defaultValue="rule">
-          <Tabs.List grow>
+        <Tabs
+          pt="lg"
+          variant="outline"
+          orientation="horizontal"
+          defaultValue="rule"
+        >
+          <Tabs.List my="lg" grow>
             <Tabs.Tab size="1.5rem" value="rule">
               形式設定
             </Tabs.Tab>

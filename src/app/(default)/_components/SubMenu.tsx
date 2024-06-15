@@ -34,7 +34,7 @@ const SubMenu: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <Flex className="flex-col">
+    <Flex direction="column">
       {linkList.map((link) => (
         <ButtonLink
           justify="flex-start"

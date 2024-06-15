@@ -1,5 +1,3 @@
-"use client";
-
 import { Anchor, List, Title } from "@mantine/core";
 
 const Term: React.FC = () => {
