@@ -10,7 +10,7 @@ import Link from "@/app/_components/Link";
 import Preferences from "@/app/_components/Preferences";
 import db from "@/utils/db";
 
-const OptionPage = () => {
+export default function OptionPage() {
   const latestVersion = process.env.VITE_APP_VERSION;
   const [currentVersion, setCurrentVersion] = useState<string>("");
   const router = useRouter();
@@ -91,6 +91,4 @@ const OptionPage = () => {
       </div>
     </>
   );
-};
-
-export default OptionPage;
+}
