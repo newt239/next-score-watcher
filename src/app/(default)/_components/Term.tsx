@@ -1,47 +1,42 @@
-import { Anchor, List, Title } from "@mantine/core";
+"use client";
+
+import { Title } from "@mantine/core";
+
+import Link from "@/app/_components/Link";
 
 const Term: React.FC = () => {
   return (
     <div>
       <Title order={2}>ご利用にあたって</Title>
-      <List>
-        <List.Item>
+      <ul>
+        <li>
           データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。
-        </List.Item>
-        <List.Item>
+        </li>
+        <li>
           本アプリの開発者はユーザーが本アプリを使用したことにより生じる損害について、いかなる責任も負いません。
-        </List.Item>
-        <List.Item>
+        </li>
+        <li>
           お問い合わせは
-          <Anchor href="https://discord.gg/rct5sx6rbZ" target="_blank">
+          <Link href="https://discord.gg/rct5sx6rbZ">
             開発者のDiscordサーバー
-          </Anchor>
-          や
-          <Anchor target="_blank" href="https://twitter.com/newt239">
-            Twitter
-          </Anchor>
+          </Link>
+          や<Link href="https://twitter.com/newt239">Twitter</Link>
           からお願いします。
-        </List.Item>
-        <List.Item>
+        </li>
+        <li>
           本アプリを利用した際はぜひ
-          <Anchor
-            target="_blank"
-            href="https://twitter.com/hashtag/ScoreWatcher?f=live"
-          >
+          <Link href="https://twitter.com/hashtag/ScoreWatcher?f=live">
             #ScoreWatcher
-          </Anchor>
+          </Link>
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
-        </List.Item>
-        <List.Item>
-          <Anchor
-            target="_blank"
-            href="https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform"
-          >
+        </li>
+        <li>
+          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform">
             Googleフォーム
-          </Anchor>
+          </Link>
           でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
-        </List.Item>
-      </List>
+        </li>
+      </ul>
     </div>
   );
 };
