@@ -24,7 +24,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 3rem;
   padding: 0.5rem 1rem;
   height: auto;
 
@@ -42,7 +42,7 @@
   transition: all 0.2s;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }
 
@@ -50,10 +50,14 @@
   margin: auto;
   height: clamp(1.5rem, 10vw, 3rem);
   width: auto;
-  padding-bottom: 0.5rem;
+
+  > img {
+    height: 100%;
+    width: auto;
+  }
 
   @mixin larger-than 62em {
-    padding-left: 0.5rem;
+    height: auto;
   }
 }
 

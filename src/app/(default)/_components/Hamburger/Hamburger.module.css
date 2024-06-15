@@ -1,0 +1,8 @@
+.burger_menu {
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--mantine-color-teal-6);
+}

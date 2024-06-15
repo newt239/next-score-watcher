@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { Box, Flex, Image } from "@mantine/core";
+import { Box, Flex } from "@mantine/core";
 
-import Hamburger from "../Hamburger";
+import Hamburger from "../Hamburger/Hamburger";
 import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
@@ -12,11 +12,14 @@ export default function Header() {
     <Box component="header" className={classes.header}>
       <Flex className={classes.header_inner}>
         <Flex component={Link} className={classes.header_link} href="/">
-          <Image
-            alt="app logo"
-            className={classes.header_logo}
-            src="/logo.png"
-          />
+          <picture className={classes.header_logo}>
+            <source
+              media="(max-width:962px)"
+              srcSet="logo_white.png 400w"
+              sizes="100vw"
+            />
+            <img src="logo_white2.png" alt="app logo" />
+          </picture>
         </Flex>
         <Box hiddenFrom="md">
           <Hamburger>

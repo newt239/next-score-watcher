@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
+import classes from "./Hamburger.module.css";
+
 type Props = {
   children?: React.ReactNode;
 };
@@ -23,9 +25,7 @@ const Hamburger: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Burger color="white" opened={opened} onClick={toggle} />
-      {opened && (
-        <nav className="fixed left-0 top-16 w-full p-2">{children}</nav>
-      )}
+      {opened && <nav className={classes.burger_menu}>{children}</nav>}
     </>
   );
 };
