@@ -1,30 +1,25 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Metadata } from "next";
 
 import { Button, Table, Text, TextInput, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
+
+import CurrentVersion from "./_components/CurrentVersion";
 
 import Link from "@/app/_components/Link";
 import Preferences from "@/app/_components/Preferences";
 import db from "@/utils/db";
 
+export const metadata: Metadata = {
+  title: "アプリ設定",
+};
+
 export default function OptionPage() {
-  const latestVersion = process.env.VITE_APP_VERSION;
-  const [currentVersion, setCurrentVersion] = useState<string>("");
-  const router = useRouter();
-
-  useEffect(() => {
-    setCurrentVersion(window.localStorage.getItem("scorewatcher-version")!);
-  }, []);
-
   const deleteAppData = () => {
-    window.localStorage.setItem("scorewatcher-version", latestVersion!);
+    window.localStorage.removeItem("scorewatcher-version");
     db()
       .delete()
       .then(() => {
-        router.refresh();
+        window.document.location.reload();
       });
   };
 
@@ -70,7 +65,9 @@ export default function OptionPage() {
           <Table.Tbody>
             <Table.Tr>
               <Table.Th>バージョン</Table.Th>
-              <Table.Td>v{currentVersion}</Table.Td>
+              <Table.Td>
+                <CurrentVersion />
+              </Table.Td>
             </Table.Tr>
             <Table.Tr>
               <Table.Th>開発者</Table.Th>

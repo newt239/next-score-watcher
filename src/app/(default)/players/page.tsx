@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense } from "react";
 
 import { Tabs, Title } from "@mantine/core";
@@ -20,7 +18,6 @@ export default function PlayerPage() {
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
           <Tabs.Tab value="import">インポート</Tabs.Tab>
         </Tabs.List>
-
         <Tabs.Panel value="add">
           <Suspense>
             {/* ref: https://qiita.com/nk175/items/5b437355e9c2c3e59e19 */}

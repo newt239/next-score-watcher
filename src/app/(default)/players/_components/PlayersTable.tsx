@@ -1,7 +1,8 @@
+"use client";
+
 import { useState } from "react";
 
 import {
-  ActionIcon,
   Box,
   Button,
   Checkbox,
@@ -25,7 +26,7 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Edit, Trash } from "tabler-icons-react";
+import { Trash } from "tabler-icons-react";
 
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
@@ -80,20 +81,6 @@ const PlayersTable: React.FC = () => {
     }),
     columnHelper.accessor("belong", {
       header: "所属",
-    }),
-    columnHelper.accessor("id", {
-      header: "",
-      cell: (info) => {
-        return (
-          <ActionIcon
-            aria-label="プレイヤー情報を更新する"
-            size="xs"
-            variant="subtle"
-          >
-            <Edit />
-          </ActionIcon>
-        );
-      },
     }),
   ];
 

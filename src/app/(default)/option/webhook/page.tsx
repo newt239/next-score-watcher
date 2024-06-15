@@ -1,4 +1,4 @@
-"use client";
+import { Metadata } from "next";
 
 import { Code } from "@mantine/core";
 import { ArrowBackUp } from "tabler-icons-react";
@@ -6,10 +6,19 @@ import { ArrowBackUp } from "tabler-icons-react";
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 
+export const metadata: Metadata = {
+  title: "Webhookについて",
+};
+
 export default function WebhookPage() {
   return (
     <>
-      <ButtonLink href="/option" leftSection={<ArrowBackUp />} size="sm">
+      <ButtonLink
+        variant="subtle"
+        href="/option"
+        leftSection={<ArrowBackUp />}
+        size="sm"
+      >
         アプリ設定に戻る
       </ButtonLink>
       <div>
