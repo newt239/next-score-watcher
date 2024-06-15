@@ -39,7 +39,7 @@ const SubMenu: React.FC = () => {
         <ButtonLink
           justify="flex-start"
           fullWidth
-          size="lg"
+          size="md"
           aria-current={link.path === pathname}
           href={link.path}
           key={link.path}

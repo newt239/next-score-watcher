@@ -17,7 +17,7 @@ export default function Hero() {
           style={{
             textShadow: "black 1px 0 10px",
           }}
-          className="text-4xl font-bold leading-6 md:text-5xl lg:text-6xl"
+          className="text-4xl font-bold leading-6 md:text-5xl md:text-6xl"
         >
           <Box>競技クイズのための</Box>
           <Box>
@@ -44,7 +44,7 @@ export default function Hero() {
         <Button
           component={Link}
           href="/rules"
-          size="lg"
+          size="md"
           rightSection={<ArrowRight />}
         >
           ゲームを作る

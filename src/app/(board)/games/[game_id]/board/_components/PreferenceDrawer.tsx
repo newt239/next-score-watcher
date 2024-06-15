@@ -15,7 +15,7 @@ const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
       title="表示設定"
       position="right"
       offset={10}
-      radius="lg"
+      radius="md"
     >
       <Preferences />
     </Drawer>

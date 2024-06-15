@@ -27,6 +27,7 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { Edit, Trash } from "tabler-icons-react";
 
+import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
@@ -242,6 +243,7 @@ const PlayersTable: React.FC = () => {
                   })}
                 </Table.Tbody>
               </Table>
+              <TablePagenation table={table} />
             </>
           )}
         </Box>

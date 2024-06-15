@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { Box, Button, Flex, Radio, Text, Textarea } from "@mantine/core";
+import { Box, Button, Flex, Group, Radio, Text, Textarea } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
@@ -60,7 +60,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name }) => {
   `;
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between lg:h-[30vh]">
+    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
       <Box>
         <Text>
           Excelやスプレッドシートからコピーし、まとめてインポートできます。
@@ -74,15 +74,15 @@ const LoadQuiz: React.FC<Props> = ({ set_name }) => {
         />
         <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
       </Box>
-      <Flex className="w-full justify-end gap-3 pt-3">
+      <Group justify="end">
         <Radio.Group
           onChange={(e) => setSparateType(e as "tab" | "comma")}
           value={separateType}
         >
-          <Flex direction="row">
+          <Group>
             <Radio value="comma" label="カンマ区切り" />
             <Radio value="tab" label="タブ区切り" />
-          </Flex>
+          </Group>
         </Radio.Group>
         <Button
           disabled={rawQuizText === ""}
@@ -91,7 +91,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name }) => {
         >
           追加
         </Button>
-      </Flex>
+      </Group>
     </Flex>
   );
 };

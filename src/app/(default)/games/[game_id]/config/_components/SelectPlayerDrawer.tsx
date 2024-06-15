@@ -57,7 +57,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
             position="right"
             title="プレイヤー選択"
             offset={10}
-            radius="lg"
+            radius="md"
           >
             <Accordion defaultValue="add">
               <Accordion.Item value="add">

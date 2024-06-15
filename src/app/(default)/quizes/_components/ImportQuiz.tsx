@@ -1,10 +1,12 @@
 "use client";
 
-import { FileInput, Flex, Text } from "@mantine/core";
+import { Flex, Text } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
+import Dropzone from "@/app/_components/Dropzone";
 import db from "@/utils/db";
 import { str2num } from "@/utils/functions";
 
@@ -13,9 +15,10 @@ type Props = {
 };
 
 const ImportQuiz: React.FC<Props> = ({ set_name }) => {
-  const handleOnChange = (file: File | null) => {
+  const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
-    if (file) {
+    if (files && files.length > 0) {
+      const file = files[0];
       fileReader.onload = (ev) => {
         const buffer = ev.target?.result;
         if (buffer instanceof ArrayBuffer) {
@@ -57,14 +60,9 @@ const ImportQuiz: React.FC<Props> = ({ set_name }) => {
   };
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between lg:h-[30vh]">
+    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
       <Text>CSVファイルからインポートできます。</Text>
-      <FileInput
-        accept=".csv"
-        disabled={set_name === ""}
-        onChange={handleOnChange}
-        className="h-[255px] grow sm:h-[160px] lg:h-[100px]"
-      />
+      <Dropzone disabled={set_name === ""} onDrop={handleOnChange} />
       <Text>1列目: 問題番号、 2列目: 問題文 3列目: 答え</Text>
     </Flex>
   );

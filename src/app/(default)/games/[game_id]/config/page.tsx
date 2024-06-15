@@ -136,13 +136,15 @@ export default function ConfigPage({
             <Button
               disabled={playButtonIsDisabled}
               leftSection={<PlayerPlay />}
-              size="lg"
+              size="md"
             >
               ゲーム開始
             </Button>
           ) : (
             <ButtonLink
-              size="lg"
+              size="md"
+              variant="gradient"
+              gradient={{ from: "teal", to: "lime", deg: 135 }}
               href={`/games/${params.game_id}/board`}
               leftSection={<PlayerPlay />}
             >

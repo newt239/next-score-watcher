@@ -15,7 +15,7 @@ export default function PlayerPage() {
       <Title order={2}>プレイヤー管理</Title>
       <h3>プレイヤーの読み込み</h3>
       <Tabs variant="outline" defaultValue="add">
-        <Tabs.List>
+        <Tabs.List grow>
           <Tabs.Tab value="add">個別に追加</Tabs.Tab>
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
           <Tabs.Tab value="import">インポート</Tabs.Tab>

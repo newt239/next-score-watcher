@@ -15,7 +15,7 @@ const EachFeature: React.FC<FeatureProps> = ({
 }) => {
   return (
     <Flex
-      className="flex-col gap-2 p-2 text-2xl lg:gap-4 lg:p-8 lg:text-3xl"
+      className="flex-col gap-2 p-2 text-2xl md:gap-4 md:p-8 md:text-3xl"
       style={{
         alignItems: side === "left" ? "flex-start" : "flex-end",
       }}
@@ -24,7 +24,7 @@ const EachFeature: React.FC<FeatureProps> = ({
         <Box
           className="
           absolute inset-x-[-5px] top-[-5px] z-0 size-[90px] rounded-full bg-teal-300 opacity-50 blur-[5px]
-          lg:inset-x-[-30px] lg:top-[-30px] lg:size-[120px]"
+          md:inset-x-[-30px] md:top-[-30px] md:size-[120px]"
           style={{
             [side === "right" ? "left" : "right"]: undefined,
           }}

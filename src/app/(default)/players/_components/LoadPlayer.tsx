@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Flex,
+  Group,
   Radio,
   RadioGroup,
   Text,
@@ -59,7 +60,7 @@ const LoadPlayer: React.FC = () => {
   `;
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between lg:h-[30vh]">
+    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
       <Box>
         <Text>
           Excelやスプレッドシートからコピーし、まとめてインポートできます。
@@ -72,15 +73,15 @@ const LoadPlayer: React.FC = () => {
         />
         <Text>A列: 氏名、 B列: 順位、 C列: 所属</Text>
       </Box>
-      <Flex className="w-full justify-end gap-3 pt-3">
+      <Group justify="end">
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}
           value={separateType}
         >
-          <Flex direction="row">
+          <Group>
             <Radio label="カンマ区切り" value="comma" />
             <Radio label="タブ区切り" value="tab" />
-          </Flex>
+          </Group>
         </RadioGroup>
         <Button
           disabled={rawPlayerText === ""}
@@ -89,7 +90,7 @@ const LoadPlayer: React.FC = () => {
         >
           追加
         </Button>
-      </Flex>
+      </Group>
     </Flex>
   );
 };

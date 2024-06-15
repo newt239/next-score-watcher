@@ -217,7 +217,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
             >
               スルー
             </Button>
-            <div className="hidden lg:block">
+            <div className="hidden md:block">
               <Tooltip label="問題番号が進みますが、問題は更新されません。">
                 <Button
                   onClick={() =>

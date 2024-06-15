@@ -1,16 +1,19 @@
 "use client";
 
-import { FileInput, Flex, Text } from "@mantine/core";
+import { Flex, Text } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
+import Dropzone from "@/app/_components/Dropzone";
 import db from "@/utils/db";
 
 export default function ImportPlayer() {
-  const handleOnChange = (file: File | null) => {
+  const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
-    if (file) {
+    if (files && files.length > 0) {
+      const file = files[0];
       fileReader.onload = (ev) => {
         const buffer = ev.target?.result;
         if (buffer instanceof ArrayBuffer) {
@@ -52,13 +55,9 @@ export default function ImportPlayer() {
   };
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between lg:h-[30vh]">
+    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
       <Text>CSVファイルからインポートできます。</Text>
-      <FileInput
-        accept=".csv"
-        onChange={handleOnChange}
-        className="h-[255px] grow sm:h-[160px] lg:h-[100px]"
-      />
+      <Dropzone onDrop={handleOnChange} />
       <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
     </Flex>
   );

@@ -64,8 +64,8 @@ const CreatePlayer: React.FC = () => {
   };
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between lg:h-[30vh]">
-      <Box className="grid w-full grid-cols-1 gap-3 lg:grid-cols-2">
+    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
+      <Box className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
         <TextInput
           label="氏名"
           onChange={(v) => setPlayerName(v.target.value)}

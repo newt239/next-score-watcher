@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Box, Flex, NativeSelect, Paper, Title } from "@mantine/core";
+import { Box, Card, Flex, NativeSelect, Title } from "@mantine/core";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
@@ -73,24 +73,21 @@ export default function GamesPage() {
           }}
         >
           {parsedGameList.map((game) => (
-            <Paper
+            <Card
               shadow="xs"
               className="flex flex-col justify-between gap-3 p-3"
               key={game.id}
               title={game.name}
             >
-              <Box>
-                <Title
-                  className="overflow-x-scroll whitespace-nowrap"
-                  order={4}
-                >
-                  {game.name}
-                </Title>
+              <Card.Section withBorder inheritPadding>
+                {game.name}
+              </Card.Section>
+              <Card.Section inheritPadding>
                 <p>
                   {game.type} ／ {game.player_count}人
                 </p>
                 <p>進行状況: {game.state}</p>
-              </Box>
+              </Card.Section>
               <Flex className="items-center justify-between">
                 <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
                 <ButtonLink
@@ -101,7 +98,7 @@ export default function GamesPage() {
                   開く
                 </ButtonLink>
               </Flex>
-            </Paper>
+            </Card>
           ))}
         </Box>
       )}
