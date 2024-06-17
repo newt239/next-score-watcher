@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 
-import { Box, Card, Flex, NativeSelect, Title } from "@mantine/core";
+import { Box, Card, Flex, Group, NativeSelect, Title } from "@mantine/core";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { AdjustmentsHorizontal } from "tabler-icons-react";
+
+import classes from "./GameList.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
@@ -51,14 +53,14 @@ const GameList: React.FC = () => {
   return (
     <>
       <Title order={2}>作成したゲーム</Title>
-      <Flex className="justify-end gap-2">
+      <Group justify="end">
         <NativeSelect
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
         >
           <option value="last_open">最終閲覧順</option>
           <option value="name">ゲーム名順</option>
         </NativeSelect>
-      </Flex>
+      </Group>
       {parsedGameList.length === 0 ? (
         <p>
           作成済みのゲームはありません。
@@ -66,29 +68,23 @@ const GameList: React.FC = () => {
           ページから新しいゲームを作ることが出来ます。
         </p>
       ) : (
-        <Box
-          className="grid gap-3 pt-3"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          }}
-        >
+        <Box className={classes.game_list_grid}>
           {parsedGameList.map((game) => (
-            <Card
-              shadow="xs"
-              className="flex flex-col justify-between gap-3 p-3"
-              key={game.id}
-              title={game.name}
-            >
-              <Card.Section withBorder inheritPadding>
+            <Card shadow="xs" key={game.id} title={game.name}>
+              <Card.Section
+                className={classes.game_name}
+                withBorder
+                inheritPadding
+              >
                 {game.name}
               </Card.Section>
-              <Card.Section inheritPadding>
+              <Card.Section className={classes.game_description}>
                 <p>
                   {game.type} ／ {game.player_count}人
                 </p>
                 <p>進行状況: {game.state}</p>
               </Card.Section>
-              <Flex className="items-center justify-between">
+              <Flex className={classes.game_footer}>
                 <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
                 <ButtonLink
                   href={`/games/${game.id}/config`}

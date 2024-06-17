@@ -35,7 +35,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
         label="限定問題数を設定する"
         size="md"
       />
-      <Flex gap={3} p={3}>
+      <Flex className={classes.config_limit_inputs}>
         <NumberInput
           disabled={typeof game?.limit === "undefined"}
           label="限定問題数"

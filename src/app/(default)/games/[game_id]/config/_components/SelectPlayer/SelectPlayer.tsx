@@ -4,9 +4,11 @@ import { Accordion, Box, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Plus, Upload } from "tabler-icons-react";
 
-import CompactCreatePlayer from "./CompactCreatePlayer";
-import CompactPlayerTable from "./CompactPlayerTable";
-import SelectPlayerFromExistingGame from "./SelectPlayerFromExistingGame";
+import CompactCreatePlayer from "../CompactCreatePlayer";
+import CompactPlayerTable from "../CompactPlayerTable";
+import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
+
+import classes from "./SelectPlayer.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
@@ -19,7 +21,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const SelectPlayerDrawer: React.FC<Props> = ({
+const SelectPlayer: React.FC<Props> = ({
   game_id,
   playerList,
   players,
@@ -44,7 +46,7 @@ const SelectPlayerDrawer: React.FC<Props> = ({
           <Button
             disabled={disabled}
             leftSection={<Plus />}
-            mt={3}
+            className={classes.open_drawer_button}
             onClick={open}
             size="md"
             color="blue"
@@ -97,4 +99,4 @@ const SelectPlayerDrawer: React.FC<Props> = ({
   );
 };
 
-export default SelectPlayerDrawer;
+export default SelectPlayer;

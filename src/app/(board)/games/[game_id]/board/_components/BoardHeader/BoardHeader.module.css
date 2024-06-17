@@ -5,7 +5,7 @@
   height: 10vh;
   border-bottom: 1px solid var(--mantine-color-gray-3);
 
-  @larger-than 62em {
+  @mixin larger-than 62em {
     height: 15vh;
     gap: 1rem;
   }

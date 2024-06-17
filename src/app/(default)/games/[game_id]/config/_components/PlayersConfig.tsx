@@ -13,7 +13,7 @@ import {
 import { useForm } from "@mantine/form";
 import { GripVertical } from "tabler-icons-react";
 
-import SelectPlayerDrawer from "./SelectPlayerDrawer";
+import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import db from "@/utils/db";
 import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
@@ -96,12 +96,6 @@ const PlayersConfig: React.FC<Props> = ({
 
   return (
     <>
-      <SelectPlayerDrawer
-        disabled={disabled}
-        game_id={game_id}
-        playerList={playerList}
-        players={players}
-      />
       {players.length !== 0 && (
         <>
           <DragDropContext
@@ -122,11 +116,14 @@ const PlayersConfig: React.FC<Props> = ({
               )}
             </Droppable>
           </DragDropContext>
-          <p>
-            ※個人設定が行える形式では、個人の初期値を変更した場合、1問目の時点での勝ち抜けリーチや失格リーチが正しく表示されないことがあります。
-          </p>
-        </> // 上記はgetInitialPlayersStateでstateとreach_stateを共通でplayingにしていることによるもの
+        </>
       )}
+      <SelectPlayer
+        disabled={disabled}
+        game_id={game_id}
+        playerList={playerList}
+        players={players}
+      />
     </>
   );
 };
