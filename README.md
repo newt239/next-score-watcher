@@ -2,6 +2,8 @@
 
 ![version](https://img.shields.io/github/package-json/v/newt239/next-score-watcher?style=flat)
 
+This branch is arcive of v2.6.2.
+
 <img
   src="https://raw.githubusercontent.com/newt239/next-score-watcher/main/public/score-watcher-ogp.webp" 
   alt="Score Watcher アイキャッチ画像"
