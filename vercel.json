@@ -1,4 +1,4 @@
 {
-  "installCommand": "bun install",
-  "outputDirectory": ".next"
+  "framework": "nextjs",
+  "installCommand": "bun install"
 }
