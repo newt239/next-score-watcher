@@ -16,6 +16,7 @@
     "@mantine/hooks": "^7.10.1",
     "@mantine/modals": "^7.10.1",
     "@mantine/notifications": "^7.10.1",
+    "@next/third-parties": "^14.2.4",
     "@sentry/nextjs": "^8",
     "@tanstack/react-table": "^8.17.3",
     "cdate": "^0.0.7",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 import { theme } from "@/utils/theme";
 import "@mantine/core/styles.css";
@@ -39,6 +40,8 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#28a745" />
         <link rel="manifest" href="/manifest.json" />
+        <GoogleTagManager gtmId={process.env.GA_ID!} />
+        <GoogleAnalytics gaId={process.env.TAG_ID!} />
         <ColorSchemeScript />
       </head>
       <body>
