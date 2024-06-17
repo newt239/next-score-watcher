@@ -38,6 +38,7 @@ export default function RootLayout({
     <html lang="ja">
       <head>
         <meta name="theme-color" content="#28a745" />
+        <link rel="manifest" href="/manifest.json" />
         <ColorSchemeScript />
       </head>
       <body>
