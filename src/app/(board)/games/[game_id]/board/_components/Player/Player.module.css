@@ -1,20 +1,30 @@
 .player {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: stretch;
-  height: 80vh;
   overflow-y: hidden;
   overflow-x: scroll;
   border-radius: 1rem;
   border-width: 3px;
   border-style: solid;
   transition: all 0.2s;
+
+  @mixin larger-than 62em {
+    flex-direction: column;
+    height: 80vh;
+    overflow-x: hidden;
+  }
 }
 
 .player_info {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   flex-grow: 1;
   overflow-x: hidden;
+
+  @mixin larger-than 62em {
+    align-items: center;
+  }
 }

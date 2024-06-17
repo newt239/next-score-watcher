@@ -10,7 +10,7 @@ import { X } from "tabler-icons-react";
 
 import BoardHeader from "./_components/BoardHeader/BoardHeader";
 import GameLogs from "./_components/GameLogs/GameLogs";
-import Player from "./_components/Player/Player";
+import Players from "./_components/Players/Players";
 import WinModal from "./_components/WinModal";
 
 import NotFound from "@/app/(default)/_components/NotFound";
@@ -173,24 +173,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
           }}
         />
       )}
-      <Flex
-        className="h-[90vh] w-full flex-row justify-evenly gap-x-[1vw] gap-y-[1.5vh] px-[1vw] pt-[3vh]"
-        id="players-area"
-      >
-        {players.map((player, i) => (
-          <Player
-            game_id={game.id}
-            index={i}
-            isVerticalView={players.length > 10}
-            key={i}
-            player={player}
-            score={scores.find(
-              (score) =>
-                score.game_id === game.id && score.player_id === player.id
-            )}
-          />
-        ))}
-      </Flex>
+      <Players game={game} scores={scores} players={players} />
       <GameLogs logs={logs} players={players} quiz={game.quiz} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}

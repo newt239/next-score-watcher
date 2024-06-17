@@ -71,10 +71,13 @@ const Player: React.FC<Props> = ({
         getColor(editedScore.state) &&
         (computedColorScheme === "light" ? "white" : "gray.8")
       }
-      style={{
-        width: `clamp(8vw, ${
+      w={{
+        base: "100%",
+        md: `clamp(8vw, ${
           (98 - game.players.length) / game.players.length
         }vw, 15vw)`,
+      }}
+      style={{
         borderColor: `var(--mantine-color-${(
           getColor(editedScore.state) ||
           getColor(editedScore.reach_state) ||
@@ -84,14 +87,8 @@ const Player: React.FC<Props> = ({
     >
       <Flex
         className={classes.player_info}
-        style={{
-          width: isDesktop() ? (isVerticalView ? "40vw" : "100%") : "100%",
-          height:
-            isDesktop() && !isVerticalView
-              ? `calc(80vh - ${rows * 4}rem)`
-              : "100%",
-          alignItems: !isVerticalView && isDesktop() ? "center" : "flex-start",
-        }}
+        w={{ base: "100%", md: isVerticalView ? "40vw" : "100%" }}
+        h={{ base: "100%", md: `calc(80vh - ${rows * 4}rem)` }}
       >
         {game.editable ? (
           <PlayerColorConfig
