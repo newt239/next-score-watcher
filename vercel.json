@@ -1,10 +1,4 @@
 {
   "installCommand": "bun install",
-  "outputDirectory": ".next",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
-  ]
+  "outputDirectory": ".next"
 }
