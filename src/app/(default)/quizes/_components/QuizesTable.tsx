@@ -4,7 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
-  Flex,
+  Group,
   Table,
   Text,
   TextInput,
@@ -21,7 +21,7 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Trash } from "tabler-icons-react";
+import { Filter, Trash } from "tabler-icons-react";
 
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
@@ -109,7 +109,7 @@ const QuizesTable: React.FC = () => {
       ) : (
         <Box>
           {
-            <Flex>
+            <Group justify="end" gap="1rem">
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <Button
                   color="red"
@@ -136,12 +136,13 @@ const QuizesTable: React.FC = () => {
               )}
               <Box>
                 <TextInput
+                  leftSection={<Filter />}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="問題文・答え・セット名で検索"
                   value={searchText}
                 />
               </Box>
-            </Flex>
+            </Group>
           }
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>
@@ -151,45 +152,47 @@ const QuizesTable: React.FC = () => {
             </Box>
           ) : (
             <>
-              <Table>
-                <Table.Thead>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <Table.Tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header, i) => (
-                        <Table.Th colSpan={header.colSpan} key={i}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </Table.Th>
-                      ))}
-                    </Table.Tr>
-                  ))}
-                </Table.Thead>
-                <Table.Tbody>
-                  {table.getRowModel().rows.map((row) => {
-                    return (
-                      <Table.Tr key={row.original.id}>
-                        {row.getVisibleCells().map((cell, i) => {
-                          return (
-                            <Table.Td
-                              key={`${row.original.id}_${i}`}
-                              w={cell.column.id === "a" ? 300 : undefined}
-                            >
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
-                            </Table.Td>
-                          );
-                        })}
+              <Table.ScrollContainer minWidth={1000}>
+                <Table>
+                  <Table.Thead>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <Table.Tr key={headerGroup.id}>
+                        {headerGroup.headers.map((header, i) => (
+                          <Table.Th colSpan={header.colSpan} key={i}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </Table.Th>
+                        ))}
                       </Table.Tr>
-                    );
-                  })}
-                </Table.Tbody>
-              </Table>
+                    ))}
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {table.getRowModel().rows.map((row) => {
+                      return (
+                        <Table.Tr key={row.original.id}>
+                          {row.getVisibleCells().map((cell, i) => {
+                            return (
+                              <Table.Td
+                                key={`${row.original.id}_${i}`}
+                                w={cell.column.id === "a" ? 300 : undefined}
+                              >
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </Table.Td>
+                            );
+                          })}
+                        </Table.Tr>
+                      );
+                    })}
+                  </Table.Tbody>
+                </Table>
+              </Table.ScrollContainer>
               <TablePagenation table={table} />
             </>
           )}

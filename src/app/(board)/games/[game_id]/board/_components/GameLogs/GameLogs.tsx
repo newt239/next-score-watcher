@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, Button, Flex, Table } from "@mantine/core";
+import { Box, Button, Group, Table, Text } from "@mantine/core";
 import { cdate } from "cdate";
 import { SortAscending, SortDescending } from "tabler-icons-react";
+
+import classes from "./GameLogs.module.css";
 
 import db from "@/utils/db";
 import { LogDBProps, QuizDBProps } from "@/utils/types";
@@ -34,17 +36,19 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz }) => {
   const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
-    <Flex className="my-10 max-w-full justify-center p-3">
-      <Box className="rounded-md border-solid border-gray-100 p-3 dark:border-gray-700">
+    <Box className={classes.game_logs}>
+      <Group justify="space-between" mb="1rem">
+        <Text>Game Logs</Text>
         <Button
           leftSection={reverse ? <SortAscending /> : <SortDescending />}
           onClick={() => setReverse((v) => !v)}
-          size="md"
-          className="mb-2"
+          size="xs"
         >
           {reverse ? "降順" : "昇順"}
         </Button>
-        {logs.length !== 0 ? (
+      </Group>
+      {logs.length !== 0 ? (
+        <Table.ScrollContainer minWidth={500}>
           <Table>
             <Table.Tbody>
               {
@@ -87,11 +91,11 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz }) => {
               }
             </Table.Tbody>
           </Table>
-        ) : (
-          <p>ここに解答者の一覧が表示されます。</p>
-        )}
-      </Box>
-    </Flex>
+        </Table.ScrollContainer>
+      ) : (
+        <p>ここに解答者の一覧が表示されます。</p>
+      )}
+    </Box>
   );
 };
 

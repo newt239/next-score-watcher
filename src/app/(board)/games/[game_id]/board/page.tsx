@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
 import BoardHeader from "./_components/BoardHeader/BoardHeader";
-import GameLogs from "./_components/GameLogs";
+import GameLogs from "./_components/GameLogs/GameLogs";
 import Player from "./_components/Player/Player";
 import WinModal from "./_components/WinModal";
 

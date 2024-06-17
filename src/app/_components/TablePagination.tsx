@@ -21,7 +21,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           aria-label="最初のページに移動"
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.setPageIndex(0)}
-          size="md"
+          size="lg"
         >
           <ChevronsLeft />
         </ActionIcon>
@@ -29,7 +29,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           aria-label="1ページ戻る"
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
-          size="md"
+          size="lg"
         >
           <ChevronLeft />
         </ActionIcon>
@@ -37,7 +37,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           aria-label="1ページ進む"
           disabled={!table.getCanNextPage()}
           onClick={() => table.nextPage()}
-          size="md"
+          size="lg"
         >
           <ChevronRight />
         </ActionIcon>
@@ -45,7 +45,7 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           aria-label="最後のページに移動"
           disabled={!table.getCanNextPage()}
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          size="md"
+          size="lg"
         >
           <ChevronsRight />
         </ActionIcon>
