@@ -32,6 +32,7 @@ const WebhookSettings = () => {
         placeholder="https://score-watcher.com/api"
         type="url"
         value={WebhookUrl}
+        mb="lg"
       />
     </>
   );

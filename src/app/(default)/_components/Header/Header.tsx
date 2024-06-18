@@ -14,7 +14,7 @@ export default function Header() {
         <Flex component={Link} className={classes.header_link} href="/">
           <picture className={classes.header_logo}>
             <source
-              media="(max-width:962px)"
+              media="(max-width:62em)"
               srcSet="logo_white.png 400w"
               sizes="100vw"
             />

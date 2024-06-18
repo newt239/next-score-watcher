@@ -6,9 +6,13 @@ const CurrentVersion: React.FC = () => {
   const [currentVersion, setCurrentVersion] = useState<string>("");
 
   useEffect(() => {
+    const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION!;
     const version = window.localStorage.getItem("scorewatcher-version");
-    if (version) {
-      setCurrentVersion(version);
+    if (version !== latestVersion) {
+      setCurrentVersion(latestVersion);
+      window.localStorage.setItem("scorewatcher-version", latestVersion);
+    } else {
+      setCurrentVersion(version || "");
     }
   }, []);
 

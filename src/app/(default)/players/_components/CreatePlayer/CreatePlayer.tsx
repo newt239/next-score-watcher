@@ -3,10 +3,12 @@
 import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { Box, Button, Flex, TextInput } from "@mantine/core";
+import { Button, Flex, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
+
+import classes from "./CreatePlayer.module.css";
 
 import db from "@/utils/db";
 import { GameDBPlayerProps } from "@/utils/types";
@@ -64,8 +66,8 @@ const CreatePlayer: React.FC = () => {
   };
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
-      <Box className="grid w-full grid-cols-1 gap-3 md:grid-cols-2">
+    <Flex className={classes.create_player}>
+      <Flex className={classes.create_player_forms}>
         <TextInput
           label="氏名"
           onChange={(v) => setPlayerName(v.target.value)}
@@ -88,7 +90,7 @@ const CreatePlayer: React.FC = () => {
           placeholder="文蔵高校"
           value={playerBelong}
         />
-      </Box>
+      </Flex>
       <Flex className="w-full justify-end">
         <Button
           disabled={playerName === ""}

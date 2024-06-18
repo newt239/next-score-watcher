@@ -4,6 +4,8 @@ import { Group, Text, rem } from "@mantine/core";
 import { DropzoneProps, Dropzone as MantineDropzone } from "@mantine/dropzone";
 import { Photo, Upload, X } from "tabler-icons-react";
 
+import classes from "./Dropzone.module.css";
+
 const Dropzone = (props: Partial<DropzoneProps>) => {
   return (
     <MantineDropzone
@@ -13,12 +15,7 @@ const Dropzone = (props: Partial<DropzoneProps>) => {
       accept={["text/csv"]}
       {...props}
     >
-      <Group
-        justify="center"
-        gap="xl"
-        mih={220}
-        style={{ pointerEvents: "none" }}
-      >
+      <Group className={classes.dropzone_inner}>
         <MantineDropzone.Accept>
           <Upload
             style={{
@@ -49,10 +46,10 @@ const Dropzone = (props: Partial<DropzoneProps>) => {
 
         <div>
           <Text size="xl" inline>
-            Drag images here or click to select files
+            このエリアにCSVファイルをドロップ
           </Text>
           <Text size="sm" c="dimmed" inline mt={7}>
-            Attach as many files as you like, each file should not exceed 5mb
+            またはクリックしてCSVファイルを選択
           </Text>
         </div>
       </Group>

@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 
 import {
-  Box,
   Button,
   Flex,
   Group,
@@ -15,6 +14,8 @@ import {
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
+
+import classes from "./LoadPlayer.module.css";
 
 import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
@@ -60,19 +61,18 @@ const LoadPlayer: React.FC = () => {
   `;
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
-      <Box>
-        <Text>
-          Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </Text>
-        <Textarea
-          onChange={(e) => setRawPlayerText(e.target.value)}
-          placeholder={placeholderText}
-          ref={textareaRef}
-          value={rawPlayerText}
-        />
-        <Text>A列: 氏名、 B列: 順位、 C列: 所属</Text>
-      </Box>
+    <Flex className={classes.load_player}>
+      <Text>
+        Excelやスプレッドシートからコピーし、まとめてインポートできます。
+      </Text>
+      <Textarea
+        rows={4}
+        onChange={(e) => setRawPlayerText(e.target.value)}
+        placeholder={placeholderText}
+        ref={textareaRef}
+        value={rawPlayerText}
+      />
+      <Text>A列: 氏名、 B列: 順位、 C列: 所属</Text>
       <Group justify="end">
         <RadioGroup
           onChange={(e) => setSparateType(e as "tab" | "comma")}

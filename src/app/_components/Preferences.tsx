@@ -34,7 +34,7 @@ const Preferences = () => {
   });
 
   return (
-    <Flex className="flex-col gap-4">
+    <Flex className="flex-col gap-4" mb="lg">
       <Switch
         checked={computedColorScheme === "dark"}
         onChange={() =>

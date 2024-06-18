@@ -4,9 +4,9 @@ import { Suspense } from "react";
 
 import { Tabs, Title } from "@mantine/core";
 
-import CreatePlayer from "./CreatePlayer";
-import ImportPlayer from "./ImportPlayer";
-import LoadPlayer from "./LoadPlayer";
+import CreatePlayer from "./CreatePlayer/CreatePlayer";
+import ImportPlayer from "./ImportPlayer/ImportPlayer";
+import LoadPlayer from "./LoadPlayer/LoadPlayer";
 import PlayersTable from "./PlayersTable";
 
 const ManagePlayer = () => {

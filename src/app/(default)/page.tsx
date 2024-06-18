@@ -1,4 +1,4 @@
-import Features from "./_components/Features";
+import Features from "./_components/Features/Features";
 import Hero from "./_components/Hero";
 import Term from "./_components/Term";
 

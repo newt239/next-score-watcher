@@ -70,7 +70,7 @@ const GameList: React.FC = () => {
       ) : (
         <Box className={classes.game_list_grid}>
           {parsedGameList.map((game) => (
-            <Card shadow="xs" key={game.id} title={game.name}>
+            <Card shadow="xs" key={game.id} title={game.name} withBorder>
               <Card.Section
                 className={classes.game_name}
                 withBorder

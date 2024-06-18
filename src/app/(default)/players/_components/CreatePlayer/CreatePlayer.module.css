@@ -1,0 +1,13 @@
+.create_player {
+  display: flex;
+  flex-direction: column;
+  height: 35vh;
+  gap: 1rem;
+}
+
+.create_player_forms {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 0.5rem;
+}

@@ -2,10 +2,12 @@
 
 import { useRef, useState } from "react";
 
-import { Box, Button, Flex, Group, Radio, Text, Textarea } from "@mantine/core";
+import { Button, Flex, Group, Radio, Text, Textarea } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
+
+import classes from "./LoadQuiz.module.css";
 
 import db from "@/utils/db";
 import { str2num } from "@/utils/functions";
@@ -60,20 +62,19 @@ const LoadQuiz: React.FC<Props> = ({ set_name }) => {
   `;
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
-      <Box>
-        <Text>
-          Excelやスプレッドシートからコピーし、まとめてインポートできます。
-        </Text>
-        <Textarea
-          disabled={set_name === ""}
-          onChange={(e) => setRawQuizText(e.target.value)}
-          placeholder={placeholderText}
-          ref={textareaRef}
-          value={rawQuizText}
-        />
-        <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
-      </Box>
+    <Flex className={classes.load_quiz}>
+      <Text>
+        Excelやスプレッドシートからコピーし、まとめてインポートできます。
+      </Text>
+      <Textarea
+        rows={4}
+        disabled={set_name === ""}
+        onChange={(e) => setRawQuizText(e.target.value)}
+        placeholder={placeholderText}
+        ref={textareaRef}
+        value={rawQuizText}
+      />
+      <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
       <Group justify="end">
         <Radio.Group
           onChange={(e) => setSparateType(e as "tab" | "comma")}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Text } from "@mantine/core";
+import { Button, Group, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import db from "@/utils/db";
@@ -29,10 +29,12 @@ const InitializeApp: React.FC = () => {
   return (
     <>
       <h3>アプリの初期化</h3>
-      <Text>アプリが上手く動作しない場合にお試しください。</Text>
-      <Button onClick={openInitializeModal} color="red">
-        初期化する
-      </Button>
+      <Group justify="space-between" gap="1rem" mb="lg">
+        <Text>アプリが上手く動作しない場合にお試しください。</Text>
+        <Button onClick={openInitializeModal} color="red">
+          初期化する
+        </Button>
+      </Group>
     </>
   );
 };

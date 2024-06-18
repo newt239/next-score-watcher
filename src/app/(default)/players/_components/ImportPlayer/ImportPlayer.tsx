@@ -6,15 +6,12 @@ import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
-import Dropzone from "@/app/_components/Dropzone";
+import classes from "./ImportPlayer.module.css";
+
+import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
-import { str2num } from "@/utils/functions";
 
-type Props = {
-  set_name: string;
-};
-
-const ImportQuiz: React.FC<Props> = ({ set_name }) => {
+export default function ImportPlayer() {
   const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
     if (files && files.length > 0) {
@@ -48,24 +45,21 @@ const ImportQuiz: React.FC<Props> = ({ set_name }) => {
         const values = row.split(",");
         return {
           id: nanoid(),
-          n: str2num(values[0]),
-          q: values[1] || "",
-          a: values[2] || "",
-          set_name,
+          name: values[0] || "",
+          text: values[1] || "",
+          belong: values[2] || "",
+          tags: [],
         };
       })
-      .filter((row) => row.q !== "");
-    await db().quizes.bulkPut(filteredRows);
+      .filter((row) => row.name !== "");
+    await db().players.bulkPut(filteredRows);
     return filteredRows.length;
   };
 
   return (
-    <Flex className="h-[45vh] flex-col justify-between md:h-[30vh]">
-      <Text>CSVファイルからインポートできます。</Text>
-      <Dropzone disabled={set_name === ""} onDrop={handleOnChange} />
-      <Text>1列目: 問題番号、 2列目: 問題文 3列目: 答え</Text>
+    <Flex className={classes.import_player}>
+      <Dropzone onDrop={handleOnChange} />
+      <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
     </Flex>
   );
-};
-
-export default ImportQuiz;
+}

@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { Tabs, TextInput, Title } from "@mantine/core";
 
-import ImportQuiz from "./ImportQuiz";
-import LoadQuiz from "./LoadQuiz";
+import ImportQuiz from "./ImportQuiz/ImportQuiz";
+import LoadQuiz from "./LoadQuiz/LoadQuiz";
 import QuizesTable from "./QuizesTable";
 
 const ManageQuiz = () => {
