@@ -2,9 +2,5 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: 40vh;
-
-  @mixin larger-than 62em {
-    height: 30vh;
-  }
+  height: 35vh;
 }

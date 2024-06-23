@@ -53,6 +53,7 @@ const QuizesTable: React.FC = () => {
       header: ({ table }) => {
         return (
           <Checkbox
+            radius="xs"
             checked={table.getIsAllRowsSelected()}
             indeterminate={table.getIsSomeRowsSelected()}
             onChange={() => table.toggleAllRowsSelected()}
@@ -62,6 +63,7 @@ const QuizesTable: React.FC = () => {
       cell: ({ row }) => {
         return (
           <Checkbox
+            radius="xs"
             checked={row.getIsSelected()}
             onChange={() => row.toggleSelected()}
           />
@@ -73,11 +75,9 @@ const QuizesTable: React.FC = () => {
     }),
     columnHelper.accessor("q", {
       header: "問題文",
-      size: 500,
     }),
     columnHelper.accessor("a", {
       header: "答え",
-      size: 250,
     }),
     columnHelper.accessor("set_name", {
       header: "セット名",
@@ -120,7 +120,7 @@ const QuizesTable: React.FC = () => {
                     await db().quizes.bulkDelete(
                       table
                         .getSelectedRowModel()
-                        .rows.map(({ original: quiz }) => quiz.id)
+                        .rows.map((row) => row.original.id)
                     );
                     notifications.show({
                       message: `${
@@ -129,7 +129,7 @@ const QuizesTable: React.FC = () => {
                       autoClose: 9000,
                       withCloseButton: true,
                     });
-                    setSelectedQuizes([]);
+                    setSelectedQuizes({});
                   }}
                   size="sm"
                 >

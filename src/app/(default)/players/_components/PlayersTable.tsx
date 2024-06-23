@@ -58,6 +58,7 @@ const PlayersTable: React.FC = () => {
       header: ({ table }) => {
         return (
           <Checkbox
+            radius="xs"
             checked={table.getIsAllRowsSelected()}
             indeterminate={table.getIsSomeRowsSelected()}
             onChange={() => table.toggleAllRowsSelected()}
@@ -67,6 +68,7 @@ const PlayersTable: React.FC = () => {
       cell: ({ row }) => {
         return (
           <Checkbox
+            radius="xs"
             checked={row.getIsSelected()}
             onChange={() => row.toggleSelected()}
           />
@@ -127,7 +129,7 @@ const PlayersTable: React.FC = () => {
       autoClose: 9000,
       withCloseButton: true,
     });
-    setSelectedPlayers([]);
+    setSelectedPlayers({});
   };
 
   return (
