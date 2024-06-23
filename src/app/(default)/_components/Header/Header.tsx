@@ -30,7 +30,10 @@ export default function Header() {
           <SubMenu />
           <Flex className={classes.header_copyright}>
             <Box>
-              © <Link href="https://twitter.com/newt239">newt239</Link>
+              ©{" "}
+              <Link href="https://twitter.com/newt239" target="_blank">
+                newt239
+              </Link>
             </Box>
             <Box>2022-2024</Box>
           </Flex>

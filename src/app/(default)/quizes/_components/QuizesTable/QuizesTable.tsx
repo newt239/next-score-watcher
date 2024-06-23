@@ -23,6 +23,8 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { Filter, Trash } from "tabler-icons-react";
 
+import classes from "./QuizesTable.module.css";
+
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
 import { QuizDBProps } from "@/utils/types";
@@ -153,7 +155,7 @@ const QuizesTable: React.FC = () => {
           ) : (
             <>
               <Table.ScrollContainer minWidth={1000}>
-                <Table>
+                <Table className={classes.quizes_table}>
                   <Table.Thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                       <Table.Tr key={headerGroup.id}>

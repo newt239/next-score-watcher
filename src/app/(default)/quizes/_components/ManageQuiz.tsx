@@ -6,7 +6,7 @@ import { Tabs, TextInput, Title } from "@mantine/core";
 
 import ImportQuiz from "./ImportQuiz/ImportQuiz";
 import LoadQuiz from "./LoadQuiz/LoadQuiz";
-import QuizesTable from "./QuizesTable";
+import QuizesTable from "./QuizesTable/QuizesTable";
 
 const ManageQuiz = () => {
   const [setName, setSetName] = useState<string>("セット1");

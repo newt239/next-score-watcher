@@ -16,6 +16,9 @@ type Props = {
 const TablePagenation: React.FC<Props> = ({ table }) => {
   return (
     <Group justify="end">
+      <Text>
+        {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
+      </Text>
       <ActionIcon.Group>
         <ActionIcon
           aria-label="最初のページに移動"
@@ -50,10 +53,6 @@ const TablePagenation: React.FC<Props> = ({ table }) => {
           <ChevronsRight />
         </ActionIcon>
       </ActionIcon.Group>
-
-      <Text>
-        {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
-      </Text>
       <NativeSelect
         onChange={(e) => {
           table.setPageSize(Number(e.target.value));
