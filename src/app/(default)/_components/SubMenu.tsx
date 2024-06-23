@@ -7,6 +7,7 @@ import {
   ExternalLink,
   Help,
   Home,
+  InfoCircle,
   List,
   ListDetails,
   QuestionMark,
@@ -23,6 +24,7 @@ const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
   { path: "/players", text: "プレイヤー管理", icon: <Users /> },
   { path: "/quizes", text: "問題管理", icon: <QuestionMark /> },
   { path: "/option", text: "アプリ設定", icon: <Settings /> },
+  { path: "/docs", text: "アプリ情報", icon: <InfoCircle /> },
   {
     path: "https://docs.score-watcher.com/",
     text: "使い方を見る",

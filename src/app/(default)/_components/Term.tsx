@@ -13,7 +13,13 @@ const Term: React.FC = () => {
           データはすべて端末上に保存されますが、アップデートにより予告なくデータがリセットされることがあります。
         </li>
         <li>
-          本アプリの開発者はユーザーが本アプリを使用したことにより生じる損害について、いかなる責任も負いません。
+          本サービスの開発者はユーザーが本サービスを使用したことにより生じる損害について、いかなる責任も負いません。
+        </li>
+        <li>
+          本サービスを利用することにより
+          <Link href="/docs/terms_of_service">利用規約</Link>及び
+          <Link href="/docs/privacy_policy">プライバシーポリシー</Link>
+          に同意したものとみなします。
         </li>
         <li>
           お問い合わせは
@@ -24,7 +30,7 @@ const Term: React.FC = () => {
           からお願いします。
         </li>
         <li>
-          本アプリを利用した際はぜひ
+          本サービスを利用した際はぜひ
           <Link href="https://twitter.com/hashtag/ScoreWatcher?f=live">
             #ScoreWatcher
           </Link>

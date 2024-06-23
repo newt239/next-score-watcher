@@ -44,7 +44,7 @@ export default function Hero() {
         <Button
           component={Link}
           href="/rules"
-          size="md"
+          size="lg"
           rightSection={<ArrowRight />}
         >
           ゲームを作る
