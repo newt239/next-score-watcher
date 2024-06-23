@@ -3,6 +3,16 @@
   border-radius: 0.25rem;
   border-width: 1px;
   border-style: solid;
+  border-color: transparent;
+
+  &[data-disabled="true"] {
+    border-color: var(--mantine-color-red-9);
+    cursor: not-allowed;
+
+    @mixin dark {
+      border-color: var(--mantine-color-red-3);
+    }
+  }
 }
 
 .game_start_wrapper {
@@ -19,4 +29,8 @@
     flex-direction: row;
     gap: 0;
   }
+}
+
+.error_message {
+  color: var(--mantine-color-red-3);
 }

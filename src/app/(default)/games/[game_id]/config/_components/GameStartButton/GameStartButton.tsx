@@ -1,7 +1,6 @@
 "use client";
 
-import { Box, Button, Flex, List } from "@mantine/core";
-import { useViewportSize } from "@mantine/hooks";
+import { Box, Button, Flex, List, useComputedColorScheme } from "@mantine/core";
 import { PlayerPlay } from "tabler-icons-react";
 
 import classes from "./GameStartButton.module.css";
@@ -16,7 +15,7 @@ type Props = {
 };
 
 const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
-  const { width } = useViewportSize();
+  const computedColorScheme = useComputedColorScheme("light");
 
   const errorMessages = [];
   if (game.players.length === 0)
@@ -41,19 +40,10 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
   return (
     <Box
       className={classes.game_start_container}
-      style={{
-        borderColor: playButtonIsDisabled
-          ? "red.5!important"
-          : "white!important",
-        _dark: {
-          borderColor: playButtonIsDisabled
-            ? "red.3!important"
-            : "gray.8!important",
-        },
-      }}
+      data-disabled={playButtonIsDisabled}
     >
       <Flex className={classes.game_start_wrapper}>
-        <List className="text-red-500">
+        <List className={classes.error_message}>
           {errorMessages.map((m) => (
             <List.Item key={m}>{m}</List.Item>
           ))}

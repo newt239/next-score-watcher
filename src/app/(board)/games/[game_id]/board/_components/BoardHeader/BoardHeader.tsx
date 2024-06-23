@@ -9,7 +9,6 @@ import {
   Flex,
   Menu,
   MenuDivider,
-  useComputedColorScheme,
 } from "@mantine/core";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 import { cdate } from "cdate";
@@ -21,6 +20,8 @@ import {
   Comet,
   Maximize,
   Settings,
+  Square,
+  SquareCheck,
 } from "tabler-icons-react";
 
 import PreferenceDrawer from "../PreferenceDrawer";
@@ -38,7 +39,6 @@ type Props = {
 };
 
 const BoardHeader: React.FC<Props> = ({ game, logs }) => {
-  const colorScheme = useComputedColorScheme("light");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
@@ -73,9 +73,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
     : 0;
 
   useEffect(() => {
-    if (game.quiz) {
-      setManualQuizPosition(game.quiz.offset + qn);
-    }
+    setManualQuizPosition((game.quiz ? game.quiz.offset : 0) + qn);
   }, [game.editable]);
 
   if (!game || !logs) return null;
@@ -108,7 +106,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
                 </Button>
                 <Button
                   h="auto"
-                  disabled={manualQuizPosition >= quizList.length - 1}
+                  disabled={
+                    game.quiz && manualQuizPosition >= quizList.length - 1
+                  }
                   onClick={() => setManualQuizPosition((v) => v + 1)}
                 >
                   {">"}
@@ -170,6 +170,21 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
               }}
             >
               一つ戻す
+            </Menu.Item>
+            <Menu.Item
+              leftSection={game.editable ? <SquareCheck /> : <Square />}
+              onClick={async () => {
+                try {
+                  await db().games.put({
+                    ...game,
+                    editable: !game.editable,
+                  });
+                } catch (e) {
+                  console.log(e);
+                }
+              }}
+            >
+              スコアの手動更新
             </Menu.Item>
             {document.fullscreenEnabled && (
               <Menu.Item

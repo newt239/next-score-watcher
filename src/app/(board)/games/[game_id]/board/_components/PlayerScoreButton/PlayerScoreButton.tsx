@@ -2,7 +2,11 @@
 
 import React from "react";
 
-import { UnstyledButton, useComputedColorScheme } from "@mantine/core";
+import {
+  TextInput,
+  UnstyledButton,
+  useComputedColorScheme,
+} from "@mantine/core";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
@@ -76,31 +80,53 @@ const PlayerScoreButton: React.FC<Props> = ({
   };
 
   return (
-    <UnstyledButton
-      onClick={onClick || handleClick}
-      className={classes.player_score_button}
-      style={{
-        cursor:
-          disabled && color === "gray"
-            ? "not-allowed"
-            : disabled || color === "green" || editable
-            ? "default"
-            : "pointer",
-      }}
-      c={filled ? defaultColor : variantColor}
-      bg={filled ? variantColor : "transparent"}
-    >
-      {numberSign === "none" ? (
-        children
+    <>
+      {editable ? (
+        <TextInput
+          variant="unstyled"
+          classNames={{ input: classes.player_score_button }}
+          data-compact={compact}
+          styles={{
+            input: {
+              cursor: "text",
+              color: `var(--mantine-color-${(filled
+                ? defaultColor
+                : variantColor
+              ).replace(".", "-")})`,
+              backgroundColor: filled ? variantColor : "transparent",
+            },
+          }}
+          defaultValue={children}
+        />
       ) : (
-        <>
-          <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
-          <span style={{ fontSize: "75%" }}>
-            {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
-          </span>
-        </>
+        <UnstyledButton
+          onClick={onClick || handleClick}
+          className={classes.player_score_button}
+          data-compact={compact}
+          style={{
+            cursor:
+              disabled && color === "gray"
+                ? "not-allowed"
+                : disabled || color === "green" || editable
+                ? "default"
+                : "pointer",
+          }}
+          c={filled ? defaultColor : variantColor}
+          bg={filled ? variantColor : "transparent"}
+        >
+          {numberSign === "none" ? (
+            children
+          ) : (
+            <>
+              <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
+              <span style={{ fontSize: "75%" }}>
+                {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
+              </span>
+            </>
+          )}
+        </UnstyledButton>
       )}
-    </UnstyledButton>
+    </>
   );
 };
 

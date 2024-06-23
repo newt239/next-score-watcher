@@ -2,11 +2,17 @@
   display: block;
   font-weight: 700;
   line-height: 3rem;
-  font-size: 1.5rem;
+  font-size: 3rem;
   text-align: center;
   height: 4rem;
   width: 100%;
   border-radius: 0;
   white-space: nowrap;
   overflow: hidden;
+
+  &[data-compact="true"] {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    height: 3rem;
+  }
 }

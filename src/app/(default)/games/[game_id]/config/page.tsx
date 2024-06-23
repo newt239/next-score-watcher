@@ -94,61 +94,59 @@ export default function ConfigPage({
         </Accordion.Item>
       </Accordion>
       <GameStartButton game={game} logs={logs} disabled={disabled} />
-      <Box>
-        <Tabs
-          pt="lg"
-          variant="outline"
-          orientation="horizontal"
-          defaultValue="rule"
-        >
-          <Tabs.List my="lg" grow>
-            <Tabs.Tab size="1.5rem" value="rule">
-              形式設定
-            </Tabs.Tab>
-            <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
-            <Tabs.Tab value="other">その他の設定</Tabs.Tab>
-          </Tabs.List>
+      <Tabs
+        pt="lg"
+        variant="outline"
+        orientation="horizontal"
+        defaultValue="rule"
+      >
+        <Tabs.List my="lg" grow>
+          <Tabs.Tab size="1.5rem" value="rule">
+            形式設定
+          </Tabs.Tab>
+          <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
+          <Tabs.Tab value="other">その他の設定</Tabs.Tab>
+        </Tabs.List>
 
-          <Tabs.Panel value="rule">
-            <RuleSettings disabled={disabled} game={game} />
-          </Tabs.Panel>
-          <Tabs.Panel value="player">
-            <PlayersConfig
-              disabled={disabled}
-              game_id={game.id}
-              playerList={players}
-              players={game.players}
-              rule_name={game.rule}
-            />
-          </Tabs.Panel>
-          <Tabs.Panel value="other">
-            <SelectQuizset
-              game_id={game.id}
-              game_quiz={game.quiz}
-              quizset_names={quizsetList}
-            />
-            <h3>オプション</h3>
-            <ConfigInput
-              label="Discord Webhook"
-              input_id="discord_webhook_url"
-              placeholder="https://discord.com/api/webhooks/..."
-              type="url"
-            />
-            <h3>ゲーム</h3>
-            <CopyGame game={game} />
-            <Title order={4}>エクスポート</Title>
-            <ExportGame game={game} />
-            <Title order={4}>ゲームを削除</Title>
-            <Button
-              color="red"
-              leftSection={<Trash />}
-              onClick={showDeleteGameConfirm}
-            >
-              削除する
-            </Button>
-          </Tabs.Panel>
-        </Tabs>
-      </Box>
+        <Tabs.Panel value="rule">
+          <RuleSettings disabled={disabled} game={game} />
+        </Tabs.Panel>
+        <Tabs.Panel value="player">
+          <PlayersConfig
+            disabled={disabled}
+            game_id={game.id}
+            playerList={players}
+            players={game.players}
+            rule_name={game.rule}
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="other">
+          <SelectQuizset
+            game_id={game.id}
+            game_quiz={game.quiz}
+            quizset_names={quizsetList}
+          />
+          <h3>オプション</h3>
+          <ConfigInput
+            label="Discord Webhook"
+            input_id="discord_webhook_url"
+            placeholder="https://discord.com/api/webhooks/..."
+            type="url"
+          />
+          <h3>ゲーム</h3>
+          <CopyGame game={game} />
+          <Title order={4}>エクスポート</Title>
+          <ExportGame game={game} />
+          <Title order={4}>ゲームを削除</Title>
+          <Button
+            color="red"
+            leftSection={<Trash />}
+            onClick={showDeleteGameConfirm}
+          >
+            削除する
+          </Button>
+        </Tabs.Panel>
+      </Tabs>
     </>
   );
 }

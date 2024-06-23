@@ -1,23 +1,24 @@
+"use client";
+
 import { Dispatch, SetStateAction } from "react";
 
 import {
   ActionIcon,
   Popover,
   Radio,
-  Stack,
   useComputedColorScheme,
 } from "@mantine/core";
 import { Edit } from "tabler-icons-react";
 
 import { States } from "@/utils/types";
 
-type PlayerColorConfigProps = {
+type Props = {
   colorState: string | undefined;
   editableState: States;
   setEditableState: Dispatch<SetStateAction<States>>;
 };
 
-const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
+const PlayerColorConfig: React.FC<Props> = ({
   colorState,
   editableState,
   setEditableState,
@@ -43,15 +44,14 @@ const PlayerColorConfig: React.FC<PlayerColorConfigProps> = ({
         }}
       >
         <h4>背景色を変更</h4>
+
         <Radio.Group
           onChange={(newState) => setEditableState(newState as States)}
           value={editableState}
         >
-          <Stack>
-            <Radio value="playing">デフォルト</Radio>
-            <Radio value="win">赤</Radio>
-            <Radio value="lose">青</Radio>
-          </Stack>
+          <Radio value="playing" label="デフォルト" />
+          <Radio value="win" label="赤" />
+          <Radio value="lose" label="青" />
         </Radio.Group>
       </Popover.Dropdown>
     </Popover>

@@ -13,7 +13,6 @@ import PlayerScore from "../PlayerScore/PlayerScore";
 import classes from "./Player.module.css";
 
 import db from "@/utils/db";
-import { isDesktop } from "@/utils/functions";
 import { rules } from "@/utils/rules";
 import { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
 
@@ -66,6 +65,7 @@ const Player: React.FC<Props> = ({
   return (
     <Flex
       className={classes.player}
+      data-vertical={isVerticalView}
       bg={getColor(editedScore.state)}
       c={
         getColor(editedScore.state) &&
@@ -87,8 +87,8 @@ const Player: React.FC<Props> = ({
     >
       <Flex
         className={classes.player_info}
-        w={{ base: "100%", md: isVerticalView ? "40vw" : "100%" }}
-        h={{ base: "100%", md: `calc(80vh - ${rows * 4}rem)` }}
+        data-vertical={isVerticalView}
+        data-rows={rows}
       >
         {game.editable ? (
           <PlayerColorConfig
@@ -100,7 +100,7 @@ const Player: React.FC<Props> = ({
           <PlayerHeader
             belong={player.belong}
             index={index}
-            isVerticalView={(isVerticalView && isDesktop()) || !isDesktop()}
+            isVerticalView={true}
             text={player.text}
           />
         )}

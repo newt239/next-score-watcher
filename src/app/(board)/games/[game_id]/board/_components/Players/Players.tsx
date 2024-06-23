@@ -1,6 +1,7 @@
 "use client";
 
 import { Flex } from "@mantine/core";
+import { useViewportSize } from "@mantine/hooks";
 
 import Player from "../Player/Player";
 
@@ -19,13 +20,18 @@ type Props = {
 };
 
 const Players: React.FC<Props> = ({ game, scores, players }) => {
+  const { width } = useViewportSize();
+
+  const isDesktop = width > 992;
+  const isVerticalView = isDesktop && players.length > 10;
+
   return (
     <Flex className={classes.players} id="players-area">
       {players.map((player, i) => (
         <Player
           game_id={game.id}
           index={i}
-          isVerticalView={players.length > 10}
+          isVerticalView={isVerticalView}
           key={i}
           player={player}
           score={scores.find(
