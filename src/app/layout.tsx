@@ -40,8 +40,12 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#28a745" />
         <link rel="manifest" href="/manifest.json" />
-        <GoogleTagManager gtmId={process.env.GA_ID!} />
-        <GoogleAnalytics gaId={process.env.TAG_ID!} />
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <GoogleTagManager gtmId={process.env.GA_ID!} />
+            <GoogleAnalytics gaId={process.env.TAG_ID!} />
+          </>
+        )}
         <ColorSchemeScript />
       </head>
       <body>
