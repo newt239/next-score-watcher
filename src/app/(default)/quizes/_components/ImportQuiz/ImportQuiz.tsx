@@ -17,6 +17,7 @@ type Props = {
 };
 
 const ImportQuiz: React.FC<Props> = ({ set_name }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
     if (files && files.length > 0) {
@@ -57,7 +58,7 @@ const ImportQuiz: React.FC<Props> = ({ set_name }) => {
         };
       })
       .filter((row) => row.q !== "");
-    await db().quizes.bulkPut(filteredRows);
+    await db(currentProfile).quizes.bulkPut(filteredRows);
     return filteredRows.length;
   };
 

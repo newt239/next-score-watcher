@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Box, Flex } from "@mantine/core";
 
 import Hamburger from "../Hamburger/Hamburger";
+import ProfileSelector from "../ProfileSelector/profileSelector";
 import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
@@ -28,14 +29,17 @@ export default function Header() {
         </Box>
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
           <SubMenu />
-          <Flex className={classes.header_copyright}>
-            <Box>
-              ©{" "}
-              <Link href="https://twitter.com/newt239" target="_blank">
-                newt239
-              </Link>
-            </Box>
-            <Box>2022-2024</Box>
+          <Flex direction="column" gap={4}>
+            <ProfileSelector />
+            <Flex className={classes.header_copyright}>
+              <Box>
+                ©{" "}
+                <Link href="https://twitter.com/newt239" target="_blank">
+                  newt239
+                </Link>
+              </Box>
+              <Box>2022-2024</Box>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

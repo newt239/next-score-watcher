@@ -26,26 +26,29 @@ export default function ConfigPage({
 }: {
   params: { game_id: string };
 }) {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const router = useRouter();
-  const game = useLiveQuery(() => db().games.get(params.game_id as string));
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(params.game_id as string)
+  );
   const players = useLiveQuery(
-    () => db().players.orderBy("name").toArray(),
+    () => db(currentProfile).players.orderBy("name").toArray(),
     []
   );
   const logs = useLiveQuery(
     () =>
-      db()
+      db(currentProfile)
         .logs.where({ game_id: params.game_id as string })
         .toArray(),
     []
   );
-  const quizes = useLiveQuery(() => db().quizes.toArray(), []);
+  const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
 
   if (!game || !players || !logs) return <NotFound />;
 
   const deleteGame = async () => {
-    await db().games.delete(game.id);
+    await db(currentProfile).games.delete(game.id);
     notifications.show({
       title: "ゲームを削除しました",
       message: `${game.name}(${rules[game.rule].name})を削除しました`,

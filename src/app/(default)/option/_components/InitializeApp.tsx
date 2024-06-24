@@ -6,9 +6,10 @@ import { modals } from "@mantine/modals";
 import db from "@/utils/db";
 
 const InitializeApp: React.FC = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const deleteAppData = () => {
     window.localStorage.removeItem("scorewatcher-version");
-    db()
+    db(currentProfile)
       .delete()
       .then(() => {
         window.document.location.reload();

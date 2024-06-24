@@ -31,8 +31,11 @@ const Player: React.FC<Props> = ({
   score,
   isVerticalView,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const computedColorScheme = useComputedColorScheme("light");
-  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(game_id as string)
+  );
   const [editableState, setEditableState] = useState<States>("playing");
 
   useEffect(() => {

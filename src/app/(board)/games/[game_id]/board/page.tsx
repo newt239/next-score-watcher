@@ -20,21 +20,27 @@ import { getRuleStringByType } from "@/utils/rules";
 import { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
 
 export default function BoardPage({ params }: { params: { game_id: string } }) {
-  const game = useLiveQuery(() => db().games.get(params.game_id as string));
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(params.game_id as string)
+  );
   const logs = useLiveQuery(
     () =>
-      db()
+      db(currentProfile)
         .logs.where({ game_id: params.game_id as string })
         .sortBy("timestamp"),
     []
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
-  const playerList = useLiveQuery(() => db().players.toArray(), []);
+  const playerList = useLiveQuery(
+    () => db(currentProfile).players.toArray(),
+    []
+  );
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   useEffect(() => {
-    db().games.update(params.game_id as string, {
+    db(currentProfile).games.update(params.game_id as string, {
       last_open: cdate().text(),
     });
   }, []);
@@ -106,7 +112,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
           playerIndex <= players.length
         ) {
           if (playerIndex === 0 && players.length >= 10) {
-            await db().logs.put({
+            await db(currentProfile).logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[9].id,
@@ -115,7 +121,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
               timestamp: cdate().text(),
             });
           } else if (playerIndex > 0) {
-            await db().logs.put({
+            await db(currentProfile).logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[playerIndex - 1].id,
@@ -129,7 +135,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
         const playerIndex =
           ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
         if (playerIndex <= players.length) {
-          await db().logs.put({
+          await db(currentProfile).logs.put({
             id: nanoid(),
             game_id: game.id,
             player_id: players[playerIndex].id,
@@ -143,10 +149,10 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
         (event.code === "KeyZ" && event.ctrlKey)
       ) {
         if (logs.length !== 0) {
-          await db().logs.delete(logs[logs.length - 1].id);
+          await db(currentProfile).logs.delete(logs[logs.length - 1].id);
         }
       } else if (event.code === "Period") {
-        await db().logs.put({
+        await db(currentProfile).logs.put({
           id: nanoid(),
           game_id: game.id,
           player_id: "-",
@@ -187,7 +193,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
             <Button
               color="blue"
               onClick={() =>
-                db().logs.put({
+                db(currentProfile).logs.put({
                   id: nanoid(),
                   game_id: game.id,
                   player_id: "-",
@@ -204,7 +210,7 @@ export default function BoardPage({ params }: { params: { game_id: string } }) {
               <Tooltip label="問題番号が進みますが、問題は更新されません。">
                 <Button
                   onClick={() =>
-                    db().logs.put({
+                    db(currentProfile).logs.put({
                       id: nanoid(),
                       game_id: game.id,
                       player_id: "-",

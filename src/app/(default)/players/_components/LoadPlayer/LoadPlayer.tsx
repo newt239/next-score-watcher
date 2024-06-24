@@ -21,6 +21,7 @@ import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
 const LoadPlayer: React.FC = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -41,7 +42,7 @@ const LoadPlayer: React.FC = () => {
           dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
         }
       }
-      await db().players.bulkPut(dataArray);
+      await db(currentProfile).players.bulkPut(dataArray);
       if (dataArray.length !== 0) {
         notifications.show({
           title: "データをインポートしました",

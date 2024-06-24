@@ -16,6 +16,7 @@ type Props = {
 };
 
 const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -28,14 +29,14 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
   };
 
   const addNewPlayer = async () => {
-    const player_id = await db().players.put({
+    const player_id = await db(currentProfile).players.put({
       id: nanoid(),
       name: playerName,
       text: playerText,
       belong: playerBelong,
       tags: [],
     });
-    await db().games.update(game_id, {
+    await db(currentProfile).games.update(game_id, {
       players: [
         ...players,
         {

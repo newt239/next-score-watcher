@@ -20,8 +20,11 @@ const IndividualConfig: React.FC<Props> = ({
   wrong,
   disabled,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(game_id as string)
+  );
 
   if ((!correct && !wrong) || !game || game.players.length <= index)
     return null;
@@ -56,7 +59,7 @@ const IndividualConfig: React.FC<Props> = ({
                     return gamePlayer;
                   }
                 });
-                await db().games.update(game_id as string, {
+                await db(currentProfile).games.update(game_id as string, {
                   players: newPlayers,
                 });
               }
@@ -71,7 +74,7 @@ const IndividualConfig: React.FC<Props> = ({
             min={0}
             onChange={async (n) => {
               if (game && typeof n === "number") {
-                await db().games.update(game_id as string, {
+                await db(currentProfile).games.update(game_id as string, {
                   players: game.players.map((gamePlayer, pi) =>
                     pi === index
                       ? {
@@ -92,7 +95,7 @@ const IndividualConfig: React.FC<Props> = ({
             min={3}
             onChange={async (n) => {
               if (game && typeof n === "number") {
-                await db().games.update(game_id as string, {
+                await db(currentProfile).games.update(game_id as string, {
                   players: game.players.map((gamePlayer, pi) =>
                     pi === index
                       ? {

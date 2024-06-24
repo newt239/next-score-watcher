@@ -33,9 +33,10 @@ import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
 const PlayersTable: React.FC = () => {
-  const games = useLiveQuery(() => db().games.toArray(), []);
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
   const players = useLiveQuery(
-    () => db().players.orderBy("name").toArray(),
+    () => db(currentProfile).players.orderBy("name").toArray(),
     []
   );
   const [searchText, setSearchText] = useState<string>("");
@@ -113,9 +114,12 @@ const PlayersTable: React.FC = () => {
   );
 
   const deletePlayers = async () => {
-    await db().players.bulkDelete(deletePlayerList);
-    await db().logs.where("player_id").anyOf(deletePlayerList).delete();
-    await db()
+    await db(currentProfile).players.bulkDelete(deletePlayerList);
+    await db(currentProfile)
+      .logs.where("player_id")
+      .anyOf(deletePlayerList)
+      .delete();
+    await db(currentProfile)
       .games.where("id")
       .anyOf(affectedGameList.map((game) => game.id))
       .modify({ players: [] });

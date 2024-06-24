@@ -18,6 +18,7 @@ type Props = {
 };
 
 const GameLogs: React.FC<Props> = ({ players, logs, quiz }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const [reverse, setReverse] = useState<Boolean>(true);
@@ -26,7 +27,9 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz }) => {
     const getQuizes = async () => {
       if (quiz) {
         setQuizList(
-          await db().quizes.where({ set_name: quiz.set_name }).sortBy("n")
+          await db(currentProfile)
+            .quizes.where({ set_name: quiz.set_name })
+            .sortBy("n")
         );
       }
     };

@@ -13,8 +13,9 @@ export const createGame = async (
         action_type: "copy-rule" | "copy-all";
       }
 ) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   if (typeof param !== "string") {
-    const game_id = await db().games.put({
+    const game_id = await db(currentProfile).games.put({
       ...param.game,
       id: nanoid(),
       name: `${param.game.name}のコピー`,
@@ -35,7 +36,7 @@ export const createGame = async (
           last_open: cdate().text(),
         };
       const { description, rows, ...params } = rules[param];
-      await db().games.put({
+      await db(currentProfile).games.put({
         ...commonGameProps,
         ...params,
       });

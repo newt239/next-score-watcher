@@ -39,6 +39,7 @@ type Props = {
 };
 
 const BoardHeader: React.FC<Props> = ({ game, logs }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
@@ -53,7 +54,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
     const getQuizList = async () => {
       if (game.quiz) {
         setQuizList(
-          await db().quizes.where({ set_name: game.quiz.set_name }).sortBy("n")
+          await db(currentProfile)
+            .quizes.where({ set_name: game.quiz.set_name })
+            .sortBy("n")
         );
       }
     };
@@ -144,7 +147,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
               disabled={game.editable}
               onClick={async () => {
                 try {
-                  await db().logs.put({
+                  await db(currentProfile).logs.put({
                     id: nanoid(),
                     game_id: game.id,
                     player_id: "-",
@@ -165,7 +168,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
               disabled={logs.length === 0 || game.editable}
               onClick={async () => {
                 if (logs.length !== 0) {
-                  await db().logs.delete(logs[logs.length - 1].id);
+                  await db(currentProfile).logs.delete(
+                    logs[logs.length - 1].id
+                  );
                 }
               }}
             >
@@ -175,7 +180,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs }) => {
               leftSection={game.editable ? <SquareCheck /> : <Square />}
               onClick={async () => {
                 try {
-                  await db().games.put({
+                  await db(currentProfile).games.put({
                     ...game,
                     editable: !game.editable,
                   });

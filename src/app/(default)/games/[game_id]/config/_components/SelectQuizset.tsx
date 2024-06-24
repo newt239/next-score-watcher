@@ -18,6 +18,7 @@ const SelectQuizset: React.FC<Props> = ({
   game_quiz,
   quizset_names,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   return (
     <>
       <h3>問題設定</h3>
@@ -27,7 +28,7 @@ const SelectQuizset: React.FC<Props> = ({
             label="セット名"
             defaultValue={game_quiz?.set_name || ""}
             onChange={async (v) => {
-              await db().games.update(game_id as string, {
+              await db(currentProfile).games.update(game_id as string, {
                 quiz: {
                   set_name: v.target.value,
                   offset: game_quiz?.offset || 0,
@@ -48,7 +49,7 @@ const SelectQuizset: React.FC<Props> = ({
               label="オフセット"
               min={0}
               onChange={(n) => {
-                db().games.update(game_id as string, {
+                db(currentProfile).games.update(game_id as string, {
                   quiz: {
                     set_name: game_quiz.set_name,
                     offset: n,

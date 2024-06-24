@@ -18,6 +18,7 @@ type Props = {
 };
 
 const LoadQuiz: React.FC<Props> = ({ set_name }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const [rawQuizText, setRawQuizText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -42,7 +43,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name }) => {
           });
         }
       }
-      await db().quizes.bulkPut(dataArray);
+      await db(currentProfile).quizes.bulkPut(dataArray);
       if (dataArray.length !== 0) {
         notifications.show({
           title: "データをインポートしました",

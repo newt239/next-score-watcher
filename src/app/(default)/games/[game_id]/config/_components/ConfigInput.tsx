@@ -27,9 +27,12 @@ const ConfigInput: React.FC<Props> = ({
   helperText,
   type,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(game_id as string)
+  );
   const [inputText, setInputText] = useState<string>("");
   const debouncedInputText = useDebouncedValue(inputText, 500);
 
@@ -41,7 +44,7 @@ const ConfigInput: React.FC<Props> = ({
 
   useEffect(() => {
     if (inputText !== "") {
-      db().games.update(game_id as string, {
+      db(currentProfile).games.update(game_id as string, {
         [input_id as any]: inputText,
       });
     }

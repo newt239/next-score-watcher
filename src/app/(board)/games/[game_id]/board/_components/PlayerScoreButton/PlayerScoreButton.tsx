@@ -37,6 +37,7 @@ const PlayerScoreButton: React.FC<Props> = ({
   disabled,
   onClick,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const numberSign = children.endsWith("pt")
     ? "pt"
     : children.endsWith("○")
@@ -65,7 +66,7 @@ const PlayerScoreButton: React.FC<Props> = ({
   const handleClick = async () => {
     if (color !== "green" && !disabled) {
       try {
-        await db().logs.put({
+        await db(currentProfile).logs.put({
           id: nanoid(),
           game_id,
           player_id,

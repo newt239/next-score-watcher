@@ -12,7 +12,8 @@ type SelectPlayerFromExistingGameProps = {
 const SelectPlayerFromExistingGame: React.FC<
   SelectPlayerFromExistingGameProps
 > = ({ game_id }) => {
-  const games = useLiveQuery(() => db().games.toArray(), []);
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
 
   if (!games) return null;
 
@@ -28,7 +29,7 @@ const SelectPlayerFromExistingGame: React.FC<
               (game) => game.id === e.target.value
             );
             if (selectedGame) {
-              await db().games.update(game_id, {
+              await db(currentProfile).games.update(game_id, {
                 players: selectedGame.players,
               });
             }

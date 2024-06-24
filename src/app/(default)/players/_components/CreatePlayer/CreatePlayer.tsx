@@ -14,6 +14,7 @@ import db from "@/utils/db";
 import { GameDBPlayerProps } from "@/utils/types";
 
 const CreatePlayer: React.FC = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   const [playerOrder, setPlayerOrder] = useState<string>("");
@@ -28,7 +29,7 @@ const CreatePlayer: React.FC = () => {
   };
 
   const addNewPlayer = async () => {
-    const playerId = await db().players.put({
+    const playerId = await db(currentProfile).players.put({
       id: nanoid(),
       name: playerName,
       text: playerOrder,
@@ -36,9 +37,9 @@ const CreatePlayer: React.FC = () => {
       tags: [],
     });
     if (from) {
-      const game = await db().games.get(from);
+      const game = await db(currentProfile).games.get(from);
       if (game) {
-        await db().games.update(from, {
+        await db(currentProfile).games.update(from, {
           players: [
             ...game.players,
             {

@@ -33,6 +33,7 @@ const PlayersConfig: React.FC<Props> = ({
   players,
   disabled,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -42,7 +43,7 @@ const PlayersConfig: React.FC<Props> = ({
       if (values.players.length === players.length) {
         for (let i = 0; i < players.length; i++) {
           // 並び替えまたは個人設定の変更が行われたときのみ1回だけ処理する
-          await db().games.update(game_id, {
+          await db(currentProfile).games.update(game_id, {
             players: values.players,
           });
           break;

@@ -12,6 +12,7 @@ import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
 
 export default function ImportPlayer() {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
     if (files && files.length > 0) {
@@ -52,7 +53,7 @@ export default function ImportPlayer() {
         };
       })
       .filter((row) => row.name !== "");
-    await db().players.bulkPut(filteredRows);
+    await db(currentProfile).players.bulkPut(filteredRows);
     return filteredRows.length;
   };
 

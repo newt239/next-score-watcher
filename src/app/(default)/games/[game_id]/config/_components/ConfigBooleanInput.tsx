@@ -25,9 +25,12 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
   disabled,
   helperText,
 }) => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(game_id as string)
+  );
 
   if (!game || !game.options) return null;
 
@@ -49,7 +52,7 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
       checked={isChecked}
       disabled={disabled}
       onChange={(v) => {
-        db().games.update(game_id as string, {
+        db(currentProfile).games.update(game_id as string, {
           options: {
             ...game.options,
             [input_id]: v.target.checked,

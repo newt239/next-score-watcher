@@ -30,8 +30,9 @@ import db from "@/utils/db";
 import { QuizDBProps } from "@/utils/types";
 
 const QuizesTable: React.FC = () => {
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const quizes = useLiveQuery(
-    () => db().quizes.orderBy("set_name").sortBy("n"),
+    () => db(currentProfile).quizes.orderBy("set_name").sortBy("n"),
     []
   );
   const [searchText, setSearchText] = useState<string>("");
@@ -117,7 +118,7 @@ const QuizesTable: React.FC = () => {
                   color="red"
                   leftSection={<Trash />}
                   onClick={async () => {
-                    await db().quizes.bulkDelete(
+                    await db(currentProfile).quizes.bulkDelete(
                       table
                         .getSelectedRowModel()
                         .rows.map((row) => row.original.id)

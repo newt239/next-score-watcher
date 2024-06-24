@@ -12,16 +12,19 @@ type Props = {
 };
 
 const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
-  const game = useLiveQuery(() => db().games.get(game_id as string));
+  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+  const game = useLiveQuery(() =>
+    db(currentProfile).games.get(game_id as string)
+  );
 
   if (!game) return null;
 
   const onGameLimitToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    db().games.update(game_id, {
+    db(currentProfile).games.update(game_id, {
       limit: event.target.checked ? 10 : undefined,
     });
     if (rule !== "attacksurvival") {
-      db().games.update(game_id, {
+      db(currentProfile).games.update(game_id, {
         win_through: event.target.checked ? 3 : undefined,
       });
     }
@@ -42,7 +45,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
           max={100}
           min={0}
           onChange={(n) => {
-            db().games.update(game_id, {
+            db(currentProfile).games.update(game_id, {
               limit: typeof n === "number" ? n : 0,
             });
           }}
@@ -55,7 +58,7 @@ const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
           max={100}
           min={0}
           onChange={(n) => {
-            db().games.update(game_id, {
+            db(currentProfile).games.update(game_id, {
               win_through: typeof n === "number" ? n : 0,
             });
           }}
