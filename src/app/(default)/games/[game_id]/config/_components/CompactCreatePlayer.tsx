@@ -13,10 +13,14 @@ import { GameDBPlayerProps } from "@/utils/types";
 type Props = {
   game_id: string;
   players: GameDBPlayerProps[];
+  currentProfile: string;
 };
 
-const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const CompactCreatePlayer: React.FC<Props> = ({
+  game_id,
+  players,
+  currentProfile,
+}) => {
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");

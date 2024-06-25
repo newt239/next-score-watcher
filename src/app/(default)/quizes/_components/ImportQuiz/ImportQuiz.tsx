@@ -14,10 +14,10 @@ import { str2num } from "@/utils/functions";
 
 type Props = {
   set_name: string;
+  currentProfile: string;
 };
 
-const ImportQuiz: React.FC<Props> = ({ set_name }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const ImportQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
   const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
     if (files && files.length > 0) {

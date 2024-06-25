@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 import { Box, Flex } from "@mantine/core";
@@ -9,6 +10,14 @@ import SubMenu from "../SubMenu";
 import classes from "./Header.module.css";
 
 export default function Header() {
+  const cookieStore = cookies();
+  const profileListCookie = cookieStore.get("scorew_profile_list");
+  const profileList = profileListCookie?.value
+    ? JSON.parse(profileListCookie?.value)
+    : [];
+  const currentProfileCookie = cookieStore.get("scorew_current_profile");
+  const currentProfile = currentProfileCookie?.value || "score_watcher";
+
   return (
     <Box component="header" className={classes.header}>
       <Flex className={classes.header_inner}>
@@ -30,7 +39,10 @@ export default function Header() {
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
           <SubMenu />
           <Flex direction="column" gap={4}>
-            <ProfileSelector />
+            <ProfileSelector
+              profileList={profileList}
+              currentProfile={currentProfile}
+            />
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}

@@ -25,8 +25,7 @@ import {
   WinPlayerProps,
 } from "@/utils/types";
 
-const computeScore = async (game_id: string) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const computeScore = async (game_id: string, currentProfile: string) => {
   const game = await db(currentProfile).games.get(game_id);
   if (!game)
     return { data: { scores: [], win_players: [], incapacity_players: [] } };

@@ -19,6 +19,7 @@ type Props = {
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
   disabled?: boolean;
+  currentProfile: string;
 };
 
 const SelectPlayer: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const SelectPlayer: React.FC<Props> = ({
   playerList,
   players,
   disabled,
+  currentProfile,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -65,7 +67,11 @@ const SelectPlayer: React.FC<Props> = ({
               <Accordion.Item value="add">
                 <Accordion.Control>新しく追加</Accordion.Control>
                 <Accordion.Panel pb={4}>
-                  <CompactCreatePlayer game_id={game_id} players={players} />
+                  <CompactCreatePlayer
+                    currentProfile={currentProfile}
+                    game_id={game_id}
+                    players={players}
+                  />
                 </Accordion.Panel>
               </Accordion.Item>
               <Accordion.Item value="select">
@@ -78,6 +84,7 @@ const SelectPlayer: React.FC<Props> = ({
                     </Box>
                   ) : (
                     <CompactPlayerTable
+                      currentProfile={currentProfile}
                       gamePlayers={players}
                       game_id={game_id}
                       playerList={playerList}
@@ -88,7 +95,10 @@ const SelectPlayer: React.FC<Props> = ({
               <Accordion.Item value="copy">
                 <Accordion.Control>既存のゲームからコピー</Accordion.Control>
                 <Accordion.Panel pb={4}>
-                  <SelectPlayerFromExistingGame game_id={game_id} />
+                  <SelectPlayerFromExistingGame
+                    currentProfile={currentProfile}
+                    game_id={game_id}
+                  />
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>

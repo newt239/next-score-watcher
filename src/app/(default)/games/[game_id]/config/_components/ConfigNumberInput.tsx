@@ -15,6 +15,7 @@ type Props = {
   min?: number;
   max?: number;
   disabled?: boolean;
+  currentProfile: string;
 };
 
 const ConfigNumberInput: React.FC<Props> = ({
@@ -23,8 +24,8 @@ const ConfigNumberInput: React.FC<Props> = ({
   min = 0,
   max = 100,
   disabled,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const id = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() =>

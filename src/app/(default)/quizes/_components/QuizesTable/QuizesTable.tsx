@@ -29,8 +29,11 @@ import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
 import { QuizDBProps } from "@/utils/types";
 
-const QuizesTable: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
   const quizes = useLiveQuery(
     () => db(currentProfile).quizes.orderBy("set_name").sortBy("n"),
     []

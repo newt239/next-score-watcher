@@ -16,13 +16,12 @@ import { Plus } from "tabler-icons-react";
 
 import db from "@/utils/db";
 
-const ProfileSelector: React.FC = () => {
-  const raw = window.localStorage.getItem("scorew_profile_list");
-  const profileList = (
-    raw === undefined || raw === null || raw === "" ? [] : JSON.parse(raw) || []
-  ) as { name: string; id: string }[];
-  const currentProfile =
-    window.localStorage.getItem("scorew_current_profile") || "score_watcher";
+type Props = {
+  profileList: { name: string; id: string }[];
+  currentProfile: string;
+};
+
+const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
   const currentProfileName =
     profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
@@ -39,10 +38,7 @@ const ProfileSelector: React.FC = () => {
             label="選択する"
             defaultValue={currentProfile}
             onChange={(e) => {
-              window.localStorage.setItem(
-                "scorew_current_profile",
-                e.target.value
-              );
+              window.document.cookie = `scorew_current_profile=${e.target.value}`;
               window.location.reload();
             }}
           >
@@ -69,14 +65,10 @@ const ProfileSelector: React.FC = () => {
                 ...profileList,
                 { name: newProfileName, id: newProfileId },
               ];
-              window.localStorage.setItem(
-                "scorew_profile_list",
-                JSON.stringify(newProfileList)
-              );
-              window.localStorage.setItem(
-                "scorew_current_profile",
-                newProfileId
-              );
+              window.document.cookie = `scorew_profile_list=${JSON.stringify(
+                newProfileList
+              )}`;
+              window.document.cookie = `scorew_current_profile=${newProfileId}`;
               window.location.reload();
             }}
           >
@@ -101,14 +93,11 @@ const ProfileSelector: React.FC = () => {
                     const newProfileList = profileList.filter(
                       (p) => p.id !== currentProfile
                     );
-                    window.localStorage.setItem(
-                      "scorew_profile_list",
-                      JSON.stringify(newProfileList)
-                    );
-                    window.localStorage.setItem(
-                      "scorew_current_profile",
-                      "score_watcher"
-                    );
+                    window.document.cookie = `scorew_profile_list=${JSON.stringify(
+                      newProfileList
+                    )}`;
+                    window.document.cookie =
+                      "scorew_current_profile=score_watcher";
                     db(currentProfile)
                       .delete()
                       .then(() => {

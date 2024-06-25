@@ -17,9 +17,15 @@ type Props = {
   game: GamePropsUnion;
   scores: ComputedScoreProps[];
   players: PlayerDBProps[];
+  currentProfile: string;
 };
 
-const Players: React.FC<Props> = ({ game, scores, players }) => {
+const Players: React.FC<Props> = ({
+  game,
+  scores,
+  players,
+  currentProfile,
+}) => {
   const { width } = useViewportSize();
 
   const isDesktop = width > 992;
@@ -29,6 +35,7 @@ const Players: React.FC<Props> = ({ game, scores, players }) => {
     <Flex className={classes.players} id="players-area">
       {players.map((player, i) => (
         <Player
+          currentProfile={currentProfile}
           game_id={game.id}
           index={i}
           isVerticalView={isVerticalView}

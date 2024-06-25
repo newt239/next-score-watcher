@@ -15,10 +15,10 @@ type Props = {
   players: { id: string; name: string }[];
   logs: LogDBProps[];
   quiz: { set_name: string; offset: number } | undefined;
+  currentProfile: string;
 };
 
-const GameLogs: React.FC<Props> = ({ players, logs, quiz }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
 
   const [reverse, setReverse] = useState<Boolean>(true);

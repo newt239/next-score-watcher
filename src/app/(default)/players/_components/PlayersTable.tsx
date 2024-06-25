@@ -32,8 +32,11 @@ import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
-const PlayersTable: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
   const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
   const players = useLiveQuery(
     () => db(currentProfile).players.orderBy("name").toArray(),

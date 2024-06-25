@@ -22,6 +22,7 @@ type Props = {
   index: number;
   score: ComputedScoreProps | undefined;
   isVerticalView: boolean;
+  currentProfile: string;
 };
 
 const Player: React.FC<Props> = ({
@@ -30,8 +31,8 @@ const Player: React.FC<Props> = ({
   index,
   score,
   isVerticalView,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const computedColorScheme = useComputedColorScheme("light");
   const game = useLiveQuery(() =>
     db(currentProfile).games.get(game_id as string)
@@ -109,7 +110,11 @@ const Player: React.FC<Props> = ({
         )}
         <PlayerName player_name={player.name} />
       </Flex>
-      <PlayerScore game={game} player={editedScore} />
+      <PlayerScore
+        game={game}
+        player={editedScore}
+        currentProfile={currentProfile}
+      />
     </Flex>
   );
 };

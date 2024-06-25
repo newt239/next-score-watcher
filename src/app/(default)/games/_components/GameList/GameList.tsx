@@ -14,8 +14,11 @@ import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 
-const GameList: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const GameList: React.FC<Props> = ({ currentProfile }) => {
   const games = useLiveQuery(
     () => db(currentProfile).games.orderBy("last_open").reverse().toArray(),
     []

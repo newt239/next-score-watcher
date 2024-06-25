@@ -9,10 +9,10 @@ import { RuleNames } from "@/utils/types";
 type Props = {
   rule: RuleNames;
   game_id: string;
+  currentProfile: string;
 };
 
-const ConfigLimit: React.FC<Props> = ({ rule, game_id }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const ConfigLimit: React.FC<Props> = ({ rule, game_id, currentProfile }) => {
   const game = useLiveQuery(() =>
     db(currentProfile).games.get(game_id as string)
   );

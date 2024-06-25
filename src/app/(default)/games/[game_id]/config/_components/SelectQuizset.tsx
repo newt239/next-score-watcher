@@ -11,14 +11,15 @@ type Props = {
   game_id: string;
   game_quiz: GameDBQuizProps | undefined;
   quizset_names: string[];
+  currentProfile: string;
 };
 
 const SelectQuizset: React.FC<Props> = ({
   game_id,
   game_quiz,
   quizset_names,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   return (
     <>
       <h3>問題設定</h3>

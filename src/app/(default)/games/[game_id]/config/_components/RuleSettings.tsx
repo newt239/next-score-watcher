@@ -12,9 +12,14 @@ import { GamePropsUnion } from "@/utils/types";
 type RuleSettingsProps = {
   game: GamePropsUnion;
   disabled: boolean;
+  currentProfile: string;
 };
 
-const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
+const RuleSettings: React.FC<RuleSettingsProps> = ({
+  game,
+  disabled,
+  currentProfile,
+}) => {
   const winPointPaires = {
     nomx: {
       name: "勝ち抜けポイント",
@@ -76,7 +81,12 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
   return (
     <>
       <Flex className="flex-col gap-4">
-        <ConfigInput input_id="name" label="ゲーム名" placeholder="〇〇大会" />
+        <ConfigInput
+          input_id="name"
+          label="ゲーム名"
+          placeholder="〇〇大会"
+          currentProfile={currentProfile}
+        />
         {[
           "nomx",
           "nomx-ad",
@@ -98,6 +108,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             }
             max={winPointPaires[game.rule as keyof typeof winPointPaires].max}
             min={winPointPaires[game.rule as keyof typeof winPointPaires].min}
+            currentProfile={currentProfile}
           />
         )}
         {[
@@ -113,6 +124,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             input_id="lose_point"
             label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
             max={100}
+            currentProfile={currentProfile}
           />
         )}
         {["attacksurvival"].includes(game.rule) && (
@@ -123,36 +135,42 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
               label="共通初期値"
               max={30}
               min={1}
+              currentProfile={currentProfile}
             />
             <ConfigNumberInput
               disabled={disabled}
               input_id="win_through"
               label="勝ち抜け人数"
               max={game.players.length}
+              currentProfile={currentProfile}
             />
             <ConfigNumberInput
               disabled={disabled}
               input_id="correct_me"
               label="自分が正答"
               min={-10}
+              currentProfile={currentProfile}
             />
             <ConfigNumberInput
               disabled={disabled}
               input_id="wrong_me"
               label="自分が誤答"
               min={-10}
+              currentProfile={currentProfile}
             />
             <ConfigNumberInput
               disabled={disabled}
               input_id="correct_other"
               label="他人が正答"
               min={-10}
+              currentProfile={currentProfile}
             />
             <ConfigNumberInput
               disabled={disabled}
               input_id="wrong_other"
               label="他人が誤答"
               min={-10}
+              currentProfile={currentProfile}
             />
           </>
         )}
@@ -162,6 +180,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             rule={game.rule}
             helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
             label="NOM休を利用する"
+            currentProfile={currentProfile}
           />
         )}
         {game.rule === "nomx-ad" && (
@@ -171,10 +190,15 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, disabled }) => {
             input_id="streak_over3"
             label="3連答以上によるアドバンテージを有効にする"
             rule={game.rule}
+            currentProfile={currentProfile}
           />
         )}
         {game.rule !== "normal" && (
-          <ConfigLimit game_id={game.id} rule={game.rule} />
+          <ConfigLimit
+            game_id={game.id}
+            rule={game.rule}
+            currentProfile={currentProfile}
+          />
         )}
       </Flex>
     </>

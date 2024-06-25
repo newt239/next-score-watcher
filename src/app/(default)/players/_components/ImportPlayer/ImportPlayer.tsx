@@ -11,8 +11,11 @@ import classes from "./ImportPlayer.module.css";
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
 
-export default function ImportPlayer() {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const ImportPlayer: React.FC<Props> = ({ currentProfile }) => {
   const handleOnChange = (files: FileWithPath[]) => {
     const fileReader = new FileReader();
     if (files && files.length > 0) {
@@ -63,4 +66,6 @@ export default function ImportPlayer() {
       <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
     </Flex>
   );
-}
+};
+
+export default ImportPlayer;

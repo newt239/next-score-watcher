@@ -12,6 +12,7 @@ type Props = {
   correct: boolean;
   wrong: boolean;
   disabled?: boolean;
+  currentProfile: string;
 };
 
 const IndividualConfig: React.FC<Props> = ({
@@ -19,8 +20,8 @@ const IndividualConfig: React.FC<Props> = ({
   correct,
   wrong,
   disabled,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const { game_id } = useParams();
   const game = useLiveQuery(() =>
     db(currentProfile).games.get(game_id as string)

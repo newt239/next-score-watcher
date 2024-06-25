@@ -5,8 +5,11 @@ import { modals } from "@mantine/modals";
 
 import db from "@/utils/db";
 
-const InitializeApp: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const InitializeApp: React.FC<Props> = ({ currentProfile }) => {
   const deleteAppData = () => {
     window.localStorage.removeItem("scorewatcher-version");
     db(currentProfile)

@@ -8,7 +8,11 @@ import ImportQuiz from "./ImportQuiz/ImportQuiz";
 import LoadQuiz from "./LoadQuiz/LoadQuiz";
 import QuizesTable from "./QuizesTable/QuizesTable";
 
-const ManageQuiz = () => {
+type Props = {
+  currentProfile: string;
+};
+
+const ManageQuiz: React.FC<Props> = ({ currentProfile }) => {
   const [setName, setSetName] = useState<string>("セット1");
 
   return (
@@ -27,14 +31,14 @@ const ManageQuiz = () => {
         </Tabs.List>
 
         <Tabs.Panel value="paste">
-          <LoadQuiz set_name={setName} />
+          <LoadQuiz currentProfile={currentProfile} set_name={setName} />
         </Tabs.Panel>
         <Tabs.Panel value="import">
-          <ImportQuiz set_name={setName} />
+          <ImportQuiz currentProfile={currentProfile} set_name={setName} />
         </Tabs.Panel>
       </Tabs>
 
-      <QuizesTable />
+      <QuizesTable currentProfile={currentProfile} />
     </>
   );
 };

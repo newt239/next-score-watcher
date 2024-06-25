@@ -13,8 +13,11 @@ import classes from "./CreatePlayer.module.css";
 import db from "@/utils/db";
 import { GameDBPlayerProps } from "@/utils/types";
 
-const CreatePlayer: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const CreatePlayer: React.FC<Props> = ({ currentProfile }) => {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   const [playerOrder, setPlayerOrder] = useState<string>("");

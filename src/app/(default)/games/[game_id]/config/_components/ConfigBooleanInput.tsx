@@ -16,6 +16,7 @@ type Props = {
     label: string;
     disabled?: boolean;
     helperText?: React.ReactNode;
+    currentProfile: string;
   };
 };
 
@@ -24,8 +25,8 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
   label,
   disabled,
   helperText,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const innerId = useId();
   const { game_id } = useParams();
   const game = useLiveQuery(() =>

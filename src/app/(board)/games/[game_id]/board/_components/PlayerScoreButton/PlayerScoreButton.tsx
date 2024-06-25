@@ -20,6 +20,7 @@ type Props = {
   compact?: boolean;
   game_id: string;
   player_id: string;
+  currentProfile: string;
   editable: boolean;
   disabled?: boolean;
   onClick?: () => void;
@@ -33,11 +34,11 @@ const PlayerScoreButton: React.FC<Props> = ({
   compact = false,
   game_id,
   player_id,
+  currentProfile,
   editable,
   disabled,
   onClick,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const numberSign = children.endsWith("pt")
     ? "pt"
     : children.endsWith("○")

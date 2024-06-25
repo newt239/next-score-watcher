@@ -31,14 +31,15 @@ type Props = {
   game_id: string;
   playerList: PlayerDBProps[];
   gamePlayers: GameDBPlayerProps[];
+  currentProfile: string;
 };
 
 const CompactPlayerTable: React.FC<Props> = ({
   game_id,
   playerList,
   gamePlayers,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
     {}

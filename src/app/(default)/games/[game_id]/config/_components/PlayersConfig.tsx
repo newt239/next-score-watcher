@@ -24,6 +24,7 @@ type Props = {
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
   disabled?: boolean;
+  currentProfile: string;
 };
 
 const PlayersConfig: React.FC<Props> = ({
@@ -32,8 +33,8 @@ const PlayersConfig: React.FC<Props> = ({
   playerList,
   players,
   disabled,
+  currentProfile,
 }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -120,6 +121,7 @@ const PlayersConfig: React.FC<Props> = ({
         </>
       )}
       <SelectPlayer
+        currentProfile={currentProfile}
         disabled={disabled}
         game_id={game_id}
         playerList={playerList}

@@ -9,11 +9,12 @@ import { GamePropsUnion } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;
+  currentProfile: string;
 };
 
-const ExportGame: React.FC<Props> = ({ game }) => {
+const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
   const handleCopyGame = async () => {
-    const { postData } = await computeScore(game.id);
+    const { postData } = await computeScore(game.id, currentProfile);
     const blob = new Blob([JSON.stringify(postData, null, "\t")], {
       type: "application/json",
     });

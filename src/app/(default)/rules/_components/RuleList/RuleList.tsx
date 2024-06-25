@@ -11,12 +11,16 @@ import { createGame } from "@/utils/functions";
 import { rules } from "@/utils/rules";
 import { RuleNames } from "@/utils/types";
 
-const RuleList: React.FC = () => {
+type Props = {
+  currentProfile: string;
+};
+
+const RuleList: React.FC<Props> = ({ currentProfile }) => {
   const router = useRouter();
   const ruleNameList = Object.keys(rules) as RuleNames[];
 
   const onClick = async (rule_name: RuleNames) => {
-    const game_id = await createGame(rule_name);
+    const game_id = await createGame(rule_name, currentProfile);
     router.push(`/games/${game_id}/config`);
   };
 

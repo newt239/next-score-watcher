@@ -20,8 +20,11 @@ import classes from "./LoadPlayer.module.css";
 import db from "@/utils/db";
 import { PlayerDBProps } from "@/utils/types";
 
-const LoadPlayer: React.FC = () => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+type Props = {
+  currentProfile: string;
+};
+
+const LoadPlayer: React.FC<Props> = ({ currentProfile }) => {
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);

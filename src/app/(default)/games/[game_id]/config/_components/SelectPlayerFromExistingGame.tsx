@@ -5,14 +5,15 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 
-type SelectPlayerFromExistingGameProps = {
+type Props = {
   game_id: string;
+  currentProfile: string;
 };
 
-const SelectPlayerFromExistingGame: React.FC<
-  SelectPlayerFromExistingGameProps
-> = ({ game_id }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const SelectPlayerFromExistingGame: React.FC<Props> = ({
+  game_id,
+  currentProfile,
+}) => {
   const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
 
   if (!games) return null;

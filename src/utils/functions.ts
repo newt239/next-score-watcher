@@ -11,9 +11,9 @@ export const createGame = async (
     | {
         game: GamePropsUnion;
         action_type: "copy-rule" | "copy-all";
-      }
+      },
+  currentProfile: string
 ) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   if (typeof param !== "string") {
     const game_id = await db(currentProfile).games.put({
       ...param.game,

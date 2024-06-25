@@ -36,10 +36,10 @@ import { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 type Props = {
   game: GamePropsUnion;
   logs: LogDBProps[];
+  currentProfile: string;
 };
 
-const BoardHeader: React.FC<Props> = ({ game, logs }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 

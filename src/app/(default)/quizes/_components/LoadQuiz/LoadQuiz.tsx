@@ -15,10 +15,10 @@ import { QuizDBProps } from "@/utils/types";
 
 type Props = {
   set_name: string;
+  currentProfile: string;
 };
 
-const LoadQuiz: React.FC<Props> = ({ set_name }) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
+const LoadQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
   const [rawQuizText, setRawQuizText] = useState("");
   const [separateType, setSparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
