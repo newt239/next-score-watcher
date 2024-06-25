@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 
 import { Title } from "@mantine/core";
 
@@ -12,13 +13,17 @@ export const metadata: Metadata = {
 };
 
 export default function OptionPage() {
+  const cookieStore = cookies();
+  const currentProfileCookie = cookieStore.get("scorew_current_profile");
+  const currentProfile = currentProfileCookie?.value || "score_watcher";
+
   return (
     <>
       <Title order={2}>アプリ設定</Title>
       <h3>表示設定</h3>
       <Preferences />
       <WebhookSettings />
-      <InitializeApp />
+      <InitializeApp currentProfile={currentProfile} />
     </>
   );
 }
