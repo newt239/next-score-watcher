@@ -144,7 +144,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
             type="url"
           />
           <h3>ゲーム</h3>
-          <CopyGame game={game} />
+          <CopyGame game={game} currentProfile={currentProfile} />
           <Title order={4}>エクスポート</Title>
           <ExportGame game={game} currentProfile={currentProfile} />
           <Title order={4}>ゲームを削除</Title>

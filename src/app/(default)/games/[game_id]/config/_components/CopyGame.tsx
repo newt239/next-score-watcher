@@ -9,9 +9,10 @@ import { GamePropsUnion } from "@/utils/types";
 
 type CopyGamePropsUnion = {
   game: GamePropsUnion;
+  currentProfile: string;
 };
 
-const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
+const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   const router = useRouter();
 
   const onCompleteCopy = (game_id: string) => {
@@ -24,10 +25,13 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
       <Button.Group>
         <Button
           onClick={async () => {
-            const game_id = await createGame({
-              game,
-              action_type: "copy-rule",
-            });
+            const game_id = await createGame(
+              {
+                game,
+                action_type: "copy-rule",
+              },
+              currentProfile
+            );
             onCompleteCopy(game_id as string);
           }}
         >
@@ -35,7 +39,10 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
         </Button>
         <Button
           onClick={async () => {
-            const game_id = await createGame({ game, action_type: "copy-all" });
+            const game_id = await createGame(
+              { game, action_type: "copy-all" },
+              currentProfile
+            );
             onCompleteCopy(game_id as string);
           }}
         >
