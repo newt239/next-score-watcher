@@ -36,13 +36,22 @@ const AQL: React.FC<Props> = ({
   const isDesktop = width > 992;
   const isVerticalView = isDesktop && players.length > 10;
 
-  if (players.length !== 10) return null;
+  const playerScores = players
+    .map((player) => {
+      const score = scores.find(
+        (score) => score.game_id === game.id && score.player_id === player.id
+      );
+      return { player, score };
+    })
+    .filter((item) => item.score !== undefined);
 
-  const left_team_score = scores.slice(0, 5).reduce((acc, cur) => {
-    return acc * cur.score;
+  if (playerScores.length !== 10) return null;
+
+  const left_team_score = playerScores.slice(0, 5).reduce((acc, cur) => {
+    return acc * cur.score.score;
   }, 1);
-  const right_team_score = scores.slice(5, 10).reduce((acc, cur) => {
-    return acc * cur.score;
+  const right_team_score = playerScores.slice(5, 10).reduce((acc, cur) => {
+    return acc * cur.score.score;
   }, 1);
 
   return (
@@ -53,18 +62,15 @@ const AQL: React.FC<Props> = ({
           <Box className={classes.team_score}>{left_team_score}</Box>
         </Flex>
         <Flex className={classes.players}>
-          {players.slice(0, 5).map((player, i) => (
+          {playerScores.slice(0, 5).map((item, i) => (
             <AQLPlayer
               currentProfile={currentProfile}
               game_id={game.id}
               index={i}
               isVerticalView={isVerticalView}
               key={i}
-              player={player}
-              score={scores.find(
-                (score) =>
-                  score.game_id === game.id && score.player_id === player.id
-              )}
+              player={item.player}
+              score={item.score}
             />
           ))}
         </Flex>
@@ -75,18 +81,15 @@ const AQL: React.FC<Props> = ({
           <Box className={classes.team_score}>{right_team_score}</Box>
         </Flex>
         <Flex className={classes.players}>
-          {players.slice(5, 10).map((player, i) => (
+          {playerScores.slice(5, 10).map((item, i) => (
             <AQLPlayer
               currentProfile={currentProfile}
               game_id={game.id}
               index={i}
               isVerticalView={isVerticalView}
               key={i}
-              player={player}
-              score={scores.find(
-                (score) =>
-                  score.game_id === game.id && score.player_id === player.id
-              )}
+              player={item.player}
+              score={item.score}
             />
           ))}
         </Flex>
