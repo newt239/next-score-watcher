@@ -70,7 +70,11 @@ const AQLPlayer: React.FC<Props> = ({
     <Flex
       className={classes.player}
       data-vertical={isVerticalView}
-      bg={getColor(editedScore.state)}
+      bg={
+        getColor(editedScore.state) || computedColorScheme === "light"
+          ? "gray.1"
+          : "gray.8"
+      }
       c={
         getColor(editedScore.state) &&
         (computedColorScheme === "light" ? "white" : "gray.8")

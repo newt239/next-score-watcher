@@ -63,7 +63,9 @@ const Player: React.FC<Props> = ({
       ? computedColorScheme === "light"
         ? "blue.9"
         : "blue.3"
-      : undefined;
+      : computedColorScheme === "light"
+      ? "gray.1"
+      : "gray.7";
   };
 
   return (

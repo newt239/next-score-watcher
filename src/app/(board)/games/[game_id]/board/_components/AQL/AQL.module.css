@@ -17,6 +17,22 @@
   @mixin larger-than 36em {
     width: calc(50% - 2rem);
   }
+
+  &[data-state="win"] {
+    background-color: var(--mantine-color-red-5);
+
+    @mixin dark {
+      background-color: var(--mantine-color-red-6);
+    }
+  }
+
+  &[data-state="lose"] {
+    background-color: var(--mantine-color-blue-5);
+
+    @mixin dark {
+      background-color: var(--mantine-color-blue-6);
+    }
+  }
 }
 
 .team_info {
