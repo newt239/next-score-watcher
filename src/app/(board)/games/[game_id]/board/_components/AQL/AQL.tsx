@@ -36,7 +36,7 @@ const AQL: React.FC<Props> = ({
   const isDesktop = width > 992;
   const isVerticalView = isDesktop && players.length > 10;
 
-  const playerScores = players
+  const playerScoreList = players
     .map((player) => {
       const score = scores.find(
         (score) => score.game_id === game.id && score.player_id === player.id
@@ -45,12 +45,12 @@ const AQL: React.FC<Props> = ({
     })
     .filter((item) => item.score !== undefined);
 
-  if (playerScores.length !== 10) return null;
+  if (playerScoreList.length !== 10) return null;
 
-  const left_team_score = playerScores.slice(0, 5).reduce((acc, cur) => {
+  const left_team_score = playerScoreList.slice(0, 5).reduce((acc, cur) => {
     return acc * cur.score.score;
   }, 1);
-  const right_team_score = playerScores.slice(5, 10).reduce((acc, cur) => {
+  const right_team_score = playerScoreList.slice(5, 10).reduce((acc, cur) => {
     return acc * cur.score.score;
   }, 1);
 
@@ -62,7 +62,7 @@ const AQL: React.FC<Props> = ({
           <Box className={classes.team_score}>{left_team_score}</Box>
         </Flex>
         <Flex className={classes.players}>
-          {playerScores.slice(0, 5).map((item, i) => (
+          {playerScoreList.slice(0, 5).map((item, i) => (
             <AQLPlayer
               currentProfile={currentProfile}
               game_id={game.id}
@@ -81,7 +81,7 @@ const AQL: React.FC<Props> = ({
           <Box className={classes.team_score}>{right_team_score}</Box>
         </Flex>
         <Flex className={classes.players}>
-          {playerScores.slice(5, 10).map((item, i) => (
+          {playerScoreList.slice(5, 10).map((item, i) => (
             <AQLPlayer
               currentProfile={currentProfile}
               game_id={game.id}
