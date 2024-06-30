@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 
 import { Box, Flex } from "@mantine/core";
@@ -18,17 +19,38 @@ export default function Header() {
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
+  const common = { alt: "Art Direction Example", sizes: "100vw" };
+  const {
+    props: { srcSet: desktop },
+  } = getImageProps({
+    ...common,
+    width: 537,
+    height: 176,
+    quality: 100,
+    src: "/logo_white2.png",
+  });
+  const {
+    props: { srcSet: mobile, ...rest },
+  } = getImageProps({
+    ...common,
+    width: 694,
+    height: 98,
+    quality: 100,
+    src: "/logo_white.png",
+  });
+
   return (
     <Box component="header" className={classes.header}>
       <Flex className={classes.header_inner}>
         <Flex component={Link} className={classes.header_link} href="/">
           <picture className={classes.header_logo}>
-            <source
-              media="(max-width:62em)"
-              srcSet="logo_white.png 400w"
-              sizes="100vw"
+            <source media="(min-width:62em)" srcSet={desktop} />
+            <source media="(max-width:62em)" srcSet={mobile} />
+            <img
+              {...rest}
+              style={{ width: "100%", height: "100%" }}
+              alt="Score Watcherのロゴ。三日月の中央に円が配置されたモノカラー"
             />
-            <img src="logo_white2.png" alt="app logo" />
           </picture>
         </Flex>
         <Box hiddenFrom="md">
