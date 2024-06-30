@@ -104,9 +104,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
         defaultValue="rule"
       >
         <Tabs.List my="lg" grow>
-          <Tabs.Tab size="1.5rem" value="rule">
-            形式設定
-          </Tabs.Tab>
+          <Tabs.Tab value="rule">形式設定</Tabs.Tab>
           <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
           <Tabs.Tab value="other">その他の設定</Tabs.Tab>
         </Tabs.List>

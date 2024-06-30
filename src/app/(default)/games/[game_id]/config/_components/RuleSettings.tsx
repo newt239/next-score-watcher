@@ -2,6 +2,7 @@
 
 import { Flex } from "@mantine/core";
 
+import AQLOptions from "./AQLOptions";
 import ConfigBooleanInput from "./ConfigBooleanInput";
 import ConfigInput from "./ConfigInput";
 import ConfigLimit from "./ConfigLimit/ConfigLimit";
@@ -192,6 +193,9 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
             rule={game.rule}
             currentProfile={currentProfile}
           />
+        )}
+        {game.rule === "aql" && (
+          <AQLOptions game={game} currentProfile={currentProfile} />
         )}
         {game.rule !== "normal" && (
           <ConfigLimit
