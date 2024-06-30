@@ -176,21 +176,23 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             >
               一つ戻す
             </Menu.Item>
-            <Menu.Item
-              leftSection={game.editable ? <SquareCheck /> : <Square />}
-              onClick={async () => {
-                try {
-                  await db(currentProfile).games.put({
-                    ...game,
-                    editable: !game.editable,
-                  });
-                } catch (e) {
-                  console.log(e);
-                }
-              }}
-            >
-              スコアの手動更新
-            </Menu.Item>
+            {game.rule !== "aql" && (
+              <Menu.Item
+                leftSection={game.editable ? <SquareCheck /> : <Square />}
+                onClick={async () => {
+                  try {
+                    await db(currentProfile).games.put({
+                      ...game,
+                      editable: !game.editable,
+                    });
+                  } catch (e) {
+                    console.log(e);
+                  }
+                }}
+              >
+                スコアの手動更新
+              </Menu.Item>
+            )}
             {document.fullscreenEnabled && (
               <Menu.Item
                 leftSection={<Maximize />}
