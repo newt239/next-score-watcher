@@ -81,7 +81,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
 
   return (
     <>
-      <Flex className="flex-col gap-4">
+      <Flex direction="column" gap="lg">
         <ConfigInput
           input_id="name"
           label="ゲーム名"

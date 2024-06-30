@@ -10,7 +10,7 @@ import { AdjustmentsHorizontal } from "tabler-icons-react";
 import classes from "./GameList.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import Link from "@/app/_components/Link/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 
@@ -57,7 +57,7 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
   return (
     <>
       <Title order={2}>作成したゲーム</Title>
-      <Group justify="end">
+      <Group justify="end" mb="lg">
         <NativeSelect
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
         >

@@ -66,7 +66,7 @@ const CompactCreatePlayer: React.FC<Props> = ({
   };
 
   return (
-    <Flex className="flex-col gap-2">
+    <Flex direction="column" gap="sm">
       <TextInput
         label="氏名"
         onChange={(v) => setPlayerName(v.target.value)}

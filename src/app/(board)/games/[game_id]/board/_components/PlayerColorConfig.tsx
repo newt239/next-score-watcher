@@ -37,7 +37,6 @@ const PlayerColorConfig: React.FC<Props> = ({
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown
-        className="w-auto"
         style={{
           color: colorScheme === "light" ? "black" : "white",
           backgroundColor: colorScheme === "light" ? "white" : "gray.8",

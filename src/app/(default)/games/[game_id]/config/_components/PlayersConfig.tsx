@@ -67,7 +67,7 @@ const PlayersConfig: React.FC<Props> = ({
           ref={provided.innerRef}
           {...provided.draggableProps}
         >
-          <Group w={500} className="flex-nowrap">
+          <Group w={500} wrap="nowrap">
             <Center {...provided.dragHandleProps}>
               <GripVertical size="1.2rem" />
             </Center>

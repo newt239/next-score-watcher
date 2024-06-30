@@ -2,7 +2,7 @@
 
 import { Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link";
+import Link from "@/app/_components/Link/Link";
 
 const Term: React.FC = () => {
   return (

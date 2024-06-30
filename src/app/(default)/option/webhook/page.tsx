@@ -4,7 +4,7 @@ import { Code } from "@mantine/core";
 import { ArrowBackUp } from "tabler-icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import Link from "@/app/_components/Link/Link";
 
 export const metadata: Metadata = {
   title: "Webhookについて",

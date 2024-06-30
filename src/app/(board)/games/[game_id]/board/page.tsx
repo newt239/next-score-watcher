@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-import Board from "./_components/Board";
+import Board from "./_components/Board/Board";
 
 export const metadata: Metadata = {
   title: "得点表示",

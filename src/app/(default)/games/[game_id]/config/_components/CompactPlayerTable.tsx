@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Checkbox,
+  Group,
   Pagination,
   Table,
   Text,
@@ -171,7 +172,7 @@ const CompactPlayerTable: React.FC<Props> = ({
         rightSection={<Filter />}
       />
       {table.getRowModel().rows.length === 0 ? (
-        <Text className="p-3">
+        <Text p="sm">
           「{searchText}」に一致するプレイヤーは見つかりませんでした。
         </Text>
       ) : (
@@ -214,7 +215,7 @@ const CompactPlayerTable: React.FC<Props> = ({
           </Table>
           {/* TODO: pagination */}
           <Pagination total={table.getPageCount()} />
-          <Box className="pt-3 text-right">
+          <Group justify="flex-end">
             <ButtonLink
               rightSection={<ArrowNarrowRight />}
               href={`/players?from=${game_id}`}
@@ -222,7 +223,7 @@ const CompactPlayerTable: React.FC<Props> = ({
             >
               詳細設定
             </ButtonLink>
-          </Box>
+          </Group>
         </Box>
       )}
     </>

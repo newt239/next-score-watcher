@@ -49,7 +49,7 @@ const SubMenu: React.FC = () => {
           leftSection={link.icon}
         >
           {link.text}
-          {link.path.startsWith("http") && <ExternalLink className="ml-2" />}
+          {link.path.startsWith("http") && <ExternalLink />}
         </ButtonLink>
       ))}
     </Flex>

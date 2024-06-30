@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { Button, Flex, TextInput } from "@mantine/core";
+import { Button, Flex, Group, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { nanoid } from "nanoid";
 import { CirclePlus } from "tabler-icons-react";
@@ -95,7 +95,7 @@ const CreatePlayer: React.FC<Props> = ({ currentProfile }) => {
           value={playerBelong}
         />
       </Flex>
-      <Flex className="w-full justify-end">
+      <Group w="100%" justify="flex-end">
         <Button
           disabled={playerName === ""}
           leftSection={<CirclePlus />}
@@ -103,7 +103,7 @@ const CreatePlayer: React.FC<Props> = ({ currentProfile }) => {
         >
           追加
         </Button>
-      </Flex>
+      </Group>
     </Flex>
   );
 };

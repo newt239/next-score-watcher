@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Card, Flex, Title } from "@mantine/core";
+import { Box, Button, Card, Group, Title } from "@mantine/core";
 import { CirclePlus } from "tabler-icons-react";
 
 import classes from "./RuleList.module.css";
@@ -42,7 +42,7 @@ const RuleList: React.FC<Props> = ({ currentProfile }) => {
               <Card.Section className={classes.rule_description}>
                 {description}
               </Card.Section>
-              <Flex className="justify-end">
+              <Group justify="flex-end">
                 <Button
                   onClick={() => onClick(rule_name)}
                   size="sm"
@@ -50,7 +50,7 @@ const RuleList: React.FC<Props> = ({ currentProfile }) => {
                 >
                   作る
                 </Button>
-              </Flex>
+              </Group>
             </Card>
           );
         })}

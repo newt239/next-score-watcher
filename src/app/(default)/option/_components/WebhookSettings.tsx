@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Text, TextInput } from "@mantine/core";
 
-import Link from "@/app/_components/Link";
+import Link from "@/app/_components/Link/Link";
 
 const WebhookSettings = () => {
   const [WebhookUrl, setWebhookUrl] = useState<string>("");

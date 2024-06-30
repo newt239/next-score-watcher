@@ -1,0 +1,39 @@
+.hero {
+  width: 100%;
+  position: relative;
+}
+
+.hero_image {
+  height: 80vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.hero_text_area {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  padding: 1rem;
+  margin: 1rem;
+  width: 80%;
+  border-radius: 1rem;
+  color: white;
+}
+
+.hero_text {
+  text-shadow: black 1px 0 10px;
+  font-size: 2.25rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+
+  @mixin larger-than 62em {
+    font-size: 3.75rem;
+    line-height: 3.75rem;
+  }
+}
+
+.marked_text {
+  display: inline;
+  text-shadow: green 1px 0 10px;
+}

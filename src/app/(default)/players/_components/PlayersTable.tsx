@@ -6,7 +6,7 @@ import {
   Box,
   Button,
   Checkbox,
-  Flex,
+  Group,
   List,
   ListItem,
   Table,
@@ -149,7 +149,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
       ) : (
         <Box>
           {
-            <Flex className="justify-end gap-3 pb-5">
+            <Group justify="flex-end" gap="lg" pb="lg">
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <Button
                   color="red"
@@ -187,13 +187,15 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
               )}
               <Box>
                 <TextInput
+                  style={{
+                    maxWidth: "300px",
+                  }}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="フリーワードで検索"
-                  className="max-w-[300px]"
                   value={searchText}
                 />
               </Box>
-            </Flex>
+            </Group>
           }
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>

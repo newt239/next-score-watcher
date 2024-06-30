@@ -1,6 +1,7 @@
-import { Box, Flex } from "@mantine/core";
+import { Flex } from "@mantine/core";
 
 import Header from "./_components/Header/Header";
+import classes from "./layout.module.css";
 
 export default function DefaultLayout({
   children,
@@ -8,11 +9,10 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Flex className="flex-col md:flex-row">
+    <Flex className={classes.wrapper}>
       <Header />
-      <Box className="mb-20 mt-[60px] w-full max-w-[1300px] p-4 md:ml-[300px] md:mt-0">
-        {children}
-      </Box>
+      <div className={classes.under_header}></div>
+      <main className={classes.main}>{children}</main>
     </Flex>
   );
 }

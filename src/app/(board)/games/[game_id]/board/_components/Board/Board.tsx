@@ -8,11 +8,13 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
-import AQL from "./AQL/AQL";
-import BoardHeader from "./BoardHeader/BoardHeader";
-import GameLogs from "./GameLogs/GameLogs";
-import Players from "./Players/Players";
-import WinModal from "./WinModal";
+import AQL from "../AQL/AQL";
+import BoardHeader from "../BoardHeader/BoardHeader";
+import GameLogs from "../GameLogs/GameLogs";
+import Players from "../Players/Players";
+import WinModal from "../WinModal";
+
+import classes from "./Board.module.css";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import computeScore from "@/utils/computeScore";
@@ -177,11 +179,8 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
       <BoardHeader game={game} logs={logs} currentProfile={current_profile} />
       {game.rule === "squarex" && (
         <Box
-          className="absolute z-10 h-full w-[1vw] bg-green-500"
+          className={classes.squarex_bar}
           style={{
-            writingMode: "vertical-rl",
-            textOverflow: "ellipsis",
-            textOrientation: "upright",
             left: logs.length % 2 === 0 ? 0 : undefined,
             right: logs.length % 2 === 1 ? 0 : undefined,
           }}
@@ -215,9 +214,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         winTroughPlayer={winThroughPlayer}
       />
       {skipSuggest && (
-        <Flex className="m-5 flex-row items-center justify-evenly gap-1 rounded-2xl p-3">
+        <Flex className={classes.skip_suggest}>
           <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
-          <Flex className="gap-1">
+          <Flex gap="sm">
             <Button
               color="blue"
               onClick={() =>
@@ -234,7 +233,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
             >
               スルー
             </Button>
-            <div className="hidden md:block">
+            <Box visibleFrom="md">
               <Tooltip label="問題番号が進みますが、問題は更新されません。">
                 <Button
                   onClick={() =>
@@ -252,7 +251,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
                   スキップ
                 </Button>
               </Tooltip>
-            </div>
+            </Box>
             <ActionIcon
               aria-label="閉じる"
               onClick={() => setSkipSuggest(false)}

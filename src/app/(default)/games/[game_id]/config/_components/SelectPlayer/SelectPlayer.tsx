@@ -11,7 +11,7 @@ import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 import classes from "./SelectPlayer.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import Link from "@/app/_components/Link/Link";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 
 type Props = {

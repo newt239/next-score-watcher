@@ -3,36 +3,26 @@ import Link from "next/link";
 import { Box, Button, Image } from "@mantine/core";
 import { ArrowRight } from "tabler-icons-react";
 
+import classes from "./Hero.module.css";
+
 export default function Hero() {
   return (
-    <Box w="100%" pos="relative">
+    <Box className={classes.hero}>
       <Image
         alt="大会画像"
         radius="xl"
         src="/images/hero.webp"
-        className="h-[80vh] w-full object-cover"
+        className={classes.hero_image}
       />
-      <Box className="absolute left-1/2 top-1/2 m-4 w-4/5 -translate-x-1/2 -translate-y-1/2 rounded-xl p-4 text-white backdrop-blur-sm ">
-        <Box
-          style={{
-            textShadow: "black 1px 0 10px",
-          }}
-          className="text-4xl font-bold leading-6 md:text-6xl"
-        >
+      <Box className={classes.hero_text_area}>
+        <Box className={classes.hero_text}>
           <Box>競技クイズのための</Box>
           <Box>
-            <Box
-              style={{
-                display: "inline",
-                textShadow: "green 1px 0 10px",
-              }}
-            >
-              得点表示
-            </Box>
+            <Box className={classes.marked_text}>得点表示</Box>
             アプリ
           </Box>
         </Box>
-        <Box className="my-4">
+        <Box my="lg">
           <p>
             Score
             Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。
