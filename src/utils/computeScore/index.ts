@@ -1,5 +1,6 @@
 import { cdate } from "cdate";
 
+import aql from "@/utils/computeScore/aql";
 import attacksurvival from "@/utils/computeScore/attacksurvival";
 import backstream from "@/utils/computeScore/backstream";
 import divide from "@/utils/computeScore/divide";
@@ -85,6 +86,9 @@ const computeScore = async (game_id: string, currentProfile: string) => {
       break;
     case "variables":
       result = await variables(game, gameLogList);
+      break;
+    case "aql":
+      result = await aql(game, gameLogList);
       break;
   }
 
@@ -182,6 +186,8 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
       return (
         player.initial_correct - initialBackstreamWrong(player.initial_wrong)
       );
+    case "aql":
+      return 1;
     default:
       return player.initial_correct;
   }

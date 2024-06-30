@@ -18,7 +18,8 @@ export type RuleNames =
   | "z"
   | "freezex"
   | "endless-chance"
-  | "variables";
+  | "variables"
+  | "aql";
 
 export type GameDBPlayerProps = {
   id: string;
@@ -42,6 +43,10 @@ export type GameOptionProps = {
   };
   "endless-chance": {
     use_r: boolean;
+  };
+  aql: {
+    left_team: string;
+    right_team: string;
   };
 };
 

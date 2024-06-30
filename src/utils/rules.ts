@@ -190,6 +190,18 @@ export const rules = {
     options: undefined,
     rows: 3,
   },
+  aql: {
+    rule: "aql",
+    name: "AQL",
+    short_description: "左右のチームで正答数を競う形式です。",
+    description:
+      "左右のチームに分かれ、正答数を競い合う形式です。正答数が多いチームが勝ち抜けとなります。",
+    options: {
+      left_team: "Team A",
+      right_team: "Team B",
+    },
+    rows: 3,
+  },
 } as const satisfies RuleProps;
 
 export const getRuleStringByType = (game: GamePropsUnion): string => {
@@ -226,6 +238,8 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
       return `エンドレスチャンス`;
     case "variables":
       return `Variables`;
+    case "aql":
+      return `AQL`;
     default:
       return "unknown";
   }

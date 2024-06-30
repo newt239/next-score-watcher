@@ -8,6 +8,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
+import AQL from "./AQL/AQL";
 import BoardHeader from "./BoardHeader/BoardHeader";
 import GameLogs from "./GameLogs/GameLogs";
 import Players from "./Players/Players";
@@ -186,12 +187,22 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           }}
         />
       )}
-      <Players
-        game={game}
-        scores={scores}
-        players={players}
-        currentProfile={current_profile}
-      />
+      {game.rule === "aql" ? (
+        <AQL
+          players={players}
+          scores={scores}
+          game={game}
+          currentProfile={current_profile}
+          team_name={game.options}
+        />
+      ) : (
+        <Players
+          game={game}
+          scores={scores}
+          players={players}
+          currentProfile={current_profile}
+        />
+      )}
       <GameLogs
         logs={logs}
         players={players}

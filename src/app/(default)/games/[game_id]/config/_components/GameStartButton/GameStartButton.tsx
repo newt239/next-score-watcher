@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Flex, List, useComputedColorScheme } from "@mantine/core";
+import { Box, Button, Flex, List } from "@mantine/core";
 import { PlayerPlay } from "tabler-icons-react";
 
 import classes from "./GameStartButton.module.css";
@@ -15,8 +15,6 @@ type Props = {
 };
 
 const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
-  const computedColorScheme = useComputedColorScheme("light");
-
   const errorMessages = [];
   if (game.players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
@@ -32,6 +30,8 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
         logs.length + 1
       }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
     );
+  if (game.rule === "aql" && game.players.length !== 10)
+    errorMessages.push("AQLは10人でプレイする必要があります。");
 
   const playButtonIsDisabled =
     errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !==

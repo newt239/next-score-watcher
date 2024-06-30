@@ -1,0 +1,50 @@
+.player {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  border-radius: 1rem;
+  border-width: 3px;
+  border-style: solid;
+  transition: all 0.2s;
+
+  &[data-vertical="false"] {
+    @mixin larger-than 62em {
+      flex-direction: column;
+      height: 80vh;
+      overflow-x: hidden;
+    }
+  }
+}
+
+.player_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+
+  @mixin larger-than 62em {
+    align-items: center;
+
+    &[data-rows="1"] {
+      height: calc(80vh - 4rem);
+    }
+
+    &[data-rows="2"] {
+      height: calc(80vh - 8rem);
+    }
+
+    &[data-rows="3"] {
+      height: calc(80vh - 12rem);
+    }
+
+    &[data-vertical="true"] {
+      width: 40vw;
+    }
+  }
+}
