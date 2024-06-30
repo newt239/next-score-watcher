@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-import OtherRules from "./_components/OtherRules";
 import RuleList from "./_components/RuleList/RuleList";
 
 export const metadata: Metadata = {
@@ -12,10 +11,5 @@ export default function RulesPage() {
   const cookieStore = cookies();
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
-  return (
-    <>
-      <RuleList currentProfile={currentProfile} />
-      <OtherRules />
-    </>
-  );
+  return <RuleList currentProfile={currentProfile} />;
 }

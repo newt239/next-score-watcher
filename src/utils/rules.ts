@@ -193,9 +193,9 @@ export const rules = {
   aql: {
     rule: "aql",
     name: "AQL",
-    short_description: "左右のチームで正答数を競う形式です。",
+    short_description: "クイズ大会「AQL」で使われている形式です。",
     description:
-      "左右のチームに分かれ、正答数を競い合う形式です。正答数が多いチームが勝ち抜けとなります。",
+      "10人のプレイヤーが2つのチームに分かれ、プレイヤーのスコアの積が200を超えたチームが優勝です。",
     options: {
       left_team: "Team A",
       right_team: "Team B",
