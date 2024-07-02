@@ -21,16 +21,21 @@
   justify-content: space-between;
   align-items: stretch;
   gap: 1rem;
-  padding: 1rem;
   width: 100%;
   overflow-x: hidden;
 
   @mixin larger-than 62em {
+    align-items: center;
     flex-direction: row;
     gap: 0;
   }
 }
 
 .error_message {
-  color: var(--mantine-color-red-3);
+  color: var(--mantine-color-red-9);
+  padding: 0.5rem 1rem;
+
+  @mixin dark {
+    color: var(--mantine-color-red-3);
+  }
 }

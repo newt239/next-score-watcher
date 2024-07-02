@@ -47,13 +47,16 @@
 }
 
 .header_logo {
-  margin: auto;
-  height: 3rem;
   width: auto;
 
   > img {
     height: 100%;
     width: auto;
+
+    @mixin larger-than 62em {
+      height: auto;
+      width: 100%;
+    }
   }
 
   @mixin larger-than 62em {

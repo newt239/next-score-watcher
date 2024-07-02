@@ -41,7 +41,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
   return (
     <Box className={classes.game_logs}>
       <Group justify="space-between" mb="1rem">
-        <Text>Game Logs</Text>
+        <Text fw={700}>Game Logs</Text>
         <Button
           leftSection={reverse ? <SortAscending /> : <SortDescending />}
           onClick={() => setReverse((v) => !v)}
@@ -51,7 +51,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
         </Button>
       </Group>
       {logs.length !== 0 ? (
-        <Table.ScrollContainer minWidth={500}>
+        <Table.ScrollContainer minWidth={1000}>
           <Table highlightOnHover>
             <Table.Tbody>
               {

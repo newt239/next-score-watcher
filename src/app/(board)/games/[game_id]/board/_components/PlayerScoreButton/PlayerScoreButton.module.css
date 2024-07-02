@@ -9,6 +9,11 @@
   border-radius: 0;
   white-space: nowrap;
   overflow: hidden;
+  transition: all 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 
   &[data-compact="true"] {
     font-size: 1.5rem;

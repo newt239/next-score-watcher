@@ -48,7 +48,6 @@ export default function Header() {
             <source media="(max-width:62em)" srcSet={mobile} />
             <img
               {...rest}
-              style={{ width: "100%", height: "100%" }}
               alt="Score Watcherのロゴ。三日月の中央に円が配置されたモノカラー"
             />
           </picture>

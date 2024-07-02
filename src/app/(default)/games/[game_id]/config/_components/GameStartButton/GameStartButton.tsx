@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Flex, List } from "@mantine/core";
+import { Box, Button, Flex } from "@mantine/core";
 import { PlayerPlay } from "tabler-icons-react";
 
 import classes from "./GameStartButton.module.css";
@@ -43,26 +43,28 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
       data-disabled={playButtonIsDisabled}
     >
       <Flex className={classes.game_start_wrapper}>
-        <List className={classes.error_message}>
+        <Box className={classes.error_message}>
           {errorMessages.map((m) => (
-            <List.Item key={m}>{m}</List.Item>
+            <span key={m}>{m}</span>
           ))}
-        </List>
+        </Box>
         {playButtonIsDisabled ? (
           <Button
             disabled={playButtonIsDisabled}
             leftSection={<PlayerPlay />}
-            size="md"
+            size="xl"
+            miw={200}
           >
             ゲーム開始
           </Button>
         ) : (
           <ButtonLink
-            size="md"
+            size="xl"
             variant="gradient"
             gradient={{ from: "teal", to: "lime", deg: 135 }}
             href={`/games/${game.id}/board`}
             leftSection={<PlayerPlay />}
+            miw={200}
           >
             ゲーム開始
           </ButtonLink>

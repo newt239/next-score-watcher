@@ -19,18 +19,28 @@
   }
 
   &[data-state="win"] {
-    background-color: var(--mantine-color-red-5);
+    background-color: var(--mantine-color-red-9);
 
     @mixin dark {
-      background-color: var(--mantine-color-red-6);
+      background-color: var(--mantine-color-red-3);
+
+      .team_name,
+      .team_score {
+        color: var(--mantine-color-gray-9);
+      }
     }
   }
 
   &[data-state="lose"] {
-    background-color: var(--mantine-color-blue-5);
+    background-color: var(--mantine-color-blue-9);
 
     @mixin dark {
-      background-color: var(--mantine-color-blue-6);
+      background-color: var(--mantine-color-blue-3);
+
+      .team_name,
+      .team_score {
+        color: var(--mantine-color-gray-9);
+      }
     }
   }
 }

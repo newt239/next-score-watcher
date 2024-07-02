@@ -73,11 +73,11 @@ const AQLPlayer: React.FC<Props> = ({
       bg={
         getColor(editedScore.state) || computedColorScheme === "light"
           ? "gray.1"
-          : "gray.8"
+          : "gray.9"
       }
       c={
         getColor(editedScore.state) &&
-        (computedColorScheme === "light" ? "white" : "gray.8")
+        (computedColorScheme === "light" ? "white" : "gray.9")
       }
       w={{
         base: "100%",

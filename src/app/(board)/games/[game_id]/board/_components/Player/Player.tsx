@@ -63,9 +63,7 @@ const Player: React.FC<Props> = ({
       ? computedColorScheme === "light"
         ? "blue.9"
         : "blue.3"
-      : computedColorScheme === "light"
-      ? "gray.1"
-      : "gray.7";
+      : undefined;
   };
 
   return (
@@ -75,7 +73,7 @@ const Player: React.FC<Props> = ({
       bg={getColor(editedScore.state)}
       c={
         getColor(editedScore.state) &&
-        (computedColorScheme === "light" ? "white" : "gray.8")
+        (computedColorScheme === "light" ? "white" : "black")
       }
       w={{
         base: "100%",
@@ -87,7 +85,7 @@ const Player: React.FC<Props> = ({
         borderColor: `var(--mantine-color-${(
           getColor(editedScore.state) ||
           getColor(editedScore.reach_state) ||
-          (computedColorScheme === "dark" ? "gray.7" : "gray.1")
+          (computedColorScheme === "dark" ? "gray.8" : "gray.1")
         ).replace(".", "-")})`,
       }}
     >

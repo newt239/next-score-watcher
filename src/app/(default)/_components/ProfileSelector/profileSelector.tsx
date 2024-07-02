@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { nanoid } from "nanoid";
-import { Plus } from "tabler-icons-react";
+import { Plus, Trash } from "tabler-icons-react";
 
 import db from "@/utils/db";
 
@@ -35,6 +35,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
         <Title order={4}>プロファイルの切り替え</Title>
         <Flex direction="column" gap={4} p={2}>
           <NativeSelect
+            mt="sm"
             label="選択する"
             defaultValue={currentProfile}
             onChange={(e) => {
@@ -50,6 +51,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
             <option value="score_watcher">デフォルト</option>
           </NativeSelect>
           <TextInput
+            mt="sm"
             label="新しく作る"
             placeholder="プロファイル名"
             value={newProfileName}
@@ -77,6 +79,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
           {currentProfile !== "score_watcher" && (
             <Button
               color="red"
+              leftSection={<Trash />}
               onClick={() =>
                 modals.openConfirmModal({
                   title: "プロファイルの削除",
