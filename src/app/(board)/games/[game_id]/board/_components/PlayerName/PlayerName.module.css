@@ -6,10 +6,10 @@
   text-orientation: upright;
   writing-mode: horizontal-tb;
   white-space: nowrap;
-  font-family: "BIZ UDGothic";
+  font-family: "a-otf-ud-shin-go-con80-pr6n" !important;
+  font-weight: 700;
   font-size: 2rem;
   line-height: 2rem;
-  font-weight: 700;
   width: 100%;
   padding-top: 0.25rem;
   overflow-x: hidden;
