@@ -63,7 +63,7 @@ const SelectPlayer: React.FC<Props> = ({
             offset={10}
             radius="md"
           >
-            <Accordion defaultValue="add">
+            <Accordion defaultValue="select">
               <Accordion.Item value="add">
                 <Accordion.Control>新しく追加</Accordion.Control>
                 <Accordion.Panel pb={4}>

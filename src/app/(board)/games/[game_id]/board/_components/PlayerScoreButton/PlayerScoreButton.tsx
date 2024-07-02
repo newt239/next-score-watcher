@@ -121,7 +121,7 @@ const PlayerScoreButton: React.FC<Props> = ({
           ) : (
             <>
               <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
-              <span style={{ fontSize: "75%" }}>
+              <span style={{ fontSize: "50%" }}>
                 {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
               </span>
             </>

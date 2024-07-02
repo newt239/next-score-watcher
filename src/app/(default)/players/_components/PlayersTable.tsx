@@ -205,7 +205,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
             </Box>
           ) : (
             <>
-              <Table>
+              <Table highlightOnHover>
                 <Table.Thead>
                   {table.getHeaderGroups().map((headerGroup) => (
                     <Table.Tr key={headerGroup.id}>

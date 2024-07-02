@@ -52,7 +52,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
       </Group>
       {logs.length !== 0 ? (
         <Table.ScrollContainer minWidth={500}>
-          <Table>
+          <Table highlightOnHover>
             <Table.Tbody>
               {
                 // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c

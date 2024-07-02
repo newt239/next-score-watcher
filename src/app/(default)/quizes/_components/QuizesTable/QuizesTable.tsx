@@ -159,7 +159,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
           ) : (
             <>
               <Table.ScrollContainer minWidth={1000}>
-                <Table className={classes.quizes_table}>
+                <Table highlightOnHover className={classes.quizes_table}>
                   <Table.Thead>
                     {table.getHeaderGroups().map((headerGroup) => (
                       <Table.Tr key={headerGroup.id}>

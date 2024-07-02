@@ -1,9 +1,11 @@
 "use client";
 
 import { Box, NativeSelect } from "@mantine/core";
+import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
+import { getRuleStringByType } from "@/utils/rules";
 
 type Props = {
   game_id: string;
@@ -39,10 +41,15 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({
           <option value="">選択してください</option>
           {games
             .filter((game) => game.players.length !== 0)
+            .toSorted((a, b) => {
+              if (a.last_open > b.last_open) return -1;
+              if (a.last_open < b.last_open) return 1;
+              return 0;
+            })
             .map((game) => (
               <option key={game.id} value={game.id}>
-                {game.name} ({" "}
-                {game.players.map((player) => player.name).join(", ")} )
+                {getRuleStringByType(game)} (
+                {cdate(game.last_open).format("MM/DD HH:mm")})
               </option>
             ))}
         </NativeSelect>

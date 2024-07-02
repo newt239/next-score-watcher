@@ -2,15 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import {
-  Box,
-  Checkbox,
-  Group,
-  Pagination,
-  Table,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Checkbox, Group, Table, Text, TextInput } from "@mantine/core";
 import { useDidUpdate } from "@mantine/hooks";
 import {
   createColumnHelper,
@@ -22,9 +14,10 @@ import {
   type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
-import { ArrowNarrowRight, Filter } from "tabler-icons-react";
+import { Filter, Settings } from "tabler-icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
+import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 
@@ -176,55 +169,57 @@ const CompactPlayerTable: React.FC<Props> = ({
           「{searchText}」に一致するプレイヤーは見つかりませんでした。
         </Text>
       ) : (
-        <Box>
-          <Table>
-            <Table.Thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Table.Tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <Table.Th colSpan={header.colSpan} key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </Table.Th>
-                  ))}
-                </Table.Tr>
-              ))}
-            </Table.Thead>
-            <Table.Tbody>
-              {table.getRowModel().rows.map((row) => {
-                return (
-                  <Table.Tr key={row.id}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <Table.Td key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </Table.Td>
-                      );
-                    })}
+        <>
+          <Table.ScrollContainer minWidth={500}>
+            <Table highlightOnHover>
+              <Table.Thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <Table.Tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <Table.Th colSpan={header.colSpan} key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </Table.Th>
+                    ))}
                   </Table.Tr>
-                );
-              })}
-            </Table.Tbody>
-          </Table>
-          {/* TODO: pagination */}
-          <Pagination total={table.getPageCount()} />
-          <Group justify="flex-end">
+                ))}
+              </Table.Thead>
+              <Table.Tbody>
+                {table.getRowModel().rows.map((row) => {
+                  return (
+                    <Table.Tr key={row.id}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <Table.Td key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </Table.Td>
+                        );
+                      })}
+                    </Table.Tr>
+                  );
+                })}
+              </Table.Tbody>
+            </Table>
+          </Table.ScrollContainer>
+          <TablePagenation table={table} />
+          <Group justify="flex-end" mt="sm">
             <ButtonLink
-              rightSection={<ArrowNarrowRight />}
+              leftSection={<Settings />}
               href={`/players?from=${game_id}`}
-              variant="subtle"
+              variant="default"
+              size="sm"
             >
               詳細設定
             </ButtonLink>
           </Group>
-        </Box>
+        </>
       )}
     </>
   );

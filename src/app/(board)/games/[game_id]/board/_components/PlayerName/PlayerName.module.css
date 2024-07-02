@@ -6,7 +6,7 @@
   text-orientation: upright;
   writing-mode: horizontal-tb;
   white-space: nowrap;
-  font-family: "a-otf-ud-shin-go-con80-pr6n" !important;
+  font-family: "a-otf-ud-shin-go-con80-pr6n", sans-serif;
   font-weight: 700;
   font-size: 2rem;
   line-height: 2rem;
