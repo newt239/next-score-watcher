@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Button, Title } from "@mantine/core";
+import { Box, Button, Title } from "@mantine/core";
 
 import { createGame } from "@/utils/functions";
 import { GamePropsUnion } from "@/utils/types";
@@ -20,9 +20,9 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   };
 
   return (
-    <>
+    <Box mt="sm">
       <Title order={4}>コピーを作成</Title>
-      <Button.Group>
+      <Button.Group mt="sm">
         <Button
           onClick={async () => {
             const game_id = await createGame(
@@ -49,7 +49,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
           すべてコピー
         </Button>
       </Button.Group>
-    </>
+    </Box>
   );
 };
 

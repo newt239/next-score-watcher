@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@mantine/core";
+import { Box, Button, Title } from "@mantine/core";
 import { cdate } from "cdate";
 import { FileExport } from "tabler-icons-react";
 
@@ -29,9 +29,12 @@ const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
   };
 
   return (
-    <Button onClick={handleCopyGame} leftSection={<FileExport />}>
-      ゲームをエクスポート
-    </Button>
+    <Box mt="sm">
+      <Title order={4}>エクスポート</Title>
+      <Button onClick={handleCopyGame} leftSection={<FileExport />} mt="sm">
+        ゲームをエクスポート
+      </Button>
+    </Box>
   );
 };
 

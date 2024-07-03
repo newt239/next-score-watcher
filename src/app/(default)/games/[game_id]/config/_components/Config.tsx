@@ -1,20 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
-import { Accordion, Box, Button, Tabs, Title } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
+import { Accordion, Tabs } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Trash } from "tabler-icons-react";
 
-import ConfigInput from "./ConfigInput";
-import CopyGame from "./CopyGame";
-import ExportGame from "./ExportGame";
 import GameStartButton from "./GameStartButton/GameStartButton";
+import OtherConfig from "./OtherConfig";
 import PlayersConfig from "./PlayersConfig";
 import RuleSettings from "./RuleSettings";
-import SelectQuizset from "./SelectQuizset";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link/Link";
@@ -27,7 +19,6 @@ type Props = {
 };
 
 const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
-  const router = useRouter();
   const game = useLiveQuery(() =>
     db(currentProfile).games.get(game_id as string)
   );
@@ -42,37 +33,8 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
         .toArray(),
     []
   );
-  const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), []);
-  const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
 
   if (!game || !players || !logs) return <NotFound />;
-
-  const deleteGame = async () => {
-    await db(currentProfile).games.delete(game.id);
-    notifications.show({
-      title: "ゲームを削除しました",
-      message: `${game.name}(${rules[game.rule].name})を削除しました`,
-      autoClose: 9000,
-      withCloseButton: true,
-    });
-    router.refresh();
-  };
-
-  const showDeleteGameConfirm = () => {
-    modals.openConfirmModal({
-      title: "ゲームを削除",
-      centered: true,
-      children: (
-        <Box>
-          <p>ゲーム「{game.name}」を削除します。</p>
-          <p>この操作は取り消せません。</p>
-        </Box>
-      ),
-      labels: { confirm: "削除する", cancel: "削除しない" },
-      confirmProps: { color: "red" },
-      onConfirm: deleteGame,
-    });
-  };
 
   const disabled = logs.length !== 0;
 
@@ -127,32 +89,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
           />
         </Tabs.Panel>
         <Tabs.Panel value="other">
-          <SelectQuizset
-            game_id={game.id}
-            game_quiz={game.quiz}
-            quizset_names={quizsetList}
-            currentProfile={currentProfile}
-          />
-          <h3>オプション</h3>
-          <ConfigInput
-            label="Discord Webhook"
-            input_id="discord_webhook_url"
-            placeholder="https://discord.com/api/webhooks/..."
-            currentProfile={currentProfile}
-            type="url"
-          />
-          <h3>ゲーム</h3>
-          <CopyGame game={game} currentProfile={currentProfile} />
-          <Title order={4}>エクスポート</Title>
-          <ExportGame game={game} currentProfile={currentProfile} />
-          <Title order={4}>ゲームを削除</Title>
-          <Button
-            color="red"
-            leftSection={<Trash />}
-            onClick={showDeleteGameConfirm}
-          >
-            削除する
-          </Button>
+          <OtherConfig game={game} currentProfile={currentProfile} />
         </Tabs.Panel>
       </Tabs>
     </>
