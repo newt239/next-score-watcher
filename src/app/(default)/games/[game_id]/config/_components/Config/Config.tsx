@@ -1,12 +1,14 @@
 "use client";
 
-import { Accordion, Tabs } from "@mantine/core";
+import { Accordion, Box, Tabs } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import GameStartButton from "./GameStartButton/GameStartButton";
-import OtherConfig from "./OtherConfig";
-import PlayersConfig from "./PlayersConfig";
-import RuleSettings from "./RuleSettings";
+import GameStartButton from "../GameStartButton/GameStartButton";
+import OtherConfig from "../OtherConfig";
+import PlayersConfig from "../PlayersConfig";
+import RuleSettings from "../RuleSettings";
+
+import classes from "./Config.module.css";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link/Link";
@@ -62,35 +64,37 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
       <Tabs
         pt="lg"
         variant="outline"
-        orientation="horizontal"
+        orientation="vertical"
         defaultValue="rule"
+        className={classes.tabs_area}
       >
-        <Tabs.List my="lg" grow>
+        <Tabs.List className={classes.tab_list}>
           <Tabs.Tab value="rule">形式設定</Tabs.Tab>
           <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
           <Tabs.Tab value="other">その他の設定</Tabs.Tab>
         </Tabs.List>
-
-        <Tabs.Panel value="rule">
-          <RuleSettings
-            disabled={disabled}
-            game={game}
-            currentProfile={currentProfile}
-          />
-        </Tabs.Panel>
-        <Tabs.Panel value="player">
-          <PlayersConfig
-            disabled={disabled}
-            game_id={game.id}
-            playerList={players}
-            players={game.players}
-            rule_name={game.rule}
-            currentProfile={currentProfile}
-          />
-        </Tabs.Panel>
-        <Tabs.Panel value="other">
-          <OtherConfig game={game} currentProfile={currentProfile} />
-        </Tabs.Panel>
+        <Box className={classes.tab_panel_area}>
+          <Tabs.Panel value="rule">
+            <RuleSettings
+              disabled={disabled}
+              game={game}
+              currentProfile={currentProfile}
+            />
+          </Tabs.Panel>
+          <Tabs.Panel value="player">
+            <PlayersConfig
+              disabled={disabled}
+              game_id={game.id}
+              playerList={players}
+              players={game.players}
+              rule_name={game.rule}
+              currentProfile={currentProfile}
+            />
+          </Tabs.Panel>
+          <Tabs.Panel value="other">
+            <OtherConfig game={game} currentProfile={currentProfile} />
+          </Tabs.Panel>
+        </Box>
       </Tabs>
     </>
   );

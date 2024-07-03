@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import Config from "./_components/Config";
+import Config from "./_components/Config/Config";
 
 export default function ConfigPage({
   params,
