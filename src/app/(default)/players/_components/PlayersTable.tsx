@@ -156,7 +156,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
                   leftSection={<Trash />}
                   onClick={() =>
                     modals.openConfirmModal({
-                      title: "ゲームを削除",
+                      title: "プレイヤーを削除",
                       centered: true,
                       children: (
                         <>

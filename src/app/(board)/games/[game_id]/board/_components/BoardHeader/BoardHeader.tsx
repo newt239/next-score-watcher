@@ -30,7 +30,7 @@ import classes from "./BoardHeader.module.css";
 
 import Link from "@/app/_components/Link/Link";
 import db from "@/utils/db";
-import { getRuleStringByType } from "@/utils/rules";
+import { getRuleStringByType, rules } from "@/utils/rules";
 import { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 
 type Props = {
@@ -90,13 +90,21 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             maxWidth: `calc(100vw - ${showQn ? 10 : 3}rem)`,
           }}
         >
-          <div className={classes.game_name}>{game.name}</div>
-          <div>{getRuleStringByType(game)}</div>
+          {game.name === rules[game.rule].name || game.name === "" ? (
+            <div className={classes.game_name_only}>
+              {getRuleStringByType(game)}
+            </div>
+          ) : (
+            <>
+              <div className={classes.game_name}>{game.name}</div>
+              <div>{getRuleStringByType(game)}</div>
+            </>
+          )}
         </Flex>
         {showQn && (
           <Flex className={classes.quiz_number_area}>
             <Box className={classes.quiz_number}>
-              第<span>{game.editable ? manualQuizPosition + 1 : qn + 1}</span>問
+              Q{game.editable ? manualQuizPosition + 1 : qn + 1}
             </Box>
             {game.editable && (
               <Button.Group variant="outline">
@@ -136,7 +144,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
         )}
         <Menu>
           <Menu.Target>
-            <ActionIcon variant="subtle" size="xl" color="teal">
+            <ActionIcon variant="default" size="md" color="teal" m="xs">
               <Settings />
             </ActionIcon>
           </Menu.Target>

@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import {
   createColumnHelper,
@@ -120,21 +121,36 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
                 <Button
                   color="red"
                   leftSection={<Trash />}
-                  onClick={() => {
-                    db(currentProfile).quizes.bulkDelete(
-                      table
-                        .getSelectedRowModel()
-                        .rows.map((row) => row.original.id)
-                    );
-                    notifications.show({
-                      message: `${
-                        table.getSelectedRowModel().rows.length
-                      } 件の問題を削除しました`,
-                      autoClose: 9000,
-                      withCloseButton: true,
-                    });
-                    setSelectedQuizes({});
-                  }}
+                  onClick={() =>
+                    modals.openConfirmModal({
+                      title: "クイズを削除",
+                      centered: true,
+                      children: (
+                        <>
+                          選択中のクイズ
+                          {table.getSelectedRowModel().rows.length}
+                          件を削除します。
+                        </>
+                      ),
+                      labels: { confirm: "削除する", cancel: "削除しない" },
+                      confirmProps: { color: "red" },
+                      onConfirm: () => {
+                        db(currentProfile).quizes.bulkDelete(
+                          table
+                            .getSelectedRowModel()
+                            .rows.map((row) => row.original.id)
+                        );
+                        notifications.show({
+                          message: `${
+                            table.getSelectedRowModel().rows.length
+                          } 件の問題を削除しました`,
+                          autoClose: 9000,
+                          withCloseButton: true,
+                        });
+                        setSelectedQuizes({});
+                      },
+                    })
+                  }
                   size="sm"
                 >
                   削除
