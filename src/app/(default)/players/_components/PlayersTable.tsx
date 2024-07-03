@@ -187,9 +187,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
               )}
               <Box>
                 <TextInput
-                  style={{
-                    maxWidth: "300px",
-                  }}
+                  maw={300}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="フリーワードで検索"
                   value={searchText}

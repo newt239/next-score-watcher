@@ -120,8 +120,8 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
                 <Button
                   color="red"
                   leftSection={<Trash />}
-                  onClick={async () => {
-                    await db(currentProfile).quizes.bulkDelete(
+                  onClick={() => {
+                    db(currentProfile).quizes.bulkDelete(
                       table
                         .getSelectedRowModel()
                         .rows.map((row) => row.original.id)

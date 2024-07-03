@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
@@ -63,7 +64,7 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme}>
-          {children}
+          <ModalsProvider>{children}</ModalsProvider>
           <Notifications />
         </MantineProvider>
       </body>
