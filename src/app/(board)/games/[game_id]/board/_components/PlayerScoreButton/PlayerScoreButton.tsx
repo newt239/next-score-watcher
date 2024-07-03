@@ -15,7 +15,15 @@ import classes from "./PlayerScoreButton.module.css";
 import db from "@/utils/db";
 
 type Props = {
-  color: "red" | "blue" | "green" | "gray" | "win" | "lose" | "playing";
+  color:
+    | "red"
+    | "blue"
+    | "green"
+    | "gray"
+    | "black"
+    | "win"
+    | "lose"
+    | "playing";
   filled?: boolean;
   compact?: boolean;
   game_id: string;
@@ -52,6 +60,8 @@ const PlayerScoreButton: React.FC<Props> = ({
   const variantColor =
     color === "gray"
       ? "gray.3"
+      : color === "black"
+      ? "gray.9"
       : ["red", "win"].includes(color)
       ? computedColorScheme === "light"
         ? "red.9"
@@ -105,9 +115,10 @@ const PlayerScoreButton: React.FC<Props> = ({
           onClick={onClick || handleClick}
           className={classes.player_score_button}
           data-compact={compact}
+          data-disabled={disabled}
           style={{
             cursor:
-              disabled && color === "gray"
+              disabled && color !== "green"
                 ? "not-allowed"
                 : disabled || color === "green" || editable
                 ? "default"

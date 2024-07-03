@@ -22,13 +22,15 @@ const aql = async (game: AllGameProps["aql"], gameLogList: LogDBProps[]) => {
             };
           case "wrong":
             const newWrong = playerState.wrong + 1;
-            if (newWrong === 1) {
+            if (playerState.reach_state === "lose") {
               return {
                 ...playerState,
                 wrong: newWrong,
                 score: 1,
                 last_wrong: qn,
+                state: "lose",
                 reach_state: "lose",
+                is_incapacity: true,
               };
             } else {
               return {
@@ -36,14 +38,33 @@ const aql = async (game: AllGameProps["aql"], gameLogList: LogDBProps[]) => {
                 wrong: newWrong,
                 score: 1,
                 last_wrong: qn,
-                state: "lose",
-                is_incapacity: true,
+                reach_state: "lose",
               };
             }
           default:
             return playerState;
         }
       } else {
+        if (log.variant === "wrong" && playerState.is_incapacity) {
+          const wrongPlayerIndex = game.players.findIndex(
+            (player) => player.id === log.player_id
+          );
+          const incapacityPlayerIndex = game.players.findIndex(
+            (player) => player.id === playerState.player_id
+          );
+          if (
+            (wrongPlayerIndex < 5 && incapacityPlayerIndex >= 5) ||
+            (wrongPlayerIndex >= 5 && incapacityPlayerIndex < 5)
+          ) {
+            return {
+              ...playerState,
+              score: 1,
+              state: "playing",
+              reach_state: "playing",
+              is_incapacity: false,
+            };
+          }
+        }
         return playerState;
       }
     });

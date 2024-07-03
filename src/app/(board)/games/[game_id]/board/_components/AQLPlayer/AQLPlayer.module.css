@@ -31,18 +31,6 @@
   @mixin larger-than 62em {
     align-items: center;
 
-    &[data-rows="1"] {
-      height: calc(80vh - 4rem);
-    }
-
-    &[data-rows="2"] {
-      height: calc(80vh - 8rem);
-    }
-
-    &[data-rows="3"] {
-      height: calc(80vh - 12rem);
-    }
-
     &[data-vertical="true"] {
       width: 40%;
     }

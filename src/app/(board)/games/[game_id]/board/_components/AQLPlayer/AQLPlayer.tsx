@@ -13,7 +13,6 @@ import classes from "./AQLPlayer.module.css";
 
 import db from "@/utils/db";
 import { numberSign } from "@/utils/functions";
-import { rules } from "@/utils/rules";
 import { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
 
 type Props = {
@@ -21,6 +20,7 @@ type Props = {
   player: PlayerDBProps;
   index: number;
   score: ComputedScoreProps | undefined;
+  is_incapacity: boolean;
   isVerticalView: boolean;
   currentProfile: string;
 };
@@ -30,6 +30,7 @@ const AQLPlayer: React.FC<Props> = ({
   player,
   index,
   score,
+  is_incapacity,
   isVerticalView,
   currentProfile,
 }) => {
@@ -46,8 +47,6 @@ const AQLPlayer: React.FC<Props> = ({
   }, [score]);
 
   if (!game || !score) return null;
-
-  const rows = rules[game.rule].rows;
 
   const editedScore: ComputedScoreProps = {
     ...score,
@@ -66,14 +65,15 @@ const AQLPlayer: React.FC<Props> = ({
       : undefined;
   };
 
+  console.log(getColor(editedScore.state));
+
   return (
     <Flex
       className={classes.player}
       data-vertical={isVerticalView}
       bg={
-        getColor(editedScore.state) || computedColorScheme === "light"
-          ? "gray.1"
-          : "gray.9"
+        getColor(editedScore.state) ||
+        (computedColorScheme === "light" ? "gray.3" : "gray.9")
       }
       c={
         getColor(editedScore.state) &&
@@ -93,11 +93,7 @@ const AQLPlayer: React.FC<Props> = ({
         ).replace(".", "-")})`,
       }}
     >
-      <Flex
-        className={classes.player_info}
-        data-vertical={isVerticalView}
-        data-rows={rows}
-      >
+      <Flex className={classes.player_info} data-vertical={isVerticalView}>
         <PlayerHeader
           belong={player.belong}
           index={index}
@@ -108,24 +104,38 @@ const AQLPlayer: React.FC<Props> = ({
       </Flex>
       <PlayerScoreButton
         currentProfile={currentProfile}
-        color="red"
+        color={is_incapacity ? "black" : "green"}
         game_id={game_id}
         player_id={player.id}
         editable={false}
+        disabled={is_incapacity}
       >
-        {score.state === "win"
-          ? score.text
-          : numberSign("correct", score.correct)}
+        {numberSign("pt", score.score)}
       </PlayerScoreButton>
-      <PlayerScoreButton
-        currentProfile={currentProfile}
-        color="blue"
-        game_id={game_id}
-        player_id={player.id}
-        editable={false}
-      >
-        {score.state === "lose" ? score.text : numberSign("wrong", score.wrong)}
-      </PlayerScoreButton>
+      <Flex>
+        <PlayerScoreButton
+          currentProfile={currentProfile}
+          color={is_incapacity ? "black" : "red"}
+          game_id={game_id}
+          player_id={player.id}
+          editable={false}
+          disabled={is_incapacity}
+          compact={true}
+        >
+          {numberSign("correct", score.correct)}
+        </PlayerScoreButton>
+        <PlayerScoreButton
+          currentProfile={currentProfile}
+          color={is_incapacity ? "black" : "blue"}
+          game_id={game_id}
+          player_id={player.id}
+          editable={false}
+          disabled={is_incapacity}
+          compact={true}
+        >
+          {numberSign("wrong", score.wrong)}
+        </PlayerScoreButton>
+      </Flex>
     </Flex>
   );
 };

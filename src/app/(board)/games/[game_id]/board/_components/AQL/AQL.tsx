@@ -62,7 +62,7 @@ const AQL: React.FC<Props> = ({
       : rightTeamScore >= 200 ||
         playerScoreList.reduce((acc, cur) => {
           return cur.score.is_incapacity ? acc + 1 : acc;
-        }, 0)
+        }, 0) === 5
       ? "lose"
       : "playing";
   const rightTeamState =
@@ -71,7 +71,7 @@ const AQL: React.FC<Props> = ({
       : leftTeamScore >= 200 ||
         playerScoreList.reduce((acc, cur) => {
           return cur.score.is_incapacity ? acc + 1 : acc;
-        }, 0)
+        }, 0) === 5
       ? "lose"
       : "playing";
 
@@ -98,6 +98,7 @@ const AQL: React.FC<Props> = ({
               key={i}
               player={item.player}
               score={item.score}
+              is_incapacity={item.score.is_incapacity}
             />
           ))}
         </Flex>
@@ -123,6 +124,7 @@ const AQL: React.FC<Props> = ({
               key={i}
               player={item.player}
               score={item.score}
+              is_incapacity={item.score.is_incapacity}
             />
           ))}
         </Flex>
