@@ -84,49 +84,52 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
   return (
     <>
       <Flex className={classes.board_header}>
-        <Flex
-          className={classes.game_info_area}
-          style={{
-            maxWidth: `calc(100vw - ${showQn ? 10 : 3}rem)`,
-          }}
-        >
-          {game.name === rules[game.rule].name || game.name === "" ? (
-            <div className={classes.game_name_only}>
-              {getRuleStringByType(game)}
-            </div>
-          ) : (
-            <>
-              <div className={classes.game_name}>{game.name}</div>
-              <div>{getRuleStringByType(game)}</div>
-            </>
-          )}
-        </Flex>
-        {showQn && (
-          <Flex className={classes.quiz_number_area}>
-            <Box className={classes.quiz_number}>
-              Q{game.editable ? manualQuizPosition + 1 : qn + 1}
-            </Box>
-            {game.editable && (
-              <Button.Group variant="outline">
-                <Button
-                  h="auto"
-                  disabled={manualQuizPosition < 0}
-                  onClick={() => setManualQuizPosition((v) => v - 1)}
-                >
-                  {"<"}
-                </Button>
-                <Button
-                  h="auto"
-                  disabled={
-                    game.quiz && manualQuizPosition >= quizList.length - 1
-                  }
-                  onClick={() => setManualQuizPosition((v) => v + 1)}
-                >
-                  {">"}
-                </Button>
-              </Button.Group>
+        {game.name === rules[game.rule].name || game.name === "" ? (
+          <div className={classes.game_name_only}>
+            {getRuleStringByType(game)}: Q
+            {game.editable ? manualQuizPosition + 1 : qn + 1}
+          </div>
+        ) : (
+          <>
+            <Flex
+              className={classes.game_info_area}
+              style={{
+                maxWidth: `calc(100vw - ${showQn ? 10 : 3}rem)`,
+              }}
+            >
+              <>
+                <div className={classes.game_name}>{game.name}</div>
+                <div>{getRuleStringByType(game)}</div>
+              </>
+            </Flex>
+            {showQn && (
+              <Flex className={classes.quiz_number_area}>
+                <Box className={classes.quiz_number}>
+                  Q{game.editable ? manualQuizPosition + 1 : qn + 1}
+                </Box>
+                {game.editable && (
+                  <Button.Group variant="outline">
+                    <Button
+                      h="auto"
+                      disabled={manualQuizPosition < 0}
+                      onClick={() => setManualQuizPosition((v) => v - 1)}
+                    >
+                      {"<"}
+                    </Button>
+                    <Button
+                      h="auto"
+                      disabled={
+                        game.quiz && manualQuizPosition >= quizList.length - 1
+                      }
+                      onClick={() => setManualQuizPosition((v) => v + 1)}
+                    >
+                      {">"}
+                    </Button>
+                  </Button.Group>
+                )}
+              </Flex>
             )}
-          </Flex>
+          </>
         )}
         {game.quiz && quizList.length > quizPosition && (
           <Box className={classes.quiz_area}>

@@ -1,5 +1,7 @@
-import { Modal } from "@mantine/core";
+import { Box, Modal } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
+
+import classes from "./WinModal.module.css";
 
 type Props = {
   onClose: () => void;
@@ -18,16 +20,12 @@ const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
     <Modal
       opened={showWinthroughPopup && winTroughPlayer.name !== ""}
       onClose={onClose}
+      centered
     >
-      <Modal.Overlay />
-      <Modal.Content>
-        <Modal.Header>Congratulations!</Modal.Header>
-        <Modal.CloseButton />
-        <Modal.Body py={10}>
-          {winTroughPlayer.text}
-          {winTroughPlayer.name}
-        </Modal.Body>
-      </Modal.Content>
+      <Box className={classes.modal}>
+        <Box className={classes.text}>{winTroughPlayer.text}</Box>
+        <Box className={classes.name}> {winTroughPlayer.name}</Box>
+      </Box>
     </Modal>
   );
 };

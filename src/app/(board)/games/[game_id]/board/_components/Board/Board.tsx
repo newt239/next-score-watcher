@@ -12,7 +12,7 @@ import AQL from "../AQL/AQL";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import GameLogs from "../GameLogs/GameLogs";
 import Players from "../Players/Players";
-import WinModal from "../WinModal";
+import WinModal from "../WinModal/WinModal";
 
 import classes from "./Board.module.css";
 

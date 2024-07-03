@@ -1,0 +1,23 @@
+.modal {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.text {
+  font-size: 2rem;
+}
+
+.name {
+  font-size: 5rem;
+  font-weight: 700;
+  background: linear-gradient(
+    45deg,
+    #b67b03 0%,
+    #daaf08 45%,
+    #fee9a0 70%,
+    #daaf08 85%,
+    #b67b03 90% 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

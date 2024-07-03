@@ -9,7 +9,7 @@
 
 .under_header {
   width: 100%;
-  height: 60px;
+  height: 4rem;
 
   @mixin larger-than 62em {
     width: 300px;
