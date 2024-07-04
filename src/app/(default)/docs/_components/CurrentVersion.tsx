@@ -10,7 +10,6 @@ const CurrentVersion: React.FC = () => {
     const version = window.localStorage.getItem("scorewatcher-version");
     if (version !== latestVersion) {
       setCurrentVersion(latestVersion);
-      window.localStorage.setItem("scorewatcher-version", latestVersion);
     } else {
       setCurrentVersion(version || "");
     }

@@ -5,6 +5,8 @@ import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
+import UpdateModal from "./_components/UpdateModal";
+
 import TypekitLoader from "@/app/_components/TypekitLoader";
 import { theme } from "@/utils/theme";
 
@@ -54,7 +56,10 @@ export default function RootLayout({
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <ModalsProvider>{children}</ModalsProvider>
+          <ModalsProvider>
+            {children}
+            <UpdateModal />
+          </ModalsProvider>
           <Notifications />
         </MantineProvider>
       </body>
