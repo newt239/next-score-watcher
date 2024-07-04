@@ -1,0 +1,37 @@
+.player_score_button {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  line-height: 3rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  min-width: 1rem;
+  height: 100%;
+  padding: 0 1rem 0 0;
+  border-radius: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: all 0.2s;
+
+  @mixin larger-than 62em {
+    height: 4rem;
+    padding: 0;
+    width: 100%;
+    justify-content: center;
+    align-items: last baseline;
+  }
+
+  &[data-disabled="false"]:hover {
+    opacity: 0.8;
+  }
+
+  &[data-compact="true"] {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+
+    @mixin larger-than 62em {
+      height: 2rem;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.squarex_bar {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 1vw;
+  background-color: var(--mantine-color-teal-5);
+}
+
+.skip_suggest {
+  margin: 1.25rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0.25rem;
+  border-radius: 1rem;
+  padding: 1rem;
+}

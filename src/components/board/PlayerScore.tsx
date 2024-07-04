@@ -1,29 +1,34 @@
-import { Flex, useColorMode } from "@chakra-ui/react";
+"use client";
+
+import { Flex } from "@mantine/core";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
+<<<<<<<< HEAD:src/components/board/PlayerScore.tsx
 import PlayerScoreButton from "~/components/board/PlayerScoreButton";
 import useDeviceWidth from "~/hooks/useDeviceWidth";
 import db from "~/utils/db";
 import { numberSign } from "~/utils/functions";
 import { recordEvent } from "~/utils/ga4";
 import { ComputedScoreProps, GamePropsUnion } from "~/utils/types";
+========
+import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
+>>>>>>>> feat/mantine:src/app/(board)/games/[game_id]/board/_components/PlayerScore/PlayerScore.tsx
 
-type PlayerScoreProps = {
+import classes from "./PlayerScore.module.css";
+
+import db from "@/utils/db";
+import { numberSign } from "@/utils/functions";
+import { ComputedScoreProps, GamePropsUnion } from "@/utils/types";
+
+type Props = {
   game: GamePropsUnion;
   player: ComputedScoreProps;
-  isVerticalView: boolean;
+  currentProfile: string;
 };
 
-const PlayerScore: React.FC<PlayerScoreProps> = ({
-  game,
-  player,
-  isVerticalView,
-}) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
-  const { colorMode } = useColorMode();
-  const isDesktop = useDeviceWidth();
+const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
   const logs = useLiveQuery(
     () =>
       db(currentProfile).logs.where({ game_id: game.id }).sortBy("timestamp"),
@@ -39,30 +44,32 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
   if (logs === undefined) return null;
 
   return (
-    <Flex
-      sx={{
-        width: ["auto", "auto", "100%"],
-        flexDirection: !isVerticalView ? "column" : "row",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        backgroundColor: colorMode === "light" ? "white" : "gray.800",
-        pr: !isVerticalView && isDesktop ? undefined : "0.5rem",
-        gap: "0.5rem 0",
-      }}
-    >
+    <Flex className={classes.player_score}>
       {game.rule === "normal" && (
-        <PlayerScoreButton color="red" {...props}>
+        <PlayerScoreButton
+          currentProfile={currentProfile}
+          color="red"
+          {...props}
+        >
           {numberSign("pt", player.score)}
         </PlayerScoreButton>
       )}
       {game.rule === "nomx" && (
         <>
-          <PlayerScoreButton color="red" {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="red"
+            {...props}
+          >
             {player.state === "win"
               ? player.text
               : numberSign("correct", player.correct)}
           </PlayerScoreButton>
-          <PlayerScoreButton color="blue" {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="blue"
+            {...props}
+          >
             {player.state === "lose"
               ? player.text
               : numberSign("wrong", player.wrong)}
@@ -71,27 +78,56 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "nomx-ad" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="red" filled={player.stage === 2} {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="red"
+            filled={player.stage === 2}
+            {...props}
+          >
             {numberSign("correct", player.correct)}
           </PlayerScoreButton>
-          <PlayerScoreButton color="blue" {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="blue"
+            {...props}
+          >
             {numberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
       {game.rule === "ny" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -100,14 +136,16 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nomr" && (
         <>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             color={player.is_incapacity ? "blue" : "green"}
             disabled
             {...props}
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton
+              currentProfile={currentProfile}
               color={player.is_incapacity ? "gray" : "red"}
               compact
               disabled={player.is_incapacity}
@@ -116,6 +154,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
+              currentProfile={currentProfile}
               color={player.is_incapacity ? "gray" : "blue"}
               compact
               disabled={player.is_incapacity}
@@ -129,6 +168,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "nbyn" && (
         <>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             color={player.state}
             disabled
             filled={player.state === "playing"}
@@ -136,14 +176,29 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="green" disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="green"
+            disabled
+            {...props}
+          >
             {`${player.correct}✕${game.win_point! - player.wrong}`}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -151,14 +206,29 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "nupdown" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -166,14 +236,29 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "divide" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -181,11 +266,17 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "swedish10" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton
+              currentProfile={currentProfile}
               color="red"
               compact
               disabled={player.state === "lose"}
@@ -194,6 +285,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
+              currentProfile={currentProfile}
               color="blue"
               compact
               disabled={player.state === "lose"}
@@ -206,14 +298,29 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "backstream" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -221,14 +328,29 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "attacksurvival" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -236,17 +358,38 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "squarex" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton color="green" disabled filled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="green"
+            disabled
+            filled
+            {...props}
+          >
             {`${player.odd_score}✕${player.even_score}`}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -255,6 +398,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "z" && (
         <>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             color={player.text === "休" ? "blue" : player.state}
             disabled
             filled={player.text === "休"}
@@ -262,8 +406,9 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
           >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
+          <Flex className={classes.player_score_pair}>
             <PlayerScoreButton
+              currentProfile={currentProfile}
               color={player.text === "休" ? "gray" : "red"}
               compact
               disabled={player.text === "休"}
@@ -272,6 +417,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
+              currentProfile={currentProfile}
               color={player.text === "休" ? "gray" : "blue"}
               compact
               disabled={player.text === "休"}
@@ -285,6 +431,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "freezex" && (
         <>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             color={
               player.is_incapacity || player.text.endsWith("休")
                 ? "gray"
@@ -295,6 +442,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             color="blue"
             disabled={player.is_incapacity}
             {...props}
@@ -306,6 +454,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.rule === "endless-chance" && (
         <>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             disabled={player.is_incapacity}
             color="red"
             {...props}
@@ -315,6 +464,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
               : numberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton
+            currentProfile={currentProfile}
             color="blue"
             disabled={player.is_incapacity}
             onClick={async () => {
@@ -359,11 +509,6 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
                   timestamp: cdate().text(),
                 });
               }
-              recordEvent({
-                action: "click_score_button",
-                category: "engagement",
-                label: game.id,
-              });
             }}
             {...props}
           >
@@ -375,18 +520,38 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.rule === "variables" && (
         <>
-          <PlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={player.state}
+            disabled
+            {...props}
+          >
             {player.text}
           </PlayerScoreButton>
-          <Flex sx={{ w: isDesktop ? "100%" : undefined }}>
-            <PlayerScoreButton color="red" compact {...props}>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="red"
+              compact
+              {...props}
+            >
               {numberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton color="blue" compact {...props}>
+            <PlayerScoreButton
+              currentProfile={currentProfile}
+              color="blue"
+              compact
+              {...props}
+            >
               {numberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
-          <PlayerScoreButton color="green" disabled {...props}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color="green"
+            disabled
+            {...props}
+          >
             {`+${game.players.find(
               (gamePlayer) => gamePlayer.id === player.player_id
             )?.base_correct_point!} / ${game.players.find(

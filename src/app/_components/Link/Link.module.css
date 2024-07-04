@@ -1,0 +1,7 @@
+.link {
+  display: inline-flex;
+  color: var(--mantine-color-blue-5);
+  &:hover {
+    text-decoration: underline;
+  }
+}

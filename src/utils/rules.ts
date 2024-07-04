@@ -1,4 +1,4 @@
-import { GamePropsUnion, RuleNames } from "~/utils/types";
+import { GamePropsUnion, RuleNames } from "@/utils/types";
 
 type RuleProps = {
   [T in RuleNames]: {
@@ -190,6 +190,18 @@ export const rules = {
     options: undefined,
     rows: 3,
   },
+  aql: {
+    rule: "aql",
+    name: "AQL",
+    short_description: "クイズ大会「AQL」で使われている形式です。",
+    description:
+      "10人のプレイヤーが2つのチームに分かれ、プレイヤーのスコアの積が200を超えたチームが優勝です。",
+    options: {
+      left_team: "Team A",
+      right_team: "Team B",
+    },
+    rows: 3,
+  },
 } as const satisfies RuleProps;
 
 export const getRuleStringByType = (game: GamePropsUnion): string => {
@@ -226,6 +238,8 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
       return `エンドレスチャンス`;
     case "variables":
       return `Variables`;
+    case "aql":
+      return `AQL`;
     default:
       return "unknown";
   }

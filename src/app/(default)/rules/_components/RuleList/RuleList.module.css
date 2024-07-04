@@ -1,0 +1,19 @@
+.rule_list_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.rule_name {
+  padding: 0.5rem 1rem;
+}
+
+.rule_description {
+  margin: 0.5rem 0;
+  height: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}

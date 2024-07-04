@@ -1,0 +1,73 @@
+.aql {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 1rem;
+
+  @mixin larger-than 36em {
+    width: calc(50% - 2rem);
+  }
+
+  &[data-state="win"] {
+    background-color: var(--mantine-color-red-9);
+
+    @mixin dark {
+      background-color: var(--mantine-color-red-3);
+
+      .team_name,
+      .team_score {
+        color: var(--mantine-color-gray-9);
+      }
+    }
+  }
+
+  &[data-state="lose"] {
+    background-color: var(--mantine-color-blue-9);
+
+    @mixin dark {
+      background-color: var(--mantine-color-blue-3);
+
+      .team_name,
+      .team_score {
+        color: var(--mantine-color-gray-9);
+      }
+    }
+  }
+}
+
+.team_info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team_name {
+  font-size: 1.5rem;
+}
+
+.team_score {
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+
+  @mixin larger-than 62em {
+    flex-direction: row;
+  }
+}

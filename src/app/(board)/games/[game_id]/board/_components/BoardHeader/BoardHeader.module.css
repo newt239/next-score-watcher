@@ -1,0 +1,86 @@
+.board_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+
+  @mixin larger-than 62em {
+    gap: 1rem;
+  }
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+    border-bottom: 1px solid var(--mantine-color-gray-7);
+  }
+
+  &:has(.quiz_area) {
+    height: 10vh;
+
+    @mixin larger-than 62em {
+      height: 15vh;
+    }
+  }
+}
+
+.game_info_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game_name {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-weight: 800;
+  color: black;
+
+  @mixin dark {
+    color: white;
+  }
+}
+
+.game_name_only {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+.quiz_number_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz_number {
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.quiz_area {
+  display: none;
+  height: 100%;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+
+  @mixin larger-than 62em {
+    display: flex;
+  }
+}
+
+.quiz {
+}
+
+.answer {
+  color: var(--mantine-color-red-9);
+
+  @mixin dark {
+    color: var(--mantine-color-red-3);
+  }
+}

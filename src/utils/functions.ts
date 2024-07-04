@@ -1,10 +1,10 @@
+import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import db from "~/utils/db";
-import { recordEvent } from "~/utils/ga4";
-import { rules } from "~/utils/rules";
-import { GamePropsUnion, RuleNames, States } from "~/utils/types";
+import db from "@/utils/db";
+import { rules } from "@/utils/rules";
+import { GamePropsUnion, RuleNames, States } from "@/utils/types";
 
 export const createGame = async (
   param:
@@ -12,14 +12,13 @@ export const createGame = async (
     | {
         game: GamePropsUnion;
         action_type: "copy-rule" | "copy-all";
-      }
+      },
+  currentProfile: string
 ) => {
-  const currentProfile = window.localStorage.getItem("scorew_current_profile");
   if (typeof param !== "string") {
-    recordEvent({
-      action: "create_game",
-      category: "engagement",
-      label: param.game.rule,
+    sendGAEvent({
+      event: "create_game",
+      value: param.game.rule,
     });
     const game_id = await db(currentProfile).games.put({
       ...param.game,
@@ -29,10 +28,9 @@ export const createGame = async (
     });
     return game_id;
   } else {
-    recordEvent({
-      action: "create_game",
-      category: "engagement",
-      label: param,
+    sendGAEvent({
+      event: "create_game",
+      value: param,
     });
     try {
       const game_id = nanoid(6);
@@ -141,4 +139,8 @@ export const detectPlayerState = (
     }
   }
   return state;
+};
+
+export const isDesktop = () => {
+  return window.innerWidth > 1024;
 };

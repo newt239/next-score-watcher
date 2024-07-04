@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  font-family: "hiragino-kaku-gothic-pron", -apple-system, sans-serif;
+  font-style: normal;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 0 0 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0 0 0.5rem;
+}
+
+ul {
+  list-style: disc;
+  margin-left: 24px;
+  line-height: 2rem;
+}
