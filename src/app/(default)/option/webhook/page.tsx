@@ -3,12 +3,8 @@ import { Metadata } from "next";
 import { Code } from "@mantine/core";
 import { ArrowBackUp } from "tabler-icons-react";
 
-<<<<<<< HEAD:src/pages/option/webhook.tsx
-import ButtonLink from "~/components/common/ButtonLink";
-=======
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link/Link";
->>>>>>> feat/mantine:src/app/(default)/option/webhook/page.tsx
 
 export const metadata: Metadata = {
   title: "Webhookについて",

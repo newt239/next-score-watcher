@@ -17,17 +17,10 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { Filter, Settings } from "tabler-icons-react";
 
-<<<<<<<< HEAD:src/components/config/CompactPlayerTable.tsx
-import TablePagenation from "~/components/common/TablePagination";
-import { useDidUpdateEffect } from "~/hooks/useDidUpdateEffect";
-import db from "~/utils/db";
-import { GameDBPlayerProps, PlayerDBProps } from "~/utils/types";
-========
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
->>>>>>>> feat/mantine:src/app/(default)/games/[game_id]/config/_components/CompactPlayerTable.tsx
 
 type Props = {
   game_id: string;

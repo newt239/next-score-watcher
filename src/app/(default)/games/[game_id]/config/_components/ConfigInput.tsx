@@ -7,15 +7,8 @@ import { TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
-<<<<<<<< HEAD:src/components/config/ConfigInput.tsx
-import InputLayout from "~/components/common/InputLayout";
-import { useDebounce } from "~/hooks/useDebounce";
-import db from "~/utils/db";
-import { GamePropsUnion } from "~/utils/types";
-========
 import db from "@/utils/db";
 import { GamePropsUnion } from "@/utils/types";
->>>>>>>> feat/mantine:src/app/(default)/games/[game_id]/config/_components/ConfigInput.tsx
 
 type Props = {
   input_id: keyof GamePropsUnion;

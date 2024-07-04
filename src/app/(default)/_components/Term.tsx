@@ -1,12 +1,8 @@
-<<<<<<<< HEAD:src/components/home/Term.tsx
-import Link from "~/components/common/Link";
-========
 "use client";
 
 import { Title } from "@mantine/core";
 
 import Link from "@/app/_components/Link/Link";
->>>>>>>> feat/mantine:src/app/(default)/_components/Term.tsx
 
 const Term: React.FC = () => {
   return (

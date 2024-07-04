@@ -1,11 +1,6 @@
-<<<<<<< HEAD:src/NotFound.tsx
-import { Box } from "@chakra-ui/react";
-import Link from "~/components/common/Link";
-=======
 import { Box } from "@mantine/core";
 
 import Link from "@/app/_components/Link/Link";
->>>>>>> feat/mantine:src/app/(default)/_components/NotFound.tsx
 
 const NotFound: React.FC = () => {
   return (
