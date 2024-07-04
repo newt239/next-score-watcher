@@ -36,6 +36,7 @@ const UpdateModal: React.FC = () => {
       opened={opened}
       onClose={onUpdate}
       title="新しいバージョンがリリースされました"
+      centered
     >
       <p>
         {currentVersion && `v.${currentVersion} から`} v.{latestVersion}{" "}

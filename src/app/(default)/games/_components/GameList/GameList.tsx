@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 
-import { Box, Card, Flex, Group, NativeSelect, Title } from "@mantine/core";
-import { cdate } from "cdate";
+import { Group, NativeSelect, SegmentedControl, Title } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
-import { AdjustmentsHorizontal } from "tabler-icons-react";
 
-import classes from "./GameList.module.css";
+import GameListGrid from "../GameListGrid/GameListGrid";
+import GameListTable from "../GameListTable/GameListTable";
 
-import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
@@ -25,6 +23,7 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
   );
   const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
+  const [displayMode, setDisplayMode] = useState<"grid" | "table">("grid");
 
   const parsedGameList = (games || [])
     .sort((prev, cur) => {
@@ -57,7 +56,15 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
   return (
     <>
       <Title order={2}>作成したゲーム</Title>
-      <Group justify="end" mb="lg">
+      <Group justify="end" mb="lg" gap="md">
+        <SegmentedControl
+          value={displayMode}
+          onChange={(v) => setDisplayMode(v as "grid" | "table")}
+          data={[
+            { value: "grid", label: "グリッド" },
+            { value: "table", label: "テーブル" },
+          ]}
+        />
         <NativeSelect
           onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
         >
@@ -71,36 +78,10 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
           <Link href="/rules">形式一覧</Link>
           ページから新しいゲームを作ることが出来ます。
         </p>
+      ) : displayMode === "grid" ? (
+        <GameListGrid gameList={parsedGameList} />
       ) : (
-        <Box className={classes.game_list_grid}>
-          {parsedGameList.map((game) => (
-            <Card shadow="xs" key={game.id} title={game.name} withBorder>
-              <Card.Section
-                className={classes.game_name}
-                withBorder
-                inheritPadding
-              >
-                {game.name}
-              </Card.Section>
-              <Card.Section className={classes.game_description}>
-                <p>
-                  {game.type} ／ {game.player_count}人
-                </p>
-                <p>進行状況: {game.state}</p>
-              </Card.Section>
-              <Flex className={classes.game_footer}>
-                <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
-                <ButtonLink
-                  href={`/games/${game.id}/config`}
-                  leftSection={<AdjustmentsHorizontal />}
-                  size="sm"
-                >
-                  開く
-                </ButtonLink>
-              </Flex>
-            </Card>
-          ))}
-        </Box>
+        <GameListTable gameList={parsedGameList} />
       )}
     </>
   );
