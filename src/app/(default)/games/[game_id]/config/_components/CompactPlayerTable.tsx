@@ -14,6 +14,7 @@ import {
   type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
+import { useLiveQuery } from "dexie-react-hooks";
 import { Filter, Settings } from "tabler-icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
@@ -34,6 +35,8 @@ const CompactPlayerTable: React.FC<Props> = ({
   gamePlayers,
   currentProfile,
 }) => {
+  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
+
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
     {}
@@ -127,6 +130,18 @@ const CompactPlayerTable: React.FC<Props> = ({
             (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
           ),
         ];
+
+        // 選択が解除されたプレイヤーのゲームログを削除
+        const removedGamePlayerIds = gamePlayerIds.filter(
+          (gamePlayerId) => !newGamePlayerIds.includes(gamePlayerId)
+        );
+        const deleteGameLogIdList = logs
+          ?.filter((log) => removedGamePlayerIds.includes(log.player_id))
+          .map((log) => log.id);
+        if (deleteGameLogIdList) {
+          await db(currentProfile).logs.bulkDelete(deleteGameLogIdList);
+        }
+
         const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
           (player_id) => {
             const previousGamePlayer = gamePlayers.find(

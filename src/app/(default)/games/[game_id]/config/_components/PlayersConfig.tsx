@@ -122,7 +122,6 @@ const PlayersConfig: React.FC<Props> = ({
       )}
       <SelectPlayer
         currentProfile={currentProfile}
-        disabled={disabled}
         game_id={game_id}
         playerList={playerList}
         players={players}

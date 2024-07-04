@@ -18,7 +18,6 @@ type Props = {
   game_id: string;
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
-  disabled?: boolean;
   currentProfile: string;
 };
 
@@ -26,7 +25,6 @@ const SelectPlayer: React.FC<Props> = ({
   game_id,
   playerList,
   players,
-  disabled,
   currentProfile,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -46,7 +44,6 @@ const SelectPlayer: React.FC<Props> = ({
       ) : (
         <>
           <Button
-            disabled={disabled}
             leftSection={<Plus />}
             className={classes.open_drawer_button}
             onClick={open}

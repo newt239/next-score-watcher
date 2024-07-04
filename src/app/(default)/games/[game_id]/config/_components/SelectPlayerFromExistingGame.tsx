@@ -17,6 +17,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({
   currentProfile,
 }) => {
   const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
+  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
 
   if (!games) return null;
 
@@ -35,6 +36,12 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({
               await db(currentProfile).games.update(game_id, {
                 players: selectedGame.players,
               });
+              const gameLogIdList = logs
+                ?.filter((log) => log.game_id === game_id)
+                .map((log) => log.id);
+              if (gameLogIdList) {
+                await db(currentProfile).logs.bulkDelete(gameLogIdList);
+              }
             }
           }}
         >

@@ -28,7 +28,7 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
     errorMessages.push(
       `現在${
         logs.length + 1
-      }問目です。ゲームが開始済みであるため、一部の設定は変更できません。`
+      }問目です。ゲームが開始済みであるため、一部の設定を変更するとプレイログが削除されることがあります。`
     );
   if (game.rule === "aql" && game.players.length !== 10)
     errorMessages.push("AQLは10人でプレイする必要があります。");
