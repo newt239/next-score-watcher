@@ -45,7 +45,7 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
       <Flex className={classes.game_start_wrapper}>
         <Box className={classes.error_message}>
           {errorMessages.map((m) => (
-            <span key={m}>{m}</span>
+            <div key={m}>{m}</div>
           ))}
         </Box>
         {playButtonIsDisabled ? (

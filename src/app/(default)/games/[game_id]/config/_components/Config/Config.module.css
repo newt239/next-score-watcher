@@ -7,6 +7,11 @@
     background-color: var(--mantine-color-gray-1);
     border-right: 1px solid transparent;
     color: var(--mantine-color-gray-9);
+
+    @mixin dark {
+      background-color: var(--mantine-color-gray-8);
+      color: var(--mantine-color-gray-1);
+    }
   }
 }
 
@@ -18,4 +23,10 @@
   border: 1px solid var(--mantine-color-gray-3);
   border-left: 1px solid transparent;
   overflow: scroll;
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+    border: 1px solid var(--mantine-color-gray-7);
+    border-left: 1px solid transparent;
+  }
 }
