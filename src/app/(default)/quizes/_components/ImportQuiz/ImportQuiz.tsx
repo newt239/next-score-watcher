@@ -3,6 +3,7 @@
 import { Flex, Text } from "@mantine/core";
 import { FileWithPath } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
+import { sendGAEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
@@ -36,6 +37,10 @@ const ImportQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
               message: `${file.name}から${row}件のプレイヤーデータを読み込みました`,
               autoClose: 9000,
               withCloseButton: true,
+            });
+            sendGAEvent({
+              event: "import_quiz",
+              value: row,
             });
           });
         }

@@ -11,6 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { sendGAEvent } from "@next/third-parties/google";
 import { nanoid } from "nanoid";
 import { Plus, Trash } from "tabler-icons-react";
 
@@ -39,6 +40,10 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
             label="選択する"
             defaultValue={currentProfile}
             onChange={(e) => {
+              sendGAEvent({
+                event: "change_profile",
+                value: e.target.value,
+              });
               window.document.cookie = `scorew_current_profile=${e.target.value}`;
               window.location.reload();
             }}

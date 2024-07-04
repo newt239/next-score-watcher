@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Box, Button, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { sendGAEvent } from "@next/third-parties/google";
 import { Trash } from "tabler-icons-react";
 
 import db from "@/utils/db";
@@ -26,6 +27,10 @@ const DeleteGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
       message: `${game.name}(${rules[game.rule].name})を削除しました`,
       autoClose: 9000,
       withCloseButton: true,
+    });
+    sendGAEvent({
+      event: "delete_game",
+      value: game.id,
     });
     router.refresh();
   };

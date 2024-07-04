@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, NativeSelect } from "@mantine/core";
+import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -35,6 +36,10 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({
             if (selectedGame) {
               await db(currentProfile).games.update(game_id, {
                 players: selectedGame.players,
+              });
+              sendGAEvent({
+                event: "select_player_from_existing_game",
+                value: game_id,
               });
               const gameLogIdList = logs
                 ?.filter((log) => log.game_id === game_id)

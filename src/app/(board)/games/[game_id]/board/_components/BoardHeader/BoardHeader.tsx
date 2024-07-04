@@ -11,6 +11,7 @@ import {
   MenuDivider,
 } from "@mantine/core";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
+import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 import {
@@ -179,6 +180,10 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               disabled={logs.length === 0 || game.editable}
               onClick={async () => {
                 if (logs.length !== 0) {
+                  sendGAEvent({
+                    event: "undo_log",
+                    value: game.rule,
+                  });
                   await db(currentProfile).logs.delete(
                     logs[logs.length - 1].id
                   );
@@ -196,6 +201,10 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                       ...game,
                       editable: !game.editable,
                     });
+                    sendGAEvent({
+                      event: "switch_editable",
+                      value: game.rule,
+                    });
                   } catch (e) {
                     console.log(e);
                   }
@@ -208,6 +217,10 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               <Menu.Item
                 leftSection={<Maximize />}
                 onClick={() => {
+                  sendGAEvent({
+                    event: "switch_fullscreen",
+                    value: game.rule,
+                  });
                   if (document.fullscreenElement) {
                     document.exitFullscreen();
                   } else {

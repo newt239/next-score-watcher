@@ -7,6 +7,7 @@ import {
   UnstyledButton,
   useComputedColorScheme,
 } from "@mantine/core";
+import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
@@ -112,7 +113,17 @@ const PlayerScoreButton: React.FC<Props> = ({
         />
       ) : (
         <UnstyledButton
-          onClick={onClick || handleClick}
+          onClick={() => {
+            if (onClick) {
+              onClick();
+            } else {
+              handleClick();
+            }
+            sendGAEvent({
+              event: "click_score_button",
+              value: color,
+            });
+          }}
           className={classes.player_score_button}
           data-compact={compact}
           data-disabled={disabled}
