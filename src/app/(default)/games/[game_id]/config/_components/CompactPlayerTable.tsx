@@ -17,6 +17,8 @@ import {
 import { useLiveQuery } from "dexie-react-hooks";
 import { Filter, Settings } from "tabler-icons-react";
 
+import type { UseFormReturnType } from "@mantine/form";
+
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
@@ -27,6 +29,14 @@ type Props = {
   playerList: PlayerDBProps[];
   gamePlayers: GameDBPlayerProps[];
   currentProfile: string;
+  form: UseFormReturnType<
+    {
+      players: GameDBPlayerProps[];
+    },
+    (values: { players: GameDBPlayerProps[] }) => {
+      players: GameDBPlayerProps[];
+    }
+  >;
 };
 
 const CompactPlayerTable: React.FC<Props> = ({
@@ -34,6 +44,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   playerList,
   gamePlayers,
   currentProfile,
+  form,
 }) => {
   const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
 
@@ -42,7 +53,6 @@ const CompactPlayerTable: React.FC<Props> = ({
     {}
   );
   const [searchText, setSearchText] = useState<string>("");
-  const [updateFlag, setUpdateFlag] = useState<boolean>(false);
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
     const data = row.original;
@@ -114,6 +124,7 @@ const CompactPlayerTable: React.FC<Props> = ({
     })();
   }, []);
 
+  // didにしておかないと選択状態がリセットされる
   useDidUpdate(() => {
     (async () => {
       const newGamePlayerIds = table
@@ -168,6 +179,9 @@ const CompactPlayerTable: React.FC<Props> = ({
         await db(currentProfile).games.update(game_id, {
           players: newGamePlayers,
         });
+
+        // フォームにおけるプレイヤーを更新
+        form.setFieldValue("players", newGamePlayers);
       }
     })();
   }, [rowSelection]);

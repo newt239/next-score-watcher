@@ -10,6 +10,8 @@ import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 
+import type { UseFormReturnType } from "@mantine/form";
+
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link/Link";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
@@ -19,6 +21,14 @@ type Props = {
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
   currentProfile: string;
+  form: UseFormReturnType<
+    {
+      players: GameDBPlayerProps[];
+    },
+    (values: { players: GameDBPlayerProps[] }) => {
+      players: GameDBPlayerProps[];
+    }
+  >;
 };
 
 const SelectPlayer: React.FC<Props> = ({
@@ -26,6 +36,7 @@ const SelectPlayer: React.FC<Props> = ({
   playerList,
   players,
   currentProfile,
+  form,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -85,6 +96,7 @@ const SelectPlayer: React.FC<Props> = ({
                       gamePlayers={players}
                       game_id={game_id}
                       playerList={playerList}
+                      form={form}
                     />
                   )}
                 </Accordion.Panel>

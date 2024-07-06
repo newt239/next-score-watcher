@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import {
   Center,
@@ -16,23 +14,19 @@ import { GripVertical } from "tabler-icons-react";
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import db from "@/utils/db";
-import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
+import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 
 type Props = {
   game_id: string;
-  rule_name: RuleNames;
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
-  disabled?: boolean;
   currentProfile: string;
 };
 
 const PlayersConfig: React.FC<Props> = ({
   game_id,
-  rule_name,
   playerList,
   players,
-  disabled,
   currentProfile,
 }) => {
   const form = useForm({
@@ -49,12 +43,6 @@ const PlayersConfig: React.FC<Props> = ({
       }
     },
   });
-
-  useEffect(() => {
-    if (players.length !== form.values.players.length) {
-      form.setFieldValue("players", players);
-    }
-  }, [players]);
 
   const fields = form.getValues().players.map((item, index) => (
     <Draggable key={item.id} index={index} draggableId={item.id}>
@@ -122,6 +110,7 @@ const PlayersConfig: React.FC<Props> = ({
         game_id={game_id}
         playerList={playerList}
         players={players}
+        form={form}
       />
     </>
   );
