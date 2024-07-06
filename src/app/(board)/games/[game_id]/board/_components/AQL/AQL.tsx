@@ -1,7 +1,6 @@
 "use client";
 
 import { Box, Flex } from "@mantine/core";
-import { useViewportSize } from "@mantine/hooks";
 
 import AQLPlayer from "../AQLPlayer/AQLPlayer";
 
@@ -22,6 +21,7 @@ type Props = {
     left_team: string;
     right_team: string;
   };
+  show_header: boolean;
 };
 
 const AQL: React.FC<Props> = ({
@@ -30,12 +30,8 @@ const AQL: React.FC<Props> = ({
   players,
   currentProfile,
   team_name,
+  show_header,
 }) => {
-  const { width } = useViewportSize();
-
-  const isDesktop = width > 992;
-  const isVerticalView = isDesktop && players.length > 10;
-
   const playerScoreList = players
     .map((player) => {
       const score = scores.find(
@@ -76,7 +72,12 @@ const AQL: React.FC<Props> = ({
       : "playing";
 
   return (
-    <Flex className={classes.aql} id="players-area">
+    <Flex
+      className={classes.aql}
+      id="players-area"
+      data-showq={!!game.quiz}
+      data-showheader={show_header}
+    >
       <Flex className={classes.team} data-state={leftTeamState}>
         <Flex className={classes.team_info}>
           <Box className={classes.team_name}>{team_name.left_team}</Box>
@@ -94,7 +95,6 @@ const AQL: React.FC<Props> = ({
               currentProfile={currentProfile}
               game_id={game.id}
               index={i}
-              isVerticalView={isVerticalView}
               key={i}
               player={item.player}
               score={item.score}
@@ -120,7 +120,6 @@ const AQL: React.FC<Props> = ({
               currentProfile={currentProfile}
               game_id={game.id}
               index={i}
-              isVerticalView={isVerticalView}
               key={i}
               player={item.player}
               score={item.score}

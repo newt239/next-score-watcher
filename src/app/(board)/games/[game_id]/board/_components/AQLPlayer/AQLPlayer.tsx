@@ -21,7 +21,6 @@ type Props = {
   index: number;
   score: ComputedScoreProps | undefined;
   is_incapacity: boolean;
-  isVerticalView: boolean;
   currentProfile: string;
 };
 
@@ -31,7 +30,6 @@ const AQLPlayer: React.FC<Props> = ({
   index,
   score,
   is_incapacity,
-  isVerticalView,
   currentProfile,
 }) => {
   const computedColorScheme = useComputedColorScheme("light");
@@ -65,12 +63,9 @@ const AQLPlayer: React.FC<Props> = ({
       : undefined;
   };
 
-  console.log(getColor(editedScore.state));
-
   return (
     <Flex
       className={classes.player}
-      data-vertical={isVerticalView}
       bg={
         getColor(editedScore.state) ||
         (computedColorScheme === "light" ? "gray.1" : "gray.9")
@@ -93,7 +88,7 @@ const AQLPlayer: React.FC<Props> = ({
         ).replace(".", "-")})`,
       }}
     >
-      <Flex className={classes.player_info} data-vertical={isVerticalView}>
+      <Flex className={classes.player_info}>
         <PlayerHeader
           belong={player.belong}
           index={index}
@@ -102,39 +97,41 @@ const AQLPlayer: React.FC<Props> = ({
         />
         <PlayerName player_name={player.name} isAQL />
       </Flex>
-      <PlayerScoreButton
-        currentProfile={currentProfile}
-        color={is_incapacity ? "black" : "green"}
-        game_id={game_id}
-        player_id={player.id}
-        editable={false}
-        disabled={is_incapacity}
-      >
-        {numberSign("pt", score.score)}
-      </PlayerScoreButton>
-      <Flex>
+      <Flex className={classes.player_score}>
         <PlayerScoreButton
           currentProfile={currentProfile}
-          color={is_incapacity ? "black" : "red"}
+          color={is_incapacity ? "black" : "green"}
           game_id={game_id}
           player_id={player.id}
           editable={false}
           disabled={is_incapacity}
-          compact={true}
         >
-          {numberSign("correct", score.correct)}
+          {numberSign("pt", score.score)}
         </PlayerScoreButton>
-        <PlayerScoreButton
-          currentProfile={currentProfile}
-          color={is_incapacity ? "black" : "blue"}
-          game_id={game_id}
-          player_id={player.id}
-          editable={false}
-          disabled={is_incapacity}
-          compact={true}
-        >
-          {numberSign("wrong", score.wrong)}
-        </PlayerScoreButton>
+        <Flex className={classes.player_score_pair}>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={is_incapacity ? "black" : "red"}
+            game_id={game_id}
+            player_id={player.id}
+            editable={false}
+            disabled={is_incapacity}
+            compact={true}
+          >
+            {numberSign("correct", score.correct)}
+          </PlayerScoreButton>
+          <PlayerScoreButton
+            currentProfile={currentProfile}
+            color={is_incapacity ? "black" : "blue"}
+            game_id={game_id}
+            player_id={player.id}
+            editable={false}
+            disabled={is_incapacity}
+            compact={true}
+          >
+            {numberSign("wrong", score.wrong)}
+          </PlayerScoreButton>
+        </Flex>
       </Flex>
     </Flex>
   );

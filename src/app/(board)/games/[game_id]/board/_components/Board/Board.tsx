@@ -201,6 +201,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           game={game}
           currentProfile={current_profile}
           team_name={game.options}
+          show_header={showHeader}
         />
       ) : (
         <Players
