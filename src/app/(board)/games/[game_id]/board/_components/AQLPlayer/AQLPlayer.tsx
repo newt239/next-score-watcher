@@ -73,7 +73,7 @@ const AQLPlayer: React.FC<Props> = ({
       data-vertical={isVerticalView}
       bg={
         getColor(editedScore.state) ||
-        (computedColorScheme === "light" ? "gray.3" : "gray.9")
+        (computedColorScheme === "light" ? "gray.1" : "gray.9")
       }
       c={
         getColor(editedScore.state) &&
@@ -100,7 +100,7 @@ const AQLPlayer: React.FC<Props> = ({
           isVerticalView={true}
           text={player.text}
         />
-        <PlayerName player_name={player.name} />
+        <PlayerName player_name={player.name} isAQL />
       </Flex>
       <PlayerScoreButton
         currentProfile={currentProfile}
