@@ -75,11 +75,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
         </Tabs.List>
         <Box className={classes.tab_panel_area}>
           <Tabs.Panel value="rule">
-            <RuleSettings
-              disabled={disabled}
-              game={game}
-              currentProfile={currentProfile}
-            />
+            <RuleSettings game={game} currentProfile={currentProfile} />
           </Tabs.Panel>
           <Tabs.Panel value="player">
             <PlayersConfig

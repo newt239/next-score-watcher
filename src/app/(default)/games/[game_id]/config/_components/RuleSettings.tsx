@@ -12,13 +12,11 @@ import { GamePropsUnion } from "@/utils/types";
 
 type RuleSettingsProps = {
   game: GamePropsUnion;
-  disabled: boolean;
   currentProfile: string;
 };
 
 const RuleSettings: React.FC<RuleSettingsProps> = ({
   game,
-  disabled,
   currentProfile,
 }) => {
   const winPointPaires = {
@@ -102,7 +100,6 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
           "attacksurvival",
         ].includes(game.rule) && (
           <ConfigNumberInput
-            disabled={disabled}
             input_id="win_point"
             label={
               winPointPaires[game.rule as keyof typeof winPointPaires].name
@@ -121,7 +118,6 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
           "endless-chance",
         ].includes(game.rule) && (
           <ConfigNumberInput
-            disabled={disabled}
             input_id="lose_point"
             label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
             max={100}
@@ -131,7 +127,6 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         {["attacksurvival"].includes(game.rule) && (
           <>
             <ConfigNumberInput
-              disabled={disabled}
               input_id="win_point"
               label="共通初期値"
               max={30}
@@ -139,35 +134,30 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
               currentProfile={currentProfile}
             />
             <ConfigNumberInput
-              disabled={disabled}
               input_id="win_through"
               label="勝ち抜け人数"
               max={game.players.length}
               currentProfile={currentProfile}
             />
             <ConfigNumberInput
-              disabled={disabled}
               input_id="correct_me"
               label="自分が正答"
               min={-10}
               currentProfile={currentProfile}
             />
             <ConfigNumberInput
-              disabled={disabled}
               input_id="wrong_me"
               label="自分が誤答"
               min={-10}
               currentProfile={currentProfile}
             />
             <ConfigNumberInput
-              disabled={disabled}
               input_id="correct_other"
               label="他人が正答"
               min={-10}
               currentProfile={currentProfile}
             />
             <ConfigNumberInput
-              disabled={disabled}
               input_id="wrong_other"
               label="他人が誤答"
               min={-10}
@@ -186,7 +176,6 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         )}
         {game.rule === "nomx-ad" && (
           <ConfigBooleanInput
-            disabled={disabled}
             helperText="abcの新ルールを使いたい場合はこちらを無効にしてください。"
             input_id="streak_over3"
             label="3連答以上によるアドバンテージを有効にする"
