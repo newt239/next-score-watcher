@@ -26,7 +26,11 @@ const Players: React.FC<Props> = ({
   currentProfile,
 }) => {
   return (
-    <Flex className={classes.players} id="players-area">
+    <Flex
+      className={classes.players}
+      id="players-area"
+      data-showq={!!game.quiz}
+    >
       {players.map((player, i) => (
         <Player
           currentProfile={currentProfile}

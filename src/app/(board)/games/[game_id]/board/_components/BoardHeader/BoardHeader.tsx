@@ -148,7 +148,13 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
         )}
         <Menu>
           <Menu.Target>
-            <ActionIcon variant="default" size="md" color="teal" m="xs">
+            <ActionIcon
+              className={classes.board_action}
+              variant="default"
+              size="md"
+              color="teal"
+              m="xs"
+            >
               <Settings />
             </ActionIcon>
           </Menu.Target>

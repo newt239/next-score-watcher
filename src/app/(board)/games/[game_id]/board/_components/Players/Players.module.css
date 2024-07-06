@@ -8,12 +8,16 @@
   padding: 3ch 1vw 0;
 
   @mixin larger-than 62em {
-    height: 90vh;
+    height: 95vh;
     flex-direction: row;
     justify-content: space-evenly;
     gap: 0 1vw;
-    padding: 3ch 1vw;
+    padding: 2.5vh 1vw;
     resize: vertical;
     overflow: auto;
+
+    &[data-showq="true"] {
+      height: 85vh;
+    }
   }
 }

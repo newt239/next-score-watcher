@@ -9,6 +9,7 @@ import { nanoid } from "nanoid";
 import { X } from "tabler-icons-react";
 
 import AQL from "../AQL/AQL";
+import ActionButtons from "../ActionButtons/ActionButtons";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import GameLogs from "../GameLogs/GameLogs";
 import Players from "../Players/Players";
@@ -202,6 +203,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           currentProfile={current_profile}
         />
       )}
+      <ActionButtons game={game} logs={logs} currentProfile={current_profile} />
       <GameLogs
         logs={logs}
         players={players}
