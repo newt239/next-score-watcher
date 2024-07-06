@@ -48,4 +48,10 @@
       height: 2rem;
     }
   }
+
+  @container (min-width: 200px) {
+    font-size: 4.5rem;
+    line-height: 4.5rem;
+    height: 4.5rem;
+  }
 }

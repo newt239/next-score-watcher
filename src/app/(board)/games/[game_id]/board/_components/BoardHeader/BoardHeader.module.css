@@ -20,7 +20,7 @@
 
   &[data-showquiz="true"] {
     @mixin larger-than 62em {
-      height: 15vh;
+      height: min(15vh, 8rem);
 
       &[data-withname="false"][data-showqn="false"] {
         div:nth-child(1) {
@@ -112,7 +112,6 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  overflow-x: auto;
 
   span:nth-child(1) {
     font-size: 2.5rem;

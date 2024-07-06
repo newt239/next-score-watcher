@@ -17,7 +17,7 @@
     overflow-y: auto;
 
     &[data-showq="true"] {
-      height: 85vh;
+      height: calc(100vh - min(15vh, 8rem));
     }
 
     &[data-showheader="false"] {

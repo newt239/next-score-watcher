@@ -21,6 +21,7 @@ const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
       opened={showWinthroughPopup && winTroughPlayer.name !== ""}
       onClose={onClose}
       centered
+      size="auto"
     >
       <Box className={classes.modal}>
         <Box className={classes.text}>{winTroughPlayer.text}</Box>
