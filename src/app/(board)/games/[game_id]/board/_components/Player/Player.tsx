@@ -21,7 +21,6 @@ type Props = {
   player: PlayerDBProps;
   index: number;
   score: ComputedScoreProps | undefined;
-  isVerticalView: boolean;
   currentProfile: string;
 };
 
@@ -30,7 +29,6 @@ const Player: React.FC<Props> = ({
   player,
   index,
   score,
-  isVerticalView,
   currentProfile,
 }) => {
   const computedColorScheme = useComputedColorScheme("light");
@@ -69,7 +67,6 @@ const Player: React.FC<Props> = ({
   return (
     <Flex
       className={classes.player}
-      data-vertical={isVerticalView}
       bg={getColor(editedScore.state)}
       c={
         getColor(editedScore.state) &&
@@ -89,11 +86,7 @@ const Player: React.FC<Props> = ({
         ).replace(".", "-")})`,
       }}
     >
-      <Flex
-        className={classes.player_info}
-        data-vertical={isVerticalView}
-        data-rows={rows}
-      >
+      <Flex className={classes.player_info} data-rows={rows}>
         {game.editable ? (
           <PlayerColorConfig
             colorState={getColor(editedScore.state)}

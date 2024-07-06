@@ -125,6 +125,7 @@ const PlayerScoreButton: React.FC<Props> = ({
             });
           }}
           className={classes.player_score_button}
+          data-signed={numberSign !== "none"}
           data-compact={compact}
           data-disabled={disabled}
           style={{
@@ -139,7 +140,7 @@ const PlayerScoreButton: React.FC<Props> = ({
           bg={filled ? variantColor : "transparent"}
         >
           {numberSign === "none" ? (
-            children
+            <span>{children}</span>
           ) : (
             <>
               <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>

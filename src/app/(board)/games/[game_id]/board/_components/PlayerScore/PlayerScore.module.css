@@ -1,19 +1,33 @@
 .player_score {
-  width: 100%;
+  flex-grow: 1;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  gap: 0.5rem 0;
+  width: 100%;
+  gap: 1rem;
+  padding: 0 1rem 0;
   background-color: var(--mantine-color-body);
 
+  @mixin larger-than 36em {
+    width: auto;
+    justify-content: space-between;
+  }
+
   @mixin larger-than 62em {
+    padding: 1rem 0;
+    gap: 0.5rem;
+    flex-grow: 0;
     flex-direction: column;
-    gap: 0 0.5rem;
   }
 }
 
 .player_score_pair {
   display: flex;
-  width: 100%;
+  gap: 1rem;
+
+  @mixin larger-than 62em {
+    width: 100%;
+    gap: 0;
+  }
 }
