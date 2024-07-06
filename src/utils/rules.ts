@@ -46,7 +46,7 @@ export const rules = {
   },
   ny: {
     rule: "ny",
-    name: "NY",
+    name: "NewYork",
     short_description: "正答で+1、誤答で-1されNポイントを目指す形式です。",
     description:
       "各プレイヤーはNポイントを持ち、正答で+1、誤答で-1されます。Nポイントに達したプレイヤーが勝ち抜けとなります。",
@@ -213,7 +213,7 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
     case "nomx-ad":
       return `連答つき${game.win_point}o${game.lose_point}x`;
     case "ny":
-      return "NY";
+      return "NewYork";
     case "nomr":
       return `${game.win_point}○N休`;
     case "nbyn":
