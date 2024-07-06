@@ -41,14 +41,11 @@ const PlayersConfig: React.FC<Props> = ({
       players,
     },
     onValuesChange: async (values) => {
+      // 並び替えまたは個人設定の変更が行われたときのみ1回だけ処理する
       if (values.players.length === players.length) {
-        for (let i = 0; i < players.length; i++) {
-          // 並び替えまたは個人設定の変更が行われたときのみ1回だけ処理する
-          await db(currentProfile).games.update(game_id, {
-            players: values.players,
-          });
-          break;
-        }
+        await db(currentProfile).games.update(game_id, {
+          players: values.players,
+        });
       }
     },
   });

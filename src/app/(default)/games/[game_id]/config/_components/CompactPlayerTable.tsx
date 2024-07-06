@@ -119,13 +119,13 @@ const CompactPlayerTable: React.FC<Props> = ({
       const newGamePlayerIds = table
         .getSelectedRowModel()
         .rows.map(({ original }) => (original as PlayerDBProps).id);
-      if (!updateFlag) {
-        setUpdateFlag(true);
-      } else if (newGamePlayerIds.length !== gamePlayerIds.length) {
+      if (newGamePlayerIds.length !== gamePlayerIds.length) {
         const sortedNewGamePlayerIds = [
+          // newGamePlayersのうちすでに選択されているプレイヤー
           ...gamePlayerIds.filter((gamePlayerId) =>
             newGamePlayerIds.includes(gamePlayerId)
           ),
+          // newGamePlayersのうち今まで選択されていなかったプレイヤー
           ...newGamePlayerIds.filter(
             (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
           ),
@@ -144,11 +144,11 @@ const CompactPlayerTable: React.FC<Props> = ({
 
         const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
           (player_id) => {
-            const previousGamePlayer = gamePlayers.find(
+            const gamePlayer = gamePlayers.find(
               (gamePlayer) => gamePlayer.id === player_id
             );
-            if (previousGamePlayer) {
-              return previousGamePlayer;
+            if (gamePlayer) {
+              return gamePlayer;
             } else {
               const player = playerList.find(
                 (player) => player.id === player_id
@@ -164,6 +164,7 @@ const CompactPlayerTable: React.FC<Props> = ({
             }
           }
         );
+
         await db(currentProfile).games.update(game_id, {
           players: newGamePlayers,
         });
