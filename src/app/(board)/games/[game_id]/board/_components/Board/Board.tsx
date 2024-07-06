@@ -163,7 +163,8 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         }
       } else if (
         event.code === "Comma" ||
-        (event.code === "KeyZ" && event.ctrlKey)
+        (event.code === "KeyZ" && event.ctrlKey) ||
+        (event.code === "KeyZ" && event.metaKey)
       ) {
         if (logs.length !== 0) {
           await db(current_profile).logs.delete(logs[logs.length - 1].id);
