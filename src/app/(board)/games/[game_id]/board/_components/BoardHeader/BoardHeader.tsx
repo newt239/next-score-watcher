@@ -46,7 +46,12 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const showQn = useLocalStorage({
+  const [showBoardHeader] = useLocalStorage({
+    key: "showBoardHeader",
+    defaultValue: true,
+  });
+
+  const [showQn] = useLocalStorage({
     key: "showQn",
     defaultValue: true,
   });
@@ -80,70 +85,72 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
     setManualQuizPosition((game.quiz ? game.quiz.offset : 0) + qn);
   }, [game.editable]);
 
-  if (!game || !logs) return null;
+  if (!game || !logs || !showBoardHeader) return null;
 
   return (
     <>
-      <Flex className={classes.board_header}>
-        {game.name === rules[game.rule].name || game.name === "" ? (
-          <div className={classes.game_name_only}>
-            {getRuleStringByType(game)}: Q
-            {game.editable ? manualQuizPosition + 1 : qn + 1}
-          </div>
-        ) : (
-          <>
-            <Flex
-              className={classes.game_info_area}
-              style={{
-                maxWidth: `calc(100vw - ${showQn ? 10 : 3}rem)`,
-              }}
-            >
-              <>
+      <Flex
+        className={classes.board_header}
+        data-withname={
+          !(game.name === rules[game.rule].name || game.name === "")
+        }
+        data-showquiz={!!game.quiz}
+      >
+        {
+          // ゲーム名なしの場合
+          game.name === rules[game.rule].name || game.name === "" ? (
+            <div className={classes.game_name_only} data-showqn={showQn}>
+              <span>Q{game.editable ? manualQuizPosition + 1 : qn + 1}</span>
+              <span>{getRuleStringByType(game)}</span>
+            </div>
+          ) : (
+            <>
+              <Flex className={classes.game_info_area} data-showqn={showQn}>
                 <div className={classes.game_name}>{game.name}</div>
                 <div>{getRuleStringByType(game)}</div>
-              </>
-            </Flex>
-            {showQn && (
-              <Flex className={classes.quiz_number_area}>
-                <Box className={classes.quiz_number}>
-                  Q{game.editable ? manualQuizPosition + 1 : qn + 1}
-                </Box>
-                {game.editable && (
-                  <Button.Group variant="outline">
-                    <Button
-                      h="auto"
-                      disabled={manualQuizPosition < 0}
-                      onClick={() => setManualQuizPosition((v) => v - 1)}
-                    >
-                      {"<"}
-                    </Button>
-                    <Button
-                      h="auto"
-                      disabled={
-                        game.quiz && manualQuizPosition >= quizList.length - 1
-                      }
-                      onClick={() => setManualQuizPosition((v) => v + 1)}
-                    >
-                      {">"}
-                    </Button>
-                  </Button.Group>
-                )}
               </Flex>
-            )}
-          </>
-        )}
+              {showQn && (
+                <Flex className={classes.quiz_number_area}>
+                  <Box className={classes.quiz_number}>
+                    Q{game.editable ? manualQuizPosition + 1 : qn + 1}
+                  </Box>
+                  {game.editable && (
+                    <Button.Group variant="outline">
+                      <Button
+                        h="auto"
+                        disabled={manualQuizPosition < 0}
+                        onClick={() => setManualQuizPosition((v) => v - 1)}
+                      >
+                        {"<"}
+                      </Button>
+                      <Button
+                        h="auto"
+                        disabled={
+                          game.quiz && manualQuizPosition >= quizList.length - 1
+                        }
+                        onClick={() => setManualQuizPosition((v) => v + 1)}
+                      >
+                        {">"}
+                      </Button>
+                    </Button.Group>
+                  )}
+                </Flex>
+              )}
+            </>
+          )
+        }
         {game.quiz && quizList.length > quizPosition && (
           <Box className={classes.quiz_area}>
-            <Box className={classes.quiz}>
+            <span className={classes.quiz}>
               {qn === 0 || quizPosition < 0
                 ? "ここに問題文が表示されます"
                 : quizList[quizPosition].q}
-            </Box>
-            <Box className={classes.answer}>
+            </span>
+            <span className={classes.answer}>
               {qn === 0 || quizPosition < 0
                 ? "ここに答えが表示されます"
                 : quizList[quizPosition].a}
-            </Box>
+            </span>
           </Box>
         )}
         <Menu>
