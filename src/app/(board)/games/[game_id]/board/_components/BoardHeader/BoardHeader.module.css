@@ -22,13 +22,15 @@
     @mixin larger-than 62em {
       height: 15vh;
 
-      div:nth-child(1) {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        height: auto;
-        padding: 0 0.5rem;
-        opacity: 0.5;
+      &[data-withname="false"][data-showqn="false"] {
+        div:nth-child(1) {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          height: auto;
+          padding: 0 0.5rem;
+          opacity: 0.5;
+        }
       }
     }
   }
@@ -152,6 +154,7 @@
 .quiz_area {
   display: none;
   height: 100%;
+  width: 100%;
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;

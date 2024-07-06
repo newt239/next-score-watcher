@@ -17,6 +17,10 @@ const Preferences = () => {
     key: "showWinthroughPopup",
     defaultValue: true,
   });
+  const [showBoardHeader, setShowBoardHeader] = useLocalStorage({
+    key: "showBoardHeader",
+    defaultValue: true,
+  });
   const [showQn, setShowQn] = useLocalStorage({
     key: "showQn",
     defaultValue: false,
@@ -58,6 +62,18 @@ const Preferences = () => {
           setShowWinthroughPopup((v) => !v);
         }}
         label="勝ち抜け時にポップアップを表示"
+        size="md"
+      />
+      <Switch
+        checked={showBoardHeader}
+        onChange={() => {
+          sendGAEvent({
+            event: "show_board_header",
+            value: !showBoardHeader,
+          });
+          setShowBoardHeader((v) => !v);
+        }}
+        label="ヘッダーを表示"
         size="md"
       />
       <Switch

@@ -17,6 +17,7 @@ type Props = {
   scores: ComputedScoreProps[];
   players: PlayerDBProps[];
   currentProfile: string;
+  show_header: boolean;
 };
 
 const Players: React.FC<Props> = ({
@@ -24,12 +25,14 @@ const Players: React.FC<Props> = ({
   scores,
   players,
   currentProfile,
+  show_header,
 }) => {
   return (
     <Flex
       className={classes.players}
       id="players-area"
       data-showq={!!game.quiz}
+      data-showheader={show_header}
     >
       {players.map((player, i) => (
         <Player

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Flex, useComputedColorScheme } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import PlayerColorConfig from "../PlayerColorConfig";
@@ -36,6 +37,11 @@ const Player: React.FC<Props> = ({
     db(currentProfile).games.get(game_id as string)
   );
   const [editableState, setEditableState] = useState<States>("playing");
+
+  const [reversePlayerInfo, setReversePlayerInfo] = useLocalStorage({
+    key: "reversePlayerInfo",
+    defaultValue: false,
+  });
 
   useEffect(() => {
     if (score) {
@@ -85,6 +91,7 @@ const Player: React.FC<Props> = ({
           (computedColorScheme === "dark" ? "gray.8" : "gray.1")
         ).replace(".", "-")})`,
       }}
+      data-reverse={reversePlayerInfo}
     >
       <Flex className={classes.player_info} data-rows={rows}>
         {game.editable ? (

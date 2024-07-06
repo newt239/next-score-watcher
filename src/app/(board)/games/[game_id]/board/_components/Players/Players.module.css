@@ -19,5 +19,9 @@
     &[data-showq="true"] {
       height: 85vh;
     }
+
+    &[data-showheader="false"] {
+      height: 100vh;
+    }
   }
 }

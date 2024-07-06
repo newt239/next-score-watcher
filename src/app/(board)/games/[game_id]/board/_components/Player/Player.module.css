@@ -24,6 +24,15 @@
     height: 100%;
     overflow-x: hidden;
     gap: 0;
+
+    &[data-reverse="true"] {
+      flex-direction: column-reverse;
+
+      div:nth-child(1) {
+        flex-direction: column-reverse;
+        justify-content: space-between;
+      }
+    }
   }
 }
 

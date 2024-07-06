@@ -20,9 +20,7 @@ const PlayerHeader: React.FC<Props> = ({
       {isVerticalView ? (
         <Box className={classes.vertical_player_header}>
           {text === "" && belong === "" && (
-            <Box className={classes.vertical_player_number}>
-              プレイヤー{index + 1}
-            </Box>
+            <Box className={classes.vertical_player_number}>No.{index + 1}</Box>
           )}
           <span>{text}</span>
           <span>{text !== "" && belong !== "" && " ・ "}</span>

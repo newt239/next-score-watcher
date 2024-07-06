@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { ActionIcon, Box, Button, Flex, Tooltip } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -46,6 +47,11 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   );
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const [skipSuggest, setSkipSuggest] = useState(false);
+
+  const [showHeader] = useLocalStorage({
+    key: "showBoardHeader",
+    defaultValue: true,
+  });
 
   useEffect(() => {
     db(current_profile).games.update(game_id as string, {
@@ -201,6 +207,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           scores={scores}
           players={players}
           currentProfile={current_profile}
+          show_header={showHeader}
         />
       )}
       <ActionButtons game={game} logs={logs} currentProfile={current_profile} />
