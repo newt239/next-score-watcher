@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Box, Button, Group, Table, Text } from "@mantine/core";
 import { cdate } from "cdate";
-import { SortAscending, SortDescending } from "tabler-icons-react";
+import { Check, Copy, SortAscending, SortDescending } from "tabler-icons-react";
 
 import classes from "./GameLogs.module.css";
 
@@ -20,7 +20,7 @@ type Props = {
 
 const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
-
+  const [copied, setCopied] = useState<Boolean>(false);
   const [reverse, setReverse] = useState<Boolean>(true);
 
   useEffect(() => {
@@ -36,19 +36,77 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
     getQuizes();
   }, [quiz]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
   const containSkipLog = logs.some((log) => log.variant === "skip");
 
   return (
     <Box className={classes.game_logs}>
       <Group justify="space-between" mb="1rem">
         <Text fw={700}>Game Logs</Text>
-        <Button
-          leftSection={reverse ? <SortAscending /> : <SortDescending />}
-          onClick={() => setReverse((v) => !v)}
-          size="xs"
-        >
-          {reverse ? "降順" : "昇順"}
-        </Button>
+        <Group>
+          <Button
+            size="xs"
+            onClick={() => {
+              const logsWithTableFormat = `<table>${(reverse
+                ? logs.slice().reverse()
+                : logs
+              ).map((log, qn) => {
+                const player = players.find((p) => p.id === log.player_id);
+                return `
+                <tr>
+                  <td>${reverse ? logs.length - qn : qn + 1}.</td>
+                  <td>${player ? player.name : "-"}</td>
+                  <td>${
+                    log.variant === "correct"
+                      ? "o"
+                      : log.variant === "wrong"
+                      ? "x"
+                      : "-"
+                  }</td>
+                  <td>${cdate(log.timestamp).format("YYYY/MM/DD HH:mm:ss")}</td>
+                  ${
+                    !containSkipLog && quizList.length > qn
+                      ? `
+                    <td>${quizList[reverse ? logs.length - qn - 1 : qn]?.q}</td>
+                    <td>${quizList[reverse ? logs.length - qn - 1 : qn]?.a}</td>
+                  `
+                      : ""
+                  }
+                </tr>`;
+              })}
+            </table>`;
+              const blob = new Blob([logsWithTableFormat], {
+                type: "text/html",
+              });
+              window.navigator.clipboard.write([
+                new ClipboardItem({ [blob.type]: blob }),
+              ]);
+              setCopied(true);
+            }}
+            leftSection={copied ? <Check size={20} /> : <Copy size={20} />}
+          >
+            コピーする
+          </Button>
+          <Button
+            leftSection={
+              reverse ? (
+                <SortAscending size={20} />
+              ) : (
+                <SortDescending size={20} />
+              )
+            }
+            onClick={() => setReverse((v) => !v)}
+            size="xs"
+          >
+            {reverse ? "降順" : "昇順"}
+          </Button>
+        </Group>
       </Group>
       {logs.length !== 0 ? (
         <Table.ScrollContainer minWidth={1000}>
