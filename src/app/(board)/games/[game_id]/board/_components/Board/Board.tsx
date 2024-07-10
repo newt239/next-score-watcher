@@ -103,9 +103,14 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         const playingPlayers = result.scores.filter(
           (score) => score.state === "playing"
         );
+        // 全員が不正解になったときスキップサジェストを出す
         if (
-          playingPlayers.length > 0 &&
-          playingPlayers.length === result.incapacity_players.length
+          (logs.at(-1)?.variant === "multiple_wrong" &&
+            logs.at(-1)?.player_id.split(",").length ===
+              playingPlayers.length) ||
+          // N◯M休を利用している場合
+          (playingPlayers.length > 0 &&
+            playingPlayers.length === result.incapacity_players.length)
         ) {
           setSkipSuggest(true);
         } else {
