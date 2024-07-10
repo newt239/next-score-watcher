@@ -32,7 +32,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
 
   return (
     <>
-      <Group justify="flex-end" p="sm" gap="sm">
+      <Group justify="flex-end" p="sm" gap="sm" visibleFrom="md">
         <Button
           size="sm"
           variant="default"
