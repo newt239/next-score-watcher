@@ -19,11 +19,13 @@ const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
   return (
     <Modal
       opened={showWinthroughPopup && winTroughPlayer.name !== ""}
+      withCloseButton={false}
       onClose={onClose}
-      centered
       size="auto"
+      centered
+      classNames={{ body: classes.body }}
     >
-      <Box className={classes.modal}>
+      <Box className={classes.content}>
         <Box className={classes.text}>{winTroughPlayer.text}</Box>
         <Box className={classes.name}> {winTroughPlayer.name}</Box>
       </Box>
