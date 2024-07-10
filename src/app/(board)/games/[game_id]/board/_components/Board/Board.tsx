@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { ActionIcon, Box, Button, Flex, Tooltip } from "@mantine/core";
+import { Box, Button, Flex, Tooltip } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -268,13 +268,14 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
                 </Button>
               </Tooltip>
             </Box>
-            <ActionIcon
-              aria-label="閉じる"
+            <Button
+              leftSection={<X />}
               onClick={() => setSkipSuggest(false)}
-              size="md"
+              size="sm"
+              color="red"
             >
-              <X />
-            </ActionIcon>
+              閉じる
+            </Button>
           </Flex>
         </Flex>
       )}
