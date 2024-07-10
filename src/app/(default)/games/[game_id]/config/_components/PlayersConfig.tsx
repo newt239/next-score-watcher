@@ -14,10 +14,11 @@ import { GripVertical } from "tabler-icons-react";
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import db from "@/utils/db";
-import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
+import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
 
 type Props = {
   game_id: string;
+  rule: RuleNames;
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
   currentProfile: string;
@@ -25,6 +26,7 @@ type Props = {
 
 const PlayersConfig: React.FC<Props> = ({
   game_id,
+  rule,
   playerList,
   players,
   currentProfile,
@@ -63,18 +65,38 @@ const PlayersConfig: React.FC<Props> = ({
               key={form.key(`players.${index}.name`)}
               {...form.getInputProps(`players.${index}.name`)}
             />
-            <NumberInput
-              label="初期正答数"
-              size="md"
-              key={form.key(`players.${index}.initial_correct`)}
-              {...form.getInputProps(`players.${index}.initial_correct`)}
-            />
-            <NumberInput
-              label="初期誤答数"
-              size="md"
-              key={form.key(`players.${index}.initial_wrong`)}
-              {...form.getInputProps(`players.${index}.initial_wrong`)}
-            />
+            {rule !== "squarex" && (
+              <>
+                <NumberInput
+                  label="初期正答数"
+                  size="md"
+                  key={form.key(`players.${index}.initial_correct`)}
+                  {...form.getInputProps(`players.${index}.initial_correct`)}
+                />
+                <NumberInput
+                  label="初期誤答数"
+                  size="md"
+                  key={form.key(`players.${index}.initial_wrong`)}
+                  {...form.getInputProps(`players.${index}.initial_wrong`)}
+                />
+              </>
+            )}
+            {rule === "squarex" && (
+              <>
+                <NumberInput
+                  label="奇数問目の正解数"
+                  size="md"
+                  key={form.key(`players.${index}.initial_correct`)}
+                  {...form.getInputProps(`players.${index}.initial_correct`)}
+                />
+                <NumberInput
+                  label="偶数問目の正解数"
+                  size="md"
+                  key={form.key(`players.${index}.initial_wrong`)}
+                  {...form.getInputProps(`players.${index}.initial_wrong`)}
+                />
+              </>
+            )}
           </Group>
         </ScrollArea>
       )}

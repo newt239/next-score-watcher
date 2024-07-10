@@ -186,6 +186,8 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
       return (
         player.initial_correct - initialBackstreamWrong(player.initial_wrong)
       );
+    case "squarex":
+      return (player.initial_correct || 1) * (player.initial_wrong || 1);
     case "aql":
       return 1;
     default:
@@ -202,17 +204,19 @@ export const getInitialPlayersState = (game: GamePropsUnion) => {
         state: "playing" as States,
         reach_state: "playing" as States,
         score: getInitialScore(game, gamePlayer),
-        correct: ["attacksurvival", "variables"].includes(game.rule)
+        correct: ["attacksurvival", "squarex", "variables"].includes(game.rule)
           ? 0
           : gamePlayer.initial_correct,
         wrong:
           game.rule === "backstream"
             ? initialBackstreamWrong(gamePlayer.initial_wrong)
+            : game.rule === "squarex"
+            ? 0
             : gamePlayer.initial_wrong,
         last_correct: -10,
         last_wrong: -10,
-        odd_score: 0,
-        even_score: 0,
+        odd_score: game.rule === "squarex" ? gamePlayer.initial_correct : 0,
+        even_score: game.rule === "squarex" ? gamePlayer.initial_wrong : 0,
         stage: 1,
         is_incapacity: false,
         order: 0,

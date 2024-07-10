@@ -80,6 +80,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
           <Tabs.Panel value="player">
             <PlayersConfig
               game_id={game.id}
+              rule={game.rule}
               playerList={players}
               players={game.players}
               currentProfile={currentProfile}
