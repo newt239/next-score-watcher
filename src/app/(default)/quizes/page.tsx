@@ -5,6 +5,9 @@ import ManageQuiz from "./_components/ManageQuiz";
 
 export const metadata: Metadata = {
   title: "問題管理",
+  alternates: {
+    canonical: "https://score-watcher.com/quizes",
+  },
 };
 
 export default function QuizesPage() {

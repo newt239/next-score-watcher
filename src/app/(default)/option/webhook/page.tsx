@@ -8,6 +8,9 @@ import Link from "@/app/_components/Link/Link";
 
 export const metadata: Metadata = {
   title: "Webhookについて",
+  alternates: {
+    canonical: "https://score-watcher.com/option/webhook",
+  },
 };
 
 export default function WebhookPage() {

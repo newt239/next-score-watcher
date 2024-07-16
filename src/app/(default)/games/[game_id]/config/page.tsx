@@ -1,6 +1,14 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import Config from "./_components/Config/Config";
+
+export const metadata: Metadata = {
+  title: "ゲーム設定",
+  robots: {
+    index: false,
+  },
+};
 
 export default function ConfigPage({
   params,

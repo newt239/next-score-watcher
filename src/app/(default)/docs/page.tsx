@@ -8,6 +8,9 @@ import AppInfo from "./_components/AppInfo";
 
 export const metadata: Metadata = {
   title: "アプリ情報",
+  alternates: {
+    canonical: "https://score-watcher.com/docs",
+  },
 };
 
 export default function AppInfoPage() {

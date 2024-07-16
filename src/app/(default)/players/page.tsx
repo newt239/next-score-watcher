@@ -5,6 +5,9 @@ import ManagePlayer from "./_components/ManagePlayer";
 
 export const metadata: Metadata = {
   title: "プレイヤー管理",
+  alternates: {
+    canonical: "https://score-watcher.com/players",
+  },
 };
 
 export default function PlayerPage() {

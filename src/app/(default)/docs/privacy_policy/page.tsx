@@ -6,6 +6,9 @@ import Link from "@/app/_components/Link/Link";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー",
+  alternates: {
+    canonical: "https://score-watcher.com/docs/privacy_policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {

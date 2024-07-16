@@ -5,6 +5,9 @@ import GameList from "./_components/GameList/GameList";
 
 export const metadata: Metadata = {
   title: "作成したゲーム",
+  alternates: {
+    canonical: "https://score-watcher.com/games",
+  },
 };
 
 export default function GamesPage() {

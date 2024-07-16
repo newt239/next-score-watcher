@@ -5,6 +5,9 @@ import Board from "./_components/Board/Board";
 
 export const metadata: Metadata = {
   title: "得点表示",
+  robots: {
+    index: false,
+  },
 };
 
 export default function BoardPage({ params }: { params: { game_id: string } }) {

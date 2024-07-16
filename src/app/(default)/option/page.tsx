@@ -10,6 +10,9 @@ import Preferences from "@/app/_components/Preferences";
 
 export const metadata: Metadata = {
   title: "アプリ設定",
+  alternates: {
+    canonical: "https://score-watcher.com/option",
+  },
 };
 
 export default function OptionPage() {

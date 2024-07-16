@@ -4,6 +4,9 @@ import { Group, Text, Title } from "@mantine/core";
 
 export const metadata: Metadata = {
   title: "利用規約",
+  alternates: {
+    canonical: "https://score-watcher.com/docs/terms_of_service",
+  },
 };
 
 export default function PrivacyPolicyPage() {
