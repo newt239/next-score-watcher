@@ -17,14 +17,15 @@ const UpdateModal: React.FC = () => {
     open();
     if (raw !== latestVersion) {
       setCurrentVersion(raw);
-      if (currentVersion?.startsWith("2")) {
-        // ref: https://stackoverflow.com/questions/54376355/clear-workbox-cache-of-all-content
-        caches.keys().then((cacheNames) => {
-          cacheNames.forEach((cacheName) => {
+
+      // Vite + Reactのときのキャッシュを削除
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          if (cacheName.startsWith("workbox-precache-v2")) {
             caches.delete(cacheName);
-          });
+          }
         });
-      }
+      });
     }
   }, []);
 
