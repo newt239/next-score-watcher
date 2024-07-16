@@ -17,6 +17,14 @@ const UpdateModal: React.FC = () => {
     if (raw !== latestVersion) {
       setCurrentVersion(raw);
       open();
+      if (currentVersion?.startsWith("2")) {
+        // ref: https://stackoverflow.com/questions/54376355/clear-workbox-cache-of-all-content
+        caches.keys().then((cacheNames) => {
+          cacheNames.forEach((cacheName) => {
+            caches.delete(cacheName);
+          });
+        });
+      }
     }
   }, []);
 
