@@ -14,19 +14,18 @@ const UpdateModal: React.FC = () => {
 
   useEffect(() => {
     const raw = window.localStorage.getItem("scorewatcher-version");
-    open();
     if (raw !== latestVersion) {
       setCurrentVersion(raw);
-
-      // Vite + Reactのときのキャッシュを削除
-      caches.keys().then((cacheNames) => {
-        cacheNames.forEach((cacheName) => {
-          if (cacheName.startsWith("workbox-precache-v2")) {
-            caches.delete(cacheName);
-          }
-        });
-      });
+      open();
     }
+    // Vite + Reactのときのキャッシュを削除
+    caches.keys().then((cacheNames) => {
+      cacheNames.forEach((cacheName) => {
+        if (cacheName.startsWith("workbox-precache-v2")) {
+          caches.delete(cacheName);
+        }
+      });
+    });
   }, []);
 
   const onUpdate = () => {
