@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <Title order={2}>商用利用について</Title>
+      <Title order={2}>商用利用に関するルール</Title>
       <Text mb="sm">
         本サービスを商用利用する際は、開発者と直接コンタクトを取り、別途許諾を得る必要があります。
       </Text>

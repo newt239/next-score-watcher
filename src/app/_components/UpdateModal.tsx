@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Modal } from "@mantine/core";
+import { Box, List, Modal, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 import Link from "./Link/Link";
@@ -14,9 +14,9 @@ const UpdateModal: React.FC = () => {
 
   useEffect(() => {
     const raw = window.localStorage.getItem("scorewatcher-version");
+    open();
     if (raw !== latestVersion) {
       setCurrentVersion(raw);
-      open();
       if (currentVersion?.startsWith("2")) {
         // ref: https://stackoverflow.com/questions/54376355/clear-workbox-cache-of-all-content
         caches.keys().then((cacheNames) => {
@@ -34,8 +34,23 @@ const UpdateModal: React.FC = () => {
   };
 
   const feature = {
-    news: "",
-    feature: [],
+    news: (
+      <>
+        約1年ぶりとなるメジャーアップデートを行いました。さらにパワーアップしたScore
+        Watcherをお楽しみください！
+        <br />
+        これに合わせ、利用規約とプライバシーポリシー、商用利用に関するルールを策定いたしました。以前よりご案内しておりましたが、当サイトを無断で商用に利用することは原則として禁止としております。「アプリ情報」からこれらを確認し、同意の上でご利用をお願いいたします。
+        <br />
+        今後ともScore Watcherをよろしくお願いいたします。
+      </>
+    ),
+    feature: [
+      "フォントを変更 / 全体的にUIを再設計",
+      "ゲーム開始後プレイヤーの人数を変更できるよう改善",
+      "AQLルールを「その他の形式」から「形式一覧」に移動し他の形式とロジックを統合",
+      "「ゲーム一覧」でグリッド表示とテーブル表示を切り替えられるよう改善",
+      "得点表示画面下部の「ゲームログ」で幅が長いとき横スクロールできるよう改善",
+    ],
     bugfix: [],
   };
 
@@ -45,48 +60,49 @@ const UpdateModal: React.FC = () => {
       onClose={onUpdate}
       title="新しいバージョンがリリースされました"
       centered
+      size="auto"
     >
-      <p>
+      <Box>
         {currentVersion && `v.${currentVersion} から`} v.{latestVersion}{" "}
         にアップデートしました。
-      </p>
+      </Box>
       {feature && (
         <>
           {feature.news && (
-            <div>
-              <h3>📢お知らせ</h3>
+            <Box mt="md">
+              <Title order={3}>📢お知らせ</Title>
               {feature.news}
-            </div>
+            </Box>
           )}
           {feature.feature.length > 0 && (
-            <div>
-              <h3>🎉新機能</h3>
-              <ul>
+            <Box mt="md">
+              <Title order={3}>🎉新機能</Title>
+              <List>
                 {feature.feature.map((v, i) => (
-                  <li key={i}>{v}</li>
+                  <List.Item key={i}>{v}</List.Item>
                 ))}
-              </ul>
-            </div>
+              </List>
+            </Box>
           )}
           {feature.bugfix.length > 0 && (
-            <div>
-              <h3>🐛不具合修正</h3>
+            <Box mt="md">
+              <Title order={3}>🐛不具合修正</Title>
               <ul>
                 {feature.bugfix.map((v, i) => (
                   <li key={i}>{v}</li>
                 ))}
               </ul>
-            </div>
+            </Box>
           )}
         </>
       )}
-      <div>
+      <Box mt="md">
         詳細は
         <Link href="https://github.com/newt239/next-score-watcher/releases">
           リリースノート
         </Link>
         をご確認ください。
-      </div>
+      </Box>
     </Modal>
   );
 };
