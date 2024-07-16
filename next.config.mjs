@@ -1,5 +1,6 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import nextPWA from "next-pwa";
+import runtimeCaching from "next-pwa/cache";
 
 /** @type {import('next').NextConfig} */
 
@@ -7,7 +8,9 @@ const withPWA = nextPWA({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
+  // ref: https://github.com/shadowwalker/next-pwa/issues/288#issuecomment-953799577
+  runtimeCaching,
+  buildExcludes: [/app-build-manifest\.json$/]
 });
 
 const nextConfig = {
