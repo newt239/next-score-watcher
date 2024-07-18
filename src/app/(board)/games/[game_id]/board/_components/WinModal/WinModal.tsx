@@ -31,7 +31,11 @@ const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
         <Box className={classes.text}>{winTroughPlayer.text}</Box>
         <Box className={classes.name}> {winTroughPlayer.name}</Box>
         <Flex justify="center" pt="xl">
-          <XIntentButton />
+          <XIntentButton
+            text={`${winTroughPlayer.name}さんが勝ち抜けました🎉`}
+            url="https://score-watcher.com"
+            hashtags={["ScoreWatcher"]}
+          />
         </Flex>
       </Box>
     </Modal>
