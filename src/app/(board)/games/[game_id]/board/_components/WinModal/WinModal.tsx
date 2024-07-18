@@ -1,7 +1,9 @@
-import { Box, Modal } from "@mantine/core";
+import { Box, Flex, Modal } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 
 import classes from "./WinModal.module.css";
+
+import XIntentButton from "@/app/_components/XIntentButton/XIntentButton";
 
 type Props = {
   onClose: () => void;
@@ -28,6 +30,9 @@ const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
       <Box className={classes.content}>
         <Box className={classes.text}>{winTroughPlayer.text}</Box>
         <Box className={classes.name}> {winTroughPlayer.name}</Box>
+        <Flex justify="center" pt="xl">
+          <XIntentButton />
+        </Flex>
       </Box>
     </Modal>
   );

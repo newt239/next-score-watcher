@@ -1,4 +1,8 @@
+import Link from "next/link";
+
 import { IconBrandX } from "@tabler/icons-react";
+
+import classes from "./XIntentButton.module.css";
 
 type Props = {
   text?: string;
@@ -9,10 +13,15 @@ type Props = {
   in_reply_to?: string;
 } & React.ComponentProps<"a">;
 
-const XIntentButton: React.FC<Props> = (
-  { text, url, hashtags, via, related, in_reply_to, ...intrinsicProps },
-  forwardedRef
-) => {
+const XIntentButton: React.FC<Props> = ({
+  text,
+  url,
+  hashtags,
+  via,
+  related,
+  in_reply_to,
+  ...intrinsicProps
+}) => {
   const _url = new URL("https://x.com/intent/tweet");
 
   if (text !== undefined) _url.searchParams.set("text", text);
@@ -26,16 +35,16 @@ const XIntentButton: React.FC<Props> = (
     _url.searchParams.set("in_reply_to", in_reply_to);
 
   return (
-    <a
-      ref={forwardedRef}
+    <Link
       href={_url.toString()}
       target="_blank"
       rel="noopener noreferrer"
+      className={classes.tweet_button}
       {...intrinsicProps}
     >
-      <IconBrandX />
+      <IconBrandX size={12} />
       でシェア
-    </a>
+    </Link>
   );
 };
 

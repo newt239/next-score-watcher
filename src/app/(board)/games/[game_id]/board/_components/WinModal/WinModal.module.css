@@ -32,6 +32,7 @@
   background-blend-mode: screen, hue, color, overlay;
 
   &:before {
+    z-index: -1;
     content: "";
     position: absolute;
     top: 0;
@@ -71,6 +72,10 @@
     border: 0.5em solid transparent;
     border-left: 1em solid currentColor;
     border-right: 1em solid currentColor;
+  }
+
+  @mixin larger-than 62em {
+    padding: 4rem 0 0;
   }
 }
 
