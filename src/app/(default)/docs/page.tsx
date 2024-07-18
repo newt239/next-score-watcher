@@ -51,7 +51,7 @@ export default function AppInfoPage() {
           withBorder
         >
           <Group justify="space-between">
-            <Box>商用利用について</Box>
+            <Box>商用利用に関するルール</Box>
             <ArrowRight />
           </Group>
         </Card>
