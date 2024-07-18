@@ -1,0 +1,83 @@
+.player {
+  container-type: inline-size;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  border-radius: 1rem;
+  border-width: 1px;
+  border-style: solid;
+  transition: all 0.2s;
+
+  @mixin larger-than 62em {
+    flex-direction: column;
+    align-items: stretch;
+    height: 60vh;
+    overflow-x: hidden;
+    gap: 0;
+
+    &[data-reverse="true"] {
+      flex-direction: column-reverse;
+
+      div:nth-child(1) {
+        flex-direction: column-reverse;
+        justify-content: space-between;
+      }
+    }
+  }
+}
+
+.player_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+
+  @mixin larger-than 62em {
+    align-items: center;
+
+    &[data-vertical="true"] {
+      width: 40%;
+    }
+  }
+}
+
+.player_score {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 0 1rem 0;
+  background-color: var(--mantine-color-body);
+
+  @mixin larger-than 36em {
+    width: auto;
+    justify-content: space-between;
+  }
+
+  @mixin larger-than 62em {
+    padding: 1rem 0;
+    gap: 0.5rem;
+    flex-grow: 0;
+    flex-direction: column;
+  }
+}
+
+.player_score_pair {
+  display: flex;
+  gap: 1rem;
+
+  @mixin larger-than 62em {
+    width: 100%;
+    gap: 0;
+  }
+}

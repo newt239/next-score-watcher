@@ -1,0 +1,34 @@
+.player_name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-orientation: upright;
+  writing-mode: horizontal-tb;
+  white-space: nowrap;
+  font-family: "fot-udkakugo-large-pr6n", sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 2rem;
+  width: 100%;
+  padding-top: 0.25rem;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+
+  @mixin larger-than 62em {
+    writing-mode: vertical-rl;
+    font-size: clamp(2rem, 8vh, 4.5rem);
+    line-height: clamp(2rem, 8vh, 4.5rem);
+    padding-top: 0;
+
+    &[data-rows="3"] {
+      font-size: clamp(1.8rem, 7vh, 4rem);
+      line-height: clamp(1.8rem, 7vh, 4rem);
+    }
+
+    &[data-aql="true"] {
+      font-size: clamp(1.5rem, 6vh, 3rem);
+      line-height: clamp(1.5rem, 6vh, 3rem);
+    }
+  }
+}

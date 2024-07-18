@@ -1,0 +1,11 @@
+.game_logs {
+  border-radius: 0.5rem;
+  border: 1px solid var(--mantine-color-gray-1);
+  padding: 1rem;
+  margin: 1rem;
+  white-space: nowrap;
+
+  @mixin dark {
+    border: 1px solid var(--mantine-color-gray-8);
+  }
+}

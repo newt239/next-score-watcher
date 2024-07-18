@@ -1,0 +1,19 @@
+.game_list_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.game_name {
+  padding: 0.5rem 1rem;
+}
+
+.game_description {
+  margin: 0.5rem 0;
+}
+
+.game_footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

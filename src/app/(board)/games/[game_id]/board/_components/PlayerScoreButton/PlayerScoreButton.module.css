@@ -1,0 +1,57 @@
+.player_score_button {
+  display: inline-flex;
+  align-items: baseline;
+  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  min-width: 1rem;
+  height: 100%;
+  padding: 0;
+  border-radius: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: all 0.2s;
+
+  @mixin larger-than 36em {
+    font-size: 2.5rem;
+  }
+
+  @mixin larger-than 62em {
+    padding: 0;
+    width: 100%;
+    line-height: 3rem;
+    height: 3rem;
+    justify-content: center;
+
+    &[data-disabled="false"]:hover {
+      opacity: 0.8;
+    }
+
+    &[data-compact="true"] {
+      @mixin larger-than 62em {
+        font-size: 2rem;
+        line-height: 2rem;
+        height: 2rem;
+      }
+    }
+
+    @container (max-width: 100px) {
+      font-size: 2rem;
+      line-height: 2rem;
+      height: 2rem;
+
+      &[data-compact="true"] {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        height: 2rem;
+      }
+    }
+
+    @container (min-width: 200px) {
+      font-size: 4.5rem;
+      line-height: 4.5rem;
+      height: 4.5rem;
+    }
+  }
+}

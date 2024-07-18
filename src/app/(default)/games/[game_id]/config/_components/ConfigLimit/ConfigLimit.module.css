@@ -1,0 +1,35 @@
+.config_limit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--mantine-color-white);
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-default);
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-);
+    border-color: var(--mantine-color-gray-7);
+  }
+
+  @mixin larger-than 62em {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.config_limit_inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+
+  @mixin larger-than 62em {
+    flex-direction: row;
+    width: auto;
+  }
+}

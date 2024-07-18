@@ -1,0 +1,26 @@
+.squarex_bar {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 1vw;
+  background-color: var(--mantine-color-teal-5);
+}
+
+.skip_suggest {
+  position: fixed;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  background-color: var(--mantine-color-gray-3);
+  margin: 1.25rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0.25rem;
+  border-radius: 1rem;
+  padding: 1rem;
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+  }
+}

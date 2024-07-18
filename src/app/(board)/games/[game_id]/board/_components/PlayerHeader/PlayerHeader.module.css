@@ -1,0 +1,44 @@
+.vertical_player_header {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-top: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  text-align: left;
+
+  @mixin larger-than 62em {
+    text-align: center;
+  }
+}
+
+.vertical_player_number {
+  opacity: 0.3;
+}
+
+.horizontal_player_header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-top: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+}
+
+.horizontal_player_belong {
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.horizontal_player_number {
+  opacity: 0.3;
+}

@@ -1,0 +1,33 @@
+.player_score {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 0 1rem 0;
+  background-color: var(--mantine-color-body);
+
+  @mixin larger-than 36em {
+    width: auto;
+    justify-content: space-between;
+  }
+
+  @mixin larger-than 62em {
+    padding: 1rem 0;
+    gap: 0.5rem;
+    flex-grow: 0;
+    flex-direction: column;
+  }
+}
+
+.player_score_pair {
+  display: flex;
+  gap: 1rem;
+
+  @mixin larger-than 62em {
+    width: 100%;
+    gap: 0;
+  }
+}
