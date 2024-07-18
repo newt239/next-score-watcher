@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Flex } from "@mantine/core";
-import { PlayerPlay } from "tabler-icons-react";
+import { IconPlayerPlay } from "@tabler/icons-react";
 
 import classes from "./GameStartButton.module.css";
 
@@ -51,7 +51,7 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
         {playButtonIsDisabled ? (
           <Button
             disabled={playButtonIsDisabled}
-            leftSection={<PlayerPlay />}
+            leftSection={<IconPlayerPlay />}
             size="xl"
             miw={200}
           >
@@ -63,7 +63,7 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
             variant="gradient"
             gradient={{ from: "teal", to: "lime", deg: 135 }}
             href={`/games/${game.id}/board`}
-            leftSection={<PlayerPlay />}
+            leftSection={<IconPlayerPlay />}
             miw={200}
           >
             ゲーム開始

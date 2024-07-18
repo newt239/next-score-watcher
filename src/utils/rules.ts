@@ -229,7 +229,7 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
     case "attacksurvival":
       return "アタックサバイバル";
     case "squarex":
-      return `Square${game.win_point}`;
+      return `IconSquare${game.win_point}`;
     case "z":
       return "Z";
     case "freezex":

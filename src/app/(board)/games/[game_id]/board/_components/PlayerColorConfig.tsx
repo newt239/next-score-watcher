@@ -8,7 +8,7 @@ import {
   Radio,
   useComputedColorScheme,
 } from "@mantine/core";
-import { Edit } from "tabler-icons-react";
+import { IconEdit } from "@tabler/icons-react";
 
 import { States } from "@/utils/types";
 
@@ -33,7 +33,7 @@ const PlayerColorConfig: React.FC<Props> = ({
           color={colorState && (colorScheme === "light" ? "white" : "gray.8")}
           variant="subtle"
         >
-          <Edit />
+          <IconEdit />
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown

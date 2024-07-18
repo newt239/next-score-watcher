@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { Code } from "@mantine/core";
-import { ArrowBackUp } from "tabler-icons-react";
+import { IconArrowBackUp } from "@tabler/icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link/Link";
@@ -19,7 +19,7 @@ export default function WebhookPage() {
       <ButtonLink
         variant="subtle"
         href="/option"
-        leftSection={<ArrowBackUp />}
+        leftSection={<IconArrowBackUp />}
         size="sm"
       >
         アプリ設定に戻る

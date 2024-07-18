@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 
 import { Button, Flex, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { CirclePlus } from "tabler-icons-react";
 
 import db from "@/utils/db";
 import { GameDBPlayerProps } from "@/utils/types";
@@ -91,7 +91,7 @@ const CompactCreatePlayer: React.FC<Props> = ({
       />
       <Button
         disabled={playerName === ""}
-        leftSection={<CirclePlus />}
+        leftSection={<IconCirclePlus />}
         onClick={addNewPlayer}
         size="md"
       >

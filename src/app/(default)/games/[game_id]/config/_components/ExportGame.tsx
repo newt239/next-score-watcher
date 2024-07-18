@@ -2,8 +2,8 @@
 
 import { Box, Button, Title } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
+import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
-import { FileExport } from "tabler-icons-react";
 
 import computeScore from "@/utils/computeScore";
 import { GamePropsUnion } from "@/utils/types";
@@ -36,7 +36,7 @@ const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
   return (
     <Box mt="sm">
       <Title order={4}>エクスポート</Title>
-      <Button onClick={handleCopyGame} leftSection={<FileExport />} mt="sm">
+      <Button onClick={handleCopyGame} leftSection={<IconFileExport />} mt="sm">
         ゲームをエクスポート
       </Button>
     </Box>

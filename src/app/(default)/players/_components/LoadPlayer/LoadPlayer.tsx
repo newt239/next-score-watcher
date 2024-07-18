@@ -12,8 +12,8 @@ import {
   Textarea,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { CirclePlus } from "tabler-icons-react";
 
 import classes from "./LoadPlayer.module.css";
 
@@ -89,7 +89,7 @@ const LoadPlayer: React.FC<Props> = ({ currentProfile }) => {
         </RadioGroup>
         <Button
           disabled={rawPlayerText === ""}
-          leftSection={<CirclePlus />}
+          leftSection={<IconCirclePlus />}
           onClick={handleClick}
         >
           追加

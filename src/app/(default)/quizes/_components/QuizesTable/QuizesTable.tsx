@@ -11,6 +11,7 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { IconFilter, IconTrash } from "@tabler/icons-react";
 import {
   createColumnHelper,
   flexRender,
@@ -22,7 +23,6 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Filter, Trash } from "tabler-icons-react";
 
 import classes from "./QuizesTable.module.css";
 
@@ -120,7 +120,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <Button
                   color="red"
-                  leftSection={<Trash />}
+                  leftSection={<IconTrash />}
                   onClick={() =>
                     modals.openConfirmModal({
                       title: "クイズを削除",
@@ -158,7 +158,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
               )}
               <Box>
                 <TextInput
-                  leftSection={<Filter />}
+                  leftSection={<IconFilter />}
                   onChange={(e) => setSearchText(e.target.value)}
                   placeholder="問題文・答え・セット名で検索"
                   value={searchText}

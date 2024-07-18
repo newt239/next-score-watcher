@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { Box, Button, Image } from "@mantine/core";
-import { ArrowRight } from "tabler-icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
 
 import classes from "./Hero.module.css";
 
@@ -35,7 +35,7 @@ export default function Hero() {
           component={Link}
           href="/rules"
           size="lg"
-          rightSection={<ArrowRight />}
+          rightSection={<IconArrowRight />}
         >
           ゲームを作る
         </Button>

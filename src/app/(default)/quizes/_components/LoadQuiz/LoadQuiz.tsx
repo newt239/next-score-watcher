@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 
 import { Button, Flex, Group, Radio, Text, Textarea } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { CirclePlus } from "tabler-icons-react";
 
 import classes from "./LoadQuiz.module.css";
 
@@ -88,7 +88,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
         </Radio.Group>
         <Button
           disabled={rawQuizText === ""}
-          leftSection={<CirclePlus />}
+          leftSection={<IconCirclePlus />}
           onClick={handleClick}
         >
           追加

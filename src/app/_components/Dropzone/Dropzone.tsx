@@ -2,7 +2,7 @@
 
 import { Group, Text, rem } from "@mantine/core";
 import { DropzoneProps, Dropzone as MantineDropzone } from "@mantine/dropzone";
-import { Photo, Upload, X } from "tabler-icons-react";
+import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 
 import classes from "./Dropzone.module.css";
 
@@ -17,7 +17,7 @@ const Dropzone = (props: Partial<DropzoneProps>) => {
     >
       <Group className={classes.dropzone_inner}>
         <MantineDropzone.Accept>
-          <Upload
+          <IconUpload
             style={{
               width: rem(52),
               height: rem(52),
@@ -26,7 +26,7 @@ const Dropzone = (props: Partial<DropzoneProps>) => {
           />
         </MantineDropzone.Accept>
         <MantineDropzone.Reject>
-          <X
+          <IconX
             style={{
               width: rem(52),
               height: rem(52),
@@ -35,7 +35,7 @@ const Dropzone = (props: Partial<DropzoneProps>) => {
           />
         </MantineDropzone.Reject>
         <MantineDropzone.Idle>
-          <Photo
+          <IconPhoto
             style={{
               width: rem(52),
               height: rem(52),

@@ -2,7 +2,7 @@
 
 import { Accordion, Box, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { Plus, Upload } from "tabler-icons-react";
+import { IconPlus, IconUpload } from "@tabler/icons-react";
 
 import CompactCreatePlayer from "../CompactCreatePlayer";
 import CompactPlayerTable from "../CompactPlayerTable";
@@ -44,7 +44,7 @@ const SelectPlayer: React.FC<Props> = ({
     <>
       {playerList.length === 0 ? (
         <ButtonLink
-          leftSection={<Upload />}
+          leftSection={<IconUpload />}
           mt={3}
           href={`/players?from=${game_id}`}
           size="md"
@@ -55,7 +55,7 @@ const SelectPlayer: React.FC<Props> = ({
       ) : (
         <>
           <Button
-            leftSection={<Plus />}
+            leftSection={<IconPlus />}
             className={classes.open_drawer_button}
             onClick={open}
             size="md"

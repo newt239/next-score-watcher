@@ -1,7 +1,7 @@
 import { default as NextLink } from "next/link";
 
 import { Anchor } from "@mantine/core";
-import { ExternalLink } from "tabler-icons-react";
+import { IconExternalLink } from "@tabler/icons-react";
 
 import classes from "./Link.module.css";
 
@@ -21,7 +21,7 @@ const Link: React.FC<Props> = (props) => {
       target={href.startsWith("http") ? "_blank" : "_self"}
     >
       {children}
-      {href.startsWith("http") && <ExternalLink />}
+      {href.startsWith("http") && <IconExternalLink />}
     </Anchor>
   );
 };

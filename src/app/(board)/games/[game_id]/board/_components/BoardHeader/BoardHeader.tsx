@@ -12,18 +12,18 @@ import {
 } from "@mantine/core";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
+import {
+  IconAdjustmentsHorizontal,
+  IconArrowBackUp,
+  IconBalloon,
+  IconComet,
+  IconMaximize,
+  IconSettings,
+  IconSquare,
+  IconSquareCheck,
+} from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
-import {
-  AdjustmentsHorizontal,
-  ArrowBackUp,
-  Ballon,
-  Comet,
-  Maximize,
-  Settings,
-  Square,
-  SquareCheck,
-} from "tabler-icons-react";
 
 import PreferenceDrawer from "../PreferenceDrawer";
 
@@ -162,13 +162,13 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               color="teal"
               m="xs"
             >
-              <Settings />
+              <IconSettings />
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item
               closeMenuOnClick={false}
-              leftSection={<Comet />}
+              leftSection={<IconComet />}
               disabled={game.editable}
               onClick={async () => {
                 try {
@@ -189,7 +189,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             </Menu.Item>
             <Menu.Item
               closeMenuOnClick={false}
-              leftSection={<ArrowBackUp />}
+              leftSection={<IconArrowBackUp />}
               disabled={logs.length === 0 || game.editable}
               onClick={async () => {
                 if (logs.length !== 0) {
@@ -207,7 +207,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             </Menu.Item>
             {game.rule !== "aql" && (
               <Menu.Item
-                leftSection={game.editable ? <SquareCheck /> : <Square />}
+                leftSection={
+                  game.editable ? <IconSquareCheck /> : <IconSquare />
+                }
                 onClick={async () => {
                   try {
                     await db(currentProfile).games.put({
@@ -228,7 +230,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             )}
             {document.fullscreenEnabled && (
               <Menu.Item
-                leftSection={<Maximize />}
+                leftSection={<IconMaximize />}
                 onClick={() => {
                   sendGAEvent({
                     event: "switch_fullscreen",
@@ -244,13 +246,13 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                 フルスクリーン
               </Menu.Item>
             )}
-            <Menu.Item leftSection={<Ballon />} onClick={open}>
+            <Menu.Item leftSection={<IconBalloon />} onClick={open}>
               表示設定
             </Menu.Item>
             <MenuDivider />
             <Menu.Item
               component={Link}
-              leftSection={<AdjustmentsHorizontal />}
+              leftSection={<IconAdjustmentsHorizontal />}
               href={`/games/${game.id}/config`}
             >
               ゲーム設定

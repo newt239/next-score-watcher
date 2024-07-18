@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import { Box, Card, Group, SimpleGrid, Title } from "@mantine/core";
-import { ArrowRight } from "tabler-icons-react";
+import { IconArrowRight } from "@tabler/icons-react";
 
 import AppInfo from "./_components/AppInfo";
 
@@ -30,7 +30,7 @@ export default function AppInfoPage() {
         >
           <Group justify="space-between">
             <Box>利用規約</Box>
-            <ArrowRight />
+            <IconArrowRight />
           </Group>
         </Card>
         <Card
@@ -41,7 +41,7 @@ export default function AppInfoPage() {
         >
           <Group justify="space-between">
             <Box>プライバシーポリシー</Box>
-            <ArrowRight />
+            <IconArrowRight />
           </Group>
         </Card>
         <Card
@@ -52,7 +52,7 @@ export default function AppInfoPage() {
         >
           <Group justify="space-between">
             <Box>商用利用に関するルール</Box>
-            <ArrowRight />
+            <IconArrowRight />
           </Group>
         </Card>
       </SimpleGrid>

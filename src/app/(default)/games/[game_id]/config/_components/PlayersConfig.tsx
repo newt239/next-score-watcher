@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { GripVertical } from "tabler-icons-react";
+import { IconGripVertical } from "@tabler/icons-react";
 
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
@@ -56,7 +56,7 @@ const PlayersConfig: React.FC<Props> = ({
         >
           <Group w={500} wrap="nowrap">
             <Center {...provided.dragHandleProps}>
-              <GripVertical size="1.2rem" />
+              <IconGripVertical size="1.2rem" />
             </Center>
             <TextInput
               label="プレイヤー名"

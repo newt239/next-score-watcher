@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 
 import { Box, Button, Group, Table, Text } from "@mantine/core";
+import {
+  IconCheck,
+  IconCopy,
+  IconSortAscending,
+  IconSortDescending,
+} from "@tabler/icons-react";
 import { cdate } from "cdate";
-import { Check, Copy, SortAscending, SortDescending } from "tabler-icons-react";
 
 import classes from "./GameLogs.module.css";
 
@@ -89,16 +94,18 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
               ]);
               setCopied(true);
             }}
-            leftSection={copied ? <Check size={20} /> : <Copy size={20} />}
+            leftSection={
+              copied ? <IconCheck size={20} /> : <IconCopy size={20} />
+            }
           >
             コピーする
           </Button>
           <Button
             leftSection={
               reverse ? (
-                <SortAscending size={20} />
+                <IconSortAscending size={20} />
               ) : (
-                <SortDescending size={20} />
+                <IconSortDescending size={20} />
               )
             }
             onClick={() => setReverse((v) => !v)}

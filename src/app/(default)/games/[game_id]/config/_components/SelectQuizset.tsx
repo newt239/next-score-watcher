@@ -2,7 +2,7 @@
 
 import { NativeSelect, NumberInput } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
-import { Upload } from "tabler-icons-react";
+import { IconUpload } from "@tabler/icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import db from "@/utils/db";
@@ -67,7 +67,10 @@ const SelectQuizset: React.FC<Props> = ({
           )}
         </>
       ) : (
-        <ButtonLink leftSection={<Upload />} href={`/quizes?from=${game_id}`}>
+        <ButtonLink
+          leftSection={<IconUpload />}
+          href={`/quizes?from=${game_id}`}
+        >
           問題データを読み込む
         </ButtonLink>
       )}

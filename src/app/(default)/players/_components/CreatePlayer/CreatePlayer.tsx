@@ -5,8 +5,8 @@ import { useRef, useState } from "react";
 
 import { Button, Flex, Group, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { CirclePlus } from "tabler-icons-react";
 
 import classes from "./CreatePlayer.module.css";
 
@@ -98,7 +98,7 @@ const CreatePlayer: React.FC<Props> = ({ currentProfile }) => {
       <Group w="100%" justify="flex-end">
         <Button
           disabled={playerName === ""}
-          leftSection={<CirclePlus />}
+          leftSection={<IconCirclePlus />}
           onClick={addNewPlayer}
         >
           追加

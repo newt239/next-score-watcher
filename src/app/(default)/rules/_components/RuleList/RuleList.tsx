@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { Box, Button, Card, Group, Title } from "@mantine/core";
-import { CirclePlus } from "tabler-icons-react";
+import { IconCirclePlus } from "@tabler/icons-react";
 
 import classes from "./RuleList.module.css";
 
@@ -46,7 +46,7 @@ const RuleList: React.FC<Props> = ({ currentProfile }) => {
                 <Button
                   onClick={() => onClick(rule_name)}
                   size="sm"
-                  leftSection={<CirclePlus />}
+                  leftSection={<IconCirclePlus />}
                 >
                   作る
                 </Button>

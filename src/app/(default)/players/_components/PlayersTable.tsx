@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
+import { IconTrash } from "@tabler/icons-react";
 import {
   createColumnHelper,
   flexRender,
@@ -26,7 +27,6 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Trash } from "tabler-icons-react";
 
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
@@ -153,7 +153,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
               {table.getSelectedRowModel().rows.length !== 0 && (
                 <Button
                   color="red"
-                  leftSection={<Trash />}
+                  leftSection={<IconTrash />}
                   onClick={() =>
                     modals.openConfirmModal({
                       title: "プレイヤーを削除",

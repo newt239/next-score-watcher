@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 import { Box, Button, Flex, Tooltip } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
+import { IconX } from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
-import { X } from "tabler-icons-react";
 
 import AQL from "../AQL/AQL";
 import ActionButtons from "../ActionButtons/ActionButtons";
@@ -269,7 +269,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               </Tooltip>
             </Box>
             <Button
-              leftSection={<X />}
+              leftSection={<IconX />}
               onClick={() => setSkipSuggest(false)}
               size="sm"
               color="red"

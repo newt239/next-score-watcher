@@ -12,8 +12,8 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { sendGAEvent } from "@next/third-parties/google";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
-import { Plus, Trash } from "tabler-icons-react";
 
 import db from "@/utils/db";
 
@@ -65,7 +65,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
           <Button
             mt="lg"
             disabled={newProfileName === ""}
-            leftSection={<Plus />}
+            leftSection={<IconPlus />}
             onClick={() => {
               const newProfileId = `profile_${nanoid()}`;
               const newProfileList = [
@@ -84,7 +84,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
           {currentProfile !== "score_watcher" && (
             <Button
               color="red"
-              leftSection={<Trash />}
+              leftSection={<IconTrash />}
               onClick={() =>
                 modals.openConfirmModal({
                   title: "プロファイルの削除",

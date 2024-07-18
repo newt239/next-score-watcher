@@ -3,17 +3,17 @@
 import { Button, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
+import {
+  IconAdjustmentsHorizontal,
+  IconArrowBackUp,
+  IconBalloon,
+  IconComet,
+  IconMaximize,
+  IconSquare,
+  IconSquareCheck,
+} from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
-import {
-  AdjustmentsHorizontal,
-  ArrowBackUp,
-  Ballon,
-  Comet,
-  Maximize,
-  Square,
-  SquareCheck,
-} from "tabler-icons-react";
 
 import PreferenceDrawer from "../PreferenceDrawer";
 
@@ -36,7 +36,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
         <Button
           size="sm"
           variant="default"
-          leftSection={<Comet size={20} />}
+          leftSection={<IconComet size={20} />}
           disabled={game.editable}
           onClick={async () => {
             try {
@@ -58,7 +58,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
         <Button
           size="sm"
           variant="default"
-          leftSection={<ArrowBackUp size={20} />}
+          leftSection={<IconArrowBackUp size={20} />}
           disabled={logs.length === 0 || game.editable}
           onClick={async () => {
             if (logs.length !== 0) {
@@ -77,7 +77,11 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
             size="sm"
             variant="default"
             leftSection={
-              game.editable ? <SquareCheck size={20} /> : <Square size={20} />
+              game.editable ? (
+                <IconSquareCheck size={20} />
+              ) : (
+                <IconSquare size={20} />
+              )
             }
             onClick={async () => {
               try {
@@ -101,7 +105,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
           <Button
             size="sm"
             variant="default"
-            leftSection={<Maximize size={20} />}
+            leftSection={<IconMaximize size={20} />}
             onClick={() => {
               sendGAEvent({
                 event: "switch_fullscreen",
@@ -120,7 +124,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
         <Button
           size="sm"
           variant="default"
-          leftSection={<Ballon size={20} />}
+          leftSection={<IconBalloon size={20} />}
           onClick={open}
         >
           表示設定
@@ -128,7 +132,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
         <ButtonLink
           size="sm"
           variant="default"
-          leftSection={<AdjustmentsHorizontal size={20} />}
+          leftSection={<IconAdjustmentsHorizontal size={20} />}
           href={`/games/${game.id}/config`}
         >
           ゲーム設定

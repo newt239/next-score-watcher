@@ -61,12 +61,12 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
       min: undefined,
     },
     squarex: {
-      name: "X",
+      name: "IconX",
       max: 100,
       min: undefined,
     },
     freezex: {
-      name: "X",
+      name: "IconX",
       max: 100,
       min: undefined,
     },

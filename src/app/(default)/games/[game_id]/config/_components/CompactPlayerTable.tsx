@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Checkbox, Group, Table, Text, TextInput } from "@mantine/core";
 import { useDidUpdate } from "@mantine/hooks";
+import { IconFilter, IconSettings } from "@tabler/icons-react";
 import {
   createColumnHelper,
   flexRender,
@@ -15,7 +16,6 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Filter, Settings } from "tabler-icons-react";
 
 import type { UseFormReturnType } from "@mantine/form";
 
@@ -192,7 +192,7 @@ const CompactPlayerTable: React.FC<Props> = ({
         onChange={(e) => setSearchText(e.target.value)}
         placeholder="フリーワードで検索"
         value={searchText}
-        rightSection={<Filter />}
+        rightSection={<IconFilter />}
       />
       {table.getRowModel().rows.length === 0 ? (
         <Text p="sm">
@@ -241,7 +241,7 @@ const CompactPlayerTable: React.FC<Props> = ({
           <TablePagenation table={table} />
           <Group justify="flex-end" mt="sm">
             <ButtonLink
-              leftSection={<Settings />}
+              leftSection={<IconSettings />}
               href={`/players?from=${game_id}`}
               variant="default"
               size="sm"

@@ -1,8 +1,8 @@
 "use client";
 
 import { Table } from "@mantine/core";
+import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
-import { AdjustmentsHorizontal } from "tabler-icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link/Link";
@@ -53,7 +53,7 @@ const GameListTable: React.FC<Props> = ({ gameList }) => {
                   <Table.Td>
                     <ButtonLink
                       href={`/games/${game.id}/config`}
-                      leftSection={<AdjustmentsHorizontal />}
+                      leftSection={<IconAdjustmentsHorizontal />}
                       size="sm"
                     >
                       開く

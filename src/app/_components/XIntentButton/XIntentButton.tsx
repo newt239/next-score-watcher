@@ -1,4 +1,4 @@
-import { BrandX } from "tabler-icons-react";
+import { IconBrandX } from "@tabler/icons-react";
 
 type Props = {
   text?: string;
@@ -33,7 +33,7 @@ const XIntentButton: React.FC<Props> = (
       rel="noopener noreferrer"
       {...intrinsicProps}
     >
-      <BrandX />
+      <IconBrandX />
       でシェア
     </a>
   );
