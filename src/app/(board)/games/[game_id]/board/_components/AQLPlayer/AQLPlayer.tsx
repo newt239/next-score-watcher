@@ -95,7 +95,7 @@ const AQLPlayer: React.FC<Props> = ({
           isVerticalView={true}
           text={player.text}
         />
-        <PlayerName player_name={player.name} isAQL />
+        <PlayerName player_name={player.name} isAQL rows={3} />
       </Flex>
       <Flex className={classes.player_score}>
         <PlayerScoreButton

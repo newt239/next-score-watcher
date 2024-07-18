@@ -23,6 +23,7 @@
 
     &[data-rows="3"] {
       font-size: clamp(1.8rem, 7vh, 4rem);
+      line-height: clamp(1.8rem, 7vh, 4rem);
     }
 
     &[data-aql="true"] {
