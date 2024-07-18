@@ -21,6 +21,10 @@
     line-height: clamp(2rem, 8vh, 4.5rem);
     padding-top: 0;
 
+    &[data-rows="3"] {
+      font-size: clamp(1.8rem, 7vh, 4rem);
+    }
+
     &[data-aql="true"] {
       font-size: clamp(1.5rem, 6vh, 3rem);
       line-height: clamp(1.5rem, 6vh, 3rem);

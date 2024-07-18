@@ -108,7 +108,7 @@ const Player: React.FC<Props> = ({
             text={player.text}
           />
         )}
-        <PlayerName player_name={player.name} />
+        <PlayerName player_name={player.name} rows={rows} />
       </Flex>
       <PlayerScore
         game={game}
