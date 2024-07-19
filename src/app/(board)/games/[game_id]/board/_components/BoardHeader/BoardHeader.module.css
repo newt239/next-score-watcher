@@ -7,6 +7,7 @@
   padding: 0 0.5rem;
   overflow-y: auto;
   resize: vertical;
+  width: 100vw;
 
   @mixin larger-than 62em {
     gap: 1rem;
@@ -18,11 +19,11 @@
     border-bottom: 1px solid var(--mantine-color-gray-7);
   }
 
-  &[data-showquiz="true"] {
+  &[data-withname="false"][data-showqn="false"] {
     @mixin larger-than 62em {
       height: min(15vh, 8rem);
 
-      &[data-withname="false"][data-showqn="false"] {
+      &[data-showquiz="true"] {
         div:nth-child(1) {
           position: absolute;
           right: 0;
@@ -31,6 +32,10 @@
           padding: 0 0.5rem;
           opacity: 0.5;
         }
+      }
+
+      &[data-showquiz="false"] {
+        justify-content: center;
       }
     }
   }
@@ -67,14 +72,12 @@
 
     &[data-showquiz="true"] {
       @mixin larger-than 62em {
-        flex-direction: column;
-        flex-wrap: wrap;
+        flex-direction: row;
         align-items: flex-start;
-        justify-content: center;
         gap: 0.5rem;
 
-        div:nth-child(3) {
-          width: 100%;
+        div:nth-child(1) {
+          white-space: nowrap;
         }
       }
     }
@@ -87,6 +90,13 @@
       }
     }
   }
+}
+
+.game_info_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
 }
 
 .game_info_area {
@@ -110,8 +120,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
+
+  @mixin larger-than 62em {
+    align-items: center;
+  }
 
   span:nth-child(1) {
     font-size: 2.5rem;
@@ -122,6 +136,7 @@
   span:nth-child(2) {
     font-size: 1rem;
     line-height: 1rem;
+    text-wrap: nowrap;
   }
 
   &[data-showqn="false"] {
@@ -140,7 +155,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .quiz_number {
@@ -153,7 +168,6 @@
 .quiz_area {
   display: none;
   height: 100%;
-  width: 100%;
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;

@@ -87,6 +87,8 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
 
   if (!game || !logs || !showBoardHeader) return null;
 
+  console.log(game.quiz);
+
   return (
     <>
       <Flex
@@ -94,7 +96,8 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
         data-withname={
           !(game.name === rules[game.rule].name || game.name === "")
         }
-        data-showquiz={!!game.quiz}
+        data-showquiz={game.quiz?.set_name !== ""}
+        data-showqn={showQn}
       >
         {
           // ゲーム名なしの場合
@@ -104,7 +107,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               <span>{getRuleStringByType(game)}</span>
             </div>
           ) : (
-            <>
+            <Flex className={classes.game_info_wrapper}>
               <Flex className={classes.game_info_area} data-showqn={showQn}>
                 <div className={classes.game_name}>{game.name}</div>
                 <div>{getRuleStringByType(game)}</div>
@@ -136,7 +139,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                   )}
                 </Flex>
               )}
-            </>
+            </Flex>
           )
         }
         {game.quiz && quizList.length > quizPosition && (
