@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Group, Text, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import db from "@/utils/db";
@@ -30,14 +30,15 @@ const InitializeApp: React.FC<Props> = ({ currentProfile }) => {
       onConfirm: deleteAppData,
     });
   };
+
   return (
     <>
-      <h3>アプリの初期化</h3>
-      <Group justify="space-between" gap="1rem" mb="lg">
-        <Text>アプリが上手く動作しない場合にお試しください。</Text>
+      <Title order={3}>アプリの初期化</Title>
+      <Group justify="flex-start" gap="1rem" mb="lg">
         <Button onClick={openInitializeModal} color="red">
           初期化する
         </Button>
+        <Text>アプリが上手く動作しない場合にお試しください。</Text>
       </Group>
     </>
   );

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { Title } from "@mantine/core";
 
 import InitializeApp from "./_components/InitializeApp";
+import ManageData from "./_components/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
 import Preferences from "@/app/_components/Preferences";
@@ -23,9 +24,10 @@ export default function OptionPage() {
   return (
     <>
       <Title order={2}>アプリ設定</Title>
-      <h3>表示設定</h3>
+      <Title order={3}>表示設定</Title>
       <Preferences />
       <WebhookSettings />
+      <ManageData currentProfile={currentProfile} />
       <InitializeApp currentProfile={currentProfile} />
     </>
   );

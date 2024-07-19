@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Text, TextInput } from "@mantine/core";
+import { Text, TextInput, Title } from "@mantine/core";
 
 import Link from "@/app/_components/Link/Link";
 
@@ -18,7 +18,7 @@ const WebhookSettings = () => {
 
   return (
     <>
-      <h3>Webhook</h3>
+      <Title order={3}>Webhook</Title>
       <Text>
         イベント発生時に設定されたURLへPOSTリクエストを送信します。 詳しくは
         <Link href="/option/webhook">webhookについて</Link>
