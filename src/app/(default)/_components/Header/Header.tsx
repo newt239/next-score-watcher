@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Box, Flex } from "@mantine/core";
 
 import Hamburger from "../Hamburger/Hamburger";
-import ProfileSelector from "../ProfileSelector/profileSelector";
+import ProfileSelector from "../ProfileSelector/ProfileSelector";
 import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";

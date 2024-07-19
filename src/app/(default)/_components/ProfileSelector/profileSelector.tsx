@@ -50,7 +50,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
           >
             {profileList.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.name}
+                {decodeURI(p.name)}
               </option>
             ))}
             <option value="score_watcher">デフォルト</option>
@@ -70,7 +70,7 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
               const newProfileId = `profile_${nanoid()}`;
               const newProfileList = [
                 ...profileList,
-                { name: newProfileName, id: newProfileId },
+                { name: encodeURI(newProfileName), id: newProfileId },
               ];
               window.document.cookie = `scorew_profile_list=${JSON.stringify(
                 newProfileList
