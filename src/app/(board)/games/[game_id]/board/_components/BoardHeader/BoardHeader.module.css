@@ -11,7 +11,7 @@
 
   @mixin larger-than 62em {
     gap: 1rem;
-    height: 5rem;
+    height: min(15vh, 8rem);
   }
 
   @mixin dark {
@@ -21,8 +21,6 @@
 
   &[data-withname="false"][data-showqn="false"] {
     @mixin larger-than 62em {
-      height: min(15vh, 8rem);
-
       &[data-showquiz="true"] {
         div:nth-child(1) {
           position: absolute;
