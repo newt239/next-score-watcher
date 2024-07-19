@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Box, Flex } from "@mantine/core";
 
 import Hamburger from "../Hamburger/Hamburger";
-import ProfileSelector from "../ProfileSelector/profileSelector";
+import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
@@ -60,7 +60,7 @@ export default function Header() {
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
           <SubMenu />
           <Flex direction="column" gap={4}>
-            <ProfileSelector
+            <SelectProfile
               profileList={profileList}
               currentProfile={currentProfile}
             />

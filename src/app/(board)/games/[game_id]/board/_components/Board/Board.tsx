@@ -123,6 +123,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
 
   if (!game || game.players.length === 0 || !logs) return <NotFound />;
 
+  // TODO: incapacity状態のプレイヤーに対してショートカットキーによるアクションを追加できないようにする
   window.document.onkeydown = async (event) => {
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
       if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
@@ -156,15 +157,21 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
       } else if (["Minus", "Equal", "IntlYen"].includes(event.code)) {
         const playerIndex =
           ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
-        if (playerIndex <= players.length) {
-          await db(current_profile).logs.put({
-            id: nanoid(),
-            game_id: game.id,
-            player_id: players[playerIndex].id,
-            variant: event.shiftKey ? "wrong" : "correct",
-            system: false,
-            timestamp: cdate().text(),
-          });
+        if (
+          typeof playerIndex === "number" &&
+          !isNaN(playerIndex) &&
+          playerIndex <= players.length
+        ) {
+          if (playerIndex <= players.length) {
+            await db(current_profile).logs.put({
+              id: nanoid(),
+              game_id: game.id,
+              player_id: players[playerIndex].id,
+              variant: event.shiftKey ? "wrong" : "correct",
+              system: false,
+              timestamp: cdate().text(),
+            });
+          }
         }
       } else if (
         event.code === "Comma" ||
