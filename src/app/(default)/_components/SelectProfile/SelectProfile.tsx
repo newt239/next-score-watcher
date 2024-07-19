@@ -22,7 +22,7 @@ type Props = {
   currentProfile: string;
 };
 
-const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
+const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
   const currentProfileName =
     profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
@@ -124,4 +124,4 @@ const ProfileSelector: React.FC<Props> = ({ profileList, currentProfile }) => {
   );
 };
 
-export default ProfileSelector;
+export default SelectProfile;
