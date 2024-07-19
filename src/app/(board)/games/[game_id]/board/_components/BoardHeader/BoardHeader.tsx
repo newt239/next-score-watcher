@@ -87,8 +87,6 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
 
   if (!game || !logs || !showBoardHeader) return null;
 
-  console.log(game.quiz);
-
   return (
     <>
       <Flex
@@ -96,7 +94,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
         data-withname={
           !(game.name === rules[game.rule].name || game.name === "")
         }
-        data-showquiz={game.quiz?.set_name !== ""}
+        data-showquiz={game.quiz?.set_name !== "" && game.quiz !== undefined}
         data-showqn={showQn}
       >
         {
