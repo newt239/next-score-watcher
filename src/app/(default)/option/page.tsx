@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { Title } from "@mantine/core";
 
 import InitializeApp from "./_components/InitializeApp";
-import ManageData from "./_components/ManageData";
+import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
 import Preferences from "@/app/_components/Preferences";
@@ -18,6 +18,10 @@ export const metadata: Metadata = {
 
 export default function OptionPage() {
   const cookieStore = cookies();
+  const profileListCookie = cookieStore.get("scorew_profile_list");
+  const profileList = profileListCookie?.value
+    ? JSON.parse(profileListCookie?.value)
+    : [];
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
@@ -27,7 +31,7 @@ export default function OptionPage() {
       <Title order={3}>表示設定</Title>
       <Preferences />
       <WebhookSettings />
-      <ManageData currentProfile={currentProfile} />
+      <ManageData profileList={profileList} currentProfile={currentProfile} />
       <InitializeApp currentProfile={currentProfile} />
     </>
   );
