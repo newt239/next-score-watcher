@@ -12,7 +12,6 @@ const Dropzone = (props: Partial<DropzoneProps>) => {
       onDrop={(files) => console.log("accepted files", files)}
       onReject={(files) => console.log("rejected files", files)}
       maxSize={5 * 1024 ** 2}
-      accept={["text/csv"]}
       {...props}
     >
       <Group className={classes.dropzone_inner}>

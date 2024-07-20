@@ -69,7 +69,11 @@ const ImportQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
 
   return (
     <Flex className={classes.import_quiz}>
-      <Dropzone disabled={set_name === ""} onDrop={handleOnChange} />
+      <Dropzone
+        disabled={set_name === ""}
+        onDrop={handleOnChange}
+        accept={["text/csv"]}
+      />
       <Text>1列目: 問題番号、 2列目: 問題文 3列目: 答え</Text>
     </Flex>
   );

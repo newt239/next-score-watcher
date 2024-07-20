@@ -67,7 +67,7 @@ const ImportPlayer: React.FC<Props> = ({ currentProfile }) => {
 
   return (
     <Flex className={classes.import_player}>
-      <Dropzone onDrop={handleOnChange} />
+      <Dropzone onDrop={handleOnChange} accept={["text/csv"]} />
       <Text>1列目: 氏名、 2列目: 順位、 3列目: 所属</Text>
     </Flex>
   );

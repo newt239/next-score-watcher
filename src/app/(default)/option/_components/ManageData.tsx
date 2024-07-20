@@ -11,7 +11,7 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
+import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
@@ -112,6 +112,11 @@ const ManageData: React.FC<Props> = ({ currentProfile }) => {
           placeholder="〇〇パソコンのデータ"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+        />
+        <Dropzone
+          disabled={input === ""}
+          onDrop={handleOnChange}
+          accept={["application/json"]}
         />
         <Box>インポート機能は次のバージョンで実装します。</Box>
       </Stack>
