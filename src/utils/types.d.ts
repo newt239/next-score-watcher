@@ -69,6 +69,7 @@ export type AllGameProps = {
     options: GameOptionProps[T];
     editable: boolean;
     last_open: string;
+    available: boolean;
   };
 };
 
@@ -97,6 +98,7 @@ export type LogDBProps = {
   variant: Variants;
   system: boolean;
   timestamp: string;
+  available: boolean;
 };
 
 export type States = "win" | "lose" | "playing";
@@ -124,6 +126,7 @@ export type QuizDBProps = {
   q: string;
   a: string;
   set_name: string;
+  available: boolean;
 };
 
 export interface ScoreWatcherDBTables extends DexieDatabase {

@@ -31,7 +31,7 @@ const computeScore = async (game_id: string, currentProfile: string) => {
   if (!game)
     return { data: { scores: [], win_players: [], incapacity_players: [] } };
   const gameLogList = await db(currentProfile)
-    .logs.where({ game_id: game_id })
+    .logs.where({ game_id: game_id, available: true })
     .sortBy("timestamp");
 
   let result: {

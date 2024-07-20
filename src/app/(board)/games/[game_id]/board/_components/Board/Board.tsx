@@ -36,7 +36,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   const logs = useLiveQuery(
     () =>
       db(current_profile)
-        .logs.where({ game_id: game_id as string })
+        .logs.where({ game_id: game_id as string, available: true })
         .sortBy("timestamp"),
     []
   );
@@ -142,6 +142,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               variant: event.shiftKey ? "wrong" : "correct",
               system: false,
               timestamp: cdate().text(),
+              available: true,
             });
           } else if (playerIndex > 0) {
             await db(current_profile).logs.put({
@@ -151,6 +152,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               variant: event.shiftKey ? "wrong" : "correct",
               system: false,
               timestamp: cdate().text(),
+              available: true,
             });
           }
         }
@@ -170,6 +172,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               variant: event.shiftKey ? "wrong" : "correct",
               system: false,
               timestamp: cdate().text(),
+              available: true,
             });
           }
         }
@@ -179,7 +182,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         (event.code === "KeyZ" && event.metaKey)
       ) {
         if (logs.length !== 0) {
-          await db(current_profile).logs.delete(logs[logs.length - 1].id);
+          await db(current_profile).logs.update(logs[logs.length - 1].id, {
+            available: false,
+          });
         }
       } else if (event.code === "Period") {
         await db(current_profile).logs.put({
@@ -189,6 +194,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           variant: "through",
           system: false,
           timestamp: cdate().text(),
+          available: true,
         });
       }
     }
@@ -250,6 +256,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
                   variant: "through",
                   system: false,
                   timestamp: cdate().text(),
+                  available: true,
                 })
               }
               size="sm"
@@ -267,6 +274,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
                       variant: "skip",
                       system: false,
                       timestamp: cdate().text(),
+                      available: true,
                     })
                   }
                   size="sm"

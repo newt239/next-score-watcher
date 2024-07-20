@@ -47,6 +47,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
                 variant: "through",
                 system: false,
                 timestamp: cdate().text(),
+                available: true,
               });
             } catch (e) {
               console.log(e);
@@ -66,7 +67,9 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
                 event: "undo_log",
                 value: game.rule,
               });
-              await db(currentProfile).logs.delete(logs[logs.length - 1].id);
+              await db(currentProfile).logs.update(logs[logs.length - 1].id, {
+                available: false,
+              });
             }
           }}
         >
