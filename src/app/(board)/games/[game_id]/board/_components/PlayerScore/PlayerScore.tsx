@@ -468,7 +468,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
                       .replace(player.player_id, "");
                     if (new_player_id === "") {
                       await db(currentProfile).logs.update(last_log.id, {
-                        available: false,
+                        available: 0,
                       });
                     } else {
                       await db(currentProfile).logs.update(last_log.id, {
@@ -488,9 +488,9 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
                     game_id: game.id,
                     player_id: player.player_id,
                     variant: "multiple_wrong",
-                    system: false,
+                    system: 0,
                     timestamp: cdate().text(),
-                    available: true,
+                    available: 1,
                   });
                 }
               } else {
@@ -499,9 +499,9 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
                   game_id: game.id,
                   player_id: player.player_id,
                   variant: "multiple_wrong",
-                  system: false,
+                  system: 0,
                   timestamp: cdate().text(),
-                  available: true,
+                  available: 1,
                 });
               }
             }}

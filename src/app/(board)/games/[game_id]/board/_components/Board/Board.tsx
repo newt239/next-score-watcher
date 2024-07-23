@@ -36,7 +36,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   const logs = useLiveQuery(
     () =>
       db(current_profile)
-        .logs.where({ game_id: game_id as string, available: true })
+        .logs.where({ game_id: game_id as string, available: 1 })
         .sortBy("timestamp"),
     []
   );
@@ -140,9 +140,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               game_id: game.id,
               player_id: players[9].id,
               variant: event.shiftKey ? "wrong" : "correct",
-              system: false,
+              system: 0,
               timestamp: cdate().text(),
-              available: true,
+              available: 1,
             });
           } else if (playerIndex > 0) {
             await db(current_profile).logs.put({
@@ -150,9 +150,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               game_id: game.id,
               player_id: players[playerIndex - 1].id,
               variant: event.shiftKey ? "wrong" : "correct",
-              system: false,
+              system: 0,
               timestamp: cdate().text(),
-              available: true,
+              available: 1,
             });
           }
         }
@@ -170,9 +170,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               game_id: game.id,
               player_id: players[playerIndex].id,
               variant: event.shiftKey ? "wrong" : "correct",
-              system: false,
+              system: 0,
               timestamp: cdate().text(),
-              available: true,
+              available: 1,
             });
           }
         }
@@ -183,7 +183,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
       ) {
         if (logs.length !== 0) {
           await db(current_profile).logs.update(logs[logs.length - 1].id, {
-            available: false,
+            available: 0,
           });
         }
       } else if (event.code === "Period") {
@@ -192,9 +192,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           game_id: game.id,
           player_id: "-",
           variant: "through",
-          system: false,
+          system: 0,
           timestamp: cdate().text(),
-          available: true,
+          available: 1,
         });
       }
     }
@@ -254,9 +254,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
                   game_id: game.id,
                   player_id: "-",
                   variant: "through",
-                  system: false,
+                  system: 0,
                   timestamp: cdate().text(),
-                  available: true,
+                  available: 1,
                 })
               }
               size="sm"
@@ -272,9 +272,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
                       game_id: game.id,
                       player_id: "-",
                       variant: "skip",
-                      system: false,
+                      system: 0,
                       timestamp: cdate().text(),
-                      available: true,
+                      available: 1,
                     })
                   }
                   size="sm"

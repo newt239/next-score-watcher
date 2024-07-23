@@ -90,14 +90,15 @@ export type Variants =
   | "multiple_wrong"
   | "skip"
   | "blank";
+
 export type LogDBProps = {
   id: string;
   game_id: string;
   player_id: string;
   variant: Variants;
-  system: boolean;
+  system: 0 | 1;
   timestamp: string;
-  available: boolean;
+  available: 0 | 1;
 };
 
 export type States = "win" | "lose" | "playing";

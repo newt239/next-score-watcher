@@ -16,7 +16,17 @@ const db = (name?: string | null) => {
       quizes: "id, q, a, set_name",
     })
     .upgrade((trans) => {
-      return trans.table("logs").toCollection().modify({ available: true });
+      return trans
+        .table("logs")
+        .toCollection()
+        .modify((game) => {
+          if (game.system !== 1) {
+            game.system = 0;
+          }
+          if (game.available !== 0) {
+            game.available = 1;
+          }
+        });
     });
 
   localDB.open().catch((r) => console.log(r));
