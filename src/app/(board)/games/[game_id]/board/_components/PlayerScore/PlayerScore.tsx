@@ -22,7 +22,9 @@ type Props = {
 const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
   const logs = useLiveQuery(
     () =>
-      db(currentProfile).logs.where({ game_id: game.id }).sortBy("timestamp"),
+      db(currentProfile)
+        .logs.where({ game_id: game.id, available: 1 })
+        .sortBy("timestamp"),
     []
   );
 

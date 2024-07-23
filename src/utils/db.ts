@@ -7,7 +7,7 @@ const db = (name?: string | null) => {
     name === undefined || name === null || name === "" ? "score_watcher" : name;
   const localDB = new Dexie(db_name) as ScoreWatcherDBTables;
   localDB
-    .version(4)
+    .version(5)
     .stores({
       games:
         "id, rule, name, players, correct_me, wrong_me, correct_other, wrong_other, win_point, lose_point, win_through, limit, quiz, discord_webhook_url, options, editable, last_open",

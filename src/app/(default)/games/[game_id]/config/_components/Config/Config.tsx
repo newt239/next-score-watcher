@@ -31,7 +31,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
   const logs = useLiveQuery(
     () =>
       db(currentProfile)
-        .logs.where({ game_id: game_id as string, system: 0 })
+        .logs.where({ game_id: game_id as string, system: 0, available: 1 })
         .toArray(),
     []
   );
