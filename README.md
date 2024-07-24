@@ -26,6 +26,16 @@ https://score-watcher.com/
 - Node.js (v22 以降)
 - Bun
 
+### 環境変数
+
+```
+NEXT_PUBLIC_APP_VERSION=
+NEXT_PUBLIC_GA_ID=
+NEXT_PUBLIC_TAG_ID=
+NEXT_PUBLIC_SENTRY_DSN=
+SENTRY_AUTH_TOKEN=
+```
+
 ### 起動方法
 
 #### 1. 以下のコマンドを実行

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 import { Box, Button, Group, Title } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
@@ -16,7 +15,6 @@ type CopyGamePropsUnion = {
 
 const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   const router = useRouter();
-  const [copyOptuons, setCopyOptions] = useState({ only_rule: false });
 
   const onCompleteCopy = (game_id: string) => {
     sendGAEvent({
