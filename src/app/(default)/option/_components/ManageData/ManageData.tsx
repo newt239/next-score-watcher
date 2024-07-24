@@ -78,6 +78,14 @@ const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
             db(newProfileId).quizes.bulkPut(jsonData.quizes);
           }
           if (jsonData.logs) {
+            jsonData.logs.forEach((log) => {
+              if (log.system !== 1) {
+                log.system = 0;
+              }
+              if (log.available !== 0) {
+                log.available = 1;
+              }
+            });
             db(newProfileId).logs.bulkPut(jsonData.logs);
           }
 
