@@ -83,8 +83,9 @@ const PlayerScoreButton: React.FC<Props> = ({
           game_id,
           player_id,
           variant: color === "red" ? "correct" : "wrong",
-          system: false,
+          system: 0,
           timestamp: cdate().text(),
+          available: 1,
         });
       } catch (err) {
         console.log(err);

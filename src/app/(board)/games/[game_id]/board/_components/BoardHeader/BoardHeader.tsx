@@ -178,8 +178,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                     game_id: game.id,
                     player_id: "-",
                     variant: "through",
-                    system: false,
+                    system: 0,
                     timestamp: cdate().text(),
+                    available: 1,
                   });
                 } catch (e) {
                   console.log(e);
@@ -198,8 +199,9 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                     event: "undo_log",
                     value: game.rule,
                   });
-                  await db(currentProfile).logs.delete(
-                    logs[logs.length - 1].id
+                  await db(currentProfile).logs.update(
+                    logs[logs.length - 1].id,
+                    { available: 0 }
                   );
                 }
               }}

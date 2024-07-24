@@ -2,28 +2,27 @@
 
 import { useState } from "react";
 
-import {
-  Box,
-  Button,
-  Group,
-  Stack,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
 import { FileWithPath } from "@mantine/dropzone";
-import { notifications } from "@mantine/notifications";
-import { sendGAEvent } from "@next/third-parties/google";
-import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
+import classes from "./ManageData.module.css";
+
+import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
+import {
+  GamePropsUnion,
+  LogDBProps,
+  PlayerDBProps,
+  QuizDBProps,
+} from "@/utils/types";
 
 type Props = {
+  profileList: { name: string; id: string }[];
   currentProfile: string;
 };
 
-const ManageData: React.FC<Props> = ({ currentProfile }) => {
+const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
   const [input, setInput] = useState<string>("");
 
   const exportGameData = async () => {
@@ -51,46 +50,42 @@ const ManageData: React.FC<Props> = ({ currentProfile }) => {
       const file = files[0];
       fileReader.onload = (ev) => {
         const buffer = ev.target?.result;
-        if (buffer instanceof ArrayBuffer) {
-          const unicodeArray = Encoding.convert(new Uint8Array(buffer), {
-            to: "UNICODE",
-            from: "AUTO",
-          });
-          const encodedString = Encoding.codeToString(unicodeArray);
-          csvFileToArray(encodedString).then((row) => {
-            notifications.show({
-              title: "データをインポートしました",
-              message: `${file.name}から${row}件のプレイヤーデータを読み込みました`,
-              autoClose: 9000,
-              withCloseButton: true,
-            });
-            sendGAEvent({
-              event: "import_profile",
-              value: row,
-            });
-          });
+        const jsonData = JSON.parse(buffer as string) as {
+          games: GamePropsUnion[];
+          players: PlayerDBProps[];
+          quizes: QuizDBProps[];
+          logs: LogDBProps[];
+        };
+
+        if (typeof jsonData === "object") {
+          const newProfileId = `profile_${nanoid()}`;
+          const newProfileList = [
+            ...profileList,
+            { name: encodeURI(input), id: newProfileId },
+          ];
+          window.document.cookie = `scorew_profile_list=${JSON.stringify(
+            newProfileList
+          )}`;
+          window.document.cookie = `scorew_current_profile=${newProfileId}`;
+
+          if (jsonData.games) {
+            db(newProfileId).games.bulkPut(jsonData.games);
+          }
+          if (jsonData.players) {
+            db(newProfileId).players.bulkPut(jsonData.players);
+          }
+          if (jsonData.quizes) {
+            db(newProfileId).quizes.bulkPut(jsonData.quizes);
+          }
+          if (jsonData.logs) {
+            db(newProfileId).logs.bulkPut(jsonData.logs);
+          }
+
+          window.location.reload();
         }
       };
-      fileReader.readAsArrayBuffer(file);
+      fileReader.readAsText(file);
     }
-  };
-
-  const csvFileToArray = async (raw: string) => {
-    const csvRows = raw.split("\n");
-    const filteredRows = csvRows
-      .map((row) => {
-        const values = row.split(",");
-        return {
-          id: nanoid(),
-          name: values[0] || "",
-          text: values[1] || "",
-          belong: values[2] || "",
-          tags: [],
-        };
-      })
-      .filter((row) => row.name !== "");
-    await db(currentProfile).players.bulkPut(filteredRows);
-    return filteredRows.length;
   };
 
   return (
@@ -106,14 +101,18 @@ const ManageData: React.FC<Props> = ({ currentProfile }) => {
         <Text>現在のプロファイルのデータをエクスポートします。</Text>
       </Group>
       <Title order={3}>インポート</Title>
-      <Stack gap="1rem" mb="lg">
+      <Stack gap="1rem" mb="lg" className={classes.manage_data}>
         <TextInput
           label="プロファイル名"
           placeholder="〇〇パソコンのデータ"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <Box>インポート機能は次のバージョンで実装します。</Box>
+        <Dropzone
+          disabled={input === ""}
+          onDrop={handleOnChange}
+          accept={["application/json"]}
+        />
       </Stack>
     </>
   );

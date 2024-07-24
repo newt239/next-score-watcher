@@ -22,7 +22,9 @@ type Props = {
 const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
   const logs = useLiveQuery(
     () =>
-      db(currentProfile).logs.where({ game_id: game.id }).sortBy("timestamp"),
+      db(currentProfile)
+        .logs.where({ game_id: game.id, available: 1 })
+        .sortBy("timestamp"),
     []
   );
 
@@ -467,7 +469,9 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
                       .replace(`,${player.player_id}`, "")
                       .replace(player.player_id, "");
                     if (new_player_id === "") {
-                      await db(currentProfile).logs.delete(last_log.id);
+                      await db(currentProfile).logs.update(last_log.id, {
+                        available: 0,
+                      });
                     } else {
                       await db(currentProfile).logs.update(last_log.id, {
                         timestamp: cdate().text(),
@@ -486,8 +490,9 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
                     game_id: game.id,
                     player_id: player.player_id,
                     variant: "multiple_wrong",
-                    system: false,
+                    system: 0,
                     timestamp: cdate().text(),
+                    available: 1,
                   });
                 }
               } else {
@@ -496,8 +501,9 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
                   game_id: game.id,
                   player_id: player.player_id,
                   variant: "multiple_wrong",
-                  system: false,
+                  system: 0,
                   timestamp: cdate().text(),
+                  available: 1,
                 });
               }
             }}

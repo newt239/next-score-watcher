@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Card, Flex } from "@mantine/core";
+import { Box, Card, Flex, List } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
@@ -41,10 +41,12 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
                 {game.name}
               </Card.Section>
               <Card.Section className={classes.game_description}>
-                <p>
-                  {game.type} ／ {game.player_count}人
-                </p>
-                <p>進行状況: {game.state}</p>
+                <List>
+                  <List.Item>
+                    {game.type} ／ {game.player_count}人
+                  </List.Item>
+                  <List.Item>進行状況: {game.state}</List.Item>
+                </List>
               </Card.Section>
               <Flex className={classes.game_footer}>
                 <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
