@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import { Box, Button, Title } from "@mantine/core";
+import { Box, Button, Group, Title } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 
 import { createGame } from "@/utils/functions";
@@ -15,6 +16,7 @@ type CopyGamePropsUnion = {
 
 const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   const router = useRouter();
+  const [copyOptuons, setCopyOptions] = useState({ only_rule: false });
 
   const onCompleteCopy = (game_id: string) => {
     sendGAEvent({
@@ -27,7 +29,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   return (
     <Box mt="sm">
       <Title order={4}>コピーを作成</Title>
-      <Button.Group mt="sm">
+      <Group mt="sm">
         <Button
           onClick={async () => {
             const game_id = await createGame(
@@ -53,7 +55,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
         >
           すべてコピー
         </Button>
-      </Button.Group>
+      </Group>
     </Box>
   );
 };
