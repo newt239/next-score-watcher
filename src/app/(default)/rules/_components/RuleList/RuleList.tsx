@@ -25,7 +25,7 @@ const RuleList: React.FC<Props> = ({ currentProfile }) => {
   };
 
   return (
-    <Box>
+    <>
       <Title order={2}>形式一覧</Title>
       <Box className={classes.rule_list_grid}>
         {ruleNameList.map((rule_name) => {
@@ -55,7 +55,7 @@ const RuleList: React.FC<Props> = ({ currentProfile }) => {
           );
         })}
       </Box>
-    </Box>
+    </>
   );
 };
 
