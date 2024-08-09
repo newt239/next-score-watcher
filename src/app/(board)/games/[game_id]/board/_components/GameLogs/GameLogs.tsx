@@ -49,6 +49,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
   }, [copied]);
 
   const containSkipLog = logs.some((log) => log.variant === "skip");
+  const filterdLogs = logs.filter((log) => log.variant !== "multiple_wrong");
 
   return (
     <Box className={classes.game_logs}>
@@ -59,14 +60,20 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
             size="xs"
             onClick={() => {
               const logsWithTableFormat = `<table>${(reverse
-                ? logs.slice().reverse()
-                : logs
+                ? filterdLogs.slice().reverse()
+                : filterdLogs
               ).map((log, qn) => {
                 const player = players.find((p) => p.id === log.player_id);
                 return `
                 <tr>
-                  <td>${reverse ? logs.length - qn : qn + 1}.</td>
-                  <td>${player ? player.name : "-"}</td>
+                  <td>${reverse ? filterdLogs.length - qn : qn + 1}.</td>
+                  <td>${
+                    player
+                      ? player.name
+                      : log.variant === "through"
+                      ? "(スルー)"
+                      : "-"
+                  }</td>
                   <td>${
                     log.variant === "correct"
                       ? "o"
@@ -78,8 +85,12 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
                   ${
                     !containSkipLog && quizList.length > qn
                       ? `
-                    <td>${quizList[reverse ? logs.length - qn - 1 : qn]?.q}</td>
-                    <td>${quizList[reverse ? logs.length - qn - 1 : qn]?.a}</td>
+                    <td>${
+                      quizList[reverse ? filterdLogs.length - qn - 1 : qn]?.q
+                    }</td>
+                    <td>${
+                      quizList[reverse ? filterdLogs.length - qn - 1 : qn]?.a
+                    }</td>
                   `
                       : ""
                   }
@@ -115,47 +126,63 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
           </Button>
         </Group>
       </Group>
-      {logs.length !== 0 ? (
+      {filterdLogs.length !== 0 ? (
         <Table.ScrollContainer minWidth={1000}>
           <Table highlightOnHover>
             <Table.Tbody>
               {
                 // https://qiita.com/seltzer/items/2f9ee13cf085966f1a4c
-                (reverse ? logs.slice().reverse() : logs).map((log, qn) => {
-                  const player = players.find((p) => p.id === log.player_id);
-                  return (
-                    <Table.Tr key={log.id}>
-                      <Table.Td>
-                        {reverse ? logs.length - qn : qn + 1}.
-                      </Table.Td>
-                      <Table.Td>{player ? player.name : "-"}</Table.Td>
-                      <Table.Td>
-                        {log.variant === "correct"
-                          ? "o"
-                          : log.variant === "wrong"
-                          ? "x"
-                          : "-"}
-                      </Table.Td>
-                      <Table.Td
-                        title={cdate(log.timestamp).format(
-                          "YYYY年MM月DD日 HH時mm分ss秒"
+                (reverse ? filterdLogs.slice().reverse() : filterdLogs).map(
+                  (log, qn) => {
+                    const player = players.find((p) => p.id === log.player_id);
+                    return (
+                      <Table.Tr key={log.id}>
+                        <Table.Td>
+                          {reverse ? filterdLogs.length - qn : qn + 1}.
+                        </Table.Td>
+                        <Table.Td>
+                          {player
+                            ? player.name
+                            : log.variant === "through"
+                            ? "(スルー)"
+                            : "-"}
+                        </Table.Td>
+                        <Table.Td>
+                          {log.variant === "correct"
+                            ? "o"
+                            : log.variant === "wrong"
+                            ? "x"
+                            : "-"}
+                        </Table.Td>
+                        <Table.Td
+                          title={cdate(log.timestamp).format(
+                            "YYYY年MM月DD日 HH時mm分ss秒"
+                          )}
+                        >
+                          {cdate(log.timestamp).format("HH:mm:ss")}
+                        </Table.Td>
+                        {!containSkipLog && quizList.length > qn && (
+                          <>
+                            <Table.Td>
+                              {
+                                quizList[
+                                  reverse ? filterdLogs.length - qn - 1 : qn
+                                ]?.q
+                              }
+                            </Table.Td>
+                            <Table.Td>
+                              {
+                                quizList[
+                                  reverse ? filterdLogs.length - qn - 1 : qn
+                                ]?.a
+                              }
+                            </Table.Td>
+                          </>
                         )}
-                      >
-                        {cdate(log.timestamp).format("HH:mm:ss")}
-                      </Table.Td>
-                      {!containSkipLog && quizList.length > qn && (
-                        <>
-                          <Table.Td>
-                            {quizList[reverse ? logs.length - qn - 1 : qn]?.q}
-                          </Table.Td>
-                          <Table.Td>
-                            {quizList[reverse ? logs.length - qn - 1 : qn]?.a}
-                          </Table.Td>
-                        </>
-                      )}
-                    </Table.Tr>
-                  );
-                })
+                      </Table.Tr>
+                    );
+                  }
+                )
               }
             </Table.Tbody>
           </Table>
