@@ -1,4 +1,4 @@
 {
   "framework": "nextjs",
-  "installCommand": "bun install"
+  "installCommand": "pnpm install"
 }
