@@ -12,7 +12,12 @@ type Props = {
 
 const PlayerName: React.FC<Props> = ({ player_name, rows, isAQL = false }) => {
   return (
-    <Flex className={classes.player_name} data-aql={isAQL} data-rows={rows}>
+    <Flex
+      className={classes.player_name}
+      data-aql={isAQL}
+      data-rows={rows}
+      data-testid="player-name"
+    >
       {zenkaku2Hankaku(player_name)}
     </Flex>
   );
