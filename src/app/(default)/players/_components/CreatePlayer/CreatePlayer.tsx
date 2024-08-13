@@ -60,7 +60,7 @@ const CreatePlayer: React.FC<Props> = ({ currentProfile }) => {
     notifications.show({
       title: "プレイヤーを作成しました",
       message: playerName,
-      autoClose: 9000,
+      autoClose: 5000,
       withCloseButton: true,
     });
     setPlayerName("");

@@ -9,7 +9,8 @@ const withPWA = nextPWA({
   skipWaiting: true,
   // ref: https://github.com/shadowwalker/next-pwa/issues/288#issuecomment-953799577
   runtimeCaching: [],
-  buildExcludes: [/app-build-manifest\.json$/]
+  buildExcludes: [/app-build-manifest\.json$/],
+  disable: process.env.NODE_ENV === "development",
 });
 
 const nextConfig = {

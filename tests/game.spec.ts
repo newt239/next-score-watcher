@@ -63,14 +63,19 @@ test.describe("得点表示", () => {
   });
 
   test("プレイヤーを作成できる", async () => {
+    const addButtonEl = page.getByRole("button", { name: "追加" });
     for (let i = 1; i <= 5; i++) {
       await page.getByLabel("氏名").fill(`プレイヤー${i}`);
-      await page.getByRole("button", { name: "追加" }).click();
+      await addButtonEl.click();
       await expect(page.getByRole("table")).toContainText(`プレイヤー${i}`);
+      await page.getByRole("alert").getByRole("button").first().click();
     }
   });
 
-  test("ゲーム一覧ページに作成したゲームが存在する", async () => {
+  test("ゲーム一覧ページに作成したゲームが存在する", async ({ isMobile }) => {
+    if (isMobile) {
+      await page.getByRole("banner").getByRole("button").first().click();
+    }
     await page.getByRole("link", { name: "作成したゲーム" }).click();
     await expect(page).toHaveTitle(/作成したゲーム/);
     const gameEl = page.getByTitle("スコア計算").first();
@@ -106,9 +111,13 @@ test.describe("得点表示", () => {
     ).toContainText("Q6");
   });
 
-  test("スルーを実行できる", async () => {
-    await page.mouse.wheel(0, 100);
-    await page.getByRole("button", { name: "スルー" }).click();
+  test("スルーを実行できる", async ({ isMobile }) => {
+    if (isMobile) {
+      await page.getByRole("banner").getByRole("button").click();
+      await page.getByRole("menuitem", { name: "スルー" }).click();
+    } else {
+      await page.getByRole("button", { name: "スルー" }).click();
+    }
     await expect(
       page.getByRole("banner").locator("span").first()
     ).toContainText("Q7");
@@ -117,10 +126,14 @@ test.describe("得点表示", () => {
     await expect(log.locator("td").nth(2)).toContainText("-");
   });
 
-  test("undoを実行できる", async () => {
-    await page.mouse.wheel(0, 100);
+  test("undoを実行できる", async ({ isMobile }) => {
     for (let i = 5; i >= 1; i--) {
-      await page.getByRole("button", { name: "一つ戻す" }).click();
+      if (isMobile) {
+        await page.getByRole("banner").getByRole("button").click();
+        await page.getByRole("menuitem", { name: "一つ戻す" }).click();
+      } else {
+        await page.getByRole("button", { name: "一つ戻す" }).click();
+      }
       await expect(
         page.getByRole("banner").locator("span").first()
       ).toContainText(`Q${i + 1}`);
