@@ -32,8 +32,7 @@ test.describe("得点表示", () => {
 
   test.beforeAll(async () => {
     await context.addInitScript(() => {
-      // TODO: latest versionを.env.localから取得する
-      window.localStorage.setItem("scorewatcher-version", "3.0.3");
+      window.localStorage.setItem("scorewatcher-version", "latest");
     });
     await page.reload();
   });
