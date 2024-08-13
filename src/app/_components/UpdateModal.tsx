@@ -17,6 +17,7 @@ const UpdateModal: React.FC = () => {
     if (raw !== latestVersion) {
       setCurrentVersion(raw);
       open();
+      window.localStorage.setItem("scorewatcher-version", latestVersion!);
     }
     // Vite + Reactのときのキャッシュを削除
     caches.keys().then((cacheNames) => {
@@ -35,11 +36,6 @@ const UpdateModal: React.FC = () => {
       });
     });
   }, []);
-
-  const onUpdate = () => {
-    window.localStorage.setItem("scorewatcher-version", latestVersion!);
-    close();
-  };
 
   const feature = {
     news: (
@@ -65,7 +61,7 @@ const UpdateModal: React.FC = () => {
   return (
     <Modal
       opened={opened}
-      onClose={onUpdate}
+      onClose={close}
       title="新しいバージョンがリリースされました"
       centered
       size="auto"

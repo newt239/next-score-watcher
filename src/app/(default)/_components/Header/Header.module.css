@@ -3,7 +3,6 @@
   top: 0;
   left: 0;
   z-index: 30;
-  height: 4rem;
   width: 100%;
   background-color: var(--mantine-color-teal-6);
   color: var(--mantine-color-white);
@@ -24,14 +23,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 3rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
 
   @mixin larger-than 62em {
     flex-direction: column;
     justify-content: flex-start;
     height: 100%;
     padding: 0;
+    gap: 3rem;
   }
 }
 
@@ -49,8 +48,8 @@
   width: auto;
 
   > img {
-    height: 3rem;
-    width: auto;
+    height: auto;
+    width: clamp(5rem, 100% - 30px, 15rem);
 
     @mixin larger-than 62em {
       height: auto;

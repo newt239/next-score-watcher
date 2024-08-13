@@ -1,0 +1,10 @@
+.action_button_list {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.5rem;
+
+  @mixin larger-than 62em {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}

@@ -90,6 +90,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
   return (
     <>
       <Flex
+        component="header"
         className={classes.board_header}
         data-withname={
           !(game.name === rules[game.rule].name || game.name === "")
