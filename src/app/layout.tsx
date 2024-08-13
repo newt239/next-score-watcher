@@ -15,6 +15,7 @@ import "@mantine/notifications/styles.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://score-watcher.com"),
   title: {
     template: "%s - Score Watcher",
     default: "Score Watcher",
