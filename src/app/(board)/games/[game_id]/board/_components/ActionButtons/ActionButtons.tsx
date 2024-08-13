@@ -35,9 +35,14 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
   return (
     <>
       <ScrollArea w="100%">
-        <Group justify="flex-end" p="sm" className={classes.action_button_list}>
+        <Group
+          justify="flex-end"
+          p="xs"
+          gap="xs"
+          className={classes.action_button_list}
+        >
           <Button
-            size="sm"
+            size="xs"
             variant="default"
             leftSection={<IconComet size={20} />}
             disabled={game.editable}
@@ -60,7 +65,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
             スルー
           </Button>
           <Button
-            size="sm"
+            size="xs"
             variant="default"
             leftSection={<IconArrowBackUp size={20} />}
             disabled={logs.length === 0 || game.editable}
@@ -81,7 +86,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
           {game.rule !== "aql" && (
             <Button
               visibleFrom="md"
-              size="sm"
+              size="xs"
               variant="default"
               leftSection={
                 game.editable ? (
@@ -111,7 +116,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
           {document.fullscreenEnabled && (
             <Button
               visibleFrom="md"
-              size="sm"
+              size="xs"
               variant="default"
               leftSection={<IconMaximize size={20} />}
               onClick={() => {
@@ -130,7 +135,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
             </Button>
           )}
           <Button
-            size="sm"
+            size="xs"
             variant="default"
             leftSection={<IconBalloon size={20} />}
             onClick={open}
@@ -138,7 +143,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
             表示設定
           </Button>
           <ButtonLink
-            size="sm"
+            size="xs"
             variant="default"
             leftSection={<IconAdjustmentsHorizontal size={20} />}
             href={`/games/${game.id}/config`}

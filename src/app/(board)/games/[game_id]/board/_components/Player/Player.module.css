@@ -7,8 +7,7 @@
   gap: 1rem;
   overflow-y: hidden;
   overflow-x: scroll;
-  border-radius: 1rem;
-  border-width: 1px;
+  border-width: 0 0 1px 0;
   border-style: solid;
   transition: all 0.2s;
 
@@ -21,6 +20,8 @@
   @mixin larger-than 62em {
     flex-direction: column;
     align-items: stretch;
+    border-radius: 1rem;
+    border-width: 1px;
     height: 100%;
     overflow-x: hidden;
     gap: 0;

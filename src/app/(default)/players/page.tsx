@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-import ManagePlayer from "./_components/ManagePlayer";
+import ManagePlayer from "./_components/ManagePlayer/ManagePlayer";
 
 export const metadata: Metadata = {
   title: "プレイヤー管理",
