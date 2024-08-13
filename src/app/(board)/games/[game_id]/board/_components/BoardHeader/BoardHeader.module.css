@@ -3,20 +3,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--mantine-color-gray-3);
   padding: 0 0.5rem;
   overflow-y: auto;
-  resize: vertical;
   width: 100vw;
 
   @mixin larger-than 62em {
+    resize: vertical;
     gap: 1rem;
     height: min(15vh, 8rem);
-  }
+    background-color: var(--mantine-color-gray-1);
 
-  @mixin dark {
-    background-color: var(--mantine-color-gray-8);
-    border-bottom: 1px solid var(--mantine-color-gray-7);
+    @mixin dark {
+      background-color: var(--mantine-color-gray-8);
+    }
   }
 
   &[data-withname="false"][data-showqn="false"] {
