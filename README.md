@@ -29,7 +29,7 @@ https://score-watcher.com/
 
 ### 環境変数
 
-```
+```env
 NEXT_PUBLIC_APP_VERSION=
 NEXT_PUBLIC_GA_ID=
 NEXT_PUBLIC_TAG_ID=
@@ -41,7 +41,7 @@ SENTRY_AUTH_TOKEN=
 
 #### 1. 以下のコマンドを実行
 
-```
+```bash
 pnpm intstall
 pnpm run dev
 ```
@@ -51,3 +51,9 @@ pnpm run dev
 デフォルトではポート番号 3000 で起動します。
 
 http://localhost:3000/
+
+### テスト
+
+```bash
+npx playwright test --ui
+```
