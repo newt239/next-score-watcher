@@ -29,19 +29,23 @@ const Hamburger: React.FC<Props> = ({ children }) => {
     }
   });
 
-  const ModalContent = createPortal(
-    <nav className={classes.burger_menu} data-show={opened} inert={!opened}>
-      {children}
-    </nav>,
-    document.body
-  );
+  if (typeof window === "object") {
+    const ModalContent = createPortal(
+      <nav className={classes.burger_menu} data-show={opened} inert={!opened}>
+        {children}
+      </nav>,
+      document.body
+    );
 
-  return (
-    <>
-      <Burger color="white" opened={opened} onClick={toggle} />
-      {ModalContent}
-    </>
-  );
+    return (
+      <>
+        <Burger color="white" opened={opened} onClick={toggle} />
+        {ModalContent}
+      </>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Hamburger;
