@@ -24,7 +24,7 @@ const Hamburger: React.FC<Props> = ({ children }) => {
   }, [pathname]);
 
   const ModalContent = createPortal(
-    <nav className={classes.burger_menu} data-show={opened}>
+    <nav className={classes.burger_menu} data-show={opened} inert={!opened}>
       {children}
     </nav>,
     document.body

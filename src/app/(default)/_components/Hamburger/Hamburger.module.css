@@ -1,20 +1,27 @@
 .burger_menu {
   display: none;
   position: fixed;
-  top: 4rem;
+
   left: 0;
   width: 100%;
   padding: 0.5rem;
   background-color: var(--mantine-color-teal-6);
-  transform: translateY(0);
-  transition: all 0.5s;
+  transition: all 0.5s ease;
+  transition-behavior: allow-discrete;
+  z-index: 50;
 
   @mixin dark {
     background-color: var(--mantine-color-teal-8);
   }
 
+  &[data-show="false"] {
+    top: 0;
+    transform: translateY(-100%);
+  }
+
   &[data-show="true"] {
     display: block;
+    top: 4rem;
 
     @starting-style {
       top: 0;
