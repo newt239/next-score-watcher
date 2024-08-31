@@ -13,8 +13,6 @@ type Props = {
   children?: React.ReactNode;
 };
 
-// TODO: escape key to close menu
-
 const Hamburger: React.FC<Props> = ({ children }) => {
   const [opened, { toggle }] = useDisclosure();
   const pathname = usePathname();
@@ -22,6 +20,14 @@ const Hamburger: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     if (opened) toggle();
   }, [pathname]);
+
+  window.document.onkeydown = (event) => {
+    if (!window.location.pathname.endsWith("board")) {
+      if (event.code === "Escape" && opened) {
+        toggle();
+      }
+    }
+  };
 
   const ModalContent = createPortal(
     <nav className={classes.burger_menu} data-show={opened} inert={!opened}>
