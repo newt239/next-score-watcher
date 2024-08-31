@@ -24,13 +24,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
+  height: 4rem;
 
   @mixin larger-than 62em {
     flex-direction: column;
     justify-content: flex-start;
     height: 100%;
     padding: 0;
-    gap: 3rem;
+    gap: 1rem;
   }
 }
 
@@ -49,7 +50,7 @@
 
   > img {
     height: auto;
-    width: clamp(5rem, 100% - 30px, 15rem);
+    width: 10rem;
 
     @mixin larger-than 62em {
       height: auto;
