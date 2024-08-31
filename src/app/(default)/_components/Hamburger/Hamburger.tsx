@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import { Burger } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useWindowEvent } from "@mantine/hooks";
 import { createPortal } from "react-dom";
 
 import classes from "./Hamburger.module.css";
@@ -21,13 +21,13 @@ const Hamburger: React.FC<Props> = ({ children }) => {
     if (opened) toggle();
   }, [pathname]);
 
-  window.document.onkeydown = (event) => {
+  useWindowEvent("keydown", (event) => {
     if (!window.location.pathname.endsWith("board")) {
       if (event.code === "Escape" && opened) {
         toggle();
       }
     }
-  };
+  });
 
   const ModalContent = createPortal(
     <nav className={classes.burger_menu} data-show={opened} inert={!opened}>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Box, Button, Flex, Tooltip } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -121,10 +121,8 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
     }
   }, [logs]);
 
-  if (!game || game.players.length === 0 || !logs) return <NotFound />;
-
-  // TODO: incapacity状態のプレイヤーに対してショートカットキーによるアクションを追加できないようにする
-  window.document.onkeydown = async (event) => {
+  useWindowEvent("keydown", async (event) => {
+    // TODO: incapacity状態のプレイヤーに対してショートカットキーによるアクションを追加できないようにする
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
       if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
         const playerIndex =
@@ -181,7 +179,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         (event.code === "KeyZ" && event.ctrlKey) ||
         (event.code === "KeyZ" && event.metaKey)
       ) {
-        if (logs.length !== 0) {
+        if (logs && logs.length !== 0) {
           await db(current_profile).logs.update(logs[logs.length - 1].id, {
             available: 0,
           });
@@ -198,7 +196,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         });
       }
     }
-  };
+  });
+
+  if (!game || game.players.length === 0 || !logs) return <NotFound />;
 
   return (
     <>
