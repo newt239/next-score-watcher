@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 30;
+  z-index: 100;
   width: 100%;
   background-color: var(--mantine-color-teal-6);
   color: var(--mantine-color-white);
