@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   text-orientation: upright;
   writing-mode: horizontal-tb;
   white-space: nowrap;
@@ -14,6 +14,10 @@
   padding-top: 0.25rem;
   overflow-x: hidden;
   text-overflow: ellipsis;
+
+  @mixin larger-than 36em {
+    justify-content: flex-start;
+  }
 
   @mixin larger-than 62em {
     writing-mode: vertical-rl;

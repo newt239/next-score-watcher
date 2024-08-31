@@ -4,15 +4,14 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import { Burger } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useWindowEvent } from "@mantine/hooks";
+import { createPortal } from "react-dom";
 
 import classes from "./Hamburger.module.css";
 
 type Props = {
   children?: React.ReactNode;
 };
-
-// TODO: escape key to close menu
 
 const Hamburger: React.FC<Props> = ({ children }) => {
   const [opened, { toggle }] = useDisclosure();
@@ -22,12 +21,31 @@ const Hamburger: React.FC<Props> = ({ children }) => {
     if (opened) toggle();
   }, [pathname]);
 
-  return (
-    <>
-      <Burger color="white" opened={opened} onClick={toggle} />
-      {opened && <nav className={classes.burger_menu}>{children}</nav>}
-    </>
-  );
+  useWindowEvent("keydown", (event) => {
+    if (!window.location.pathname.endsWith("board")) {
+      if (event.code === "Escape" && opened) {
+        toggle();
+      }
+    }
+  });
+
+  if (typeof window === "object") {
+    const ModalContent = createPortal(
+      <nav className={classes.burger_menu} data-show={opened} inert={!opened}>
+        {children}
+      </nav>,
+      document.body
+    );
+
+    return (
+      <>
+        <Burger color="white" opened={opened} onClick={toggle} />
+        {ModalContent}
+      </>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Hamburger;

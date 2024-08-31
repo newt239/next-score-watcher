@@ -8,7 +8,7 @@ import Link from "@/app/_components/Link/Link";
 
 const AppInfo = () => {
   return (
-    <Table highlightOnHover>
+    <Table highlightOnHover mb="xl">
       <Table.Tbody>
         <Table.Tr>
           <Table.Th>バージョン</Table.Th>

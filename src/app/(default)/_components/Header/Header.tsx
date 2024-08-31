@@ -19,7 +19,10 @@ export default function Header() {
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
-  const common = { alt: "Art Direction Example", sizes: "100vw" };
+  const common = {
+    alt: "Score Watcherのロゴ。モノカラーで、三日月の中央部に円が配置された形をしている。",
+    sizes: "100vw",
+  };
   const {
     props: { srcSet: desktop },
   } = getImageProps({

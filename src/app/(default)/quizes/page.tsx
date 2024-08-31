@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-import ManageQuiz from "./_components/ManageQuiz";
+import ManageQuiz from "./_components/ManageQuiz/ManageQuiz";
 
 export const metadata: Metadata = {
   title: "問題管理",

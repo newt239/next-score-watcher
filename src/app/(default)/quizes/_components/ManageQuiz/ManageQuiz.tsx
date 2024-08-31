@@ -4,9 +4,11 @@ import { useState } from "react";
 
 import { Tabs, TextInput, Title } from "@mantine/core";
 
-import ImportQuiz from "./ImportQuiz/ImportQuiz";
-import LoadQuiz from "./LoadQuiz/LoadQuiz";
-import QuizesTable from "./QuizesTable/QuizesTable";
+import ImportQuiz from "../ImportQuiz/ImportQuiz";
+import LoadQuiz from "../LoadQuiz/LoadQuiz";
+import QuizesTable from "../QuizesTable/QuizesTable";
+
+import classes from "./ManageQuiz.module.css";
 
 type Props = {
   currentProfile: string;
@@ -25,15 +27,15 @@ const ManageQuiz: React.FC<Props> = ({ currentProfile }) => {
         value={setName}
       />
       <Tabs pt="lg" variant="outline" defaultValue="paste">
-        <Tabs.List my="lg" grow>
+        <Tabs.List mt="lg" grow>
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
           <Tabs.Tab value="import">インポート</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="paste">
+        <Tabs.Panel value="paste" className={classes.tab_panel}>
           <LoadQuiz currentProfile={currentProfile} set_name={setName} />
         </Tabs.Panel>
-        <Tabs.Panel value="import">
+        <Tabs.Panel value="import" className={classes.tab_panel}>
           <ImportQuiz currentProfile={currentProfile} set_name={setName} />
         </Tabs.Panel>
       </Tabs>

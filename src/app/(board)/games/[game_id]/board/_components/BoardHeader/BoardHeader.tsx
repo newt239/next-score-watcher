@@ -160,7 +160,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             <ActionIcon
               className={classes.board_action}
               variant="default"
-              size="md"
+              size="xl"
               color="teal"
               m="xs"
             >

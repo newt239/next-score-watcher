@@ -16,6 +16,7 @@ https://score-watcher.com/
 ## 利用に当たって
 
 - 本アプリケーションは**非営利目的である限り**どなたでも自由に利用することができます。
+  - 詳細は [商用利用に関するルール](https://score-watcher.com/docs/for_commercial_use)をご確認ください。
 - オープン大会等で利用される際は、[@newt239](https://twitter.com/newt239) までご報告をお願いします。
 - この他機能リクエストや不具合の報告等についても Twitter や GitHub の Issue より受け付けます。
 
@@ -24,11 +25,11 @@ https://score-watcher.com/
 ### 起動に必要なもの
 
 - Node.js (v22 以降)
-- Bun
+- pnpm
 
 ### 環境変数
 
-```
+```env
 NEXT_PUBLIC_APP_VERSION=
 NEXT_PUBLIC_GA_ID=
 NEXT_PUBLIC_TAG_ID=
@@ -40,9 +41,9 @@ SENTRY_AUTH_TOKEN=
 
 #### 1. 以下のコマンドを実行
 
-```
-bun intstall
-bun run dev
+```bash
+pnpm intstall
+pnpm run dev
 ```
 
 #### 2. ブラウザでアクセス
@@ -50,3 +51,9 @@ bun run dev
 デフォルトではポート番号 3000 で起動します。
 
 http://localhost:3000/
+
+### テスト
+
+```bash
+npx playwright test --ui
+```
