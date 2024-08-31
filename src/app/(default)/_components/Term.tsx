@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, List, Title } from "@mantine/core";
+import { Anchor, Box, List, Title } from "@mantine/core";
 
 import Link from "@/app/_components/Link/Link";
 
@@ -23,23 +23,32 @@ const Term: React.FC = () => {
         </List.Item>
         <List.Item>
           お問い合わせは
-          <Link href="https://discord.gg/rct5sx6rbZ">
+          <Anchor target="_blank" href="https://discord.gg/rct5sx6rbZ">
             開発者のDiscordサーバー
-          </Link>
-          や<Link href="https://twitter.com/newt239">Twitter</Link>
+          </Anchor>
+          や
+          <Anchor target="_blank" href="https://twitter.com/newt239">
+            Twitter
+          </Anchor>
           からお願いします。
         </List.Item>
         <List.Item>
           本サービスを利用した際はぜひ
-          <Link href="https://twitter.com/hashtag/ScoreWatcher?f=live">
+          <Anchor
+            target="_blank"
+            href="https://twitter.com/hashtag/ScoreWatcher?f=live"
+          >
             #ScoreWatcher
-          </Link>
+          </Anchor>
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
         </List.Item>
         <List.Item>
-          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform">
+          <Anchor
+            target="_blank"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform"
+          >
             Googleフォーム
-          </Link>
+          </Anchor>
           でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
         </List.Item>
       </List>
