@@ -1,16 +1,15 @@
 .player_score_button {
   display: inline-flex;
   align-items: baseline;
-  font-weight: 700;
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: center;
   min-width: 1rem;
   height: 100%;
   padding: 0;
-  border-radius: 0;
-  white-space: nowrap;
   overflow: hidden;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 0;
   transition: all 0.2s;
 
   @mixin larger-than 36em {
@@ -18,11 +17,11 @@
   }
 
   @mixin larger-than 62em {
-    padding: 0;
-    width: 100%;
-    line-height: 3rem;
-    height: 3rem;
     justify-content: center;
+    width: 100%;
+    height: 3rem;
+    padding: 0;
+    line-height: 3rem;
 
     &[data-disabled="false"]:hover {
       opacity: 0.8;
@@ -30,28 +29,28 @@
 
     &[data-compact="true"] {
       @mixin larger-than 62em {
+        height: 2rem;
         font-size: 2rem;
         line-height: 2rem;
-        height: 2rem;
       }
     }
 
     @container (max-width: 100px) {
+      height: 2rem;
       font-size: 2rem;
       line-height: 2rem;
-      height: 2rem;
 
       &[data-compact="true"] {
+        height: 2rem;
         font-size: 1.5rem;
         line-height: 1.5rem;
-        height: 2rem;
       }
     }
 
     @container (min-width: 200px) {
+      height: 4.5rem;
       font-size: 4.5rem;
       line-height: 4.5rem;
-      height: 4.5rem;
     }
   }
 }

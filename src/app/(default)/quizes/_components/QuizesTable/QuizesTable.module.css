@@ -1,10 +1,12 @@
 .quizes_table {
   text-wrap: nowrap;
+
   tr {
     td:nth-child(3) {
       max-width: 500px;
       overflow: hidden;
     }
+
     td:nth-child(4) {
       max-width: 200px;
       overflow: hidden;

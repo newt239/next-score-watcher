@@ -9,8 +9,8 @@
 
   @mixin larger-than 62em {
     margin: 1rem;
-    border-radius: 0.5rem;
     border: 1px solid var(--mantine-color-gray-1);
+    border-radius: 0.5rem;
 
     @mixin dark {
       border: 1px solid var(--mantine-color-gray-8);

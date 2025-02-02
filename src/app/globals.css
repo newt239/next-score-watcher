@@ -10,23 +10,23 @@
 html,
 body {
   max-width: 100vw;
-  font-family: "hiragino-kaku-gothic-pron", -apple-system, sans-serif;
+  font-family: hiragino-kaku-gothic-pron, -apple-system, sans-serif;
 }
 
 h2 {
+  padding: 0 0 1rem;
   font-size: 2rem;
   font-weight: 700;
-  padding: 0 0 1rem;
 }
 
 h3 {
+  padding: 0 0 0.5rem;
   font-size: 1.5rem;
   font-weight: 700;
-  padding: 0 0 0.5rem;
 }
 
 ul {
-  list-style: disc;
   margin-left: 24px;
   line-height: 2rem;
+  list-style: disc;
 }

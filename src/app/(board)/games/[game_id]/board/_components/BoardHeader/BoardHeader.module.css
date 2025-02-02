@@ -1,16 +1,16 @@
 .board_header {
   position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  width: 100vw;
   padding: 0 0.5rem;
   overflow-y: auto;
-  width: 100vw;
 
   @mixin larger-than 62em {
-    resize: vertical;
     gap: 1rem;
     height: min(15vh, 8rem);
+    resize: vertical;
     background-color: var(--mantine-color-gray-1);
 
     @mixin dark {
@@ -52,8 +52,8 @@
           }
 
           &[data-showqn="false"] {
-            width: 100%;
             align-items: center;
+            width: 100%;
 
             div {
               text-align: center;
@@ -70,8 +70,8 @@
     &[data-showquiz="true"] {
       @mixin larger-than 62em {
         flex-direction: row;
-        align-items: flex-start;
         gap: 0.5rem;
+        align-items: flex-start;
 
         div:nth-child(1) {
           white-space: nowrap;
@@ -104,8 +104,8 @@
 
 .game_name {
   font-size: 1.5rem;
-  line-height: 1.5rem;
   font-weight: 800;
+  line-height: 1.5rem;
   color: black;
 
   @mixin dark {
@@ -116,8 +116,8 @@
 .game_name_only {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
   height: 100%;
 
   @mixin larger-than 62em {
@@ -126,8 +126,8 @@
 
   span:nth-child(1) {
     font-size: 2.5rem;
-    line-height: 2.5rem;
     font-weight: 700;
+    line-height: 2.5rem;
   }
 
   span:nth-child(2) {
@@ -140,10 +140,11 @@
     span:nth-child(1) {
       display: none;
     }
+
     span:nth-child(2) {
       font-size: 1.5rem;
-      line-height: 1.5rem;
       font-weight: 700;
+      line-height: 1.5rem;
     }
   }
 }
@@ -151,23 +152,23 @@
 .quiz_number_area {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
 }
 
 .quiz_number {
-  white-space: nowrap;
-  font-weight: 700;
   font-size: 2.5rem;
+  font-weight: 700;
   line-height: 2.5rem;
+  white-space: nowrap;
 }
 
 .quiz_area {
   display: none;
-  height: 100%;
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
   overflow: hidden;
   font-size: 1.5rem;
   line-height: 1.5rem;

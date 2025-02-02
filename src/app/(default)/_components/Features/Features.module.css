@@ -11,8 +11,8 @@
       transparent calc(100% - 1px),
       #f0f0f0 calc(100% - 1px)
     );
-  background-size: 20px 20px;
   background-repeat: repeat;
+  background-size: 20px 20px;
 
   @mixin dark {
     background-image: linear-gradient(
@@ -38,8 +38,10 @@
 
   &:nth-child(odd) {
     align-items: flex-start;
+
     .feature_decoration {
       left: -5px;
+
       @mixin larger-than 62em {
         left: -30px;
       }
@@ -48,8 +50,10 @@
 
   &:nth-child(even) {
     align-items: flex-end;
+
     .feature_decoration {
       right: -5px;
+
       @mixin larger-than 62em {
         right: -30px;
       }
@@ -70,10 +74,10 @@
   z-index: 0;
   width: 90px;
   height: 90px;
-  border-radius: 50%;
   background-color: var(--mantine-color-teal-3);
-  opacity: 0.5;
   filter: blur(5px);
+  border-radius: 50%;
+  opacity: 0.5;
 
   @mixin dark {
     background-color: var(--mantine-color-teal-5);
@@ -87,11 +91,11 @@
 
 .feature_title {
   z-index: 10;
-  text-wrap: balance;
   font-weight: 700;
+  text-wrap: balance;
 }
 
 .feature_image {
-  width: 75%;
   z-index: 10;
+  width: 75%;
 }
