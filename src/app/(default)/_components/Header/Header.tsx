@@ -10,8 +10,8 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
-export default function Header() {
-  const cookieStore = cookies();
+export default async function Header() {
+  const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
     ? JSON.parse(profileListCookie?.value)

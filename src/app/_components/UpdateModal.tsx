@@ -28,7 +28,7 @@ const UpdateModal: React.FC = () => {
             .getRegistrations()
             .then(function (registrations) {
               // 登録されているworkerを全て削除する
-              for (let registration of registrations) {
+              for (const registration of registrations) {
                 registration.unregister();
               }
             });
