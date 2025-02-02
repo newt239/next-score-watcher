@@ -9,7 +9,7 @@
     cursor: not-allowed;
     border-color: var(--mantine-color-red-9);
 
-    @mixin dark {
+    [data-mantine-color-scheme='dark'] {
       border-color: var(--mantine-color-red-3);
     }
   }
@@ -24,7 +24,7 @@
   width: 100%;
   overflow-x: hidden;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     flex-direction: row;
     gap: 0;
     align-items: center;
@@ -35,7 +35,7 @@
   padding: 0.5rem 1rem;
   color: var(--mantine-color-red-9);
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     color: var(--mantine-color-red-3);
   }
 }

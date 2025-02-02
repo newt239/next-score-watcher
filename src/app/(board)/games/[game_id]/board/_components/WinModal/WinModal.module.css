@@ -41,7 +41,7 @@
     background-size: 5px;
   }
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     width: 70vw;
     height: 60vh;
   }
@@ -73,7 +73,7 @@
     border-left: 1em solid currentcolor;
   }
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     padding: 4rem 0 0;
   }
 }
@@ -81,7 +81,7 @@
 .name {
   font-size: 3rem;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     font-size: 5rem;
   }
 }

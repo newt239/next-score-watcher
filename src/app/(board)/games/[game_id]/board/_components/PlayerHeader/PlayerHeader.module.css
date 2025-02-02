@@ -8,7 +8,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     text-align: center;
   }
 }
@@ -17,11 +17,11 @@
   padding: 0 0.5rem;
   text-align: center;
 
-  @mixin larger-than 36em {
+  @media(width >= 36em) {
     text-align: left;
   }
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     padding: 0.5rem 0;
     text-align: center;
     opacity: 0.3;

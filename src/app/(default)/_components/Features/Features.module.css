@@ -14,7 +14,7 @@
   background-repeat: repeat;
   background-size: 20px 20px;
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     background-image: linear-gradient(
         0deg,
         transparent calc(100% - 1px),
@@ -42,7 +42,7 @@
     .feature_decoration {
       left: -5px;
 
-      @mixin larger-than 62em {
+      @media(width >= 62em) {
         left: -30px;
       }
     }
@@ -54,13 +54,13 @@
     .feature_decoration {
       right: -5px;
 
-      @mixin larger-than 62em {
+      @media(width >= 62em) {
         right: -30px;
       }
     }
   }
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     gap: 1rem;
     padding: 2rem;
     font-size: 2rem;
@@ -79,11 +79,11 @@
   border-radius: 50%;
   opacity: 0.5;
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     background-color: var(--mantine-color-teal-5);
   }
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     width: 120px;
     height: 120px;
   }

@@ -7,13 +7,13 @@
   color: var(--mantine-color-white);
   background-color: var(--mantine-color-teal-6);
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     width: 300px;
     height: 100vh;
     padding: 1rem;
   }
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     background-color: var(--mantine-color-teal-8);
   }
 }
@@ -26,7 +26,7 @@
   height: 4rem;
   padding: 0.5rem;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     flex-direction: column;
     gap: 1rem;
     justify-content: flex-start;
@@ -52,13 +52,13 @@
     width: 10rem;
     height: auto;
 
-    @mixin larger-than 62em {
+    @media(width >= 62em) {
       width: 100%;
       height: auto;
     }
   }
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     height: auto;
   }
 }

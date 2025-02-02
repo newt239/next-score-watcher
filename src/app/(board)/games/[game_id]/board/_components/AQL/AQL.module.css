@@ -5,7 +5,7 @@
   justify-content: center;
   padding: 1rem;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     gap: 2rem;
     height: calc(100vh - 5rem);
     overflow-y: auto;
@@ -29,7 +29,7 @@
   padding: 0.5rem;
   border-radius: 1rem;
 
-  @mixin larger-than 36em {
+  @media(width >= 36em) {
     width: calc(50% - 2rem);
     padding: 1rem;
   }
@@ -37,7 +37,7 @@
   &[data-state="win"] {
     background-color: var(--mantine-color-red-9);
 
-    @mixin dark {
+    [data-mantine-color-scheme='dark'] {
       background-color: var(--mantine-color-red-3);
 
       .team_name,
@@ -50,7 +50,7 @@
   &[data-state="lose"] {
     background-color: var(--mantine-color-blue-9);
 
-    @mixin dark {
+    [data-mantine-color-scheme='dark'] {
       background-color: var(--mantine-color-blue-3);
 
       .team_name,
@@ -83,7 +83,7 @@
   align-items: center;
   width: 100%;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     flex-direction: row;
   }
 }
