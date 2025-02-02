@@ -14,6 +14,16 @@ const eslintConfig = [
   eslintConfigPrettier,
   {
     rules: {
+      "react-hooks/exhaustive-deps": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_",
+          "destructuredArrayIgnorePattern": "^_"
+        }
+      ],
       "import/order": [
         "error",
         {
