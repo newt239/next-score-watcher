@@ -38,7 +38,7 @@ const Player: React.FC<Props> = ({
   );
   const [editableState, setEditableState] = useState<States>("playing");
 
-  const [reversePlayerInfo, setReversePlayerInfo] = useLocalStorage({
+  const [reversePlayerInfo] = useLocalStorage({
     key: "reversePlayerInfo",
     defaultValue: false,
   });

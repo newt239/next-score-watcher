@@ -53,6 +53,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
   };
 
   const columnHelper = createColumnHelper<QuizDBProps>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const columns: ColumnDef<QuizDBProps, any>[] = [
     columnHelper.accessor("id", {
       header: ({ table }) => {

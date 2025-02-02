@@ -549,11 +549,15 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
             disabled
             {...props}
           >
-            {`+${game.players.find(
-              (gamePlayer) => gamePlayer.id === player.player_id
-            )?.base_correct_point!} / ${game.players.find(
-              (gamePlayer) => gamePlayer.id === player.player_id
-            )?.base_wrong_point!}`}
+            {`+${
+              game.players.find(
+                (gamePlayer) => gamePlayer.id === player.player_id
+              )?.base_correct_point
+            } / ${
+              game.players.find(
+                (gamePlayer) => gamePlayer.id === player.player_id
+              )?.base_wrong_point
+            }`}
           </PlayerScoreButton>
         </>
       )}

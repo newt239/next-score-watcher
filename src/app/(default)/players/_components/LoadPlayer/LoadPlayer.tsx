@@ -32,7 +32,7 @@ const LoadPlayer: React.FC<Props> = ({ currentProfile }) => {
   const handleClick = async () => {
     if (rawPlayerText !== "") {
       const playerRaw = rawPlayerText.split("\n");
-      let dataArray: PlayerDBProps[] = [];
+      const dataArray: PlayerDBProps[] = [];
       for (let i = 0; i < playerRaw.length; i++) {
         const name = playerRaw[i].split(
           separateType === "comma" ? "," : "\t"

@@ -6,9 +6,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix ./src/**/*.{ts,tsx}",
-    "stylelint": "stylelint \"./src/**/*.css\" --fix",
-    "format": "prettier --write \"./src/**/*.{ts,tsx}\""
+    "lint": "eslint --fix ./**/*.{ts,tsx}",
+    "stylelint": "stylelint \"./**/*.css\" --fix",
+    "format": "prettier --write \"./**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@hello-pangea/dnd": "^17.0.0",

@@ -25,8 +25,8 @@ type Props = {
 
 const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
-  const [copied, setCopied] = useState<Boolean>(false);
-  const [reverse, setReverse] = useState<Boolean>(true);
+  const [copied, setCopied] = useState<boolean>(false);
+  const [reverse, setReverse] = useState<boolean>(true);
 
   useEffect(() => {
     const getQuizes = async () => {

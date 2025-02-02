@@ -92,7 +92,7 @@ const computeScore = async (game_id: string, currentProfile: string) => {
       break;
   }
 
-  let incapacity_players: string[] = [];
+  const incapacity_players: string[] = [];
   result.scores.map((score) => {
     if (
       score.state === "playing" &&
@@ -258,9 +258,9 @@ export const getSortedPlayerOrderList = (playersState: ComputedScoreProps[]) =>
 
 export const indicator = (i: number) => {
   i = Math.abs(i) + 1;
-  var cent = i % 100;
+  const cent = i % 100;
   if (cent >= 10 && cent <= 20) return `${i}st`;
-  var dec = i % 10;
+  const dec = i % 10;
   if (dec === 1) return `${i}st`;
   if (dec === 2) return `${i}nd`;
   if (dec === 3) return `${i}rd`;
