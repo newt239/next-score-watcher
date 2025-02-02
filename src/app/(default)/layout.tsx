@@ -3,7 +3,7 @@ import { Flex } from "@mantine/core";
 import Header from "./_components/Header/Header";
 import classes from "./layout.module.css";
 
-export default function DefaultLayout({
+export default async function DefaultLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
