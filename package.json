@@ -6,7 +6,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix ./**/*.{ts,tsx}",
+    "lint": "next lint",
     "stylelint": "stylelint \"./**/*.css\" --fix",
     "format": "prettier --write \"./**/*.{ts,tsx}\""
   },

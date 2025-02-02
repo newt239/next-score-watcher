@@ -17,9 +17,10 @@ const variables = async (
       if (playerState.player_id === log.player_id) {
         switch (log.variant) {
           case "correct":
-            const correct_point = game.players.find(
-              (gamePlayer) => gamePlayer.id === playerState.player_id
-            )?.base_correct_point!;
+            const correct_point =
+              game.players.find(
+                (gamePlayer) => gamePlayer.id === playerState.player_id
+              )?.base_correct_point || 0;
             const newScore = playerState.score + correct_point;
             if (newScore >= game.win_point!) {
               return {
@@ -45,9 +46,10 @@ const variables = async (
               };
             }
           case "wrong":
-            const wrong_point = game.players.find(
-              (gamePlayer) => gamePlayer.id === playerState.player_id
-            )?.base_wrong_point!;
+            const wrong_point =
+              game.players.find(
+                (gamePlayer) => gamePlayer.id === playerState.player_id
+              )?.base_wrong_point || 0;
             return {
               ...playerState,
               wrong: playerState.wrong + 1,
