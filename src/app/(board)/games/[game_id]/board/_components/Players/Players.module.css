@@ -10,14 +10,14 @@
     flex-direction: row;
     gap: 0 1vw;
     justify-content: space-evenly;
-    height: calc(100vh - min(15vh, 8rem));
+    height: calc(100vh - min(15vh, 8rem) - 3rem);
     padding: 3ch 1vw 0;
     padding: 2.5vh 1vw;
     overflow-y: auto;
     resize: vertical;
 
     &[data-showheader="false"] {
-      height: 100vh;
+      height: calc(100vh - 3rem);
     }
   }
 }
