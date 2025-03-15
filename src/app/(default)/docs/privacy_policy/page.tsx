@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import { Text, Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー",

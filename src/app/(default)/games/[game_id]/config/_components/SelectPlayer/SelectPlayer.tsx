@@ -13,7 +13,7 @@ import classes from "./SelectPlayer.module.css";
 import type { UseFormReturnType } from "@mantine/form";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 
 type Props = {

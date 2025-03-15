@@ -29,7 +29,7 @@ import PreferenceDrawer from "../PreferenceDrawer";
 
 import classes from "./BoardHeader.module.css";
 
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType, rules } from "@/utils/rules";
 import { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";

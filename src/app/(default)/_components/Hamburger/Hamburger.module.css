@@ -1,3 +1,7 @@
+.burger {
+    border: 2px solid var(--mantine-color-teal-6);
+  }
+
 .burger_menu {
   position: fixed;
   left: 0;

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Box, List, Modal, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-import Link from "./Link/Link";
+import Link from "./Link";
 
 const UpdateModal: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
