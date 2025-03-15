@@ -1,23 +1,23 @@
 .players {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
   width: 100%;
   padding: 1.5vh 0;
 
-  @mixin larger-than 62em {
-    padding: 3ch 1vw 0;
-    height: calc(100vh - min(15vh, 8rem));
+  @media(width >= 62em) {
     flex-direction: row;
-    justify-content: space-evenly;
     gap: 0 1vw;
+    justify-content: space-evenly;
+    height: calc(100vh - min(15vh, 8rem) - 3rem);
+    padding: 3ch 1vw 0;
     padding: 2.5vh 1vw;
-    resize: vertical;
     overflow-y: auto;
+    resize: vertical;
 
     &[data-showheader="false"] {
-      height: 100vh;
+      height: calc(100vh - 3rem);
     }
   }
 }

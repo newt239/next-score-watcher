@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { getImageProps } from "next/image";
 import Link from "next/link";
 
-import { Box, Flex } from "@mantine/core";
+import { Anchor, Box, Flex } from "@mantine/core";
 
 import Hamburger from "../Hamburger/Hamburger";
 import SelectProfile from "../SelectProfile/SelectProfile";
@@ -10,8 +10,8 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
-export default function Header() {
-  const cookieStore = cookies();
+export default async function Header() {
+  const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
     ? JSON.parse(profileListCookie?.value)
@@ -70,11 +70,16 @@ export default function Header() {
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}
-                <Link href="https://twitter.com/newt239" target="_blank">
+                <Anchor
+                  component={Link}
+                  c="white"
+                  href="https://twitter.com/newt239"
+                  target="_blank"
+                >
                   newt239
-                </Link>
+                </Anchor>
               </Box>
-              <Box>2022-2024</Box>
+              <Box>2022-2025</Box>
             </Flex>
           </Flex>
         </Flex>

@@ -57,10 +57,10 @@ const AQLPlayer: React.FC<Props> = ({
         ? "red.9"
         : "red.3"
       : state == "lose"
-      ? computedColorScheme === "light"
-        ? "blue.9"
-        : "blue.3"
-      : undefined;
+        ? computedColorScheme === "light"
+          ? "blue.9"
+          : "blue.3"
+        : undefined;
   };
 
   return (

@@ -3,27 +3,27 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  text-orientation: upright;
-  writing-mode: horizontal-tb;
-  white-space: nowrap;
-  font-family: "fot-udkakugo-large-pr6n", sans-serif;
-  font-weight: 700;
-  font-size: 2rem;
-  line-height: 2rem;
   width: 100%;
   padding-top: 0.25rem;
   overflow-x: hidden;
+  font-family: "fot-udkakugo-large-pr6n", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2rem;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  writing-mode: horizontal-tb;
+  text-orientation: upright;
 
-  @mixin larger-than 36em {
+  @media(width >= 36em) {
     justify-content: flex-start;
   }
 
-  @mixin larger-than 62em {
-    writing-mode: vertical-rl;
+  @media(width >= 62em) {
+    padding-top: 0;
     font-size: clamp(2rem, 8vh, 4.5rem);
     line-height: clamp(2rem, 8vh, 4.5rem);
-    padding-top: 0;
+    writing-mode: vertical-rl;
 
     &[data-rows="3"] {
       font-size: clamp(1.8rem, 7vh, 4rem);

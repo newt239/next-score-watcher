@@ -9,11 +9,11 @@
 }
 
 .rule_description {
-  margin: 0.5rem 0;
+  display: -webkit-box;
   height: 4.5rem;
+  margin: 0.5rem 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }

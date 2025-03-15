@@ -19,20 +19,18 @@ const UpdateModal: React.FC = () => {
       open();
       window.localStorage.setItem("scorewatcher-version", latestVersion!);
     }
-    // Vite + Reactのときのキャッシュを削除
+    // キャッシュ全削除
     caches.keys().then((cacheNames) => {
       cacheNames.forEach((cacheName) => {
-        if (cacheName.startsWith("workbox-precache-v2")) {
-          caches.delete(cacheName);
-          navigator.serviceWorker
-            .getRegistrations()
-            .then(function (registrations) {
-              // 登録されているworkerを全て削除する
-              for (let registration of registrations) {
-                registration.unregister();
-              }
-            });
-        }
+        caches.delete(cacheName);
+        navigator.serviceWorker
+          .getRegistrations()
+          .then(function (registrations) {
+            // 登録されているworkerを全て削除する
+            for (const registration of registrations) {
+              registration.unregister();
+            }
+          });
       });
     });
   }, []);

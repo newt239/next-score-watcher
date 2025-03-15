@@ -22,8 +22,10 @@ const TypekitLoader: React.FC = () => {
       tk.onload = function () {
         clearTimeout(t);
         try {
-          (window as any).Typekit.load(config);
-        } catch (e) {}
+          window?.Typekit.load(config);
+        } catch (e) {
+          console.log(e);
+        }
       };
       tk.onerror = function () {
         clearTimeout(t);

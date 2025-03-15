@@ -11,7 +11,7 @@ const RecommendedEnvironment = () => {
           <Table.Td>
             <List>
               <List.Item>Windows 11 最新版</List.Item>
-              <List.Item>macOS 14 Sonoma 最新版</List.Item>
+              <List.Item>macOS 最新版</List.Item>
             </List>
           </Table.Td>
         </Table.Tr>

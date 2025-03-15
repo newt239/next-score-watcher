@@ -38,7 +38,7 @@ const Player: React.FC<Props> = ({
   );
   const [editableState, setEditableState] = useState<States>("playing");
 
-  const [reversePlayerInfo, setReversePlayerInfo] = useLocalStorage({
+  const [reversePlayerInfo] = useLocalStorage({
     key: "reversePlayerInfo",
     defaultValue: false,
   });
@@ -64,10 +64,10 @@ const Player: React.FC<Props> = ({
         ? "red.9"
         : "red.3"
       : state == "lose"
-      ? computedColorScheme === "light"
-        ? "blue.9"
-        : "blue.3"
-      : undefined;
+        ? computedColorScheme === "light"
+          ? "blue.9"
+          : "blue.3"
+        : undefined;
   };
 
   return (

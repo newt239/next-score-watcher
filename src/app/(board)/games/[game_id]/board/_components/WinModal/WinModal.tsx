@@ -11,7 +11,7 @@ type Props = {
   roundName: string;
 };
 
-const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer, roundName }) => {
+const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer }) => {
   const showWinthroughPopup = useLocalStorage({
     key: "scorew_show_winthrough_popup",
     defaultValue: true,

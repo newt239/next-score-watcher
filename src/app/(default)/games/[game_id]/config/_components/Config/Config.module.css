@@ -4,27 +4,27 @@
 
 .tab_list {
   & button[data-active="true"] {
+    color: var(--mantine-color-gray-9);
     background-color: var(--mantine-color-gray-1);
     border-right: 1px solid transparent;
-    color: var(--mantine-color-gray-9);
 
-    @mixin dark {
-      background-color: var(--mantine-color-gray-8);
+    [data-mantine-color-scheme='dark'] {
       color: var(--mantine-color-gray-1);
+      background-color: var(--mantine-color-gray-8);
     }
   }
 }
 
 .tab_panel_area {
-  background-color: var(--mantine-color-gray-1);
-  padding: 1rem;
-  min-height: 80vh;
   flex-grow: 1;
+  min-height: 80vh;
+  padding: 1rem;
+  overflow: scroll;
+  background-color: var(--mantine-color-gray-1);
   border: 1px solid var(--mantine-color-gray-3);
   border-left: 1px solid transparent;
-  overflow: scroll;
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     background-color: var(--mantine-color-gray-8);
     border: 1px solid var(--mantine-color-gray-7);
     border-left: 1px solid transparent;

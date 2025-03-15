@@ -6,8 +6,8 @@
 
 .game_name {
   padding: 0.5rem 1rem;
-  white-space: nowrap;
   overflow-x: scroll;
+  white-space: nowrap;
 }
 
 .game_description {
@@ -16,6 +16,6 @@
 
 .game_footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }

@@ -56,20 +56,20 @@ const AQL: React.FC<Props> = ({
     leftTeamScore >= 200
       ? "win"
       : rightTeamScore >= 200 ||
-        playerScoreList.reduce((acc, cur) => {
-          return cur.score.is_incapacity ? acc + 1 : acc;
-        }, 0) === 5
-      ? "lose"
-      : "playing";
+          playerScoreList.reduce((acc, cur) => {
+            return cur.score.is_incapacity ? acc + 1 : acc;
+          }, 0) === 5
+        ? "lose"
+        : "playing";
   const rightTeamState =
     rightTeamScore >= 200
       ? "win"
       : leftTeamScore >= 200 ||
-        playerScoreList.reduce((acc, cur) => {
-          return cur.score.is_incapacity ? acc + 1 : acc;
-        }, 0) === 5
-      ? "lose"
-      : "playing";
+          playerScoreList.reduce((acc, cur) => {
+            return cur.score.is_incapacity ? acc + 1 : acc;
+          }, 0) === 5
+        ? "lose"
+        : "playing";
 
   return (
     <Flex
@@ -85,8 +85,8 @@ const AQL: React.FC<Props> = ({
             {leftTeamState === "win"
               ? "WIN"
               : leftTeamState === "lose"
-              ? "LOSE"
-              : leftTeamScore}
+                ? "LOSE"
+                : leftTeamScore}
           </Box>
         </Flex>
         <Flex className={classes.players}>
@@ -110,8 +110,8 @@ const AQL: React.FC<Props> = ({
             {rightTeamState === "win"
               ? "WIN"
               : rightTeamState === "lose"
-              ? "LOSE"
-              : rightTeamScore}
+                ? "LOSE"
+                : rightTeamScore}
           </Box>
         </Flex>
         <Flex className={classes.players}>

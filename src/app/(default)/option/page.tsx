@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function OptionPage() {
-  const cookieStore = cookies();
+export default async function OptionPage() {
+  const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
     ? JSON.parse(profileListCookie?.value)

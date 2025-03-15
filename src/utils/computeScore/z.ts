@@ -86,10 +86,10 @@ const z = async (game: AllGameProps["z"], gameLogList: LogDBProps[]) => {
       playerState.state === "win"
         ? indicator(order)
         : playerState.is_incapacity ||
-          (gameLogList.length === playerState.last_wrong + 1 &&
-            playerState.stage === 1)
-        ? "休"
-        : `Stage${playerState.stage}`;
+            (gameLogList.length === playerState.last_wrong + 1 &&
+              playerState.stage === 1)
+          ? "休"
+          : `Stage${playerState.stage}`;
     if (
       playerState.state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

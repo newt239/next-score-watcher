@@ -57,7 +57,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
   };
 
   const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns: ColumnDef<PlayerDBProps, any>[] = [
+  const columns: ColumnDef<PlayerDBProps, string>[] = [
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (

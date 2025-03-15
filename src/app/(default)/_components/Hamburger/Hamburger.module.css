@@ -1,16 +1,15 @@
 .burger_menu {
-  display: none;
   position: fixed;
-
   left: 0;
+  z-index: 50;
+  display: none;
   width: 100%;
   padding: 0.5rem;
   background-color: var(--mantine-color-teal-6);
   transition: all 0.5s ease;
   transition-behavior: allow-discrete;
-  z-index: 50;
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     background-color: var(--mantine-color-teal-8);
   }
 
@@ -20,8 +19,8 @@
   }
 
   &[data-show="true"] {
-    display: block;
     top: 4rem;
+    display: block;
 
     @starting-style {
       top: 0;

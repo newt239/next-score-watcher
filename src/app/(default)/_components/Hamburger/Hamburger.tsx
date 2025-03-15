@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 import { Burger } from "@mantine/core";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
-import { createPortal } from "react-dom";
 
 import classes from "./Hamburger.module.css";
 
@@ -29,23 +28,14 @@ const Hamburger: React.FC<Props> = ({ children }) => {
     }
   });
 
-  if (typeof window === "object") {
-    const ModalContent = createPortal(
-      <nav className={classes.burger_menu} data-show={opened} inert={!opened}>
+  return (
+    <>
+      <Burger color="white" opened={opened} onClick={toggle} />
+      <nav className={classes.burger_menu} data-show={opened}>
         {children}
-      </nav>,
-      document.body
-    );
-
-    return (
-      <>
-        <Burger color="white" opened={opened} onClick={toggle} />
-        {ModalContent}
-      </>
-    );
-  } else {
-    return null;
-  }
+      </nav>
+    </>
+  );
 };
 
 export default Hamburger;

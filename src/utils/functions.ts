@@ -44,7 +44,7 @@ export const createGame = async (
           editable: false,
           last_open: cdate().text(),
         };
-      const { description, rows, ...params } = rules[param];
+      const { description: _unused1, rows: _unused2, ...params } = rules[param];
       await db(currentProfile).games.put({
         ...commonGameProps,
         ...params,

@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PlayerPage() {
-  const cookieStore = cookies();
+export default async function PlayerPage() {
+  const cookieStore = await cookies();
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 

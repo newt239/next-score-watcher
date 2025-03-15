@@ -26,7 +26,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
   const handleClick = async () => {
     if (rawQuizText !== "") {
       const quizRaw = rawQuizText.split("\n");
-      let dataArray: QuizDBProps[] = [];
+      const dataArray: QuizDBProps[] = [];
       for (let i = 0; i < quizRaw.length; i++) {
         const n = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
         const q =

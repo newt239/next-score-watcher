@@ -10,14 +10,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ConfigPage({
+export default async function ConfigPage({
   params,
 }: {
-  params: { game_id: string };
+  params: Promise<{ game_id: string }>;
 }) {
-  const cookieStore = cookies();
+  const { game_id } = await params;
+  const cookieStore = await cookies();
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
-  return <Config game_id={params.game_id} currentProfile={currentProfile} />;
+  return <Config game_id={game_id} currentProfile={currentProfile} />;
 }

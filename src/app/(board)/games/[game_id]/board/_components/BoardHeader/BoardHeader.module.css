@@ -1,25 +1,25 @@
 .board_header {
   position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  width: 100vw;
   padding: 0 0.5rem;
   overflow-y: auto;
-  width: 100vw;
 
-  @mixin larger-than 62em {
-    resize: vertical;
+  @media(width >= 62em) {
     gap: 1rem;
     height: min(15vh, 8rem);
+    resize: vertical;
     background-color: var(--mantine-color-gray-1);
 
-    @mixin dark {
+    [data-mantine-color-scheme='dark'] {
       background-color: var(--mantine-color-gray-8);
     }
   }
 
   &[data-withname="false"][data-showqn="false"] {
-    @mixin larger-than 62em {
+    @media(width >= 62em) {
       &[data-showquiz="true"] {
         div:nth-child(1) {
           position: absolute;
@@ -39,7 +39,7 @@
 
   &[data-withname="true"] {
     &[data-showquiz="false"] {
-      @mixin larger-than 62em {
+      @media(width >= 62em) {
         div {
           width: 50%;
         }
@@ -52,8 +52,8 @@
           }
 
           &[data-showqn="false"] {
-            width: 100%;
             align-items: center;
+            width: 100%;
 
             div {
               text-align: center;
@@ -68,10 +68,10 @@
     }
 
     &[data-showquiz="true"] {
-      @mixin larger-than 62em {
+      @media(width >= 62em) {
         flex-direction: row;
-        align-items: flex-start;
         gap: 0.5rem;
+        align-items: flex-start;
 
         div:nth-child(1) {
           white-space: nowrap;
@@ -82,7 +82,7 @@
 
   &[data-withname="false"] {
     &[data-showquiz="false"] {
-      @mixin larger-than 62em {
+      @media(width >= 62em) {
         justify-content: center;
       }
     }
@@ -104,11 +104,11 @@
 
 .game_name {
   font-size: 1.5rem;
-  line-height: 1.5rem;
   font-weight: 800;
+  line-height: 1.5rem;
   color: black;
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     color: white;
   }
 }
@@ -116,18 +116,18 @@
 .game_name_only {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
   height: 100%;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     align-items: center;
   }
 
   span:nth-child(1) {
     font-size: 2.5rem;
-    line-height: 2.5rem;
     font-weight: 700;
+    line-height: 2.5rem;
   }
 
   span:nth-child(2) {
@@ -140,10 +140,11 @@
     span:nth-child(1) {
       display: none;
     }
+
     span:nth-child(2) {
       font-size: 1.5rem;
-      line-height: 1.5rem;
       font-weight: 700;
+      line-height: 1.5rem;
     }
   }
 }
@@ -151,28 +152,28 @@
 .quiz_number_area {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
+  justify-content: center;
 }
 
 .quiz_number {
-  white-space: nowrap;
-  font-weight: 700;
   font-size: 2.5rem;
+  font-weight: 700;
   line-height: 2.5rem;
+  white-space: nowrap;
 }
 
 .quiz_area {
   display: none;
-  height: 100%;
   flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
   overflow: hidden;
   font-size: 1.5rem;
   line-height: 1.5rem;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     display: flex;
   }
 }
@@ -180,13 +181,13 @@
 .answer {
   color: var(--mantine-color-red-9);
 
-  @mixin dark {
+  [data-mantine-color-scheme='dark'] {
     color: var(--mantine-color-red-3);
   }
 }
 
 .board_action {
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     display: none;
   }
 }

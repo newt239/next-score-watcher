@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Box, Title } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -20,7 +18,6 @@ type Props = {
 };
 
 const OtherConfig: React.FC<Props> = ({ game, currentProfile }) => {
-  const router = useRouter();
   const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), []);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
 

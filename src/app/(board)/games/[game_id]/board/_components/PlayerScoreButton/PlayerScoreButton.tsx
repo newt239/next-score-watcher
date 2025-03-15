@@ -51,10 +51,10 @@ const PlayerScoreButton: React.FC<Props> = ({
   const numberSign = children.endsWith("pt")
     ? "pt"
     : children.endsWith("○")
-    ? "correct"
-    : children.endsWith("✕")
-    ? "wrong"
-    : "none";
+      ? "correct"
+      : children.endsWith("✕")
+        ? "wrong"
+        : "none";
   const computedColorScheme = useComputedColorScheme("light");
 
   const defaultColor = computedColorScheme === "light" ? "white" : "gray.8";
@@ -62,18 +62,18 @@ const PlayerScoreButton: React.FC<Props> = ({
     color === "gray"
       ? "gray.3"
       : color === "black"
-      ? "gray.9"
-      : ["red", "win"].includes(color)
-      ? computedColorScheme === "light"
-        ? "red.9"
-        : "red.3"
-      : ["blue", "lose"].includes(color)
-      ? computedColorScheme === "light"
-        ? "blue.9"
-        : "blue.3"
-      : computedColorScheme === "light"
-      ? "green.9"
-      : "yellow.3";
+        ? "gray.9"
+        : ["red", "win"].includes(color)
+          ? computedColorScheme === "light"
+            ? "red.9"
+            : "red.3"
+          : ["blue", "lose"].includes(color)
+            ? computedColorScheme === "light"
+              ? "blue.9"
+              : "blue.3"
+            : computedColorScheme === "light"
+              ? "green.9"
+              : "yellow.3";
 
   const handleClick = async () => {
     if (color !== "green" && !disabled) {
@@ -134,8 +134,8 @@ const PlayerScoreButton: React.FC<Props> = ({
               disabled && color !== "green"
                 ? "not-allowed"
                 : disabled || color === "green" || editable
-                ? "default"
-                : "pointer",
+                  ? "default"
+                  : "pointer",
           }}
           c={filled ? defaultColor : variantColor}
           bg={filled ? variantColor : "transparent"}

@@ -1,9 +1,8 @@
 .action_button_list {
   display: flex;
-  flex-direction: row-reverse;
-  flex-wrap: nowrap;
+  flex-flow: row-reverse nowrap;
 
-  @mixin larger-than 62em {
+  @media(width >= 62em) {
     flex-direction: row;
   }
 }

@@ -64,7 +64,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   };
 
   const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns = useMemo<ColumnDef<PlayerDBProps, any>[]>(
+  const columns = useMemo<ColumnDef<PlayerDBProps, string>[]>(
     () => [
       columnHelper.accessor("id", {
         header: "",
