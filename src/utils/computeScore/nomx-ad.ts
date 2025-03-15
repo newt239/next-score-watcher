@@ -88,8 +88,8 @@ const nomxAd = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : numberSign("pt", playerState.score);
+          ? "LOSE"
+          : numberSign("pt", playerState.score);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

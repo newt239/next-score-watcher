@@ -211,8 +211,8 @@ export const getInitialPlayersState = (game: GamePropsUnion) => {
           game.rule === "backstream"
             ? initialBackstreamWrong(gamePlayer.initial_wrong)
             : game.rule === "squarex"
-            ? 0
-            : gamePlayer.initial_wrong,
+              ? 0
+              : gamePlayer.initial_wrong,
         last_correct: -10,
         last_wrong: -10,
         odd_score: game.rule === "squarex" ? gamePlayer.initial_correct : 0,

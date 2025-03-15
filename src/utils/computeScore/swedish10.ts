@@ -83,8 +83,8 @@ const swedish10 = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : numberSign("pt", playerState.correct);
+          ? "LOSE"
+          : numberSign("pt", playerState.correct);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

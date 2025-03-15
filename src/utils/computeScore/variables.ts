@@ -79,8 +79,8 @@ const variables = async (
       state === "win"
         ? indicator(order)
         : state === "lose"
-        ? "LOSE"
-        : `${playerState.score}pt`;
+          ? "LOSE"
+          : `${playerState.score}pt`;
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

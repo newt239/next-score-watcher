@@ -78,8 +78,8 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
   const quizPosition = game.editable
     ? manualQuizPosition
     : game.quiz
-    ? game.quiz.offset + qn - 1
-    : 0;
+      ? game.quiz.offset + qn - 1
+      : 0;
 
   useEffect(() => {
     setManualQuizPosition((game.quiz ? game.quiz.offset : 0) + qn);

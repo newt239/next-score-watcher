@@ -61,8 +61,8 @@ const freezex = async (
       state === "win"
         ? indicator(order)
         : remainIncapacity > 0
-        ? `${remainIncapacity}休`
-        : `${playerState.correct}○`;
+          ? `${remainIncapacity}休`
+          : `${playerState.correct}○`;
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

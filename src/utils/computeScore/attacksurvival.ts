@@ -75,8 +75,8 @@ const attacksurvival = async (
           (log.variant === "correct"
             ? game.correct_other!
             : log.variant === "wrong"
-            ? game.wrong_other!
-            : 0);
+              ? game.wrong_other!
+              : 0);
         if (newScore <= 0) {
           return {
             ...playerState,
@@ -124,8 +124,8 @@ const attacksurvival = async (
       state === "win"
         ? indicator(order)
         : playerState.state === "lose"
-        ? "LOSE"
-        : numberSign("pt", playerState.score);
+          ? "LOSE"
+          : numberSign("pt", playerState.score);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length

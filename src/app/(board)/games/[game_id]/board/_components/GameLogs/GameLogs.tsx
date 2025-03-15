@@ -71,15 +71,15 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
                     player
                       ? player.name
                       : log.variant === "through"
-                      ? "(スルー)"
-                      : "-"
+                        ? "(スルー)"
+                        : "-"
                   }</td>
                   <td>${
                     log.variant === "correct"
                       ? "o"
                       : log.variant === "wrong"
-                      ? "x"
-                      : "-"
+                        ? "x"
+                        : "-"
                   }</td>
                   <td>${cdate(log.timestamp).format("YYYY/MM/DD HH:mm:ss")}</td>
                   ${
@@ -144,15 +144,15 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
                           {player
                             ? player.name
                             : log.variant === "through"
-                            ? "(スルー)"
-                            : "-"}
+                              ? "(スルー)"
+                              : "-"}
                         </Table.Td>
                         <Table.Td>
                           {log.variant === "correct"
                             ? "o"
                             : log.variant === "wrong"
-                            ? "x"
-                            : "-"}
+                              ? "x"
+                              : "-"}
                         </Table.Td>
                         <Table.Td
                           title={cdate(log.timestamp).format(

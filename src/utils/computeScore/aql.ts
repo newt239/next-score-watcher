@@ -84,10 +84,10 @@ const aql = async (game: AllGameProps["aql"], gameLogList: LogDBProps[]) => {
       state === "win"
         ? indicator(order)
         : playerState.is_incapacity
-        ? `${
-            game.lose_point! - gameLogList.length + playerState.last_wrong + 1
-          }休`
-        : numberSign("pt", playerState.correct);
+          ? `${
+              game.lose_point! - gameLogList.length + playerState.last_wrong + 1
+            }休`
+          : numberSign("pt", playerState.correct);
     if (
       state === "win" &&
       playerState.last_correct + 1 === gameLogList.length
