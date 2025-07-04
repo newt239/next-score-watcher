@@ -6,11 +6,11 @@
   width: 100%;
   padding-top: 0.25rem;
   overflow-x: hidden;
+  text-overflow: ellipsis;
   font-family: "fot-udkakugo-large-pr6n", sans-serif;
   font-size: 2rem;
   font-weight: 700;
   line-height: 2rem;
-  text-overflow: ellipsis;
   white-space: nowrap;
   writing-mode: horizontal-tb;
   text-orientation: upright;
