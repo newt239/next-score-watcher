@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 
 import { Flex } from "@mantine/core";
 import {
-  IconExternalLink,
   IconHelp,
   IconHome,
   IconInfoCircle,
@@ -12,8 +11,11 @@ import {
   IconListDetails,
   IconQuestionMark,
   IconSettings,
-  IconUsers,
+  IconUser,
+  IconUsers
 } from "@tabler/icons-react";
+
+import type { AuthUser } from "@supabase/supabase-js";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
@@ -32,7 +34,11 @@ const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
   },
 ];
 
-const SubMenu: React.FC = () => {
+type SubMenuProps = {
+  user: AuthUser | null;
+};
+
+const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
   const pathname = usePathname();
 
   return (
@@ -49,9 +55,35 @@ const SubMenu: React.FC = () => {
           leftSection={link.icon}
         >
           {link.text}
-          {link.path.startsWith("http") && <IconExternalLink />}
         </ButtonLink>
       ))}
+      {user ? (
+        <ButtonLink
+          justify="flex-start"
+          fullWidth
+          size="md"
+          aria-current={"/account" === pathname}
+          href="/account"
+          key="/account"
+          variant={"/account" === pathname ? "white" : "filled"}
+          leftSection={<IconUser />}
+        >
+          アカウント設定
+        </ButtonLink>
+      ) : (
+        <ButtonLink
+          justify="flex-start"
+          fullWidth
+          size="md"
+          aria-current={"/sign-in" === pathname}
+          href="/sign-in"
+          key="/sign-in"
+          variant={"/sign-in" === pathname ? "white" : "filled"}
+          leftSection={<IconUser />}
+        >
+          ログイン
+        </ButtonLink>
+      )}
     </Flex>
   );
 };

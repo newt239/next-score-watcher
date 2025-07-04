@@ -1,28 +1,69 @@
 name: Playwright Tests
 on:
   pull_request:
-    branches: [main]
+    branches: ["main", "develop"]
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 jobs:
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_APP_VERSION: ${{ secrets.NEXT_PUBLIC_APP_VERSION }}
+      NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
+      NEXT_PUBLIC_TAG_ID: ${{ secrets.NEXT_PUBLIC_TAG_ID }}
+      NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      SUPABASE_AUTH_URL: http://localhost:3000
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-      - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
-      - name: Run Playwright tests
-        run: pnpm exec playwright test
+          node-version: "24"
+          cache: "pnpm"
+      - name: 依存関係をインストール
+        run: pnpm install --frozen-lockfile
+      - name: Playwrightのバージョンを取得し、ブラウザのキャッシュキーを生成
+        id: version-checker
+        run: |
+          echo "playwright-version=$(npx playwright --version | sed 's/ //g')" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: ブラウザのキャッシュを復元
+        id: restore-chromium
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ steps.version-checker.outputs.playwright-version }}
+          restore-keys: |
+            playwright-chromium-
+      - name: もしブラウザのキャッシュがなければインストール
+        run: pnpm exec playwright install --with-deps chromium
+        if: ${{ steps.restore-chromium.outputs.cache-hit != 'true' }}
+      - name: ブラウザのキャッシュを保存
+        uses: actions/cache@v4
+        if: ${{ steps.restore-chromium.outputs.cache-hit != 'true' }}
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ steps.version-checker.outputs.playwright-version }}
+      - name: ビルドキャッシュを復元
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
+      - name: ビルド
+        run: pnpm build --no-lint
         env:
-          NEXT_PUBLIC_APP_VERSION: ${{ secrets.NEXT_PUBLIC_APP_VERSION }}
-          NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
-          NEXT_PUBLIC_TAG_ID: ${{ secrets.NEXT_PUBLIC_TAG_ID }}
-          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          NEXT_TELEMETRY_DISABLED: 1
+      - name: Playwrightのテストを実行
+        run: pnpm exec playwright test --workers=2
       - uses: actions/upload-artifact@v4
         if: always()
         with:

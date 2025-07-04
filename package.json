@@ -6,11 +6,11 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "pnpm run eslint && pnpm run stylelint && pnpm run format",
-    "eslint": "next lint",
+    "lint": "pnpm run eslint && pnpm run stylelint",
+    "eslint": "eslint",
     "stylelint": "stylelint \"./**/*.css\" --fix",
-    "format": "prettier --write \"./**/*.{ts,tsx}\"",
-    "test": "playwright test"
+    "test": "playwright test --ui",
+    "gen": "cmk"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
@@ -22,6 +22,8 @@
     "@mantine/notifications": "^8.1.2",
     "@next/third-parties": "^15.3.5",
     "@sentry/nextjs": "^9.34.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.50.3",
     "@tabler/icons-react": "^3.34.0",
     "@tanstack/react-table": "^8.21.3",
     "cdate": "^0.0.7",
@@ -35,6 +37,8 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@css-modules-kit/codegen": "^0.4.1",
+    "@css-modules-kit/stylelint-plugin": "^0.3.1",
     "@eslint/eslintrc": "^3.3.1",
     "@playwright/test": "^1.53.2",
     "@types/encoding-japanese": "^2.2.1",
@@ -54,5 +58,6 @@
     "stylelint-config-standard": "^38.0.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.35.1"
-  }
+  },
+  "packageManager": "pnpm@10.12.4"
 }

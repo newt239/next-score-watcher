@@ -29,12 +29,12 @@
     "target": "ES2017"
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "src/app/global-error.jsx"
+    "src",
+    ".next/types/**/*.ts"
   ],
+  "cmkOptions": {
+    "dtsOutDir": "generated/cmk"
+  },
   "exclude": [
     "node_modules"
   ]

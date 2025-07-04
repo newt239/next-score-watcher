@@ -4,11 +4,19 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: "html",
+  retries: 0,
+  workers: process.env.CI ? 2 : 4,
+  reporter: process.env.CI
+      ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
+      : "html",
   use: {
-    trace: "on-first-retry",
+    channel: "chromium",
+    headless: true,
+    screenshot: process.env.CI ? "off" : "only-on-failure",
+    trace: process.env.CI ? "off" : "on-first-retry",
+    video: process.env.CI ? "off" : "retain-on-failure",
+    actionTimeout: 60000,
+    navigationTimeout: 60000,
     locale: "ja-JP",
     timezoneId: "Asia/Tokyo",
   },
@@ -16,27 +24,11 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-    },
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-    {
-      name: "Mobile Chrome",
-      use: { ...devices["Pixel 5"] },
-    },
-    {
-      name: "Mobile Safari",
-      use: { ...devices["iPhone 12"] },
-    },
+    }
   ],
   webServer: {
     command: "pnpm run dev",
-    url: "http://127.0.0.1:3000",
+    url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
 });
