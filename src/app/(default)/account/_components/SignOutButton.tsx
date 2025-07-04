@@ -6,7 +6,7 @@ import { Button } from "@mantine/core";
 
 import { createClient } from "@/utils/supabase/client";
 
-const LogoutButton: React.FC = () => {
+const SignOutButton: React.FC = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -22,4 +22,4 @@ const LogoutButton: React.FC = () => {
   );
 };
 
-export default LogoutButton;
+export default SignOutButton;

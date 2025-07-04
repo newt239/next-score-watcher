@@ -29,8 +29,7 @@
     "target": "ES2017"
   },
   "include": [
-    "src",
-    ".next/types/**/*.ts"
+    "src"
   ],
   "cmkOptions": {
     "dtsOutDir": "generated/cmk"

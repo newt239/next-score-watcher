@@ -4,22 +4,14 @@ import { useCallback, useState } from "react";
 
 import { Button, Title } from "@mantine/core";
 
-import { createClient } from "@/utils/supabase/client";
+import { signIn } from "./_actions/sign-in";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
-  const handleLogin = useCallback(async () => {
+  const handleLogin = () => {
     setError(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo:
-          typeof window !== "undefined" ? `${window.location.origin}/` : "/",
-      },
-    });
-    if (error) setError(error.message);
-  }, []);
+    signIn();
+  };
 
   return (
     <main>

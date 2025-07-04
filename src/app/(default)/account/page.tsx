@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
-import { createClient as createServerSupabaseClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
+import SignOutButton from "../_components/SignOutButton";
 
 export const metadata: Metadata = {
   title: "アカウント設定",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AccountPage() {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const user = data.user;
 
@@ -41,6 +42,7 @@ export default async function AccountPage() {
             {user.email}
           </Text>
         </Box>
+        <SignOutButton />
       </Group>
     </Box>
   );
