@@ -12,6 +12,7 @@ import {
   IconListDetails,
   IconQuestionMark,
   IconSettings,
+  IconUser,
   IconUsers,
 } from "@tabler/icons-react";
 
@@ -58,7 +59,7 @@ const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
           {link.path.startsWith("http") && <IconExternalLink />}
         </ButtonLink>
       ))}
-      {user && (
+      {user ? (
         <ButtonLink
           justify="flex-start"
           fullWidth
@@ -67,9 +68,22 @@ const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
           href="/account"
           key="/account"
           variant={"/account" === pathname ? "white" : "filled"}
-          leftSection={<IconSettings />}
+          leftSection={<IconUser />}
         >
           アカウント設定
+        </ButtonLink>
+      ) : (
+        <ButtonLink
+          justify="flex-start"
+          fullWidth
+          size="md"
+          aria-current={"/sign-in" === pathname}
+          href="/sign-in"
+          key="/sign-in"
+          variant={"/sign-in" === pathname ? "white" : "filled"}
+          leftSection={<IconUser />}
+        >
+          ログイン
         </ButtonLink>
       )}
     </Flex>

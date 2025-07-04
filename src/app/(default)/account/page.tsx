@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { Avatar, Box, Button, Group, Text, Title } from "@mantine/core";
+import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
+import LogoutButton from "@/app/(default)/_components/LogoutButton";
 import { createClient as createServerSupabaseClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
@@ -42,11 +43,7 @@ export default async function AccountPage() {
           </Text>
         </Box>
       </Group>
-      <form action="/account/signout" method="post">
-        <Button type="submit" color="red" fullWidth>
-          ログアウト
-        </Button>
-      </form>
+      <LogoutButton />
     </Box>
   );
 }
