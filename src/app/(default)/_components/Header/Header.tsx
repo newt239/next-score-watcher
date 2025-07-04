@@ -9,7 +9,8 @@ import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
-import UserInfo from "./UserInfo";
+
+import { createClient as createServerSupabaseClient } from "@/utils/supabase/server";
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -19,6 +20,11 @@ export default async function Header() {
     : [];
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
+
+  // サーバーサイドでSupabaseユーザー取得
+  const supabase = await createServerSupabaseClient();
+  const { data } = await supabase.auth.getUser();
+  const user = data.user;
 
   const common = {
     alt: "Score Watcherのロゴ。モノカラーで、三日月の中央部に円が配置された形をしている。",
@@ -58,17 +64,16 @@ export default async function Header() {
         </Flex>
         <Box hiddenFrom="md">
           <Hamburger>
-            <SubMenu />
+            <SubMenu user={user} />
           </Hamburger>
         </Box>
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
-          <SubMenu />
+          <SubMenu user={user} />
           <Flex direction="column" gap={4}>
             <SelectProfile
               profileList={profileList}
               currentProfile={currentProfile}
             />
-            <UserInfo />
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}

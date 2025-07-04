@@ -15,6 +15,8 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 
+import type { AuthUser } from "@supabase/supabase-js";
+
 import ButtonLink from "@/app/_components/ButtonLink";
 
 const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
@@ -32,7 +34,11 @@ const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
   },
 ];
 
-const SubMenu: React.FC = () => {
+type SubMenuProps = {
+  user: AuthUser | null;
+};
+
+const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
   const pathname = usePathname();
 
   return (
@@ -52,6 +58,20 @@ const SubMenu: React.FC = () => {
           {link.path.startsWith("http") && <IconExternalLink />}
         </ButtonLink>
       ))}
+      {user && (
+        <ButtonLink
+          justify="flex-start"
+          fullWidth
+          size="md"
+          aria-current={"/account" === pathname}
+          href="/account"
+          key="/account"
+          variant={"/account" === pathname ? "white" : "filled"}
+          leftSection={<IconSettings />}
+        >
+          アカウント設定
+        </ButtonLink>
+      )}
     </Flex>
   );
 };
