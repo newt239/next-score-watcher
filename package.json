@@ -9,7 +9,7 @@
     "lint": "pnpm run eslint && pnpm run stylelint",
     "eslint": "eslint",
     "stylelint": "stylelint \"./**/*.css\" --fix",
-    "test": "playwright test",
+    "test": "playwright test --ui",
     "gen": "cmk"
   },
   "dependencies": {

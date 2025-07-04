@@ -55,5 +55,5 @@ http://localhost:3000/
 ### テスト
 
 ```bash
-npx playwright test --ui
+pnpm run test
 ```
