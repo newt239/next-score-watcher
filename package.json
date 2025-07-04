@@ -6,10 +6,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "pnpm run eslint && pnpm run stylelint && pnpm run format",
+    "lint": "pnpm run eslint && pnpm run stylelint",
     "eslint": "eslint",
     "stylelint": "stylelint \"./**/*.css\" --fix",
-    "format": "prettier --write \"./**/*.{ts,tsx}\"",
     "test": "playwright test",
     "gen": "cmk"
   },
