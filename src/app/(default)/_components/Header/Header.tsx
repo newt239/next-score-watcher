@@ -9,6 +9,7 @@ import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
+import UserInfo from "./UserInfo";
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -67,6 +68,7 @@ export default async function Header() {
               profileList={profileList}
               currentProfile={currentProfile}
             />
+            <UserInfo />
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}
