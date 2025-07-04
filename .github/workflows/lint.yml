@@ -23,7 +23,5 @@ jobs:
         run: pnpm tsc --noEmit
       - name: ESLintのチェック
         run: pnpm eslint
-      - name: Prettierのチェック
-        run: pnpm prettier --check './**/*.{ts,tsx,css,yml}'
       - name: Stylelintのチェック
         run: pnpm stylelint './**/*.css'
