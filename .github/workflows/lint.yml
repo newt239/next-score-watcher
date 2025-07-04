@@ -1,27 +1,29 @@
-name: Lint Code Base
+name: Lint (Typecheck, ESLint, Prettier, Stylelint)
+
 on:
   pull_request:
+    branches: ["main", "develop"]
+  workflow_dispatch:
+
 jobs:
-  lint:
+  setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - name: Install dependencies
-        run: pnpm install
-      - name: TypeScript Compile Check
+          node-version: "24"
+          cache: "pnpm"
+      - name: 依存関係をインストール
+        run: pnpm install --frozen-lockfile
+      - name: Prisma Clientを生成
+        run: pnpx prisma generate
+      - name: TypeScriptの型チェック
         run: pnpm tsc --noEmit
-      - name: Run ESLint
-        run: pnpm lint
-      - name: Run Prettier
-        run: pnpm format --check
-      - name: Run Stylelint
-        run: pnpm stylelint
+      - name: ESLintのチェック
+        run: pnpm eslint
+      - name: Prettierのチェック
+        run: pnpm prettier --check './**/*.{ts,tsx,css,yml}'
+      - name: Stylelintのチェック
+        run: pnpm stylelint './**/*.css'
