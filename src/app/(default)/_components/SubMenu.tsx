@@ -1,9 +1,8 @@
 "use client";
 
-import type { AuthUser } from "@supabase/supabase-js";
+import { usePathname } from "next/navigation";
 
 import { Flex } from "@mantine/core";
-
 import {
   IconExternalLink,
   IconHelp,
@@ -16,11 +15,12 @@ import {
   IconUser,
   IconUsers,
 } from "@tabler/icons-react";
-import { usePathname } from "next/navigation";
+
+import type { AuthUser } from "@supabase/supabase-js";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
-const linkList: { text: string, path: string, icon: React.ReactNode }[] = [
+const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
   { path: "/", text: "ホーム", icon: <IconHome /> },
   { path: "/rules", text: "形式一覧", icon: <IconListDetails /> },
   { path: "/games", text: "作成したゲーム", icon: <IconList /> },
@@ -35,16 +35,16 @@ const linkList: { text: string, path: string, icon: React.ReactNode }[] = [
   },
 ];
 
-interface SubMenuProps {
-  user: AuthUser | null
-}
+type SubMenuProps = {
+  user: AuthUser | null;
+};
 
 const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
   const pathname = usePathname();
 
   return (
     <Flex direction="column">
-      {linkList.map(link => (
+      {linkList.map((link) => (
         <ButtonLink
           justify="flex-start"
           fullWidth
@@ -59,35 +59,33 @@ const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
           {link.path.startsWith("http") && <IconExternalLink />}
         </ButtonLink>
       ))}
-      {user
-        ? (
-            <ButtonLink
-              justify="flex-start"
-              fullWidth
-              size="md"
-              aria-current={pathname === "/account"}
-              href="/account"
-              key="/account"
-              variant={pathname === "/account" ? "white" : "filled"}
-              leftSection={<IconUser />}
-            >
-              アカウント設定
-            </ButtonLink>
-          )
-        : (
-            <ButtonLink
-              justify="flex-start"
-              fullWidth
-              size="md"
-              aria-current={pathname === "/sign-in"}
-              href="/sign-in"
-              key="/sign-in"
-              variant={pathname === "/sign-in" ? "white" : "filled"}
-              leftSection={<IconUser />}
-            >
-              ログイン
-            </ButtonLink>
-          )}
+      {user ? (
+        <ButtonLink
+          justify="flex-start"
+          fullWidth
+          size="md"
+          aria-current={"/account" === pathname}
+          href="/account"
+          key="/account"
+          variant={"/account" === pathname ? "white" : "filled"}
+          leftSection={<IconUser />}
+        >
+          アカウント設定
+        </ButtonLink>
+      ) : (
+        <ButtonLink
+          justify="flex-start"
+          fullWidth
+          size="md"
+          aria-current={"/sign-in" === pathname}
+          href="/sign-in"
+          key="/sign-in"
+          variant={"/sign-in" === pathname ? "white" : "filled"}
+          leftSection={<IconUser />}
+        >
+          ログイン
+        </ButtonLink>
+      )}
     </Flex>
   );
 };
