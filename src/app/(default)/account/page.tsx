@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
-import LogoutButton from "@/app/(default)/_components/LogoutButton";
 import { createClient as createServerSupabaseClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
@@ -43,7 +42,6 @@ export default async function AccountPage() {
           </Text>
         </Box>
       </Group>
-      <LogoutButton />
     </Box>
   );
 }

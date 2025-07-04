@@ -10,7 +10,7 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
-import { createClient as createServerSupabaseClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -22,7 +22,7 @@ export default async function Header() {
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
   // サーバーサイドでSupabaseユーザー取得
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const user = data.user;
 
