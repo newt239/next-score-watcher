@@ -36,7 +36,7 @@ export type GameDBQuizProps = {
 };
 
 export type GameOptionProps = {
-  [key in Exclude<RuleNames, "nomx-ad" | "endless-chance", "aql">]: undefined;
+  [key in Exclude<RuleNames, "nomx-ad" | "endless-chance" | "aql">]: undefined;
 } & {
   "nomx-ad": {
     streak_over3: boolean;

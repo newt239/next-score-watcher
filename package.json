@@ -6,7 +6,8 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "pnpm run eslint && pnpm run stylelint && pnpm run format",
+    "eslint": "next lint",
     "stylelint": "stylelint \"./**/*.css\" --fix",
     "format": "prettier --write \"./**/*.{ts,tsx}\"",
     "test": "playwright test"
