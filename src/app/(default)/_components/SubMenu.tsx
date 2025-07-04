@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 
 import { Flex } from "@mantine/core";
 import {
-  IconExternalLink,
   IconHelp,
   IconHome,
   IconInfoCircle,
@@ -13,7 +12,7 @@ import {
   IconQuestionMark,
   IconSettings,
   IconUser,
-  IconUsers,
+  IconUsers
 } from "@tabler/icons-react";
 
 import type { AuthUser } from "@supabase/supabase-js";
@@ -56,7 +55,6 @@ const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
           leftSection={link.icon}
         >
           {link.text}
-          {link.path.startsWith("http") && <IconExternalLink />}
         </ButtonLink>
       ))}
       {user ? (

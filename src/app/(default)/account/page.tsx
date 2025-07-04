@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
-import SignOutButton from "../_components/SignOutButton";
+import SignOutButton from "./_components/SignOutButton";
 
 import { createClient } from "@/utils/supabase/server";
 
