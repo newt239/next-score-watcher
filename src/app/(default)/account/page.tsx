@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
-import { createClient } from "@/utils/supabase/server";
 import SignOutButton from "../_components/SignOutButton";
+
+import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
   title: "アカウント設定",

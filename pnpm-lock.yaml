@@ -75,6 +75,12 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
     devDependencies:
+      '@css-modules-kit/codegen':
+        specifier: ^0.4.1
+        version: 0.4.1(typescript@5.8.3)
+      '@css-modules-kit/stylelint-plugin':
+        specifier: ^0.3.1
+        version: 0.3.1(stylelint@16.21.1(typescript@5.8.3))(typescript@5.8.3)
       '@eslint/eslintrc':
         specifier: ^3.3.1
         version: 3.3.1
@@ -209,6 +215,25 @@ packages:
   '@babel/types@7.28.0':
     resolution: {integrity: sha512-jYnje+JyZG5YThjHiF28oT4SIZLnYOcSBb6+SDaFIyzDVSkXQmQQYclJ2R+YxcdmK0AX6x1E5OQNtuh3jHDrUg==}
     engines: {node: '>=6.9.0'}
+
+  '@css-modules-kit/codegen@0.4.1':
+    resolution: {integrity: sha512-oTyMaZ626AQ9mlqqrLRbpH+x1TRN34ltNiS9sOmukJRTmY48byYRCjkvwcNGDP9vQnRm9GrcvqBAcRhNx+SAwA==}
+    engines: {node: '>=20.19.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: ^5.7.3
+
+  '@css-modules-kit/core@0.4.0':
+    resolution: {integrity: sha512-O00cN2b01jzlSoD6+7FANCzZNKYgU1aw7pWwOg377IEzfdiAOVlX6MAp/LHiFwsYQkwLL1azo8Vyebv9EfhRkw==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      typescript: ^5.7.3
+
+  '@css-modules-kit/stylelint-plugin@0.3.1':
+    resolution: {integrity: sha512-/mWNeWzaTLqlUFUDnkHegAjtHedImfZBaaFc1baIB99NyVOI9XXlwRn5YKwUlMThtnd+QXF02oGmM9pFq1qFcg==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      stylelint: ^16.0.0
 
   '@csstools/css-parser-algorithms@3.0.5':
     resolution: {integrity: sha512-DaDeUkXZKjdGhgYaHNJTV9pV7Y9B3b644jCLs9Upc3VeNGg6LWARAT6O+Q+/COo+2gg/bM5rhpMAtf70WqfBdQ==}
@@ -3456,6 +3481,26 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
+
+  '@css-modules-kit/codegen@0.4.1(typescript@5.8.3)':
+    dependencies:
+      '@css-modules-kit/core': 0.4.0(typescript@5.8.3)
+      typescript: 5.8.3
+
+  '@css-modules-kit/core@0.4.0(typescript@5.8.3)':
+    dependencies:
+      postcss: 8.5.6
+      postcss-safe-parser: 7.0.1(postcss@8.5.6)
+      postcss-selector-parser: 7.1.0
+      postcss-value-parser: 4.2.0
+      typescript: 5.8.3
+
+  '@css-modules-kit/stylelint-plugin@0.3.1(stylelint@16.21.1(typescript@5.8.3))(typescript@5.8.3)':
+    dependencies:
+      '@css-modules-kit/core': 0.4.0(typescript@5.8.3)
+      stylelint: 16.21.1(typescript@5.8.3)
+    transitivePeerDependencies:
+      - typescript
 
   '@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4)':
     dependencies:
