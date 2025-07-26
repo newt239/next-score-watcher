@@ -1,8 +1,8 @@
+import { cdate } from "cdate";
 import { describe, expect, it } from "vitest";
 
 import nomx from "@/utils/computeScore/nomx";
 import { AllGameProps, LogDBProps } from "@/utils/types";
-import { cdate } from "cdate";
 
 describe("nomx形式のスコア計算", () => {
   const mockGame: AllGameProps["nomx"] = {
