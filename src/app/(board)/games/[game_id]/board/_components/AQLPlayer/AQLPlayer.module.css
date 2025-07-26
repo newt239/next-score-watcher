@@ -11,7 +11,7 @@
   border-radius: 1rem;
   transition: all 0.2s;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     flex-direction: column;
     gap: 0;
     align-items: stretch;
@@ -38,7 +38,7 @@
   height: 100%;
   overflow-x: hidden;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     align-items: center;
 
     &[data-vertical="true"] {
@@ -58,12 +58,12 @@
   padding: 0 1rem;
   background-color: var(--mantine-color-body);
 
-  @media(width >= 36em) {
+  @media (width >= 36em) {
     justify-content: space-between;
     width: auto;
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     flex-grow: 0;
     flex-direction: column;
     gap: 0.5rem;
@@ -75,7 +75,7 @@
   display: flex;
   gap: 1rem;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     gap: 0;
     width: 100%;
   }

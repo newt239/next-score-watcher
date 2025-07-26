@@ -4,7 +4,7 @@
   gap: 1rem;
   height: 40vh;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     height: 30vh;
   }
 }

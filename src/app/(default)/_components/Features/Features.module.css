@@ -1,7 +1,8 @@
 .features {
   z-index: 0;
   padding: 1rem 1rem 0;
-  background-image: linear-gradient(
+  background-image:
+    linear-gradient(
       0deg,
       transparent calc(100% - 1px),
       #f0f0f0 calc(100% - 1px)
@@ -14,8 +15,9 @@
   background-repeat: repeat;
   background-size: 20px 20px;
 
-  [data-mantine-color-scheme='dark'] {
-    background-image: linear-gradient(
+  [data-mantine-color-scheme="dark"] {
+    background-image:
+      linear-gradient(
         0deg,
         transparent calc(100% - 1px),
         #2d3748 calc(100% - 1px)
@@ -42,7 +44,7 @@
     .feature_decoration {
       left: -5px;
 
-      @media(width >= 62em) {
+      @media (width >= 62em) {
         left: -30px;
       }
     }
@@ -54,13 +56,13 @@
     .feature_decoration {
       right: -5px;
 
-      @media(width >= 62em) {
+      @media (width >= 62em) {
         right: -30px;
       }
     }
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     gap: 1rem;
     padding: 2rem;
     font-size: 2rem;
@@ -79,11 +81,11 @@
   opacity: 0.5;
   filter: blur(5px);
 
-  [data-mantine-color-scheme='dark'] {
+  [data-mantine-color-scheme="dark"] {
     background-color: var(--mantine-color-teal-5);
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     width: 120px;
     height: 120px;
   }

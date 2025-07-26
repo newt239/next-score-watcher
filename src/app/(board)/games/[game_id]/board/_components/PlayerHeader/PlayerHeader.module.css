@@ -8,7 +8,7 @@
   text-align: left;
   white-space: nowrap;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     text-align: center;
   }
 }
@@ -17,11 +17,11 @@
   padding: 0 0.5rem;
   text-align: center;
 
-  @media(width >= 36em) {
+  @media (width >= 36em) {
     text-align: left;
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     padding: 0.5rem 0;
     text-align: center;
     opacity: 0.3;

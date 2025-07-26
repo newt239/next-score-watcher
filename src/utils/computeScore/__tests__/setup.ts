@@ -1,7 +1,7 @@
-import { vi } from 'vitest'
+import { vi } from "vitest";
 
 // localStorageのモック
-Object.defineProperty(window, 'localStorage', {
+Object.defineProperty(window, "localStorage", {
   value: {
     getItem: vi.fn(() => null),
     setItem: vi.fn(),
@@ -9,7 +9,7 @@ Object.defineProperty(window, 'localStorage', {
     clear: vi.fn(),
   },
   writable: true,
-})
+});
 
 // fetchのモック
 global.fetch = vi.fn(() =>
@@ -18,4 +18,4 @@ global.fetch = vi.fn(() =>
     status: 200,
     json: () => Promise.resolve({}),
   } as Response)
-)
+);

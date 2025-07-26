@@ -10,13 +10,13 @@
   border-width: 0 0 1px;
   transition: all 0.2s;
 
-  @media(width >= 36em) {
+  @media (width >= 36em) {
     flex-direction: row;
     gap: 0;
     align-items: stretch;
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     flex-direction: column;
     gap: 0;
     align-items: stretch;
@@ -45,7 +45,7 @@
   height: 100%;
   overflow-x: hidden;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     align-items: center;
 
     &[data-rows="1"] {

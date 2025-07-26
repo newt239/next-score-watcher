@@ -12,7 +12,7 @@ import {
   IconQuestionMark,
   IconSettings,
   IconUser,
-  IconUsers
+  IconUsers,
 } from "@tabler/icons-react";
 
 import type { AuthUser } from "@supabase/supabase-js";

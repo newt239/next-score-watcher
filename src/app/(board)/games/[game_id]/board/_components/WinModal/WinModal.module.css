@@ -9,7 +9,8 @@
   padding: 5rem;
   font-weight: 700;
   text-align: center;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       ellipse at center,
       rgb(255 255 255 / 20%) 0%,
       rgb(255 255 255 / 0%) 100%
@@ -41,7 +42,7 @@
     filter: brightness(200%);
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     width: 70vw;
     height: 60vh;
   }
@@ -73,7 +74,7 @@
     border-left: 1em solid currentcolor;
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     padding: 4rem 0 0;
   }
 }
@@ -81,7 +82,7 @@
 .name {
   font-size: 3rem;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     font-size: 5rem;
   }
 }
