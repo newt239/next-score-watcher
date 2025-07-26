@@ -30,6 +30,8 @@ pnpm run gen          # CSS Modules TypeScript定義生成
 
 ```bash
 pnpm run test         # Playwright E2E テスト（UI付き）実行
+pnpm run test:unit    # Vitest ユニットテスト実行
+pnpm run test:unit:ui # Vitest ユニットテスト（UI付き）実行
 ```
 
 ## アーキテクチャ
@@ -79,9 +81,17 @@ pnpm run test         # Playwright E2E テスト（UI付き）実行
 
 ### テスト戦略
 
+#### E2E テスト（Playwright）
 - 日本語ロケール（ja-JP）による Playwright E2E テスト
 - ゲーム機能とプレイヤー管理に焦点を当てたテスト
 - 失敗時のスクリーンショット/ビデオキャプチャ
+
+#### ユニットテスト（Vitest）
+- スコア計算ロジック（`src/utils/computeScore/`）のユニットテスト
+- 17種類のゲーム形式に対応したテスト実装
+- localStorageとfetchのモック設定
+- jsdom環境でのブラウザAPI互換性確保
+- TypeScript完全対応とパスエイリアス（@/）サポート
 
 ### コード品質
 
