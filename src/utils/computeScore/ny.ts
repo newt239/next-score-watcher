@@ -50,10 +50,7 @@ const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
                 state: "lose",
               };
-            } else if (
-              game.lose_point &&
-              newWrong === game.lose_point - 1
-            ) {
+            } else if (game.lose_point && newWrong === game.lose_point - 1) {
               return {
                 ...playerState,
                 score: playerState.score - 1,
