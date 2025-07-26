@@ -10,6 +10,8 @@
     "eslint": "eslint",
     "stylelint": "stylelint \"./**/*.css\" --fix",
     "test": "playwright test --ui",
+    "test:unit": "vitest",
+    "test:unit:ui": "vitest --ui",
     "gen": "cmk"
   },
   "dependencies": {
@@ -45,11 +47,13 @@
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "@vitest/ui": "^3.2.4",
     "eslint": "^9.32.0",
     "eslint-config-next": "15.4.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "import-in-the-middle": "^1.14.2",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "require-in-the-middle": "^7.5.2",
@@ -57,7 +61,8 @@
     "stylelint-config-recess-order": "^7.1.0",
     "stylelint-config-standard": "^38.0.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.38.0",
+    "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.12.4"
 }
