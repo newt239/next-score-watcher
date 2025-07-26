@@ -4,11 +4,11 @@
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
+  container-type: inline-size;
   overflow: scroll hidden;
   border-style: solid;
   border-width: 0 0 1px;
   transition: all 0.2s;
-  container-type: inline-size;
 
   @media(width >= 36em) {
     flex-direction: row;

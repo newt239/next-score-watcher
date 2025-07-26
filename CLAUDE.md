@@ -1,91 +1,173 @@
 # CLAUDE.md
 
-このファイルは Claude Code (claude.ai/code) がこのリポジトリで作業する際のガイダンスを提供します。
+このファイルは Claude Code (claude.ai/code) がこのリポジトリで作業する際の具体的なガイダンスを提供します。
+
+## 原則
+
+### 日本語による応答
+
+ユーザーとのコミュニケーションやコミットメッセージ、コメントは**すべて日本語で記述**してください。
+
+### コマンドの実行確認
+
+コマンドを実行する前に、必ずユーザーに実行確認を行ってください。その際、なぜそのコマンドを実行する必要があるのか説明してください。
+
+### lintの実行
+
+実装後の必須作業として、以下のコマンドを実行してください。
+
+```bash
+npx tsc --noEmit && pnpm run lint
+```
+
+型エラーやリントエラーが出た場合は、コミット前に必ず修正してください。
+
+### ドキュメントの更新
+
+ユーザーとの会話で新しくプロジェクト全体に共通するルールが指示された場合は、まず`CLAUDE.md`を更新してください。
+
+ドキュメントを追加するよう指示があった場合は`docs`以下にMarkdownファイルを作成して記述してください。文章は箇条書きではなく、段落として記述してください。
 
 ## プロジェクト概要
 
-Score Watcher は競技クイズのスコア可視化のための Next.js PWA で、17種類の異なるゲーム形式に対応しています。オフラインファーストアーキテクチャを特徴とし、ローカル IndexedDB ストレージとオプションの Supabase クラウド同期機能を提供します。
+Score Watcher は競技クイズのスコア可視化Webアプリケーションです。Next.jsのApp Routerアーキテクチャを使用しています。
 
-## 開発コマンド
+## 主要技術
 
-### 基本的な開発
+### フロントエンド
+
+Next.js v15を使用し、TypeScriptで記述します。App Routerを使用しているため、なるべくサーバーコンポーネントで実装してください。ユーザーとのインタラクションが必要な部分に限り`use client`の使用を許可しますが、その領域は最低限にしてください。
+
+### スタイリング
+
+UIコンポーネントライブラリの一つであるMantineを使用します。新しいUIを実装する際はまずMantineのコンポーネントの使用を検討してください。
+
+デザインのカスタマイズはCSS Modulesを使用してください。Tailwind CSSは使用禁止とします。クラス名はkebab-caseで命名してください。
+
+### データベース
+
+ユーザーのデータはIndexedDBに保存しています。データを操作する場合はDexie.jsで生成したクライアントがある`src/utils/db.ts`を使用してください。テーブルは以下のようなものがあります。
+
+- `users` - ユーザー情報
+- `games` - ゲーム情報
+- `players` - プレイヤー情報
+- `logs` - ゲーム操作ログ（元に戻す/やり直し用）
+- `quizes` - クイズ問題
+
+### PWA機能
+
+オフラインでの動作に対応させるため、サービスワーカーを使用しています。
+
+## コマンド一覧
+
+### 基本コマンド
+
 ```bash
 pnpm install          # 依存関係のインストール
-pnpm run dev          # Turbo使用での開発サーバー起動
+pnpm run dev          # Turbo使用での開発サーバー起動 (localhost:3000)
 pnpm run build        # プロダクションビルド
 pnpm run start        # プロダクションサーバー起動
 ```
 
-### コード品質
+### 品質管理
+
 ```bash
-pnpm run lint         # ESLint + Stylelint実行
-pnpm run eslint       # JavaScript/TypeScript リントのみ
-pnpm run stylelint    # CSS リント（自動修正付き）
+pnpm run lint         # ESLint + Prettier + Stylelint実行 (実装後必須)
+pnpm run prettier      # Prettier実行
+pnpm run eslint       # TypeScript/JavaScript リント
+pnpm run stylelint    # CSS リント（自動修正）
 pnpm run gen          # CSS Modules TypeScript定義生成
 ```
 
-### テスト
+### テスト実行
+
 ```bash
-pnpm run test         # Playwright E2E テスト（UI付き）実行
+pnpm run playwright    # Playwright E2E テスト
+pnpm run vitest       # Vitest ユニットテスト
+pnpm run vitest:ui    # Vitest ユニットテスト（UI付き）
 ```
 
-## アーキテクチャ
+## ファイル構造とアーキテクチャ
 
-### データベース層
-- **デュアルストレージ**: ローカル IndexedDB（Dexie.js経由）+ オプションの Supabase クラウド同期
-- **コアテーブル**: `games`, `players`, `logs`, `quizes`
-- **データベースユーティリティ**: `src/utils/db.ts` - データベース初期化とスキーマバージョニングを処理
-- **型定義**: `src/utils/types.ts` - 全エンティティの包括的なTypeScript定義
+### ディレクトリ構成
 
-### ゲームエンジン
-- **スコア計算**: `src/utils/computeScore/` - 17のゲーム形式それぞれに対するモジュラーアルゴリズム
-- **ゲーム形式**: 各形式（normal, nomx, ny等）が独自の計算ロジックを持つ
-- **ゲーム状態**: ログシステムを通じて管理され、元に戻す/やり直し機能を実現
+```
+src/
+├── app/
+│   ├── (board)/           # スコアボード表示ページ群
+│   ├── (default)/         # メイン管理ページ群
+│   └── globals.css        # グローバルスタイル
+├── components/            # 再利用可能なUIコンポーネント
+├── utils/
+│   ├── computeScore/      # 17種類のゲーム形式の計算ロジック
+│   ├── supabase/          # Supabase認証・同期処理
+│   ├── db.ts              # IndexedDB操作・スキーマ管理
+│   ├── types.ts           # TypeScript型定義
+│   ├── functions.ts       # 共通ユーティリティ関数
+│   ├── rules.ts           # ゲームルール定義
+│   └── theme.ts           # Mantineテーマ設定
+```
 
-### UI アーキテクチャ
-- **Mantine UI**: CSS Modules によるスタイリングを持つコンポーネントライブラリ
-- **ルート構造**:
-  - `(board)/` - ゲーム表示インターフェース（リアルタイムスコアボード）
-  - `(default)/` - メインアプリページ（ゲーム、プレイヤー、クイズ管理）
-- **PWA サポート**: サービスワーカーとオフライン機能
+### データベース設計
 
-### 主要ユーティリティ
-- `src/utils/functions.ts` - コアヘルパー関数
-- `src/utils/rules.ts` - ゲームルール定義とメタデータ
-- `src/utils/theme.ts` - Mantine テーマ設定
-- `src/utils/supabase/` - 認証とクラウド同期統合
+**IndexedDB テーブル（Dexie.js使用）:**
 
-## 開発メモ
+- `games` - ゲーム情報
+- `players` - プレイヤー情報
+- `logs` - ゲーム操作ログ（元に戻す/やり直し用）
+- `quizes` - クイズ問題
 
-### TypeScript 設定
-- `@/` から `src/` へのパスエイリアス設定
-- 包括的な型定義による厳密な型付け
-- 生成されたTypeScript定義を持つCSS Modules
+**操作場所:**
 
-### スタイリング
-- PostCSS と Mantine プリセットによる CSS Modules
-- Stylelint が recess-order によるプロパティ順序を強制
-- モバイルレスポンシブデザインパターン
+- データベース初期化: `src/utils/db.ts`
+- スキーマバージョニング: `src/utils/db.ts`
+- 型定義: `src/utils/types.ts`
 
-### テスト戦略
-- 日本語ロケール（ja-JP）による Playwright E2E テスト
-- ゲーム機能とプレイヤー管理に焦点を当てたテスト
-- 失敗時のスクリーンショット/ビデオキャプチャ
+### スコア計算システム
 
-### コード品質
-- Next.js と TypeScript ルールによる ESLint
-- フォーマッティングのための Prettier 統合
-- インポート順序の強制
+**ファイル場所:** `src/utils/computeScore/`
 
-## 重要な注意事項
+**対応ゲーム形式:**
 
-### 日本語での開発
-- すべてのコミットメッセージは日本語で記述する
-- コメントとエラーメッセージは日本語で記述する
-- ユーザーとのやり取りは日本語で行う
-- 競技クイズの専門用語と慣習に従う
+- normal, nomx, ny, swedish, backstream, z, aql, linear等
+- 各形式は独立したファイルで実装
+- 共通インターフェースを使用して統一的に処理
 
-### CLAUDE.md の更新について
-- ユーザーとの対話中に生まれたプロジェクト全体に関する重要な指示や設定は、このCLAUDE.mdファイルに追記する
-- 将来のClaude Codeインスタンスが同じガイドラインに従えるよう、学習した内容を文書化する
-- 開発方針、コーディング規約、プロジェクト固有のルールなどは適切なセクションに整理して記録する
+## コーディング規約
+
+### TypeScript規約
+
+- **型定義**: `type`を使用（`interface`禁止）
+- **パスエイリアス**: `@/`で`src/`を参照
+- **厳密な型付け**: 全エンティティに型定義必須
+- **CSS Modules**: 自動生成されたTypeScript定義を使用
+
+### スタイリング規約
+
+- **CSS Modules**: PostCSS + Mantine プリセット使用
+- **プロパティ順序**: Stylelintのrecess-orderに従う
+- **レスポンシブ**: モバイルファーストで実装
+- **命名**: kebab-caseで命名
+
+### ファイル作成・編集ルール
+
+1. **新しいコンポーネント作成時**:
+   - 既存コンポーネントのパターンを確認
+   - 同じディレクトリ内の命名規則に従う
+   - CSS Modulesファイルも合わせて作成
+
+2. **ユーティリティ関数追加時**:
+   - `src/utils/functions.ts`に追加するか検討
+   - 型定義は`src/utils/types.ts`で管理
+
+3. **ゲームロジック変更時**:
+   - `src/utils/computeScore/`内の対応ファイルを編集
+   - テストファイルも合わせて更新
+
+### CLAUDE.md更新ルール
+
+プロジェクト全体に影響する新しいルールや設定が決まった場合：
+
+- このファイルの該当セクションに具体的に記載
+- 抽象的表現は避け、実行可能な形で記述
+- 将来のClaude Codeセッションで再現可能な内容にする

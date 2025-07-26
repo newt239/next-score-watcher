@@ -8,7 +8,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   {
-    ignores: ["node_modules/", ".next/", "public/"],
+    ignores: ["node_modules/", ".next/", "public/", "playwright-report/"],
   },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   eslintConfigPrettier,
