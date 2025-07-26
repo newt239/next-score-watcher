@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import { getInitialPlayersState, getSortedPlayerOrderList, indicator, clipNumber } from '@/utils/computeScore'
 import { GameDBPlayerProps } from '@/utils/types'
 

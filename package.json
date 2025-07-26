@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "pnpm run eslint && pnpm run stylelint",
     "eslint": "eslint",
-    "stylelint": "stylelint \"./**/*.css\" --fix",
+    "stylelint": "stylelint \"./**/*.css\" --ignore-path .gitignore --fix",
     "test": "playwright test --ui",
     "test:unit": "vitest",
     "test:unit:ui": "vitest --ui",

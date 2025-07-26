@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import normal from '@/utils/computeScore/normal'
-import nomx from '@/utils/computeScore/nomx'
+
+import { getInitialPlayersState, indicator, clipNumber } from '@/utils/computeScore'
 import nbyn from '@/utils/computeScore/nbyn'
-import { getInitialPlayersState, getSortedPlayerOrderList, indicator, clipNumber } from '@/utils/computeScore'
+import nomx from '@/utils/computeScore/nomx'
+import normal from '@/utils/computeScore/normal'
 import { AllGameProps, LogDBProps } from '@/utils/types'
 
 describe('スコア計算ロジック（コア機能テスト）', () => {

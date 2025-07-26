@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import swedish10 from '@/utils/computeScore/swedish10'
 import { AllGameProps, LogDBProps } from '@/utils/types'
 

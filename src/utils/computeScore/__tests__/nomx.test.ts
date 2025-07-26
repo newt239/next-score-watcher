@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+
 import nomx from '@/utils/computeScore/nomx'
 import { AllGameProps, LogDBProps } from '@/utils/types'
 

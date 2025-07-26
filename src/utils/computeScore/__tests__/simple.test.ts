@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it } from 'vitest'
+
 import normal from '@/utils/computeScore/normal'
 import { AllGameProps, LogDBProps } from '@/utils/types'
 
