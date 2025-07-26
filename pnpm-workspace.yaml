@@ -1,4 +1,0 @@
-onlyBuiltDependencies:
-  - '@sentry/cli'
-  - sharp
-  - unrs-resolver
