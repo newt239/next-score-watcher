@@ -1,115 +1,175 @@
 # CLAUDE.md
 
-このファイルは Claude Code (claude.ai/code) がこのリポジトリで作業する際のガイダンスを提供します。
+このファイルは Claude Code (claude.ai/code) がこのリポジトリで作業する際の具体的なガイダンスを提供します。
 
 ## プロジェクト概要
 
-Score Watcher は競技クイズのスコア可視化のためのWebアプリケーションで、 Next.js App Routerで実装されています。 PWAによるオフライン実行に対応しており、17種類の異なるゲーム形式に対応しています。ユーザーのデータは IndexedDB ストレージに保存されますが、ログインするとSupabaseにデータを同期することができます。
+Score Watcher は競技クイズのスコア可視化WebアプリケーションでNext.jsのApp Routerアーキテクチャを使用しています。以下の技術要素で構成されています：
 
-## 開発コマンド
+- **フロントエンド**: Next.js 14, TypeScript, Mantine UI, CSS Modules
+- **データベース**: IndexedDB (Dexie.js) + Supabase (クラウド同期)
+- **PWA機能**: オフライン対応、サービスワーカー
+- **ゲーム形式**: 17種類の競技クイズ形式 (normal, nomx, ny, swedish等)
 
-### 基本的な開発
+## 必須開発ワークフロー
+
+### 実装後の必須作業
+
+**重要**: すべてのコード変更・実装完了後は必ず以下を実行してください：
+
+```bash
+pnpm run lint
+```
+
+リントエラーが出た場合は、コミット前に必ず修正してください。
+
+### 基本コマンド
 
 ```bash
 pnpm install          # 依存関係のインストール
-pnpm run dev          # Turbo使用での開発サーバー起動
+pnpm run dev          # Turbo使用での開発サーバー起動 (localhost:3000)
 pnpm run build        # プロダクションビルド
 pnpm run start        # プロダクションサーバー起動
 ```
 
-### コード品質
+### 品質管理
 
 ```bash
-pnpm run lint         # ESLint + Stylelint実行
-pnpm run eslint       # JavaScript/TypeScript リントのみ
-pnpm run stylelint    # CSS リント（自動修正付き）
+pnpm run lint         # ESLint + Stylelint実行 (実装後必須)
+pnpm run eslint       # TypeScript/JavaScript リント
+pnpm run stylelint    # CSS リント（自動修正）
 pnpm run gen          # CSS Modules TypeScript定義生成
 ```
 
-### テスト
+### テスト実行
 
 ```bash
-pnpm run test         # Playwright E2E テスト（UI付き）実行
-pnpm run test:unit    # Vitest ユニットテスト実行
-pnpm run test:unit:ui # Vitest ユニットテスト（UI付き）実行
+pnpm run test         # Playwright E2E テスト（UI付き）
+pnpm run test:unit    # Vitest ユニットテスト
+pnpm run test:unit:ui # Vitest ユニットテスト（UI付き）
 ```
 
-## アーキテクチャ
+## ファイル構造とアーキテクチャ
 
-### データベース層
+### ディレクトリ構成
 
-- **デュアルストレージ**: ローカル IndexedDB（Dexie.js経由）+ オプションの Supabase クラウド同期
-- **コアテーブル**: `games`, `players`, `logs`, `quizes`
-- **データベースユーティリティ**: `src/utils/db.ts` - データベース初期化とスキーマバージョニングを処理
-- **型定義**: `src/utils/types.ts` - 全エンティティの包括的なTypeScript定義
+```
+src/
+├── app/
+│   ├── (board)/           # スコアボード表示ページ群
+│   ├── (default)/         # メイン管理ページ群
+│   └── globals.css        # グローバルスタイル
+├── components/            # 再利用可能なUIコンポーネント
+├── utils/
+│   ├── computeScore/      # 17種類のゲーム形式の計算ロジック
+│   ├── supabase/          # Supabase認証・同期処理
+│   ├── db.ts              # IndexedDB操作・スキーマ管理
+│   ├── types.ts           # TypeScript型定義
+│   ├── functions.ts       # 共通ユーティリティ関数
+│   ├── rules.ts           # ゲームルール定義
+│   └── theme.ts           # Mantineテーマ設定
+```
 
-### ゲームエンジン
+### データベース設計
 
-- **スコア計算**: `src/utils/computeScore/` - 17のゲーム形式それぞれに対するモジュラーアルゴリズム
-- **ゲーム形式**: 各形式（normal, nomx, ny等）が独自の計算ロジックを持つ
-- **ゲーム状態**: ログシステムを通じて管理され、元に戻す/やり直し機能を実現
+**IndexedDB テーブル（Dexie.js使用）:**
+- `games` - ゲーム情報
+- `players` - プレイヤー情報  
+- `logs` - ゲーム操作ログ（元に戻す/やり直し用）
+- `quizes` - クイズ問題
 
-### UI アーキテクチャ
+**操作場所:**
+- データベース初期化: `src/utils/db.ts`
+- スキーマバージョニング: `src/utils/db.ts`
+- 型定義: `src/utils/types.ts`
 
-- **Mantine**: CSS Modules によるスタイリングを持つコンポーネントライブラリ
-- **ルート構造**:
-  - `(board)/` - ゲーム表示インターフェース（リアルタイムスコアボード）
-  - `(default)/` - メインアプリページ（ゲーム、プレイヤー、クイズ管理）
-- **PWA サポート**: サービスワーカーとオフライン機能
+### スコア計算システム
 
-### 主要ユーティリティ
+**ファイル場所:** `src/utils/computeScore/`
 
-- `src/utils/functions.ts` - コアヘルパー関数
-- `src/utils/rules.ts` - ゲームルール定義とメタデータ
-- `src/utils/theme.ts` - Mantine テーマ設定
-- `src/utils/supabase/` - 認証とクラウド同期統合
+**対応ゲーム形式:**
+- normal, nomx, ny, swedish, backstream, z, aql, linear等
+- 各形式は独立したファイルで実装
+- 共通インターフェースを使用して統一的に処理
 
-## 開発メモ
+## コーディング規約
 
-### TypeScript 設定
+### TypeScript規約
 
-- `@/` から `src/` へのパスエイリアス設定
-- 包括的な型定義による厳密な型付け
-- 生成されたTypeScript定義を持つCSS Modules
-- `interface`を使用せず、`type`を使用する
+- **型定義**: `type`を使用（`interface`禁止）
+- **パスエイリアス**: `@/`で`src/`を参照
+- **厳密な型付け**: 全エンティティに型定義必須
+- **CSS Modules**: 自動生成されたTypeScript定義を使用
 
-### スタイリング
+### スタイリング規約
 
-- PostCSS と Mantine プリセットによる CSS Modules
-- Stylelint が recess-order によるプロパティ順序を強制
-- モバイルレスポンシブデザインパターン
+- **CSS Modules**: PostCSS + Mantine プリセット使用
+- **プロパティ順序**: Stylelintのrecess-orderに従う
+- **レスポンシブ**: モバイルファーストで実装
+- **命名**: BEMベースのクラス名使用
 
-### テスト戦略
+### ファイル作成・編集ルール
 
-#### E2E テスト（Playwright）
-- 日本語ロケール（ja-JP）による Playwright E2E テスト
-- ゲーム機能とプレイヤー管理に焦点を当てたテスト
-- 失敗時のスクリーンショット/ビデオキャプチャ
+1. **新しいコンポーネント作成時**:
+   - 既存コンポーネントのパターンを確認
+   - 同じディレクトリ内の命名規則に従う
+   - CSS Modulesファイルも合わせて作成
 
-#### ユニットテスト（Vitest）
-- スコア計算ロジック（`src/utils/computeScore/`）のユニットテスト
-- 17種類のゲーム形式に対応したテスト実装
-- localStorageとfetchのモック設定
-- jsdom環境でのブラウザAPI互換性確保
-- TypeScript完全対応とパスエイリアス（@/）サポート
+2. **ユーティリティ関数追加時**:
+   - `src/utils/functions.ts`に追加するか検討
+   - 型定義は`src/utils/types.ts`で管理
 
-### コード品質
+3. **ゲームロジック変更時**:
+   - `src/utils/computeScore/`内の対応ファイルを編集
+   - テストファイルも合わせて更新
 
-- Next.js と TypeScript ルールによる ESLint
-- フォーマッティングのための Prettier 統合
-- インポート順序の強制
+### テスト実装規約
 
-## 重要な注意事項
+**E2E テスト（Playwright）:**
+- ロケール: ja-JP使用
+- テスト対象: ゲーム機能、プレイヤー管理
+- 失敗時: スクリーンショット・ビデオ取得
 
-### 日本語での開発
+**ユニットテスト（Vitest）:**
+- 対象: `src/utils/computeScore/`の全ファイル  
+- モック: localStorage、fetch設定済み
+- 環境: jsdom使用
 
-- すべてのコミットメッセージは日本語で記述する
-- コメントとエラーメッセージは日本語で記述する
-- ユーザーとのやり取りは日本語で行う
-- 競技クイズの専門用語と慣習に従う
+## 必須遵守事項
 
-### CLAUDE.md の更新について
+### 言語・表記ルール
 
-- ユーザーとの対話中に生まれたプロジェクト全体に関する重要な指示や設定は、このCLAUDE.mdファイルに追記する
-- 将来のClaude Codeインスタンスが同じガイドラインに従えるよう、学習した内容を文書化する
-- 開発方針、コーディング規約、プロジェクト固有のルールなどは適切なセクションに整理して記録する
+- **コミットメッセージ**: 必ず日本語で記述
+- **コード内コメント**: 日本語で記述
+- **エラーメッセージ**: 日本語で記述  
+- **変数名・関数名**: 英語使用（既存コードに合わせる）
+- **専門用語**: 競技クイズ用語を正確に使用
+
+### 必須実行項目
+
+1. **実装完了後**: `pnpm run lint`を必ず実行
+2. **リントエラー**: コミット前に全て修正
+3. **型エラー**: TypeScriptエラーは全て解決
+4. **既存パターン**: 新規作成時は既存ファイルを参考にする
+
+### 禁止事項
+
+- `interface`の使用（`type`を使用）
+- 実装後のlint実行忘れ
+- 型定義なしのコード追加
+- 既存の命名規則を無視したファイル作成
+
+### 動作確認項目
+
+実装後は以下を確認：
+1. `pnpm run lint`でエラーなし
+2. `pnpm run build`でビルド成功
+3. 開発サーバーでの動作確認（`pnpm run dev`）
+4. 関連する既存機能への影響なし
+
+### CLAUDE.md更新ルール
+
+プロジェクト全体に影響する新しいルールや設定が決まった場合：
+- このファイルの該当セクションに具体的に記載
+- 抽象的表現は避け、実行可能な形で記述
+- 将来のClaude Codeセッションで再現可能な内容にする
