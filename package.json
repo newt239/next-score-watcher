@@ -6,12 +6,13 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "pnpm run eslint && pnpm run stylelint",
+    "lint": "pnpm run eslint && pnpm run prettier && pnpm run stylelint",
     "eslint": "eslint",
+    "prettier": "prettier --check .",
     "stylelint": "stylelint \"./**/*.css\" --ignore-path .gitignore --fix",
-    "test": "playwright test --ui",
-    "test:unit": "vitest",
-    "test:unit:ui": "vitest --ui",
+    "playwright": "playwright test --ui",
+    "vitest": "vitest",
+    "vitest:ui": "vitest --ui",
     "gen": "cmk"
   },
   "dependencies": {
