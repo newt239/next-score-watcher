@@ -24,7 +24,10 @@ describe('出力形式確認', () => {
     win_point: 50,
     lose_point: -30,
     win_through: 1,
+    discord_webhook_url: '',
     options: undefined,
+    editable: true,
+    last_open: '2025-01-01T00:00:00.000Z',
   }
 
   it('初期状態の出力形式を確認する', async () => {
@@ -41,9 +44,9 @@ describe('出力形式確認', () => {
       game_id: 'test-game',
       player_id: 'player1',
       variant: 'correct' as const,
-      system: false,
-      timestamp: 1000 + i,
-      last_modified: 1000 + i,
+      system: 0 as const,
+      timestamp: `${1000 + i}`,
+      available: 1 as const,
     }))
     const result = await normal(mockGame, logs)
     

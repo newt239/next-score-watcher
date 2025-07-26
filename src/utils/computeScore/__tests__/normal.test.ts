@@ -32,7 +32,10 @@ describe('normal形式のスコア計算', () => {
     win_point: 50,
     lose_point: -30,
     win_through: 1,
+    discord_webhook_url: '',
     options: undefined,
+    editable: true,
+    last_open: '2025-01-01T00:00:00.000Z',
   }
 
   it('初期状態で正しくスコアが計算される', async () => {
@@ -57,9 +60,9 @@ describe('normal形式のスコア計算', () => {
         game_id: 'test-game',
         player_id: 'player1',
         variant: 'correct',
-        system: false,
-        timestamp: 1000,
-        last_modified: 1000,
+        system: 0 as const,
+        timestamp: '1000',
+        available: 1 as const,
       },
     ]
     const result = await normal(mockGame, logs)
@@ -78,9 +81,9 @@ describe('normal形式のスコア計算', () => {
         game_id: 'test-game',
         player_id: 'player1',
         variant: 'wrong',
-        system: false,
-        timestamp: 1000,
-        last_modified: 1000,
+        system: 0 as const,
+        timestamp: '1000',
+        available: 1 as const,
       },
     ]
     const result = await normal(mockGame, logs)
@@ -98,9 +101,9 @@ describe('normal形式のスコア計算', () => {
       game_id: 'test-game',
       player_id: 'player1',
       variant: 'correct' as const,
-      system: false,
-      timestamp: 1000 + i,
-      last_modified: 1000 + i,
+      system: 0,
+      timestamp: `${1000 + i}`,
+      available: 1,
     }))
     const result = await normal(mockGame, logs)
 
@@ -115,9 +118,9 @@ describe('normal形式のスコア計算', () => {
       game_id: 'test-game',
       player_id: 'player1',
       variant: 'wrong' as const,
-      system: false,
-      timestamp: 1000 + i,
-      last_modified: 1000 + i,
+      system: 0,
+      timestamp: `${1000 + i}`,
+      available: 1,
     }))
     const result = await normal(mockGame, logs)
 
@@ -132,9 +135,9 @@ describe('normal形式のスコア計算', () => {
       game_id: 'test-game',
       player_id: 'player1',
       variant: 'correct' as const,
-      system: false,
-      timestamp: 1000 + i,
-      last_modified: 1000 + i,
+      system: 0,
+      timestamp: `${1000 + i}`,
+      available: 1,
     }))
     const result = await normal(mockGame, logs)
 
@@ -150,18 +153,18 @@ describe('normal形式のスコア計算', () => {
         game_id: 'test-game',
         player_id: 'player1',
         variant: 'correct',
-        system: false,
-        timestamp: 1000,
-        last_modified: 1000,
+        system: 0,
+        timestamp: '1000',
+        available: 1,
       },
       {
         id: 'log2',
         game_id: 'test-game',
         player_id: 'player2',
         variant: 'wrong',
-        system: false,
-        timestamp: 1001,
-        last_modified: 1001,
+        system: 0,
+        timestamp: '1001',
+        available: 1,
       },
     ]
     const result = await normal(mockGame, logs)
