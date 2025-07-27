@@ -9,6 +9,9 @@ import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
+// ページを動的レンダリングとして明示的に設定
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "ユーザー設定",
   alternates: {
