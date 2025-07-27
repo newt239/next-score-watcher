@@ -16,7 +16,11 @@
     "playwright": "playwright test --ui",
     "vitest": "vitest",
     "vitest:ui": "vitest --ui",
-    "gen": "cmk"
+    "gen": "cmk",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
@@ -35,10 +39,12 @@
     "cdate": "^0.0.7",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
+    "drizzle-orm": "^0.44.3",
     "encoding-japanese": "^2.2.0",
     "nanoid": "^5.1.5",
     "next": "15.4.4",
     "postcss-preset-mantine": "^1.18.0",
+    "postgres": "^3.4.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -52,6 +58,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitest/ui": "^3.2.4",
+    "drizzle-kit": "^0.31.4",
     "eslint": "^9.32.0",
     "eslint-config-next": "15.4.4",
     "eslint-config-prettier": "^10.1.8",

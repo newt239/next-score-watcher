@@ -3,20 +3,24 @@
 ## 現在のスキーマの問題点
 
 ### 1. ゲームテーブル (`games`) の問題
+
 - **汎用性の欠如**: すべてのゲーム形式に対して同じテーブルを使用しているため、特定の形式でのみ使用されるフィールドが多数存在
 - **optionsフィールドの型安全性の欠如**: JSON形式で保存されており、TypeScriptの型チェックが不十分
 - **目的不一致のフィールド使用**: `correct_me`, `wrong_me`, `correct_other`, `wrong_other`などが本来の目的と異なる用途で使用されている
 - **冗長なフィールド**: `win_point`, `lose_point`, `win_through`, `limit`など、ゲーム形式によっては不要なフィールドが常に存在
 
 ### 2. プレイヤーテーブル (`players`) の問題
+
 - **ゲーム固有データとマスターデータの混在**: ゲーム固有の初期値（`initial_correct`, `initial_wrong`等）がプレイヤーマスターに含まれている
 - **型安全性の問題**: `tags`がstring配列として保存されているが、実際の使用方法が不明確
 
 ### 3. ログテーブル (`logs`) の問題
+
 - **数値型フラグの使用**: `system`, `available`が0/1の数値で管理されており、可読性が低い
 - **インデックス設計の問題**: 検索パフォーマンスを考慮したインデックス設計が不十分
 
 ### 4. クイズテーブル (`quizes`) の問題
+
 - **テーブル名の誤記**: `quizes`は正しくは`quizzes`
 - **問題番号の管理**: `n`フィールドの意味が不明確
 
@@ -25,6 +29,7 @@
 ### 1. 共通テーブル
 
 #### `games` - ゲーム基本情報
+
 ```sql
 CREATE TABLE games (
   id UUID PRIMARY KEY,
@@ -40,6 +45,7 @@ CREATE TABLE games (
 ```
 
 #### `game_players` - ゲーム参加プレイヤー
+
 ```sql
 CREATE TABLE game_players (
   id UUID PRIMARY KEY,
@@ -55,6 +61,7 @@ CREATE TABLE game_players (
 ### 2. ゲーム形式別設定テーブル
 
 #### `game_nomx_settings` - N○M✕形式設定
+
 ```sql
 CREATE TABLE game_nomx_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -64,6 +71,7 @@ CREATE TABLE game_nomx_settings (
 ```
 
 #### `game_nomx_ad_settings` - 連答つきN○M✕形式設定
+
 ```sql
 CREATE TABLE game_nomx_ad_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -74,6 +82,7 @@ CREATE TABLE game_nomx_ad_settings (
 ```
 
 #### `game_ny_settings` - NewYork形式設定
+
 ```sql
 CREATE TABLE game_ny_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -82,6 +91,7 @@ CREATE TABLE game_ny_settings (
 ```
 
 #### `game_nomr_settings` - N○M休形式設定
+
 ```sql
 CREATE TABLE game_nomr_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -91,6 +101,7 @@ CREATE TABLE game_nomr_settings (
 ```
 
 #### `game_nbyn_settings` - NbyN形式設定
+
 ```sql
 CREATE TABLE game_nbyn_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -99,6 +110,7 @@ CREATE TABLE game_nbyn_settings (
 ```
 
 #### `game_nupdown_settings` - Nupdown形式設定
+
 ```sql
 CREATE TABLE game_nupdown_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -107,6 +119,7 @@ CREATE TABLE game_nupdown_settings (
 ```
 
 #### `game_divide_settings` - Divide形式設定
+
 ```sql
 CREATE TABLE game_divide_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -117,6 +130,7 @@ CREATE TABLE game_divide_settings (
 ```
 
 #### `game_swedish10_settings` - Swedish10形式設定
+
 ```sql
 CREATE TABLE game_swedish10_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -126,6 +140,7 @@ CREATE TABLE game_swedish10_settings (
 ```
 
 #### `game_backstream_settings` - Backstream形式設定
+
 ```sql
 CREATE TABLE game_backstream_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -136,6 +151,7 @@ CREATE TABLE game_backstream_settings (
 ```
 
 #### `game_attacksurvival_settings` - Attack Survival形式設定
+
 ```sql
 CREATE TABLE game_attacksurvival_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -146,6 +162,7 @@ CREATE TABLE game_attacksurvival_settings (
 ```
 
 #### `game_squarex_settings` - Square✕形式設定
+
 ```sql
 CREATE TABLE game_squarex_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -155,6 +172,7 @@ CREATE TABLE game_squarex_settings (
 ```
 
 #### `game_z_settings` - Z形式設定
+
 ```sql
 CREATE TABLE game_z_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -164,6 +182,7 @@ CREATE TABLE game_z_settings (
 ```
 
 #### `game_freezex_settings` - Freeze✕形式設定
+
 ```sql
 CREATE TABLE game_freezex_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -173,6 +192,7 @@ CREATE TABLE game_freezex_settings (
 ```
 
 #### `game_endless_chance_settings` - Endless Chance形式設定
+
 ```sql
 CREATE TABLE game_endless_chance_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -182,6 +202,7 @@ CREATE TABLE game_endless_chance_settings (
 ```
 
 #### `game_variables_settings` - Variables形式設定
+
 ```sql
 CREATE TABLE game_variables_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -190,6 +211,7 @@ CREATE TABLE game_variables_settings (
 ```
 
 #### `game_aql_settings` - AQL形式設定
+
 ```sql
 CREATE TABLE game_aql_settings (
   game_id UUID PRIMARY KEY REFERENCES games(id) ON DELETE CASCADE,
@@ -201,6 +223,7 @@ CREATE TABLE game_aql_settings (
 ### 3. プレイヤー関連テーブル
 
 #### `players` - プレイヤーマスター
+
 ```sql
 CREATE TABLE players (
   id UUID PRIMARY KEY,
@@ -214,6 +237,7 @@ CREATE TABLE players (
 ```
 
 #### `player_tags` - プレイヤータグ
+
 ```sql
 CREATE TABLE player_tags (
   id UUID PRIMARY KEY,
@@ -226,6 +250,7 @@ CREATE TABLE player_tags (
 ### 4. ゲームログ関連テーブル
 
 #### `game_logs` - ゲーム操作ログ
+
 ```sql
 CREATE TABLE game_logs (
   id UUID PRIMARY KEY,
@@ -241,6 +266,7 @@ CREATE TABLE game_logs (
 ```
 
 #### `quiz_sessions` - クイズセッション
+
 ```sql
 CREATE TABLE quiz_sessions (
   id UUID PRIMARY KEY,
@@ -255,6 +281,7 @@ CREATE TABLE quiz_sessions (
 ### 5. クイズ関連テーブル
 
 #### `quiz_sets` - クイズセット
+
 ```sql
 CREATE TABLE quiz_sets (
   id UUID PRIMARY KEY,
@@ -267,6 +294,7 @@ CREATE TABLE quiz_sets (
 ```
 
 #### `quiz_questions` - クイズ問題
+
 ```sql
 CREATE TABLE quiz_questions (
   id UUID PRIMARY KEY,
@@ -283,6 +311,7 @@ CREATE TABLE quiz_questions (
 ### 6. プロファイル管理テーブル
 
 #### `profiles` - プロファイル
+
 ```sql
 CREATE TABLE profiles (
   id UUID PRIMARY KEY,
@@ -313,6 +342,7 @@ CREATE INDEX idx_games_last_accessed ON games(last_accessed_at);
 ## 移行手順
 
 ### フェーズ1: 新スキーマの実装準備
+
 1. **新しい型定義の作成**
    - `src/utils/types-v2.ts`に新しい型定義を作成
    - 既存の型定義との互換性を保つアダプター関数を実装
@@ -322,6 +352,7 @@ CREATE INDEX idx_games_last_accessed ON games(last_accessed_at);
    - Repository パターンの導入
 
 ### フェーズ2: 段階的移行
+
 1. **読み取り専用操作の移行**
    - ゲーム一覧表示、プレイヤー一覧表示など
    - 既存データから新スキーマへの変換処理を実装
@@ -335,6 +366,7 @@ CREATE INDEX idx_games_last_accessed ON games(last_accessed_at);
    - データ整合性チェック機能
 
 ### フェーズ3: クラウドデータベース対応
+
 1. **データベース選択と設定**
    - PostgreSQL (Supabase) またはMongoDB (Atlas)の選択
    - 認証・認可システムの統合
@@ -348,6 +380,7 @@ CREATE INDEX idx_games_last_accessed ON games(last_accessed_at);
    - キャッシュ戦略
 
 ### フェーズ4: 完全移行
+
 1. **旧スキーマのサポート終了**
    - 移行期間の設定（3ヶ月程度）
    - ユーザーへの通知
@@ -359,11 +392,13 @@ CREATE INDEX idx_games_last_accessed ON games(last_accessed_at);
 ## 実装における考慮事項
 
 ### 1. 型安全性の向上
+
 - ゲーム形式ごとの専用テーブルにより完全な型安全性を実現
 - JSONBフィールドを排除し、すべて明示的なカラムで管理
 - TypeScriptのdiscriminated unionによる形式別型定義
 
 #### TypeScript型定義例
+
 ```typescript
 // 基本ゲーム情報
 type BaseGame = {
@@ -384,7 +419,7 @@ type GameSettings = {
     win_point: number;
     lose_point: number;
   };
-  'nomx-ad': {
+  "nomx-ad": {
     win_point: number;
     lose_point: number;
     streak_over3: boolean;
@@ -406,21 +441,24 @@ type GameWithSettings<T extends RuleNames> = BaseGame & {
 };
 
 // 使用例
-type NomxGame = GameWithSettings<'nomx'>;
-type AQLGame = GameWithSettings<'aql'>;
+type NomxGame = GameWithSettings<"nomx">;
+type AQLGame = GameWithSettings<"aql">;
 ```
 
 ### 2. パフォーマンス
+
 - 適切なインデックス設計
 - N+1問題の回避
 - ページネーション対応
 
 ### 3. 拡張性
+
 - 新しいゲーム形式の追加が容易
 - プラグインアーキテクチャの導入検討
 - APIのバージョニング
 
 ### 4. データ整合性
+
 - 外部キー制約の活用
 - トランザクション処理
 - データバリデーション
