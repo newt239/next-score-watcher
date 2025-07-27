@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useTransition } from "react";
+
 import {
   Flex,
   Switch,
@@ -8,7 +10,6 @@ import {
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
-import { useEffect, useTransition } from "react";
 
 import {
   getUserPreferences,

@@ -1,6 +1,5 @@
 "use client";
 
-import { notifications } from "@mantine/notifications";
 import { useState, useTransition } from "react";
 
 import {
@@ -14,9 +13,11 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+
+import { updateUserPreference } from "../_actions/preferences";
 
 import { type UserPreferences } from "@/utils/user-preferences";
-import { updateUserPreference } from "../_actions/preferences";
 
 type Props = {
   initialPreferences: UserPreferences;
@@ -41,7 +42,7 @@ const UserPreferencesSettings: React.FC<Props> = ({ initialPreferences }) => {
           message: "設定が正常に保存されました。",
           color: "green",
         });
-      } catch (error) {
+      } catch (_error) {
         notifications.show({
           title: "エラー",
           message: "設定の保存に失敗しました。",

@@ -3,11 +3,11 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
+import { getUserPreferences } from "./_actions/preferences";
 import SignOutButton from "./_components/SignOutButton";
 import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
 import { getUser } from "@/utils/auth/auth-helpers";
-import { getUserPreferences } from "./_actions/preferences";
 
 export const metadata: Metadata = {
   title: "ユーザー設定",
@@ -27,7 +27,7 @@ export default async function AccountPage() {
 
   // デフォルト設定を使用（ユーザーが未認証の場合は上でリダイレクトされる）
   const defaultPreferences = {
-    theme: "light",
+    theme: "light" as const,
     showWinthroughPopup: true,
     showBoardHeader: true,
     showQn: false,
