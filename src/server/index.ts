@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 
-import { indexHandler } from "./controllers";
-import { getUserPreferencesHandler } from "./controllers/get-user-preferences";
-import { updateUserPreferencesHandler } from "./controllers/update-user-preferences";
+import indexHandler from "./controllers";
+import getUserPreferencesHandler from "./controllers/get-user-preferences";
+import updateUserPreferencesHandler from "./controllers/update-user-preferences";
 
 import { auth } from "@/utils/auth/auth";
 

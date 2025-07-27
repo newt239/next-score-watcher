@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const factory = createFactory();
 
-export const indexHandler = factory.createHandlers(
+const indexHandler = factory.createHandlers(
   zValidator(
     "param",
     z.object({
@@ -19,3 +19,5 @@ export const indexHandler = factory.createHandlers(
     return c.json({ status: "success", data: "test" } as const, 200);
   }
 );
+
+export default indexHandler;
