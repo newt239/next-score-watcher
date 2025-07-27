@@ -6,7 +6,7 @@ import { account, session, user, verification } from "../drizzle/schema";
 import { ensureUserPreferences } from "../user-preferences";
 
 export const auth = betterAuth({
-  baseURL: process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL || "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL,
   basePath: "/api/auth",
   database: drizzleAdapter(DBClient, {
     provider: "sqlite",
@@ -31,7 +31,9 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24, // 1 day
   },
   trustedOrigins: [
-    process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL || "http://localhost:3000",
+    process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`
+      : "https://localhost:3000",
   ],
   callbacks: {
     // ユーザーが新規作成された時（初回サインイン時）
