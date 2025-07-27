@@ -1,4 +1,6 @@
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { nanoid } from "nanoid";
+
 import { user } from "./auth";
 
 // ゲーム形式のenum（SQLiteではtextで代用）
@@ -25,7 +27,9 @@ const gameRuleValues = [
 
 // ゲームテーブル
 export const game = sqliteTable("game", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   ruleType: text("rule_type", { enum: gameRuleValues }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
@@ -50,7 +54,9 @@ export const gameRuleTypeIdx = index("idx_game_rule_type").on(game.ruleType);
 
 // タグテーブル
 export const tag = sqliteTable("tag", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date()
@@ -66,7 +72,9 @@ export const tagNameIdx = index("idx_tag_name").on(tag.name);
 
 // ゲームとタグの中間
 export const gameTag = sqliteTable("game_tag", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id").references(() => game.id, { onDelete: "cascade" }),
   tagId: text("tag_id").references(() => tag.id, { onDelete: "cascade" }),
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
@@ -74,7 +82,9 @@ export const gameTag = sqliteTable("game_tag", {
 
 // プレイヤーテーブル
 export const player = sqliteTable("player", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   displayName: text("display_name").notNull(),
   affiliation: text("affiliation"),
@@ -93,7 +103,9 @@ export const playerNameIdx = index("idx_player_name").on(player.name);
 
 // プレイヤータグ
 export const playerTag = sqliteTable("player_tag", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   playerId: text("player_id").references(() => player.id, {
     onDelete: "cascade",
   }),
@@ -110,7 +122,9 @@ export const playerTag = sqliteTable("player_tag", {
 
 // プレイヤーとプレイヤータグの中間テーブル
 export const playerPlayerTag = sqliteTable("player_player_tag", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   playerId: text("player_id").references(() => player.id, {
     onDelete: "cascade",
   }),
@@ -128,7 +142,9 @@ export const playerPlayerTag = sqliteTable("player_player_tag", {
 
 // ゲーム参加プレイヤーテーブル
 export const gamePlayer = sqliteTable("game_player", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id").references(() => game.id, { onDelete: "cascade" }),
   playerId: text("player_id").references(() => player.id),
   displayOrder: integer("display_order").notNull(),
@@ -157,7 +173,9 @@ const actionTypeValues = [
 
 // ゲーム操作ログテーブル
 export const gameLog = sqliteTable("game_log", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id").references(() => game.id, { onDelete: "cascade" }),
   playerId: text("player_id").references(() => player.id),
   questionNumber: integer("question_number"),

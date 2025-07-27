@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@mantine/core";
 
-import { authClient } from "@/utils/auth-client";
+import { authClient } from "@/utils/auth/auth-client";
 
 const SignOutButton: React.FC = () => {
   const router = useRouter();

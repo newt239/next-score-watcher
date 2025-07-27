@@ -6,7 +6,7 @@ import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 import SignOutButton from "./_components/SignOutButton";
 import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
-import { getUser } from "@/utils/auth-helpers";
+import { getUser } from "@/utils/auth/auth-helpers";
 import { getUserPreferences } from "./_actions/preferences";
 
 export const metadata: Metadata = {

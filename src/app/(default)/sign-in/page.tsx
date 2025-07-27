@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Alert, Button, Title } from "@mantine/core";
 
-import { authClient } from "@/utils/auth-client";
+import { authClient } from "@/utils/auth/auth-client";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);

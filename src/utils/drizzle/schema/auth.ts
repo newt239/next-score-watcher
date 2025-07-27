@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // セッションテーブル
 export const session = sqliteTable("session", {
@@ -68,12 +68,14 @@ export const user = sqliteTable("user", {
     .notNull(),
 });
 
+export const themeEnum = ["light", "dark"] as const;
+
 // ユーザー環境設定テーブル
 export const userPreference = sqliteTable("user_preference", {
   id: text("id").primaryKey(),
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
   // 表示設定
-  theme: text("theme").notNull().default("light"),
+  theme: text("theme", { enum: themeEnum }).notNull().default("light"),
   showWinthroughPopup: integer("show_winthrough_popup", { mode: "boolean" })
     .notNull()
     .default(true),
@@ -92,7 +94,6 @@ export const userPreference = sqliteTable("user_preference", {
     .default(true),
   // Webhook設定
   webhookUrl: text("webhook_url"),
-  // タイムスタンプ
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date()
   ),
@@ -100,3 +101,8 @@ export const userPreference = sqliteTable("user_preference", {
     () => new Date()
   ),
 });
+
+// ユーザー環境設定テーブルのユーザーごとのインデックス
+export const userPreferenceUserIdIdx = index("idx_user_preference_user_id").on(
+  userPreference.userId
+);

@@ -10,7 +10,7 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
-import { getUser } from "@/utils/auth-helpers";
+import { getUser } from "@/utils/auth/auth-helpers";
 
 export default async function Header() {
   const cookieStore = await cookies();

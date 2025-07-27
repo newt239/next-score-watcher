@@ -3,8 +3,8 @@
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 
-import { getUser } from "@/utils/auth-helpers";
-import { db } from "@/utils/drizzle/client";
+import { getUser } from "@/utils/auth/auth-helpers";
+import { DBClient } from "@/utils/drizzle/client";
 import { userPreference } from "@/utils/drizzle/schema";
 import {
   UserPreferences,
@@ -40,8 +40,7 @@ export async function updateUserPreferences(
     throw new Error("認証が必要です");
   }
 
-  const existingPreferences = await db
-    .select()
+  const existingPreferences = await DBClient.select()
     .from(userPreference)
     .where(eq(userPreference.userId, user.id))
     .limit(1);
@@ -50,7 +49,7 @@ export async function updateUserPreferences(
 
   if (existingPreferences.length === 0) {
     // 新規作成（デフォルト値を使用）
-    await db.insert(userPreference).values({
+    await DBClient.insert(userPreference).values({
       id: nanoid(),
       userId: user.id,
       theme: preferences.theme ?? defaultUserPreferences.theme,
@@ -73,8 +72,7 @@ export async function updateUserPreferences(
     });
   } else {
     // 更新
-    await db
-      .update(userPreference)
+    await DBClient.update(userPreference)
       .set({
         ...preferences,
         updatedAt: now,

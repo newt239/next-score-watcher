@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { db } from "./drizzle/client";
+import { DBClient } from "./drizzle/client";
 import { userPreference } from "./drizzle/schema";
 
 export type UserPreferences = {
@@ -36,8 +36,7 @@ export const defaultUserPreferences: UserPreferences = {
 export async function ensureUserPreferences(userId: string): Promise<boolean> {
   try {
     // 既存のプリファレンスを確認
-    const existingPreferences = await db
-      .select()
+    const existingPreferences = await DBClient.select()
       .from(userPreference)
       .where(eq(userPreference.userId, userId))
       .limit(1);
@@ -49,7 +48,7 @@ export async function ensureUserPreferences(userId: string): Promise<boolean> {
 
     // 新規作成
     const now = new Date();
-    await db.insert(userPreference).values({
+    await DBClient.insert(userPreference).values({
       id: nanoid(),
       userId: userId,
       theme: defaultUserPreferences.theme,
@@ -81,8 +80,7 @@ export async function getUserPreferences(
   userId: string
 ): Promise<UserPreferences> {
   try {
-    const preferences = await db
-      .select()
+    const preferences = await DBClient.select()
       .from(userPreference)
       .where(eq(userPreference.userId, userId))
       .limit(1);

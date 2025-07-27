@@ -1,9 +1,13 @@
 import { integer, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
+import { nanoid } from "nanoid";
+
 import { user } from "./auth";
 
 // クイズセットテーブル
 export const quizSet = sqliteTable("quiz_set", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   description: text("description"),
   totalQuestions: integer("total_questions").notNull(),
@@ -19,7 +23,9 @@ export const quizSet = sqliteTable("quiz_set", {
 
 // クイズ問題テーブル
 export const quizQuestion = sqliteTable("quiz_question", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   quizSetId: text("quiz_set_id").references(() => quizSet.id, {
     onDelete: "cascade",
   }),

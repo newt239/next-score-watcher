@@ -15,13 +15,13 @@ if (!tursoToken) {
 }
 
 // Turso接続設定
-const client = createClient({
+const sqlClient = createClient({
   url: tursoUrl,
   authToken: tursoToken,
 });
 
 // Drizzleクライアント初期化
-export const db = drizzle(client, { schema });
+export const DBClient = drizzle(sqlClient, { schema });
 
-export type DrizzleDB = typeof db;
+export type DrizzleDB = typeof DBClient;
 export * from "./schema";

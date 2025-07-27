@@ -1,8 +1,13 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { nanoid } from "nanoid";
+
 import { game } from "./game";
 
 // ゲーム形式別設定テーブル
 export const gameNomxSetting = sqliteTable("game_nomx_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -18,6 +23,9 @@ export const gameNomxSetting = sqliteTable("game_nomx_setting", {
 });
 
 export const gameNomxAdSetting = sqliteTable("game_nomx_ad_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -36,6 +44,9 @@ export const gameNomxAdSetting = sqliteTable("game_nomx_ad_setting", {
 });
 
 export const gameNySetting = sqliteTable("game_ny_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -50,6 +61,9 @@ export const gameNySetting = sqliteTable("game_ny_setting", {
 });
 
 export const gameNomrSetting = sqliteTable("game_nomr_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -65,6 +79,9 @@ export const gameNomrSetting = sqliteTable("game_nomr_setting", {
 });
 
 export const gameNbynSetting = sqliteTable("game_nbyn_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -79,6 +96,9 @@ export const gameNbynSetting = sqliteTable("game_nbyn_setting", {
 });
 
 export const gameNupdownSetting = sqliteTable("game_nupdown_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -93,6 +113,9 @@ export const gameNupdownSetting = sqliteTable("game_nupdown_setting", {
 });
 
 export const gameDivideSetting = sqliteTable("game_divide_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -109,6 +132,9 @@ export const gameDivideSetting = sqliteTable("game_divide_setting", {
 });
 
 export const gameSwedish10Setting = sqliteTable("game_swedish10_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -124,6 +150,9 @@ export const gameSwedish10Setting = sqliteTable("game_swedish10_setting", {
 });
 
 export const gameBackstreamSetting = sqliteTable("game_backstream_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -142,6 +171,9 @@ export const gameBackstreamSetting = sqliteTable("game_backstream_setting", {
 export const gameAttacksurvivalSetting = sqliteTable(
   "game_attacksurvival_setting",
   {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => nanoid()),
     gameId: text("game_id")
       .primaryKey()
       .references(() => game.id, { onDelete: "cascade" }),
@@ -159,6 +191,9 @@ export const gameAttacksurvivalSetting = sqliteTable(
 );
 
 export const gameSquarexSetting = sqliteTable("game_squarex_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -174,6 +209,9 @@ export const gameSquarexSetting = sqliteTable("game_squarex_setting", {
 });
 
 export const gameZSetting = sqliteTable("game_z_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -189,6 +227,9 @@ export const gameZSetting = sqliteTable("game_z_setting", {
 });
 
 export const gameFreezexSetting = sqliteTable("game_freezex_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -206,6 +247,9 @@ export const gameFreezexSetting = sqliteTable("game_freezex_setting", {
 export const gameEndlessChanceSetting = sqliteTable(
   "game_endless_chance_setting",
   {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => nanoid()),
     gameId: text("game_id")
       .primaryKey()
       .references(() => game.id, { onDelete: "cascade" }),
@@ -222,6 +266,9 @@ export const gameEndlessChanceSetting = sqliteTable(
 );
 
 export const gameVariablesSetting = sqliteTable("game_variables_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
@@ -236,6 +283,9 @@ export const gameVariablesSetting = sqliteTable("game_variables_setting", {
 });
 
 export const gameAqlSetting = sqliteTable("game_aql_setting", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),

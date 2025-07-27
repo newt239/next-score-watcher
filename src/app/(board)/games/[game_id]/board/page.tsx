@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 import Board from "./_components/Board/Board";
 
-import { getUser } from "@/utils/auth-helpers";
+import { getUser } from "@/utils/auth/auth-helpers";
 
 export const metadata: Metadata = {
   title: "得点表示",

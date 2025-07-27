@@ -8,7 +8,7 @@ import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
 import ServerPreferences from "@/app/_components/ServerPreferences";
-import { getUser } from "@/utils/auth-helpers";
+import { getUser } from "@/utils/auth/auth-helpers";
 
 export const metadata: Metadata = {
   title: "アプリ設定",
