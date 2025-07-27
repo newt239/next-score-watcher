@@ -1,4 +1,4 @@
-import * as schema from "./schema";
+import * as schema from "./schema/index";
 
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
