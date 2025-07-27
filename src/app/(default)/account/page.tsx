@@ -5,7 +5,7 @@ import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
 import SignOutButton from "./_components/SignOutButton";
 
-import { createClient } from "@/utils/supabase/server";
+import { getUser } from "@/utils/auth-helpers";
 
 export const metadata: Metadata = {
   title: "アカウント設定",
@@ -15,9 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AccountPage() {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-  const user = data.user;
+  const user = await getUser();
 
   if (!user) {
     redirect("/sign-in");
@@ -29,15 +27,10 @@ export default async function AccountPage() {
         アカウント情報
       </Title>
       <Group gap={12} mb="md">
-        <Avatar
-          src={user.user_metadata?.avatar_url}
-          alt={user.user_metadata?.name}
-          radius="xl"
-          size={48}
-        />
+        <Avatar src={user.image} alt={user.name} radius="xl" size={48} />
         <Box>
           <Text size="lg" fw={700}>
-            {user.user_metadata?.name || user.email}
+            {user.name || user.email}
           </Text>
           <Text size="sm" c="dimmed">
             {user.email}

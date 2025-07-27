@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@hello-pangea/dnd": "^18.0.1",
+    "@libsql/client": "^0.15.10",
     "@mantine/core": "^8.2.1",
     "@mantine/dropzone": "^8.2.1",
     "@mantine/form": "^8.2.1",
@@ -32,10 +33,9 @@
     "@mantine/notifications": "^8.2.1",
     "@next/third-parties": "^15.4.4",
     "@sentry/nextjs": "^9.42.0",
-    "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.52.1",
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-table": "^8.21.3",
+    "better-auth": "^1.3.4",
     "cdate": "^0.0.7",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
@@ -44,7 +44,6 @@
     "nanoid": "^5.1.5",
     "next": "15.4.4",
     "postcss-preset-mantine": "^1.18.0",
-    "postgres": "^3.4.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

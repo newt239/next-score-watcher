@@ -1,25 +1,23 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
-import { createClient } from "@/utils/supabase/server";
+import { auth } from "@/utils/auth";
 
 export async function signIn() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${process.env.SUPABASE_AUTH_URL}/api/auth/callback`,
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
+  const { data, error } = await auth.api.signInSocial({
+    body: {
+      provider: "google",
+      callbackURL: "/",
     },
+    headers: await headers(),
   });
+
   if (error) {
     throw error;
   }
-  if (data.url) {
+  if (data?.url) {
     redirect(data.url);
   }
 }

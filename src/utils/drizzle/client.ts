@@ -1,18 +1,23 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
 
 import * as schema from "./schema";
 
-const connectionString = process.env.DATABASE_URL!;
+const tursoUrl = process.env.TURSO_DATABASE_URL!;
+const tursoToken = process.env.TURSO_AUTH_TOKEN!;
 
-if (!connectionString) {
-  throw new Error("DATABASE_URL environment variable is required");
+if (!tursoUrl) {
+  throw new Error("TURSO_DATABASE_URL environment variable is required");
 }
 
-// PostgreSQL接続設定
-const client = postgres(connectionString, {
-  prepare: false,
-  ssl: process.env.NODE_ENV === "production" ? "require" : false,
+if (!tursoToken) {
+  throw new Error("TURSO_AUTH_TOKEN environment variable is required");
+}
+
+// Turso接続設定
+const client = createClient({
+  url: tursoUrl,
+  authToken: tursoToken,
 });
 
 // Drizzleクライアント初期化

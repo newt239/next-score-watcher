@@ -1,9 +1,8 @@
 import type { NextRequest } from "next/server";
 
-import { updateSession } from "@/utils/supabase/middleware";
-
-export function middleware(request: NextRequest) {
-  return updateSession(request);
+export async function middleware(request: NextRequest) {
+  // TODO: Better Auth middleware implementation
+  return;
 }
 
 export const config = {

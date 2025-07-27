@@ -1,11 +1,8 @@
 import * as schema from "./schema";
 
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 // 基本型定義
-export type Profile = InferSelectModel<typeof schema.profile>;
-export type NewProfile = InferInsertModel<typeof schema.profile>;
-
 export type Player = InferSelectModel<typeof schema.player>;
 export type NewPlayer = InferInsertModel<typeof schema.player>;
 
@@ -26,9 +23,6 @@ export type NewQuizSet = InferInsertModel<typeof schema.quizSet>;
 
 export type QuizQuestion = InferSelectModel<typeof schema.quizQuestion>;
 export type NewQuizQuestion = InferInsertModel<typeof schema.quizQuestion>;
-
-export type QuizSession = InferSelectModel<typeof schema.quizSession>;
-export type NewQuizSession = InferInsertModel<typeof schema.quizSession>;
 
 // ゲーム形式別設定型定義
 export type GameNomxSetting = InferSelectModel<typeof schema.gameNomxSetting>;
@@ -125,13 +119,6 @@ export type NewGameVariablesSetting = InferInsertModel<
 export type GameAqlSetting = InferSelectModel<typeof schema.gameAqlSetting>;
 export type NewGameAqlSetting = InferInsertModel<typeof schema.gameAqlSetting>;
 
-export type GameLinearSetting = InferSelectModel<
-  typeof schema.gameLinearSetting
->;
-export type NewGameLinearSetting = InferInsertModel<
-  typeof schema.gameLinearSetting
->;
-
 // ルール名の型定義
 export type RuleNames =
   | "normal"
@@ -150,8 +137,7 @@ export type RuleNames =
   | "freezex"
   | "endless-chance"
   | "variables"
-  | "aql"
-  | "linear";
+  | "aql";
 
 // ゲーム設定の統合型
 export type GameSettings = {
@@ -172,7 +158,6 @@ export type GameSettings = {
   "endless-chance": GameEndlessChanceSetting;
   variables: GameVariablesSetting;
   aql: GameAqlSetting;
-  linear: GameLinearSetting;
 };
 
 // 完全な型安全性を持つゲーム型

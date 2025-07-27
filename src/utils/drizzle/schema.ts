@@ -1,94 +1,242 @@
 import {
-  boolean,
   integer,
-  pgTable,
+  sqliteTable,
   text,
-  timestamp,
-  uuid,
-  varchar,
-  unique,
   index,
-} from "drizzle-orm/pg-core";
+  unique,
+} from "drizzle-orm/sqlite-core";
 
-// プロファイル管理テーブル
-export const profile = pgTable("profile", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull(),
-  isDefault: boolean("is_default").default(false),
-  createdAt: timestamp("created_at").defaultNow(),
+// ユーザーテーブル
+export const user = sqliteTable("user", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  name: text("name").notNull(),
+  image: text("image"),
+  emailVerified: integer("email_verified", { mode: "boolean" }).default(false),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
 });
 
-// プレイヤーマスター
-export const player = pgTable("player", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull(),
-  displayName: varchar("display_name", { length: 255 }),
-  affiliation: varchar("affiliation", { length: 255 }),
+// セッションテーブル
+export const session = sqliteTable("session", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+  token: text("token").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+});
+
+// アカウントテーブル（OAuth用）
+export const account = sqliteTable("account", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  accountId: text("account_id").notNull(),
+  providerId: text("provider_id").notNull(),
+  accessToken: text("access_token"),
+  refreshToken: text("refresh_token"),
+  idToken: text("id_token"),
+  accessTokenExpiresAt: integer("access_token_expires_at", {
+    mode: "timestamp",
+  }),
+  refreshTokenExpiresAt: integer("refresh_token_expires_at", {
+    mode: "timestamp",
+  }),
+  scope: text("scope"),
+  password: text("password"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+});
+
+// ユーザー環境設定テーブル
+export const userPreference = sqliteTable("user_preference", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  theme: text("theme").notNull().default("light"),
+});
+
+// ゲーム形式のenum（SQLiteではtextで代用）
+const gameRuleValues = [
+  "normal",
+  "nomx",
+  "nomx-ad",
+  "ny",
+  "nomr",
+  "nbyn",
+  "nupdown",
+  "divide",
+  "swedish10",
+  "backstream",
+  "attacksurvival",
+  "squarex",
+  "z",
+  "freezex",
+  "endless-chance",
+  "variables",
+  "aql",
+  "linear",
+] as const;
+
+// ゲームテーブル
+export const game = sqliteTable("game", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  ruleType: text("rule_type", { enum: gameRuleValues }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  lastAccessedAt: integer("last_accessed_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  discordWebhookUrl: text("discord_webhook_url"),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+});
+
+// ゲームテーブルのユーザーごとのインデックス
+export const gameUserIdIdx = index("idx_game_user_id").on(game.userId);
+
+// ゲームテーブルの形式ごとのインデックス
+export const gameRuleTypeIdx = index("idx_game_rule_type").on(game.ruleType);
+
+// タグテーブル
+export const tag = sqliteTable("tag", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+});
+
+export const tagNameIdx = index("idx_tag_name").on(tag.name);
+
+// ゲームとタグの中間
+export const gameTag = sqliteTable("game_tag", {
+  id: text("id").primaryKey(),
+  gameId: text("game_id").references(() => game.id, { onDelete: "cascade" }),
+  tagId: text("tag_id").references(() => tag.id, { onDelete: "cascade" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+});
+
+// プレイヤーテーブル
+export const player = sqliteTable("player", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  displayName: text("display_name").notNull(),
+  affiliation: text("affiliation"),
   description: text("description"),
-  createdAt: timestamp("created_at").defaultNow(),
-  profileId: uuid("profile_id").references(() => profile.id),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const playerNameIdx = index("idx_player_name").on(player.name);
-export const playerProfileIdx = index("idx_player_profile").on(
-  player.profileId
-);
 
 // プレイヤータグ
-export const playerTag = pgTable("player_tag", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  playerId: uuid("player_id").references(() => player.id, {
+export const playerTag = sqliteTable("player_tag", {
+  id: text("id").primaryKey(),
+  playerId: text("player_id").references(() => player.id, {
     onDelete: "cascade",
   }),
-  tagName: varchar("tag_name", { length: 100 }).notNull(),
+  tagName: text("tag_name").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
 });
 
-export const playerTagUniqueIdx = unique().on(
-  playerTag.playerId,
-  playerTag.tagName
-);
-
-// ゲーム基本情報
-export const game = pgTable("game", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull(),
-  ruleType: varchar("rule_type", { length: 50 }).notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-  lastAccessedAt: timestamp("last_accessed_at").defaultNow(),
-  isArchived: boolean("is_archived").default(false),
-  discordWebhookUrl: text("discord_webhook_url"),
-  profileId: uuid("profile_id").references(() => profile.id),
+// プレイヤーとプレイヤータグの中間テーブル
+export const playerPlayerTag = sqliteTable("player_player_tag", {
+  id: text("id").primaryKey(),
+  playerId: text("player_id").references(() => player.id, {
+    onDelete: "cascade",
+  }),
+  playerTagId: text("player_tag_id").references(() => playerTag.id, {
+    onDelete: "cascade",
+  }),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameRuleTypeIdx = index("idx_game_rule_type").on(game.ruleType);
-export const gameProfileIdx = index("idx_game_profile").on(game.profileId);
-export const gameLastAccessedIdx = index("idx_game_last_accessed").on(
-  game.lastAccessedAt
-);
-
-// ゲーム参加プレイヤー
-export const gamePlayer = pgTable("game_player", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  gameId: uuid("game_id").references(() => game.id, { onDelete: "cascade" }),
-  playerId: uuid("player_id").references(() => player.id),
+// ゲーム参加プレイヤーテーブル
+export const gamePlayer = sqliteTable("game_player", {
+  id: text("id").primaryKey(),
+  gameId: text("game_id").references(() => game.id, { onDelete: "cascade" }),
+  playerId: text("player_id").references(() => player.id),
   displayOrder: integer("display_order").notNull(),
   initialScore: integer("initial_score").default(0),
   initialCorrectCount: integer("initial_correct_count").default(0),
   initialWrongCount: integer("initial_wrong_count").default(0),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-// ゲーム操作ログ
-export const gameLog = pgTable("game_log", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  gameId: uuid("game_id").references(() => game.id, { onDelete: "cascade" }),
-  playerId: uuid("player_id").references(() => player.id),
+const actionTypeValues = [
+  "correct",
+  "wrong",
+  "through",
+  "mutiple_correct",
+  "multiple_wrong",
+  "skip",
+  "blank",
+] as const;
+
+// ゲーム操作ログテーブル
+export const gameLog = sqliteTable("game_log", {
+  id: text("id").primaryKey(),
+  gameId: text("game_id").references(() => game.id, { onDelete: "cascade" }),
+  playerId: text("player_id").references(() => player.id),
   questionNumber: integer("question_number"),
-  actionType: varchar("action_type", { length: 50 }).notNull(),
+  actionType: text("action_type", { enum: actionTypeValues }).notNull(),
   scoreChange: integer("score_change").default(0),
-  timestamp: timestamp("timestamp").defaultNow(),
-  isSystemAction: boolean("is_system_action").default(false),
-  isActive: boolean("is_active").default(true),
+  timestamp: integer("timestamp", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  isSystemAction: integer("is_system_action", { mode: "boolean" }).default(
+    false
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const gameLogGamePlayerIdx = index("idx_game_log_game_player").on(
@@ -98,32 +246,42 @@ export const gameLogGamePlayerIdx = index("idx_game_log_game_player").on(
 export const gameLogTimestampIdx = index("idx_game_log_timestamp").on(
   gameLog.timestamp
 );
-export const gameLogActiveIdx = index("idx_game_log_active").on(
-  gameLog.gameId,
-  gameLog.isActive
-);
 
-// クイズセット
-export const quizSet = pgTable("quiz_set", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull(),
+// クイズセットテーブル
+export const quizSet = sqliteTable("quiz_set", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
   description: text("description"),
   totalQuestions: integer("total_questions").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  profileId: uuid("profile_id").references(() => profile.id),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
 });
 
-// クイズ問題
-export const quizQuestion = pgTable("quiz_question", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  quizSetId: uuid("quiz_set_id").references(() => quizSet.id, {
+// クイズ問題テーブル
+export const quizQuestion = sqliteTable("quiz_question", {
+  id: text("id").primaryKey(),
+  quizSetId: text("quiz_set_id").references(() => quizSet.id, {
     onDelete: "cascade",
   }),
   questionNumber: integer("question_number").notNull(),
   questionText: text("question_text").notNull(),
   answerText: text("answer_text").notNull(),
-  category: varchar("category", { length: 100 }),
+  category: text("category"),
   difficultyLevel: integer("difficulty_level"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const quizQuestionUniqueIdx = unique().on(
@@ -131,187 +289,251 @@ export const quizQuestionUniqueIdx = unique().on(
   quizQuestion.questionNumber
 );
 
-// クイズセッション
-export const quizSession = pgTable("quiz_session", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  gameId: uuid("game_id").references(() => game.id, { onDelete: "cascade" }),
-  quizSetName: varchar("quiz_set_name", { length: 255 }),
-  currentQuestionIndex: integer("current_question_index").default(0),
-  totalQuestions: integer("total_questions"),
-  sessionStatus: varchar("session_status", { length: 50 }).default("active"),
-});
-
 // ゲーム形式別設定テーブル
-export const gameNomxSetting = pgTable("game_nomx_setting", {
-  gameId: uuid("game_id")
+export const gameNomxSetting = sqliteTable("game_nomx_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(7),
   losePoint: integer("lose_point").notNull().default(3),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameNomxAdSetting = pgTable("game_nomx_ad_setting", {
-  gameId: uuid("game_id")
+export const gameNomxAdSetting = sqliteTable("game_nomx_ad_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(7),
   losePoint: integer("lose_point").notNull().default(3),
-  streakOver3: boolean("streak_over3").notNull().default(true),
+  streakOver3: integer("streak_over3", { mode: "boolean" })
+    .notNull()
+    .default(true),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameNySetting = pgTable("game_ny_setting", {
-  gameId: uuid("game_id")
+export const gameNySetting = sqliteTable("game_ny_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   targetPoint: integer("target_point").notNull().default(10),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameNomrSetting = pgTable("game_nomr_setting", {
-  gameId: uuid("game_id")
+export const gameNomrSetting = sqliteTable("game_nomr_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(7),
   restCount: integer("rest_count").notNull().default(3),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameNbynSetting = pgTable("game_nbyn_setting", {
-  gameId: uuid("game_id")
+export const gameNbynSetting = sqliteTable("game_nbyn_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   nValue: integer("n_value").notNull().default(5),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameNupdownSetting = pgTable("game_nupdown_setting", {
-  gameId: uuid("game_id")
+export const gameNupdownSetting = sqliteTable("game_nupdown_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(5),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameDivideSetting = pgTable("game_divide_setting", {
-  gameId: uuid("game_id")
+export const gameDivideSetting = sqliteTable("game_divide_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(100),
   basePoint: integer("base_point").notNull().default(10),
   initialPoint: integer("initial_point").notNull().default(10),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameSwedish10Setting = pgTable("game_swedish10_setting", {
-  gameId: uuid("game_id")
+export const gameSwedish10Setting = sqliteTable("game_swedish10_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(10),
   losePoint: integer("lose_point").notNull().default(10),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameBackstreamSetting = pgTable("game_backstream_setting", {
-  gameId: uuid("game_id")
+export const gameBackstreamSetting = sqliteTable("game_backstream_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   initialPoint: integer("initial_point").notNull().default(10),
   winPoint: integer("win_point").notNull().default(20),
   loseThreshold: integer("lose_threshold").notNull().default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameAttacksurvivalSetting = pgTable(
+export const gameAttacksurvivalSetting = sqliteTable(
   "game_attacksurvival_setting",
   {
-    gameId: uuid("game_id")
+    gameId: text("game_id")
       .primaryKey()
       .references(() => game.id, { onDelete: "cascade" }),
     winPoint: integer("win_point").notNull().default(5),
     losePoint: integer("lose_point").notNull().default(3),
     attackPoint: integer("attack_point").notNull().default(3),
+    createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+      () => new Date()
+    ),
+    updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+      () => new Date()
+    ),
+    deletedAt: integer("deleted_at", { mode: "timestamp" }),
   }
 );
 
-export const gameSquarexSetting = pgTable("game_squarex_setting", {
-  gameId: uuid("game_id")
+export const gameSquarexSetting = sqliteTable("game_squarex_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   squareSize: integer("square_size").notNull().default(3),
   winCondition: integer("win_condition").notNull().default(3),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameZSetting = pgTable("game_z_setting", {
-  gameId: uuid("game_id")
+export const gameZSetting = sqliteTable("game_z_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(5),
   zonePoint: integer("zone_point").notNull().default(3),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameFreezexSetting = pgTable("game_freezex_setting", {
-  gameId: uuid("game_id")
+export const gameFreezexSetting = sqliteTable("game_freezex_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(5),
   freezePoint: integer("freeze_point").notNull().default(3),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameEndlessChanceSetting = pgTable("game_endless_chance_setting", {
-  gameId: uuid("game_id")
-    .primaryKey()
-    .references(() => game.id, { onDelete: "cascade" }),
-  loseCount: integer("lose_count").notNull().default(3),
-  useR: boolean("use_r").notNull().default(false),
-});
+export const gameEndlessChanceSetting = sqliteTable(
+  "game_endless_chance_setting",
+  {
+    gameId: text("game_id")
+      .primaryKey()
+      .references(() => game.id, { onDelete: "cascade" }),
+    loseCount: integer("lose_count").notNull().default(3),
+    useR: integer("use_r", { mode: "boolean" }).notNull().default(false),
+    createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+      () => new Date()
+    ),
+    updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+      () => new Date()
+    ),
+    deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  }
+);
 
-export const gameVariablesSetting = pgTable("game_variables_setting", {
-  gameId: uuid("game_id")
+export const gameVariablesSetting = sqliteTable("game_variables_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
   winPoint: integer("win_point").notNull().default(10),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
-export const gameAqlSetting = pgTable("game_aql_setting", {
-  gameId: uuid("game_id")
+export const gameAqlSetting = sqliteTable("game_aql_setting", {
+  gameId: text("game_id")
     .primaryKey()
     .references(() => game.id, { onDelete: "cascade" }),
-  leftTeam: varchar("left_team", { length: 255 }).notNull(),
-  rightTeam: varchar("right_team", { length: 255 }).notNull(),
+  leftTeam: text("left_team").notNull(),
+  rightTeam: text("right_team").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
-
-export const gameLinearSetting = pgTable("game_linear_setting", {
-  gameId: uuid("game_id")
-    .primaryKey()
-    .references(() => game.id, { onDelete: "cascade" }),
-  winPoint: integer("win_point").notNull().default(100),
-  losePoint: integer("lose_point").notNull().default(3),
-});
-
-// RLS (Row Level Security) ポリシー用のSQL文
-// 注意: これらはDrizzleでは管理されず、手動でSupabaseダッシュボードまたは
-// 別途マイグレーションスクリプトで実行する必要があります
-
-/*
--- プロファイルのRLS
-ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view their own profiles" ON profiles
-  FOR SELECT USING (auth.uid()::text = id::text);
-CREATE POLICY "Users can insert their own profiles" ON profiles
-  FOR INSERT WITH CHECK (auth.uid()::text = id::text);
-CREATE POLICY "Users can update their own profiles" ON profiles
-  FOR UPDATE USING (auth.uid()::text = id::text);
-
--- プレイヤーのRLS
-ALTER TABLE players ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view players in their profiles" ON players
-  FOR SELECT USING (profile_id IN (SELECT id FROM profiles WHERE auth.uid()::text = id::text));
-CREATE POLICY "Users can insert players in their profiles" ON players
-  FOR INSERT WITH CHECK (profile_id IN (SELECT id FROM profiles WHERE auth.uid()::text = id::text));
-CREATE POLICY "Users can update players in their profiles" ON players
-  FOR UPDATE USING (profile_id IN (SELECT id FROM profiles WHERE auth.uid()::text = id::text));
-
--- ゲームのRLS
-ALTER TABLE games ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Users can view games in their profiles" ON games
-  FOR SELECT USING (profile_id IN (SELECT id FROM profiles WHERE auth.uid()::text = id::text));
-CREATE POLICY "Users can insert games in their profiles" ON games
-  FOR INSERT WITH CHECK (profile_id IN (SELECT id FROM profiles WHERE auth.uid()::text = id::text));
-CREATE POLICY "Users can update games in their profiles" ON games
-  FOR UPDATE USING (profile_id IN (SELECT id FROM profiles WHERE auth.uid()::text = id::text));
-
--- その他のテーブルについても同様のパターンでRLSを設定
-*/
