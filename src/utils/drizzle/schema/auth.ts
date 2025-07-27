@@ -1,4 +1,11 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
+import {
+  index,
+  integer,
+  sqliteTable,
+  text,
+  unique,
+} from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 // セッションテーブル
@@ -6,14 +13,22 @@ export const session = sqliteTable("session", {
   id: text("id").primaryKey(),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   token: text("token").notNull().unique(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).default(
+    sql`(unixepoch())`
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).default(
+    sql`(unixepoch())`
+  ),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
+    .references(() => user.id),
 });
+
+export const sessionExpiresAtIdx = index("idx_session_expires_at").on(
+  session.expiresAt
+);
 
 // アカウントテーブル（OAuth用）
 export const account = sqliteTable("account", {
@@ -22,7 +37,7 @@ export const account = sqliteTable("account", {
   providerId: text("provider_id").notNull(),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
+    .references(() => user.id),
   accessToken: text("access_token"),
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
@@ -34,9 +49,18 @@ export const account = sqliteTable("account", {
   }),
   scope: text("scope"),
   password: text("password"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).default(
+    sql`(unixepoch())`
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).default(
+    sql`(unixepoch())`
+  ),
 });
+
+export const accountUniqueIdx = unique("idx_account_unique").on(
+  account.providerId,
+  account.accountId
+);
 
 // 認証用検証テーブル
 export const verification = sqliteTable("verification", {
@@ -44,11 +68,11 @@ export const verification = sqliteTable("verification", {
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
-    () => new Date()
+  createdAt: integer("created_at", { mode: "timestamp" }).default(
+    sql`(unixepoch())`
   ),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
-    () => new Date()
+  updatedAt: integer("updated_at", { mode: "timestamp" }).default(
+    sql`(unixepoch())`
   ),
 });
 
@@ -64,10 +88,10 @@ export const user = sqliteTable("user", {
     .notNull(),
   image: text("image"),
   createdAt: integer("created_at", { mode: "timestamp" })
-    .$defaultFn(() => new Date())
+    .default(sql`(unixepoch())`)
     .notNull(),
   updatedAt: integer("updated_at", { mode: "timestamp" })
-    .$defaultFn(() => new Date())
+    .default(sql`(unixepoch())`)
     .notNull(),
 });
 
@@ -78,7 +102,7 @@ export const userPreference = sqliteTable("user_preference", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => nanoid()),
-  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+  userId: text("user_id").references(() => user.id),
   // 表示設定
   theme: text("theme", { enum: themeEnum }).notNull().default("light"),
   showWinthroughPopup: integer("show_winthrough_popup", { mode: "boolean" })
@@ -99,12 +123,12 @@ export const userPreference = sqliteTable("user_preference", {
     .default(true),
   // Webhook設定
   webhookUrl: text("webhook_url"),
-  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
-    () => new Date()
-  ),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
-    () => new Date()
-  ),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
 });
 
 // ユーザー環境設定テーブルのユーザーごとのインデックス
