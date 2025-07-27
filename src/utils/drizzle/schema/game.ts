@@ -1,7 +1,7 @@
+import { sql } from "drizzle-orm";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
-import { sql } from "drizzle-orm";
 import { user } from "./auth";
 
 // ゲーム形式のenum（SQLiteではtextで代用）

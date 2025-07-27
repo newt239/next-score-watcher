@@ -1,7 +1,7 @@
+import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text, unique } from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
-import { sql } from "drizzle-orm";
 import { user } from "./auth";
 
 // クイズセットテーブル
