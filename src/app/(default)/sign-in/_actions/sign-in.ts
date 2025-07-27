@@ -1,21 +1,19 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/utils/auth";
-
 export async function signIn() {
-  const result = await auth.api.signInSocial({
-    body: {
-      provider: "google",
-      callbackURL: "/",
-    },
-    headers: await headers(),
-  });
+  const baseURL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  // better-authの正しいGoogle認証エンドポイント
+  const signInUrl = `${baseURL}/api/auth/sign-in/google?callbackURL=${encodeURIComponent(baseURL)}`;
 
-  // Better Authの場合、成功時にレスポンスが返される
-  if (result && "url" in result && result.url) {
-    redirect(result.url);
-  }
+  console.log("Base URL:", baseURL);
+  console.log("Sign-in URL:", signInUrl);
+  console.log("Google Client ID exists:", !!process.env.GOOGLE_CLIENT_ID);
+  console.log(
+    "Google Client Secret exists:",
+    !!process.env.GOOGLE_CLIENT_SECRET
+  );
+
+  redirect(signInUrl);
 }

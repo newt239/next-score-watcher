@@ -1,11 +1,12 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { genericOAuth } from "better-auth/plugins";
 
 import { db } from "./drizzle/client";
 import { account, session, user, verification } from "./drizzle/schema";
 
 export const auth = betterAuth({
+  baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  basePath: "/api/auth",
   database: drizzleAdapter(db, {
     provider: "sqlite",
     schema: {
@@ -24,29 +25,11 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
-  plugins: [
-    genericOAuth({
-      config: [
-        {
-          providerId: "google",
-          clientId: process.env.GOOGLE_CLIENT_ID!,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-          discoveryUrl:
-            "https://accounts.google.com/.well-known/openid_configuration",
-          scopes: ["openid", "email", "profile"],
-        },
-      ],
-    }),
-  ],
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // 1 day
   },
-  trustedOrigins: [
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000"
-      : process.env.NEXT_PUBLIC_APP_URL!,
-  ],
+  trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"],
 });
 
 export type Session = typeof auth.$Infer.Session;

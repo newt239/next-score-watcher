@@ -8,6 +8,13 @@
       "when": 1753605810815,
       "tag": "0000_spooky_sunset_bain",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1753607473910,
+      "tag": "0001_lethal_green_goblin",
+      "breakpoints": true
     }
   ]
 }
