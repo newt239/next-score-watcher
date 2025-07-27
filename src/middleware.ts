@@ -1,9 +1,9 @@
 import type { NextRequest } from "next/server";
 
-import { updateSession } from "@/utils/supabase/middleware";
-
-export function middleware(request: NextRequest) {
-  return updateSession(request);
+export async function middleware(_request: NextRequest) {
+  // シンプルなmiddleware実装
+  // 認証関連の処理はbetter-authのコールバックで処理
+  return;
 }
 
 export const config = {

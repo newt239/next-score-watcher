@@ -60,28 +60,28 @@ Score Watcherでは、プレイヤーデータは3つの段階で管理されて
 
 ##### ゲーム内データ（GameDBPlayerProps）
 
-| プロパティ名         | 型       | 初期値                 | nbyn形式での扱い       | 説明                               |
-| -------------------- | -------- | ---------------------- | ---------------------- | ---------------------------------- |
-| `id`                 | `string` | マスターデータより継承 | プレイヤー識別に使用   | ゲーム内でのプレイヤー識別子       |
-| `name`               | `string` | マスターデータより継承 | 表示に使用             | ゲーム内での表示名                 |
-| `initial_correct`    | `number` | 通常0（調整可能）      | スコア計算の初期値     | ゲーム開始時の正解数               |
-| `initial_wrong`      | `number` | 通常0（調整可能）      | スコア計算の初期値     | ゲーム開始時の誤答数               |
-| `base_correct_point` | `number` | 通常1                  | 使用されない           | 正解時の基本点数（nbynでは未使用） |
-| `base_wrong_point`   | `number` | 通常1                  | 使用されない           | 誤答時の基本点数（nbynでは未使用） |
+| プロパティ名         | 型       | 初期値                 | nbyn形式での扱い     | 説明                               |
+| -------------------- | -------- | ---------------------- | -------------------- | ---------------------------------- |
+| `id`                 | `string` | マスターデータより継承 | プレイヤー識別に使用 | ゲーム内でのプレイヤー識別子       |
+| `name`               | `string` | マスターデータより継承 | 表示に使用           | ゲーム内での表示名                 |
+| `initial_correct`    | `number` | 通常0（調整可能）      | スコア計算の初期値   | ゲーム開始時の正解数               |
+| `initial_wrong`      | `number` | 通常0（調整可能）      | スコア計算の初期値   | ゲーム開始時の誤答数               |
+| `base_correct_point` | `number` | 通常1                  | 使用されない         | 正解時の基本点数（nbynでは未使用） |
+| `base_wrong_point`   | `number` | 通常1                  | 使用されない         | 誤答時の基本点数（nbynでは未使用） |
 
 ##### 計算済みスコア（ComputedScoreProps）
 
-| プロパティ名    | 型        | 初期値            | 正解時           | 誤答時   | 説明                     |
-| --------------- | --------- | ----------------- | ---------------- | -------- | ------------------------ |
-| `score`         | `number`  | `0`               | 計算式により更新 | 計算式により更新 | 現在のスコア             |
-| `correct`       | `number`  | `initial_correct` | `+1`             | 変更なし | 現在の正解数             |
-| `wrong`         | `number`  | `initial_wrong`   | 変更なし         | `+1`     | 現在の誤答数             |
-| `last_correct`  | `number`  | `-1`              | 問題番号         | 変更なし | 最後に正解した問題番号   |
-| `last_wrong`    | `number`  | `-1`              | 変更なし         | 問題番号 | 最後に誤答した問題番号   |
-| `state`         | `string`  | `"playing"`       | 勝利時`"win"`    | 失格時`"lose"` | プレイヤーの状態         |
-| `reach_state`   | `string`  | `"normal"`        | リーチ時`"win"`  | 変更なし | リーチ状態               |
-| `text`          | `string`  | 動的生成          | 動的更新         | 動的更新 | 表示テキスト             |
-| `order`         | `number`  | `0`               | 勝利時に順位設定 | 変更なし | 勝ち抜け順位             |
+| プロパティ名   | 型       | 初期値            | 正解時           | 誤答時           | 説明                   |
+| -------------- | -------- | ----------------- | ---------------- | ---------------- | ---------------------- |
+| `score`        | `number` | `0`               | 計算式により更新 | 計算式により更新 | 現在のスコア           |
+| `correct`      | `number` | `initial_correct` | `+1`             | 変更なし         | 現在の正解数           |
+| `wrong`        | `number` | `initial_wrong`   | 変更なし         | `+1`             | 現在の誤答数           |
+| `last_correct` | `number` | `-1`              | 問題番号         | 変更なし         | 最後に正解した問題番号 |
+| `last_wrong`   | `number` | `-1`              | 変更なし         | 問題番号         | 最後に誤答した問題番号 |
+| `state`        | `string` | `"playing"`       | 勝利時`"win"`    | 失格時`"lose"`   | プレイヤーの状態       |
+| `reach_state`  | `string` | `"normal"`        | リーチ時`"win"`  | 変更なし         | リーチ状態             |
+| `text`         | `string` | 動的生成          | 動的更新         | 動的更新         | 表示テキスト           |
+| `order`        | `number` | `0`               | 勝利時に順位設定 | 変更なし         | 勝ち抜け順位           |
 
 ### 計算ロジック
 
@@ -102,7 +102,8 @@ Score Watcherでは、プレイヤーデータは3つの段階で管理されて
 
 ```typescript
 const newCorrect = playerState.correct + 1; // 正答時
-const newScoreInCorrectCase = newCorrect * (game.win_point! - playerState.wrong);
+const newScoreInCorrectCase =
+  newCorrect * (game.win_point! - playerState.wrong);
 
 const newWrong = playerState.wrong + 1; // 誤答時
 const newScoreInWrongCase = playerState.correct * (game.win_point! - newWrong);
@@ -183,7 +184,7 @@ if (newWrong >= game.lose_point!) {
 #### スコア上昇パターン（N=5の場合）
 
 | 正解数 | 誤答0 | 誤答1 | 誤答2 | 誤答3 | 誤答4 |
-|--------|-------|-------|-------|-------|-------|
+| ------ | ----- | ----- | ----- | ----- | ----- |
 | 1      | 5     | 4     | 3     | 2     | 1     |
 | 2      | 10    | 8     | 6     | 4     | 2     |
 | 3      | 15    | 12    | 9     | 6     | 3     |

@@ -2,24 +2,20 @@
 
 import { redirect } from "next/navigation";
 
-import { createClient } from "@/utils/supabase/server";
-
 export async function signIn() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${process.env.SUPABASE_AUTH_URL}/api/auth/callback`,
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
-  });
-  if (error) {
-    throw error;
-  }
-  if (data.url) {
-    redirect(data.url);
-  }
+  const baseURL = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+    ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`
+    : "https://localhost:3000";
+  // better-authの正しいGoogle認証エンドポイント
+  const signInUrl = `${baseURL}/api/auth/sign-in/google?callbackURL=${encodeURIComponent(baseURL)}`;
+
+  console.log("Base URL:", baseURL);
+  console.log("Sign-in URL:", signInUrl);
+  console.log("Google Client ID exists:", !!process.env.GOOGLE_CLIENT_ID);
+  console.log(
+    "Google Client Secret exists:",
+    !!process.env.GOOGLE_CLIENT_SECRET
+  );
+
+  redirect(signInUrl);
 }

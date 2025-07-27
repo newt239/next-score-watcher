@@ -10,7 +10,7 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
-import { createClient } from "@/utils/supabase/server";
+import { getUser } from "@/utils/auth/auth-helpers";
 
 export default async function Header() {
   const cookieStore = await cookies();
@@ -21,10 +21,8 @@ export default async function Header() {
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
-  // サーバーサイドでSupabaseユーザー取得
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-  const user = data.user;
+  // Better Authユーザー取得
+  const user = await getUser();
 
   const common = {
     alt: "Score Watcherのロゴ。モノカラーで、三日月の中央部に円が配置された形をしている。",

@@ -57,29 +57,29 @@ Score Watcherでは、プレイヤーデータは3つの段階で管理されて
 
 ##### ゲーム内データ（GameDBPlayerProps）
 
-| プロパティ名         | 型       | 初期値                 | Variables形式での扱い      | 説明                               |
-| -------------------- | -------- | ---------------------- | -------------------------- | ---------------------------------- |
-| `id`                 | `string` | マスターデータより継承 | プレイヤー識別に使用       | ゲーム内でのプレイヤー識別子       |
-| `name`               | `string` | マスターデータより継承 | 表示に使用                 | ゲーム内での表示名                 |
-| `initial_correct`    | `number` | 通常0（調整可能）      | スコア初期値として使用     | ゲーム開始時の正解数               |
-| `initial_wrong`      | `number` | 通常0（調整可能）      | 計算に影響なし             | ゲーム開始時の誤答数               |
-| `base_correct_point` | `number` | 通常10（調整可能）     | 正解時の獲得ポイント       | 正解時の基本点数                   |
-| `base_wrong_point`   | `number` | 通常-10（調整可能）    | 誤答時の減点ポイント       | 誤答時の基本点数                   |
+| プロパティ名         | 型       | 初期値                 | Variables形式での扱い  | 説明                         |
+| -------------------- | -------- | ---------------------- | ---------------------- | ---------------------------- |
+| `id`                 | `string` | マスターデータより継承 | プレイヤー識別に使用   | ゲーム内でのプレイヤー識別子 |
+| `name`               | `string` | マスターデータより継承 | 表示に使用             | ゲーム内での表示名           |
+| `initial_correct`    | `number` | 通常0（調整可能）      | スコア初期値として使用 | ゲーム開始時の正解数         |
+| `initial_wrong`      | `number` | 通常0（調整可能）      | 計算に影響なし         | ゲーム開始時の誤答数         |
+| `base_correct_point` | `number` | 通常10（調整可能）     | 正解時の獲得ポイント   | 正解時の基本点数             |
+| `base_wrong_point`   | `number` | 通常-10（調整可能）    | 誤答時の減点ポイント   | 誤答時の基本点数             |
 
 ##### 計算済みスコア（ComputedScoreProps）
 
-| プロパティ名    | 型        | 初期値      | 正解時                         | 誤答時                         | 説明                         |
-| --------------- | --------- | ----------- | ------------------------------ | ------------------------------ | ---------------------------- |
-| `score`         | `number`  | `0`         | `score + base_correct_point`   | `score + base_wrong_point`     | 現在のスコア                 |
-| `correct`       | `number`  | `0`         | `+1`                           | 変更なし                       | 現在の正解数                 |
-| `wrong`         | `number`  | `0`         | 変更なし                       | `+1`                           | 現在の誤答数                 |
-| `last_correct`  | `number`  | `-10`       | 問題番号                       | 変更なし                       | 最後に正解した問題番号       |
-| `last_wrong`    | `number`  | `-10`       | 変更なし                       | 問題番号                       | 最後に誤答した問題番号       |
-| `is_incapacity` | `boolean` | `false`     | 変更なし                       | 変更なし                       | 解答権剥奪フラグ（未使用）   |
-| `state`         | `string`  | `"playing"` | 勝利時`"win"`                  | 変更なし                       | プレイヤーの状態             |
-| `reach_state`   | `string`  | `"normal"`  | リーチ時`"win"`                | 変更なし                       | リーチ状態                   |
-| `text`          | `string`  | 動的生成    | 動的更新                       | 動的更新                       | 表示テキスト                 |
-| `order`         | `number`  | `0`         | 勝利時に順位設定               | 変更なし                       | 勝ち抜け順位                 |
+| プロパティ名    | 型        | 初期値      | 正解時                       | 誤答時                     | 説明                       |
+| --------------- | --------- | ----------- | ---------------------------- | -------------------------- | -------------------------- |
+| `score`         | `number`  | `0`         | `score + base_correct_point` | `score + base_wrong_point` | 現在のスコア               |
+| `correct`       | `number`  | `0`         | `+1`                         | 変更なし                   | 現在の正解数               |
+| `wrong`         | `number`  | `0`         | 変更なし                     | `+1`                       | 現在の誤答数               |
+| `last_correct`  | `number`  | `-10`       | 問題番号                     | 変更なし                   | 最後に正解した問題番号     |
+| `last_wrong`    | `number`  | `-10`       | 変更なし                     | 問題番号                   | 最後に誤答した問題番号     |
+| `is_incapacity` | `boolean` | `false`     | 変更なし                     | 変更なし                   | 解答権剥奪フラグ（未使用） |
+| `state`         | `string`  | `"playing"` | 勝利時`"win"`                | 変更なし                   | プレイヤーの状態           |
+| `reach_state`   | `string`  | `"normal"`  | リーチ時`"win"`              | 変更なし                   | リーチ状態                 |
+| `text`          | `string`  | 動的生成    | 動的更新                     | 動的更新                   | 表示テキスト               |
+| `order`         | `number`  | `0`         | 勝利時に順位設定             | 変更なし                   | 勝ち抜け順位               |
 
 ### 計算ロジック
 
@@ -91,9 +91,9 @@ Score Watcherでは、プレイヤーデータは3つの段階で管理されて
 4. スコアが次回正解で`win_point`に到達する場合、勝ち抜けリーチ状態に設定
 
 ```typescript
-const correct_point = game.players.find(
-  (gamePlayer) => gamePlayer.id === playerState.player_id
-)?.base_correct_point || 0;
+const correct_point =
+  game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
+    ?.base_correct_point || 0;
 const newScore = playerState.score + correct_point;
 ```
 
@@ -104,9 +104,9 @@ const newScore = playerState.score + correct_point;
 3. `last_wrong`に現在の問題番号を記録
 
 ```typescript
-const wrong_point = game.players.find(
-  (gamePlayer) => gamePlayer.id === playerState.player_id
-)?.base_wrong_point || 0;
+const wrong_point =
+  game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
+    ?.base_wrong_point || 0;
 return {
   ...playerState,
   wrong: playerState.wrong + 1,

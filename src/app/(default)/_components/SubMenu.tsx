@@ -15,9 +15,14 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 
-import type { AuthUser } from "@supabase/supabase-js";
-
 import ButtonLink from "@/app/_components/ButtonLink";
+
+type AuthUser = {
+  id: string;
+  email: string;
+  name: string;
+  image?: string | null;
+};
 
 const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
   { path: "/", text: "ホーム", icon: <IconHome /> },
