@@ -1,4 +1,4 @@
-import { getUserPreferences } from "@/app/(default)/account/_actions/preferences";
+import { getUserPreferences } from "@/app/(default)/user/_actions/preferences";
 
 /**
  * ログイン時にサーバーの設定をlocalStorageと同期する

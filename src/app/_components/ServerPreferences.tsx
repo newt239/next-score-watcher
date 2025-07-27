@@ -13,7 +13,7 @@ import { useEffect, useTransition } from "react";
 import {
   getUserPreferences,
   updateUserPreference,
-} from "@/app/(default)/account/_actions/preferences";
+} from "@/app/(default)/user/_actions/preferences";
 
 type Props = {
   userId?: string;

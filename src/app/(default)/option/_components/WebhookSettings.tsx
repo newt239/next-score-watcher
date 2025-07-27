@@ -8,7 +8,7 @@ import { useLocalStorage } from "@mantine/hooks";
 import {
   getUserPreferences,
   updateUserPreference,
-} from "@/app/(default)/account/_actions/preferences";
+} from "@/app/(default)/user/_actions/preferences";
 import Link from "@/app/_components/Link";
 
 type Props = {

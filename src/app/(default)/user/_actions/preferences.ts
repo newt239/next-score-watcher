@@ -80,7 +80,7 @@ export async function updateUserPreferences(
       .where(eq(userPreference.userId, user.id));
   }
 
-  revalidatePath("/account");
+  revalidatePath("/user");
 }
 
 // 個別設定を更新（部分更新用）

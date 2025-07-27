@@ -10,9 +10,9 @@ import { getUser } from "@/utils/auth/auth-helpers";
 import { getUserPreferences } from "./_actions/preferences";
 
 export const metadata: Metadata = {
-  title: "アカウント設定",
+  title: "ユーザー設定",
   alternates: {
-    canonical: "https://score-watcher.com/account",
+    canonical: "https://score-watcher.com/user",
   },
 };
 

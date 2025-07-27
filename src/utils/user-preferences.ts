@@ -4,7 +4,7 @@ import { DBClient } from "./drizzle/client";
 import { userPreference } from "./drizzle/schema";
 
 export type UserPreferences = {
-  theme: string;
+  theme: "light" | "dark";
   showWinthroughPopup: boolean;
   showBoardHeader: boolean;
   showQn: boolean;
@@ -64,7 +64,7 @@ export async function ensureUserPreferences(userId: string): Promise<boolean> {
     });
 
     console.log(`User preferences created for user: ${userId}`);
-    return true; // 新規作成された
+    return true;
   } catch (error) {
     console.error("Failed to ensure user preferences:", error);
     throw error;

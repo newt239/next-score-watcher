@@ -1,4 +1,5 @@
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { nanoid } from "nanoid";
 
 // セッションテーブル
 export const session = sqliteTable("session", {
@@ -53,7 +54,9 @@ export const verification = sqliteTable("verification", {
 
 // ユーザーテーブル
 export const user = sqliteTable("user", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: integer("email_verified", { mode: "boolean" })
@@ -72,7 +75,9 @@ export const themeEnum = ["light", "dark"] as const;
 
 // ユーザー環境設定テーブル
 export const userPreference = sqliteTable("user_preference", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => nanoid()),
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
   // 表示設定
   theme: text("theme", { enum: themeEnum }).notNull().default("light"),
