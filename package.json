@@ -41,16 +41,19 @@
     "dexie-react-hooks": "^1.1.7",
     "drizzle-orm": "^0.44.3",
     "encoding-japanese": "^2.2.0",
+    "hono": "^4.8.9",
     "nanoid": "^5.1.5",
     "next": "15.4.4",
     "postcss-preset-mantine": "^1.18.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^4.0.10"
   },
   "devDependencies": {
     "@css-modules-kit/codegen": "^0.4.1",
     "@css-modules-kit/stylelint-plugin": "^0.3.1",
     "@eslint/eslintrc": "^3.3.1",
+    "@hono/zod-validator": "^0.7.2",
     "@playwright/test": "^1.54.1",
     "@types/encoding-japanese": "^2.2.1",
     "@types/node": "^24.1.0",

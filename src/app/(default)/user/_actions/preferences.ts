@@ -3,17 +3,14 @@
 import { revalidatePath } from "next/cache";
 
 import { eq } from "drizzle-orm";
-import { nanoid } from "nanoid";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 import { DBClient } from "@/utils/drizzle/client";
 import { userPreference } from "@/utils/drizzle/schema";
 import {
   UserPreferences,
-  defaultUserPreferences,
   getUserPreferences as utilGetUserPreferences,
 } from "@/utils/user-preferences";
-
 
 // ユーザー設定を取得
 export async function getUserPreferences(): Promise<UserPreferences | null> {
@@ -24,7 +21,6 @@ export async function getUserPreferences(): Promise<UserPreferences | null> {
   }
 
   try {
-    // 新しいユーティリティ関数を使用してユーザープリファレンスを取得
     return await utilGetUserPreferences(user.id);
   } catch (error) {
     console.error("Failed to get user preferences:", error);
@@ -50,27 +46,8 @@ export async function updateUserPreferences(
   const now = new Date();
 
   if (existingPreferences.length === 0) {
-    // 新規作成（デフォルト値を使用）
     await DBClient.insert(userPreference).values({
-      id: nanoid(),
       userId: user.id,
-      theme: preferences.theme ?? defaultUserPreferences.theme,
-      showWinthroughPopup:
-        preferences.showWinthroughPopup ??
-        defaultUserPreferences.showWinthroughPopup,
-      showBoardHeader:
-        preferences.showBoardHeader ?? defaultUserPreferences.showBoardHeader,
-      showQn: preferences.showQn ?? defaultUserPreferences.showQn,
-      showSignString:
-        preferences.showSignString ?? defaultUserPreferences.showSignString,
-      reversePlayerInfo:
-        preferences.reversePlayerInfo ??
-        defaultUserPreferences.reversePlayerInfo,
-      wrongNumber:
-        preferences.wrongNumber ?? defaultUserPreferences.wrongNumber,
-      webhookUrl: preferences.webhookUrl ?? defaultUserPreferences.webhookUrl,
-      createdAt: now,
-      updatedAt: now,
     });
   } else {
     // 更新
