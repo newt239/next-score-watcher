@@ -1,8 +1,8 @@
 import {
+  index,
   integer,
   sqliteTable,
   text,
-  index,
   unique,
 } from "drizzle-orm/sqlite-core";
 
@@ -52,6 +52,20 @@ export const account = sqliteTable("account", {
   }),
   scope: text("scope"),
   password: text("password"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+});
+
+// 認証用検証テーブル
+export const verification = sqliteTable("verification", {
+  id: text("id").primaryKey(),
+  identifier: text("identifier").notNull(),
+  value: text("value").notNull(),
+  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
     () => new Date()
   ),

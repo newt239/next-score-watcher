@@ -2,17 +2,17 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { genericOAuth } from "better-auth/plugins";
 
-import { account, session, user } from "./drizzle/schema";
-
-import { db } from "@/utils/db";
+import { db } from "./drizzle/client";
+import { account, session, user, verification } from "./drizzle/schema";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    provider: "pg",
+    provider: "sqlite",
     schema: {
       user,
       session,
       account,
+      verification,
     },
   }),
   emailAndPassword: {
@@ -50,4 +50,4 @@ export const auth = betterAuth({
 });
 
 export type Session = typeof auth.$Infer.Session;
-export type User = typeof auth.$Infer.User;
+export type User = typeof auth.$Infer.Session.user;

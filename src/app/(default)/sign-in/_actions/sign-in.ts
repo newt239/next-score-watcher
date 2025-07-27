@@ -1,12 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { auth } from "@/utils/auth";
 
 export async function signIn() {
-  const { data, error } = await auth.api.signInSocial({
+  const result = await auth.api.signInSocial({
     body: {
       provider: "google",
       callbackURL: "/",
@@ -14,10 +14,8 @@ export async function signIn() {
     headers: await headers(),
   });
 
-  if (error) {
-    throw error;
-  }
-  if (data?.url) {
-    redirect(data.url);
+  // Better Authの場合、成功時にレスポンスが返される
+  if (result && "url" in result && result.url) {
+    redirect(result.url);
   }
 }
