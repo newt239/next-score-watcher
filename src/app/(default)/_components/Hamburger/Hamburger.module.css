@@ -1,6 +1,6 @@
 .burger {
-    border: 2px solid var(--mantine-color-teal-6);
-  }
+  border: 2px solid var(--mantine-color-teal-6);
+}
 
 .burger_menu {
   position: fixed;
@@ -13,7 +13,7 @@
   transition: all 0.5s ease;
   transition-behavior: allow-discrete;
 
-  [data-mantine-color-scheme='dark'] {
+  [data-mantine-color-scheme="dark"] {
     background-color: var(--mantine-color-teal-8);
   }
 

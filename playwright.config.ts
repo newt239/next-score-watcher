@@ -7,8 +7,8 @@ export default defineConfig({
   retries: 0,
   workers: process.env.CI ? 2 : 4,
   reporter: process.env.CI
-      ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
-      : "html",
+    ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
+    : "html",
   use: {
     channel: "chromium",
     headless: true,
@@ -24,7 +24,7 @@ export default defineConfig({
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
-    }
+    },
   ],
   webServer: {
     command: "pnpm run dev",

@@ -1,64 +1,59 @@
 {
-    "lang": "ja",
-    "theme_color": "#28A745",
-    "background_color": "#28A745",
-    "display_override": [
-        "fullscreen",
-        "minimal-ui"
-    ],
-    "display": "standalone",
-    "scope": "/",
-    "start_url": "/",
-    "name": "Score Watcher",
-    "short_name": "ScoreWatcher",
-    "description": "競技クイズにおけるプレイヤーの得点状況を可視化するための Web アプリケーションです。現在 14 の形式に対応しており、スコアの表示や勝ち抜け / 敗退の情報だけでなく、問題文表示やスマートフォンでの表示も可能です。",
-    "short_description": "競技クイズ用得点表示ソフト",
-    "categories": [
-        "utilities"
-    ],
-    "icons": [
-        {
-            "src": "icons/icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-256x256.png",
-            "sizes": "256x256",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-384x384.png",
-            "sizes": "384x384",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "images/score-watcher_feature_basic.webp",
-            "sizes": "1920x1080",
-            "type": "image/webp",
-            "platform": "wide",
-            "label": "基本機能"
-        },
-        {
-            "src": "images/score-watcher_feature_winthrough.webp",
-            "sizes": "1920x1080",
-            "type": "image/webp",
-            "platform": "wide",
-            "label": "勝ち抜け時のポップアップ表示"
-        },
-        {
-            "src": "images/score-watcher_feature_colormode.webp",
-            "sizes": "1920x1080",
-            "type": "image/webp",
-            "platform": "wide",
-            "label": "カラーモードの変更"
-        }
-    ]
+  "lang": "ja",
+  "theme_color": "#28A745",
+  "background_color": "#28A745",
+  "display_override": ["fullscreen", "minimal-ui"],
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "Score Watcher",
+  "short_name": "ScoreWatcher",
+  "description": "競技クイズにおけるプレイヤーの得点状況を可視化するための Web アプリケーションです。現在 14 の形式に対応しており、スコアの表示や勝ち抜け / 敗退の情報だけでなく、問題文表示やスマートフォンでの表示も可能です。",
+  "short_description": "競技クイズ用得点表示ソフト",
+  "categories": ["utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/score-watcher_feature_basic.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "platform": "wide",
+      "label": "基本機能"
+    },
+    {
+      "src": "images/score-watcher_feature_winthrough.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "platform": "wide",
+      "label": "勝ち抜け時のポップアップ表示"
+    },
+    {
+      "src": "images/score-watcher_feature_colormode.webp",
+      "sizes": "1920x1080",
+      "type": "image/webp",
+      "platform": "wide",
+      "label": "カラーモードの変更"
+    }
+  ]
 }
