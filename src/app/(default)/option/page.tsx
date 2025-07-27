@@ -7,7 +7,8 @@ import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
-import Preferences from "@/app/_components/Preferences";
+import ServerPreferences from "@/app/_components/ServerPreferences";
+import { getUser } from "@/utils/auth-helpers";
 
 export const metadata: Metadata = {
   title: "アプリ設定",
@@ -25,12 +26,14 @@ export default async function OptionPage() {
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
+  const user = await getUser();
+
   return (
     <>
       <Title order={2}>アプリ設定</Title>
       <Title order={3}>表示設定</Title>
-      <Preferences />
-      <WebhookSettings />
+      <ServerPreferences userId={user?.id} />
+      <WebhookSettings userId={user?.id} />
       <ManageData profileList={profileList} currentProfile={currentProfile} />
       <InitializeApp currentProfile={currentProfile} />
     </>

@@ -27,9 +27,10 @@ import { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
 type Props = {
   game_id: string;
   current_profile: string;
+  userId?: string;
 };
 
-const Board: React.FC<Props> = ({ game_id, current_profile }) => {
+const Board: React.FC<Props> = ({ game_id, current_profile, userId }) => {
   const game = useLiveQuery(() =>
     db(current_profile).games.get(game_id as string)
   );
@@ -202,7 +203,12 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
 
   return (
     <>
-      <BoardHeader game={game} logs={logs} currentProfile={current_profile} />
+      <BoardHeader
+        game={game}
+        logs={logs}
+        currentProfile={current_profile}
+        userId={userId}
+      />
       {game.rule === "squarex" && (
         <Box
           className={classes.squarex_bar}
@@ -230,7 +236,12 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           show_header={showHeader}
         />
       )}
-      <ActionButtons game={game} logs={logs} currentProfile={current_profile} />
+      <ActionButtons
+        game={game}
+        logs={logs}
+        currentProfile={current_profile}
+        userId={userId}
+      />
       <GameLogs
         logs={logs}
         players={players}

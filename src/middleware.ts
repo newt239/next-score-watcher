@@ -1,7 +1,8 @@
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  // TODO: Better Auth middleware implementation
+  // シンプルなmiddleware実装
+  // 認証関連の処理はbetter-authのコールバックで処理
   return;
 }
 

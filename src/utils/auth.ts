@@ -3,6 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 import { db } from "./drizzle/client";
 import { account, session, user, verification } from "./drizzle/schema";
+import { ensureUserPreferences } from "./user-preferences";
 
 export const auth = betterAuth({
   baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
@@ -30,6 +31,19 @@ export const auth = betterAuth({
     updateAge: 60 * 60 * 24, // 1 day
   },
   trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"],
+  callbacks: {
+    // ユーザーが新規作成された時（初回サインイン時）
+    async onSignUp({ user: newUser }: { user: any }) {
+      try {
+        console.log(`Creating user preferences for new user: ${newUser.id}`);
+        await ensureUserPreferences(newUser.id);
+        console.log(`User preferences created successfully for: ${newUser.id}`);
+      } catch (error) {
+        console.error("Failed to create user preferences:", error);
+        // エラーが発生してもサインアップ自体は成功させる
+      }
+    },
+  },
 });
 
 export type Session = typeof auth.$Infer.Session;

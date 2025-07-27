@@ -38,9 +38,15 @@ type Props = {
   game: GamePropsUnion;
   logs: LogDBProps[];
   currentProfile: string;
+  userId?: string;
 };
 
-const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
+const BoardHeader: React.FC<Props> = ({
+  game,
+  logs,
+  currentProfile,
+  userId,
+}) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
@@ -143,7 +149,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
         }
         {game.quiz && quizList.length > quizPosition && (
           <Box className={classes.quiz_area}>
-            <span className={classes.quiz}>
+            <span>
               {qn === 0 || quizPosition < 0
                 ? "ここに問題文が表示されます"
                 : quizList[quizPosition].q}
@@ -264,7 +270,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
           </Menu.Dropdown>
         </Menu>
       </Flex>
-      <PreferenceDrawer isOpen={opened} onClose={close} />
+      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
     </>
   );
 };

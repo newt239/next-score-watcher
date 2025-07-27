@@ -4,8 +4,10 @@ import { redirect } from "next/navigation";
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
 import SignOutButton from "./_components/SignOutButton";
+import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
 import { getUser } from "@/utils/auth-helpers";
+import { getUserPreferences } from "./_actions/preferences";
 
 export const metadata: Metadata = {
   title: "アカウント設定",
@@ -21,8 +23,22 @@ export default async function AccountPage() {
     redirect("/sign-in");
   }
 
+  const preferences = await getUserPreferences();
+
+  // デフォルト設定を使用（ユーザーが未認証の場合は上でリダイレクトされる）
+  const defaultPreferences = {
+    theme: "light",
+    showWinthroughPopup: true,
+    showBoardHeader: true,
+    showQn: false,
+    showSignString: true,
+    reversePlayerInfo: false,
+    wrongNumber: true,
+    webhookUrl: null,
+  };
+
   return (
-    <Box maw={400} mx="auto" mt="xl">
+    <Box maw={600} mx="auto" mt="xl">
       <Title order={2} mb="md">
         アカウント情報
       </Title>
@@ -38,6 +54,10 @@ export default async function AccountPage() {
         </Box>
         <SignOutButton />
       </Group>
+
+      <UserPreferencesSettings
+        initialPreferences={preferences || defaultPreferences}
+      />
     </Box>
   );
 }
