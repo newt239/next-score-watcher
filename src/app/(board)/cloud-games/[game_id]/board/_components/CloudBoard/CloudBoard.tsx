@@ -6,11 +6,11 @@ import { Box, Text } from "@mantine/core";
 
 import classes from "./CloudBoard.module.css";
 
-import { authClient } from "@/utils/auth/auth-client";
 import apiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
+  user: User | null;
 };
 
 type User = {
@@ -25,25 +25,11 @@ type Game = {
   ruleType: string;
 };
 
-const CloudBoard: React.FC<Props> = ({ game_id }) => {
-  const [user, setUser] = useState<User | null>(null);
+const CloudBoard: React.FC<Props> = ({ game_id, user }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [players, setPlayers] = useState<unknown[]>([]);
   const [logs, setLogs] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const session = await authClient.getSession();
-        setUser(session?.data?.user || null);
-      } catch (error) {
-        console.error("Failed to get user session:", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     if (!user?.id) return;

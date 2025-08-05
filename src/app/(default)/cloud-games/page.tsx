@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import CloudGameList from "./_components/CloudGameList/CloudGameList";
 
-import { authClient } from "@/utils/auth/auth-client";
+import { getUser } from "@/utils/auth/auth-helpers";
 import apiClient from "@/utils/hono/client";
 
 type Game = {
@@ -20,8 +20,7 @@ export const metadata: Metadata = {
 };
 
 const CloudGamesPage = async () => {
-  const session = await authClient.getSession();
-  const user = session?.data?.user || null;
+  const user = await getUser();
 
   let games: Game[] = [];
   let logCounts: Record<string, number> = {};

@@ -13,12 +13,12 @@ import classes from "./CloudConfig.module.css";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
-import { authClient } from "@/utils/auth/auth-client";
 import apiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";
 
 type Props = {
   game_id: string;
+  user: User | null;
 };
 
 type User = {
@@ -33,25 +33,11 @@ type Game = {
   ruleType: string;
 };
 
-const CloudConfig: React.FC<Props> = ({ game_id }) => {
-  const [user, setUser] = useState<User | null>(null);
+const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [players, setPlayers] = useState<unknown[]>([]);
   const [logs, setLogs] = useState<unknown[]>([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const session = await authClient.getSession();
-        setUser(session?.data?.user || null);
-      } catch (error) {
-        console.error("Failed to get user session:", error);
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     if (!user?.id) return;

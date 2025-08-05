@@ -8,10 +8,10 @@ import {
   Button,
   Card,
   Group,
-  Title,
   Modal,
-  TextInput,
   Text,
+  TextInput,
+  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
@@ -177,11 +177,7 @@ const CloudRuleList: React.FC<Props> = ({ userId }) => {
       <Modal
         opened={createModalOpen}
         onClose={handleCloseModal}
-        title={
-          <Title order={3}>
-            {selectedRule ? rules[selectedRule].name : ""}ゲームを作成
-          </Title>
-        }
+        title={`${selectedRule ? rules[selectedRule].name : ""}ゲームを作成`}
         size="md"
       >
         <Text size="sm" c="dimmed" mb="md">

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import CloudRuleList from "./_components/CloudRuleList/CloudRuleList";
 
-import { authClient } from "@/utils/auth/auth-client";
+import { getUser } from "@/utils/auth/auth-helpers";
 
 export const metadata: Metadata = {
   title: "クラウドゲーム作成",
@@ -15,8 +15,7 @@ export const metadata: Metadata = {
 };
 
 const CloudRulesPage = async () => {
-  const session = await authClient.getSession();
-  const user = session?.data?.user || null;
+  const user = await getUser();
 
   return <CloudRuleList userId={user?.id} />;
 };
