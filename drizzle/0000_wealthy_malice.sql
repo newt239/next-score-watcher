@@ -249,8 +249,8 @@ CREATE TABLE `game_endless_chance_setting` (
 	`game_id` text NOT NULL,
 	`lose_count` integer DEFAULT 3 NOT NULL,
 	`use_r` integer DEFAULT false NOT NULL,
-	`created_at` integer,
-	`updated_at` integer,
+	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch()) NOT NULL,
 	`deleted_at` integer,
 	FOREIGN KEY (`game_id`) REFERENCES `game`(`id`) ON UPDATE no action ON DELETE no action
 );

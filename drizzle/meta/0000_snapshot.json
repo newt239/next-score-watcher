@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "488aca4f-7e73-44c2-a1db-4621251b25ec",
+  "id": "9f2bb6f9-5755-43a1-a77e-546f71095bb9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "account": {
@@ -1789,15 +1789,17 @@
           "name": "created_at",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
         },
         "updated_at": {
           "name": "updated_at",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
         },
         "deleted_at": {
           "name": "deleted_at",

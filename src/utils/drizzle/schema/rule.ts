@@ -15,13 +15,13 @@ export const gameNomxSetting = sqliteTable("game_nomx_setting", {
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(7),
   losePoint: integer("lose_point").notNull().default(3),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameNomxAdSetting = sqliteTable("game_nomx_ad_setting", {
@@ -37,13 +37,13 @@ export const gameNomxAdSetting = sqliteTable("game_nomx_ad_setting", {
   streakOver3: integer("streak_over3", { mode: "boolean" })
     .notNull()
     .default(true),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameNySetting = sqliteTable("game_ny_setting", {
@@ -55,13 +55,13 @@ export const gameNySetting = sqliteTable("game_ny_setting", {
     .unique()
     .references(() => game.id),
   targetPoint: integer("target_point").notNull().default(10),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameNomrSetting = sqliteTable("game_nomr_setting", {
@@ -74,13 +74,13 @@ export const gameNomrSetting = sqliteTable("game_nomr_setting", {
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(7),
   restCount: integer("rest_count").notNull().default(3),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameNbynSetting = sqliteTable("game_nbyn_setting", {
@@ -92,13 +92,13 @@ export const gameNbynSetting = sqliteTable("game_nbyn_setting", {
     .unique()
     .references(() => game.id),
   nValue: integer("n_value").notNull().default(5),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameNupdownSetting = sqliteTable("game_nupdown_setting", {
@@ -110,13 +110,13 @@ export const gameNupdownSetting = sqliteTable("game_nupdown_setting", {
     .unique()
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(5),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameDivideSetting = sqliteTable("game_divide_setting", {
@@ -130,13 +130,13 @@ export const gameDivideSetting = sqliteTable("game_divide_setting", {
   winPoint: integer("win_point").notNull().default(100),
   basePoint: integer("base_point").notNull().default(10),
   initialPoint: integer("initial_point").notNull().default(10),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameSwedish10Setting = sqliteTable("game_swedish10_setting", {
@@ -149,13 +149,13 @@ export const gameSwedish10Setting = sqliteTable("game_swedish10_setting", {
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(10),
   losePoint: integer("lose_point").notNull().default(10),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameBackstreamSetting = sqliteTable("game_backstream_setting", {
@@ -169,13 +169,13 @@ export const gameBackstreamSetting = sqliteTable("game_backstream_setting", {
   initialPoint: integer("initial_point").notNull().default(10),
   winPoint: integer("win_point").notNull().default(20),
   loseThreshold: integer("lose_threshold").notNull().default(0),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameAttacksurvivalSetting = sqliteTable(
@@ -191,13 +191,13 @@ export const gameAttacksurvivalSetting = sqliteTable(
     winPoint: integer("win_point").notNull().default(5),
     losePoint: integer("lose_point").notNull().default(3),
     attackPoint: integer("attack_point").notNull().default(3),
-    createdAt: integer("created_at", { mode: "timestamp" })
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    updatedAt: integer("updated_at", { mode: "timestamp" })
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    deletedAt: integer("deleted_at", { mode: "timestamp" }),
+    deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
   }
 );
 
@@ -211,13 +211,13 @@ export const gameSquarexSetting = sqliteTable("game_squarex_setting", {
     .references(() => game.id),
   squareSize: integer("square_size").notNull().default(3),
   winCondition: integer("win_condition").notNull().default(3),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameZSetting = sqliteTable("game_z_setting", {
@@ -230,13 +230,13 @@ export const gameZSetting = sqliteTable("game_z_setting", {
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(5),
   zonePoint: integer("zone_point").notNull().default(3),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameFreezexSetting = sqliteTable("game_freezex_setting", {
@@ -249,13 +249,13 @@ export const gameFreezexSetting = sqliteTable("game_freezex_setting", {
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(5),
   freezePoint: integer("freeze_point").notNull().default(3),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameEndlessChanceSetting = sqliteTable(
@@ -270,13 +270,13 @@ export const gameEndlessChanceSetting = sqliteTable(
       .references(() => game.id),
     loseCount: integer("lose_count").notNull().default(3),
     useR: integer("use_r", { mode: "boolean" }).notNull().default(false),
-    createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
-      () => new Date()
-    ),
-    updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
-      () => new Date()
-    ),
-    deletedAt: integer("deleted_at", { mode: "timestamp" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
   }
 );
 
@@ -289,13 +289,13 @@ export const gameVariablesSetting = sqliteTable("game_variables_setting", {
     .unique()
     .references(() => game.id),
   winPoint: integer("win_point").notNull().default(10),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
 
 export const gameAqlSetting = sqliteTable("game_aql_setting", {
@@ -308,11 +308,11 @@ export const gameAqlSetting = sqliteTable("game_aql_setting", {
     .references(() => game.id),
   leftTeam: text("left_team").notNull(),
   rightTeam: text("right_team").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .default(sql`(unixepoch())`)
     .notNull(),
-  deletedAt: integer("deleted_at", { mode: "timestamp" }),
+  deletedAt: integer("deleted_at", { mode: "timestamp_ms" }),
 });
