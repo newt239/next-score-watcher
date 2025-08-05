@@ -4,26 +4,28 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 import {
-  Modal,
+  Box,
   Button,
-  TextInput,
-  Grid,
   Card,
-  Text,
   Group,
   Title,
+  Modal,
+  TextInput,
+  Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { IconPlus } from "@tabler/icons-react";
+import { IconCirclePlus } from "@tabler/icons-react";
+
+import classes from "./CloudRuleList.module.css";
 
 import type { RuleNames } from "@/utils/types";
 
 import apiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";
 
-type CloudCreateGameModalProps = {
-  userId: string;
+type Props = {
+  userId?: string;
 };
 
 /**
@@ -40,17 +42,15 @@ const generateDefaultGameName = (ruleType: RuleNames): string => {
   return `${ruleName} ${timestamp}`;
 };
 
-const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
-  userId,
-}) => {
+const CloudRuleList: React.FC<Props> = ({ userId }) => {
   const router = useRouter();
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedRule, setSelectedRule] = useState<RuleNames | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
     initialValues: {
       name: "",
-      ruleType: null as RuleNames | null,
     },
     validate: {
       name: (value) =>
@@ -59,18 +59,31 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
           : value.length > 100
             ? "ゲーム名は100文字以内で入力してください"
             : null,
-      ruleType: (value) =>
-        value === null ? "ゲーム形式を選択してください" : null,
     },
   });
 
-  const handleRuleSelect = (ruleName: RuleNames) => {
-    form.setFieldValue("ruleType", ruleName);
-    const defaultName = generateDefaultGameName(ruleName);
+  const ruleNameList = Object.keys(rules) as RuleNames[];
+
+  const onClick = (rule_name: RuleNames) => {
+    if (!userId) {
+      notifications.show({
+        title: "エラー",
+        message: "ログインが必要です",
+        color: "red",
+      });
+      router.push("/login");
+      return;
+    }
+
+    setSelectedRule(rule_name);
+    const defaultName = generateDefaultGameName(rule_name);
     form.setFieldValue("name", defaultName);
+    setCreateModalOpen(true);
   };
 
   const handleCreateGame = () => {
+    if (!selectedRule) return;
+
     const validation = form.validate();
     if (validation.hasErrors) return;
 
@@ -80,13 +93,13 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
           {
             json: {
               name: form.values.name,
-              ruleType: form.values.ruleType!,
+              ruleType: selectedRule,
               discordWebhookUrl: "",
             },
           },
           {
             headers: {
-              "x-user-id": userId,
+              "x-user-id": userId!,
             },
           }
         );
@@ -105,6 +118,7 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
 
         setCreateModalOpen(false);
         form.reset();
+        setSelectedRule(null);
         router.push(`/cloud-games/${result.gameId}/config`);
       } catch (error) {
         notifications.show({
@@ -119,59 +133,60 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
     });
   };
 
-  const ruleNameList = Object.keys(rules) as RuleNames[];
+  const handleCloseModal = () => {
+    setCreateModalOpen(false);
+    form.reset();
+    setSelectedRule(null);
+  };
 
   return (
     <>
-      <Button
-        leftSection={<IconPlus size={16} />}
-        onClick={() => setCreateModalOpen(true)}
-      >
-        新しいゲームを作成
-      </Button>
+      <Title order={2}>クラウドゲーム作成</Title>
+      <Text size="sm" c="dimmed" mb="md">
+        クラウドDBに記録されるゲームを作成します。形式を選択してゲームを作成してください。
+      </Text>
+      <Box className={classes.rule_list_grid}>
+        {ruleNameList.map((rule_name) => {
+          const description = rules[rule_name].short_description;
+          return (
+            <Card shadow="xs" key={rule_name} withBorder>
+              <Card.Section
+                withBorder
+                inheritPadding
+                className={classes.rule_name}
+              >
+                {rules[rule_name].name}
+              </Card.Section>
+              <Card.Section className={classes.rule_description}>
+                {description}
+              </Card.Section>
+              <Group justify="flex-end">
+                <Button
+                  onClick={() => onClick(rule_name)}
+                  size="sm"
+                  leftSection={<IconCirclePlus />}
+                >
+                  作る
+                </Button>
+              </Group>
+            </Card>
+          );
+        })}
+      </Box>
 
       <Modal
         opened={createModalOpen}
-        onClose={() => setCreateModalOpen(false)}
-        title={<Title order={3}>新しいクラウドゲームを作成</Title>}
-        size="lg"
+        onClose={handleCloseModal}
+        title={
+          <Title order={3}>
+            {selectedRule ? rules[selectedRule].name : ""}ゲームを作成
+          </Title>
+        }
+        size="md"
       >
         <Text size="sm" c="dimmed" mb="md">
-          ゲーム形式を選択してから、ゲーム名を入力してください。
+          ゲーム名を入力してください。
         </Text>
-
-        <Title order={4} mb="sm">
-          ゲーム形式を選択
-        </Title>
-        <Grid mb="lg">
-          {ruleNameList.map((ruleName) => (
-            <Grid.Col span={{ base: 12, sm: 6, md: 4 }} key={ruleName}>
-              <Card
-                shadow="xs"
-                withBorder
-                style={{
-                  cursor: "pointer",
-                  backgroundColor:
-                    form.values.ruleType === ruleName
-                      ? "var(--mantine-color-blue-light)"
-                      : undefined,
-                  borderColor:
-                    form.values.ruleType === ruleName
-                      ? "var(--mantine-color-blue-6)"
-                      : undefined,
-                }}
-                onClick={() => handleRuleSelect(ruleName)}
-              >
-                <Text fw={500} size="sm">
-                  {rules[ruleName].name}
-                </Text>
-                <Text size="xs" c="dimmed" mt={4}>
-                  {rules[ruleName].short_description}
-                </Text>
-              </Card>
-            </Grid.Col>
-          ))}
-        </Grid>
 
         <TextInput
           label="ゲーム名"
@@ -183,7 +198,7 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
         <Group justify="flex-end">
           <Button
             variant="outline"
-            onClick={() => setCreateModalOpen(false)}
+            onClick={handleCloseModal}
             disabled={isPending}
           >
             キャンセル
@@ -191,7 +206,7 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
           <Button
             onClick={handleCreateGame}
             loading={isPending}
-            disabled={!form.values.ruleType || !form.values.name}
+            disabled={!form.values.name}
           >
             作成
           </Button>
@@ -201,4 +216,4 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
   );
 };
 
-export default CloudCreateGameModal;
+export default CloudRuleList;

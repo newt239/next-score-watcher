@@ -60,19 +60,19 @@ const CloudConfig: React.FC<Props> = ({ game_id }) => {
       try {
         const [gameResponse, playersResponse, logsResponse] = await Promise.all(
           [
-            apiClient["cloud-games"][":gameId"].$get(
+            apiClient["games"][":gameId"].$get(
               { param: { gameId: game_id } },
               {
                 headers: { "x-user-id": user.id },
               }
             ),
-            apiClient["cloud-players"].$get(
+            apiClient["players"].$get(
               {},
               {
                 headers: { "x-user-id": user.id },
               }
             ),
-            apiClient["cloud-games"][":gameId"]["logs"].$get(
+            apiClient["games"][":gameId"]["logs"].$get(
               { param: { gameId: game_id } },
               {
                 headers: { "x-user-id": user.id },

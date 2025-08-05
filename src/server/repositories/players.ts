@@ -1,7 +1,7 @@
 import { eq, asc } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import type { CreatePlayerData } from "@/models/cloud-players";
+import type { CreatePlayerData } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
 import { player } from "@/utils/drizzle/schema";
@@ -9,7 +9,7 @@ import { player } from "@/utils/drizzle/schema";
 /**
  * プレイヤー一覧取得
  */
-export const getCloudPlayers = async (userId: string) => {
+export const getPlayers = async (userId: string) => {
   const players = await DBClient.select()
     .from(player)
     .where(eq(player.userId, userId))
@@ -27,7 +27,7 @@ export const getCloudPlayers = async (userId: string) => {
 /**
  * プレイヤー作成
  */
-export const createCloudPlayer = async (
+export const createPlayer = async (
   playerData: CreatePlayerData,
   userId: string
 ) => {

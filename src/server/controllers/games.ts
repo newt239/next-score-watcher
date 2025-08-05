@@ -7,35 +7,35 @@ import {
   AddPlayerSchema,
   AddLogSchema,
   GameCountsSchema,
-} from "@/models/cloud-games";
+} from "@/models/games";
 import {
-  getCloudGames,
-  getCloudGame,
-  createCloudGame,
-  updateCloudGame,
-  deleteCloudGame,
-  getCloudGamePlayers,
-  addCloudGamePlayer,
-  getCloudGameLogs,
-  addCloudGameLog,
-  removeCloudGameLog,
-  getCloudGamesLogCounts,
-  getCloudGamesPlayerCounts,
-} from "@/server/repositories/cloud-games";
+  getGames,
+  getGame,
+  createGame,
+  updateGame,
+  deleteGame,
+  getGamePlayers,
+  addGamePlayer,
+  getGameLogs,
+  addGameLog,
+  removeGameLog,
+  getGamesLogCounts,
+  getGamesPlayerCounts,
+} from "@/server/repositories/games";
 
 const factory = createFactory();
 
 /**
  * クラウドゲーム一覧取得
  */
-export const getCloudGamesHandler = factory.createHandlers(async (c) => {
+export const getGamesHandler = factory.createHandlers(async (c) => {
   try {
     const userId = c.req.header("x-user-id");
     if (!userId) {
       return c.json({ error: "Unauthorized" }, 401);
     }
 
-    const games = await getCloudGames(userId);
+    const games = await getGames(userId);
     return c.json({ games });
   } catch (error) {
     console.error("Error fetching cloud games:", error);
@@ -46,7 +46,7 @@ export const getCloudGamesHandler = factory.createHandlers(async (c) => {
 /**
  * クラウドゲーム詳細取得
  */
-export const getCloudGameHandler = factory.createHandlers(async (c) => {
+export const getGameHandler = factory.createHandlers(async (c) => {
   try {
     const gameId = c.req.param("gameId");
     const userId = c.req.header("x-user-id");
@@ -59,7 +59,7 @@ export const getCloudGameHandler = factory.createHandlers(async (c) => {
       return c.json({ error: "Game ID is required" }, 400);
     }
 
-    const game = await getCloudGame(gameId, userId);
+    const game = await getGame(gameId, userId);
     if (!game) {
       return c.json({ error: "Game not found" }, 404);
     }
@@ -74,7 +74,7 @@ export const getCloudGameHandler = factory.createHandlers(async (c) => {
 /**
  * クラウドゲーム作成
  */
-export const createCloudGameHandler = factory.createHandlers(
+export const createGameHandler = factory.createHandlers(
   zValidator("json", CreateGameSchema),
   async (c) => {
     try {
@@ -84,7 +84,7 @@ export const createCloudGameHandler = factory.createHandlers(
       }
 
       const gameData = c.req.valid("json");
-      const gameId = await createCloudGame(gameData, userId);
+      const gameId = await createGame(gameData, userId);
 
       return c.json({ gameId }, 201);
     } catch (error) {
@@ -97,7 +97,7 @@ export const createCloudGameHandler = factory.createHandlers(
 /**
  * クラウドゲーム更新
  */
-export const updateCloudGameHandler = factory.createHandlers(
+export const updateGameHandler = factory.createHandlers(
   zValidator("json", UpdateGameSchema),
   async (c) => {
     try {
@@ -113,7 +113,7 @@ export const updateCloudGameHandler = factory.createHandlers(
       }
 
       const gameData = c.req.valid("json");
-      await updateCloudGame(gameId, gameData, userId);
+      await updateGame(gameId, gameData, userId);
 
       return c.json({ success: true });
     } catch (error) {
@@ -126,7 +126,7 @@ export const updateCloudGameHandler = factory.createHandlers(
 /**
  * クラウドゲーム削除
  */
-export const deleteCloudGameHandler = factory.createHandlers(async (c) => {
+export const deleteGameHandler = factory.createHandlers(async (c) => {
   try {
     const gameId = c.req.param("gameId");
     const userId = c.req.header("x-user-id");
@@ -139,7 +139,7 @@ export const deleteCloudGameHandler = factory.createHandlers(async (c) => {
       return c.json({ error: "Game ID is required" }, 400);
     }
 
-    await deleteCloudGame(gameId, userId);
+    await deleteGame(gameId, userId);
 
     return c.json({ success: true });
   } catch (error) {
@@ -151,7 +151,7 @@ export const deleteCloudGameHandler = factory.createHandlers(async (c) => {
 /**
  * クラウドゲームプレイヤー取得
  */
-export const getCloudGamePlayersHandler = factory.createHandlers(async (c) => {
+export const getGamePlayersHandler = factory.createHandlers(async (c) => {
   try {
     const gameId = c.req.param("gameId");
     const userId = c.req.header("x-user-id");
@@ -164,7 +164,7 @@ export const getCloudGamePlayersHandler = factory.createHandlers(async (c) => {
       return c.json({ error: "Game ID is required" }, 400);
     }
 
-    const players = await getCloudGamePlayers(gameId, userId);
+    const players = await getGamePlayers(gameId, userId);
     return c.json({ players });
   } catch (error) {
     console.error("Error fetching cloud game players:", error);
@@ -175,7 +175,7 @@ export const getCloudGamePlayersHandler = factory.createHandlers(async (c) => {
 /**
  * クラウドゲームプレイヤー追加
  */
-export const addCloudGamePlayerHandler = factory.createHandlers(
+export const addGamePlayerHandler = factory.createHandlers(
   zValidator("json", AddPlayerSchema),
   async (c) => {
     try {
@@ -191,7 +191,7 @@ export const addCloudGamePlayerHandler = factory.createHandlers(
       }
 
       const playerData = c.req.valid("json");
-      await addCloudGamePlayer(gameId, playerData, userId);
+      await addGamePlayer(gameId, playerData, userId);
 
       return c.json({ success: true }, 201);
     } catch (error) {
@@ -204,7 +204,7 @@ export const addCloudGamePlayerHandler = factory.createHandlers(
 /**
  * クラウドゲームログ取得
  */
-export const getCloudGameLogsHandler = factory.createHandlers(async (c) => {
+export const getGameLogsHandler = factory.createHandlers(async (c) => {
   try {
     const gameId = c.req.param("gameId");
     const userId = c.req.header("x-user-id");
@@ -217,7 +217,7 @@ export const getCloudGameLogsHandler = factory.createHandlers(async (c) => {
       return c.json({ error: "Game ID is required" }, 400);
     }
 
-    const logs = await getCloudGameLogs(gameId, userId);
+    const logs = await getGameLogs(gameId, userId);
     return c.json({ logs });
   } catch (error) {
     console.error("Error fetching cloud game logs:", error);
@@ -228,7 +228,7 @@ export const getCloudGameLogsHandler = factory.createHandlers(async (c) => {
 /**
  * クラウドゲームログ追加
  */
-export const addCloudGameLogHandler = factory.createHandlers(
+export const addGameLogHandler = factory.createHandlers(
   zValidator("json", AddLogSchema),
   async (c) => {
     try {
@@ -239,7 +239,7 @@ export const addCloudGameLogHandler = factory.createHandlers(
       }
 
       const logData = c.req.valid("json");
-      const logId = await addCloudGameLog(logData, userId);
+      const logId = await addGameLog(logData, userId);
 
       return c.json({ logId }, 201);
     } catch (error) {
@@ -252,7 +252,7 @@ export const addCloudGameLogHandler = factory.createHandlers(
 /**
  * クラウドゲームログ削除
  */
-export const removeCloudGameLogHandler = factory.createHandlers(async (c) => {
+export const removeGameLogHandler = factory.createHandlers(async (c) => {
   try {
     const logId = c.req.param("logId");
     const userId = c.req.header("x-user-id");
@@ -265,7 +265,7 @@ export const removeCloudGameLogHandler = factory.createHandlers(async (c) => {
       return c.json({ error: "Log ID is required" }, 400);
     }
 
-    await removeCloudGameLog(logId, userId);
+    await removeGameLog(logId, userId);
 
     return c.json({ success: true });
   } catch (error) {
@@ -277,7 +277,7 @@ export const removeCloudGameLogHandler = factory.createHandlers(async (c) => {
 /**
  * 複数ゲームのログ数取得
  */
-export const getCloudGamesLogCountsHandler = factory.createHandlers(
+export const getGamesLogCountsHandler = factory.createHandlers(
   zValidator("json", GameCountsSchema),
   async (c) => {
     try {
@@ -287,7 +287,7 @@ export const getCloudGamesLogCountsHandler = factory.createHandlers(
       }
 
       const { gameIds } = c.req.valid("json");
-      const logCounts = await getCloudGamesLogCounts(gameIds, userId);
+      const logCounts = await getGamesLogCounts(gameIds, userId);
 
       return c.json({ logCounts });
     } catch (error) {
@@ -300,7 +300,7 @@ export const getCloudGamesLogCountsHandler = factory.createHandlers(
 /**
  * 複数ゲームのプレイヤー数取得
  */
-export const getCloudGamesPlayerCountsHandler = factory.createHandlers(
+export const getGamesPlayerCountsHandler = factory.createHandlers(
   zValidator("json", GameCountsSchema),
   async (c) => {
     try {
@@ -310,7 +310,7 @@ export const getCloudGamesPlayerCountsHandler = factory.createHandlers(
       }
 
       const { gameIds } = c.req.valid("json");
-      const playerCounts = await getCloudGamesPlayerCounts(gameIds, userId);
+      const playerCounts = await getGamesPlayerCounts(gameIds, userId);
 
       return c.json({ playerCounts });
     } catch (error) {

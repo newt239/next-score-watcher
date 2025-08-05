@@ -1,25 +1,22 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { CreatePlayerSchema } from "@/models/cloud-players";
-import {
-  getCloudPlayers,
-  createCloudPlayer,
-} from "@/server/repositories/cloud-players";
+import { CreatePlayerSchema } from "@/models/players";
+import { getPlayers, createPlayer } from "@/server/repositories/players";
 
 const factory = createFactory();
 
 /**
  * プレイヤー一覧取得
  */
-export const getCloudPlayersHandler = factory.createHandlers(async (c) => {
+export const getPlayersHandler = factory.createHandlers(async (c) => {
   try {
     const userId = c.req.header("x-user-id");
     if (!userId) {
       return c.json({ error: "Unauthorized" }, 401);
     }
 
-    const players = await getCloudPlayers(userId);
+    const players = await getPlayers(userId);
     return c.json({ players });
   } catch (error) {
     console.error("Error fetching cloud players:", error);
@@ -30,7 +27,7 @@ export const getCloudPlayersHandler = factory.createHandlers(async (c) => {
 /**
  * プレイヤー作成
  */
-export const createCloudPlayerHandler = factory.createHandlers(
+export const createPlayerHandler = factory.createHandlers(
   zValidator("json", CreatePlayerSchema),
   async (c) => {
     try {
@@ -40,7 +37,7 @@ export const createCloudPlayerHandler = factory.createHandlers(
       }
 
       const playerData = c.req.valid("json");
-      const playerId = await createCloudPlayer(playerData, userId);
+      const playerId = await createPlayer(playerData, userId);
 
       return c.json({ playerId }, 201);
     } catch (error) {

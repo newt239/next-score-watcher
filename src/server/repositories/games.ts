@@ -6,7 +6,7 @@ import type {
   UpdateGameData,
   AddPlayerData,
   AddLogData,
-} from "@/models/cloud-games";
+} from "@/models/games";
 import type { Variants } from "@/utils/types";
 
 import { DBClient } from "@/utils/drizzle/client";
@@ -15,7 +15,7 @@ import { game, player, gamePlayer, gameLog } from "@/utils/drizzle/schema";
 /**
  * クラウドゲーム取得
  */
-export const getCloudGame = async (gameId: string, userId: string) => {
+export const getGame = async (gameId: string, userId: string) => {
   const gameData = await DBClient.select()
     .from(game)
     .where(and(eq(game.id, gameId), eq(game.userId, userId)))
@@ -31,7 +31,7 @@ export const getCloudGame = async (gameId: string, userId: string) => {
 /**
  * クラウドゲーム一覧取得
  */
-export const getCloudGames = async (userId: string) => {
+export const getGames = async (userId: string) => {
   const games = await DBClient.select()
     .from(game)
     .where(eq(game.userId, userId))
@@ -43,10 +43,7 @@ export const getCloudGames = async (userId: string) => {
 /**
  * 複数ゲームのログ数を一括取得
  */
-export const getCloudGamesLogCounts = async (
-  gameIds: string[],
-  userId: string
-) => {
+export const getGamesLogCounts = async (gameIds: string[], userId: string) => {
   if (gameIds.length === 0) return {};
 
   const logs = await DBClient.select({
@@ -69,7 +66,7 @@ export const getCloudGamesLogCounts = async (
 /**
  * 複数ゲームのプレイヤー数を一括取得
  */
-export const getCloudGamesPlayerCounts = async (
+export const getGamesPlayerCounts = async (
   gameIds: string[],
   userId: string
 ) => {
@@ -97,10 +94,7 @@ export const getCloudGamesPlayerCounts = async (
 /**
  * クラウドゲーム作成
  */
-export const createCloudGame = async (
-  gameData: CreateGameData,
-  userId: string
-) => {
+export const createGame = async (gameData: CreateGameData, userId: string) => {
   const gameId = nanoid();
 
   await DBClient.insert(game).values({
@@ -117,7 +111,7 @@ export const createCloudGame = async (
 /**
  * クラウドゲーム更新
  */
-export const updateCloudGame = async (
+export const updateGame = async (
   gameId: string,
   gameData: UpdateGameData,
   userId: string
@@ -133,7 +127,7 @@ export const updateCloudGame = async (
 /**
  * クラウドゲーム削除
  */
-export const deleteCloudGame = async (gameId: string, userId: string) => {
+export const deleteGame = async (gameId: string, userId: string) => {
   await DBClient.delete(game).where(
     and(eq(game.id, gameId), eq(game.userId, userId))
   );
@@ -142,7 +136,7 @@ export const deleteCloudGame = async (gameId: string, userId: string) => {
 /**
  * クラウドゲームプレイヤー取得
  */
-export const getCloudGamePlayers = async (gameId: string, userId: string) => {
+export const getGamePlayers = async (gameId: string, userId: string) => {
   const players = await DBClient.select({
     id: gamePlayer.id,
     gameId: gamePlayer.gameId,
@@ -172,7 +166,7 @@ export const getCloudGamePlayers = async (gameId: string, userId: string) => {
 /**
  * クラウドゲームプレイヤー追加
  */
-export const addCloudGamePlayer = async (
+export const addGamePlayer = async (
   gameId: string,
   playerData: AddPlayerData,
   userId: string
@@ -191,7 +185,7 @@ export const addCloudGamePlayer = async (
 /**
  * クラウドゲームログ取得
  */
-export const getCloudGameLogs = async (gameId: string, userId: string) => {
+export const getGameLogs = async (gameId: string, userId: string) => {
   const logs = await DBClient.select()
     .from(gameLog)
     .where(and(eq(gameLog.gameId, gameId), eq(gameLog.userId, userId)))
@@ -211,7 +205,7 @@ export const getCloudGameLogs = async (gameId: string, userId: string) => {
 /**
  * クラウドゲームログ追加
  */
-export const addCloudGameLog = async (logData: AddLogData, userId: string) => {
+export const addGameLog = async (logData: AddLogData, userId: string) => {
   const logId = nanoid();
 
   await DBClient.insert(gameLog).values({
@@ -231,7 +225,7 @@ export const addCloudGameLog = async (logData: AddLogData, userId: string) => {
 /**
  * クラウドゲームログ削除（元に戻す用）
  */
-export const removeCloudGameLog = async (logId: string, userId: string) => {
+export const removeGameLog = async (logId: string, userId: string) => {
   await DBClient.delete(gameLog).where(
     and(eq(gameLog.id, logId), eq(gameLog.userId, userId))
   );

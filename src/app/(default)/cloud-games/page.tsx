@@ -29,7 +29,7 @@ const CloudGamesPage = async () => {
 
   if (user?.id) {
     try {
-      const gamesResponse = await apiClient["cloud-games"].$get(
+      const gamesResponse = await apiClient["games"].$get(
         {},
         {
           headers: { "x-user-id": user.id },
@@ -47,13 +47,13 @@ const CloudGamesPage = async () => {
 
       if (gameIds.length > 0) {
         const [logCountsResponse, playerCountsResponse] = await Promise.all([
-          apiClient["cloud-games"]["log-counts"].$post(
+          apiClient["games"]["log-counts"].$post(
             { json: { gameIds } },
             {
               headers: { "x-user-id": user.id },
             }
           ),
-          apiClient["cloud-games"]["player-counts"].$post(
+          apiClient["games"]["player-counts"].$post(
             { json: { gameIds } },
             {
               headers: { "x-user-id": user.id },

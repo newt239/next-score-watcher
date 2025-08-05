@@ -24,10 +24,23 @@ type AuthUser = {
   image?: string | null;
 };
 
-const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
+/**
+ * ログイン状態に応じてリンクリストを生成する
+ */
+const getLinkList = (
+  isLoggedIn: boolean
+): { text: string; path: string; icon: React.ReactNode }[] => [
   { path: "/", text: "ホーム", icon: <IconHome /> },
-  { path: "/rules", text: "形式一覧", icon: <IconListDetails /> },
-  { path: "/games", text: "作成したゲーム", icon: <IconList /> },
+  {
+    path: isLoggedIn ? "/cloud-rules" : "/rules",
+    text: "形式一覧",
+    icon: <IconListDetails />,
+  },
+  {
+    path: isLoggedIn ? "/cloud-games" : "/games",
+    text: isLoggedIn ? "クラウドゲーム" : "作成したゲーム",
+    icon: <IconList />,
+  },
   { path: "/players", text: "プレイヤー管理", icon: <IconUsers /> },
   { path: "/quizes", text: "問題管理", icon: <IconQuestionMark /> },
   { path: "/option", text: "アプリ設定", icon: <IconSettings /> },
@@ -45,6 +58,7 @@ type SubMenuProps = {
 
 const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
   const pathname = usePathname();
+  const linkList = getLinkList(!!user);
 
   return (
     <Flex direction="column">

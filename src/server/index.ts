@@ -2,24 +2,21 @@ import { Hono } from "hono";
 
 import indexHandler from "./controllers";
 import {
-  getCloudGamesHandler,
-  getCloudGameHandler,
-  createCloudGameHandler,
-  updateCloudGameHandler,
-  deleteCloudGameHandler,
-  getCloudGamePlayersHandler,
-  addCloudGamePlayerHandler,
-  getCloudGameLogsHandler,
-  addCloudGameLogHandler,
-  removeCloudGameLogHandler,
-  getCloudGamesLogCountsHandler,
-  getCloudGamesPlayerCountsHandler,
-} from "./controllers/cloud-games";
-import {
-  getCloudPlayersHandler,
-  createCloudPlayerHandler,
-} from "./controllers/cloud-players";
+  getGamesHandler,
+  getGameHandler,
+  createGameHandler,
+  updateGameHandler,
+  deleteGameHandler,
+  getGamePlayersHandler,
+  addGamePlayerHandler,
+  getGameLogsHandler,
+  addGameLogHandler,
+  removeGameLogHandler,
+  getGamesLogCountsHandler,
+  getGamesPlayerCountsHandler,
+} from "./controllers/games";
 import getUserPreferencesHandler from "./controllers/get-user-preferences";
+import { getPlayersHandler, createPlayerHandler } from "./controllers/players";
 import updateUserPreferencesHandler from "./controllers/update-user-preferences";
 
 import { auth } from "@/utils/auth/auth";
@@ -29,22 +26,22 @@ const app = new Hono()
   .get("/", ...indexHandler)
   .get("/user/:user_id/preferences", ...getUserPreferencesHandler)
   .patch("/user/:user_id/preferences", ...updateUserPreferencesHandler)
-  // Cloud Games API
-  .get("/cloud-games", ...getCloudGamesHandler)
-  .post("/cloud-games", ...createCloudGameHandler)
-  .get("/cloud-games/:gameId", ...getCloudGameHandler)
-  .patch("/cloud-games/:gameId", ...updateCloudGameHandler)
-  .delete("/cloud-games/:gameId", ...deleteCloudGameHandler)
-  .get("/cloud-games/:gameId/players", ...getCloudGamePlayersHandler)
-  .post("/cloud-games/:gameId/players", ...addCloudGamePlayerHandler)
-  .get("/cloud-games/:gameId/logs", ...getCloudGameLogsHandler)
-  .post("/cloud-games/logs", ...addCloudGameLogHandler)
-  .delete("/cloud-games/logs/:logId", ...removeCloudGameLogHandler)
-  .post("/cloud-games/log-counts", ...getCloudGamesLogCountsHandler)
-  .post("/cloud-games/player-counts", ...getCloudGamesPlayerCountsHandler)
-  // Cloud Players API
-  .get("/cloud-players", ...getCloudPlayersHandler)
-  .post("/cloud-players", ...createCloudPlayerHandler)
+  // Games API
+  .get("/games", ...getGamesHandler)
+  .post("/games", ...createGameHandler)
+  .get("/games/:gameId", ...getGameHandler)
+  .patch("/games/:gameId", ...updateGameHandler)
+  .delete("/games/:gameId", ...deleteGameHandler)
+  .get("/games/:gameId/players", ...getGamePlayersHandler)
+  .post("/games/:gameId/players", ...addGamePlayerHandler)
+  .get("/games/:gameId/logs", ...getGameLogsHandler)
+  .post("/games/logs", ...addGameLogHandler)
+  .delete("/games/logs/:logId", ...removeGameLogHandler)
+  .post("/games/log-counts", ...getGamesLogCountsHandler)
+  .post("/games/player-counts", ...getGamesPlayerCountsHandler)
+  // Players API
+  .get("/players", ...getPlayersHandler)
+  .post("/players", ...createPlayerHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);
