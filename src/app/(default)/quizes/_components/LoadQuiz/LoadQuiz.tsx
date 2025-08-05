@@ -9,9 +9,10 @@ import { nanoid } from "nanoid";
 
 import classes from "./LoadQuiz.module.css";
 
+import type { QuizDBProps } from "@/utils/types";
+
 import db from "@/utils/db";
 import { str2num } from "@/utils/functions";
-import { QuizDBProps } from "@/utils/types";
 
 type Props = {
   set_name: string;

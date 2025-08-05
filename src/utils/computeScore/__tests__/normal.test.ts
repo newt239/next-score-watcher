@@ -1,7 +1,8 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+
+import type { AllGameProps, LogDBProps } from "@/utils/types";
 
 import normal from "@/utils/computeScore/normal";
-import { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("normal形式のスコア計算", () => {
   const mockGame: AllGameProps["normal"] = {

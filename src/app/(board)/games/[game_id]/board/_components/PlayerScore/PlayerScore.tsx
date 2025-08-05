@@ -9,9 +9,10 @@ import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
 import classes from "./PlayerScore.module.css";
 
+import type { ComputedScoreProps, GamePropsUnion } from "@/utils/types";
+
 import db from "@/utils/db";
 import { numberSign } from "@/utils/functions";
-import { ComputedScoreProps, GamePropsUnion } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;

@@ -1,4 +1,4 @@
-import Dexie, { Table } from "dexie";
+import type { Dexie, Table } from "dexie";
 
 export type DexieDatabase = { [P in keyof Dexie]: Dexie[P] };
 

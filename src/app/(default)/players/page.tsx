@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import ManagePlayer from "./_components/ManagePlayer/ManagePlayer";

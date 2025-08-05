@@ -1,10 +1,11 @@
+import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
-import { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
 const nupdown = async (
   game: AllGameProps["nupdown"],

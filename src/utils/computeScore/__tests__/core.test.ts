@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import type { AllGameProps, LogDBProps } from "@/utils/types";
+
 import {
   clipNumber,
   getInitialPlayersState,
@@ -8,7 +10,6 @@ import {
 import nbyn from "@/utils/computeScore/nbyn";
 import nomx from "@/utils/computeScore/nomx";
 import normal from "@/utils/computeScore/normal";
-import { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("スコア計算ロジック（コア機能テスト）", () => {
   describe("ユーティリティ関数", () => {

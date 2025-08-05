@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button, ButtonProps } from "@mantine/core";
+import { Button, type ButtonProps } from "@mantine/core";
 
 export type Props = {
   children: React.ReactNode;

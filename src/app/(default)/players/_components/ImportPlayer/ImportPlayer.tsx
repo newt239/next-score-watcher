@@ -1,13 +1,14 @@
 "use client";
 
 import { Flex, Text } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
 import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
 import classes from "./ImportPlayer.module.css";
+
+import type { FileWithPath } from "@mantine/dropzone";
 
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";

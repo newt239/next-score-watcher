@@ -9,8 +9,9 @@ import DeleteGame from "./DeleteGame";
 import ExportGame from "./ExportGame";
 import SelectQuizset from "./SelectQuizset";
 
+import type { GamePropsUnion } from "@/utils/types";
+
 import db from "@/utils/db";
-import { GamePropsUnion } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;

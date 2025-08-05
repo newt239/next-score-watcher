@@ -25,9 +25,10 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import classes from "./QuizesTable.module.css";
 
+import type { QuizDBProps } from "@/utils/types";
+
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
-import { QuizDBProps } from "@/utils/types";
 
 type Props = {
   currentProfile: string;

@@ -13,9 +13,10 @@ import PlayerScore from "../PlayerScore/PlayerScore";
 
 import classes from "./Player.module.css";
 
+import type { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
+
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
-import { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
 
 type Props = {
   game_id: string;

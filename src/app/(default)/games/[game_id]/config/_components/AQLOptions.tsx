@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import { TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 
+import type { AllGameProps } from "@/utils/types";
+
 import db from "@/utils/db";
-import { AllGameProps } from "@/utils/types";
 
 type Props = {
   game: AllGameProps["aql"];

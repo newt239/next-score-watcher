@@ -13,8 +13,9 @@ import { cdate } from "cdate";
 
 import classes from "./GameLogs.module.css";
 
+import type { LogDBProps, QuizDBProps } from "@/utils/types";
+
 import db from "@/utils/db";
-import { LogDBProps, QuizDBProps } from "@/utils/types";
 
 type Props = {
   players: { id: string; name: string }[];

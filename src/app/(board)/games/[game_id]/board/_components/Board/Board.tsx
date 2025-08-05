@@ -18,11 +18,12 @@ import WinModal from "../WinModal/WinModal";
 
 import classes from "./Board.module.css";
 
+import type { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
+
 import NotFound from "@/app/(default)/_components/NotFound";
 import computeScore from "@/utils/computeScore";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
-import { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
 
 type Props = {
   game_id: string;

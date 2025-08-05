@@ -13,8 +13,13 @@ import { IconGripVertical } from "@tabler/icons-react";
 
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
+import type {
+  GameDBPlayerProps,
+  PlayerDBProps,
+  RuleNames,
+} from "@/utils/types";
+
 import db from "@/utils/db";
-import { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
 
 type Props = {
   game_id: string;

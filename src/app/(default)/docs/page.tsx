@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Box, Card, Group, SimpleGrid, Title } from "@mantine/core";

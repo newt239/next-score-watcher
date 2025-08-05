@@ -10,8 +10,9 @@ import { nanoid } from "nanoid";
 
 import classes from "./CreatePlayer.module.css";
 
+import type { GameDBPlayerProps } from "@/utils/types";
+
 import db from "@/utils/db";
-import { GameDBPlayerProps } from "@/utils/types";
 
 type Props = {
   currentProfile: string;

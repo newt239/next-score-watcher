@@ -1,7 +1,8 @@
 import { describe, it } from "vitest";
 
+import type { AllGameProps, LogDBProps } from "@/utils/types";
+
 import normal from "@/utils/computeScore/normal";
-import { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("出力形式確認", () => {
   const mockGame: AllGameProps["normal"] = {

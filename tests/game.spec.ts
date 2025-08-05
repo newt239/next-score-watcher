@@ -1,4 +1,4 @@
-import test, { BrowserContext, expect, Page } from "@playwright/test";
+import test, { type BrowserContext, expect, type Page } from "@playwright/test";
 import { toZenkakuCase } from "encoding-japanese";
 
 let page: Page;

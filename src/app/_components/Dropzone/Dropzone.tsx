@@ -1,7 +1,10 @@
 "use client";
 
 import { Group, Text, rem } from "@mantine/core";
-import { DropzoneProps, Dropzone as MantineDropzone } from "@mantine/dropzone";
+import {
+  Dropzone as MantineDropzone,
+  type DropzoneProps,
+} from "@mantine/dropzone";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 
 import classes from "./Dropzone.module.css";

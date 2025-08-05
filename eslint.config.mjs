@@ -25,6 +25,14 @@ const eslintConfig = [
         namedComponents: "arrow-function",
         unnamedComponents: "arrow-function",
       }],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "separate-type-imports",
+          disallowTypeAnnotations: false,
+        },
+      ],
       "import/order": [
         "error",
         {

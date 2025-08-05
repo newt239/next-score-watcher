@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import type { AllGameProps, LogDBProps } from "@/utils/types";
+
 import nbyn from "@/utils/computeScore/nbyn";
-import { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("nbyn形式のスコア計算", () => {
   const mockGame: AllGameProps["nbyn"] = {

@@ -8,7 +8,7 @@ import ConfigInput from "./ConfigInput";
 import ConfigLimit from "./ConfigLimit/ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
 
-import { GamePropsUnion } from "@/utils/types";
+import type { GamePropsUnion } from "@/utils/types";
 
 type RuleSettingsProps = {
   game: GamePropsUnion;

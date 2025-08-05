@@ -3,18 +3,19 @@
 import { useState } from "react";
 
 import { Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
-import { FileWithPath } from "@mantine/dropzone";
 import { nanoid } from "nanoid";
 
 import classes from "./ManageData.module.css";
 
+import type { FileWithPath } from "@mantine/dropzone";
+
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
 import {
-  GamePropsUnion,
-  LogDBProps,
-  PlayerDBProps,
-  QuizDBProps,
+  type GamePropsUnion,
+  type LogDBProps,
+  type PlayerDBProps,
+  type QuizDBProps,
 } from "@/utils/types";
 
 type Props = {

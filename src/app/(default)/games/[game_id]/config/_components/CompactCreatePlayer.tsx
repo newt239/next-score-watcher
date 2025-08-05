@@ -7,8 +7,9 @@ import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 
+import type { GameDBPlayerProps } from "@/utils/types";
+
 import db from "@/utils/db";
-import { GameDBPlayerProps } from "@/utils/types";
 
 type Props = {
   game_id: string;

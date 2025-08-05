@@ -19,9 +19,10 @@ import PreferenceDrawer from "../PreferenceDrawer";
 
 import classes from "./ActionButtons.module.css";
 
+import type { GamePropsUnion, LogDBProps } from "@/utils/types";
+
 import ButtonLink from "@/app/_components/ButtonLink";
 import db from "@/utils/db";
-import { GamePropsUnion, LogDBProps } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;

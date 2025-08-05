@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import type { AllGameProps, LogDBProps } from "@/utils/types";
+
 import swedish10 from "@/utils/computeScore/swedish10";
-import { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("swedish10形式のスコア計算", () => {
   const mockGame: AllGameProps["swedish10"] = {

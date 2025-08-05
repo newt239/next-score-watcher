@@ -10,11 +10,11 @@ import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 
+import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 import type { UseFormReturnType } from "@mantine/form";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
-import { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 
 type Props = {
   game_id: string;

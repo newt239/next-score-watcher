@@ -1,7 +1,7 @@
 import { Group, NativeSelect, Pagination } from "@mantine/core";
-import { Table } from "@tanstack/react-table";
 
-import { PlayerDBProps, QuizDBProps } from "@/utils/types";
+import type { PlayerDBProps, QuizDBProps } from "@/utils/types";
+import type { Table } from "@tanstack/react-table";
 
 type Props = {
   table: Table<PlayerDBProps> | Table<QuizDBProps>;
