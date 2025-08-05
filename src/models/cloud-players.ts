@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * プレイヤー作成時のスキーマ
  */
-export const createPlayerSchema = z.object({
+export const CreatePlayerSchema = z.object({
   name: z.string().min(1),
   displayName: z.string().min(1),
   affiliation: z.string().optional(),
@@ -13,4 +13,4 @@ export const createPlayerSchema = z.object({
 /**
  * プレイヤー作成データの型
  */
-export type CreatePlayerData = z.infer<typeof createPlayerSchema>;
+export type CreatePlayerData = z.infer<typeof CreatePlayerSchema>;

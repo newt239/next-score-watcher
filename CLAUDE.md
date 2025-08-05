@@ -227,12 +227,12 @@ src/
 
 ### Models管理
 
-サーバーサイドの型定義とスキーマ定義は`src/server/models/`で機能ごとに管理してください。
+サーバーサイドの型定義とスキーマ定義は`src/models/`で機能ごとに管理してください。
 
 **ファイル構成:**
 
 ```
-src/server/models/
+src/models/
 ├── cloud-games.ts      # ゲーム関連の型定義・スキーマ
 ├── cloud-players.ts    # プレイヤー関連の型定義・スキーマ
 └── user-preferences.ts # ユーザー設定関連の型定義・スキーマ
@@ -241,8 +241,9 @@ src/server/models/
 **使用ルール:**
 
 - 各機能のZodスキーマは対応するmodelsファイルで定義してください
+- スキーマ名は**UpperCamelCase**で命名してください（例：`CreateGameSchema`, `UpdateUserPreferencesSchema`）
 - TypeScriptの型定義もmodelsファイルで管理してください
-- Controllers・Repositoriesからmodelsファイルをimportして使用してください
+- Controllers・Repositoriesからmodelsファイルを`@/models/`でimportして使用してください
 - バリデーションスキーマと型定義を同じファイルで管理することで、保守性を向上させてください
 - 新しい機能を追加する際は、対応するmodelsファイルを作成してください
 

@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { createPlayerSchema } from "@/server/models/cloud-players";
+import { CreatePlayerSchema } from "@/models/cloud-players";
 import {
   getCloudPlayers,
   createCloudPlayer,
@@ -31,7 +31,7 @@ export const getCloudPlayersHandler = factory.createHandlers(async (c) => {
  * プレイヤー作成
  */
 export const createCloudPlayerHandler = factory.createHandlers(
-  zValidator("json", createPlayerSchema),
+  zValidator("json", CreatePlayerSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");

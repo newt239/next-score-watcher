@@ -5,7 +5,7 @@ import type { RuleNames, Variants } from "@/utils/types";
 /**
  * ゲーム作成時のスキーマ
  */
-export const createGameSchema = z.object({
+export const CreateGameSchema = z.object({
   name: z.string().min(1),
   ruleType: z.string() as z.ZodSchema<RuleNames>,
   discordWebhookUrl: z.string().optional(),
@@ -14,7 +14,7 @@ export const createGameSchema = z.object({
 /**
  * ゲーム更新時のスキーマ
  */
-export const updateGameSchema = z.object({
+export const UpdateGameSchema = z.object({
   name: z.string().min(1).optional(),
   discordWebhookUrl: z.string().optional(),
 });
@@ -22,7 +22,7 @@ export const updateGameSchema = z.object({
 /**
  * プレイヤー追加時のスキーマ
  */
-export const addPlayerSchema = z.object({
+export const AddPlayerSchema = z.object({
   playerId: z.string().min(1),
   displayOrder: z.number().int().min(0),
   initialScore: z.number().int().default(0),
@@ -33,7 +33,7 @@ export const addPlayerSchema = z.object({
 /**
  * ログ追加時のスキーマ
  */
-export const addLogSchema = z.object({
+export const AddLogSchema = z.object({
   gameId: z.string().min(1),
   playerId: z.string().min(1),
   questionNumber: z.number().int().optional(),
@@ -45,31 +45,31 @@ export const addLogSchema = z.object({
 /**
  * ゲーム数取得時のスキーマ
  */
-export const gameCountsSchema = z.object({
+export const GameCountsSchema = z.object({
   gameIds: z.array(z.string().min(1)),
 });
 
 /**
  * ゲーム作成データの型
  */
-export type CreateGameData = z.infer<typeof createGameSchema>;
+export type CreateGameData = z.infer<typeof CreateGameSchema>;
 
 /**
  * ゲーム更新データの型
  */
-export type UpdateGameData = z.infer<typeof updateGameSchema>;
+export type UpdateGameData = z.infer<typeof UpdateGameSchema>;
 
 /**
  * プレイヤー追加データの型
  */
-export type AddPlayerData = z.infer<typeof addPlayerSchema>;
+export type AddPlayerData = z.infer<typeof AddPlayerSchema>;
 
 /**
  * ログ追加データの型
  */
-export type AddLogData = z.infer<typeof addLogSchema>;
+export type AddLogData = z.infer<typeof AddLogSchema>;
 
 /**
  * ゲーム数取得データの型
  */
-export type GameCountsData = z.infer<typeof gameCountsSchema>;
+export type GameCountsData = z.infer<typeof GameCountsSchema>;

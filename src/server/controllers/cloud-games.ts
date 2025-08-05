@@ -2,12 +2,12 @@ import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
 import {
-  createGameSchema,
-  updateGameSchema,
-  addPlayerSchema,
-  addLogSchema,
-  gameCountsSchema,
-} from "@/server/models/cloud-games";
+  CreateGameSchema,
+  UpdateGameSchema,
+  AddPlayerSchema,
+  AddLogSchema,
+  GameCountsSchema,
+} from "@/models/cloud-games";
 import {
   getCloudGames,
   getCloudGame,
@@ -75,7 +75,7 @@ export const getCloudGameHandler = factory.createHandlers(async (c) => {
  * クラウドゲーム作成
  */
 export const createCloudGameHandler = factory.createHandlers(
-  zValidator("json", createGameSchema),
+  zValidator("json", CreateGameSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");
@@ -98,7 +98,7 @@ export const createCloudGameHandler = factory.createHandlers(
  * クラウドゲーム更新
  */
 export const updateCloudGameHandler = factory.createHandlers(
-  zValidator("json", updateGameSchema),
+  zValidator("json", UpdateGameSchema),
   async (c) => {
     try {
       const gameId = c.req.param("gameId");
@@ -176,7 +176,7 @@ export const getCloudGamePlayersHandler = factory.createHandlers(async (c) => {
  * クラウドゲームプレイヤー追加
  */
 export const addCloudGamePlayerHandler = factory.createHandlers(
-  zValidator("json", addPlayerSchema),
+  zValidator("json", AddPlayerSchema),
   async (c) => {
     try {
       const gameId = c.req.param("gameId");
@@ -229,7 +229,7 @@ export const getCloudGameLogsHandler = factory.createHandlers(async (c) => {
  * クラウドゲームログ追加
  */
 export const addCloudGameLogHandler = factory.createHandlers(
-  zValidator("json", addLogSchema),
+  zValidator("json", AddLogSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");
@@ -278,7 +278,7 @@ export const removeCloudGameLogHandler = factory.createHandlers(async (c) => {
  * 複数ゲームのログ数取得
  */
 export const getCloudGamesLogCountsHandler = factory.createHandlers(
-  zValidator("json", gameCountsSchema),
+  zValidator("json", GameCountsSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");
@@ -301,7 +301,7 @@ export const getCloudGamesLogCountsHandler = factory.createHandlers(
  * 複数ゲームのプレイヤー数取得
  */
 export const getCloudGamesPlayerCountsHandler = factory.createHandlers(
-  zValidator("json", gameCountsSchema),
+  zValidator("json", GameCountsSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");

@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import type { UserPreferencesUpdateInput } from "@/server/models/user-preferences";
+import type { UserPreferencesUpdateInput } from "@/models/user-preferences";
 
-import { defaultUserPreferences } from "@/server/models/user-preferences";
+import { defaultUserPreferences } from "@/models/user-preferences";
 import { DBClient } from "@/utils/drizzle/client";
 import { userPreference } from "@/utils/drizzle/schema";
 

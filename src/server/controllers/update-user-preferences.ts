@@ -8,15 +8,15 @@ import {
 } from "../repositories/user-preferences";
 
 import {
-  userIdParamSchema,
-  updateUserPreferencesSchema,
-} from "@/server/models/user-preferences";
+  UserIdParamSchema,
+  UpdateUserPreferencesSchema,
+} from "@/models/user-preferences";
 
 const factory = createFactory();
 
 const updateUserPreferencesHandler = factory.createHandlers(
-  zValidator("param", userIdParamSchema),
-  zValidator("json", updateUserPreferencesSchema),
+  zValidator("param", UserIdParamSchema),
+  zValidator("json", UpdateUserPreferencesSchema),
   async (c) => {
     try {
       const { user_id } = c.req.valid("param");

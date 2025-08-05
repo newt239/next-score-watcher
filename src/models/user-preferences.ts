@@ -36,14 +36,14 @@ export type UserPreferencesUpdateInput = Partial<UserPreferences>;
 /**
  * ユーザーIDパラメータのスキーマ
  */
-export const userIdParamSchema = z.object({
+export const UserIdParamSchema = z.object({
   user_id: z.string(),
 });
 
 /**
  * ユーザー設定更新時のスキーマ
  */
-export const updateUserPreferencesSchema = z.object({
+export const UpdateUserPreferencesSchema = z.object({
   theme: z.enum(["light", "dark"]).optional(),
   showWinthroughPopup: z.boolean().optional(),
   showBoardHeader: z.boolean().optional(),
@@ -57,11 +57,11 @@ export const updateUserPreferencesSchema = z.object({
 /**
  * ユーザーIDパラメータの型
  */
-export type UserIdParam = z.infer<typeof userIdParamSchema>;
+export type UserIdParam = z.infer<typeof UserIdParamSchema>;
 
 /**
  * ユーザー設定更新データの型
  */
 export type UpdateUserPreferencesData = z.infer<
-  typeof updateUserPreferencesSchema
+  typeof UpdateUserPreferencesSchema
 >;

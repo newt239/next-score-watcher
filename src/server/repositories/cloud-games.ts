@@ -6,7 +6,7 @@ import type {
   UpdateGameData,
   AddPlayerData,
   AddLogData,
-} from "@/server/models/cloud-games";
+} from "@/models/cloud-games";
 import type { Variants } from "@/utils/types";
 
 import { DBClient } from "@/utils/drizzle/client";

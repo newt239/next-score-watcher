@@ -1,7 +1,7 @@
 import { eq, asc } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import type { CreatePlayerData } from "@/server/models/cloud-players";
+import type { CreatePlayerData } from "@/models/cloud-players";
 
 import { DBClient } from "@/utils/drizzle/client";
 import { player } from "@/utils/drizzle/schema";

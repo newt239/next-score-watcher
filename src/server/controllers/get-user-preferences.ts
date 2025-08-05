@@ -3,13 +3,13 @@ import { createFactory } from "hono/factory";
 
 import { findUserPreferencesByUserId } from "../repositories/user-preferences";
 
-import { defaultUserPreferences } from "@/server/models/user-preferences";
-import { userIdParamSchema } from "@/server/models/user-preferences";
+import { defaultUserPreferences } from "@/models/user-preferences";
+import { UserIdParamSchema } from "@/models/user-preferences";
 
 const factory = createFactory();
 
 const getUserPreferencesHandler = factory.createHandlers(
-  zValidator("param", userIdParamSchema),
+  zValidator("param", UserIdParamSchema),
   async (c) => {
     try {
       const { user_id } = c.req.valid("param");
