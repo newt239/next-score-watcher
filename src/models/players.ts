@@ -57,6 +57,27 @@ export const GetPlayersQuerySchema = z.object({
 export type GetPlayersQuery = z.infer<typeof GetPlayersQuerySchema>;
 
 /**
+ * API レスポンス内のプレイヤーデータの型（APIから返される生の型）
+ */
+export type ApiPlayerData = {
+  id: string;
+  name: string;
+  text: string;
+  belong: string;
+  tags: string[] | never[];
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+/**
+ * プレイヤー一覧取得APIレスポンスの型
+ */
+export type ApiPlayersListResponse = {
+  players: ApiPlayerData[];
+  total: number;
+};
+
+/**
  * プレイヤー一覧取得レスポンスの型
  */
 export type PlayersListResponse = {
