@@ -1,6 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
-import { z } from "zod";
 
 import {
   existsUserPreferencesByUserId,
@@ -8,28 +7,16 @@ import {
   getUserPreferences,
 } from "../repositories/user-preferences";
 
+import {
+  userIdParamSchema,
+  updateUserPreferencesSchema,
+} from "@/server/models/user-preferences";
+
 const factory = createFactory();
 
 const updateUserPreferencesHandler = factory.createHandlers(
-  zValidator(
-    "param",
-    z.object({
-      user_id: z.string(),
-    })
-  ),
-  zValidator(
-    "json",
-    z.object({
-      theme: z.enum(["light", "dark"]).optional(),
-      showWinthroughPopup: z.boolean().optional(),
-      showBoardHeader: z.boolean().optional(),
-      showQn: z.boolean().optional(),
-      showSignString: z.boolean().optional(),
-      reversePlayerInfo: z.boolean().optional(),
-      wrongNumber: z.boolean().optional(),
-      webhookUrl: z.string().nullable().optional(),
-    })
-  ),
+  zValidator("param", userIdParamSchema),
+  zValidator("json", updateUserPreferencesSchema),
   async (c) => {
     try {
       const { user_id } = c.req.valid("param");

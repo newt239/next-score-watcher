@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-import { type UserPreferences } from "@/server/repositories/user-preferences";
+import { type UserPreferences } from "@/server/models/user-preferences";
 import apiClient from "@/utils/hono/client";
 
 type Props = {

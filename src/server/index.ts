@@ -12,7 +12,13 @@ import {
   getCloudGameLogsHandler,
   addCloudGameLogHandler,
   removeCloudGameLogHandler,
+  getCloudGamesLogCountsHandler,
+  getCloudGamesPlayerCountsHandler,
 } from "./controllers/cloud-games";
+import {
+  getCloudPlayersHandler,
+  createCloudPlayerHandler,
+} from "./controllers/cloud-players";
 import getUserPreferencesHandler from "./controllers/get-user-preferences";
 import updateUserPreferencesHandler from "./controllers/update-user-preferences";
 
@@ -34,6 +40,11 @@ const app = new Hono()
   .get("/cloud-games/:gameId/logs", ...getCloudGameLogsHandler)
   .post("/cloud-games/logs", ...addCloudGameLogHandler)
   .delete("/cloud-games/logs/:logId", ...removeCloudGameLogHandler)
+  .post("/cloud-games/log-counts", ...getCloudGamesLogCountsHandler)
+  .post("/cloud-games/player-counts", ...getCloudGamesPlayerCountsHandler)
+  // Cloud Players API
+  .get("/cloud-players", ...getCloudPlayersHandler)
+  .post("/cloud-players", ...createCloudPlayerHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);

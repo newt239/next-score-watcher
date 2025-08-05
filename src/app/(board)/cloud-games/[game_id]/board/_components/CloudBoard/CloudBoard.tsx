@@ -7,11 +7,7 @@ import { Box, Text } from "@mantine/core";
 import classes from "./CloudBoard.module.css";
 
 import { authClient } from "@/utils/auth/auth-client";
-import {
-  getCloudGame,
-  getCloudGamePlayers,
-  getCloudGameLogs,
-} from "@/utils/cloud-db";
+import apiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
@@ -54,15 +50,42 @@ const CloudBoard: React.FC<Props> = ({ game_id }) => {
 
     const fetchData = async () => {
       try {
-        const [gameData, playersData, logsData] = await Promise.all([
-          getCloudGame(game_id, user.id),
-          getCloudGamePlayers(game_id, user.id),
-          getCloudGameLogs(game_id, user.id),
-        ]);
+        const [gameResponse, playersResponse, logsResponse] = await Promise.all(
+          [
+            apiClient["cloud-games"][":gameId"].$get(
+              { param: { gameId: game_id } },
+              {
+                headers: { "x-user-id": user.id },
+              }
+            ),
+            apiClient["cloud-games"][":gameId"]["players"].$get(
+              { param: { gameId: game_id } },
+              {
+                headers: { "x-user-id": user.id },
+              }
+            ),
+            apiClient["cloud-games"][":gameId"]["logs"].$get(
+              { param: { gameId: game_id } },
+              {
+                headers: { "x-user-id": user.id },
+              }
+            ),
+          ]
+        );
 
-        setGame(gameData);
-        setPlayers(playersData);
-        setLogs(logsData);
+        const gameData = await gameResponse.json();
+        const playersData = await playersResponse.json();
+        const logsData = await logsResponse.json();
+
+        if ("game" in gameData) {
+          setGame(gameData.game);
+        }
+        if ("players" in playersData) {
+          setPlayers(playersData.players);
+        }
+        if ("logs" in logsData) {
+          setLogs(logsData.logs);
+        }
       } catch (error) {
         console.error("Failed to fetch cloud game board data:", error);
       } finally {

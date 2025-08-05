@@ -1,32 +1,11 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
+import type { UserPreferencesUpdateInput } from "@/server/models/user-preferences";
+
+import { defaultUserPreferences } from "@/server/models/user-preferences";
 import { DBClient } from "@/utils/drizzle/client";
 import { userPreference } from "@/utils/drizzle/schema";
-
-export type UserPreferences = {
-  theme: "light" | "dark";
-  showWinthroughPopup: boolean;
-  showBoardHeader: boolean;
-  showQn: boolean;
-  showSignString: boolean;
-  reversePlayerInfo: boolean;
-  wrongNumber: boolean;
-  webhookUrl: string | null;
-};
-
-export const defaultUserPreferences: UserPreferences = {
-  theme: "light",
-  showWinthroughPopup: true,
-  showBoardHeader: true,
-  showQn: false,
-  showSignString: true,
-  reversePlayerInfo: false,
-  wrongNumber: true,
-  webhookUrl: null,
-};
-
-export type UserPreferencesUpdateInput = Partial<UserPreferences>;
 
 /**
  * ユーザー設定を取得

@@ -1,9 +1,13 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
-import { z } from "zod";
 
-import type { RuleNames, Variants } from "@/utils/types";
-
+import {
+  createGameSchema,
+  updateGameSchema,
+  addPlayerSchema,
+  addLogSchema,
+  gameCountsSchema,
+} from "@/server/models/cloud-games";
 import {
   getCloudGames,
   getCloudGame,
@@ -15,38 +19,11 @@ import {
   getCloudGameLogs,
   addCloudGameLog,
   removeCloudGameLog,
-} from "@/utils/cloud-db";
+  getCloudGamesLogCounts,
+  getCloudGamesPlayerCounts,
+} from "@/server/repositories/cloud-games";
 
 const factory = createFactory();
-
-// スキーマ定義
-const createGameSchema = z.object({
-  name: z.string().min(1),
-  ruleType: z.string() as z.ZodSchema<RuleNames>,
-  discordWebhookUrl: z.string().optional(),
-});
-
-const updateGameSchema = z.object({
-  name: z.string().min(1).optional(),
-  discordWebhookUrl: z.string().optional(),
-});
-
-const addPlayerSchema = z.object({
-  playerId: z.string().min(1),
-  displayOrder: z.number().int().min(0),
-  initialScore: z.number().int().default(0),
-  initialCorrectCount: z.number().int().default(0),
-  initialWrongCount: z.number().int().default(0),
-});
-
-const addLogSchema = z.object({
-  gameId: z.string().min(1),
-  playerId: z.string().min(1),
-  questionNumber: z.number().int().optional(),
-  actionType: z.string() as z.ZodSchema<Variants>,
-  scoreChange: z.number().int().default(0),
-  isSystemAction: z.boolean().default(false),
-});
 
 /**
  * クラウドゲーム一覧取得
@@ -296,3 +273,49 @@ export const removeCloudGameLogHandler = factory.createHandlers(async (c) => {
     return c.json({ error: "Internal server error" }, 500);
   }
 });
+
+/**
+ * 複数ゲームのログ数取得
+ */
+export const getCloudGamesLogCountsHandler = factory.createHandlers(
+  zValidator("json", gameCountsSchema),
+  async (c) => {
+    try {
+      const userId = c.req.header("x-user-id");
+      if (!userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const { gameIds } = c.req.valid("json");
+      const logCounts = await getCloudGamesLogCounts(gameIds, userId);
+
+      return c.json({ logCounts });
+    } catch (error) {
+      console.error("Error fetching cloud games log counts:", error);
+      return c.json({ error: "Internal server error" }, 500);
+    }
+  }
+);
+
+/**
+ * 複数ゲームのプレイヤー数取得
+ */
+export const getCloudGamesPlayerCountsHandler = factory.createHandlers(
+  zValidator("json", gameCountsSchema),
+  async (c) => {
+    try {
+      const userId = c.req.header("x-user-id");
+      if (!userId) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const { gameIds } = c.req.valid("json");
+      const playerCounts = await getCloudGamesPlayerCounts(gameIds, userId);
+
+      return c.json({ playerCounts });
+    } catch (error) {
+      console.error("Error fetching cloud games player counts:", error);
+      return c.json({ error: "Internal server error" }, 500);
+    }
+  }
+);

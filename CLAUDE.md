@@ -52,8 +52,19 @@ Score Watcher は競技クイズのスコア可視化Webアプリケーション
 
 Next.js v15を使用し、TypeScriptで記述します。App Routerを使用し、なるべくサーバーコンポーネントで実装してください。ユーザーとのインタラクションが必要な部分に限り`use client`の使用を許可しますが、その領域は最低限にしてください。
 
-エフェクトは無闇矢鱈に使用しないでください。初期のデータ取得はサーバーコンポーネントで行えば良いため、useEffectは不要なはずです。Reactのガイドも参考にしてください。
+**データ取得とuseEffectについて:**
 
+- **初期データ取得**: page.tsxでサーバーコンポーネントとして実装し、propsでコンポーネントに渡してください
+- **useEffect**: データ取得には使用しないでください。ブラウザAPIアクセスやイベントリスナー登録など、真に必要な場合のみ使用を許可します
+
+**Server Actionsは使用禁止とします。** すべてAPI Routesのエンドポイントとして実装してください。
+
+例：
+
+- ❌ Server Actions
+- ✅ API Routes (`/api/...`) + Honoクライアント
+
+Reactのガイドも参考にしてください：
 https://react.dev/learn/you-might-not-need-an-effect
 
 ### スタイリング
@@ -203,16 +214,37 @@ src/
 
 ### API Routes
 
-- Server Actionsは使用禁止とします。
-  - データベースと何らかのやり取りが必要な場合は`server`以下に新たなエンドポイントを実装してください。
-- API Routesとしてエンドポイントを作成し、実装してください。
-- API RoutesのルートはすべてHonoで管理します。
-- エントリーポイントは`src/server/api/routers/index.ts`で管理します。
-- ルートを追加する際は`src/server/api/routers/index.ts`に追加してください。
-- ルートの実装は`src/server/api/controllers/index.ts`に追加してください。
-- `zValidator`を使用してリクエストボディのバリデーションを行ってください。
-- `controllers`以下では、一つのファイルにつき一つのエンドポイントを実装してください。
-- データベースとのやり取りは`repositories`以下で行ってください。ファイルはfeature単位で分割してください。
+**Server Actionsは使用禁止とします。** すべてAPI Routesで実装してください。
+
+- データベースとのやり取りが必要な場合は`src/server`以下に新たなエンドポイントを実装してください
+- API RoutesのルートはすべてHonoで管理します
+- エントリーポイントは`src/server/index.ts`で管理します
+- ルートを追加する際は`src/server/index.ts`に追加してください
+- コントローラーの実装は`src/server/controllers/`に追加してください
+- `zValidator`を使用してリクエストボディのバリデーションを行ってください
+- `controllers`以下では、機能単位でファイルを分割してください
+- データベースとのやり取りは`src/utils/cloud-db.ts`や`repositories`以下で行ってください
+
+### Models管理
+
+サーバーサイドの型定義とスキーマ定義は`src/server/models/`で機能ごとに管理してください。
+
+**ファイル構成:**
+
+```
+src/server/models/
+├── cloud-games.ts      # ゲーム関連の型定義・スキーマ
+├── cloud-players.ts    # プレイヤー関連の型定義・スキーマ
+└── user-preferences.ts # ユーザー設定関連の型定義・スキーマ
+```
+
+**使用ルール:**
+
+- 各機能のZodスキーマは対応するmodelsファイルで定義してください
+- TypeScriptの型定義もmodelsファイルで管理してください
+- Controllers・Repositoriesからmodelsファイルをimportして使用してください
+- バリデーションスキーマと型定義を同じファイルで管理することで、保守性を向上させてください
+- 新しい機能を追加する際は、対応するmodelsファイルを作成してください
 
 ### ローディング表示
 

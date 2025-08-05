@@ -14,11 +14,7 @@ import classes from "./CloudConfig.module.css";
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
 import { authClient } from "@/utils/auth/auth-client";
-import {
-  getCloudGame,
-  getCloudGameLogs,
-  getCloudPlayers,
-} from "@/utils/cloud-db";
+import apiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";
 
 type Props = {
@@ -62,17 +58,47 @@ const CloudConfig: React.FC<Props> = ({ game_id }) => {
 
     const fetchData = async () => {
       try {
-        const [gameData, playersData, logsData] = await Promise.all([
-          getCloudGame(game_id, user.id),
-          getCloudPlayers(user.id),
-          getCloudGameLogs(game_id, user.id),
-        ]);
-
-        setGame(gameData);
-        setPlayers(playersData);
-        setLogs(
-          logsData.filter((log) => log.system === 0 && log.available === 1)
+        const [gameResponse, playersResponse, logsResponse] = await Promise.all(
+          [
+            apiClient["cloud-games"][":gameId"].$get(
+              { param: { gameId: game_id } },
+              {
+                headers: { "x-user-id": user.id },
+              }
+            ),
+            apiClient["cloud-players"].$get(
+              {},
+              {
+                headers: { "x-user-id": user.id },
+              }
+            ),
+            apiClient["cloud-games"][":gameId"]["logs"].$get(
+              { param: { gameId: game_id } },
+              {
+                headers: { "x-user-id": user.id },
+              }
+            ),
+          ]
         );
+
+        const gameData = await gameResponse.json();
+        const playersData = await playersResponse.json();
+        const logsData = await logsResponse.json();
+
+        if ("game" in gameData) {
+          setGame(gameData.game);
+        }
+        if ("players" in playersData) {
+          setPlayers(playersData.players);
+        }
+        if ("logs" in logsData) {
+          setLogs(
+            logsData.logs.filter(
+              (log: { system: number; available: number }) =>
+                log.system === 0 && log.available === 1
+            )
+          );
+        }
       } catch (error) {
         console.error("Failed to fetch cloud game data:", error);
       } finally {

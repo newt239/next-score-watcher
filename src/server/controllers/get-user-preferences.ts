@@ -1,21 +1,15 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
-import { z } from "zod";
 
-import {
-  findUserPreferencesByUserId,
-  defaultUserPreferences,
-} from "../repositories/user-preferences";
+import { findUserPreferencesByUserId } from "../repositories/user-preferences";
+
+import { defaultUserPreferences } from "@/server/models/user-preferences";
+import { userIdParamSchema } from "@/server/models/user-preferences";
 
 const factory = createFactory();
 
 const getUserPreferencesHandler = factory.createHandlers(
-  zValidator(
-    "param",
-    z.object({
-      user_id: z.string(),
-    })
-  ),
+  zValidator("param", userIdParamSchema),
   async (c) => {
     try {
       const { user_id } = c.req.valid("param");

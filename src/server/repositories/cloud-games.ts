@@ -1,9 +1,13 @@
-"use server";
-
-import { eq, and, desc, asc } from "drizzle-orm";
+import { eq, and, desc, asc, inArray } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import type { RuleNames, Variants } from "@/utils/types";
+import type {
+  CreateGameData,
+  UpdateGameData,
+  AddPlayerData,
+  AddLogData,
+} from "@/server/models/cloud-games";
+import type { Variants } from "@/utils/types";
 
 import { DBClient } from "@/utils/drizzle/client";
 import { game, player, gamePlayer, gameLog } from "@/utils/drizzle/schema";
@@ -37,14 +41,64 @@ export const getCloudGames = async (userId: string) => {
 };
 
 /**
+ * 複数ゲームのログ数を一括取得
+ */
+export const getCloudGamesLogCounts = async (
+  gameIds: string[],
+  userId: string
+) => {
+  if (gameIds.length === 0) return {};
+
+  const logs = await DBClient.select({
+    gameId: gameLog.gameId,
+    count: gameLog.id,
+  })
+    .from(gameLog)
+    .where(and(eq(gameLog.userId, userId), inArray(gameLog.gameId, gameIds)));
+
+  const logCounts: Record<string, number> = {};
+  for (const log of logs) {
+    if (log.gameId) {
+      logCounts[log.gameId] = (logCounts[log.gameId] || 0) + 1;
+    }
+  }
+
+  return logCounts;
+};
+
+/**
+ * 複数ゲームのプレイヤー数を一括取得
+ */
+export const getCloudGamesPlayerCounts = async (
+  gameIds: string[],
+  userId: string
+) => {
+  if (gameIds.length === 0) return {};
+
+  const players = await DBClient.select({
+    gameId: gamePlayer.gameId,
+    count: gamePlayer.id,
+  })
+    .from(gamePlayer)
+    .where(
+      and(eq(gamePlayer.userId, userId), inArray(gamePlayer.gameId, gameIds))
+    );
+
+  const playerCounts: Record<string, number> = {};
+  for (const player of players) {
+    if (player.gameId) {
+      playerCounts[player.gameId] = (playerCounts[player.gameId] || 0) + 1;
+    }
+  }
+
+  return playerCounts;
+};
+
+/**
  * クラウドゲーム作成
  */
 export const createCloudGame = async (
-  gameData: {
-    name: string;
-    ruleType: RuleNames;
-    discordWebhookUrl?: string;
-  },
+  gameData: CreateGameData,
   userId: string
 ) => {
   const gameId = nanoid();
@@ -65,10 +119,7 @@ export const createCloudGame = async (
  */
 export const updateCloudGame = async (
   gameId: string,
-  gameData: Partial<{
-    name: string;
-    discordWebhookUrl: string;
-  }>,
+  gameData: UpdateGameData,
   userId: string
 ) => {
   await DBClient.update(game)
@@ -123,13 +174,7 @@ export const getCloudGamePlayers = async (gameId: string, userId: string) => {
  */
 export const addCloudGamePlayer = async (
   gameId: string,
-  playerData: {
-    playerId: string;
-    displayOrder: number;
-    initialScore?: number;
-    initialCorrectCount?: number;
-    initialWrongCount?: number;
-  },
+  playerData: AddPlayerData,
   userId: string
 ) => {
   await DBClient.insert(gamePlayer).values({
@@ -166,17 +211,7 @@ export const getCloudGameLogs = async (gameId: string, userId: string) => {
 /**
  * クラウドゲームログ追加
  */
-export const addCloudGameLog = async (
-  logData: {
-    gameId: string;
-    playerId: string;
-    questionNumber?: number;
-    actionType: Variants;
-    scoreChange?: number;
-    isSystemAction?: boolean;
-  },
-  userId: string
-) => {
+export const addCloudGameLog = async (logData: AddLogData, userId: string) => {
   const logId = nanoid();
 
   await DBClient.insert(gameLog).values({
@@ -200,48 +235,4 @@ export const removeCloudGameLog = async (logId: string, userId: string) => {
   await DBClient.delete(gameLog).where(
     and(eq(gameLog.id, logId), eq(gameLog.userId, userId))
   );
-};
-
-/**
- * プレイヤー一覧取得
- */
-export const getCloudPlayers = async (userId: string) => {
-  const players = await DBClient.select()
-    .from(player)
-    .where(eq(player.userId, userId))
-    .orderBy(asc(player.name));
-
-  return players.map((p) => ({
-    id: p.id,
-    name: p.name,
-    text: p.displayName,
-    belong: p.affiliation || "",
-    tags: [], // TODO: タグ機能実装時に修正
-  }));
-};
-
-/**
- * プレイヤー作成
- */
-export const createCloudPlayer = async (
-  playerData: {
-    name: string;
-    displayName: string;
-    affiliation?: string;
-    description?: string;
-  },
-  userId: string
-) => {
-  const playerId = nanoid();
-
-  await DBClient.insert(player).values({
-    id: playerId,
-    name: playerData.name,
-    displayName: playerData.displayName,
-    affiliation: playerData.affiliation,
-    description: playerData.description,
-    userId,
-  });
-
-  return playerId;
 };
