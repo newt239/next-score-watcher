@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function AccountPage() {
+const AccountPage = async () => {
   const user = await getUser();
 
   if (!user) {
@@ -60,4 +60,6 @@ export default async function AccountPage() {
       />
     </Box>
   );
-}
+};
+
+export default AccountPage;

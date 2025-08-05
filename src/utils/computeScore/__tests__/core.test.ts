@@ -26,7 +26,7 @@ describe("スコア計算ロジック（コア機能テスト）", () => {
           },
         ],
         rule: "normal" as const,
-      } as any;
+      } as AllGameProps["normal"];
 
       const result = getInitialPlayersState(mockGame);
 

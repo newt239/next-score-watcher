@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function OptionPage() {
+const OptionPage = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
@@ -38,4 +38,6 @@ export default async function OptionPage() {
       <InitializeApp currentProfile={currentProfile} />
     </>
   );
-}
+};
+
+export default OptionPage;

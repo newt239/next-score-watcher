@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AppInfoPage() {
+const AppInfoPage = () => {
   return (
     <>
       <Title order={2}>アプリ情報</Title>
@@ -61,4 +61,6 @@ export default function AppInfoPage() {
       </SimpleGrid>
     </>
   );
-}
+};
+
+export default AppInfoPage;

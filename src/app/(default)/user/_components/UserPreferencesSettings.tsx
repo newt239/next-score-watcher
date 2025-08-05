@@ -59,7 +59,8 @@ const UserPreferencesSettings: React.FC<Props> = ({
           message: "設定が正常に保存されました。",
           color: "green",
         });
-      } catch (_error) {
+      } catch (error) {
+        console.error(error);
         notifications.show({
           title: "エラー",
           message: "設定の保存に失敗しました。",

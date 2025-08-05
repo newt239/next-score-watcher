@@ -6,11 +6,11 @@ import classes from "./layout.module.css";
 // レイアウトを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
 
-export default async function DefaultLayout({
+const DefaultLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   return (
     <Flex className={classes.wrapper}>
       <Header />
@@ -18,4 +18,6 @@ export default async function DefaultLayout({
       <main className={classes.main}>{children}</main>
     </Flex>
   );
-}
+};
+
+export default DefaultLayout;

@@ -12,7 +12,7 @@ import classes from "./Header.module.css";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
-export default async function Header() {
+const Header = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
@@ -91,4 +91,6 @@ export default async function Header() {
       </Flex>
     </Box>
   );
-}
+};
+
+export default Header;

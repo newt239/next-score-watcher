@@ -6,7 +6,7 @@ import { Alert, Button, Title } from "@mantine/core";
 
 import { authClient } from "@/utils/auth/auth-client";
 
-export default function LoginPage() {
+const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -44,4 +44,6 @@ export default function LoginPage() {
       )}
     </main>
   );
-}
+};
+
+export default LoginPage;

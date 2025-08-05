@@ -1,12 +1,13 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+
+import type { AllGameProps, GameDBPlayerProps } from "@/utils/types";
 
 import {
+  clipNumber,
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
-  clipNumber,
 } from "@/utils/computeScore";
-import { GameDBPlayerProps } from "@/utils/types";
 
 describe("computeScore ユーティリティ関数", () => {
   const mockPlayers: GameDBPlayerProps[] = [
@@ -33,7 +34,7 @@ describe("computeScore ユーティリティ関数", () => {
       const mockGame = {
         players: mockPlayers,
         rule: "normal" as const,
-      } as any;
+      } as AllGameProps["normal"];
 
       const result = getInitialPlayersState(mockGame);
 

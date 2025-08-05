@@ -14,17 +14,17 @@ const eslintConfig = [
   eslintConfigPrettier,
   {
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
       "react-hooks/exhaustive-deps": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-          destructuredArrayIgnorePattern: "^_",
-        },
-      ],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-unused-vars": ["error", {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+        caughtErrorsIgnorePattern: "^_",
+      }],
+      "react/function-component-definition": ["error", {
+        namedComponents: "arrow-function",
+        unnamedComponents: "arrow-function",
+      }],
       "import/order": [
         "error",
         {

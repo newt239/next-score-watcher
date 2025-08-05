@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WebhookPage() {
+const WebhookPage = () => {
   return (
     <>
       <ButtonLink
@@ -51,4 +51,6 @@ export default function WebhookPage() {
       </div>
     </>
   );
-}
+};
+
+export default WebhookPage;

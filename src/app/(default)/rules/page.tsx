@@ -10,9 +10,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RulesPage() {
+const RulesPage = async () => {
   const cookieStore = await cookies();
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
   return <RuleList currentProfile={currentProfile} />;
-}
+};
+
+export default RulesPage;

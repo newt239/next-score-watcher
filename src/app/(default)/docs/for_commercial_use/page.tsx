@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyPolicyPage() {
+const PrivacyPolicyPage = () => {
   return (
     <>
       <Title order={2}>商用利用に関するルール</Title>
@@ -51,4 +51,6 @@ export default function PrivacyPolicyPage() {
       <Group justify="end">2024年8月31日 改定</Group>
     </>
   );
-}
+};
+
+export default PrivacyPolicyPage;

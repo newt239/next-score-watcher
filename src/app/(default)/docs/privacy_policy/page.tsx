@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyPolicyPage() {
+const PrivacyPolicyPage = () => {
   return (
     <>
       <Title order={2}>プライバシーポリシー</Title>
@@ -43,4 +43,6 @@ export default function PrivacyPolicyPage() {
       </Text>
     </>
   );
-}
+};
+
+export default PrivacyPolicyPage;

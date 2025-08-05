@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <>
       <Hero />
@@ -18,4 +18,6 @@ export default function HomePage() {
       <Term />
     </>
   );
-}
+};
+
+export default HomePage;

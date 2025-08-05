@@ -39,7 +39,7 @@ export const auth = betterAuth({
   ],
   callbacks: {
     // ユーザーが新規作成された時（初回サインイン時）
-    async onSignUp({ user: newUser }: { user: any }) {
+    async onSignUp({ user: newUser }: { user: User }) {
       try {
         console.log(`Creating user preferences for new user: ${newUser.id}`);
         await ensureUserPreferences(newUser.id);

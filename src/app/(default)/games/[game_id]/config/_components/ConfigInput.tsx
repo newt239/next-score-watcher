@@ -46,6 +46,7 @@ const ConfigInput: React.FC<Props> = ({
   useEffect(() => {
     if (inputText !== "") {
       db(currentProfile).games.update(game_id as string, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [input_id as any]: inputText,
       });
     }
