@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import OnlineManagePlayer from "./_components/OnlineManagePlayer";
 
-import type { ApiPlayerData } from "@/models/players";
+import type { ApiPlayerDataType } from "@/models/players";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server-client";
@@ -29,7 +29,7 @@ const OnlinePlayerPage = async () => {
   // API Routes経由でプレイヤー一覧を取得
   const apiClient = await createApiClientOnServer();
 
-  let initialPlayers: ApiPlayerData[] = [];
+  let initialPlayers: ApiPlayerDataType[] = [];
   try {
     const response = await apiClient.players.$get({ query: {} });
     if (response.ok) {

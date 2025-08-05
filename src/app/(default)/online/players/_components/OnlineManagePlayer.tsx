@@ -8,20 +8,20 @@ import { notifications } from "@mantine/notifications";
 import OnlineCreatePlayer from "./OnlineCreatePlayer";
 import OnlinePlayersTable from "./OnlinePlayersTable";
 
-import type { ApiPlayerData } from "@/models/players";
+import type { ApiPlayerDataType } from "@/models/players";
 
 import apiClient from "@/utils/hono/client";
 
 type Props = {
   currentProfile: string;
-  initialPlayers: ApiPlayerData[];
+  initialPlayers: ApiPlayerDataType[];
 };
 
 const OnlineManagePlayer: React.FC<Props> = ({
   currentProfile,
   initialPlayers,
 }) => {
-  const [players, setPlayers] = useState<ApiPlayerData[]>(initialPlayers);
+  const [players, setPlayers] = useState<ApiPlayerDataType[]>(initialPlayers);
 
   const refetchPlayers = useCallback(async () => {
     try {

@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { GetPlayersQuerySchema } from "@/models/players";
+import { GetPlayersListRequestSchema } from "@/models/players";
 import {
   getPlayers,
   getPlayersWithPagination,
@@ -13,7 +13,7 @@ const factory = createFactory();
  * プレイヤー一覧取得
  */
 const handler = factory.createHandlers(
-  zValidator("query", GetPlayersQuerySchema),
+  zValidator("query", GetPlayersListRequestSchema),
   async (c) => {
     const userId = c.req.header("x-user-id");
     if (!userId) {

@@ -3,26 +3,26 @@ import { z } from "zod";
 import type { RuleNames, Variants } from "@/utils/types";
 
 /**
- * ゲーム作成時のスキーマ
+ * ゲーム作成リクエストのスキーマ
  */
-export const CreateGameSchema = z.object({
+export const CreateGameRequestSchema = z.object({
   name: z.string().min(1),
   ruleType: z.string() as z.ZodSchema<RuleNames>,
   discordWebhookUrl: z.string().optional(),
 });
 
 /**
- * ゲーム更新時のスキーマ
+ * ゲーム更新リクエストのスキーマ
  */
-export const UpdateGameSchema = z.object({
+export const UpdateGameRequestSchema = z.object({
   name: z.string().min(1).optional(),
   discordWebhookUrl: z.string().optional(),
 });
 
 /**
- * プレイヤー追加時のスキーマ
+ * ゲームにプレイヤー追加リクエストのスキーマ
  */
-export const AddPlayerSchema = z.object({
+export const AddPlayerToGameRequestSchema = z.object({
   playerId: z.string().min(1),
   displayOrder: z.number().int().min(0),
   initialScore: z.number().int().default(0),
@@ -31,9 +31,9 @@ export const AddPlayerSchema = z.object({
 });
 
 /**
- * ログ追加時のスキーマ
+ * ゲームログ追加リクエストのスキーマ
  */
-export const AddLogSchema = z.object({
+export const AddGameLogRequestSchema = z.object({
   gameId: z.string().min(1),
   playerId: z.string().min(1),
   questionNumber: z.number().int().optional(),
@@ -43,33 +43,59 @@ export const AddLogSchema = z.object({
 });
 
 /**
- * ゲーム数取得時のスキーマ
+ * ゲーム数取得リクエストのスキーマ
  */
-export const GameCountsSchema = z.object({
+export const GetGameCountsRequestSchema = z.object({
   gameIds: z.array(z.string().min(1)),
 });
 
 /**
- * ゲーム作成データの型
+ * ゲーム作成リクエストの型
  */
-export type CreateGameData = z.infer<typeof CreateGameSchema>;
+export type CreateGameRequestType = z.infer<typeof CreateGameRequestSchema>;
 
 /**
- * ゲーム更新データの型
+ * ゲーム更新リクエストの型
  */
-export type UpdateGameData = z.infer<typeof UpdateGameSchema>;
+export type UpdateGameRequestType = z.infer<typeof UpdateGameRequestSchema>;
 
 /**
- * プレイヤー追加データの型
+ * ゲームにプレイヤー追加リクエストの型
  */
-export type AddPlayerData = z.infer<typeof AddPlayerSchema>;
+export type AddPlayerToGameRequestType = z.infer<
+  typeof AddPlayerToGameRequestSchema
+>;
 
 /**
- * ログ追加データの型
+ * ゲームログ追加リクエストの型
  */
-export type AddLogData = z.infer<typeof AddLogSchema>;
+export type AddGameLogRequestType = z.infer<typeof AddGameLogRequestSchema>;
 
 /**
- * ゲーム数取得データの型
+ * ゲーム数取得リクエストの型
  */
-export type GameCountsData = z.infer<typeof GameCountsSchema>;
+export type GetGameCountsRequestType = z.infer<
+  typeof GetGameCountsRequestSchema
+>;
+
+/**
+ * ゲーム作成レスポンスの型
+ */
+export type CreateGameResponseType = {
+  id: string;
+  message: string;
+};
+
+/**
+ * ゲーム更新レスポンスの型
+ */
+export type UpdateGameResponseType = {
+  message: string;
+};
+
+/**
+ * ゲーム削除レスポンスの型
+ */
+export type DeleteGameResponseType = {
+  message: string;
+};

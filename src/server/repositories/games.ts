@@ -2,10 +2,10 @@ import { eq, and, desc, asc, inArray } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import type {
-  CreateGameData,
-  UpdateGameData,
-  AddPlayerData,
-  AddLogData,
+  CreateGameRequestType,
+  UpdateGameRequestType,
+  AddPlayerToGameRequestType,
+  AddGameLogRequestType,
 } from "@/models/games";
 import type { Variants } from "@/utils/types";
 
@@ -94,7 +94,10 @@ export const getGamesPlayerCounts = async (
 /**
  * クラウドゲーム作成
  */
-export const createGame = async (gameData: CreateGameData, userId: string) => {
+export const createGame = async (
+  gameData: CreateGameRequestType,
+  userId: string
+) => {
   const gameId = nanoid();
 
   await DBClient.insert(game).values({
@@ -113,7 +116,7 @@ export const createGame = async (gameData: CreateGameData, userId: string) => {
  */
 export const updateGame = async (
   gameId: string,
-  gameData: UpdateGameData,
+  gameData: UpdateGameRequestType,
   userId: string
 ) => {
   await DBClient.update(game)
@@ -168,7 +171,7 @@ export const getGamePlayers = async (gameId: string, userId: string) => {
  */
 export const addGamePlayer = async (
   gameId: string,
-  playerData: AddPlayerData,
+  playerData: AddPlayerToGameRequestType,
   userId: string
 ) => {
   await DBClient.insert(gamePlayer).values({
@@ -205,7 +208,10 @@ export const getGameLogs = async (gameId: string, userId: string) => {
 /**
  * クラウドゲームログ追加
  */
-export const addGameLog = async (logData: AddLogData, userId: string) => {
+export const addGameLog = async (
+  logData: AddGameLogRequestType,
+  userId: string
+) => {
   const logId = nanoid();
 
   await DBClient.insert(gameLog).values({

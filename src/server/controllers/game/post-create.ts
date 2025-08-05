@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { CreateGameSchema } from "@/models/games";
+import { CreateGameRequestSchema } from "@/models/games";
 import { createGame } from "@/server/repositories/games";
 
 const factory = createFactory();
@@ -10,7 +10,7 @@ const factory = createFactory();
  * クラウドゲーム作成
  */
 const handler = factory.createHandlers(
-  zValidator("json", CreateGameSchema),
+  zValidator("json", CreateGameRequestSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");

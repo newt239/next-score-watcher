@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import type { UserPreferencesUpdateInput } from "@/models/user-preferences";
+import type { UpdateUserPreferencesRequestType } from "@/models/user-preferences";
 
 import { defaultUserPreferences } from "@/models/user-preferences";
 import { DBClient } from "@/utils/drizzle/client";
@@ -63,7 +63,7 @@ export const getUserPreferences = async (userId: string) => {
  */
 export const updateUserPreferencesByUserId = async (
   userId: string,
-  updates: UserPreferencesUpdateInput
+  updates: UpdateUserPreferencesRequestType
 ) => {
   try {
     const updateData: Partial<typeof userPreference.$inferInsert> = {

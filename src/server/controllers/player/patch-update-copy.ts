@@ -1,6 +1,6 @@
 import { createFactory } from "hono/factory";
 
-import { UpdatePlayerSchema } from "@/models/players";
+import { UpdatePlayerRequestSchema } from "@/models/players";
 import { updatePlayer } from "@/server/repositories/players";
 
 const factory = createFactory();
@@ -15,7 +15,7 @@ const handler = factory.createHandlers(async (c) => {
   }
   const playerId = c.req.param("id");
   const body = await c.req.json();
-  const parseResult = UpdatePlayerSchema.safeParse(body);
+  const parseResult = UpdatePlayerRequestSchema.safeParse(body);
 
   if (!parseResult.success) {
     return c.json(

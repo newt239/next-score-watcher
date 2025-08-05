@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { UpdateUserPreferencesSchema } from "@/models/user-preferences";
+import { UpdateUserPreferencesRequestSchema } from "@/models/user-preferences";
 import { updateUserPreferencesByUserId } from "@/server/repositories/user-preferences";
 
 const factory = createFactory();
@@ -10,7 +10,7 @@ const factory = createFactory();
  * ユーザー設定更新
  */
 const handler = factory.createHandlers(
-  zValidator("json", UpdateUserPreferencesSchema),
+  zValidator("json", UpdateUserPreferencesRequestSchema),
   async (c) => {
     try {
       const userId = c.req.param("user_id");

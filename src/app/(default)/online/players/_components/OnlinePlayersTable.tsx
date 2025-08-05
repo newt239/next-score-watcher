@@ -25,15 +25,15 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { ApiPlayerData } from "@/models/players";
+import type { ApiPlayerDataType } from "@/models/players";
 
 import TablePagenation from "@/app/_components/TablePagination";
 import apiClient from "@/utils/hono/client";
 
 type Props = {
   currentProfile: string;
-  players: ApiPlayerData[];
-  onPlayersUpdated: (players: ApiPlayerData[]) => void;
+  players: ApiPlayerDataType[];
+  onPlayersUpdated: (players: ApiPlayerDataType[]) => void;
 };
 
 const OnlinePlayersTable: React.FC<Props> = ({
@@ -41,7 +41,7 @@ const OnlinePlayersTable: React.FC<Props> = ({
   players: playersProp,
   onPlayersUpdated,
 }) => {
-  const [players, setPlayers] = useState<ApiPlayerData[]>(playersProp);
+  const [players, setPlayers] = useState<ApiPlayerDataType[]>(playersProp);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [isPending, startTransition] = useTransition();
@@ -71,7 +71,7 @@ const OnlinePlayersTable: React.FC<Props> = ({
     }
   };
 
-  const fuzzyFilter: FilterFn<ApiPlayerData> = (row) => {
+  const fuzzyFilter: FilterFn<ApiPlayerDataType> = (row) => {
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
@@ -81,8 +81,8 @@ const OnlinePlayersTable: React.FC<Props> = ({
     );
   };
 
-  const columnHelper = createColumnHelper<ApiPlayerData>();
-  const columns: ColumnDef<ApiPlayerData, string>[] = [
+  const columnHelper = createColumnHelper<ApiPlayerDataType>();
+  const columns: ColumnDef<ApiPlayerDataType, string>[] = [
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (
@@ -115,7 +115,7 @@ const OnlinePlayersTable: React.FC<Props> = ({
     }),
   ];
 
-  const table = useReactTable<ApiPlayerData>({
+  const table = useReactTable<ApiPlayerDataType>({
     data: players || [],
     columns,
     state: {

@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 /**
- * プレイヤー作成時のスキーマ
+ * プレイヤー作成リクエストのスキーマ
  */
-export const CreatePlayerSchema = z.object({
+export const CreatePlayerRequestSchema = z.object({
   name: z.string().min(1, "名前は必須です"),
   displayName: z.string().min(1, "表示名は必須です"),
   affiliation: z.string().optional(),
@@ -11,14 +11,14 @@ export const CreatePlayerSchema = z.object({
 });
 
 /**
- * プレイヤー作成データの型
+ * プレイヤー作成リクエストの型
  */
-export type CreatePlayerData = z.infer<typeof CreatePlayerSchema>;
+export type CreatePlayerRequestType = z.infer<typeof CreatePlayerRequestSchema>;
 
 /**
- * プレイヤー更新時のスキーマ
+ * プレイヤー更新リクエストのスキーマ
  */
-export const UpdatePlayerSchema = z.object({
+export const UpdatePlayerRequestSchema = z.object({
   name: z.string().min(1, "名前は必須です").optional(),
   displayName: z.string().min(1, "表示名は必須です").optional(),
   affiliation: z.string().optional(),
@@ -26,14 +26,14 @@ export const UpdatePlayerSchema = z.object({
 });
 
 /**
- * プレイヤー更新データの型
+ * プレイヤー更新リクエストの型
  */
-export type UpdatePlayerData = z.infer<typeof UpdatePlayerSchema>;
+export type UpdatePlayerRequestType = z.infer<typeof UpdatePlayerRequestSchema>;
 
 /**
- * プレイヤー取得レスポンスの型
+ * プレイヤー詳細レスポンスの型
  */
-export type PlayerResponse = {
+export type PlayerDetailResponseType = {
   id: string;
   name: string;
   text: string; // displayName
@@ -44,22 +44,24 @@ export type PlayerResponse = {
 };
 
 /**
- * プレイヤー一覧取得クエリパラメータのスキーマ
+ * プレイヤー一覧取得リクエストのクエリパラメータスキーマ
  */
-export const GetPlayersQuerySchema = z.object({
+export const GetPlayersListRequestSchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).optional(),
   offset: z.coerce.number().int().min(0).optional(),
 });
 
 /**
- * プレイヤー一覧取得クエリパラメータの型
+ * プレイヤー一覧取得リクエストのクエリパラメータ型
  */
-export type GetPlayersQuery = z.infer<typeof GetPlayersQuerySchema>;
+export type GetPlayersListRequestType = z.infer<
+  typeof GetPlayersListRequestSchema
+>;
 
 /**
  * API レスポンス内のプレイヤーデータの型（APIから返される生の型）
  */
-export type ApiPlayerData = {
+export type ApiPlayerDataType = {
   id: string;
   name: string;
   text: string;
@@ -70,17 +72,31 @@ export type ApiPlayerData = {
 };
 
 /**
- * プレイヤー一覧取得APIレスポンスの型
+ * プレイヤー一覧取得レスポンスの型
  */
-export type ApiPlayersListResponse = {
-  players: ApiPlayerData[];
+export type GetPlayersListResponseType = {
+  players: ApiPlayerDataType[];
   total: number;
 };
 
 /**
- * プレイヤー一覧取得レスポンスの型
+ * プレイヤー作成レスポンスの型
  */
-export type PlayersListResponse = {
-  players: PlayerResponse[];
-  total: number;
+export type CreatePlayerResponseType = {
+  id: string;
+  message: string;
+};
+
+/**
+ * プレイヤー更新レスポンスの型
+ */
+export type UpdatePlayerResponseType = {
+  message: string;
+};
+
+/**
+ * プレイヤー削除レスポンスの型
+ */
+export type DeletePlayerResponseType = {
+  message: string;
 };

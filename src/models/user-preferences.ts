@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * ユーザー設定の型定義
  */
-export type UserPreferences = {
+export type UserPreferencesType = {
   theme: "light" | "dark";
   showWinthroughPopup: boolean;
   showBoardHeader: boolean;
@@ -17,7 +17,7 @@ export type UserPreferences = {
 /**
  * デフォルトユーザー設定
  */
-export const defaultUserPreferences: UserPreferences = {
+export const defaultUserPreferences: UserPreferencesType = {
   theme: "light",
   showWinthroughPopup: true,
   showBoardHeader: true,
@@ -29,9 +29,9 @@ export const defaultUserPreferences: UserPreferences = {
 };
 
 /**
- * ユーザー設定更新用の型
+ * ユーザー設定更新リクエストの型
  */
-export type UserPreferencesUpdateInput = Partial<UserPreferences>;
+export type UpdateUserPreferencesRequestType = Partial<UserPreferencesType>;
 
 /**
  * ユーザーIDパラメータのスキーマ
@@ -41,9 +41,9 @@ export const UserIdParamSchema = z.object({
 });
 
 /**
- * ユーザー設定更新時のスキーマ
+ * ユーザー設定更新リクエストのスキーマ
  */
-export const UpdateUserPreferencesSchema = z.object({
+export const UpdateUserPreferencesRequestSchema = z.object({
   theme: z.enum(["light", "dark"]).optional(),
   showWinthroughPopup: z.boolean().optional(),
   showBoardHeader: z.boolean().optional(),
@@ -57,11 +57,16 @@ export const UpdateUserPreferencesSchema = z.object({
 /**
  * ユーザーIDパラメータの型
  */
-export type UserIdParam = z.infer<typeof UserIdParamSchema>;
+export type UserIdParamType = z.infer<typeof UserIdParamSchema>;
 
 /**
- * ユーザー設定更新データの型
+ * ユーザー設定取得レスポンスの型
  */
-export type UpdateUserPreferencesData = z.infer<
-  typeof UpdateUserPreferencesSchema
->;
+export type GetUserPreferencesResponseType = UserPreferencesType;
+
+/**
+ * ユーザー設定更新レスポンスの型
+ */
+export type UpdateUserPreferencesResponseType = {
+  message: string;
+};

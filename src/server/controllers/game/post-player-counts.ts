@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { GameCountsSchema } from "@/models/games";
+import { GetGameCountsRequestSchema } from "@/models/games";
 import { getGamesPlayerCounts } from "@/server/repositories/games";
 
 const factory = createFactory();
@@ -10,7 +10,7 @@ const factory = createFactory();
  * 複数ゲームのプレイヤー数取得
  */
 const handler = factory.createHandlers(
-  zValidator("json", GameCountsSchema),
+  zValidator("json", GetGameCountsRequestSchema),
   async (c) => {
     try {
       const userId = c.req.header("x-user-id");

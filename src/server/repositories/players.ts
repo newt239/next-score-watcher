@@ -2,10 +2,10 @@ import { eq, asc, count, and } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import type {
-  CreatePlayerData,
-  UpdatePlayerData,
-  PlayerResponse,
-  PlayersListResponse,
+  CreatePlayerRequestType,
+  UpdatePlayerRequestType,
+  ApiPlayerDataType,
+  GetPlayersListResponseType,
 } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
@@ -36,7 +36,7 @@ export const getPlayersWithPagination = async (
   userId: string,
   limit = 50,
   offset = 0
-): Promise<PlayersListResponse> => {
+): Promise<GetPlayersListResponseType> => {
   // プレイヤー一覧を取得
   const players = await DBClient.select()
     .from(player)
@@ -51,14 +51,14 @@ export const getPlayersWithPagination = async (
     .where(eq(player.userId, userId));
 
   // レスポンス形式に変換
-  const playersResponse: PlayerResponse[] = players.map((p) => ({
+  const playersResponse: ApiPlayerDataType[] = players.map((p) => ({
     id: p.id,
     name: p.name,
     text: p.displayName,
     belong: p.affiliation || "",
     tags: [], // TODO: タグ機能実装時に修正
-    createdAt: p.createdAt,
-    updatedAt: p.updatedAt,
+    createdAt: p.createdAt.toISOString(),
+    updatedAt: p.updatedAt.toISOString(),
   }));
 
   return {
@@ -73,7 +73,7 @@ export const getPlayersWithPagination = async (
 export const getPlayerById = async (
   playerId: string,
   userId: string
-): Promise<PlayerResponse | null> => {
+): Promise<ApiPlayerDataType | null> => {
   const [playerResult] = await DBClient.select()
     .from(player)
     .where(and(eq(player.id, playerId), eq(player.userId, userId)));
@@ -88,8 +88,8 @@ export const getPlayerById = async (
     text: playerResult.displayName,
     belong: playerResult.affiliation || "",
     tags: [], // TODO: タグ機能実装時に修正
-    createdAt: playerResult.createdAt,
-    updatedAt: playerResult.updatedAt,
+    createdAt: playerResult.createdAt.toISOString(),
+    updatedAt: playerResult.updatedAt.toISOString(),
   } as const;
 };
 
@@ -97,7 +97,7 @@ export const getPlayerById = async (
  * プレイヤー作成
  */
 export const createPlayer = async (
-  playerData: CreatePlayerData,
+  playerData: CreatePlayerRequestType,
   userId: string
 ): Promise<string> => {
   const playerId = nanoid();
@@ -119,7 +119,7 @@ export const createPlayer = async (
  */
 export const updatePlayer = async (
   playerId: string,
-  playerData: UpdatePlayerData,
+  playerData: UpdatePlayerRequestType,
   userId: string
 ): Promise<boolean> => {
   const result = await DBClient.update(player)

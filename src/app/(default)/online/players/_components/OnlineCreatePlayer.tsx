@@ -6,7 +6,10 @@ import { Button, Group, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 
-import { CreatePlayerSchema, type CreatePlayerData } from "@/models/players";
+import {
+  CreatePlayerRequestSchema,
+  type CreatePlayerRequestType,
+} from "@/models/players";
 import apiClient from "@/utils/hono/client";
 
 type Props = {
@@ -20,9 +23,9 @@ const OnlineCreatePlayer: React.FC<Props> = ({
 }) => {
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<CreatePlayerData>({
+  const form = useForm<CreatePlayerRequestType>({
     validate: (values) => {
-      const result = CreatePlayerSchema.safeParse(values);
+      const result = CreatePlayerRequestSchema.safeParse(values);
       if (!result.success) {
         const errors: Record<string, string> = {};
         result.error.issues.forEach((error) => {
@@ -42,7 +45,7 @@ const OnlineCreatePlayer: React.FC<Props> = ({
     },
   });
 
-  const handleCreatePlayer = (values: CreatePlayerData) => {
+  const handleCreatePlayer = (values: CreatePlayerRequestType) => {
     startTransition(async () => {
       try {
         const response = await apiClient.players.$post({ json: values });
