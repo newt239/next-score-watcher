@@ -15,15 +15,18 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-import { updateUserPreference } from "../_actions/preferences";
-
-import { type UserPreferences } from "@/utils/user-preferences";
+import { type UserPreferences } from "@/server/repositories/user-preferences";
+import apiClient from "@/utils/hono/client";
 
 type Props = {
   initialPreferences: UserPreferences;
+  userId: string;
 };
 
-const UserPreferencesSettings: React.FC<Props> = ({ initialPreferences }) => {
+const UserPreferencesSettings: React.FC<Props> = ({
+  initialPreferences,
+  userId,
+}) => {
   const [preferences, setPreferences] =
     useState<UserPreferences>(initialPreferences);
   const [isPending, startTransition] = useTransition();
@@ -36,7 +39,21 @@ const UserPreferencesSettings: React.FC<Props> = ({ initialPreferences }) => {
 
     startTransition(async () => {
       try {
-        await updateUserPreference(key, value);
+        const response = await apiClient.user[":user_id"].preferences.$patch({
+          param: { user_id: userId },
+          json: { [key]: value },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.status !== "success") {
+          throw new Error("API returned error status");
+        }
+
         notifications.show({
           title: "設定を保存しました",
           message: "設定が正常に保存されました。",

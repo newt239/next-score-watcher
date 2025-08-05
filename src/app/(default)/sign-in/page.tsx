@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import { Alert, Button, Title } from "@mantine/core";
 
@@ -8,23 +8,21 @@ import { authClient } from "@/utils/auth/auth-client";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const handleLogin = async () => {
     setError(null);
-    setLoading(true);
-
-    try {
-      // better-authクライアントを使用したサインイン
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/",
-      });
-    } catch (err) {
-      console.error("サインインエラー:", err);
-      setError("サインインに失敗しました。もう一度お試しください。");
-      setLoading(false);
-    }
+    startTransition(async () => {
+      try {
+        await authClient.signIn.social({
+          provider: "google",
+          callbackURL: "/",
+        });
+      } catch (err) {
+        console.error("サインインエラー:", err);
+        setError("サインインに失敗しました。もう一度お試しください。");
+      }
+    });
   };
 
   return (
@@ -34,8 +32,8 @@ export default function LoginPage() {
         mt="lg"
         onClick={handleLogin}
         color="blue"
-        loading={loading}
-        disabled={loading}
+        loading={isPending}
+        disabled={isPending}
       >
         Googleでログイン
       </Button>

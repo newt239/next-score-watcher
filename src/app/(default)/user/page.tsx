@@ -3,11 +3,12 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
-import { getUserPreferences } from "./_actions/preferences";
 import SignOutButton from "./_components/SignOutButton";
 import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
+import { defaultUserPreferences } from "@/server/repositories/user-preferences";
 import { getUser } from "@/utils/auth/auth-helpers";
+import apiClient from "@/utils/hono/client";
 
 // ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
@@ -26,19 +27,10 @@ export default async function AccountPage() {
     redirect("/sign-in");
   }
 
-  const preferences = await getUserPreferences();
-
-  // デフォルト設定を使用（ユーザーが未認証の場合は上でリダイレクトされる）
-  const defaultPreferences = {
-    theme: "light" as const,
-    showWinthroughPopup: true,
-    showBoardHeader: true,
-    showQn: false,
-    showSignString: true,
-    reversePlayerInfo: false,
-    wrongNumber: true,
-    webhookUrl: null,
-  };
+  const response = await apiClient.user[":user_id"].preferences.$get({
+    param: { user_id: user.id },
+  });
+  const preferences = await response.json();
 
   return (
     <Box maw={600} mx="auto" mt="xl">
@@ -59,7 +51,12 @@ export default async function AccountPage() {
       </Group>
 
       <UserPreferencesSettings
-        initialPreferences={preferences || defaultPreferences}
+        initialPreferences={
+          preferences.status === "success"
+            ? preferences.data
+            : defaultUserPreferences
+        }
+        userId={user.id}
       />
     </Box>
   );

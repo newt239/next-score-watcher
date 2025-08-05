@@ -67,10 +67,10 @@ const SubMenu: React.FC<SubMenuProps> = ({ user }) => {
           justify="flex-start"
           fullWidth
           size="md"
-          aria-current={"/account" === pathname}
-          href="/account"
-          key="/account"
-          variant={"/account" === pathname ? "white" : "filled"}
+          aria-current={"/user" === pathname}
+          href="/user"
+          key="/user"
+          variant={"/user" === pathname ? "white" : "filled"}
           leftSection={<IconUser />}
         >
           アカウント設定

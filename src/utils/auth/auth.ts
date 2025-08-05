@@ -1,9 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
+import { ensureUserPreferences } from "../../server/repositories/user-preferences";
 import { DBClient } from "../drizzle/client";
 import { account, session, user, verification } from "../drizzle/schema";
-import { ensureUserPreferences } from "../user-preferences";
 
 export const auth = betterAuth({
   baseURL: process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
@@ -54,3 +54,8 @@ export const auth = betterAuth({
 
 export type Session = typeof auth.$Infer.Session;
 export type User = typeof auth.$Infer.Session.user;
+
+export type AuthType = {
+  user: User | null;
+  session: Session | null;
+};

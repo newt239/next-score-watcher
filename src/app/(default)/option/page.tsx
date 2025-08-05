@@ -7,8 +7,7 @@ import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
-import ServerPreferences from "@/app/_components/ServerPreferences";
-import { getUser } from "@/utils/auth/auth-helpers";
+import Preferences from "@/app/(default)/option/_components/Preferences";
 
 // ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
@@ -29,14 +28,12 @@ export default async function OptionPage() {
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
-  const user = await getUser();
-
   return (
     <>
       <Title order={2}>アプリ設定</Title>
       <Title order={3}>表示設定</Title>
-      <ServerPreferences userId={user?.id} />
-      <WebhookSettings userId={user?.id} />
+      <Preferences />
+      <WebhookSettings />
       <ManageData profileList={profileList} currentProfile={currentProfile} />
       <InitializeApp currentProfile={currentProfile} />
     </>

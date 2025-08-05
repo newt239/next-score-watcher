@@ -3,8 +3,6 @@ import { cookies } from "next/headers";
 
 import Board from "./_components/Board/Board";
 
-import { getUser } from "@/utils/auth/auth-helpers";
-
 // ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
 
@@ -25,13 +23,5 @@ export default async function BoardPage({
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
-  const user = await getUser();
-
-  return (
-    <Board
-      game_id={game_id}
-      current_profile={currentProfile}
-      userId={user?.id}
-    />
-  );
+  return <Board game_id={game_id} current_profile={currentProfile} />;
 }
