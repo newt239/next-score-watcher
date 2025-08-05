@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    typecheck:
+      run: npx tsc --noEmit
+      fail_text: "型チェックに失敗しました。エラーを修正してください。"
+    lint:
+      run: pnpm run lint
+      fail_text: "Lintエラーがあります。修正してください。"

@@ -16,15 +16,21 @@ const eslintConfig = [
     rules: {
       "react-hooks/exhaustive-deps": "off",
       "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-unused-vars": ["error", {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_",
-        caughtErrorsIgnorePattern: "^_",
-      }],
-      "react/function-component-definition": ["error", {
-        namedComponents: "arrow-function",
-        unnamedComponents: "arrow-function",
-      }],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      "react/function-component-definition": [
+        "error",
+        {
+          namedComponents: "arrow-function",
+          unnamedComponents: "arrow-function",
+        },
+      ],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
