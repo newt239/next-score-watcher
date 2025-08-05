@@ -27,15 +27,9 @@ type Props = {
   game: GamePropsUnion;
   logs: LogDBProps[];
   currentProfile: string;
-  userId?: string;
 };
 
-const ActionButtons: React.FC<Props> = ({
-  game,
-  logs,
-  currentProfile,
-  userId,
-}) => {
+const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -158,7 +152,7 @@ const ActionButtons: React.FC<Props> = ({
           </ButtonLink>
         </Group>
       </ScrollArea>
-      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
+      <PreferenceDrawer isOpen={opened} onClose={close} />
     </>
   );
 };

@@ -38,15 +38,9 @@ type Props = {
   game: GamePropsUnion;
   logs: LogDBProps[];
   currentProfile: string;
-  userId?: string;
 };
 
-const BoardHeader: React.FC<Props> = ({
-  game,
-  logs,
-  currentProfile,
-  userId,
-}) => {
+const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
   const [quizList, setQuizList] = useState<QuizDBProps[]>([]);
   const [manualQuizPosition, setManualQuizPosition] = useState(0);
 
@@ -270,7 +264,7 @@ const BoardHeader: React.FC<Props> = ({
           </Menu.Dropdown>
         </Menu>
       </Flex>
-      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
+      <PreferenceDrawer isOpen={opened} onClose={close} />
     </>
   );
 };
