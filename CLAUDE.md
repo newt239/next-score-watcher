@@ -24,7 +24,7 @@
 
 ### コマンドの実行確認
 
-コマンドを実行する前に、必ずユーザーに実行確認を行ってください。その際、なぜそのコマンドを実行する必要があるのか説明してください。
+コマンドを実行する前に、必ずユーザーに実行確認を行ってください。その際、なぜそのコマンドを実行する必要があるのか説明してください。ただし、以下に示すlintの実行についてはユーザーに確認する必要はありません。
 
 ### lintの実行
 
@@ -51,6 +51,21 @@ Score Watcher は競技クイズのスコア可視化Webアプリケーション
 ### フロントエンド
 
 Next.js v15を使用し、TypeScriptで記述します。App Routerを使用し、なるべくサーバーコンポーネントで実装してください。ユーザーとのインタラクションが必要な部分に限り`use client`の使用を許可しますが、その領域は最低限にしてください。
+
+**データ取得とuseEffectについて:**
+
+- **初期データ取得**: page.tsxでサーバーコンポーネントとして実装し、propsでコンポーネントに渡してください
+- **useEffect**: データ取得には使用しないでください。ブラウザAPIアクセスやイベントリスナー登録など、真に必要な場合のみ使用を許可します
+
+**Server Actionsは使用禁止とします。** すべてAPI Routesのエンドポイントとして実装してください。
+
+例：
+
+- ❌ Server Actions
+- ✅ API Routes (`/api/...`) + Honoクライアント
+
+Reactのガイドも参考にしてください：
+https://react.dev/learn/you-might-not-need-an-effect
 
 ### スタイリング
 
@@ -173,6 +188,7 @@ src/
 - CSS Modulesは自動生成されたTypeScript定義を使用してください。
 - テストは原則としてVitestを使用してください。
 - 関数を定義する際は必ずJSDocを記述してください。また、関数の返り値やAPIの返り値は必ず`as const`を使用してください。
+- エラーを解消するためにESLintのルールを変更するのは禁止です。
 
 ### スタイリング規約
 
@@ -198,13 +214,48 @@ src/
 
 ### API Routes
 
-- Server Actionsは使用禁止とします。
-- API Routesとしてエンドポイントを作成し、実装してください。
-- API RoutesのルートはすべてHonoで管理します。
-- エントリーポイントは`src/server/api/routers/index.ts`で管理します。
-- ルートを追加する際は`src/server/api/routers/index.ts`に追加してください。
-- ルートの実装は`src/server/api/controllers/index.ts`に追加してください。
-- `zValidator`を使用してリクエストボディのバリデーションを行ってください。
+**Server Actionsは使用禁止とします。** すべてAPI Routesで実装してください。
+
+- データベースとのやり取りが必要な場合は`src/server`以下に新たなエンドポイントを実装してください
+- API RoutesのルートはすべてHonoで管理します
+- エントリーポイントは`src/server/index.ts`で管理します
+- ルートを追加する際は`src/server/index.ts`に追加してください
+- コントローラーの実装は`src/server/controllers/`に追加してください
+- `zValidator`を使用してリクエストボディのバリデーションを行ってください
+- データベースとのやり取りは`src/utils/cloud-db.ts`や`repositories`以下で行ってください
+
+**Controllers構成ルール:**
+
+- `src/server/controllers/`以下のハンドラーは1ファイルにつき1個とします
+- 機能ごとにディレクトリを分割してください（`game/`, `player/`, `user/`, `auth/`など）
+- ファイル名はメソッドタイプ-機能名の形式で命名してください
+  - 例: `game/get-list.ts`, `game/post-create.ts`, `game/get-detail.ts`, `game/patch-update.ts`
+  - 例: `player/get-list.ts`, `player/post-create.ts`
+  - 例: `user/get-preferences.ts`, `user/update-preferences.ts`
+- 各ファイルでは`default export`でハンドラーをエクスポートしてください
+- `src/server/index.ts`でimportして使用してください
+
+### Models管理
+
+サーバーサイドの型定義とスキーマ定義は`src/models/`で機能ごとに管理してください。
+
+**ファイル構成:**
+
+```
+src/models/
+├── cloud-games.ts      # ゲーム関連の型定義・スキーマ
+├── cloud-players.ts    # プレイヤー関連の型定義・スキーマ
+└── user-preferences.ts # ユーザー設定関連の型定義・スキーマ
+```
+
+**使用ルール:**
+
+- 各機能のZodスキーマは対応するmodelsファイルで定義してください
+- スキーマ名は**UpperCamelCase**で命名してください（例：`CreateGameSchema`, `UpdateUserPreferencesSchema`）
+- TypeScriptの型定義もmodelsファイルで管理してください
+- Controllers・Repositoriesからmodelsファイルを`@/models/`でimportして使用してください
+- バリデーションスキーマと型定義を同じファイルで管理することで、保守性を向上させてください
+- 新しい機能を追加する際は、対応するmodelsファイルを作成してください
 
 ### ローディング表示
 

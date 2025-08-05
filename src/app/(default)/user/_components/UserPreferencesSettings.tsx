@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-import { type UserPreferences } from "@/server/repositories/user-preferences";
+import { type UserPreferences } from "@/models/user-preferences";
 import apiClient from "@/utils/hono/client";
 
 type Props = {
@@ -50,7 +50,7 @@ const UserPreferencesSettings: React.FC<Props> = ({
 
         const result = await response.json();
 
-        if (result.status !== "success") {
+        if (!result.success) {
           throw new Error("API returned error status");
         }
 

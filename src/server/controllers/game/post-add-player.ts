@@ -1,0 +1,38 @@
+import { zValidator } from "@hono/zod-validator";
+import { createFactory } from "hono/factory";
+
+import { AddPlayerSchema } from "@/models/games";
+import { addGamePlayer } from "@/server/repositories/games";
+
+const factory = createFactory();
+
+/**
+ * クラウドゲームプレイヤー追加
+ */
+const handler = factory.createHandlers(
+  zValidator("json", AddPlayerSchema),
+  async (c) => {
+    try {
+      const gameId = c.req.param("gameId");
+      const userId = c.req.header("x-user-id");
+
+      if (!userId) {
+        return c.json({ error: "認証が必要です" } as const, 401);
+      }
+
+      if (!gameId) {
+        return c.json({ error: "ゲームIDが必要です" } as const, 400);
+      }
+
+      const playerData = c.req.valid("json");
+      await addGamePlayer(gameId, playerData, userId);
+
+      return c.json({ success: true } as const, 201);
+    } catch (error) {
+      console.error("Error adding cloud game player:", error);
+      return c.json({ error: "サーバーエラーが発生しました" } as const, 500);
+    }
+  }
+);
+
+export default handler;
