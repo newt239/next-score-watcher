@@ -50,7 +50,7 @@ const UserPreferencesSettings: React.FC<Props> = ({
 
         const result = await response.json();
 
-        if (result.status !== "success") {
+        if (!result.success) {
           throw new Error("API returned error status");
         }
 

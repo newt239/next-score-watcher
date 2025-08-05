@@ -1,0 +1,32 @@
+import { createFactory } from "hono/factory";
+
+import { removeGameLog } from "@/server/repositories/games";
+
+const factory = createFactory();
+
+/**
+ * クラウドゲームログ削除
+ */
+const handler = factory.createHandlers(async (c) => {
+  try {
+    const logId = c.req.param("logId");
+    const userId = c.req.header("x-user-id");
+
+    if (!userId) {
+      return c.json({ error: "認証が必要です" } as const, 401);
+    }
+
+    if (!logId) {
+      return c.json({ error: "ログIDが必要です" } as const, 400);
+    }
+
+    await removeGameLog(logId, userId);
+
+    return c.json({ success: true } as const);
+  } catch (error) {
+    console.error("Error removing cloud game log:", error);
+    return c.json({ error: "サーバーエラーが発生しました" } as const, 500);
+  }
+});
+
+export default handler;

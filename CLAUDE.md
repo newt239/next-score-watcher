@@ -222,8 +222,18 @@ src/
 - ルートを追加する際は`src/server/index.ts`に追加してください
 - コントローラーの実装は`src/server/controllers/`に追加してください
 - `zValidator`を使用してリクエストボディのバリデーションを行ってください
-- `controllers`以下では、機能単位でファイルを分割してください
 - データベースとのやり取りは`src/utils/cloud-db.ts`や`repositories`以下で行ってください
+
+**Controllers構成ルール:**
+
+- `src/server/controllers/`以下のハンドラーは1ファイルにつき1個とします
+- 機能ごとにディレクトリを分割してください（`game/`, `player/`, `user/`, `auth/`など）
+- ファイル名はメソッドタイプ-機能名の形式で命名してください
+  - 例: `game/get-list.ts`, `game/post-create.ts`, `game/get-detail.ts`, `game/patch-update.ts`
+  - 例: `player/get-list.ts`, `player/post-create.ts`
+  - 例: `user/get-preferences.ts`, `user/update-preferences.ts`
+- 各ファイルでは`default export`でハンドラーをエクスポートしてください
+- `src/server/index.ts`でimportして使用してください
 
 ### Models管理
 

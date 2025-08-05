@@ -35,7 +35,7 @@ const AccountPage = async () => {
   return (
     <Box maw={600} mx="auto" mt="xl">
       <Title order={2} mb="md">
-        アカウント情報
+        ユーザー設定
       </Title>
       <Group gap={12} mb="md">
         <Avatar src={user.image} alt={user.name} radius="xl" size={48} />
@@ -52,8 +52,8 @@ const AccountPage = async () => {
 
       <UserPreferencesSettings
         initialPreferences={
-          preferences.status === "success"
-            ? preferences.data
+          "preferences" in preferences
+            ? preferences.preferences
             : defaultUserPreferences
         }
         userId={user.id}
