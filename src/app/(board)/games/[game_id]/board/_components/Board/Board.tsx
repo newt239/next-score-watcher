@@ -27,10 +27,9 @@ import { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
 type Props = {
   game_id: string;
   current_profile: string;
-  userId?: string;
 };
 
-const Board: React.FC<Props> = ({ game_id, current_profile, userId }) => {
+const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   const game = useLiveQuery(() =>
     db(current_profile).games.get(game_id as string)
   );

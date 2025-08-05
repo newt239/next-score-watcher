@@ -1,19 +1,11 @@
 "use client";
 
-import { useTransition } from "react";
-
 import { Text, TextInput, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 
 import Link from "@/app/_components/Link";
 
-type Props = {
-  userId?: string;
-};
-
-const WebhookSettings: React.FC<Props> = ({ userId }) => {
-  const [isPending, startTransition] = useTransition();
-
+const WebhookSettings: React.FC = () => {
   // 常にlocalStorageを使用（従来通り）
   const [webhookUrl, setWebhookUrl] = useLocalStorage({
     key: "scorew-webhook-url",
@@ -38,7 +30,6 @@ const WebhookSettings: React.FC<Props> = ({ userId }) => {
         type="url"
         value={webhookUrl}
         mb="lg"
-        disabled={isPending}
       />
     </>
   );

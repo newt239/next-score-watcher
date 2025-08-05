@@ -3,12 +3,12 @@ import { redirect } from "next/navigation";
 
 import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 
+import SignOutButton from "./_components/SignOutButton";
+import UserPreferencesSettings from "./_components/UserPreferencesSettings";
+
 import { defaultUserPreferences } from "@/server/repositories/user-preferences";
 import { getUser } from "@/utils/auth/auth-helpers";
 import apiClient from "@/utils/hono/client";
-
-import SignOutButton from "./_components/SignOutButton";
-import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
 // ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
