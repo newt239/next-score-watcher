@@ -2,7 +2,11 @@ import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 import { z } from "zod";
 
-import { UserPreferencesRepository } from "../repositories/user-preferences";
+import {
+  existsUserPreferencesByUserId,
+  updateUserPreferencesByUserId,
+  getUserPreferences,
+} from "../repositories/user-preferences";
 
 const factory = createFactory();
 
@@ -32,7 +36,7 @@ const updateUserPreferencesHandler = factory.createHandlers(
       const updates = c.req.valid("json");
 
       // ユーザー設定が存在するかチェック
-      const exists = await UserPreferencesRepository.existsByUserId(user_id);
+      const exists = await existsUserPreferencesByUserId(user_id);
       if (!exists) {
         return c.json(
           { status: "error", message: "User preferences not found" } as const,
@@ -41,11 +45,10 @@ const updateUserPreferencesHandler = factory.createHandlers(
       }
 
       // データベースを更新
-      await UserPreferencesRepository.updateByUserId(user_id, updates);
+      await updateUserPreferencesByUserId(user_id, updates);
 
       // 更新後の設定を取得して返す
-      const updatedPreferences =
-        await UserPreferencesRepository.getUserPreferences(user_id);
+      const updatedPreferences = await getUserPreferences(user_id);
 
       return c.json(
         { status: "success", data: updatedPreferences } as const,

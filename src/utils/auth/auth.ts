@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
-import { UserPreferencesRepository } from "../../server/repositories/user-preferences";
+import { ensureUserPreferences } from "../../server/repositories/user-preferences";
 import { DBClient } from "../drizzle/client";
 import { account, session, user, verification } from "../drizzle/schema";
 
@@ -42,7 +42,7 @@ export const auth = betterAuth({
     async onSignUp({ user: newUser }: { user: any }) {
       try {
         console.log(`Creating user preferences for new user: ${newUser.id}`);
-        await UserPreferencesRepository.ensureUserPreferences(newUser.id);
+        await ensureUserPreferences(newUser.id);
         console.log(`User preferences created successfully for: ${newUser.id}`);
       } catch (error) {
         console.error("Failed to create user preferences:", error);

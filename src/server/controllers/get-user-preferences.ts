@@ -3,7 +3,7 @@ import { createFactory } from "hono/factory";
 import { z } from "zod";
 
 import {
-  UserPreferencesRepository,
+  findUserPreferencesByUserId,
   defaultUserPreferences,
 } from "../repositories/user-preferences";
 
@@ -19,7 +19,7 @@ const getUserPreferencesHandler = factory.createHandlers(
   async (c) => {
     try {
       const { user_id } = c.req.valid("param");
-      const preferences = await UserPreferencesRepository.findByUserId(user_id);
+      const preferences = await findUserPreferencesByUserId(user_id);
 
       // 設定が存在しない場合はデフォルト値を返す
       const result = preferences || defaultUserPreferences;

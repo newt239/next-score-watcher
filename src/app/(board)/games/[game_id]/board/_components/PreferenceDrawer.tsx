@@ -1,6 +1,6 @@
 import { Box, Drawer, Kbd, Table, Tabs } from "@mantine/core";
 
-import ServerPreferences from "@/app/_components/ServerPreferences";
+import Preferences from "@/app/(default)/option/_components/Preferences";
 
 type Props = {
   isOpen: boolean;
@@ -48,7 +48,7 @@ const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose, userId }) => {
         </Tabs.List>
         <Box py="lg">
           <Tabs.Panel value="preferences">
-            <ServerPreferences userId={userId} />
+            <Preferences userId={userId} />
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>

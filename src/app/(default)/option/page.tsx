@@ -7,7 +7,7 @@ import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
-import ServerPreferences from "@/app/_components/ServerPreferences";
+import Preferences from "@/app/(default)/option/_components/Preferences";
 import { getUser } from "@/utils/auth/auth-helpers";
 
 // ページを動的レンダリングとして明示的に設定
@@ -35,7 +35,7 @@ export default async function OptionPage() {
     <>
       <Title order={2}>アプリ設定</Title>
       <Title order={3}>表示設定</Title>
-      <ServerPreferences userId={user?.id} />
+      <Preferences />
       <WebhookSettings userId={user?.id} />
       <ManageData profileList={profileList} currentProfile={currentProfile} />
       <InitializeApp currentProfile={currentProfile} />
