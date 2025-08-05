@@ -184,7 +184,7 @@ const UserPreferencesSettings: React.FC<Props> = ({
         />
         <Button
           onClick={() => handleUpdate("webhookUrl", preferences.webhookUrl)}
-          disabled={isPending}
+          loading={isPending}
           size="sm"
         >
           保存

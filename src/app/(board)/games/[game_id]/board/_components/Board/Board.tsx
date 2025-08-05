@@ -203,12 +203,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile, userId }) => {
 
   return (
     <>
-      <BoardHeader
-        game={game}
-        logs={logs}
-        currentProfile={current_profile}
-        userId={userId}
-      />
+      <BoardHeader game={game} logs={logs} currentProfile={current_profile} />
       {game.rule === "squarex" && (
         <Box
           className={classes.squarex_bar}
@@ -236,12 +231,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile, userId }) => {
           show_header={showHeader}
         />
       )}
-      <ActionButtons
-        game={game}
-        logs={logs}
-        currentProfile={current_profile}
-        userId={userId}
-      />
+      <ActionButtons game={game} logs={logs} currentProfile={current_profile} />
       <GameLogs
         logs={logs}
         players={players}
