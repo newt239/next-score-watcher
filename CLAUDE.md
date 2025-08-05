@@ -31,7 +31,7 @@
 実装後の必須作業として、以下のコマンドを実行してください。
 
 ```bash
-npx tsc --noEmit && pnpm run lint
+npx tsc --noEmit && pnpm run lint:fix
 ```
 
 型エラーやリントエラーが出た場合は、コミット前に必ず修正してください。
@@ -41,6 +41,15 @@ npx tsc --noEmit && pnpm run lint
 ユーザーとの会話で新しくプロジェクト全体に共通するルールが指示された場合は、まず`CLAUDE.md`を更新してください。
 
 ドキュメントを追加するよう指示があった場合は`docs`以下にMarkdownファイルを作成して記述してください。文章は箇条書きではなく、段落として記述してください。
+
+### クラウド機能の命名規約
+
+**重要**: `cloud-`プレフィックスは**クライアント側のURLパスでのみ使用**してください。
+
+- ✅ **使用OK**: `/cloud-games`, `/cloud-players`, `/cloud-rules` などのURL
+- ❌ **使用NG**: 関数名、変数名、型名、ファイル名での`cloud-`プレフィックス
+
+**理由**: クライアント側でクラウド機能とローカル機能を区別するためにURLパスで`cloud-`を使用しますが、サーバーサイドやデータベースレベルでは区別する必要がないためです。
 
 ## プロジェクト概要
 
@@ -221,8 +230,26 @@ src/
 - エントリーポイントは`src/server/index.ts`で管理します
 - ルートを追加する際は`src/server/index.ts`に追加してください
 - コントローラーの実装は`src/server/controllers/`に追加してください
-- `zValidator`を使用してリクエストボディのバリデーションを行ってください
+- **バリデーションには必ず`zValidator`を使用**してください（リクエストボディ、クエリパラメータ両方）
+- **バリデーションスキーマは`src/models/`で定義**し、UpperCamelCaseで命名してください
 - データベースとのやり取りは`src/utils/cloud-db.ts`や`repositories`以下で行ってください
+
+**バリデーション実装例:**
+
+```typescript
+import { zValidator } from "@hono/zod-validator";
+import { GetPlayersQuerySchema } from "@/models/players";
+
+const handler = factory.createHandlers(
+  zValidator("query", GetPlayersQuerySchema), // クエリパラメータ
+  zValidator("json", CreatePlayerSchema), // リクエストボディ
+  async (c) => {
+    const query = c.req.valid("query");
+    const body = c.req.valid("json");
+    // 処理...
+  }
+);
+```
 
 **Controllers構成ルール:**
 
@@ -234,6 +261,8 @@ src/
   - 例: `user/get-preferences.ts`, `user/update-preferences.ts`
 - 各ファイルでは`default export`でハンドラーをエクスポートしてください
 - `src/server/index.ts`でimportして使用してください
+- **必ず`factory.createHandlers`を使用してください**: 既存の実装パターンに合わせて、すべてのハンドラーで`createFactory()`から生成したfactoryの`createHandlers`メソッドを使用してください
+- **既存ファイルとの統合を優先**: 新しい機能を実装する際は、新しいファイルを作成するのではなく、既存の同種ファイル（例：`models/players.ts`、`repositories/players.ts`）に機能を追加してください
 
 ### Models管理
 

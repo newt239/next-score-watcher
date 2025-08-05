@@ -119,7 +119,7 @@ const CloudRuleList: React.FC<Props> = ({ userId }) => {
         setCreateModalOpen(false);
         form.reset();
         setSelectedRule(null);
-        router.push(`/cloud-games/${result.gameId}/config`);
+        router.push(`/online/games/${result.gameId}/config`);
       } catch (error) {
         notifications.show({
           title: "エラー",

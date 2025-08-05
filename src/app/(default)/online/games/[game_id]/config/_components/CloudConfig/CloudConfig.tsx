@@ -11,6 +11,8 @@ import CloudRuleSettings from "../CloudRuleSettings";
 
 import classes from "./CloudConfig.module.css";
 
+import type { RuleNames, LogDBProps, GameDBPlayerProps } from "@/utils/types";
+
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
 import apiClient from "@/utils/hono/client";
@@ -27,16 +29,19 @@ type User = {
   email: string;
 };
 
-type Game = {
+type CloudGame = {
   id: string;
   name: string;
-  ruleType: string;
+  ruleType: RuleNames;
+  createdAt: string;
+  updatedAt: string;
+  discordWebhookUrl?: string | null;
 };
 
 const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
-  const [game, setGame] = useState<Game | null>(null);
-  const [players, setPlayers] = useState<unknown[]>([]);
-  const [logs, setLogs] = useState<unknown[]>([]);
+  const [game, setGame] = useState<CloudGame | null>(null);
+  const [players, setPlayers] = useState<GameDBPlayerProps[]>([]);
+  const [logs, setLogs] = useState<LogDBProps[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -53,7 +58,7 @@ const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
               }
             ),
             apiClient["players"].$get(
-              {},
+              { query: {} },
               {
                 headers: { "x-user-id": user.id },
               }
@@ -75,13 +80,12 @@ const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
           setGame(gameData.game);
         }
         if ("players" in playersData) {
-          setPlayers(playersData.players);
+          setPlayers(playersData.players as GameDBPlayerProps[]);
         }
         if ("logs" in logsData) {
           setLogs(
-            logsData.logs.filter(
-              (log: { system: number; available: number }) =>
-                log.system === 0 && log.available === 1
+            (logsData.logs as LogDBProps[]).filter(
+              (log) => log.system === 0 && log.available === 1
             )
           );
         }

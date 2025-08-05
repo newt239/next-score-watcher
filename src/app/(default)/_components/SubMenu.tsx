@@ -32,12 +32,12 @@ const getLinkList = (
 ): { text: string; path: string; icon: React.ReactNode }[] => [
   { path: "/", text: "ホーム", icon: <IconHome /> },
   {
-    path: isLoggedIn ? "/cloud-rules" : "/rules",
+    path: isLoggedIn ? "/online/rules" : "/rules",
     text: "形式一覧",
     icon: <IconListDetails />,
   },
   {
-    path: isLoggedIn ? "/cloud-games" : "/games",
+    path: isLoggedIn ? "/online/games" : "/games",
     text: isLoggedIn ? "クラウドゲーム" : "作成したゲーム",
     icon: <IconList />,
   },

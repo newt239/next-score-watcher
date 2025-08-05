@@ -21,7 +21,7 @@ const CloudGameStartButton: React.FC<Props> = ({ game, logs }) => {
   return (
     <Flex className={classes.game_start_button}>
       <ButtonLink
-        href={`../../../(board)/cloud-games/${game.id}/board`}
+        href={`../../../(board)/online/games/${game.id}/board`}
         leftSection={<IconPlayerPlay />}
         size="lg"
         flex={1}

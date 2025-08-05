@@ -52,7 +52,7 @@ const CloudGameListTable: React.FC<Props> = ({ gameList }) => {
                   </Table.Td>
                   <Table.Td>
                     <ButtonLink
-                      href={`/cloud-games/${game.id}/config`}
+                      href={`/online/games/${game.id}/config`}
                       leftSection={<IconAdjustmentsHorizontal />}
                       size="sm"
                     >

@@ -105,7 +105,7 @@ const CloudCreateGameModal: React.FC<CloudCreateGameModalProps> = ({
 
         setCreateModalOpen(false);
         form.reset();
-        router.push(`/cloud-games/${result.gameId}/config`);
+        router.push(`/online/games/${result.gameId}/config`);
       } catch (error) {
         notifications.show({
           title: "エラー",
