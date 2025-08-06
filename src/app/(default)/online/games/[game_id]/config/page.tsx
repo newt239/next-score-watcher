@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import CloudConfig from "./_components/CloudConfig/CloudConfig";
+import Config from "./_components/Config/Config";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-const CloudConfigPage = async ({
+const ConfigPage = async ({
   params,
 }: {
   params: Promise<{ game_id: string }>;
@@ -19,7 +19,7 @@ const CloudConfigPage = async ({
   const { game_id } = await params;
   const user = await getUser();
 
-  return <CloudConfig game_id={game_id} user={user} />;
+  return <Config game_id={game_id} user={user} />;
 };
 
-export default CloudConfigPage;
+export default ConfigPage;

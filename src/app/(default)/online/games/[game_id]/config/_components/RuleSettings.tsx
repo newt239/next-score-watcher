@@ -2,7 +2,7 @@
 
 import { Text } from "@mantine/core";
 
-const CloudRuleSettings: React.FC = () => {
+const RuleSettings: React.FC = () => {
   return (
     <div>
       <Text>形式設定（クラウド版）</Text>
@@ -13,4 +13,4 @@ const CloudRuleSettings: React.FC = () => {
   );
 };
 
-export default CloudRuleSettings;
+export default RuleSettings;

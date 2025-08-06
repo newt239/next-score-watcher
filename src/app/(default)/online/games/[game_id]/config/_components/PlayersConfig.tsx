@@ -2,7 +2,7 @@
 
 import { Text } from "@mantine/core";
 
-const CloudPlayersConfig: React.FC = () => {
+const PlayersConfig: React.FC = () => {
   return (
     <div>
       <Text>プレイヤー設定（クラウド版）</Text>
@@ -13,4 +13,4 @@ const CloudPlayersConfig: React.FC = () => {
   );
 };
 
-export default CloudPlayersConfig;
+export default PlayersConfig;

@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import { Group, NativeSelect, SegmentedControl, Title } from "@mantine/core";
 
-import CloudCreateGameModal from "../CloudCreateGameModal/CloudCreateGameModal";
-import CloudGameListGrid from "../CloudGameListGrid/CloudGameListGrid";
-import CloudGameListTable from "../CloudGameListTable/CloudGameListTable";
+import CreateGameModal from "../CreateGameModal/CreateGameModal";
+import GameListGrid from "../GameListGrid/GameListGrid";
+import GameListTable from "../GameListTable/GameListTable";
 
 import Link from "@/app/_components/Link";
 
@@ -23,14 +23,14 @@ type Game = {
   updatedAt: Date;
 };
 
-type CloudGameListProps = {
+type GameListProps = {
   user: User | null;
   games: Game[];
   logCounts: Record<string, number>;
   playerCounts: Record<string, number>;
 };
 
-const CloudGameList: React.FC<CloudGameListProps> = ({
+const GameList: React.FC<GameListProps> = ({
   user,
   games,
   logCounts,
@@ -83,7 +83,7 @@ const CloudGameList: React.FC<CloudGameListProps> = ({
     <>
       <Group justify="space-between" mb="lg">
         <Title order={2}>クラウドゲーム</Title>
-        <CloudCreateGameModal userId={user.id} />
+        <CreateGameModal userId={user.id} />
       </Group>
       <Group justify="end" mb="lg" gap="md">
         <SegmentedControl
@@ -108,12 +108,12 @@ const CloudGameList: React.FC<CloudGameListProps> = ({
           ページから新しいゲームを作ることが出来ます。
         </p>
       ) : displayMode === "grid" ? (
-        <CloudGameListGrid gameList={parsedGameList} />
+        <GameListGrid gameList={parsedGameList} />
       ) : (
-        <CloudGameListTable gameList={parsedGameList} />
+        <GameListTable gameList={parsedGameList} />
       )}
     </>
   );
 };
 
-export default CloudGameList;
+export default GameList;

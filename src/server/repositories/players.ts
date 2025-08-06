@@ -8,6 +8,7 @@ import type {
   GetPlayersListResponseType,
   AddPlayerTagRequestType,
   RemovePlayerTagRequestType,
+  BulkCreatePlayersRequestType,
 } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
@@ -272,4 +273,24 @@ export const removePlayerTag = async (
     );
 
   return result.rowsAffected > 0;
+};
+
+/**
+ * 複数プレイヤーを一括作成
+ */
+export const insertMultiplePlayers = async (
+  userId: string,
+  playersData: BulkCreatePlayersRequestType["players"]
+): Promise<number> => {
+  const playersToInsert = playersData.map((playerData) => ({
+    id: nanoid(),
+    name: playerData.name,
+    displayName: playerData.displayName,
+    affiliation: playerData.affiliation,
+    description: playerData.description,
+    userId,
+  }));
+
+  const result = await DBClient.insert(player).values(playersToInsert);
+  return result.rowsAffected;
 };

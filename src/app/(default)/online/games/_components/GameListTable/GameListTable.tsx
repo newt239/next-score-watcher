@@ -18,7 +18,7 @@ type Props = {
   }[];
 };
 
-const CloudGameListTable: React.FC<Props> = ({ gameList }) => {
+const GameListTable: React.FC<Props> = ({ gameList }) => {
   return (
     <>
       {gameList.length === 0 ? (
@@ -69,4 +69,4 @@ const CloudGameListTable: React.FC<Props> = ({ gameList }) => {
   );
 };
 
-export default CloudGameListTable;
+export default GameListTable;

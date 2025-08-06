@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 
 import { Accordion, Box, Tabs } from "@mantine/core";
 
-import CloudGameStartButton from "../CloudGameStartButton/CloudGameStartButton";
-import CloudOtherConfig from "../CloudOtherConfig";
-import CloudPlayersConfig from "../CloudPlayersConfig";
-import CloudRuleSettings from "../CloudRuleSettings";
+import GameStartButton from "../GameStartButton/GameStartButton";
+import OtherConfig from "../OtherConfig";
+import PlayersConfig from "../PlayersConfig";
+import RuleSettings from "../RuleSettings";
 
-import classes from "./CloudConfig.module.css";
+import classes from "./Config.module.css";
 
 import type { RuleNames, LogDBProps, GameDBPlayerProps } from "@/utils/types";
 
@@ -38,7 +38,7 @@ type CloudGame = {
   discordWebhookUrl?: string | null;
 };
 
-const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
+const Config: React.FC<Props> = ({ game_id, user }) => {
   const [game, setGame] = useState<CloudGame | null>(null);
   const [players, setPlayers] = useState<GameDBPlayerProps[]>([]);
   const [logs, setLogs] = useState<LogDBProps[]>([]);
@@ -128,7 +128,7 @@ const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-      <CloudGameStartButton game={game} logs={logs} />
+      <GameStartButton game={game} logs={logs} />
       <Tabs
         pt="lg"
         variant="outline"
@@ -143,13 +143,13 @@ const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
         </Tabs.List>
         <Box className={classes.tab_panel_area}>
           <Tabs.Panel value="rule">
-            <CloudRuleSettings />
+            <RuleSettings />
           </Tabs.Panel>
           <Tabs.Panel value="player">
-            <CloudPlayersConfig />
+            <PlayersConfig />
           </Tabs.Panel>
           <Tabs.Panel value="other">
-            <CloudOtherConfig />
+            <OtherConfig />
           </Tabs.Panel>
         </Box>
       </Tabs>
@@ -157,4 +157,4 @@ const CloudConfig: React.FC<Props> = ({ game_id, user }) => {
   );
 };
 
-export default CloudConfig;
+export default Config;

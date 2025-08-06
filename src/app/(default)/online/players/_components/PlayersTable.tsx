@@ -36,7 +36,7 @@ type Props = {
   onPlayersUpdated: (players: ApiPlayerDataType[]) => void;
 };
 
-const OnlinePlayersTable: React.FC<Props> = ({
+const PlayersTable: React.FC<Props> = ({
   currentProfile: _currentProfile,
   players: playersProp,
   onPlayersUpdated,
@@ -272,4 +272,4 @@ const OnlinePlayersTable: React.FC<Props> = ({
   );
 };
 
-export default OnlinePlayersTable;
+export default PlayersTable;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import CloudGameList from "./_components/CloudGameList/CloudGameList";
+import GameList from "./_components/GameList/GameList";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 import apiClient from "@/utils/hono/client";
@@ -76,7 +76,7 @@ const CloudGamesPage = async () => {
   }
 
   return (
-    <CloudGameList
+    <GameList
       user={user}
       games={games}
       logCounts={logCounts}

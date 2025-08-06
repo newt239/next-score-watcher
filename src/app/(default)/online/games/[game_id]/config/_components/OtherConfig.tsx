@@ -2,7 +2,7 @@
 
 import { Text } from "@mantine/core";
 
-const CloudOtherConfig: React.FC = () => {
+const OtherConfig: React.FC = () => {
   return (
     <div>
       <Text>その他の設定（クラウド版）</Text>
@@ -13,4 +13,4 @@ const CloudOtherConfig: React.FC = () => {
   );
 };
 
-export default CloudOtherConfig;
+export default OtherConfig;

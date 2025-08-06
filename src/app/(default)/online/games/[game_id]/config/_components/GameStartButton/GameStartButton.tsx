@@ -3,7 +3,7 @@
 import { Flex } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 
-import classes from "./CloudGameStartButton.module.css";
+import classes from "./GameStartButton.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
@@ -17,7 +17,7 @@ type Props = {
   logs: unknown[];
 };
 
-const CloudGameStartButton: React.FC<Props> = ({ game, logs }) => {
+const GameStartButton: React.FC<Props> = ({ game, logs }) => {
   return (
     <Flex className={classes.game_start_button}>
       <ButtonLink
@@ -32,4 +32,4 @@ const CloudGameStartButton: React.FC<Props> = ({ game, logs }) => {
   );
 };
 
-export default CloudGameStartButton;
+export default GameStartButton;

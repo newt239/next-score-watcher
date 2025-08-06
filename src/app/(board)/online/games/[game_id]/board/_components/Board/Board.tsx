@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import { Box, Text } from "@mantine/core";
 
-import classes from "./CloudBoard.module.css";
+import classes from "./Board.module.css";
 
 import apiClient from "@/utils/hono/client";
 
@@ -25,7 +25,7 @@ type Game = {
   ruleType: string;
 };
 
-const CloudBoard: React.FC<Props> = ({ game_id, user }) => {
+const Board: React.FC<Props> = ({ game_id, user }) => {
   const [game, setGame] = useState<Game | null>(null);
   const [players, setPlayers] = useState<unknown[]>([]);
   const [logs, setLogs] = useState<unknown[]>([]);
@@ -123,4 +123,4 @@ const CloudBoard: React.FC<Props> = ({ game_id, user }) => {
   );
 };
 
-export default CloudBoard;
+export default Board;

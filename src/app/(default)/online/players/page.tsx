@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import OnlineManagePlayer from "./_components/OnlineManagePlayer";
+import ManagePlayer from "./_components/ManagePlayer";
 
 import type { ApiPlayerDataType } from "@/models/players";
 
@@ -10,7 +10,7 @@ import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server-client";
 
 export const metadata: Metadata = {
-  title: "オンラインプレイヤー管理",
+  title: "プレイヤー管理",
   alternates: {
     canonical: "https://score-watcher.com/online/players",
   },
@@ -41,7 +41,7 @@ const OnlinePlayerPage = async () => {
   }
 
   return (
-    <OnlineManagePlayer
+    <ManagePlayer
       currentProfile={currentProfile}
       initialPlayers={initialPlayers}
     />

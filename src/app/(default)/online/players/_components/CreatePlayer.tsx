@@ -17,7 +17,7 @@ type Props = {
   onPlayerCreated: () => Promise<void>;
 };
 
-const OnlineCreatePlayer: React.FC<Props> = ({
+const CreatePlayer: React.FC<Props> = ({
   currentProfile: _currentProfile,
   onPlayerCreated,
 }) => {
@@ -113,4 +113,4 @@ const OnlineCreatePlayer: React.FC<Props> = ({
   );
 };
 
-export default OnlineCreatePlayer;
+export default CreatePlayer;

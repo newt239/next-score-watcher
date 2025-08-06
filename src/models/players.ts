@@ -16,6 +16,22 @@ export const CreatePlayerRequestSchema = z.object({
 export type CreatePlayerRequestType = z.infer<typeof CreatePlayerRequestSchema>;
 
 /**
+ * 複数プレイヤー一括作成リクエストのスキーマ
+ */
+export const BulkCreatePlayersRequestSchema = z.object({
+  players: z
+    .array(CreatePlayerRequestSchema)
+    .min(1, "最低1つのプレイヤーが必要です"),
+});
+
+/**
+ * 複数プレイヤー一括作成リクエストの型
+ */
+export type BulkCreatePlayersRequestType = z.infer<
+  typeof BulkCreatePlayersRequestSchema
+>;
+
+/**
  * プレイヤー更新リクエストのスキーマ
  */
 export const UpdatePlayerRequestSchema = z.object({
@@ -84,6 +100,14 @@ export type GetPlayersListResponseType = {
  */
 export type CreatePlayerResponseType = {
   id: string;
+  message: string;
+};
+
+/**
+ * 複数プレイヤー一括作成レスポンスの型
+ */
+export type BulkCreatePlayersResponseType = {
+  createdCount: number;
   message: string;
 };
 

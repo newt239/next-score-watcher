@@ -4,7 +4,7 @@ import { Box, Card, Flex, List } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
-import classes from "./CloudGameListGrid.module.css";
+import classes from "./GameListGrid.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
@@ -20,7 +20,7 @@ type Props = {
   }[];
 };
 
-const CloudGameListGrid: React.FC<Props> = ({ gameList }) => {
+const GameListGrid: React.FC<Props> = ({ gameList }) => {
   return (
     <>
       {gameList.length === 0 ? (
@@ -66,4 +66,4 @@ const CloudGameListGrid: React.FC<Props> = ({ gameList }) => {
   );
 };
 
-export default CloudGameListGrid;
+export default GameListGrid;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import CloudRuleList from "./_components/CloudRuleList/CloudRuleList";
+import RuleList from "./_components/RuleList/RuleList";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const CloudRulesPage = async () => {
   const user = await getUser();
 
-  return <CloudRuleList userId={user?.id} />;
+  return <RuleList userId={user?.id} />;
 };
 
 export default CloudRulesPage;

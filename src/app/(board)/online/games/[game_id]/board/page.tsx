@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import CloudBoard from "./_components/CloudBoard/CloudBoard";
+import Board from "./_components/Board/Board";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-const CloudBoardPage = async ({
+const BoardPage = async ({
   params,
 }: {
   params: Promise<{ game_id: string }>;
@@ -22,7 +22,7 @@ const CloudBoardPage = async ({
   const { game_id } = await params;
   const user = await getUser();
 
-  return <CloudBoard game_id={game_id} user={user} />;
+  return <Board game_id={game_id} user={user} />;
 };
 
-export default CloudBoardPage;
+export default BoardPage;

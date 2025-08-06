@@ -5,8 +5,10 @@ import { Suspense, useState, useCallback } from "react";
 import { Tabs, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-import OnlineCreatePlayer from "./OnlineCreatePlayer";
-import OnlinePlayersTable from "./OnlinePlayersTable";
+import CreatePlayer from "./CreatePlayer";
+import ImportPlayer from "./ImportPlayer";
+import LoadPlayer from "./LoadPlayer";
+import PlayersTable from "./PlayersTable";
 
 import type { ApiPlayerDataType } from "@/models/players";
 
@@ -17,10 +19,7 @@ type Props = {
   initialPlayers: ApiPlayerDataType[];
 };
 
-const OnlineManagePlayer: React.FC<Props> = ({
-  currentProfile,
-  initialPlayers,
-}) => {
+const ManagePlayer: React.FC<Props> = ({ currentProfile, initialPlayers }) => {
   const [players, setPlayers] = useState<ApiPlayerDataType[]>(initialPlayers);
 
   const refetchPlayers = useCallback(async () => {
@@ -42,23 +41,37 @@ const OnlineManagePlayer: React.FC<Props> = ({
   }, []);
   return (
     <>
-      <Title order={2}>オンラインプレイヤー管理</Title>
+      <Title order={2}>プレイヤー管理</Title>
       <h3>プレイヤーの追加</h3>
       <Tabs pt="lg" variant="outline" defaultValue="add">
         <Tabs.List mt="lg" grow>
           <Tabs.Tab value="add">個別に追加</Tabs.Tab>
+          <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
+          <Tabs.Tab value="import">インポート</Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="add" style={{ paddingTop: "1rem" }}>
           <Suspense>
-            <OnlineCreatePlayer
+            <CreatePlayer
               currentProfile={currentProfile}
               onPlayerCreated={refetchPlayers}
             />
           </Suspense>
         </Tabs.Panel>
+        <Tabs.Panel value="paste" style={{ paddingTop: "1rem" }}>
+          <LoadPlayer
+            currentProfile={currentProfile}
+            onPlayerCreated={refetchPlayers}
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="import" style={{ paddingTop: "1rem" }}>
+          <ImportPlayer
+            currentProfile={currentProfile}
+            onPlayerCreated={refetchPlayers}
+          />
+        </Tabs.Panel>
       </Tabs>
 
-      <OnlinePlayersTable
+      <PlayersTable
         currentProfile={currentProfile}
         players={players}
         onPlayersUpdated={setPlayers}
@@ -67,4 +80,4 @@ const OnlineManagePlayer: React.FC<Props> = ({
   );
 };
 
-export default OnlineManagePlayer;
+export default ManagePlayer;
