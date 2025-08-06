@@ -1,16 +1,32 @@
-# Cloud Games ボード表示機能設計
+# サーバー保存版 ボード表示機能設計
 
 ## 概要
 
-Cloud Gamesにおけるボード表示機能の詳細設計です。ゲームの進行状況をリアルタイムで表示し、プレイヤーの操作（正解・誤答等）を処理する機能を実装します。
+サーバー保存版ゲーム機能（`/online/games`）におけるボード表示機能の詳細設計です。ゲームの進行状況をリアルタイムで表示し、プレイヤーの操作（正解・誤答等）を処理する機能を実装します。
 
-## 現在の状況
+**重要**: URLパス（`/online/games`）以外では既存の命名規約をそのまま使用します。コンポーネント名、関数名、型名は既存実装と同じ名前を使用してください。
 
-現在のCloudBoardは基本情報の表示のみ：
+## 現在の実装状況
 
-- ゲーム名とルール表示
-- プレイヤー数とログ数の表示
-- 実際のゲーム操作機能は未実装
+現在の`CloudBoard`は基本情報の表示のみ：
+
+```tsx
+return (
+  <Box className={classes.board}>
+    <Text size="xl" fw={700} mb="md">
+      {game.name} - クラウドボード
+    </Text>
+    <Text size="sm" c="dimmed">
+      クラウドゲーム用のボード表示機能は実装中です。
+    </Text>
+    <Text size="sm" mt="md">
+      ゲーム形式: {game.ruleType}
+    </Text>
+    <Text size="sm">プレイヤー数: {players.length}人</Text>
+    <Text size="sm">ログ数: {logs.length}件</Text>
+  </Box>
+);
+```
 
 ## 機能要件
 
@@ -43,7 +59,7 @@ Cloud Gamesにおけるボード表示機能の詳細設計です。ゲームの
 // 操作 → ログ追加 → スコア再計算 → UI更新
 const handlePlayerAction = async (playerId: string, action: Variants) => {
   // 1. ログをデータベースに追加
-  await addCloudGameLog(
+  await addGameLog(
     {
       gameId,
       playerId,
@@ -55,7 +71,7 @@ const handlePlayerAction = async (playerId: string, action: Variants) => {
   );
 
   // 2. ログを再取得してスコア計算
-  const updatedLogs = await getCloudGameLogs(gameId, user.id);
+  const updatedLogs = await getGameLogs(gameId, user.id);
   const computedScores = computeScore(game, players, updatedLogs);
 
   // 3. UI状態を更新
@@ -74,12 +90,8 @@ const handlePlayerAction = async (playerId: string, action: Variants) => {
 ```typescript
 import { computeScore } from "@/utils/computeScore";
 
-// Cloud版での使用例
-const calculateScores = (
-  game: CloudGame,
-  players: CloudPlayer[],
-  logs: CloudLog[]
-) => {
+// サーバー保存版での使用例
+const calculateScores = (game: Game, players: Player[], logs: GameLog[]) => {
   // 既存の型に変換
   const indexedDBGame = convertToIndexedDBFormat(game);
   const indexedDBPlayers = convertToIndexedDBFormat(players);
@@ -95,22 +107,22 @@ const calculateScores = (
 ### 基本構造
 
 ```
-CloudBoard.tsx
-├── CloudBoardHeader.tsx (ゲーム情報)
-├── CloudPlayers.tsx (プレイヤー一覧)
-│   └── CloudPlayer.tsx (個別プレイヤー)
-│       ├── CloudPlayerName.tsx
-│       ├── CloudPlayerScore.tsx
-│       └── CloudPlayerButtons.tsx
-├── CloudActionButtons.tsx (全体操作)
-├── CloudGameLogs.tsx (ログ表示)
-├── CloudWinModal.tsx (勝利モーダル)
-└── CloudPreferenceDrawer.tsx (設定)
+CloudBoard.tsx → Board.tsx
+├── BoardHeader.tsx (ゲーム情報)
+├── Players.tsx (プレイヤー一覧)
+│   └── Player.tsx (個別プレイヤー)
+│       ├── PlayerName.tsx
+│       ├── PlayerScore.tsx
+│       └── PlayerButtons.tsx
+├── ActionButtons.tsx (全体操作)
+├── GameLogs.tsx (ログ表示)
+├── WinModal.tsx (勝利モーダル)
+└── PreferenceDrawer.tsx (設定)
 ```
 
 ### 既存コンポーネントとの関係
 
-| 機能       | IndexedDB版  | Cloud版        | 変更点                   |
+| 機能       | IndexedDB版  | サーバー保存版 | 変更点                   |
 | ---------- | ------------ | -------------- | ------------------------ |
 | データ取得 | useLiveQuery | useState + API | リアルタイム性の実装方法 |
 | ログ追加   | 直接DB操作   | API呼び出し    | 非同期処理の追加         |
@@ -128,7 +140,7 @@ CloudBoard.tsx
 
 - チーム戦表示
 - 特殊なレイアウト
-- 専用コンポーネント（CloudAQL.tsx）
+- 専用コンポーネント（AQL.tsx）
 
 ### その他の形式
 
@@ -140,9 +152,9 @@ CloudBoard.tsx
 ### メインステート
 
 ```typescript
-const [game, setGame] = useState<CloudGame | null>(null);
-const [players, setPlayers] = useState<CloudPlayer[]>([]);
-const [logs, setLogs] = useState<CloudLog[]>([]);
+const [game, setGame] = useState<OnlineGame | null>(null);
+const [players, setPlayers] = useState<OnlinePlayer[]>([]);
+const [logs, setLogs] = useState<OnlineLog[]>([]);
 const [scores, setScores] = useState<ComputedScoreProps[]>([]);
 const [currentQuestion, setCurrentQuestion] = useState(1);
 const [isGameActive, setIsGameActive] = useState(true);
@@ -176,8 +188,8 @@ useEffect(() => {
   const interval = setInterval(async () => {
     try {
       const [updatedLogs, updatedPlayers] = await Promise.all([
-        getCloudGameLogs(gameId, user.id),
-        getCloudGamePlayers(gameId, user.id),
+        getGameLogs(gameId, user.id),
+        getGamePlayers(gameId, user.id),
       ]);
 
       if (JSON.stringify(updatedLogs) !== JSON.stringify(logs)) {
@@ -195,30 +207,6 @@ useEffect(() => {
 }, [gameId, user?.id, logs]);
 ```
 
-### 将来的な改善（WebSocket）
-
-```typescript
-// 将来の実装予定
-useEffect(() => {
-  const ws = new WebSocket(`ws://localhost:3000/games/${gameId}`);
-
-  ws.onmessage = (event) => {
-    const { type, data } = JSON.parse(event.data);
-
-    switch (type) {
-      case "GAME_LOG_ADDED":
-        setLogs((prev) => [...prev, data]);
-        break;
-      case "PLAYER_UPDATED":
-        updatePlayer(data);
-        break;
-    }
-  };
-
-  return () => ws.close();
-}, [gameId]);
-```
-
 ## エラーハンドリング
 
 ### 操作エラー
@@ -228,7 +216,7 @@ const handlePlayerAction = async (playerId: string, action: Variants) => {
   setActionInProgress(true);
 
   try {
-    await addCloudGameLog(
+    await addOnlineGameLog(
       {
         gameId,
         playerId,
@@ -266,32 +254,6 @@ const handlePlayerAction = async (playerId: string, action: Variants) => {
 };
 ```
 
-### ネットワークエラー
-
-```typescript
-const [isOffline, setIsOffline] = useState(false);
-
-useEffect(() => {
-  const handleOnline = () => setIsOffline(false);
-  const handleOffline = () => setIsOffline(true);
-
-  window.addEventListener('online', handleOnline);
-  window.addEventListener('offline', handleOffline);
-
-  return () => {
-    window.removeEventListener('online', handleOnline);
-    window.removeEventListener('offline', handleOffline);
-  };
-}, []);
-
-// オフライン時の表示
-{isOffline && (
-  <Alert color="yellow" title="オフライン">
-    インターネット接続を確認してください
-  </Alert>
-)}
-```
-
 ## 実装計画
 
 ### ステップ1: 基本表示機能
@@ -324,29 +286,135 @@ useEffect(() => {
 - AQLなどの専用コンポーネント
 - 表示設定の実装
 
-## パフォーマンス考慮事項
+## 実装例
 
-### 最適化戦略
+### OnlineBoard基本構造
 
-1. **メモ化**: React.memo, useMemo, useCallback
-2. **仮想化**: 大量のログ表示時
-3. **遅延読み込み**: 重いコンポーネントの動的import
-4. **キャッシュ**: API レスポンスのキャッシュ
+```tsx
+"use client";
 
-### 実装例
+import { useState, useEffect } from "react";
+import { Box, Text, Group, Button, Stack } from "@mantine/core";
 
-```typescript
-const CloudPlayer = React.memo<PlayerProps>(({ player, score, onAction }) => {
-  const handleAction = useCallback((action: Variants) => {
-    onAction(player.id, action);
-  }, [player.id, onAction]);
+import OnlinePlayers from "./_components/OnlinePlayers";
+import OnlineActionButtons from "./_components/OnlineActionButtons";
+import OnlineGameLogs from "./_components/OnlineGameLogs";
+
+import { computeScore } from "@/utils/computeScore";
+import apiClient from "@/utils/hono/client";
+
+type OnlineBoardProps = {
+  game_id: string;
+  user: User | null;
+};
+
+const OnlineBoard: React.FC<OnlineBoardProps> = ({ game_id, user }) => {
+  const [game, setGame] = useState<OnlineGame | null>(null);
+  const [players, setPlayers] = useState<OnlinePlayer[]>([]);
+  const [logs, setLogs] = useState<OnlineLog[]>([]);
+  const [scores, setScores] = useState<ComputedScoreProps[]>([]);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    fetchGameData();
+  }, [game_id, user?.id]);
+
+  const fetchGameData = async () => {
+    try {
+      const [gameResponse, playersResponse, logsResponse] = await Promise.all([
+        apiClient["games"][":gameId"].$get(
+          { param: { gameId: game_id } },
+          { headers: { "x-user-id": user.id } }
+        ),
+        apiClient["games"][":gameId"]["players"].$get(
+          { param: { gameId: game_id } },
+          { headers: { "x-user-id": user.id } }
+        ),
+        apiClient["games"][":gameId"]["logs"].$get(
+          { param: { gameId: game_id } },
+          { headers: { "x-user-id": user.id } }
+        ),
+      ]);
+
+      const gameData = await gameResponse.json();
+      const playersData = await playersResponse.json();
+      const logsData = await logsResponse.json();
+
+      if ("game" in gameData) setGame(gameData.game);
+      if ("players" in playersData) setPlayers(playersData.players);
+      if ("logs" in logsData) setLogs(logsData.logs);
+
+      // スコア計算
+      if (gameData.game && playersData.players && logsData.logs) {
+        const computedScores = computeScore(
+          gameData.game,
+          playersData.players,
+          logsData.logs
+        );
+        setScores(computedScores);
+      }
+    } catch (error) {
+      console.error("Failed to fetch game data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePlayerAction = async (playerId: string, action: string) => {
+    try {
+      await apiClient["games"][":gameId"]["logs"].$post(
+        {
+          param: { gameId: game_id },
+          json: {
+            playerId,
+            actionType: action,
+            questionNumber: currentQuestion,
+          },
+        },
+        { headers: { "x-user-id": user.id } }
+      );
+
+      // データを再取得
+      await fetchGameData();
+    } catch (error) {
+      console.error("Failed to add game log:", error);
+    }
+  };
+
+  if (loading || !game) {
+    return <Text>読み込み中...</Text>;
+  }
 
   return (
-    // プレイヤーコンポーネント
-  );
-});
+    <Stack gap="md">
+      <Group justify="space-between">
+        <Text size="xl" fw={700}>
+          {game.name}
+        </Text>
+        <Text size="sm" c="dimmed">
+          問題 {currentQuestion}
+        </Text>
+      </Group>
 
-const memoizedScores = useMemo(() => {
-  return calculateScores(game, players, logs);
-}, [game, players, logs]);
+      <OnlinePlayers
+        players={players}
+        scores={scores}
+        onPlayerAction={handlePlayerAction}
+      />
+
+      <OnlineActionButtons
+        onNextQuestion={() => setCurrentQuestion((prev) => prev + 1)}
+        onUndo={() => {
+          /* 元に戻す処理 */
+        }}
+      />
+
+      <OnlineGameLogs logs={logs} />
+    </Stack>
+  );
+};
+
+export default OnlineBoard;
 ```

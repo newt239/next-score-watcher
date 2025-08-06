@@ -1,8 +1,10 @@
-# Cloud Games データ同期機能設計
+# サーバー保存版 データ同期機能設計
 
 ## 概要
 
-Cloud Gamesにおけるデータ同期機能の詳細設計です。リアルタイム同期、オフライン対応、競合解決などの高度な同期機能を実装します。
+サーバー保存版ゲーム機能（`/online/games`）におけるデータ同期機能の詳細設計です。リアルタイム同期、オフライン対応、競合解決などの高度な同期機能を実装します。
+
+**重要**: URLパス（`/online/games`）以外では既存の命名規約をそのまま使用します。コンポーネント名、関数名、型名は既存実装と同じ名前を使用してください。
 
 ## 現在の同期方式
 
@@ -20,7 +22,7 @@ Cloud Gamesにおけるデータ同期機能の詳細設計です。リアルタ
 useEffect(() => {
   const interval = setInterval(async () => {
     try {
-      const updatedLogs = await getCloudGameLogs(gameId, user.id);
+      const updatedLogs = await getOnlineGameLogs(gameId, user.id);
       if (JSON.stringify(updatedLogs) !== JSON.stringify(logs)) {
         setLogs(updatedLogs);
       }
@@ -155,7 +157,7 @@ export const websocketHandler = upgradeWebSocket((c) => {
 const handleGameAction = async (data: any, gameId: string, userId: string) => {
   try {
     // データベースに操作を保存
-    await addCloudGameLog(
+    await addOnlineGameLog(
       {
         gameId,
         playerId: data.playerId,
@@ -174,7 +176,7 @@ const handleGameAction = async (data: any, gameId: string, userId: string) => {
 #### クライアントサイド実装
 
 ```typescript
-// src/hooks/useCloudGameSync.ts
+// src/hooks/useOnlineGameSync.ts
 interface GameSyncConfig {
   gameId: string;
   userId: string;
@@ -183,7 +185,7 @@ interface GameSyncConfig {
   onError: (error: Error) => void;
 }
 
-export const useCloudGameSync = ({
+export const useOnlineGameSync = ({
   gameId,
   userId,
   onGameStateUpdate,
@@ -312,7 +314,7 @@ const OFFLINE_CACHE = "offline-v1";
 
 // オフライン時のフォールバック
 self.addEventListener("fetch", (event) => {
-  if (event.request.url.includes("/api/cloud-games")) {
+  if (event.request.url.includes("/api/online/games")) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -402,7 +404,7 @@ class OfflineActionQueue {
 
   private async executeAction(queuedAction: QueuedAction) {
     const response = await fetch(
-      `/api/cloud-games/${queuedAction.gameId}/actions`,
+      `/api/online/games/${queuedAction.gameId}/actions`,
       {
         method: "POST",
         headers: {
@@ -580,7 +582,7 @@ export const useConflictResolution = (gameId: string) => {
 ### トランザクション管理
 
 ```typescript
-// src/utils/cloud-db.ts の拡張
+// src/server/repositories/ の拡張
 export const executeGameTransaction = async (
   gameId: string,
   userId: string,
@@ -588,7 +590,7 @@ export const executeGameTransaction = async (
 ) => {
   return await DBClient.transaction(async (tx) => {
     // 操作前のゲーム状態を記録
-    const gameSnapshot = await getCloudGame(gameId, userId);
+    const gameSnapshot = await getOnlineGame(gameId, userId);
 
     try {
       // すべての操作を実行
@@ -608,9 +610,9 @@ export const executeGameTransaction = async (
 
 const validateGameState = async (gameId: string, userId: string) => {
   const [game, players, logs] = await Promise.all([
-    getCloudGame(gameId, userId),
-    getCloudGamePlayers(gameId, userId),
-    getCloudGameLogs(gameId, userId),
+    getOnlineGame(gameId, userId),
+    getOnlineGamePlayers(gameId, userId),
+    getOnlineGameLogs(gameId, userId),
   ]);
 
   // ゲーム状態の整合性チェック

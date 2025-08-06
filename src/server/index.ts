@@ -14,9 +14,11 @@ import postCreateGameHandler from "./controllers/game/post-create";
 import postLogCountsHandler from "./controllers/game/post-log-counts";
 import postPlayerCountsHandler from "./controllers/game/post-player-counts";
 import deletePlayerHandler from "./controllers/player/delete-player";
+import deletePlayerTagHandler from "./controllers/player/delete-tag";
 import getPlayerDetailHandler from "./controllers/player/get-detail";
 import getPlayerListHandler from "./controllers/player/get-list";
 import patchUpdatePlayerHandler from "./controllers/player/patch-update";
+import postAddPlayerTagHandler from "./controllers/player/post-add-tag";
 import postCreatePlayerHandler from "./controllers/player/post-create";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
@@ -47,6 +49,8 @@ const app = new Hono()
   .get("/players/:id", ...getPlayerDetailHandler)
   .patch("/players/:id", ...patchUpdatePlayerHandler)
   .delete("/players/:id", ...deletePlayerHandler)
+  .post("/players/:id/tags", ...postAddPlayerTagHandler)
+  .delete("/players/:id/tags", ...deletePlayerTagHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);

@@ -1,4 +1,4 @@
-import { eq, asc, count, and } from "drizzle-orm";
+import { eq, asc, count, and, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import type {
@@ -6,10 +6,30 @@ import type {
   UpdatePlayerRequestType,
   ApiPlayerDataType,
   GetPlayersListResponseType,
+  AddPlayerTagRequestType,
+  RemovePlayerTagRequestType,
 } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
-import { player } from "@/utils/drizzle/schema";
+import { player, playerTag, playerPlayerTag } from "@/utils/drizzle/schema";
+
+/**
+ * プレイヤーのタグ一覧を取得
+ */
+const getPlayerTags = async (playerId: string): Promise<string[]> => {
+  const tags = await DBClient.select({ tagName: playerTag.tagName })
+    .from(playerPlayerTag)
+    .innerJoin(playerTag, eq(playerPlayerTag.playerTagId, playerTag.id))
+    .where(
+      and(
+        eq(playerPlayerTag.playerId, playerId),
+        isNull(playerTag.deletedAt),
+        isNull(playerPlayerTag.deletedAt)
+      )
+    );
+
+  return tags.map((tag) => tag.tagName);
+};
 
 /**
  * プレイヤー一覧取得
@@ -20,13 +40,18 @@ export const getPlayers = async (userId: string) => {
     .where(eq(player.userId, userId))
     .orderBy(asc(player.name));
 
-  return players.map((p) => ({
-    id: p.id,
-    name: p.name,
-    text: p.displayName,
-    belong: p.affiliation || "",
-    tags: [], // TODO: タグ機能実装時に修正
-  }));
+  // プレイヤーごとにタグを取得
+  const playersWithTags = await Promise.all(
+    players.map(async (p) => ({
+      id: p.id,
+      name: p.name,
+      text: p.displayName,
+      belong: p.affiliation || "",
+      tags: await getPlayerTags(p.id),
+    }))
+  );
+
+  return playersWithTags;
 };
 
 /**
@@ -50,16 +75,18 @@ export const getPlayersWithPagination = async (
     .from(player)
     .where(eq(player.userId, userId));
 
-  // レスポンス形式に変換
-  const playersResponse: ApiPlayerDataType[] = players.map((p) => ({
-    id: p.id,
-    name: p.name,
-    text: p.displayName,
-    belong: p.affiliation || "",
-    tags: [], // TODO: タグ機能実装時に修正
-    createdAt: p.createdAt.toISOString(),
-    updatedAt: p.updatedAt.toISOString(),
-  }));
+  // レスポンス形式に変換（タグ付き）
+  const playersResponse: ApiPlayerDataType[] = await Promise.all(
+    players.map(async (p) => ({
+      id: p.id,
+      name: p.name,
+      text: p.displayName,
+      belong: p.affiliation || "",
+      tags: await getPlayerTags(p.id),
+      createdAt: p.createdAt.toISOString(),
+      updatedAt: p.updatedAt.toISOString(),
+    }))
+  );
 
   return {
     players: playersResponse,
@@ -87,7 +114,7 @@ export const getPlayerById = async (
     name: playerResult.name,
     text: playerResult.displayName,
     belong: playerResult.affiliation || "",
-    tags: [], // TODO: タグ機能実装時に修正
+    tags: await getPlayerTags(playerResult.id),
     createdAt: playerResult.createdAt.toISOString(),
     updatedAt: playerResult.updatedAt.toISOString(),
   } as const;
@@ -145,6 +172,104 @@ export const deletePlayer = async (
       updatedAt: new Date(),
     })
     .where(and(eq(player.id, playerId), eq(player.userId, userId)));
+
+  return result.rowsAffected > 0;
+};
+
+/**
+ * プレイヤーにタグを追加
+ */
+export const addPlayerTag = async (
+  playerId: string,
+  tagData: AddPlayerTagRequestType,
+  userId: string
+): Promise<boolean> => {
+  // まず、同じタグ名のplayerTagが存在するかチェック
+  const [existingTag] = await DBClient.select()
+    .from(playerTag)
+    .where(
+      and(
+        eq(playerTag.tagName, tagData.tagName),
+        eq(playerTag.userId, userId),
+        isNull(playerTag.deletedAt)
+      )
+    );
+
+  let tagId: string;
+
+  if (existingTag) {
+    tagId = existingTag.id;
+  } else {
+    // 新しいタグを作成
+    tagId = nanoid();
+    await DBClient.insert(playerTag).values({
+      id: tagId,
+      tagName: tagData.tagName,
+      userId,
+    });
+  }
+
+  // プレイヤーとタグの関連付けが既に存在するかチェック
+  const [existingRelation] = await DBClient.select()
+    .from(playerPlayerTag)
+    .where(
+      and(
+        eq(playerPlayerTag.playerId, playerId),
+        eq(playerPlayerTag.playerTagId, tagId),
+        isNull(playerPlayerTag.deletedAt)
+      )
+    );
+
+  if (existingRelation) {
+    return true; // 既に関連付けが存在する場合は成功として扱う
+  }
+
+  // プレイヤーとタグを関連付け
+  await DBClient.insert(playerPlayerTag).values({
+    id: nanoid(),
+    playerId,
+    playerTagId: tagId,
+  });
+
+  return true;
+};
+
+/**
+ * プレイヤーからタグを削除
+ */
+export const removePlayerTag = async (
+  playerId: string,
+  tagData: RemovePlayerTagRequestType,
+  userId: string
+): Promise<boolean> => {
+  // タグIDを取得
+  const [tagResult] = await DBClient.select({ id: playerTag.id })
+    .from(playerTag)
+    .where(
+      and(
+        eq(playerTag.tagName, tagData.tagName),
+        eq(playerTag.userId, userId),
+        isNull(playerTag.deletedAt)
+      )
+    );
+
+  if (!tagResult) {
+    return false; // タグが存在しない
+  }
+
+  // プレイヤーとタグの関連付けをソフト削除
+  const result = await DBClient.update(playerPlayerTag)
+    .set({
+      deletedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(playerPlayerTag.playerId, playerId),
+        eq(playerPlayerTag.playerTagId, tagResult.id),
+        isNull(playerPlayerTag.deletedAt)
+      )
+    );
 
   return result.rowsAffected > 0;
 };

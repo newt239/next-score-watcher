@@ -1,8 +1,27 @@
-# Cloud Games その他設定機能設計
+# サーバー保存版 その他設定機能設計
 
 ## 概要
 
-Cloud Gamesにおけるその他設定機能の詳細設計です。ゲーム名変更、Discord Webhook、ゲームコピー・削除、データエクスポートなどの管理機能を実装します。
+サーバー保存版ゲーム機能（`/online/games`）におけるその他設定機能の詳細設計です。ゲーム名変更、Discord Webhook、ゲームコピー・削除、データエクスポートなどの管理機能を実装します。
+
+**重要**: URLパス（`/online/games`）以外では既存の命名規約をそのまま使用します。コンポーネント名、関数名、型名は既存実装と同じ名前を使用してください。
+
+## 現在の実装状況
+
+現在の`CloudOtherConfig`はプレースホルダーのみ：
+
+```tsx
+const CloudOtherConfig: React.FC = () => {
+  return (
+    <div>
+      <Text>その他設定（クラウド版）</Text>
+      <Text size="sm" c="dimmed">
+        クラウドゲーム用のその他設定機能は実装中です。
+      </Text>
+    </div>
+  );
+};
+```
 
 ## 機能一覧
 
@@ -64,15 +83,15 @@ Cloud Gamesにおけるその他設定機能の詳細設計です。ゲーム名
 
 ### レイアウト構成
 
-```tsx
-CloudOtherConfig.tsx
-├── CloudGameNameEditor.tsx (ゲーム名編集)
-├── CloudDiscordWebhook.tsx (Webhook設定)
-├── CloudGameActions.tsx (アクション群)
-│   ├── CloudCopyGame.tsx (コピー)
-│   ├── CloudDeleteGame.tsx (削除)
-│   └── CloudExportGame.tsx (エクスポート)
-└── CloudGameStats.tsx (統計情報)
+```
+CloudOtherConfig.tsx → OtherConfig.tsx
+├── GameNameEditor.tsx (ゲーム名編集)
+├── DiscordWebhook.tsx (Webhook設定)
+├── GameActions.tsx (アクション群)
+│   ├── CopyGame.tsx (コピー)
+│   ├── DeleteGame.tsx (削除)
+│   └── ExportGame.tsx (エクスポート)
+└── GameStats.tsx (統計情報)
 ```
 
 ### セクション分割
@@ -84,7 +103,7 @@ CloudOtherConfig.tsx
     <Card.Section>
       <Title order={4}>基本設定</Title>
     </Card.Section>
-    <CloudGameNameEditor />
+    <GameNameEditor />
   </Card>
 
   {/* 外部連携 */}
@@ -92,7 +111,7 @@ CloudOtherConfig.tsx
     <Card.Section>
       <Title order={4}>外部連携</Title>
     </Card.Section>
-    <CloudDiscordWebhook />
+    <DiscordWebhook />
   </Card>
 
   {/* ゲーム管理 */}
@@ -100,7 +119,7 @@ CloudOtherConfig.tsx
     <Card.Section>
       <Title order={4}>ゲーム管理</Title>
     </Card.Section>
-    <CloudGameActions />
+    <GameActions />
   </Card>
 
   {/* 統計情報 */}
@@ -108,7 +127,7 @@ CloudOtherConfig.tsx
     <Card.Section>
       <Title order={4}>統計情報</Title>
     </Card.Section>
-    <CloudGameStats />
+    <GameStats />
   </Card>
 </Stack>
 ```
@@ -117,39 +136,39 @@ CloudOtherConfig.tsx
 
 ### 既存APIの拡張
 
-`cloud-db.ts`に以下の関数を追加:
+`src/server/repositories/games.ts`に以下の関数を追加:
 
 ```typescript
-// ゲーム名更新（既存のupdateCloudGameを使用）
-export const updateCloudGameName = async (
+// ゲーム名更新（既存のupdateGameを使用）
+export const updateGameName = async (
   gameId: string,
   name: string,
   userId: string
 ) => {
-  await updateCloudGame(gameId, { name }, userId);
+  await updateGame(gameId, { name }, userId);
 };
 
 // Discord Webhook URL更新
-export const updateCloudGameWebhook = async (
+export const updateGameWebhook = async (
   gameId: string,
   webhookUrl: string,
   userId: string
 ) => {
-  await updateCloudGame(gameId, { discordWebhookUrl: webhookUrl }, userId);
+  await updateGame(gameId, { discordWebhookUrl: webhookUrl }, userId);
 };
 
 // ゲームコピー
-export const copyCloudGame = async (
+export const copyGame = async (
   sourceGameId: string,
   newGameName: string,
   userId: string
 ) => {
   // 1. 元ゲームの情報を取得
-  const sourceGame = await getCloudGame(sourceGameId, userId);
-  const sourcePlayers = await getCloudGamePlayers(sourceGameId, userId);
+  const sourceGame = await getGame(sourceGameId, userId);
+  const sourcePlayers = await getGamePlayers(sourceGameId, userId);
 
   // 2. 新しいゲームを作成
-  const newGameId = await createCloudGame(
+  const newGameId = await createGame(
     {
       name: newGameName,
       ruleType: sourceGame.ruleType,
@@ -160,7 +179,7 @@ export const copyCloudGame = async (
 
   // 3. プレイヤーをコピー
   for (const player of sourcePlayers) {
-    await addCloudGamePlayer(
+    await addGamePlayer(
       newGameId,
       {
         playerId: player.id,
@@ -185,18 +204,18 @@ export const copyCloudGame = async (
 };
 
 // ゲーム削除（論理削除）
-export const deleteCloudGameSoft = async (gameId: string, userId: string) => {
+export const deleteGameSoft = async (gameId: string, userId: string) => {
   await DBClient.update(game)
     .set({ deletedAt: new Date() })
     .where(and(eq(game.id, gameId), eq(game.userId, userId)));
 };
 
 // ゲームデータエクスポート
-export const exportCloudGameData = async (gameId: string, userId: string) => {
+export const exportGameData = async (gameId: string, userId: string) => {
   const [gameData, players, logs] = await Promise.all([
-    getCloudGame(gameId, userId),
-    getCloudGamePlayers(gameId, userId),
-    getCloudGameLogs(gameId, userId),
+    getGame(gameId, userId),
+    getGamePlayers(gameId, userId),
+    getGameLogs(gameId, userId),
   ]);
 
   return {
@@ -211,11 +230,11 @@ export const exportCloudGameData = async (gameId: string, userId: string) => {
 
 ### 新しいAPIエンドポイント
 
-`cloud-games.ts`に追加:
+`src/server/controllers/game/`に追加:
 
 ```typescript
 // ゲームコピー
-export const copyCloudGameHandler = factory.createHandlers(
+export const copyGameHandler = factory.createHandlers(
   zValidator(
     "json",
     z.object({
@@ -230,7 +249,7 @@ export const copyCloudGameHandler = factory.createHandlers(
     const { sourceGameId, newGameName } = c.req.valid("json");
 
     try {
-      const newGameId = await copyCloudGame(sourceGameId, newGameName, userId);
+      const newGameId = await copyGame(sourceGameId, newGameName, userId);
       return c.json({ gameId: newGameId }, 201);
     } catch (error) {
       return c.json({ error: "Failed to copy game" }, 500);
@@ -239,7 +258,7 @@ export const copyCloudGameHandler = factory.createHandlers(
 );
 
 // データエクスポート
-export const exportCloudGameHandler = factory.createHandlers(async (c) => {
+export const exportGameHandler = factory.createHandlers(async (c) => {
   const gameId = c.req.param("gameId");
   const userId = c.req.header("x-user-id");
 
@@ -247,7 +266,7 @@ export const exportCloudGameHandler = factory.createHandlers(async (c) => {
   if (!gameId) return c.json({ error: "Game ID required" }, 400);
 
   try {
-    const exportData = await exportCloudGameData(gameId, userId);
+    const exportData = await exportGameData(gameId, userId);
 
     return c.json(exportData, 200, {
       "Content-Disposition": `attachment; filename="game-${gameId}.json"`,
@@ -263,7 +282,7 @@ export const exportCloudGameHandler = factory.createHandlers(async (c) => {
 ### 1. ゲーム名変更
 
 ```tsx
-const CloudGameNameEditor: React.FC<{ game: CloudGame }> = ({ game }) => {
+const GameNameEditor: React.FC<{ game: Game }> = ({ game }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(game.name);
   const [isLoading, setIsLoading] = useState(false);
@@ -276,7 +295,7 @@ const CloudGameNameEditor: React.FC<{ game: CloudGame }> = ({ game }) => {
 
     setIsLoading(true);
     try {
-      await updateCloudGameName(game.id, name.trim(), user.id);
+      await updateGameName(game.id, name.trim(), user.id);
       notifications.show({
         title: "保存完了",
         message: "ゲーム名を更新しました",
@@ -335,7 +354,7 @@ const CloudGameNameEditor: React.FC<{ game: CloudGame }> = ({ game }) => {
 ### 2. Discord Webhook設定
 
 ```tsx
-const CloudDiscordWebhook: React.FC<{ game: CloudGame }> = ({ game }) => {
+const DiscordWebhook: React.FC<{ game: Game }> = ({ game }) => {
   const form = useForm({
     initialValues: {
       webhookUrl: game.discordWebhookUrl || "",
@@ -357,7 +376,7 @@ const CloudDiscordWebhook: React.FC<{ game: CloudGame }> = ({ game }) => {
 
   const handleSave = async (values: typeof form.values) => {
     try {
-      await updateCloudGameWebhook(game.id, values.webhookUrl, user.id);
+      await updateGameWebhook(game.id, values.webhookUrl, user.id);
       notifications.show({
         title: "保存完了",
         message: "Webhook設定を更新しました",
@@ -372,10 +391,6 @@ const CloudDiscordWebhook: React.FC<{ game: CloudGame }> = ({ game }) => {
     }
   };
 
-  const testWebhook = async () => {
-    // テスト送信の実装
-  };
-
   return (
     <form onSubmit={form.onSubmit(handleSave)}>
       <Stack gap="sm">
@@ -386,64 +401,12 @@ const CloudDiscordWebhook: React.FC<{ game: CloudGame }> = ({ game }) => {
         />
         <Group gap="sm">
           <Button type="submit">保存</Button>
-          <Button
-            variant="outline"
-            onClick={testWebhook}
-            disabled={!form.values.webhookUrl || !!form.errors.webhookUrl}
-          >
+          <Button variant="outline" onClick={testWebhook}>
             テスト送信
           </Button>
         </Group>
       </Stack>
     </form>
-  );
-};
-```
-
-### 3. ゲームコピー機能
-
-```tsx
-const CloudCopyGame: React.FC<{ game: CloudGame }> = ({ game }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-
-  const handleCopy = async (newName: string) => {
-    setIsLoading(true);
-    try {
-      const newGameId = await copyCloudGame(game.id, newName, user.id);
-      notifications.show({
-        title: "コピー完了",
-        message: "新しいゲームを作成しました",
-        color: "green",
-      });
-      setModalOpen(false);
-      router.push(`/cloud-games/${newGameId}/config`);
-    } catch (error) {
-      notifications.show({
-        title: "エラー",
-        message: "ゲームのコピーに失敗しました",
-        color: "red",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <>
-      <Button leftSection={<IconCopy />} onClick={() => setModalOpen(true)}>
-        ゲームをコピー
-      </Button>
-
-      <Modal opened={modalOpen} onClose={() => setModalOpen(false)}>
-        <CopyGameForm
-          defaultName={`${game.name}のコピー`}
-          onSubmit={handleCopy}
-          loading={isLoading}
-        />
-      </Modal>
-    </>
   );
 };
 ```
@@ -480,22 +443,75 @@ const CloudCopyGame: React.FC<{ game: CloudGame }> = ({ game }) => {
 - 可視化コンポーネント
 - パフォーマンス最適化
 
-## セキュリティ考慮事項
+## 実装例
 
-### データ保護
+### OtherConfig基本構造
 
-- ユーザー権限の確認
-- データアクセス制限
-- 論理削除による復旧可能性
+```tsx
+"use client";
 
-### Webhook セキュリティ
+import { useState } from "react";
+import { Stack, Card, Title, Text } from "@mantine/core";
 
-- URL検証
-- レート制限
-- エラーハンドリング
+import GameNameEditor from "./GameNameEditor";
+import DiscordWebhook from "./DiscordWebhook";
+import GameActions from "./GameActions";
+import GameStats from "./GameStats";
 
-### エクスポートデータ
+type OtherConfigProps = {
+  game: Game;
+  user: User;
+};
 
-- 機密情報の除外
-- データサイズ制限
-- 不正アクセス防止
+const OtherConfig: React.FC<OtherConfigProps> = ({ game, user }) => {
+  return (
+    <Stack gap="lg">
+      <Text size="lg" fw={600}>
+        その他の設定
+      </Text>
+
+      {/* 基本設定 */}
+      <Card withBorder>
+        <Card.Section withBorder inheritPadding py="xs">
+          <Title order={4}>基本設定</Title>
+        </Card.Section>
+        <Card.Section inheritPadding py="md">
+          <GameNameEditor game={game} user={user} />
+        </Card.Section>
+      </Card>
+
+      {/* 外部連携 */}
+      <Card withBorder>
+        <Card.Section withBorder inheritPadding py="xs">
+          <Title order={4}>外部連携</Title>
+        </Card.Section>
+        <Card.Section inheritPadding py="md">
+          <DiscordWebhook game={game} user={user} />
+        </Card.Section>
+      </Card>
+
+      {/* ゲーム管理 */}
+      <Card withBorder>
+        <Card.Section withBorder inheritPadding py="xs">
+          <Title order={4}>ゲーム管理</Title>
+        </Card.Section>
+        <Card.Section inheritPadding py="md">
+          <GameActions game={game} user={user} />
+        </Card.Section>
+      </Card>
+
+      {/* 統計情報 */}
+      <Card withBorder>
+        <Card.Section withBorder inheritPadding py="xs">
+          <Title order={4}>統計情報</Title>
+        </Card.Section>
+        <Card.Section inheritPadding py="md">
+          <GameStats game={game} />
+        </Card.Section>
+      </Card>
+    </Stack>
+  );
+};
+
+export default OtherConfig;
+```

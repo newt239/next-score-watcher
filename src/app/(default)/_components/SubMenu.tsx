@@ -38,10 +38,14 @@ const getLinkList = (
   },
   {
     path: isLoggedIn ? "/online/games" : "/games",
-    text: isLoggedIn ? "クラウドゲーム" : "作成したゲーム",
+    text: "作成したゲーム",
     icon: <IconList />,
   },
-  { path: "/players", text: "プレイヤー管理", icon: <IconUsers /> },
+  {
+    path: isLoggedIn ? "/online/players" : "/players",
+    text: "プレイヤー管理",
+    icon: <IconUsers />,
+  },
   { path: "/quizes", text: "問題管理", icon: <IconQuestionMark /> },
   { path: "/option", text: "アプリ設定", icon: <IconSettings /> },
   { path: "/docs", text: "アプリ情報", icon: <IconInfoCircle /> },

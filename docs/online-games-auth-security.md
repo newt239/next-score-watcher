@@ -1,8 +1,10 @@
-# Cloud Games 認証・権限管理設計
+# サーバー保存版 認証・権限管理設計
 
 ## 概要
 
-Cloud Gamesにおける認証・権限管理の詳細設計です。ユーザーデータの分離、アクセス制御、セキュリティの強化を実装します。
+サーバー保存版ゲーム機能（`/online/games`）における認証・権限管理の詳細設計です。ユーザーデータの分離、アクセス制御、セキュリティの強化を実装します。
+
+**重要**: URLパス（`/online/games`）以外では既存の命名規約をそのまま使用します。コンポーネント名、関数名、型名は既存実装と同じ名前を使用してください。
 
 ## 現在の認証状況
 
@@ -56,22 +58,20 @@ if (!userId) {
   return c.json({ error: "Unauthorized" }, 401);
 }
 
-// 改善後のAPI認証
+// 改善後のAPI認証（Better Auth使用）
 const authenticateAPIRequest = async (c: Context) => {
   try {
-    // JWT トークンの検証
-    const authHeader = c.req.header("Authorization");
-    if (!authHeader?.startsWith("Bearer ")) {
+    // Better Authのセッション検証
+    const session = await getSession(c);
+
+    if (!session?.user) {
       return null;
     }
 
-    const token = authHeader.substring(7);
-    const payload = await verifyJWT(token);
-
     return {
-      userId: payload.sub,
-      email: payload.email,
-      sessionId: payload.sessionId,
+      userId: session.user.id,
+      email: session.user.email,
+      sessionId: session.sessionId,
     };
   } catch (error) {
     return null;
@@ -147,7 +147,7 @@ const authMiddleware = async (c: Context, next: Next) => {
 };
 
 // 使用例
-export const getCloudGameHandler = factory.createHandlers(
+export const getGameHandler = factory.createHandlers(
   authMiddleware,
   async (c) => {
     const user = c.get("user");
@@ -163,7 +163,7 @@ export const getCloudGameHandler = factory.createHandlers(
       return c.json({ error: "Forbidden" }, 403);
     }
 
-    const game = await getCloudGame(gameId, user.userId);
+    const game = await getGame(gameId, user.userId);
     return c.json({ game });
   }
 );
@@ -199,7 +199,7 @@ const rateLimit = (maxRequests: number, windowMs: number) => {
 };
 
 // 使用例（1分間に60リクエストまで）
-export const addCloudGameLogHandler = factory.createHandlers(
+export const addGameLogHandler = factory.createHandlers(
   authMiddleware,
   rateLimit(60, 60000)
   // ... handler logic

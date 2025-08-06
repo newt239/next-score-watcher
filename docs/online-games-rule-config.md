@@ -1,8 +1,27 @@
-# Cloud Games 形式設定機能設計
+# サーバー保存版 形式設定機能設計
 
 ## 概要
 
-Cloud Gamesにおける各ゲーム形式の設定機能の詳細設計です。17種類のゲーム形式それぞれに固有の設定項目を動的に生成・管理します。
+サーバー保存版ゲーム機能（`/online/games`）における各ゲーム形式の設定機能の詳細設計です。17種類のゲーム形式それぞれに固有の設定項目を動的に生成・管理します。
+
+**重要**: URLパス（`/online/games`）以外では既存の命名規約をそのまま使用します。コンポーネント名、関数名、型名は既存実装と同じ名前を使用してください。
+
+## 現在の実装状況
+
+現在の`CloudRuleSettings`はプレースホルダーのみ：
+
+```tsx
+const CloudRuleSettings: React.FC = () => {
+  return (
+    <div>
+      <Text>形式設定（クラウド版）</Text>
+      <Text size="sm" c="dimmed">
+        クラウドゲーム用の形式設定機能は実装中です。
+      </Text>
+    </div>
+  );
+};
+```
 
 ## 対応ゲーム形式
 
@@ -33,7 +52,7 @@ Cloud Gamesにおける各ゲーム形式の設定機能の詳細設計です。
 
 ### 既存スキーマの活用
 
-既存の`rule.ts`で定義されている各形式専用テーブルを使用:
+既存の`src/utils/drizzle/schema/rule.ts`で定義されている各形式専用テーブルを使用:
 
 ```typescript
 // 各形式のテーブル例
@@ -61,14 +80,14 @@ gameAqlSetting: {
 
 ```typescript
 // 形式設定の取得
-export const getCloudGameRuleConfig = async (
+export const getGameRuleConfig = async (
   gameId: string,
   ruleType: RuleNames,
   userId: string
 );
 
 // 形式設定の更新
-export const updateCloudGameRuleConfig = async (
+export const updateGameRuleConfig = async (
   gameId: string,
   ruleType: RuleNames,
   config: any, // 形式により異なる
@@ -76,7 +95,7 @@ export const updateCloudGameRuleConfig = async (
 );
 
 // 形式設定の初期化
-export const initializeCloudGameRuleConfig = async (
+export const initializeGameRuleConfig = async (
   gameId: string,
   ruleType: RuleNames,
   userId: string
@@ -131,14 +150,14 @@ const ruleConfigs: Record<RuleNames, RuleConfigItem[]> = {
 ### コンポーネント構成
 
 ```
-CloudRuleSettings.tsx
-├── CloudRuleConfigForm.tsx (動的フォーム生成)
-│   ├── CloudNumberInput.tsx (数値入力)
-│   ├── CloudBooleanInput.tsx (真偽値入力)
-│   ├── CloudTextInput.tsx (テキスト入力)
-│   └── CloudSelectInput.tsx (選択入力)
-├── CloudRulePreview.tsx (設定プレビュー)
-└── CloudRuleValidation.tsx (バリデーション表示)
+CloudRuleSettings.tsx → RuleSettings.tsx
+├── RuleConfigForm.tsx (動的フォーム生成)
+│   ├── ConfigNumberInput.tsx (数値入力)
+│   ├── ConfigBooleanInput.tsx (真偽値入力)
+│   ├── ConfigTextInput.tsx (テキスト入力)
+│   └── ConfigSelectInput.tsx (選択入力)
+├── RulePreview.tsx (設定プレビュー)
+└── RuleValidation.tsx (バリデーション表示)
 ```
 
 ## 実装計画
@@ -194,48 +213,96 @@ CloudRuleSettings.tsx
 
 各形式の仕様書（docs/rules/）に基づいて設定項目を定義
 
-## バリデーション戦略
+## 実装例
 
-### フロントエンド
+### RuleSettings基本構造
 
-- Mantineのフォームバリデーション
-- リアルタイム入力チェック
-- 視覚的エラー表示
+```tsx
+"use client";
 
-### バックエンド
+import { useState, useEffect } from "react";
+import { Card, Text, Stack, Button, Group } from "@mantine/core";
+import { useForm } from "@mantine/form";
 
-- Zodスキーマによるバリデーション
-- 形式固有のビジネスロジック検証
-- データベース制約チェック
+import RuleConfigForm from "./RuleConfigForm";
 
-### 共通バリデーション
-
-```typescript
-const commonValidation = {
-  positiveInteger: z.number().int().positive(),
-  nonNegativeInteger: z.number().int().min(0),
-  requiredString: z.string().min(1),
-  optionalString: z.string().optional(),
-  boolean: z.boolean(),
+type RuleSettingsProps = {
+  gameId: string;
+  ruleType: RuleNames;
+  userId: string;
 };
+
+const RuleSettings: React.FC<RuleSettingsProps> = ({
+  gameId,
+  ruleType,
+  userId,
+}) => {
+  const [config, setConfig] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  const form = useForm({
+    initialValues: getDefaultConfig(ruleType),
+    validate: getValidationRules(ruleType),
+  });
+
+  useEffect(() => {
+    fetchRuleConfig();
+  }, [gameId, ruleType]);
+
+  const fetchRuleConfig = async () => {
+    try {
+      const configData = await getGameRuleConfig(gameId, ruleType, userId);
+      setConfig(configData);
+      form.setValues(configData);
+    } catch (error) {
+      console.error("Failed to fetch rule config:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async (values: any) => {
+    try {
+      await updateGameRuleConfig(gameId, ruleType, values, userId);
+      setConfig(values);
+      notifications.show({
+        title: "保存完了",
+        message: "形式設定を更新しました",
+        color: "green",
+      });
+    } catch (error) {
+      notifications.show({
+        title: "エラー",
+        message: "設定の保存に失敗しました",
+        color: "red",
+      });
+    }
+  };
+
+  return (
+    <Stack gap="md">
+      <Text size="lg" fw={600}>
+        形式設定
+      </Text>
+
+      <Card withBorder>
+        <Card.Section>
+          <Text fw={500}>{rules[ruleType]?.name}</Text>
+        </Card.Section>
+
+        <form onSubmit={form.onSubmit(handleSave)}>
+          <RuleConfigForm ruleType={ruleType} form={form} />
+
+          <Group justify="flex-end" mt="md">
+            <Button type="submit" loading={loading}>
+              設定を保存
+            </Button>
+          </Group>
+        </form>
+      </Card>
+    </Stack>
+  );
+};
+
+export default RuleSettings;
 ```
-
-## 技術的考慮事項
-
-### パフォーマンス
-
-- 設定変更の即座反映
-- 不要なAPI呼び出しの抑制
-- キャッシュ戦略
-
-### 拡張性
-
-- 新しいゲーム形式の追加容易性
-- 設定項目の動的追加
-- バックワード互換性
-
-### ユーザビリティ
-
-- 直感的な設定UI
-- 詳細なヘルプ情報
-- 設定の視覚的プレビュー

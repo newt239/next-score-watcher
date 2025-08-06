@@ -100,3 +100,36 @@ export type UpdatePlayerResponseType = {
 export type DeletePlayerResponseType = {
   message: string;
 };
+
+/**
+ * プレイヤータグ追加リクエストのスキーマ
+ */
+export const AddPlayerTagRequestSchema = z.object({
+  tagName: z.string().min(1, "タグ名は必須です"),
+});
+
+/**
+ * プレイヤータグ追加リクエストの型
+ */
+export type AddPlayerTagRequestType = z.infer<typeof AddPlayerTagRequestSchema>;
+
+/**
+ * プレイヤータグ削除リクエストのスキーマ
+ */
+export const RemovePlayerTagRequestSchema = z.object({
+  tagName: z.string().min(1, "タグ名は必須です"),
+});
+
+/**
+ * プレイヤータグ削除リクエストの型
+ */
+export type RemovePlayerTagRequestType = z.infer<
+  typeof RemovePlayerTagRequestSchema
+>;
+
+/**
+ * プレイヤータグ操作レスポンスの型
+ */
+export type PlayerTagResponseType = {
+  message: string;
+};
