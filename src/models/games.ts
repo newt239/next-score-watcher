@@ -3,21 +3,43 @@ import { z } from "zod";
 import type { RuleNames, Variants } from "@/utils/types";
 
 /**
- * ゲーム作成リクエストのスキーマ
+ * ゲーム作成の基本スキーマ
  */
-export const CreateGameRequestSchema = z.object({
+export const CreateGameSchema = z.object({
   name: z.string().min(1),
   ruleType: z.string() as z.ZodSchema<RuleNames>,
   discordWebhookUrl: z.string().optional(),
 });
 
 /**
- * ゲーム更新リクエストのスキーマ
+ * ゲーム作成リクエストのスキーマ
  */
-export const UpdateGameRequestSchema = z.object({
+export const CreateGameRequestSchema = z
+  .array(CreateGameSchema)
+  .min(1, "最低1つのゲームが必要です");
+
+/**
+ * ゲーム更新の基本スキーマ
+ */
+export const UpdateGameSchema = z.object({
+  id: z.string().min(1),
   name: z.string().min(1).optional(),
   discordWebhookUrl: z.string().optional(),
 });
+
+/**
+ * ゲーム更新リクエストのスキーマ
+ */
+export const UpdateGameRequestSchema = z
+  .array(UpdateGameSchema)
+  .min(1, "最低1つのゲームが必要です");
+
+/**
+ * ゲーム削除リクエストのスキーマ
+ */
+export const DeleteGameRequestSchema = z
+  .array(z.string().min(1))
+  .min(1, "最低1つのゲームIDが必要です");
 
 /**
  * ゲームにプレイヤー追加リクエストのスキーマ
@@ -50,14 +72,29 @@ export const GetGameCountsRequestSchema = z.object({
 });
 
 /**
+ * ゲーム作成の基本型
+ */
+export type CreateGameType = z.infer<typeof CreateGameSchema>;
+
+/**
  * ゲーム作成リクエストの型
  */
 export type CreateGameRequestType = z.infer<typeof CreateGameRequestSchema>;
 
 /**
+ * ゲーム更新の基本型
+ */
+export type UpdateGameType = z.infer<typeof UpdateGameSchema>;
+
+/**
  * ゲーム更新リクエストの型
  */
 export type UpdateGameRequestType = z.infer<typeof UpdateGameRequestSchema>;
+
+/**
+ * ゲーム削除リクエストの型
+ */
+export type DeleteGameRequestType = z.infer<typeof DeleteGameRequestSchema>;
 
 /**
  * ゲームにプレイヤー追加リクエストの型
@@ -82,7 +119,8 @@ export type GetGameCountsRequestType = z.infer<
  * ゲーム作成レスポンスの型
  */
 export type CreateGameResponseType = {
-  id: string;
+  ids: string[];
+  createdCount: number;
   message: string;
 };
 
@@ -90,6 +128,7 @@ export type CreateGameResponseType = {
  * ゲーム更新レスポンスの型
  */
 export type UpdateGameResponseType = {
+  updatedCount: number;
   message: string;
 };
 
@@ -97,5 +136,6 @@ export type UpdateGameResponseType = {
  * ゲーム削除レスポンスの型
  */
 export type DeleteGameResponseType = {
+  deletedCount: number;
   message: string;
 };

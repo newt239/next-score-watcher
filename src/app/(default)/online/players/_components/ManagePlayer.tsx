@@ -66,7 +66,7 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
       try {
         const apiClient = await createApiClient();
         const response = await apiClient.players.$post({
-          json: playerData,
+          json: Array.isArray(playerData) ? playerData : [playerData],
         });
 
         if (!response.ok) {
@@ -121,11 +121,13 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
   const deletePlayers = useCallback(async (playerIds: string[]) => {
     try {
       const apiClient = await createApiClient();
-      const deletePromises = playerIds.map((playerId) =>
-        apiClient.players[":id"].$delete({ param: { id: playerId } })
-      );
+      const response = await apiClient.players.$delete({
+        json: playerIds,
+      });
 
-      await Promise.all(deletePromises);
+      if (!response.ok) {
+        throw new Error("プレイヤーの削除に失敗しました");
+      }
 
       notifications.show({
         title: `${playerIds.length}人のプレイヤーを削除しました`,

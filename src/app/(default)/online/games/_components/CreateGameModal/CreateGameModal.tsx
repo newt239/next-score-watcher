@@ -77,11 +77,13 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ userId }) => {
         const apiClient = await createApiClient();
         const response = await apiClient["games"].$post(
           {
-            json: {
-              name: form.values.name,
-              ruleType: form.values.ruleType!,
-              discordWebhookUrl: "",
-            },
+            json: [
+              {
+                name: form.values.name,
+                ruleType: form.values.ruleType!,
+                discordWebhookUrl: "",
+              },
+            ],
           },
           {
             headers: {
@@ -104,7 +106,7 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ userId }) => {
 
         setCreateModalOpen(false);
         form.reset();
-        router.push(`/online/games/${result.gameId}/config`);
+        router.push(`/online/games/${result.data.ids[0]}/config`);
       } catch (error) {
         notifications.show({
           title: "エラー",

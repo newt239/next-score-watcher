@@ -109,13 +109,9 @@ const PlayersTable: React.FC<Props> = ({
 
   const handleDeletePlayers = async () => {
     startTransition(async () => {
-      try {
-        await deletePlayers(deletePlayerList);
-        setSelectedPlayers({});
-        await refetchPlayers();
-      } catch (_error) {
-        // エラーハンドリングは deletePlayers 内で行われるため、ここでは何もしない
-      }
+      await deletePlayers(deletePlayerList);
+      setSelectedPlayers({});
+      await refetchPlayers();
     });
   };
 

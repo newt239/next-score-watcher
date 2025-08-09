@@ -4,12 +4,13 @@ import { nanoid } from "nanoid";
 import type {
   AddPlayerTagRequestType,
   ApiPlayerDataType,
-  BulkCreatePlayersRequestType,
   CreatePlayerRequestType,
   CreatePlayerType,
+  UpdatePlayerRequestType,
+  UpdatePlayerType,
+  DeletePlayerRequestType,
   GetPlayersListResponseType,
   RemovePlayerTagRequestType,
-  UpdatePlayerRequestType,
 } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
@@ -144,45 +145,34 @@ export const createSinglePlayer = async (
 };
 
 /**
- * プレイヤー作成（単体または複数）
+ * プレイヤー作成（複数対応）
  */
 export const createPlayer = async (
-  playerData: CreatePlayerRequestType,
+  playersData: CreatePlayerRequestType,
   userId: string
 ): Promise<{ ids: string[]; createdCount: number }> => {
-  // 配列かどうか判定
-  if (Array.isArray(playerData)) {
-    // 複数プレイヤー作成
-    const playersToInsert = playerData.map((data) => ({
-      id: nanoid(),
-      name: data.name,
-      displayName: data.name,
-      affiliation: data.affiliation,
-      description: data.description,
-      userId,
-    }));
+  const playersToInsert = playersData.map((data) => ({
+    id: nanoid(),
+    name: data.name,
+    displayName: data.name,
+    affiliation: data.affiliation,
+    description: data.description,
+    userId,
+  }));
 
-    await DBClient.insert(player).values(playersToInsert);
-    return {
-      ids: playersToInsert.map((p) => p.id),
-      createdCount: playersToInsert.length,
-    };
-  } else {
-    // 単一プレイヤー作成
-    const playerId = await createSinglePlayer(playerData, userId);
-    return {
-      ids: [playerId],
-      createdCount: 1,
-    };
-  }
+  await DBClient.insert(player).values(playersToInsert);
+  return {
+    ids: playersToInsert.map((p) => p.id),
+    createdCount: playersToInsert.length,
+  };
 };
 
 /**
- * プレイヤー更新
+ * 単一プレイヤー更新
  */
-export const updatePlayer = async (
+export const updateSinglePlayer = async (
   playerId: string,
-  playerData: UpdatePlayerRequestType,
+  playerData: Omit<UpdatePlayerType, "id">,
   userId: string
 ): Promise<boolean> => {
   const updateData = {
@@ -203,9 +193,29 @@ export const updatePlayer = async (
 };
 
 /**
- * プレイヤー削除
+ * プレイヤー更新（複数対応）
  */
-export const deletePlayer = async (
+export const updatePlayer = async (
+  playersData: UpdatePlayerRequestType,
+  userId: string
+): Promise<{ updatedCount: number }> => {
+  let updatedCount = 0;
+
+  for (const playerData of playersData) {
+    const { id, ...updateData } = playerData;
+    const updated = await updateSinglePlayer(id, updateData, userId);
+    if (updated) {
+      updatedCount++;
+    }
+  }
+
+  return { updatedCount };
+};
+
+/**
+ * 単一プレイヤー削除
+ */
+export const deleteSinglePlayer = async (
   playerId: string,
   userId: string
 ): Promise<boolean> => {
@@ -217,6 +227,25 @@ export const deletePlayer = async (
     .where(and(eq(player.id, playerId), eq(player.userId, userId)));
 
   return result.rowsAffected > 0;
+};
+
+/**
+ * プレイヤー削除（複数対応）
+ */
+export const deletePlayer = async (
+  playerIds: DeletePlayerRequestType,
+  userId: string
+): Promise<{ deletedCount: number }> => {
+  let deletedCount = 0;
+
+  for (const playerId of playerIds) {
+    const deleted = await deleteSinglePlayer(playerId, userId);
+    if (deleted) {
+      deletedCount++;
+    }
+  }
+
+  return { deletedCount };
 };
 
 /**
@@ -315,24 +344,4 @@ export const removePlayerTag = async (
     );
 
   return result.rowsAffected > 0;
-};
-
-/**
- * 複数プレイヤーを一括作成
- */
-export const insertMultiplePlayers = async (
-  userId: string,
-  playersData: BulkCreatePlayersRequestType["players"]
-): Promise<number> => {
-  const playersToInsert = playersData.map((playerData) => ({
-    id: nanoid(),
-    name: playerData.name,
-    displayName: playerData.name,
-    affiliation: playerData.affiliation,
-    description: playerData.description,
-    userId,
-  }));
-
-  const result = await DBClient.insert(player).values(playersToInsert);
-  return result.rowsAffected;
 };

@@ -3,7 +3,10 @@ import { nanoid } from "nanoid";
 
 import type {
   CreateGameRequestType,
+  CreateGameType,
   UpdateGameRequestType,
+  UpdateGameType,
+  DeleteGameRequestType,
   AddPlayerToGameRequestType,
   AddGameLogRequestType,
 } from "@/models/games";
@@ -92,12 +95,12 @@ export const getGamesPlayerCounts = async (
 };
 
 /**
- * クラウドゲーム作成
+ * 単一ゲーム作成
  */
-export const createGame = async (
-  gameData: CreateGameRequestType,
+export const createSingleGame = async (
+  gameData: CreateGameType,
   userId: string
-) => {
+): Promise<string> => {
   const gameId = nanoid();
 
   await DBClient.insert(game).values({
@@ -112,28 +115,97 @@ export const createGame = async (
 };
 
 /**
- * クラウドゲーム更新
+ * ゲーム作成（複数対応）
  */
-export const updateGame = async (
-  gameId: string,
-  gameData: UpdateGameRequestType,
+export const createGame = async (
+  gamesData: CreateGameRequestType,
   userId: string
-) => {
-  await DBClient.update(game)
+): Promise<{ ids: string[]; createdCount: number }> => {
+  const gamesToInsert = gamesData.map((gameData) => ({
+    id: nanoid(),
+    name: gameData.name,
+    ruleType: gameData.ruleType,
+    discordWebhookUrl: gameData.discordWebhookUrl,
+    userId,
+  }));
+
+  await DBClient.insert(game).values(gamesToInsert);
+
+  return {
+    ids: gamesToInsert.map((g) => g.id),
+    createdCount: gamesToInsert.length,
+  };
+};
+
+/**
+ * 単一ゲーム更新
+ */
+export const updateSingleGame = async (
+  gameId: string,
+  gameData: Omit<UpdateGameType, "id">,
+  userId: string
+): Promise<boolean> => {
+  const result = await DBClient.update(game)
     .set({
       ...gameData,
       updatedAt: new Date(),
     })
     .where(and(eq(game.id, gameId), eq(game.userId, userId)));
+
+  return result.rowsAffected > 0;
 };
 
 /**
- * クラウドゲーム削除
+ * ゲーム更新（複数対応）
  */
-export const deleteGame = async (gameId: string, userId: string) => {
-  await DBClient.delete(game).where(
+export const updateGame = async (
+  gamesData: UpdateGameRequestType,
+  userId: string
+): Promise<{ updatedCount: number }> => {
+  let updatedCount = 0;
+
+  for (const gameData of gamesData) {
+    const { id, ...updateData } = gameData;
+    const updated = await updateSingleGame(id, updateData, userId);
+    if (updated) {
+      updatedCount++;
+    }
+  }
+
+  return { updatedCount };
+};
+
+/**
+ * 単一ゲーム削除
+ */
+export const deleteSingleGame = async (
+  gameId: string,
+  userId: string
+): Promise<boolean> => {
+  const result = await DBClient.delete(game).where(
     and(eq(game.id, gameId), eq(game.userId, userId))
   );
+
+  return result.rowsAffected > 0;
+};
+
+/**
+ * ゲーム削除（複数対応）
+ */
+export const deleteGame = async (
+  gameIds: DeleteGameRequestType,
+  userId: string
+): Promise<{ deletedCount: number }> => {
+  let deletedCount = 0;
+
+  for (const gameId of gameIds) {
+    const deleted = await deleteSingleGame(gameId, userId);
+    if (deleted) {
+      deletedCount++;
+    }
+  }
+
+  return { deletedCount };
 };
 
 /**

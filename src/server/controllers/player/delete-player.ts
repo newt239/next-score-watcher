@@ -1,57 +1,51 @@
+import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
+import { DeletePlayerRequestSchema } from "@/models/players";
 import { getUserId } from "@/server/repositories/auth";
 import { deletePlayer } from "@/server/repositories/players";
 
 const factory = createFactory();
 
 /**
- * プレイヤー削除APIハンドラー
+ * プレイヤー削除
  */
-const handler = factory.createHandlers(async (c) => {
-  const userId = await getUserId();
-  if (!userId) {
-    return c.json({ error: "認証が必要です" } as const, 401);
-  }
-  const playerId = c.req.param("id");
+const handler = factory.createHandlers(
+  zValidator("json", DeletePlayerRequestSchema),
+  async (c) => {
+    try {
+      const userId = await getUserId();
+      if (!userId) {
+        return c.json(
+          { success: false, error: "ユーザーが見つかりません" } as const,
+          404
+        );
+      }
 
-  if (!playerId) {
-    return c.json(
-      {
-        success: false,
-        error: "プレイヤーIDが指定されていません",
-      } as const,
-      400
-    );
-  }
+      const playerIds = c.req.valid("json");
+      const result = await deletePlayer(playerIds, userId);
 
-  try {
-    const success = await deletePlayer(playerId, userId);
-
-    if (!success) {
+      return c.json(
+        {
+          success: true,
+          data: {
+            deletedCount: result.deletedCount,
+            message: `${result.deletedCount}件のプレイヤーを削除しました`,
+          },
+        } as const,
+        200
+      );
+    } catch (error) {
+      console.error("プレイヤー削除エラー:", error);
       return c.json(
         {
           success: false,
-          error: "プレイヤーが見つからないか、削除に失敗しました",
+          error: "プレイヤーの削除に失敗しました",
         } as const,
-        404
+        500
       );
     }
-
-    return c.json({
-      success: true,
-      message: "プレイヤーが正常に削除されました",
-    } as const);
-  } catch (error) {
-    console.error("プレイヤー削除エラー:", error);
-    return c.json(
-      {
-        success: false,
-        error: "プレイヤーの削除に失敗しました",
-      } as const,
-      500
-    );
   }
-});
+);
 
 export default handler;

@@ -22,8 +22,8 @@ const handler = factory.createHandlers(
         );
       }
 
-      const playerData = c.req.valid("json");
-      const result = await createPlayer(playerData, userId);
+      const playersData = c.req.valid("json");
+      const result = await createPlayer(playersData, userId);
 
       return c.json(
         {

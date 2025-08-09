@@ -10,12 +10,11 @@ export const CreatePlayerSchema = z.object({
 });
 
 /**
- * プレイヤー作成リクエストのスキーマ（単体または配列）
+ * プレイヤー作成リクエストのスキーマ
  */
-export const CreatePlayerRequestSchema = z.union([
-  CreatePlayerSchema,
-  z.array(CreatePlayerSchema).min(1, "最低1つのプレイヤーが必要です"),
-]);
+export const CreatePlayerRequestSchema = z
+  .array(CreatePlayerSchema)
+  .min(1, "最低1つのプレイヤーが必要です");
 
 /**
  * プレイヤー作成の基本型
@@ -23,28 +22,15 @@ export const CreatePlayerRequestSchema = z.union([
 export type CreatePlayerType = z.infer<typeof CreatePlayerSchema>;
 
 /**
- * プレイヤー作成リクエストの型（単体または配列）
+ * プレイヤー作成リクエストの型
  */
 export type CreatePlayerRequestType = z.infer<typeof CreatePlayerRequestSchema>;
 
 /**
- * 複数プレイヤー一括作成リクエストのスキーマ（廃止予定）
+ * プレイヤー更新の基本スキーマ
  */
-export const BulkCreatePlayersRequestSchema = z.object({
-  players: z.array(CreatePlayerSchema).min(1, "最低1つのプレイヤーが必要です"),
-});
-
-/**
- * 複数プレイヤー一括作成リクエストの型（廃止予定）
- */
-export type BulkCreatePlayersRequestType = z.infer<
-  typeof BulkCreatePlayersRequestSchema
->;
-
-/**
- * プレイヤー更新リクエストのスキーマ
- */
-export const UpdatePlayerRequestSchema = z.object({
+export const UpdatePlayerSchema = z.object({
+  id: z.string().min(1),
   name: z.string().min(1, "名前は必須です").optional(),
   displayName: z.string().optional(),
   affiliation: z.string().optional(),
@@ -52,9 +38,33 @@ export const UpdatePlayerRequestSchema = z.object({
 });
 
 /**
+ * プレイヤー更新リクエストのスキーマ
+ */
+export const UpdatePlayerRequestSchema = z
+  .array(UpdatePlayerSchema)
+  .min(1, "最低1つのプレイヤーが必要です");
+
+/**
+ * プレイヤー削除リクエストのスキーマ
+ */
+export const DeletePlayerRequestSchema = z
+  .array(z.string().min(1))
+  .min(1, "最低1つのプレイヤーIDが必要です");
+
+/**
+ * プレイヤー更新の基本型
+ */
+export type UpdatePlayerType = z.infer<typeof UpdatePlayerSchema>;
+
+/**
  * プレイヤー更新リクエストの型
  */
 export type UpdatePlayerRequestType = z.infer<typeof UpdatePlayerRequestSchema>;
+
+/**
+ * プレイヤー削除リクエストの型
+ */
+export type DeletePlayerRequestType = z.infer<typeof DeletePlayerRequestSchema>;
 
 /**
  * プレイヤー詳細レスポンスの型
@@ -109,14 +119,7 @@ export type GetPlayersListResponseType = {
  * プレイヤー作成レスポンスの型
  */
 export type CreatePlayerResponseType = {
-  id: string;
-  message: string;
-};
-
-/**
- * 複数プレイヤー一括作成レスポンスの型
- */
-export type BulkCreatePlayersResponseType = {
+  ids: string[];
   createdCount: number;
   message: string;
 };
@@ -125,6 +128,7 @@ export type BulkCreatePlayersResponseType = {
  * プレイヤー更新レスポンスの型
  */
 export type UpdatePlayerResponseType = {
+  updatedCount: number;
   message: string;
 };
 
@@ -132,6 +136,7 @@ export type UpdatePlayerResponseType = {
  * プレイヤー削除レスポンスの型
  */
 export type DeletePlayerResponseType = {
+  deletedCount: number;
   message: string;
 };
 
