@@ -1,18 +1,18 @@
-import { eq, asc, count, and, isNull } from "drizzle-orm";
+import { and, asc, count, eq, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import type {
-  CreatePlayerRequestType,
-  UpdatePlayerRequestType,
-  ApiPlayerDataType,
-  GetPlayersListResponseType,
   AddPlayerTagRequestType,
-  RemovePlayerTagRequestType,
+  ApiPlayerDataType,
   BulkCreatePlayersRequestType,
+  CreatePlayerRequestType,
+  GetPlayersListResponseType,
+  RemovePlayerTagRequestType,
+  UpdatePlayerRequestType,
 } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
-import { player, playerTag, playerPlayerTag } from "@/utils/drizzle/schema";
+import { player, playerPlayerTag, playerTag } from "@/utils/drizzle/schema";
 
 /**
  * プレイヤーのタグ一覧を取得
@@ -133,7 +133,7 @@ export const createPlayer = async (
   await DBClient.insert(player).values({
     id: playerId,
     name: playerData.name,
-    displayName: playerData.displayName,
+    displayName: playerData.name,
     affiliation: playerData.affiliation,
     description: playerData.description,
     userId,
@@ -150,11 +150,18 @@ export const updatePlayer = async (
   playerData: UpdatePlayerRequestType,
   userId: string
 ): Promise<boolean> => {
+  const updateData = {
+    ...playerData,
+    updatedAt: new Date(),
+  };
+
+  // displayNameが提供されていない場合はnameを使用
+  if (playerData.name && !playerData.displayName) {
+    updateData.displayName = playerData.name;
+  }
+
   const result = await DBClient.update(player)
-    .set({
-      ...playerData,
-      updatedAt: new Date(),
-    })
+    .set(updateData)
     .where(and(eq(player.id, playerId), eq(player.userId, userId)));
 
   return result.rowsAffected > 0;
@@ -285,7 +292,7 @@ export const insertMultiplePlayers = async (
   const playersToInsert = playersData.map((playerData) => ({
     id: nanoid(),
     name: playerData.name,
-    displayName: playerData.displayName,
+    displayName: playerData.name,
     affiliation: playerData.affiliation,
     description: playerData.description,
     userId,

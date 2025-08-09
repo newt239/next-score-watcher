@@ -41,9 +41,7 @@ export const auth = betterAuth({
     // ユーザーが新規作成された時（初回サインイン時）
     async onSignUp({ user: newUser }: { user: User }) {
       try {
-        console.log(`Creating user preferences for new user: ${newUser.id}`);
         await ensureUserPreferences(newUser.id);
-        console.log(`User preferences created successfully for: ${newUser.id}`);
       } catch (error) {
         console.error("Failed to create user preferences:", error);
         // エラーが発生してもサインアップ自体は成功させる

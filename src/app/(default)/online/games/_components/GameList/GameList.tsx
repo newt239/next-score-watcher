@@ -69,9 +69,9 @@ const GameList: React.FC<GameListProps> = ({
   if (!user) {
     return (
       <>
-        <Title order={2}>クラウドゲーム</Title>
+        <Title order={2}>ゲーム</Title>
         <p>
-          クラウドゲームを利用するには
+          ゲームを利用するには
           <Link href="/sign-in">サインイン</Link>
           が必要です。
         </p>
@@ -82,7 +82,7 @@ const GameList: React.FC<GameListProps> = ({
   return (
     <>
       <Group justify="space-between" mb="lg">
-        <Title order={2}>クラウドゲーム</Title>
+        <Title order={2}>ゲーム</Title>
         <CreateGameModal userId={user.id} />
       </Group>
       <Group justify="end" mb="lg" gap="md">

@@ -6,7 +6,7 @@ import { Box, Text } from "@mantine/core";
 
 import classes from "./Board.module.css";
 
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
@@ -36,6 +36,7 @@ const Board: React.FC<Props> = ({ game_id, user }) => {
 
     const fetchData = async () => {
       try {
+        const apiClient = await createApiClient();
         const [gameResponse, playersResponse, logsResponse] = await Promise.all(
           [
             apiClient["games"][":gameId"].$get(

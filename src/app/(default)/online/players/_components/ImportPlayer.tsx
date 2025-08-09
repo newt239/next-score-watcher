@@ -10,20 +10,16 @@ import type { CreatePlayerRequestType } from "@/models/players";
 import type { FileWithPath } from "@mantine/dropzone";
 
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  currentProfile: string;
   onPlayerCreated: () => void;
 };
 
 /**
  * CSVインポートによるプレイヤー一括作成コンポーネント
  */
-const ImportPlayer: React.FC<Props> = ({
-  currentProfile: _currentProfile,
-  onPlayerCreated,
-}) => {
+const ImportPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
   const [isPending, startTransition] = useTransition();
 
   const handleOnChange = (files: FileWithPath[]) => {
@@ -73,14 +69,13 @@ const ImportPlayer: React.FC<Props> = ({
     for (const row of csvRows) {
       const values = row.split(",");
       const name = values[0]?.trim();
-      const displayName = values[1]?.trim() || name;
-      const affiliation = values[2]?.trim() || undefined;
+      const affiliation = values[1]?.trim() || undefined;
 
       if (name) {
         playersData.push({
           name,
-          displayName,
-          affiliation,
+          affiliation: affiliation || "",
+          description: "",
         });
       }
     }
@@ -89,6 +84,7 @@ const ImportPlayer: React.FC<Props> = ({
       throw new Error("有効なプレイヤーデータがありません");
     }
 
+    const apiClient = await createApiClient();
     const response = await apiClient.players.bulk.$post({
       json: { players: playersData },
     });
@@ -122,7 +118,7 @@ const ImportPlayer: React.FC<Props> = ({
         accept={["text/csv"]}
         loading={isPending}
       />
-      <Text>1列目: 氏名、 2列目: 表示名、 3列目: 所属</Text>
+      <Text>1列目: 氏名、 2列目: 所属</Text>
     </Flex>
   );
 };

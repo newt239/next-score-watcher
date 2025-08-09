@@ -16,20 +16,16 @@ import { IconCirclePlus } from "@tabler/icons-react";
 
 import type { CreatePlayerRequestType } from "@/models/players";
 
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  currentProfile: string;
   onPlayerCreated: () => void;
 };
 
 /**
  * 貼り付けによるプレイヤー一括作成コンポーネント
  */
-const LoadPlayer: React.FC<Props> = ({
-  currentProfile: _currentProfile,
-  onPlayerCreated,
-}) => {
+const LoadPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSeparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -48,14 +44,13 @@ const LoadPlayer: React.FC<Props> = ({
             separateType === "comma" ? "," : "\t"
           );
           const name = parts[0]?.trim();
-          const displayName = parts[1]?.trim() || name;
-          const affiliation = parts[2]?.trim();
+          const affiliation = parts[1]?.trim();
 
           if (name) {
             playersData.push({
               name,
-              displayName,
-              affiliation,
+              affiliation: affiliation || "",
+              description: "",
             });
           }
         }
@@ -69,6 +64,7 @@ const LoadPlayer: React.FC<Props> = ({
           return;
         }
 
+        const apiClient = await createApiClient();
         const response = await apiClient.players.bulk.$post({
           json: { players: playersData },
         });
@@ -117,8 +113,8 @@ const LoadPlayer: React.FC<Props> = ({
   };
 
   const joinString = separateType === "tab" ? "	" : ",";
-  const placeholderText = `越山識${joinString}24th${joinString}文蔵高校
-深見真理${joinString}9th${joinString}文蔵高校
+  const placeholderText = `越山識${joinString}文蔵高校
+深見真理${joinString}文蔵高校
   `;
 
   return (
@@ -134,7 +130,7 @@ const LoadPlayer: React.FC<Props> = ({
         value={rawPlayerText}
         disabled={isPending}
       />
-      <Text>A列: 氏名、 B列: 表示名、 C列: 所属</Text>
+      <Text>A列: 氏名、 B列: 所属</Text>
       <Group justify="end">
         <RadioGroup
           onChange={(e) => setSeparateType(e as "tab" | "comma")}

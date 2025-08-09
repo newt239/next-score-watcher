@@ -3,13 +3,20 @@ import type { Metadata } from "next";
 import GameList from "./_components/GameList/GameList";
 
 import { getUser } from "@/utils/auth/auth-helpers";
-import apiClient from "@/utils/hono/client";
+import { createApiClientOnServer } from "@/utils/hono/server-client";
 
 type Game = {
   id: string;
   name: string;
   ruleType: string;
   updatedAt: Date;
+};
+
+type ApiGame = {
+  id: string;
+  name: string;
+  ruleType: string;
+  updatedAt: string;
 };
 
 export const metadata: Metadata = {
@@ -28,6 +35,7 @@ const CloudGamesPage = async () => {
 
   if (user?.id) {
     try {
+      const apiClient = await createApiClientOnServer();
       const gamesResponse = await apiClient["games"].$get(
         {},
         {
@@ -36,7 +44,7 @@ const CloudGamesPage = async () => {
       );
       const gamesData = await gamesResponse.json();
       if ("games" in gamesData) {
-        games = gamesData.games.map((game) => ({
+        games = gamesData.games.map((game: ApiGame) => ({
           ...game,
           updatedAt: new Date(game.updatedAt),
         }));

@@ -16,7 +16,7 @@ import {
 import { notifications } from "@mantine/notifications";
 
 import { type UserPreferencesType } from "@/models/user-preferences";
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
   initialPreferences: UserPreferencesType;
@@ -39,6 +39,7 @@ const UserPreferencesSettings: React.FC<Props> = ({
 
     startTransition(async () => {
       try {
+        const apiClient = await createApiClient();
         const response = await apiClient.user[":user_id"].preferences.$patch({
           param: { user_id: userId },
           json: { [key]: value },

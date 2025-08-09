@@ -10,17 +10,13 @@ import {
   CreatePlayerRequestSchema,
   type CreatePlayerRequestType,
 } from "@/models/players";
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  currentProfile: string;
   onPlayerCreated: () => Promise<void>;
 };
 
-const CreatePlayer: React.FC<Props> = ({
-  currentProfile: _currentProfile,
-  onPlayerCreated,
-}) => {
+const CreatePlayer: React.FC<Props> = ({ onPlayerCreated }) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<CreatePlayerRequestType>({
@@ -39,7 +35,6 @@ const CreatePlayer: React.FC<Props> = ({
     },
     initialValues: {
       name: "",
-      displayName: "",
       affiliation: "",
       description: "",
     },
@@ -48,6 +43,7 @@ const CreatePlayer: React.FC<Props> = ({
   const handleCreatePlayer = (values: CreatePlayerRequestType) => {
     startTransition(async () => {
       try {
+        const apiClient = await createApiClient();
         const response = await apiClient.players.$post({ json: values });
 
         if (!response.ok) {
@@ -58,7 +54,7 @@ const CreatePlayer: React.FC<Props> = ({
 
         notifications.show({
           title: "プレイヤーを作成しました",
-          message: `${values.displayName} を追加しました`,
+          message: `${values.name} を追加しました`,
           color: "green",
         });
 
@@ -83,13 +79,6 @@ const CreatePlayer: React.FC<Props> = ({
         label="氏名"
         required
         {...form.getInputProps("name")}
-        disabled={isPending}
-      />
-      <TextInput
-        label="表示名"
-        required
-        mt="md"
-        {...form.getInputProps("displayName")}
         disabled={isPending}
       />
       <TextInput

@@ -51,7 +51,7 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
               <Flex className={classes.game_footer}>
                 <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
                 <ButtonLink
-                  href={`/cloud-games/${game.id}/config`}
+                  href={`/online/games/${game.id}/config`}
                   leftSection={<IconAdjustmentsHorizontal />}
                   size="sm"
                 >

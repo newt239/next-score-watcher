@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import ManagePlayer from "./_components/ManagePlayer";
@@ -22,10 +21,6 @@ const OnlinePlayerPage = async () => {
     redirect("/sign-in");
   }
 
-  const cookieStore = await cookies();
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
-
   // API Routes経由でプレイヤー一覧を取得
   const apiClient = await createApiClientOnServer();
 
@@ -40,12 +35,7 @@ const OnlinePlayerPage = async () => {
     console.error("Failed to fetch initial players:", error);
   }
 
-  return (
-    <ManagePlayer
-      currentProfile={currentProfile}
-      initialPlayers={initialPlayers}
-    />
-  );
+  return <ManagePlayer initialPlayers={initialPlayers} />;
 };
 
 export default OnlinePlayerPage;

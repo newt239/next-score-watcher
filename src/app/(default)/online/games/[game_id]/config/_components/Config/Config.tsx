@@ -15,7 +15,7 @@ import type { RuleNames, LogDBProps, GameDBPlayerProps } from "@/utils/types";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";
 
 type Props = {
@@ -49,6 +49,7 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
 
     const fetchData = async () => {
       try {
+        const apiClient = await createApiClient();
         const [gameResponse, playersResponse, logsResponse] = await Promise.all(
           [
             apiClient["games"][":gameId"].$get(

@@ -12,18 +12,18 @@ import PlayersTable from "./PlayersTable";
 
 import type { ApiPlayerDataType } from "@/models/players";
 
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  currentProfile: string;
   initialPlayers: ApiPlayerDataType[];
 };
 
-const ManagePlayer: React.FC<Props> = ({ currentProfile, initialPlayers }) => {
+const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
   const [players, setPlayers] = useState<ApiPlayerDataType[]>(initialPlayers);
 
   const refetchPlayers = useCallback(async () => {
     try {
+      const apiClient = await createApiClient();
       const response = await apiClient.players.$get({ query: {} });
       if (!response.ok) {
         throw new Error("プレイヤー一覧の取得に失敗しました");
@@ -51,31 +51,18 @@ const ManagePlayer: React.FC<Props> = ({ currentProfile, initialPlayers }) => {
         </Tabs.List>
         <Tabs.Panel value="add" style={{ paddingTop: "1rem" }}>
           <Suspense>
-            <CreatePlayer
-              currentProfile={currentProfile}
-              onPlayerCreated={refetchPlayers}
-            />
+            <CreatePlayer onPlayerCreated={refetchPlayers} />
           </Suspense>
         </Tabs.Panel>
         <Tabs.Panel value="paste" style={{ paddingTop: "1rem" }}>
-          <LoadPlayer
-            currentProfile={currentProfile}
-            onPlayerCreated={refetchPlayers}
-          />
+          <LoadPlayer onPlayerCreated={refetchPlayers} />
         </Tabs.Panel>
         <Tabs.Panel value="import" style={{ paddingTop: "1rem" }}>
-          <ImportPlayer
-            currentProfile={currentProfile}
-            onPlayerCreated={refetchPlayers}
-          />
+          <ImportPlayer onPlayerCreated={refetchPlayers} />
         </Tabs.Panel>
       </Tabs>
 
-      <PlayersTable
-        currentProfile={currentProfile}
-        players={players}
-        onPlayersUpdated={setPlayers}
-      />
+      <PlayersTable players={players} onPlayersUpdated={setPlayers} />
     </>
   );
 };

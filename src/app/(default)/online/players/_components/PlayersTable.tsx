@@ -28,16 +28,14 @@ import {
 import type { ApiPlayerDataType } from "@/models/players";
 
 import TablePagenation from "@/app/_components/TablePagination";
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  currentProfile: string;
   players: ApiPlayerDataType[];
   onPlayersUpdated: (players: ApiPlayerDataType[]) => void;
 };
 
 const PlayersTable: React.FC<Props> = ({
-  currentProfile: _currentProfile,
   players: playersProp,
   onPlayersUpdated,
 }) => {
@@ -53,6 +51,7 @@ const PlayersTable: React.FC<Props> = ({
 
   const _fetchPlayers = async () => {
     try {
+      const apiClient = await createApiClient();
       const response = await apiClient.players.$get({ query: {} });
       if (!response.ok) {
         throw new Error("プレイヤー一覧の取得に失敗しました");
@@ -137,6 +136,7 @@ const PlayersTable: React.FC<Props> = ({
   const deletePlayers = async () => {
     startTransition(async () => {
       try {
+        const apiClient = await createApiClient();
         const deletePromises = deletePlayerList.map((playerId) =>
           apiClient.players[":id"].$delete({ param: { id: playerId } })
         );

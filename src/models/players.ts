@@ -5,9 +5,8 @@ import { z } from "zod";
  */
 export const CreatePlayerRequestSchema = z.object({
   name: z.string().min(1, "名前は必須です"),
-  displayName: z.string().min(1, "表示名は必須です"),
-  affiliation: z.string().optional(),
-  description: z.string().optional(),
+  affiliation: z.string(),
+  description: z.string(),
 });
 
 /**
@@ -36,7 +35,7 @@ export type BulkCreatePlayersRequestType = z.infer<
  */
 export const UpdatePlayerRequestSchema = z.object({
   name: z.string().min(1, "名前は必須です").optional(),
-  displayName: z.string().min(1, "表示名は必須です").optional(),
+  displayName: z.string().optional(),
   affiliation: z.string().optional(),
   description: z.string().optional(),
 });

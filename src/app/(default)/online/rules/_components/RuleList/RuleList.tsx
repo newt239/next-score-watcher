@@ -21,7 +21,7 @@ import classes from "./RuleList.module.css";
 
 import type { RuleNames } from "@/utils/types";
 
-import apiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";
 
 type Props = {
@@ -89,6 +89,7 @@ const RuleList: React.FC<Props> = ({ userId }) => {
 
     startTransition(async () => {
       try {
+        const apiClient = await createApiClient();
         const response = await apiClient["games"].$post(
           {
             json: {

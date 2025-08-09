@@ -8,7 +8,7 @@ import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
 import { defaultUserPreferences } from "@/models/user-preferences";
 import { getUser } from "@/utils/auth/auth-helpers";
-import apiClient from "@/utils/hono/client";
+import { createApiClientOnServer } from "@/utils/hono/server-client";
 
 // ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
@@ -27,6 +27,7 @@ const AccountPage = async () => {
     redirect("/sign-in");
   }
 
+  const apiClient = await createApiClientOnServer();
   const response = await apiClient.user[":user_id"].preferences.$get({
     param: { user_id: user.id },
   });

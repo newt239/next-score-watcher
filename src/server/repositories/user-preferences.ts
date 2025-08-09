@@ -131,7 +131,6 @@ export const ensureUserPreferences = async (userId: string) => {
       updatedAt: now,
     });
 
-    console.log(`User preferences created for user: ${userId}`);
     return true;
   } catch (error) {
     console.error("Failed to ensure user preferences:", error);
