@@ -4,24 +4,27 @@ import { useTransition } from "react";
 
 import { Button, Group, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { notifications } from "@mantine/notifications";
 
-import {
-  CreatePlayerRequestSchema,
-  type CreatePlayerRequestType,
-} from "@/models/players";
-import createApiClient from "@/utils/hono/client";
+import { CreatePlayerSchema, type CreatePlayerType } from "@/models/players";
 
 type Props = {
-  onPlayerCreated: () => Promise<void>;
+  onOptimisticCreate?: (playerData: CreatePlayerType) => void;
+  onPlayerCreated?: () => void;
+  createPlayer: (
+    playerData: CreatePlayerType | CreatePlayerType[]
+  ) => Promise<number>;
 };
 
-const CreatePlayer: React.FC<Props> = ({ onPlayerCreated }) => {
+const CreatePlayer: React.FC<Props> = ({
+  onOptimisticCreate,
+  onPlayerCreated,
+  createPlayer,
+}) => {
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<CreatePlayerRequestType>({
+  const form = useForm<CreatePlayerType>({
     validate: (values) => {
-      const result = CreatePlayerRequestSchema.safeParse(values);
+      const result = CreatePlayerSchema.safeParse(values);
       if (!result.success) {
         const errors: Record<string, string> = {};
         result.error.issues.forEach((error) => {
@@ -40,35 +43,19 @@ const CreatePlayer: React.FC<Props> = ({ onPlayerCreated }) => {
     },
   });
 
-  const handleCreatePlayer = (values: CreatePlayerRequestType) => {
+  const handleCreatePlayer = (values: CreatePlayerType) => {
     startTransition(async () => {
+      // 楽観的更新をトランジション内で実行
+      onOptimisticCreate?.(values);
+
       try {
-        const apiClient = await createApiClient();
-        const response = await apiClient.players.$post({ json: values });
-
-        if (!response.ok) {
-          throw new Error("プレイヤーの作成に失敗しました");
-        }
-
-        await response.json();
-
-        notifications.show({
-          title: "プレイヤーを作成しました",
-          message: `${values.name} を追加しました`,
-          color: "green",
-        });
-
+        await createPlayer(values);
         form.reset();
-        await onPlayerCreated();
-      } catch (error) {
-        notifications.show({
-          title: "エラー",
-          message:
-            error instanceof Error
-              ? error.message
-              : "不明なエラーが発生しました",
-          color: "red",
-        });
+        // 成功時は最新データを再取得（楽観的更新を正しいデータで置き換える）
+        onPlayerCreated?.();
+      } catch (_error) {
+        // エラーの場合は最新データを再取得
+        onPlayerCreated?.();
       }
     });
   };

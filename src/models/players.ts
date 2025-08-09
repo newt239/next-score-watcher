@@ -1,30 +1,41 @@
 import { z } from "zod";
 
 /**
- * プレイヤー作成リクエストのスキーマ
+ * プレイヤー作成リクエストの基本スキーマ
  */
-export const CreatePlayerRequestSchema = z.object({
+export const CreatePlayerSchema = z.object({
   name: z.string().min(1, "名前は必須です"),
-  affiliation: z.string(),
-  description: z.string(),
+  affiliation: z.string().optional().default(""),
+  description: z.string().optional().default(""),
 });
 
 /**
- * プレイヤー作成リクエストの型
+ * プレイヤー作成リクエストのスキーマ（単体または配列）
+ */
+export const CreatePlayerRequestSchema = z.union([
+  CreatePlayerSchema,
+  z.array(CreatePlayerSchema).min(1, "最低1つのプレイヤーが必要です"),
+]);
+
+/**
+ * プレイヤー作成の基本型
+ */
+export type CreatePlayerType = z.infer<typeof CreatePlayerSchema>;
+
+/**
+ * プレイヤー作成リクエストの型（単体または配列）
  */
 export type CreatePlayerRequestType = z.infer<typeof CreatePlayerRequestSchema>;
 
 /**
- * 複数プレイヤー一括作成リクエストのスキーマ
+ * 複数プレイヤー一括作成リクエストのスキーマ（廃止予定）
  */
 export const BulkCreatePlayersRequestSchema = z.object({
-  players: z
-    .array(CreatePlayerRequestSchema)
-    .min(1, "最低1つのプレイヤーが必要です"),
+  players: z.array(CreatePlayerSchema).min(1, "最低1つのプレイヤーが必要です"),
 });
 
 /**
- * 複数プレイヤー一括作成リクエストの型
+ * 複数プレイヤー一括作成リクエストの型（廃止予定）
  */
 export type BulkCreatePlayersRequestType = z.infer<
   typeof BulkCreatePlayersRequestSchema

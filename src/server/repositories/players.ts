@@ -6,6 +6,7 @@ import type {
   ApiPlayerDataType,
   BulkCreatePlayersRequestType,
   CreatePlayerRequestType,
+  CreatePlayerType,
   GetPlayersListResponseType,
   RemovePlayerTagRequestType,
   UpdatePlayerRequestType,
@@ -122,10 +123,10 @@ export const getPlayerById = async (
 };
 
 /**
- * プレイヤー作成
+ * 単一プレイヤー作成
  */
-export const createPlayer = async (
-  playerData: CreatePlayerRequestType,
+export const createSinglePlayer = async (
+  playerData: CreatePlayerType,
   userId: string
 ): Promise<string> => {
   const playerId = nanoid();
@@ -140,6 +141,40 @@ export const createPlayer = async (
   });
 
   return playerId;
+};
+
+/**
+ * プレイヤー作成（単体または複数）
+ */
+export const createPlayer = async (
+  playerData: CreatePlayerRequestType,
+  userId: string
+): Promise<{ ids: string[]; createdCount: number }> => {
+  // 配列かどうか判定
+  if (Array.isArray(playerData)) {
+    // 複数プレイヤー作成
+    const playersToInsert = playerData.map((data) => ({
+      id: nanoid(),
+      name: data.name,
+      displayName: data.name,
+      affiliation: data.affiliation,
+      description: data.description,
+      userId,
+    }));
+
+    await DBClient.insert(player).values(playersToInsert);
+    return {
+      ids: playersToInsert.map((p) => p.id),
+      createdCount: playersToInsert.length,
+    };
+  } else {
+    // 単一プレイヤー作成
+    const playerId = await createSinglePlayer(playerData, userId);
+    return {
+      ids: [playerId],
+      createdCount: 1,
+    };
+  }
 };
 
 /**

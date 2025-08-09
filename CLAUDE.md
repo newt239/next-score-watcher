@@ -284,6 +284,7 @@ src/models/
 
 - 各機能のZodスキーマは対応するmodelsファイルで定義してください
 - スキーマ名は**UpperCamelCase**で命名してください（例：`CreateGameSchema`, `UpdateUserPreferencesSchema`）
+- 各エンドポイントのリクエストを定義するスキーマや型名は、先頭をCRUDの動詞にしたうえで、リクエストのスキーマなのか、レスポンスのスキーマなのかを明示してください（例：`CreateGameRequestSchema`, `UpdateUserPreferencesResponseType`）
 - TypeScriptの型定義もmodelsファイルで管理してください
 - Controllers・Repositoriesからmodelsファイルを`@/models/`でimportして使用してください
 - バリデーションスキーマと型定義を同じファイルで管理することで、保守性を向上させてください

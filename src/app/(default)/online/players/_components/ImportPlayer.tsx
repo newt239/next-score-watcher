@@ -6,20 +6,25 @@ import { Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 
-import type { CreatePlayerRequestType } from "@/models/players";
+import type { CreatePlayerType } from "@/models/players";
 import type { FileWithPath } from "@mantine/dropzone";
 
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
-import createApiClient from "@/utils/hono/client";
 
 type Props = {
   onPlayerCreated: () => void;
+  createBulkPlayers: (
+    playersData: CreatePlayerType | CreatePlayerType[]
+  ) => Promise<number>;
 };
 
 /**
  * CSVインポートによるプレイヤー一括作成コンポーネント
  */
-const ImportPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
+const ImportPlayer: React.FC<Props> = ({
+  onPlayerCreated,
+  createBulkPlayers,
+}) => {
   const [isPending, startTransition] = useTransition();
 
   const handleOnChange = (files: FileWithPath[]) => {
@@ -45,15 +50,8 @@ const ImportPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
                 withCloseButton: true,
               });
               onPlayerCreated();
-            } catch (error) {
-              notifications.show({
-                title: "エラー",
-                message:
-                  error instanceof Error
-                    ? error.message
-                    : "プレイヤーのインポートに失敗しました",
-                color: "red",
-              });
+            } catch (_error) {
+              // エラーハンドリングは createBulkPlayers 内で行われるため、ここでは何もしない
             }
           });
         }
@@ -64,7 +62,7 @@ const ImportPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
 
   const csvFileToArray = async (raw: string) => {
     const csvRows = raw.split("\n");
-    const playersData: CreatePlayerRequestType[] = [];
+    const playersData: CreatePlayerType[] = [];
 
     for (const row of csvRows) {
       const values = row.split(",");
@@ -84,31 +82,7 @@ const ImportPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
       throw new Error("有効なプレイヤーデータがありません");
     }
 
-    const apiClient = await createApiClient();
-    const response = await apiClient.players.bulk.$post({
-      json: { players: playersData },
-    });
-
-    if (!response.ok) {
-      throw new Error("プレイヤーの一括作成に失敗しました");
-    }
-
-    const data = await response.json();
-    if ("success" in data && data.success) {
-      return data.data.createdCount;
-    } else {
-      let errorMessage = "プレイヤーの一括作成に失敗しました";
-      if (
-        "error" in data &&
-        typeof data.error === "object" &&
-        data.error &&
-        "message" in data.error &&
-        typeof data.error.message === "string"
-      ) {
-        errorMessage = data.error.message;
-      }
-      throw new Error(errorMessage);
-    }
+    return await createBulkPlayers(playersData);
   };
 
   return (

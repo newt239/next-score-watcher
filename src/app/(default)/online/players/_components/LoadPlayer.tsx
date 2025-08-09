@@ -14,18 +14,22 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 
-import type { CreatePlayerRequestType } from "@/models/players";
-
-import createApiClient from "@/utils/hono/client";
+import type { CreatePlayerType } from "@/models/players";
 
 type Props = {
   onPlayerCreated: () => void;
+  createBulkPlayers: (
+    playersData: CreatePlayerType | CreatePlayerType[]
+  ) => Promise<number>;
 };
 
 /**
  * 貼り付けによるプレイヤー一括作成コンポーネント
  */
-const LoadPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
+const LoadPlayer: React.FC<Props> = ({
+  onPlayerCreated,
+  createBulkPlayers,
+}) => {
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSeparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -37,7 +41,7 @@ const LoadPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
     startTransition(async () => {
       try {
         const playerRaw = rawPlayerText.split("\n");
-        const playersData: CreatePlayerRequestType[] = [];
+        const playersData: CreatePlayerType[] = [];
 
         for (let i = 0; i < playerRaw.length; i++) {
           const parts = playerRaw[i].split(
@@ -64,50 +68,20 @@ const LoadPlayer: React.FC<Props> = ({ onPlayerCreated }) => {
           return;
         }
 
-        const apiClient = await createApiClient();
-        const response = await apiClient.players.bulk.$post({
-          json: { players: playersData },
+        const createdCount = await createBulkPlayers(playersData);
+
+        notifications.show({
+          title: "データをインポートしました",
+          message: `貼り付けから${createdCount}件のプレイヤーを読み込みました`,
+          autoClose: 9000,
+          withCloseButton: true,
         });
-
-        if (!response.ok) {
-          throw new Error("プレイヤーの一括作成に失敗しました");
-        }
-
-        const data = await response.json();
-
-        if ("success" in data && data.success) {
-          notifications.show({
-            title: "データをインポートしました",
-            message: `貼り付けから${data.data.createdCount}件のプレイヤーを読み込みました`,
-            autoClose: 9000,
-            withCloseButton: true,
-          });
-        } else {
-          let errorMessage = "プレイヤーの一括作成に失敗しました";
-          if (
-            "error" in data &&
-            typeof data.error === "object" &&
-            data.error &&
-            "message" in data.error &&
-            typeof data.error.message === "string"
-          ) {
-            errorMessage = data.error.message;
-          }
-          throw new Error(errorMessage);
-        }
 
         setRawPlayerText("");
         textareaRef.current?.focus();
         onPlayerCreated();
-      } catch (error) {
-        notifications.show({
-          title: "エラー",
-          message:
-            error instanceof Error
-              ? error.message
-              : "プレイヤーの作成に失敗しました",
-          color: "red",
-        });
+      } catch (_error) {
+        // エラーハンドリングは createBulkPlayers 内で行われるため、ここでは何もしない
       }
     });
   };

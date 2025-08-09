@@ -6,6 +6,7 @@ import { DBClient } from "../drizzle/client";
 import { account, session, user, verification } from "../drizzle/schema";
 
 export const auth = betterAuth({
+  appName: "Score Watcher",
   baseURL: process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
     ? `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`
     : "http://localhost:3000",

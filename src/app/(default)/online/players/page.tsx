@@ -35,7 +35,7 @@ const OnlinePlayerPage = async () => {
     console.error("Failed to fetch initial players:", error);
   }
 
-  return <ManagePlayer initialPlayers={initialPlayers} />;
+  return <ManagePlayer initialPlayers={initialPlayers} userId={user.id} />;
 };
 
 export default OnlinePlayerPage;

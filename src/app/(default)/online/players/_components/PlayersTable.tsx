@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import {
   Box,
@@ -12,7 +12,6 @@ import {
   TextInput,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { notifications } from "@mantine/notifications";
 import { IconTrash } from "@tabler/icons-react";
 import {
   createColumnHelper,
@@ -28,47 +27,22 @@ import {
 import type { ApiPlayerDataType } from "@/models/players";
 
 import TablePagenation from "@/app/_components/TablePagination";
-import createApiClient from "@/utils/hono/client";
 
 type Props = {
   players: ApiPlayerDataType[];
-  onPlayersUpdated: (players: ApiPlayerDataType[]) => void;
+  deletePlayers: (playerIds: string[]) => Promise<boolean>;
+  refetchPlayers: () => Promise<void>;
 };
 
 const PlayersTable: React.FC<Props> = ({
   players: playersProp,
-  onPlayersUpdated,
+  deletePlayers,
+  refetchPlayers,
 }) => {
-  const [players, setPlayers] = useState<ApiPlayerDataType[]>(playersProp);
+  const [players] = useState<ApiPlayerDataType[]>(playersProp);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [isPending, startTransition] = useTransition();
-
-  // propsの変更を監視してローカル状態を更新
-  useEffect(() => {
-    setPlayers(playersProp);
-  }, [playersProp]);
-
-  const _fetchPlayers = async () => {
-    try {
-      const apiClient = await createApiClient();
-      const response = await apiClient.players.$get({ query: {} });
-      if (!response.ok) {
-        throw new Error("プレイヤー一覧の取得に失敗しました");
-      }
-      const data = await response.json();
-      setPlayers(data.data.players || []);
-    } catch (_error) {
-      notifications.show({
-        title: "エラー",
-        message:
-          _error instanceof Error
-            ? _error.message
-            : "不明なエラーが発生しました",
-        color: "red",
-      });
-    }
-  };
 
   const fuzzyFilter: FilterFn<ApiPlayerDataType> = (row) => {
     const data = row.original;
@@ -133,43 +107,14 @@ const PlayersTable: React.FC<Props> = ({
     .getSelectedRowModel()
     .rows.map(({ original: player }) => player.id);
 
-  const deletePlayers = async () => {
+  const handleDeletePlayers = async () => {
     startTransition(async () => {
       try {
-        const apiClient = await createApiClient();
-        const deletePromises = deletePlayerList.map((playerId) =>
-          apiClient.players[":id"].$delete({ param: { id: playerId } })
-        );
-
-        await Promise.all(deletePromises);
-
-        notifications.show({
-          title: `${deletePlayerList.length}人のプレイヤーを削除しました`,
-          message: table
-            .getSelectedRowModel()
-            .rows.map(({ original: player }) => player.text)
-            .join(", ")
-            .slice(0, 20),
-          autoClose: 9000,
-          withCloseButton: true,
-        });
-
+        await deletePlayers(deletePlayerList);
         setSelectedPlayers({});
-
-        // ローカル状態とparent両方を更新
-        const response = await apiClient.players.$get({ query: {} });
-        if (response.ok) {
-          const data = await response.json();
-          const updatedPlayers = data.data.players || [];
-          setPlayers(updatedPlayers);
-          onPlayersUpdated(updatedPlayers);
-        }
+        await refetchPlayers();
       } catch (_error) {
-        notifications.show({
-          title: "エラー",
-          message: "プレイヤーの削除に失敗しました",
-          color: "red",
-        });
+        // エラーハンドリングは deletePlayers 内で行われるため、ここでは何もしない
       }
     });
   };
@@ -202,7 +147,7 @@ const PlayersTable: React.FC<Props> = ({
                     ),
                     labels: { confirm: "削除する", cancel: "削除しない" },
                     confirmProps: { color: "red" },
-                    onConfirm: deletePlayers,
+                    onConfirm: handleDeletePlayers,
                   })
                 }
                 size="sm"

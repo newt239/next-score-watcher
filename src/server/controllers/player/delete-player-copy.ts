@@ -1,5 +1,6 @@
 import { createFactory } from "hono/factory";
 
+import { getUserId } from "@/server/repositories/auth";
 import { deletePlayer } from "@/server/repositories/players";
 
 const factory = createFactory();
@@ -8,7 +9,7 @@ const factory = createFactory();
  * プレイヤー削除APIハンドラー
  */
 const handler = factory.createHandlers(async (c) => {
-  const userId = c.req.header("x-user-id");
+  const userId = await getUserId();
   if (!userId) {
     return c.json({ error: "認証が必要です" } as const, 401);
   }

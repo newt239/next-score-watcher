@@ -1,5 +1,6 @@
 import { createFactory } from "hono/factory";
 
+import { getUserId } from "@/server/repositories/auth";
 import { getGame } from "@/server/repositories/games";
 
 const factory = createFactory();
@@ -10,7 +11,7 @@ const factory = createFactory();
 const handler = factory.createHandlers(async (c) => {
   try {
     const gameId = c.req.param("gameId");
-    const userId = c.req.header("x-user-id");
+    const userId = await getUserId();
 
     if (!userId) {
       return c.json({ error: "認証が必要です" } as const, 401);

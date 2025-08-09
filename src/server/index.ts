@@ -19,7 +19,6 @@ import getPlayerDetailHandler from "./controllers/player/get-detail";
 import getPlayerListHandler from "./controllers/player/get-list";
 import patchUpdatePlayerHandler from "./controllers/player/patch-update";
 import postAddPlayerTagHandler from "./controllers/player/post-add-tag";
-import postBulkCreatePlayersHandler from "./controllers/player/post-bulk-create";
 import postCreatePlayerHandler from "./controllers/player/post-create";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
@@ -47,7 +46,6 @@ const app = new Hono()
   // Players API
   .get("/players", ...getPlayerListHandler)
   .post("/players", ...postCreatePlayerHandler)
-  .post("/players/bulk", ...postBulkCreatePlayersHandler)
   .get("/players/:id", ...getPlayerDetailHandler)
   .patch("/players/:id", ...patchUpdatePlayerHandler)
   .delete("/players/:id", ...deletePlayerHandler)

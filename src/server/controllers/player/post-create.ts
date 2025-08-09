@@ -2,8 +2,8 @@ import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
 import { CreatePlayerRequestSchema } from "@/models/players";
+import { getUserId } from "@/server/repositories/auth";
 import { createPlayer } from "@/server/repositories/players";
-import { requireAuth } from "@/server/utils/auth";
 
 const factory = createFactory();
 
@@ -13,24 +13,25 @@ const factory = createFactory();
 const handler = factory.createHandlers(
   zValidator("json", CreatePlayerRequestSchema),
   async (c) => {
-    const authResult = requireAuth(c);
-    if ("status" in authResult) {
-      return authResult; // 401エラーレスポンス
-    }
-
-    const { userId } = authResult;
-    const playerData = c.req.valid("json");
-
-    console.log("バリデーション後のプレイヤーデータ:", playerData);
-
     try {
-      const playerId = await createPlayer(playerData, userId);
+      const userId = await getUserId();
+      if (!userId) {
+        return c.json(
+          { success: false, error: "ユーザーが見つかりません" } as const,
+          404
+        );
+      }
+
+      const playerData = c.req.valid("json");
+      const result = await createPlayer(playerData, userId);
 
       return c.json(
         {
           success: true,
           data: {
-            id: playerId,
+            ids: result.ids,
+            createdCount: result.createdCount,
+            message: `${result.createdCount}件のプレイヤーを作成しました`,
           },
         } as const,
         201
