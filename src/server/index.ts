@@ -20,6 +20,11 @@ import getPlayerListHandler from "./controllers/player/get-list";
 import patchUpdatePlayerHandler from "./controllers/player/patch-update";
 import postAddPlayerTagHandler from "./controllers/player/post-add-tag";
 import postCreatePlayerHandler from "./controllers/player/post-create";
+import deleteQuizHandler from "./controllers/quiz/delete-quiz";
+import getQuizDetailHandler from "./controllers/quiz/get-detail";
+import getQuizListHandler from "./controllers/quiz/get-list";
+import patchUpdateQuizHandler from "./controllers/quiz/patch-update";
+import postCreateQuizHandler from "./controllers/quiz/post-create";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
 
@@ -51,6 +56,12 @@ const app = new Hono()
   .get("/players/:id", ...getPlayerDetailHandler)
   .post("/players/:id/tags", ...postAddPlayerTagHandler)
   .delete("/players/:id/tags", ...deletePlayerTagHandler)
+  // Quizes API
+  .get("/quizes", ...getQuizListHandler)
+  .post("/quizes", ...postCreateQuizHandler)
+  .patch("/quizes", ...patchUpdateQuizHandler)
+  .delete("/quizes", ...deleteQuizHandler)
+  .get("/quizes/:id", ...getQuizDetailHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);

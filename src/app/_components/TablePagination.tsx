@@ -4,6 +4,7 @@ import type {
   PlayerDetailResponseType,
   ApiPlayerDataType,
 } from "@/models/players";
+import type { ApiQuizDataType } from "@/models/quizes";
 import type { PlayerDBProps, QuizDBProps } from "@/utils/types";
 import type { Table } from "@tanstack/react-table";
 
@@ -12,7 +13,8 @@ type Props = {
     | Table<PlayerDBProps>
     | Table<QuizDBProps>
     | Table<PlayerDetailResponseType>
-    | Table<ApiPlayerDataType>;
+    | Table<ApiPlayerDataType>
+    | Table<ApiQuizDataType>;
 };
 
 const TablePagenation: React.FC<Props> = ({ table }) => {

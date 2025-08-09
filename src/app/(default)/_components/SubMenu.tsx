@@ -46,7 +46,11 @@ const getLinkList = (
     text: "プレイヤー管理",
     icon: <IconUsers />,
   },
-  { path: "/quizes", text: "問題管理", icon: <IconQuestionMark /> },
+  {
+    path: isLoggedIn ? "/online/quizes" : "/quizes",
+    text: "問題管理",
+    icon: <IconQuestionMark />,
+  },
   { path: "/option", text: "アプリ設定", icon: <IconSettings /> },
   { path: "/docs", text: "アプリ情報", icon: <IconInfoCircle /> },
   {
