@@ -6,11 +6,11 @@ import type {
   ApiPlayerDataType,
   CreatePlayerRequestType,
   CreatePlayerType,
-  UpdatePlayerRequestType,
-  UpdatePlayerType,
   DeletePlayerRequestType,
   GetPlayersListResponseType,
   RemovePlayerTagRequestType,
+  UpdatePlayerRequestType,
+  UpdatePlayerType,
 } from "@/models/players";
 
 import { DBClient } from "@/utils/drizzle/client";
@@ -40,7 +40,7 @@ const getPlayerTags = async (playerId: string): Promise<string[]> => {
 export const getPlayers = async (userId: string) => {
   const players = await DBClient.select()
     .from(player)
-    .where(eq(player.userId, userId))
+    .where(and(eq(player.userId, userId), isNull(player.deletedAt)))
     .orderBy(asc(player.name));
 
   // プレイヤーごとにタグを取得
@@ -68,7 +68,7 @@ export const getPlayersWithPagination = async (
   // プレイヤー一覧を取得
   const players = await DBClient.select()
     .from(player)
-    .where(eq(player.userId, userId))
+    .where(and(eq(player.userId, userId), isNull(player.deletedAt)))
     .orderBy(asc(player.name))
     .limit(limit)
     .offset(offset);
@@ -76,7 +76,7 @@ export const getPlayersWithPagination = async (
   // 総数を取得
   const [totalResult] = await DBClient.select({ count: count() })
     .from(player)
-    .where(eq(player.userId, userId));
+    .where(and(eq(player.userId, userId), isNull(player.deletedAt)));
 
   // レスポンス形式に変換（タグ付き）
   const playersResponse: ApiPlayerDataType[] = await Promise.all(
@@ -213,39 +213,28 @@ export const updatePlayer = async (
 };
 
 /**
- * 単一プレイヤー削除
- */
-export const deleteSinglePlayer = async (
-  playerId: string,
-  userId: string
-): Promise<boolean> => {
-  const result = await DBClient.update(player)
-    .set({
-      deletedAt: new Date(),
-      updatedAt: new Date(),
-    })
-    .where(and(eq(player.id, playerId), eq(player.userId, userId)));
-
-  return result.rowsAffected > 0;
-};
-
-/**
  * プレイヤー削除（複数対応）
  */
 export const deletePlayer = async (
   playerIds: DeletePlayerRequestType,
   userId: string
-): Promise<{ deletedCount: number }> => {
-  let deletedCount = 0;
+) => {
+  const deletedPlayerIds: string[] = [];
 
   for (const playerId of playerIds) {
-    const deleted = await deleteSinglePlayer(playerId, userId);
-    if (deleted) {
-      deletedCount++;
+    const result = await DBClient.update(player)
+      .set({
+        deletedAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .where(and(eq(player.id, playerId), eq(player.userId, userId)));
+
+    if (result.rowsAffected > 0) {
+      deletedPlayerIds.push(playerId);
     }
   }
 
-  return { deletedCount };
+  return deletedPlayerIds;
 };
 
 /**

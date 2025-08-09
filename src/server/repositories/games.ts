@@ -1,19 +1,19 @@
-import { eq, and, desc, asc, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 import type {
+  AddGameLogRequestType,
+  AddPlayerToGameRequestType,
   CreateGameRequestType,
   CreateGameType,
+  DeleteGameRequestType,
   UpdateGameRequestType,
   UpdateGameType,
-  DeleteGameRequestType,
-  AddPlayerToGameRequestType,
-  AddGameLogRequestType,
 } from "@/models/games";
 import type { Variants } from "@/utils/types";
 
 import { DBClient } from "@/utils/drizzle/client";
-import { game, player, gamePlayer, gameLog } from "@/utils/drizzle/schema";
+import { game, gameLog, gamePlayer, player } from "@/utils/drizzle/schema";
 
 /**
  * クラウドゲーム取得
@@ -37,7 +37,7 @@ export const getGame = async (gameId: string, userId: string) => {
 export const getGames = async (userId: string) => {
   const games = await DBClient.select()
     .from(game)
-    .where(eq(game.userId, userId))
+    .where(and(eq(game.userId, userId), isNull(game.deletedAt)))
     .orderBy(desc(game.updatedAt));
 
   return games;
@@ -81,7 +81,11 @@ export const getGamesPlayerCounts = async (
   })
     .from(gamePlayer)
     .where(
-      and(eq(gamePlayer.userId, userId), inArray(gamePlayer.gameId, gameIds))
+      and(
+        eq(gamePlayer.userId, userId),
+        inArray(gamePlayer.gameId, gameIds),
+        isNull(gamePlayer.deletedAt)
+      )
     );
 
   const playerCounts: Record<string, number> = {};
@@ -182,9 +186,12 @@ export const deleteSingleGame = async (
   gameId: string,
   userId: string
 ): Promise<boolean> => {
-  const result = await DBClient.delete(game).where(
-    and(eq(game.id, gameId), eq(game.userId, userId))
-  );
+  const result = await DBClient.update(game)
+    .set({
+      deletedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(and(eq(game.id, gameId), eq(game.userId, userId)));
 
   return result.rowsAffected > 0;
 };
@@ -225,7 +232,13 @@ export const getGamePlayers = async (gameId: string, userId: string) => {
   })
     .from(gamePlayer)
     .leftJoin(player, eq(gamePlayer.playerId, player.id))
-    .where(and(eq(gamePlayer.gameId, gameId), eq(gamePlayer.userId, userId)))
+    .where(
+      and(
+        eq(gamePlayer.gameId, gameId),
+        eq(gamePlayer.userId, userId),
+        isNull(gamePlayer.deletedAt)
+      )
+    )
     .orderBy(asc(gamePlayer.displayOrder));
 
   return players.map((p) => ({
@@ -263,7 +276,13 @@ export const addGamePlayer = async (
 export const getGameLogs = async (gameId: string, userId: string) => {
   const logs = await DBClient.select()
     .from(gameLog)
-    .where(and(eq(gameLog.gameId, gameId), eq(gameLog.userId, userId)))
+    .where(
+      and(
+        eq(gameLog.gameId, gameId),
+        eq(gameLog.userId, userId),
+        isNull(gameLog.deletedAt)
+      )
+    )
     .orderBy(asc(gameLog.timestamp));
 
   return logs.map((log) => ({

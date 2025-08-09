@@ -12,19 +12,13 @@ import type { FileWithPath } from "@mantine/dropzone";
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
 
 type Props = {
-  onPlayerCreated: () => void;
-  createBulkPlayers: (
-    playersData: CreatePlayerType | CreatePlayerType[]
-  ) => Promise<number>;
+  createPlayers: (playersData: CreatePlayerType[]) => Promise<number>;
 };
 
 /**
  * CSVインポートによるプレイヤー一括作成コンポーネント
  */
-const ImportPlayer: React.FC<Props> = ({
-  onPlayerCreated,
-  createBulkPlayers,
-}) => {
+const ImportPlayer: React.FC<Props> = ({ createPlayers }) => {
   const [isPending, startTransition] = useTransition();
 
   const handleOnChange = (files: FileWithPath[]) => {
@@ -41,18 +35,13 @@ const ImportPlayer: React.FC<Props> = ({
           const encodedString = Encoding.codeToString(unicodeArray);
 
           startTransition(async () => {
-            try {
-              const createdCount = await csvFileToArray(encodedString);
-              notifications.show({
-                title: "データをインポートしました",
-                message: `${file.name}から${createdCount}件のプレイヤーデータを読み込みました`,
-                autoClose: 9000,
-                withCloseButton: true,
-              });
-              onPlayerCreated();
-            } catch (_error) {
-              // エラーハンドリングは createBulkPlayers 内で行われるため、ここでは何もしない
-            }
+            const createdCount = await csvFileToArray(encodedString);
+            notifications.show({
+              title: "データをインポートしました",
+              message: `${file.name}から${createdCount}件のプレイヤーデータを読み込みました`,
+              autoClose: 9000,
+              withCloseButton: true,
+            });
           });
         }
       };
@@ -82,7 +71,7 @@ const ImportPlayer: React.FC<Props> = ({
       throw new Error("有効なプレイヤーデータがありません");
     }
 
-    return await createBulkPlayers(playersData);
+    return await createPlayers(playersData);
   };
 
   return (

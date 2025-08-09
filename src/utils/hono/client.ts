@@ -9,7 +9,7 @@ const baseUrl = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
 /**
  * ブラウザ上で動作するAPIクライアントを作成
  */
-const createApiClient = async () => {
+const createApiClient = () => {
   return hc<APIRouteType>(`${baseUrl}/api`, {
     init: {
       credentials: "include",

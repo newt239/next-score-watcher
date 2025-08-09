@@ -8,18 +8,10 @@ import { useForm } from "@mantine/form";
 import { CreatePlayerSchema, type CreatePlayerType } from "@/models/players";
 
 type Props = {
-  onOptimisticCreate?: (playerData: CreatePlayerType) => void;
-  onPlayerCreated?: () => void;
-  createPlayer: (
-    playerData: CreatePlayerType | CreatePlayerType[]
-  ) => Promise<number>;
+  createPlayers: (playerData: CreatePlayerType[]) => Promise<number>;
 };
 
-const CreatePlayer: React.FC<Props> = ({
-  onOptimisticCreate,
-  onPlayerCreated,
-  createPlayer,
-}) => {
+const CreatePlayer: React.FC<Props> = ({ createPlayers }) => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<CreatePlayerType>({
@@ -45,18 +37,8 @@ const CreatePlayer: React.FC<Props> = ({
 
   const handleCreatePlayer = (values: CreatePlayerType) => {
     startTransition(async () => {
-      // 楽観的更新をトランジション内で実行
-      onOptimisticCreate?.(values);
-
-      try {
-        await createPlayer(values);
-        form.reset();
-        // 成功時は最新データを再取得（楽観的更新を正しいデータで置き換える）
-        onPlayerCreated?.();
-      } catch (_error) {
-        // エラーの場合は最新データを再取得
-        onPlayerCreated?.();
-      }
+      await createPlayers([values]);
+      form.reset();
     });
   };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import {
   Box,
@@ -39,10 +39,14 @@ const PlayersTable: React.FC<Props> = ({
   deletePlayers,
   refetchPlayers,
 }) => {
-  const [players] = useState<ApiPlayerDataType[]>(playersProp);
+  const [players, setPlayers] = useState<ApiPlayerDataType[]>(playersProp);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setPlayers(playersProp);
+  }, [playersProp]);
 
   const fuzzyFilter: FilterFn<ApiPlayerDataType> = (row) => {
     const data = row.original;

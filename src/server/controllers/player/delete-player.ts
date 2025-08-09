@@ -29,8 +29,8 @@ const handler = factory.createHandlers(
         {
           success: true,
           data: {
-            deletedCount: result.deletedCount,
-            message: `${result.deletedCount}件のプレイヤーを削除しました`,
+            deletedPlayerIds: result,
+            message: `${result.length}件のプレイヤーを削除しました`,
           },
         } as const,
         200

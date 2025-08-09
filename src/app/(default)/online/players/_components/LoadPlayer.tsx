@@ -17,19 +17,13 @@ import { IconCirclePlus } from "@tabler/icons-react";
 import type { CreatePlayerType } from "@/models/players";
 
 type Props = {
-  onPlayerCreated: () => void;
-  createBulkPlayers: (
-    playersData: CreatePlayerType | CreatePlayerType[]
-  ) => Promise<number>;
+  createPlayers: (playersData: CreatePlayerType[]) => Promise<number>;
 };
 
 /**
  * 貼り付けによるプレイヤー一括作成コンポーネント
  */
-const LoadPlayer: React.FC<Props> = ({
-  onPlayerCreated,
-  createBulkPlayers,
-}) => {
+const LoadPlayer: React.FC<Props> = ({ createPlayers }) => {
   const [rawPlayerText, setRawPlayerText] = useState("");
   const [separateType, setSeparateType] = useState<"tab" | "comma">("tab");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -39,50 +33,43 @@ const LoadPlayer: React.FC<Props> = ({
     if (rawPlayerText === "") return;
 
     startTransition(async () => {
-      try {
-        const playerRaw = rawPlayerText.split("\n");
-        const playersData: CreatePlayerType[] = [];
+      const playerRaw = rawPlayerText.split("\n");
+      const playersData: CreatePlayerType[] = [];
 
-        for (let i = 0; i < playerRaw.length; i++) {
-          const parts = playerRaw[i].split(
-            separateType === "comma" ? "," : "\t"
-          );
-          const name = parts[0]?.trim();
-          const affiliation = parts[1]?.trim();
+      for (const row of playerRaw) {
+        const parts = row.split(separateType === "comma" ? "," : "\t");
+        const name = parts[0]?.trim();
+        const affiliation = parts[1]?.trim();
 
-          if (name) {
-            playersData.push({
-              name,
-              affiliation: affiliation || "",
-              description: "",
-            });
-          }
-        }
-
-        if (playersData.length === 0) {
-          notifications.show({
-            title: "エラー",
-            message: "有効なプレイヤーデータがありません",
-            color: "red",
+        if (name) {
+          playersData.push({
+            name,
+            affiliation: affiliation || "",
+            description: "",
           });
-          return;
         }
-
-        const createdCount = await createBulkPlayers(playersData);
-
-        notifications.show({
-          title: "データをインポートしました",
-          message: `貼り付けから${createdCount}件のプレイヤーを読み込みました`,
-          autoClose: 9000,
-          withCloseButton: true,
-        });
-
-        setRawPlayerText("");
-        textareaRef.current?.focus();
-        onPlayerCreated();
-      } catch (_error) {
-        // エラーハンドリングは createBulkPlayers 内で行われるため、ここでは何もしない
       }
+
+      if (playersData.length === 0) {
+        notifications.show({
+          title: "エラー",
+          message: "有効なプレイヤーデータがありません",
+          color: "red",
+        });
+        return;
+      }
+
+      const createdCount = await createPlayers(playersData);
+
+      notifications.show({
+        title: "データをインポートしました",
+        message: `貼り付けから${createdCount}件のプレイヤーを読み込みました`,
+        autoClose: 9000,
+        withCloseButton: true,
+      });
+
+      setRawPlayerText("");
+      textareaRef.current?.focus();
     });
   };
 
