@@ -20,13 +20,13 @@ type ApiGame = {
 };
 
 export const metadata: Metadata = {
-  title: "クラウドゲーム",
+  title: "ゲーム一覧",
   robots: {
     index: false,
   },
 };
 
-const CloudGamesPage = async () => {
+const GamesPage = async () => {
   const user = await getUser();
 
   let games: Game[] = [];
@@ -36,12 +36,7 @@ const CloudGamesPage = async () => {
   if (user?.id) {
     try {
       const apiClient = await createApiClientOnServer();
-      const gamesResponse = await apiClient["games"].$get(
-        {},
-        {
-          headers: { "x-user-id": user.id },
-        }
-      );
+      const gamesResponse = await apiClient["games"].$get({});
       const gamesData = await gamesResponse.json();
       if ("games" in gamesData) {
         games = gamesData.games.map((game: ApiGame) => ({
@@ -54,18 +49,8 @@ const CloudGamesPage = async () => {
 
       if (gameIds.length > 0) {
         const [logCountsResponse, playerCountsResponse] = await Promise.all([
-          apiClient["games"]["log-counts"].$post(
-            { json: { gameIds } },
-            {
-              headers: { "x-user-id": user.id },
-            }
-          ),
-          apiClient["games"]["player-counts"].$post(
-            { json: { gameIds } },
-            {
-              headers: { "x-user-id": user.id },
-            }
-          ),
+          apiClient["games"]["log-counts"].$post({ json: { gameIds } }),
+          apiClient["games"]["player-counts"].$post({ json: { gameIds } }),
         ]);
 
         const logCountsData = await logCountsResponse.json();
@@ -93,4 +78,4 @@ const CloudGamesPage = async () => {
   );
 };
 
-export default CloudGamesPage;
+export default GamesPage;

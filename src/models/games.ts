@@ -139,3 +139,75 @@ export type DeleteGameResponseType = {
   deletedCount: number;
   message: string;
 };
+
+/**
+ * ゲーム設定取得レスポンスのスキーマ
+ */
+export const GetGameSettingsResponseSchema = z.object({
+  name: z.string(),
+  discordWebhookUrl: z.string().nullable().optional(),
+  winPoint: z.number().int().optional(),
+  losePoint: z.number().int().optional(),
+  targetPoint: z.number().int().optional(),
+  restCount: z.number().int().optional(),
+  basePoint: z.number().int().optional(),
+  initialPoint: z.number().int().optional(),
+  loseThreshold: z.number().int().optional(),
+  attackPoint: z.number().int().optional(),
+  squareSize: z.number().int().optional(),
+  winCondition: z.number().int().optional(),
+  zonePoint: z.number().int().optional(),
+  freezePoint: z.number().int().optional(),
+  loseCount: z.number().int().optional(),
+  useR: z.boolean().optional(),
+  streakOver3: z.boolean().optional(),
+  leftTeam: z.string().optional(),
+  rightTeam: z.string().optional(),
+});
+
+/**
+ * ゲーム設定更新リクエストのスキーマ
+ */
+export const UpdateGameSettingsRequestSchema = z.object({
+  name: z.string().min(1).optional(),
+  discordWebhookUrl: z.string().optional(),
+  winPoint: z.number().int().min(1).max(1000).optional(),
+  losePoint: z.number().int().min(1).max(100).optional(),
+  targetPoint: z.number().int().min(3).max(1000).optional(),
+  restCount: z.number().int().min(1).max(100).optional(),
+  basePoint: z.number().int().min(1).max(100).optional(),
+  initialPoint: z.number().int().min(0).max(100).optional(),
+  loseThreshold: z.number().int().min(-100).max(100).optional(),
+  attackPoint: z.number().int().min(1).max(100).optional(),
+  squareSize: z.number().int().min(2).max(10).optional(),
+  winCondition: z.number().int().min(1).max(10).optional(),
+  zonePoint: z.number().int().min(1).max(100).optional(),
+  freezePoint: z.number().int().min(1).max(100).optional(),
+  loseCount: z.number().int().min(1).max(100).optional(),
+  useR: z.boolean().optional(),
+  streakOver3: z.boolean().optional(),
+  leftTeam: z.string().max(50).optional(),
+  rightTeam: z.string().max(50).optional(),
+});
+
+/**
+ * ゲーム設定取得レスポンスの型
+ */
+export type GetGameSettingsResponseType = z.infer<
+  typeof GetGameSettingsResponseSchema
+>;
+
+/**
+ * ゲーム設定更新リクエストの型
+ */
+export type UpdateGameSettingsRequestType = z.infer<
+  typeof UpdateGameSettingsRequestSchema
+>;
+
+/**
+ * ゲーム設定更新レスポンスの型
+ */
+export type UpdateGameSettingsResponseType = {
+  updated: boolean;
+  message: string;
+};

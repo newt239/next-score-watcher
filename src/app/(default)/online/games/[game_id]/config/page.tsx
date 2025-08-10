@@ -5,7 +5,7 @@ import Config from "./_components/Config/Config";
 import { getUser } from "@/utils/auth/auth-helpers";
 
 export const metadata: Metadata = {
-  title: "クラウドゲーム設定",
+  title: "ゲーム設定",
   robots: {
     index: false,
   },

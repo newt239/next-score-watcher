@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Accordion, Box, Tabs } from "@mantine/core";
 
@@ -11,7 +11,13 @@ import RuleSettings from "../RuleSettings";
 
 import classes from "./Config.module.css";
 
-import type { RuleNames, LogDBProps, GameDBPlayerProps } from "@/utils/types";
+import type {
+  GameDBPlayerProps,
+  LogDBProps,
+  PlayerDBProps,
+  RuleNames,
+  GamePropsUnion,
+} from "@/utils/types";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
@@ -29,18 +35,19 @@ type User = {
   email: string;
 };
 
-type CloudGame = {
+type Game = {
   id: string;
   name: string;
   ruleType: RuleNames;
   createdAt: string;
   updatedAt: string;
   discordWebhookUrl?: string | null;
+  players?: GameDBPlayerProps[];
 };
 
 const Config: React.FC<Props> = ({ game_id, user }) => {
-  const [game, setGame] = useState<CloudGame | null>(null);
-  const [players, setPlayers] = useState<GameDBPlayerProps[]>([]);
+  const [game, setGame] = useState<Game | null>(null);
+  const [allPlayers, setAllPlayers] = useState<PlayerDBProps[]>([]);
   const [logs, setLogs] = useState<LogDBProps[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -49,27 +56,14 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
 
     const fetchData = async () => {
       try {
-        const apiClient = await createApiClient();
+        const apiClient = createApiClient();
         const [gameResponse, playersResponse, logsResponse] = await Promise.all(
           [
-            apiClient["games"][":gameId"].$get(
-              { param: { gameId: game_id } },
-              {
-                headers: { "x-user-id": user.id },
-              }
-            ),
-            apiClient["players"].$get(
-              { query: {} },
-              {
-                headers: { "x-user-id": user.id },
-              }
-            ),
-            apiClient["games"][":gameId"]["logs"].$get(
-              { param: { gameId: game_id } },
-              {
-                headers: { "x-user-id": user.id },
-              }
-            ),
+            apiClient["games"][":gameId"].$get({ param: { gameId: game_id } }),
+            apiClient["players"].$get({ query: {} }),
+            apiClient["games"][":gameId"]["logs"].$get({
+              param: { gameId: game_id },
+            }),
           ]
         );
 
@@ -81,7 +75,7 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
           setGame(gameData.game);
         }
         if ("players" in playersData) {
-          setPlayers(playersData.players as GameDBPlayerProps[]);
+          setAllPlayers(playersData.players as PlayerDBProps[]);
         }
         if ("logs" in logsData) {
           setLogs(
@@ -100,7 +94,7 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
     fetchData();
   }, [game_id, user?.id]);
 
-  if (loading || !game || !players) return <NotFound />;
+  if (loading || !game || !user) return <NotFound />;
 
   return (
     <>
@@ -144,13 +138,37 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
         </Tabs.List>
         <Box className={classes.tab_panel_area}>
           <Tabs.Panel value="rule">
-            <RuleSettings />
+            <RuleSettings gameId={game_id} ruleType={game.ruleType} />
           </Tabs.Panel>
           <Tabs.Panel value="player">
-            <PlayersConfig />
+            <PlayersConfig
+              game_id={game_id}
+              rule={game.ruleType}
+              playerList={allPlayers}
+              players={game.players || []}
+            />
           </Tabs.Panel>
           <Tabs.Panel value="other">
-            <OtherConfig />
+            <OtherConfig
+              game={
+                {
+                  id: game.id,
+                  name: game.name,
+                  rule: game.ruleType,
+                  discord_webhook_url: game.discordWebhookUrl || "",
+                  players: game.players || [],
+                  quiz: undefined,
+                  correct_me: 0,
+                  wrong_me: 0,
+                  options:
+                    game.ruleType === "aql"
+                      ? { left_team: "", right_team: "" }
+                      : undefined,
+                  editable: false,
+                  last_open: new Date().toISOString(),
+                } as GamePropsUnion
+              }
+            />
           </Tabs.Panel>
         </Box>
       </Tabs>

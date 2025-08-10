@@ -9,11 +9,21 @@ import type {
   DeleteGameRequestType,
   UpdateGameRequestType,
   UpdateGameType,
+  UpdateGameSettingsRequestType,
+  GetGameSettingsResponseType,
 } from "@/models/games";
 import type { Variants } from "@/utils/types";
 
 import { DBClient } from "@/utils/drizzle/client";
 import { game, gameLog, gamePlayer, player } from "@/utils/drizzle/schema";
+import {
+  gameNomxSetting,
+  gameNomxAdSetting,
+  gameNySetting,
+  gameNomrSetting,
+  gameEndlessChanceSetting,
+  gameAqlSetting,
+} from "@/utils/drizzle/schema/rule";
 
 /**
  * クラウドゲーム取得
@@ -326,4 +336,228 @@ export const removeGameLog = async (logId: string, userId: string) => {
   await DBClient.delete(gameLog).where(
     and(eq(gameLog.id, logId), eq(gameLog.userId, userId))
   );
+};
+
+/**
+ * クラウドゲーム設定取得
+ */
+export const getGameSettings = async (
+  gameId: string,
+  userId: string
+): Promise<GetGameSettingsResponseType | null> => {
+  const gameData = await getGame(gameId, userId);
+  if (!gameData) return null;
+
+  // ゲーム基本情報
+  const settings: GetGameSettingsResponseType = {
+    name: gameData.name,
+    discordWebhookUrl: gameData.discordWebhookUrl,
+  };
+
+  // 各ルール形式の設定を取得
+  try {
+    switch (gameData.ruleType) {
+      case "nomx": {
+        const result = await DBClient.select()
+          .from(gameNomxSetting)
+          .where(eq(gameNomxSetting.gameId, gameId))
+          .limit(1);
+        if (result[0]) {
+          settings.winPoint = result[0].winPoint;
+          settings.losePoint = result[0].losePoint;
+        }
+        break;
+      }
+      case "nomx-ad": {
+        const result = await DBClient.select()
+          .from(gameNomxAdSetting)
+          .where(eq(gameNomxAdSetting.gameId, gameId))
+          .limit(1);
+        if (result[0]) {
+          settings.winPoint = result[0].winPoint;
+          settings.losePoint = result[0].losePoint;
+          settings.streakOver3 = result[0].streakOver3;
+        }
+        break;
+      }
+      case "ny": {
+        const result = await DBClient.select()
+          .from(gameNySetting)
+          .where(eq(gameNySetting.gameId, gameId))
+          .limit(1);
+        if (result[0]) {
+          settings.targetPoint = result[0].targetPoint;
+        }
+        break;
+      }
+      case "nomr": {
+        const result = await DBClient.select()
+          .from(gameNomrSetting)
+          .where(eq(gameNomrSetting.gameId, gameId))
+          .limit(1);
+        if (result[0]) {
+          settings.winPoint = result[0].winPoint;
+          settings.restCount = result[0].restCount;
+        }
+        break;
+      }
+      case "endless-chance": {
+        const result = await DBClient.select()
+          .from(gameEndlessChanceSetting)
+          .where(eq(gameEndlessChanceSetting.gameId, gameId))
+          .limit(1);
+        if (result[0]) {
+          settings.loseCount = result[0].loseCount;
+          settings.useR = result[0].useR;
+        }
+        break;
+      }
+      case "aql": {
+        const result = await DBClient.select()
+          .from(gameAqlSetting)
+          .where(eq(gameAqlSetting.gameId, gameId))
+          .limit(1);
+        if (result[0]) {
+          settings.leftTeam = result[0].leftTeam;
+          settings.rightTeam = result[0].rightTeam;
+        }
+        break;
+      }
+      // 他のルール形式も必要に応じて追加
+    }
+  } catch (error) {
+    console.error("Failed to get game settings:", error);
+    // 設定が取得できない場合でも基本情報は返す
+  }
+
+  return settings;
+};
+
+/**
+ * クラウドゲーム設定更新
+ */
+export const updateGameSettings = async (
+  gameId: string,
+  settingsData: UpdateGameSettingsRequestType,
+  userId: string
+): Promise<boolean> => {
+  try {
+    const gameData = await getGame(gameId, userId);
+    if (!gameData) return false;
+
+    // 基本情報の更新
+    const basicUpdateData: {
+      name?: string;
+      discordWebhookUrl?: string;
+      updatedAt?: Date;
+    } = {};
+    if (settingsData.name !== undefined)
+      basicUpdateData.name = settingsData.name;
+    if (settingsData.discordWebhookUrl !== undefined)
+      basicUpdateData.discordWebhookUrl = settingsData.discordWebhookUrl;
+
+    if (Object.keys(basicUpdateData).length > 0) {
+      basicUpdateData.updatedAt = new Date();
+      await DBClient.update(game)
+        .set(basicUpdateData)
+        .where(and(eq(game.id, gameId), eq(game.userId, userId)));
+    }
+
+    // 各ルール形式の設定を更新
+    switch (gameData.ruleType) {
+      case "nomx": {
+        const updateData: { winPoint?: number; losePoint?: number } = {};
+        if (settingsData.winPoint !== undefined)
+          updateData.winPoint = settingsData.winPoint;
+        if (settingsData.losePoint !== undefined)
+          updateData.losePoint = settingsData.losePoint;
+
+        if (Object.keys(updateData).length > 0) {
+          await DBClient.update(gameNomxSetting)
+            .set(updateData)
+            .where(eq(gameNomxSetting.gameId, gameId));
+        }
+        break;
+      }
+      case "nomx-ad": {
+        const updateData: {
+          winPoint?: number;
+          losePoint?: number;
+          streakOver3?: boolean;
+        } = {};
+        if (settingsData.winPoint !== undefined)
+          updateData.winPoint = settingsData.winPoint;
+        if (settingsData.losePoint !== undefined)
+          updateData.losePoint = settingsData.losePoint;
+        if (settingsData.streakOver3 !== undefined)
+          updateData.streakOver3 = settingsData.streakOver3;
+
+        if (Object.keys(updateData).length > 0) {
+          await DBClient.update(gameNomxAdSetting)
+            .set(updateData)
+            .where(eq(gameNomxAdSetting.gameId, gameId));
+        }
+        break;
+      }
+      case "ny": {
+        const updateData: { targetPoint?: number } = {};
+        if (settingsData.targetPoint !== undefined)
+          updateData.targetPoint = settingsData.targetPoint;
+
+        if (Object.keys(updateData).length > 0) {
+          await DBClient.update(gameNySetting)
+            .set(updateData)
+            .where(eq(gameNySetting.gameId, gameId));
+        }
+        break;
+      }
+      case "nomr": {
+        const updateData: { winPoint?: number; restCount?: number } = {};
+        if (settingsData.winPoint !== undefined)
+          updateData.winPoint = settingsData.winPoint;
+        if (settingsData.restCount !== undefined)
+          updateData.restCount = settingsData.restCount;
+
+        if (Object.keys(updateData).length > 0) {
+          await DBClient.update(gameNomrSetting)
+            .set(updateData)
+            .where(eq(gameNomrSetting.gameId, gameId));
+        }
+        break;
+      }
+      case "endless-chance": {
+        const updateData: { loseCount?: number; useR?: boolean } = {};
+        if (settingsData.loseCount !== undefined)
+          updateData.loseCount = settingsData.loseCount;
+        if (settingsData.useR !== undefined)
+          updateData.useR = settingsData.useR;
+
+        if (Object.keys(updateData).length > 0) {
+          await DBClient.update(gameEndlessChanceSetting)
+            .set(updateData)
+            .where(eq(gameEndlessChanceSetting.gameId, gameId));
+        }
+        break;
+      }
+      case "aql": {
+        const updateData: { leftTeam?: string; rightTeam?: string } = {};
+        if (settingsData.leftTeam !== undefined)
+          updateData.leftTeam = settingsData.leftTeam;
+        if (settingsData.rightTeam !== undefined)
+          updateData.rightTeam = settingsData.rightTeam;
+
+        if (Object.keys(updateData).length > 0) {
+          await DBClient.update(gameAqlSetting)
+            .set(updateData)
+            .where(eq(gameAqlSetting.gameId, gameId));
+        }
+        break;
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Failed to update game settings:", error);
+    return false;
+  }
 };

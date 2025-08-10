@@ -2,15 +2,15 @@ import { redirect } from "next/navigation";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
-type CloudGamesLayoutProps = {
+type GamesLayoutProps = {
   children: React.ReactNode;
 };
 
 /**
- * クラウドゲーム管理ページのレイアウト
+ * ゲーム管理ページのレイアウト
  * ユーザーが未ログインの場合は/sign-inにリダイレクトする
  */
-const CloudGamesLayout = async ({ children }: CloudGamesLayoutProps) => {
+const GamesLayout = async ({ children }: GamesLayoutProps) => {
   const user = await getUser();
 
   if (!user) {
@@ -20,4 +20,4 @@ const CloudGamesLayout = async ({ children }: CloudGamesLayoutProps) => {
   return <>{children}</>;
 };
 
-export default CloudGamesLayout;
+export default GamesLayout;
