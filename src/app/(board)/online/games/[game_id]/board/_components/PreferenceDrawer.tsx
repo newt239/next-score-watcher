@@ -1,14 +1,18 @@
 import { Box, Drawer, Kbd, Table, Tabs } from "@mantine/core";
 
-import OnlinePreferences from "./OnlinePreferences";
+import Preferences from "./Preferences";
 
-type Props = {
+type PreferenceDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
   userId: string;
 };
 
-const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose, userId }) => {
+const PreferenceDrawer: React.FC<PreferenceDrawerProps> = ({
+  isOpen,
+  onClose,
+  userId,
+}) => {
   const commands = [
     {
       key: "1",
@@ -48,7 +52,7 @@ const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose, userId }) => {
         </Tabs.List>
         <Box py="lg">
           <Tabs.Panel value="preferences">
-            <OnlinePreferences userId={userId} />
+            <Preferences userId={userId} />
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>

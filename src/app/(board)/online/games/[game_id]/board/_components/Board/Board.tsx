@@ -1,7 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState, useTransition } from "react";
-import { useEffect } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 
 import { Box, Button, Flex, Text, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -10,7 +15,7 @@ import { IconX } from "@tabler/icons-react";
 import AQL from "../AQL/AQL";
 import ActionButtons from "../ActionButtons/ActionButtons";
 import BoardHeader from "../BoardHeader/BoardHeader";
-import GameLogs from "../GameLogs";
+import GameLogs from "../GameLogs/GameLogs";
 import Players from "../Players/Players";
 
 import classes from "./Board.module.css";
@@ -22,8 +27,8 @@ import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/W
 import createApiClient from "@/utils/hono/client";
 import { computeOnlineScore } from "@/utils/online/computeScore";
 
-type Props = {
-  game_id: string;
+type BoardProps = {
+  gameId: string;
   user: User | null;
   initialGame: unknown;
   initialPlayers: unknown[];
@@ -81,8 +86,8 @@ const isLogs = (v: unknown): v is LogDBProps[] => {
   });
 };
 
-const Board: React.FC<Props> = ({
-  game_id,
+const Board: React.FC<BoardProps> = ({
+  gameId,
   user,
   initialGame,
   initialPlayers,
@@ -109,7 +114,6 @@ const Board: React.FC<Props> = ({
   const [preferences, setPreferences] = useState<UserPreferencesType | null>(
     null
   );
-  const [_isPreferencesLoading, setIsPreferencesLoading] = useState(true);
 
   // 勝ち抜けモーダル制御
   const [winTroughPlayer, setWinTroughPlayer] = useState<{
@@ -136,15 +140,13 @@ const Board: React.FC<Props> = ({
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
-    } finally {
-      setIsPreferencesLoading(false);
     }
   }, [api, user?.id]);
 
   const refreshLogs = useCallback(async () => {
     try {
       const res = await api["games"][":gameId"]["logs"].$get({
-        param: { gameId: game_id },
+        param: { gameId },
       });
       if (res.ok) {
         const json = await res.json();
@@ -160,7 +162,7 @@ const Board: React.FC<Props> = ({
         color: "red",
       });
     }
-  }, [api, game_id]);
+  }, [api, gameId]);
 
   const addLog = useCallback(
     async (playerId: string, actionType: LogDBProps["variant"]) => {
@@ -168,7 +170,7 @@ const Board: React.FC<Props> = ({
         try {
           await api["games"]["logs"].$post({
             json: {
-              gameId: game_id,
+              gameId,
               playerId,
               actionType,
               isSystemAction: false,
@@ -185,7 +187,7 @@ const Board: React.FC<Props> = ({
         }
       });
     },
-    [api, game_id, refreshLogs]
+    [api, gameId, refreshLogs]
   );
 
   const addThrough = useCallback(() => {
@@ -241,18 +243,16 @@ const Board: React.FC<Props> = ({
     return () => window.removeEventListener("keydown", handler);
   }, [players, addLog, undo, game]);
 
-  // scores計算をuseMemoで先に実行
-  const isSettings = (v: unknown): v is Record<string, unknown> =>
-    !!v && typeof v === "object";
+  // useEffectを先に定義
+  useEffect(() => {
+    if (!game || !players.length) return;
 
-  const settings = isSettings(initialSettings) ? initialSettings : {};
+    const isSettings = (v: unknown): v is Record<string, unknown> =>
+      !!v && typeof v === "object";
 
-  const { scores, winPlayers } = useMemo(() => {
-    if (!game || !players.length) {
-      return { scores: [], winPlayers: [] };
-    }
+    const settings = isSettings(initialSettings) ? initialSettings : {};
 
-    return computeOnlineScore(
+    const { winPlayers } = computeOnlineScore(
       { id: game.id, name: game.name, ruleType: game.ruleType },
       players,
       logs,
@@ -273,11 +273,6 @@ const Board: React.FC<Props> = ({
             : undefined,
       }
     );
-  }, [game, players, logs, settings]);
-
-  // 勝ち抜け判定とスキップサジェストの処理
-  useEffect(() => {
-    if (!game || !players.length) return;
 
     if (winPlayers && winPlayers.length > 0) {
       const first = winPlayers[0];
@@ -306,7 +301,7 @@ const Board: React.FC<Props> = ({
     } else {
       setSkipSuggest(false);
     }
-  }, [logs, game, players, scores, winPlayers]);
+  }, [logs, game, players, initialSettings]);
 
   // 初期設定取得
   useEffect(() => {
@@ -329,6 +324,29 @@ const Board: React.FC<Props> = ({
     );
   }
 
+  const isSettings = (v: unknown): v is Record<string, unknown> =>
+    !!v && typeof v === "object";
+
+  const settings = isSettings(initialSettings) ? initialSettings : {};
+
+  const { scores } = computeOnlineScore(
+    { id: game.id, name: game.name, ruleType: game.ruleType },
+    players,
+    logs,
+    {
+      winPoint:
+        typeof settings.winPoint === "number" ? settings.winPoint : undefined,
+      losePoint:
+        typeof settings.losePoint === "number" ? settings.losePoint : undefined,
+      targetPoint:
+        typeof settings.targetPoint === "number"
+          ? settings.targetPoint
+          : undefined,
+      restCount:
+        typeof settings.restCount === "number" ? settings.restCount : undefined,
+    }
+  );
+
   return (
     <>
       <BoardHeader
@@ -350,7 +368,6 @@ const Board: React.FC<Props> = ({
       )}
       {game.ruleType === "aql" ? (
         <AQL
-          game={game}
           scores={scores}
           players={players}
           isPending={isPending}
@@ -383,7 +400,6 @@ const Board: React.FC<Props> = ({
         logsLength={logs.length}
         onUndo={undo}
         onThrough={addThrough}
-        _preferences={preferences}
         userId={user.id}
       />
 

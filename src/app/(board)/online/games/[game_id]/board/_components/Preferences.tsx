@@ -3,25 +3,23 @@
 import { useCallback, useEffect, useState } from "react";
 
 import {
-  Alert,
   Flex,
   Switch,
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
-import { IconInfoCircle } from "@tabler/icons-react";
 
 import type { UserPreferencesType } from "@/models/user-preferences";
 
 import { defaultUserPreferences } from "@/models/user-preferences";
 import createApiClient from "@/utils/hono/client";
 
-type Props = {
+type PreferencesProps = {
   userId: string;
 };
 
-const OnlinePreferences: React.FC<Props> = ({ userId }) => {
+const Preferences: React.FC<PreferencesProps> = ({ userId }) => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light");
 
@@ -30,7 +28,6 @@ const OnlinePreferences: React.FC<Props> = ({ userId }) => {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   // 設定を取得
   const fetchPreferences = useCallback(async () => {
@@ -42,20 +39,12 @@ const OnlinePreferences: React.FC<Props> = ({ userId }) => {
       if (res.ok) {
         const data = await res.json();
         setPreferences(data.preferences);
-        setIsAuthenticated(true);
-      } else if (res.status === 404) {
-        // ユーザーが認証されていない場合、デフォルト設定を使用
-        console.warn("User not authenticated, using default preferences");
-        setIsAuthenticated(false);
-        setPreferences(defaultUserPreferences);
       } else {
         console.error("Failed to fetch preferences:", res.status);
-        setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
-      // エラーが発生した場合もデフォルト設定を使用
-      setIsAuthenticated(false);
+
       setPreferences(defaultUserPreferences);
     } finally {
       setIsLoading(false);
@@ -122,16 +111,6 @@ const OnlinePreferences: React.FC<Props> = ({ userId }) => {
 
   return (
     <Flex direction="column" gap="lg" mb="lg">
-      {isAuthenticated === false && (
-        <Alert
-          icon={<IconInfoCircle size={16} />}
-          title="ゲストモード"
-          color="blue"
-          variant="light"
-        >
-          サインインしていないため、設定の変更はこのセッション中のみ有効です。
-        </Alert>
-      )}
       <Switch
         checked={computedColorScheme === "dark"}
         onChange={() => {
@@ -215,4 +194,4 @@ const OnlinePreferences: React.FC<Props> = ({ userId }) => {
   );
 };
 
-export default OnlinePreferences;
+export default Preferences;

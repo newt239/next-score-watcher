@@ -8,7 +8,7 @@ import classes from "./PlayerScoreButton.module.css";
 
 import type { LogDBProps } from "@/utils/types";
 
-type Props = {
+type PlayerScoreButtonProps = {
   color:
     | "red"
     | "blue"
@@ -20,21 +20,19 @@ type Props = {
     | "playing";
   filled?: boolean;
   compact?: boolean;
-  game_id: string;
-  player_id: string;
+  playerId: string;
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
   disabled?: boolean;
   children: string;
 };
 
-const PlayerScoreButton: React.FC<Props> = ({
+const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
   color,
   children,
   filled = false,
   compact = false,
-  game_id: _game_id,
-  player_id,
+  playerId,
   isPending,
   onAddLog,
   disabled,
@@ -68,7 +66,7 @@ const PlayerScoreButton: React.FC<Props> = ({
 
   const handleClick = () => {
     if (color !== "green" && !disabled && !isPending) {
-      onAddLog(player_id, color === "red" ? "correct" : "wrong");
+      onAddLog(playerId, color === "red" ? "correct" : "wrong");
     }
   };
 

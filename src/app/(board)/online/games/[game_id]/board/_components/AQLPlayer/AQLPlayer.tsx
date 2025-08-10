@@ -2,7 +2,7 @@
 
 import { Flex, useComputedColorScheme } from "@mantine/core";
 
-import PlayerScoreButton from "../../Players/PlayerScoreButton/PlayerScoreButton";
+import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
 import classes from "./AQLPlayer.module.css";
 
@@ -10,7 +10,6 @@ import type {
   ComputedScoreProps,
   GameDBPlayerProps,
   LogDBProps,
-  RuleNames,
   States,
 } from "@/utils/types";
 
@@ -18,28 +17,20 @@ import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/Player
 import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";
 import { numberSign } from "@/utils/functions";
 
-type OnlineGame = {
-  id: string;
-  name: string;
-  ruleType: RuleNames;
-};
-
-type Props = {
-  game: OnlineGame;
+type AQLPlayerProps = {
   player: GameDBPlayerProps;
   index: number;
   score: ComputedScoreProps | undefined;
-  is_incapacity: boolean;
+  isIncapacity: boolean;
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
 };
 
-const AQLPlayer: React.FC<Props> = ({
-  game,
+const AQLPlayer: React.FC<AQLPlayerProps> = ({
   player,
   index,
   score,
-  is_incapacity,
+  isIncapacity,
   isPending,
   onAddLog,
 }) => {
@@ -97,34 +88,31 @@ const AQLPlayer: React.FC<Props> = ({
       </Flex>
       <Flex className={classes.player_score}>
         <PlayerScoreButton
-          color={is_incapacity ? "black" : "green"}
-          game_id={game.id}
-          player_id={player.id}
+          color={isIncapacity ? "black" : "green"}
+          playerId={player.id}
           isPending={isPending}
           onAddLog={onAddLog}
-          disabled={is_incapacity}
+          disabled={isIncapacity}
         >
           {numberSign("pt", score.score)}
         </PlayerScoreButton>
         <Flex className={classes.player_score_pair}>
           <PlayerScoreButton
-            color={is_incapacity ? "black" : "red"}
-            game_id={game.id}
-            player_id={player.id}
+            color={isIncapacity ? "black" : "red"}
+            playerId={player.id}
             isPending={isPending}
             onAddLog={onAddLog}
-            disabled={is_incapacity}
+            disabled={isIncapacity}
             compact={true}
           >
             {numberSign("correct", score.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton
-            color={is_incapacity ? "black" : "blue"}
-            game_id={game.id}
-            player_id={player.id}
+            color={isIncapacity ? "black" : "blue"}
+            playerId={player.id}
             isPending={isPending}
             onAddLog={onAddLog}
-            disabled={is_incapacity}
+            disabled={isIncapacity}
             compact={true}
           >
             {numberSign("wrong", score.wrong)}

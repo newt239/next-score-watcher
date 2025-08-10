@@ -9,8 +9,6 @@ import classes from "./PlayerScore.module.css";
 import type { UserPreferencesType } from "@/models/user-preferences";
 import type { ComputedScoreProps, LogDBProps, RuleNames } from "@/utils/types";
 
-import { numberSign as _numberSign } from "@/utils/functions";
-
 type OnlineGame = {
   id: string;
   name: string;
@@ -18,7 +16,7 @@ type OnlineGame = {
   win_point?: number; // nbyn形式で使用
 };
 
-type Props = {
+type PlayerScoreProps = {
   game: OnlineGame;
   player: ComputedScoreProps;
   isPending: boolean;
@@ -26,7 +24,7 @@ type Props = {
   preferences: UserPreferencesType | null;
 };
 
-const PlayerScore: React.FC<Props> = ({
+const PlayerScore: React.FC<PlayerScoreProps> = ({
   game,
   player,
   isPending,
@@ -34,8 +32,7 @@ const PlayerScore: React.FC<Props> = ({
   preferences,
 }) => {
   const props = {
-    game_id: game.id,
-    player_id: player.player_id,
+    playerId: player.player_id,
     isPending,
     onAddLog,
   };

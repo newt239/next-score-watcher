@@ -2,7 +2,8 @@
 
 import { Flex } from "@mantine/core";
 
-import Player from "./Player/Player";
+import Player from "../Player/Player";
+
 import classes from "./Players.module.css";
 
 import type { UserPreferencesType } from "@/models/user-preferences";
@@ -20,7 +21,7 @@ type OnlineGame = {
   win_point?: number; // nbyn形式で使用
 };
 
-type Props = {
+type PlayersProps = {
   game: OnlineGame;
   scores: ComputedScoreProps[];
   players: GameDBPlayerProps[];
@@ -33,7 +34,7 @@ type Props = {
  * オンライン版のプレイヤー一覧表示コンポーネント
  * ローカル版のPlayersコンポーネントと同等の機能を提供
  */
-const Players: React.FC<Props> = ({
+const Players: React.FC<PlayersProps> = ({
   game,
   scores,
   players,

@@ -31,7 +31,7 @@ type OnlineGame = {
   win_point?: number; // nbyn形式で使用
 };
 
-type Props = {
+type BoardHeaderProps = {
   game: OnlineGame;
   logsLength: number;
   onUndo: () => void;
@@ -40,7 +40,7 @@ type Props = {
   userId: string;
 };
 
-const BoardHeader: React.FC<Props> = ({
+const BoardHeader: React.FC<BoardHeaderProps> = ({
   game,
   logsLength,
   onUndo,

@@ -15,21 +15,20 @@ import classes from "./GameLogs.module.css";
 
 import type { GameDBPlayerProps, LogDBProps } from "@/utils/types";
 
-type Props = {
+type GameLogsProps = {
   logs: LogDBProps[];
   players: GameDBPlayerProps[];
   order: "asc" | "desc";
   onToggleOrder: () => void;
 };
 
-const GameLogs: React.FC<Props> = ({ logs, players, order, onToggleOrder }) => {
+const GameLogs: React.FC<GameLogsProps> = ({
+  logs,
+  players,
+  order,
+  onToggleOrder,
+}) => {
   const [copied, setCopied] = useState<boolean>(false);
-
-  const _playerNameById = useMemo(() => {
-    const map = new Map<string, string>();
-    players.forEach((p) => map.set(p.id, p.name));
-    return map;
-  }, [players]);
 
   const filteredLogs = useMemo(() => {
     return logs.filter((log) => log.variant !== "multiple_wrong");

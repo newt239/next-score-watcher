@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import Config from "./_components/Config/Config";
 
@@ -18,6 +19,10 @@ const ConfigPage = async ({
 }) => {
   const { game_id } = await params;
   const user = await getUser();
+
+  if (!user) {
+    redirect("/sign-in");
+  }
 
   return <Config game_id={game_id} user={user} />;
 };

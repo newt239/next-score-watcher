@@ -16,26 +16,23 @@ import PreferenceDrawer from "../PreferenceDrawer";
 
 import classes from "./ActionButtons.module.css";
 
-import type { UserPreferencesType } from "@/models/user-preferences";
 import type { RuleNames } from "@/utils/types";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
-type Props = {
+type ActionButtonsProps = {
   game: { id: string; name: string; ruleType: RuleNames };
   logsLength: number;
   onUndo: () => void;
   onThrough: () => void;
-  _preferences: UserPreferencesType | null;
   userId: string;
 };
 
-const ActionButtons: React.FC<Props> = ({
+const ActionButtons: React.FC<ActionButtonsProps> = ({
   game,
   logsLength,
   onUndo,
   onThrough,
-  _preferences,
   userId,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);

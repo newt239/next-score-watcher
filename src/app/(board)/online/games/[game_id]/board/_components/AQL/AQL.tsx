@@ -2,24 +2,17 @@
 
 import { Box, Flex } from "@mantine/core";
 
+import AQLPlayer from "../AQLPlayer/AQLPlayer";
+
 import classes from "./AQL.module.css";
-import AQLPlayer from "./AQLPlayer/AQLPlayer";
 
 import type {
   ComputedScoreProps,
   GameDBPlayerProps,
   LogDBProps,
-  RuleNames,
 } from "@/utils/types";
 
-type OnlineGame = {
-  id: string;
-  name: string;
-  ruleType: RuleNames;
-};
-
-type Props = {
-  game: OnlineGame;
+type AQLProps = {
   scores: ComputedScoreProps[];
   players: GameDBPlayerProps[];
   isPending: boolean;
@@ -31,8 +24,7 @@ type Props = {
   show_header: boolean;
 };
 
-const AQL: React.FC<Props> = ({
-  game,
+const AQL: React.FC<AQLProps> = ({
   scores,
   players,
   isPending,
@@ -98,12 +90,11 @@ const AQL: React.FC<Props> = ({
         <Flex className={classes.players}>
           {playerScoreList.slice(0, 5).map((item, i) => (
             <AQLPlayer
-              game={game}
               index={i}
               key={i}
               player={item.player}
               score={item.score}
-              is_incapacity={item.score.is_incapacity}
+              isIncapacity={item.score.is_incapacity}
               isPending={isPending}
               onAddLog={onAddLog}
             />
@@ -124,12 +115,11 @@ const AQL: React.FC<Props> = ({
         <Flex className={classes.players}>
           {playerScoreList.slice(5, 10).map((item, i) => (
             <AQLPlayer
-              game={game}
               index={i}
               key={i}
               player={item.player}
               score={item.score}
-              is_incapacity={item.score.is_incapacity}
+              isIncapacity={item.score.is_incapacity}
               isPending={isPending}
               onAddLog={onAddLog}
             />
