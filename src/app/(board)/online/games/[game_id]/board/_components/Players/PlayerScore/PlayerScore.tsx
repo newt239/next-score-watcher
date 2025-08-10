@@ -6,9 +6,10 @@ import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
 import classes from "./PlayerScore.module.css";
 
+import type { UserPreferencesType } from "@/models/user-preferences";
 import type { ComputedScoreProps, LogDBProps, RuleNames } from "@/utils/types";
 
-import { numberSign } from "@/utils/functions";
+import { numberSign as _numberSign } from "@/utils/functions";
 
 type OnlineGame = {
   id: string;
@@ -21,6 +22,7 @@ type Props = {
   player: ComputedScoreProps;
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
+  preferences: UserPreferencesType | null;
 };
 
 const PlayerScore: React.FC<Props> = ({
@@ -28,6 +30,7 @@ const PlayerScore: React.FC<Props> = ({
   player,
   isPending,
   onAddLog,
+  preferences,
 }) => {
   const props = {
     game_id: game.id,
@@ -36,11 +39,44 @@ const PlayerScore: React.FC<Props> = ({
     onAddLog,
   };
 
+  // 設定に基づいてnumberSignを実行するヘルパー関数
+  const getNumberSign = (type: "correct" | "wrong" | "pt", score?: number) => {
+    const showSignString = preferences?.showSignString ?? true;
+    const wrongNumber = preferences?.wrongNumber ?? true;
+
+    if (typeof score === "undefined") {
+      switch (type) {
+        case "correct":
+          return "○";
+        case "wrong":
+          return "✕";
+        case "pt":
+          return "pt";
+        default:
+          return "";
+      }
+    }
+
+    switch (type) {
+      case "correct":
+        return showSignString ? `○${score}` : `${score}`;
+      case "wrong":
+        if (wrongNumber && score <= 4) {
+          return score === 0 ? "・" : "✕".repeat(score);
+        }
+        return showSignString ? `✕${score}` : `${score}`;
+      case "pt":
+        return showSignString ? `${score}pt` : `${score}`;
+      default:
+        return `${score}`;
+    }
+  };
+
   return (
     <Flex className={classes.player_score}>
       {game.ruleType === "normal" && (
         <PlayerScoreButton color="red" {...props}>
-          {numberSign("pt", player.score)}
+          {getNumberSign("pt", player.score)}
         </PlayerScoreButton>
       )}
       {game.ruleType === "nomx" && (
@@ -48,12 +84,12 @@ const PlayerScore: React.FC<Props> = ({
           <PlayerScoreButton color="red" {...props}>
             {player.state === "win"
               ? player.text
-              : numberSign("correct", player.correct)}
+              : getNumberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
             {player.state === "lose"
               ? player.text
-              : numberSign("wrong", player.wrong)}
+              : getNumberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
@@ -64,10 +100,10 @@ const PlayerScore: React.FC<Props> = ({
           </PlayerScoreButton>
           <Flex className={classes.player_score_pair}>
             <PlayerScoreButton color="red" compact {...props}>
-              {numberSign("correct", player.correct)}
+              {getNumberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton color="blue" compact {...props}>
-              {numberSign("wrong", player.wrong)}
+              {getNumberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>
@@ -88,7 +124,7 @@ const PlayerScore: React.FC<Props> = ({
               disabled={player.is_incapacity}
               {...props}
             >
-              {numberSign("correct", player.correct)}
+              {getNumberSign("correct", player.correct)}
             </PlayerScoreButton>
             <PlayerScoreButton
               color={player.is_incapacity ? "gray" : "blue"}
@@ -96,7 +132,7 @@ const PlayerScore: React.FC<Props> = ({
               disabled={player.is_incapacity}
               {...props}
             >
-              {numberSign("wrong", player.wrong)}
+              {getNumberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
         </>

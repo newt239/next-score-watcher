@@ -5,6 +5,7 @@ import { Flex } from "@mantine/core";
 import Player from "./Player/Player";
 import classes from "./Players.module.css";
 
+import type { UserPreferencesType } from "@/models/user-preferences";
 import type {
   ComputedScoreProps,
   GameDBPlayerProps,
@@ -24,6 +25,7 @@ type Props = {
   players: GameDBPlayerProps[];
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
+  preferences: UserPreferencesType | null;
 };
 
 /**
@@ -36,9 +38,14 @@ const Players: React.FC<Props> = ({
   players,
   isPending,
   onAddLog,
+  preferences,
 }) => {
   return (
-    <Flex className={classes.players} id="players-area">
+    <Flex
+      className={classes.players}
+      id="players-area"
+      data-showheader={preferences?.showBoardHeader ?? true}
+    >
       {players.map((player, i) => (
         <Player
           game={game}
@@ -48,6 +55,7 @@ const Players: React.FC<Props> = ({
           score={scores.find((score) => score.player_id === player.id)}
           isPending={isPending}
           onAddLog={onAddLog}
+          preferences={preferences}
         />
       ))}
     </Flex>

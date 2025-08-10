@@ -4,17 +4,18 @@ import { useCallback, useMemo, useState, useTransition } from "react";
 import { useEffect } from "react";
 
 import { Box, Button, Flex, Text, Tooltip } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
 
 import AQL from "../AQL/AQL";
+import ActionButtons from "../ActionButtons/ActionButtons";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import GameLogs from "../GameLogs";
 import Players from "../Players/Players";
 
 import classes from "./Board.module.css";
 
+import type { UserPreferencesType } from "@/models/user-preferences";
 import type { GameDBPlayerProps, LogDBProps, RuleNames } from "@/utils/types";
 
 import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";
@@ -104,10 +105,11 @@ const Board: React.FC<Props> = ({
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [skipSuggest, setSkipSuggest] = useState(false);
 
-  const [showHeader] = useLocalStorage({
-    key: "showBoardHeader",
-    defaultValue: true,
-  });
+  // API経由でユーザー設定を管理
+  const [preferences, setPreferences] = useState<UserPreferencesType | null>(
+    null
+  );
+  const [_isPreferencesLoading, setIsPreferencesLoading] = useState(true);
 
   // 勝ち抜けモーダル制御
   const [winTroughPlayer, setWinTroughPlayer] = useState<{
@@ -119,6 +121,23 @@ const Board: React.FC<Props> = ({
   });
 
   const api = useMemo(() => createApiClient(), []);
+
+  // 設定を取得
+  const fetchPreferences = useCallback(async () => {
+    try {
+      const res = await api["user"][":user_id"]["preferences"].$get({
+        param: { user_id: "current" }, // 認証されたユーザーのID
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setPreferences(data.preferences);
+      }
+    } catch (error) {
+      console.error("Failed to fetch preferences:", error);
+    } finally {
+      setIsPreferencesLoading(false);
+    }
+  }, [api]);
 
   const refreshLogs = useCallback(async () => {
     try {
@@ -280,6 +299,11 @@ const Board: React.FC<Props> = ({
     }
   }, [logs, game, players, initialSettings]);
 
+  // 初期設定取得
+  useEffect(() => {
+    fetchPreferences();
+  }, [fetchPreferences]);
+
   if (!user) {
     return (
       <Box className={classes.error}>
@@ -326,6 +350,7 @@ const Board: React.FC<Props> = ({
         logsLength={logs.length}
         onUndo={undo}
         onThrough={addThrough}
+        preferences={preferences}
       />
       {game.ruleType === "squarex" && (
         <Box
@@ -353,7 +378,7 @@ const Board: React.FC<Props> = ({
                 ? settings.rightTeam
                 : "Right Team",
           }}
-          show_header={showHeader}
+          show_header={preferences?.showBoardHeader ?? true}
         />
       ) : (
         <Players
@@ -362,8 +387,17 @@ const Board: React.FC<Props> = ({
           players={players}
           isPending={isPending}
           onAddLog={addLog}
+          preferences={preferences}
         />
       )}
+
+      <ActionButtons
+        game={game}
+        logsLength={logs.length}
+        onUndo={undo}
+        onThrough={addThrough}
+        _preferences={preferences}
+      />
 
       <GameLogs
         logs={logs}

@@ -1,7 +1,7 @@
 "use client";
 
 import { ActionIcon, Box, Flex, Menu, MenuDivider } from "@mantine/core";
-import { useDisclosure, useLocalStorage } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconAdjustmentsHorizontal,
   IconArrowBackUp,
@@ -15,6 +15,7 @@ import PreferenceDrawer from "../PreferenceDrawer";
 
 import classes from "./BoardHeader.module.css";
 
+import type { UserPreferencesType } from "@/models/user-preferences";
 import type { RuleNames } from "@/utils/types";
 
 import Link from "@/app/_components/Link";
@@ -25,6 +26,7 @@ type Props = {
   logsLength: number;
   onUndo: () => void;
   onThrough: () => void;
+  preferences: UserPreferencesType | null;
 };
 
 const BoardHeader: React.FC<Props> = ({
@@ -32,18 +34,13 @@ const BoardHeader: React.FC<Props> = ({
   logsLength,
   onUndo,
   onThrough,
+  preferences,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const [showBoardHeader] = useLocalStorage({
-    key: "showBoardHeader",
-    defaultValue: true,
-  });
-
-  const [showQn] = useLocalStorage({
-    key: "showQn",
-    defaultValue: true,
-  });
+  // API経由で設定を取得（デフォルト値を設定）
+  const showBoardHeader = preferences?.showBoardHeader ?? true;
+  const showQn = preferences?.showQn ?? false;
 
   const getRuleStringByType = (gameData: {
     name: string;

@@ -1,12 +1,12 @@
 "use client";
 
 import { Flex, useComputedColorScheme } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 
 import PlayerScore from "../PlayerScore/PlayerScore";
 
 import classes from "./Player.module.css";
 
+import type { UserPreferencesType } from "@/models/user-preferences";
 import type {
   ComputedScoreProps,
   GameDBPlayerProps,
@@ -32,6 +32,7 @@ type Props = {
   score: ComputedScoreProps | undefined;
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
+  preferences: UserPreferencesType | null;
 };
 
 const Player: React.FC<Props> = ({
@@ -41,13 +42,12 @@ const Player: React.FC<Props> = ({
   score,
   isPending,
   onAddLog,
+  preferences,
 }) => {
   const computedColorScheme = useComputedColorScheme("light");
 
-  const [reversePlayerInfo] = useLocalStorage({
-    key: "reversePlayerInfo",
-    defaultValue: false,
-  });
+  // API経由で設定を取得（デフォルト値を設定）
+  const reversePlayerInfo = preferences?.reversePlayerInfo ?? false;
 
   if (!score) return null;
 
@@ -104,6 +104,7 @@ const Player: React.FC<Props> = ({
         player={score}
         isPending={isPending}
         onAddLog={onAddLog}
+        preferences={preferences}
       />
     </Flex>
   );
