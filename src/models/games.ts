@@ -12,11 +12,45 @@ export const CreateGameSchema = z.object({
 });
 
 /**
+ * 既存ゲームからプレイヤーをコピーするリクエストスキーマ
+ */
+export const CopyPlayersFromGameRequestSchema = z.object({
+  sourceGameId: z.string().min(1),
+});
+
+/**
+ * 既存ゲームからプレイヤーをコピーするリクエスト型
+ */
+export type CopyPlayersFromGameRequestType = z.infer<
+  typeof CopyPlayersFromGameRequestSchema
+>;
+
+/**
  * ゲーム作成リクエストのスキーマ
  */
 export const CreateGameRequestSchema = z
   .array(CreateGameSchema)
   .min(1, "最低1つのゲームが必要です");
+
+/**
+ * プレイヤー設定更新のスキーマ
+ */
+export const UpdateGamePlayerSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  displayOrder: z.number().int().min(0),
+  initialScore: z.number().int().default(0),
+  initialCorrectCount: z.number().int().default(0),
+  initialWrongCount: z.number().int().default(0),
+});
+
+/**
+ * クイズ設定更新のスキーマ
+ */
+export const UpdateGameQuizSchema = z.object({
+  setName: z.string().optional(),
+  offset: z.number().int().min(0).default(0),
+});
 
 /**
  * ゲーム更新の基本スキーマ
@@ -25,6 +59,8 @@ export const UpdateGameSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1).optional(),
   discordWebhookUrl: z.string().optional(),
+  players: z.array(UpdateGamePlayerSchema).optional(),
+  quiz: UpdateGameQuizSchema.optional(),
 });
 
 /**
@@ -80,6 +116,16 @@ export type CreateGameType = z.infer<typeof CreateGameSchema>;
  * ゲーム作成リクエストの型
  */
 export type CreateGameRequestType = z.infer<typeof CreateGameRequestSchema>;
+
+/**
+ * プレイヤー設定更新の型
+ */
+export type UpdateGamePlayerType = z.infer<typeof UpdateGamePlayerSchema>;
+
+/**
+ * クイズ設定更新の型
+ */
+export type UpdateGameQuizType = z.infer<typeof UpdateGameQuizSchema>;
 
 /**
  * ゲーム更新の基本型
@@ -209,5 +255,31 @@ export type UpdateGameSettingsRequestType = z.infer<
  */
 export type UpdateGameSettingsResponseType = {
   updated: boolean;
+  message: string;
+};
+
+/**
+ * プレイヤー一括更新レスポンスの型
+ */
+export type UpdateGamePlayersResponseType = {
+  updated: boolean;
+  updatedCount: number;
+  message: string;
+};
+
+/**
+ * クイズ設定更新レスポンスの型
+ */
+export type UpdateGameQuizResponseType = {
+  updated: boolean;
+  message: string;
+};
+
+/**
+ * 既存ゲームからプレイヤーコピーレスポンスの型
+ */
+export type CopyPlayersFromGameResponseType = {
+  copied: boolean;
+  copiedCount: number;
   message: string;
 };

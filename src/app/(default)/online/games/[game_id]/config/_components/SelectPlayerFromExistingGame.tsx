@@ -35,6 +35,9 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
         );
         if ("games" in data) {
           setGames((data.games as unknown as GamePropsUnion[]) || []);
+        } else {
+          console.warn("Games data not found in response:", data);
+          setGames([]);
         }
       } catch (error) {
         console.error("Failed to fetch games:", error);
@@ -60,11 +63,24 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
             if (selectedGame) {
               startTransition(async () => {
                 try {
-                  // TODO: プレイヤーの一括更新APIが必要
-                  // const apiClient = createApiClient();
-                  // await apiClient.games.$patch({
-                  //   json: [{ id: game_id }],
-                  // });
+                  const apiClient = createApiClient();
+                  const response = await apiClient.games[":game_id"][
+                    "copy-players"
+                  ].$post({
+                    param: { game_id },
+                    json: { sourceGameId: selectedGame.id },
+                  });
+
+                  if (!response.ok) {
+                    throw new Error("Failed to copy players");
+                  }
+
+                  const result = await response.json();
+                  if (result.success) {
+                    // 成功時はページをリロードしてプレイヤーリストを更新
+                    window.location.reload();
+                  }
+
                   sendGAEvent({
                     event: "select_player_from_existing_game",
                     value: game_id,
@@ -82,7 +98,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
         >
           <option value="">選択してください</option>
           {games
-            .filter((game) => game.players.length !== 0)
+            .filter((game) => game.players && game.players.length > 0)
             .toSorted((a, b) => {
               const aTime =
                 "last_open" in a ? new Date(a.last_open).getTime() : 0;

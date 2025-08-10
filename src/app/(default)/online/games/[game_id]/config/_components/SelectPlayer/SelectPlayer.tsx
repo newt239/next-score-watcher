@@ -50,7 +50,7 @@ const SelectPlayer: React.FC<Props> = ({
         <ButtonLink
           leftSection={<IconUpload />}
           mt={3}
-          href={`/online/players?from=cloud-games/${game_id}`}
+          href={`/online/players?from=online/games/${game_id}`}
           size="md"
           color="blue"
           disabled={disabled}

@@ -9,7 +9,7 @@ import { IconUpload } from "@tabler/icons-react";
 import type { GameDBQuizProps } from "@/utils/types";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-// import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
@@ -28,14 +28,30 @@ const SelectQuizset: React.FC<Props> = ({
 }) => {
   const [isPending, startTransition] = useTransition();
 
-  const updateQuizSetting = async (_quiz: GameDBQuizProps) => {
+  const updateQuizSetting = async (quiz: GameDBQuizProps) => {
     startTransition(async () => {
       try {
-        // TODO: クイズ設定更新APIが必要
-        // const apiClient = createApiClient();
-        // await apiClient.games.$patch({
-        //   json: [{ id: game_id }],
-        // });
+        const apiClient = createApiClient();
+        const response = await apiClient.games.$patch({
+          json: [
+            {
+              id: game_id,
+              quiz: {
+                setName: quiz.set_name,
+                offset: quiz.offset,
+              },
+            },
+          ],
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update quiz setting");
+        }
+
+        const result = await response.json();
+        if (result.success) {
+          console.log("Quiz setting updated successfully:", result.data);
+        }
       } catch (error) {
         console.error("Failed to update quiz setting:", error);
       }

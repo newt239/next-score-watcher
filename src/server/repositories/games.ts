@@ -11,6 +11,8 @@ import type {
   UpdateGameType,
   UpdateGameSettingsRequestType,
   GetGameSettingsResponseType,
+  UpdateGamePlayerType,
+  UpdateGameQuizType,
 } from "@/models/games";
 import type { Variants } from "@/utils/types";
 
@@ -560,4 +562,188 @@ export const updateGameSettings = async (
     console.error("Failed to update game settings:", error);
     return false;
   }
+};
+
+/**
+ * ゲームプレイヤー一括更新
+ */
+export const updateGamePlayers = async (
+  gameId: string,
+  players: UpdateGamePlayerType[],
+  userId: string
+): Promise<{ updatedCount: number }> => {
+  let updatedCount = 0;
+
+  // 既存のプレイヤーを論理削除
+  await DBClient.update(gamePlayer)
+    .set({
+      deletedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(gamePlayer.gameId, gameId),
+        eq(gamePlayer.userId, userId),
+        isNull(gamePlayer.deletedAt)
+      )
+    );
+
+  // 新しいプレイヤーリストを挿入
+  for (let i = 0; i < players.length; i++) {
+    const player = players[i];
+    await DBClient.insert(gamePlayer).values({
+      gameId,
+      playerId: player.id,
+      displayOrder: i,
+      initialScore: player.initialScore || 0,
+      initialCorrectCount: player.initialCorrectCount || 0,
+      initialWrongCount: player.initialWrongCount || 0,
+      userId,
+    });
+    updatedCount++;
+  }
+
+  return { updatedCount };
+};
+
+/**
+ * 既存ゲームからプレイヤーをコピー
+ */
+export const copyPlayersFromGame = async (
+  targetGameId: string,
+  sourceGameId: string,
+  userId: string
+): Promise<{ copiedCount: number }> => {
+  // ソースゲームのプレイヤーを取得
+  const sourcePlayers = await DBClient.select({
+    playerId: gamePlayer.playerId,
+    displayOrder: gamePlayer.displayOrder,
+    initialScore: gamePlayer.initialScore,
+    initialCorrectCount: gamePlayer.initialCorrectCount,
+    initialWrongCount: gamePlayer.initialWrongCount,
+  })
+    .from(gamePlayer)
+    .where(
+      and(
+        eq(gamePlayer.gameId, sourceGameId),
+        eq(gamePlayer.userId, userId),
+        isNull(gamePlayer.deletedAt)
+      )
+    )
+    .orderBy(asc(gamePlayer.displayOrder));
+
+  if (sourcePlayers.length === 0) {
+    return { copiedCount: 0 };
+  }
+
+  // 既存のプレイヤーを論理削除
+  await DBClient.update(gamePlayer)
+    .set({
+      deletedAt: new Date(),
+      updatedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(gamePlayer.gameId, targetGameId),
+        eq(gamePlayer.userId, userId),
+        isNull(gamePlayer.deletedAt)
+      )
+    );
+
+  // コピーしたプレイヤーを挿入
+  let copiedCount = 0;
+  for (const player of sourcePlayers) {
+    if (player.playerId) {
+      await DBClient.insert(gamePlayer).values({
+        gameId: targetGameId,
+        playerId: player.playerId,
+        displayOrder: player.displayOrder || copiedCount,
+        initialScore: player.initialScore || 0,
+        initialCorrectCount: player.initialCorrectCount || 0,
+        initialWrongCount: player.initialWrongCount || 0,
+        userId,
+      });
+      copiedCount++;
+    }
+  }
+
+  return { copiedCount };
+};
+
+/**
+ * ゲームクイズ設定更新（今後データベーススキーマ拡張時に実装）
+ */
+export const updateGameQuiz = async (
+  gameId: string,
+  quiz: UpdateGameQuizType,
+  _userId: string
+): Promise<{ updated: boolean }> => {
+  // TODO: gameテーブルにクイズ関連フィールドを追加してから実装
+  // 現在はプレースホルダー実装
+  console.log(`Quiz settings update for game ${gameId}:`, quiz);
+  return { updated: true };
+};
+
+/**
+ * 拡張ゲーム更新（プレイヤー・クイズ設定対応）
+ */
+export const updateGameExtended = async (
+  gameData: {
+    id: string;
+    name?: string;
+    discordWebhookUrl?: string;
+    players?: UpdateGamePlayerType[];
+    quiz?: UpdateGameQuizType;
+  },
+  userId: string
+): Promise<{
+  updatedCount: number;
+  playersUpdatedCount?: number;
+  quizUpdated?: boolean;
+}> => {
+  const result = {
+    updatedCount: 0,
+    playersUpdatedCount: 0,
+    quizUpdated: false,
+  };
+
+  // 基本情報の更新
+  const { id, players, quiz, ...basicData } = gameData;
+  if (Object.keys(basicData).length > 0) {
+    const updated = await updateSingleGame(id, basicData, userId);
+    if (updated) {
+      result.updatedCount = 1;
+    }
+  }
+
+  // プレイヤー情報の更新
+  if (players && players.length > 0) {
+    const playersResult = await updateGamePlayers(id, players, userId);
+    result.playersUpdatedCount = playersResult.updatedCount;
+  }
+
+  // クイズ設定の更新
+  if (quiz) {
+    const quizResult = await updateGameQuiz(id, quiz, userId);
+    result.quizUpdated = quizResult.updated;
+  }
+
+  return result;
+};
+
+/**
+ * 指定ゲームが存在し、ユーザーがアクセス可能かを確認
+ */
+export const verifyGameAccess = async (
+  gameId: string,
+  userId: string
+): Promise<boolean> => {
+  const gameData = await DBClient.select({ id: game.id })
+    .from(game)
+    .where(
+      and(eq(game.id, gameId), eq(game.userId, userId), isNull(game.deletedAt))
+    )
+    .limit(1);
+
+  return gameData.length > 0;
 };

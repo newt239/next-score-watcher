@@ -72,19 +72,51 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
 
         if ("game" in gameData) {
           setGame(gameData.game);
+        } else {
+          console.warn("Game data not found in response:", gameData);
         }
+
+        // プレイヤーデータの構造を詳しく確認
         if ("players" in playersData) {
-          setAllPlayers(playersData.players as PlayerDBProps[]);
+          const players = playersData.players as PlayerDBProps[];
+          setAllPlayers(players);
+        } else if (
+          "success" in playersData &&
+          playersData.success &&
+          "data" in playersData
+        ) {
+          if ("players" in playersData.data) {
+            const players = playersData.data.players as PlayerDBProps[];
+            setAllPlayers(players);
+          } else if (Array.isArray(playersData.data)) {
+            const players = playersData.data as PlayerDBProps[];
+            setAllPlayers(players);
+          } else {
+            console.warn(
+              "Players data not found in response data:",
+              playersData
+            );
+            setAllPlayers([]);
+          }
+        } else {
+          console.warn("Players data not found in response:", playersData);
+          setAllPlayers([]);
         }
+
         if ("logs" in logsData) {
-          setLogs(
-            (logsData.logs as LogDBProps[]).filter(
-              (log) => log.system === 0 && log.available === 1
-            )
+          const filteredLogs = (logsData.logs as LogDBProps[]).filter(
+            (log) => log.system === 0 && log.available === 1
           );
+          setLogs(filteredLogs);
+        } else {
+          console.warn("Logs data not found in response:", logsData);
+          setLogs([]);
         }
       } catch (error) {
         console.error("Failed to fetch cloud game data:", error);
+        // エラー時は空配列を設定
+        setAllPlayers([]);
+        setLogs([]);
       } finally {
         setLoading(false);
       }

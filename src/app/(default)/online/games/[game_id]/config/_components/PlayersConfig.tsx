@@ -22,7 +22,7 @@ import type {
   RuleNames,
 } from "@/utils/types";
 
-// import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
@@ -54,14 +54,34 @@ const PlayersConfig: React.FC<Props> = ({
 
   // デバウンス後の値が変更されたらAPIで更新
   useEffect(() => {
-    if (debouncedPlayers.length === players.length) {
+    if (debouncedPlayers.length === players.length && players.length > 0) {
       startTransition(async () => {
         try {
-          // TODO: プレイヤーの一括更新APIが必要
-          // const apiClient = createApiClient();
-          // await apiClient.games.$patch({
-          //   json: [{ id: game_id }],
-          // });
+          const apiClient = createApiClient();
+          const response = await apiClient.games.$patch({
+            json: [
+              {
+                id: game_id,
+                players: debouncedPlayers.map((player) => ({
+                  id: player.id,
+                  name: player.name,
+                  displayOrder: 0, // APIで自動設定
+                  initialScore: 0,
+                  initialCorrectCount: player.initial_correct || 0,
+                  initialWrongCount: player.initial_wrong || 0,
+                })),
+              },
+            ],
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to update players");
+          }
+
+          const result = await response.json();
+          if (result.success) {
+            console.log("Players updated successfully:", result.data);
+          }
         } catch (error) {
           console.error("Failed to update players:", error);
         }

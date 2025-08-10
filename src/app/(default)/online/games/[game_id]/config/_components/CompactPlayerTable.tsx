@@ -21,7 +21,7 @@ import type { UseFormReturnType } from "@mantine/form";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";
-// import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
@@ -169,11 +169,32 @@ const CompactPlayerTable: React.FC<Props> = ({
               }
             });
 
-          // TODO: プレイヤーの一括更新APIが必要
-          // const apiClient = createApiClient();
-          // await apiClient.games.$patch({
-          //   json: [{ id: game_id }],
-          // });
+          // プレイヤー選択状態をAPIで保存
+          const apiClient = createApiClient();
+          const response = await apiClient.games.$patch({
+            json: [
+              {
+                id: game_id,
+                players: newGamePlayers.map((player) => ({
+                  id: player.id,
+                  name: player.name,
+                  displayOrder: 0, // APIで自動設定
+                  initialScore: 0,
+                  initialCorrectCount: player.initial_correct || 0,
+                  initialWrongCount: player.initial_wrong || 0,
+                })),
+              },
+            ],
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to update game players");
+          }
+
+          const result = await response.json();
+          if (result.success) {
+            console.log("Game players updated successfully:", result.data);
+          }
 
           // フォームにおけるプレイヤーを更新
           form.setFieldValue("players", newGamePlayers);
