@@ -1,0 +1,91 @@
+/* OnlineAQL.module.css - ローカル版AQL.module.cssと同等 */
+
+.aql {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  @media (width >= 62em) {
+    gap: 2rem;
+    height: calc(100vh - 5rem);
+    overflow-y: auto;
+    resize: vertical;
+
+    &[data-showq="true"] {
+      height: calc(100vh - min(15vh, 8rem));
+    }
+
+    &[data-showheader="false"] {
+      height: 100vh;
+    }
+  }
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  padding: 0.5rem;
+  border-radius: 1rem;
+
+  @media (width >= 36em) {
+    width: calc(50% - 2rem);
+    padding: 1rem;
+  }
+
+  &[data-state="win"] {
+    background-color: var(--mantine-color-red-9);
+
+    [data-mantine-color-scheme="dark"] {
+      background-color: var(--mantine-color-red-3);
+
+      .team_name,
+      .team_score {
+        color: var(--mantine-color-gray-9);
+      }
+    }
+  }
+
+  &[data-state="lose"] {
+    background-color: var(--mantine-color-blue-9);
+
+    [data-mantine-color-scheme="dark"] {
+      background-color: var(--mantine-color-blue-3);
+
+      .team_name,
+      .team_score {
+        color: var(--mantine-color-gray-9);
+      }
+    }
+  }
+}
+
+.team_info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team_name {
+  font-size: 1.5rem;
+}
+
+.team_score {
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+
+  @media (width >= 62em) {
+    flex-direction: row;
+  }
+}

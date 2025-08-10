@@ -7,21 +7,15 @@ import classes from "./GameStartButton.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
-type Game = {
-  id: string;
-  name?: string;
-};
-
 type Props = {
-  game: Game;
   logs: unknown[];
 };
 
-const GameStartButton: React.FC<Props> = ({ game, logs }) => {
+const GameStartButton: React.FC<Props> = ({ logs }) => {
   return (
     <Flex className={classes.game_start_button}>
       <ButtonLink
-        href={`../../../(board)/online/games/${game.id}/board`}
+        href="./board"
         leftSection={<IconPlayerPlay />}
         size="lg"
         flex={1}

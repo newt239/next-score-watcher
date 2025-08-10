@@ -159,7 +159,7 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-      <GameStartButton game={game} logs={logs} />
+      <GameStartButton logs={logs} />
       <Tabs
         pt="lg"
         variant="outline"
