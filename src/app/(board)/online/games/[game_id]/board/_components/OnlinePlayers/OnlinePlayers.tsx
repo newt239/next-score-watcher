@@ -43,7 +43,7 @@ const OnlinePlayers: React.FC<Props> = ({
         <OnlinePlayer
           game={game}
           index={i}
-          key={player.id}
+          key={`online-player-${i}-${player.id}`}
           player={player}
           score={scores.find((score) => score.player_id === player.id)}
           isPending={isPending}

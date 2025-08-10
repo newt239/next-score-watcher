@@ -118,7 +118,11 @@ const PlayersConfig: React.FC<Props> = ({
   }, [debouncedPlayers, players.length, game_id]);
 
   const fields = form.getValues().players.map((item, index) => (
-    <Draggable key={item.id} index={index} draggableId={item.id}>
+    <Draggable
+      key={`player-${index}-${item.id}`}
+      index={index}
+      draggableId={`player-${index}-${item.id}`}
+    >
       {(provided) => (
         <ScrollArea
           offsetScrollbars

@@ -76,7 +76,16 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
         ]);
 
         if ("game" in gameData) {
-          setGame(gameData.game);
+          const game = gameData.game;
+          // ゲームプレイヤーの重複も除去
+          if (game.players && game.players.length > 0) {
+            const uniqueGamePlayers = game.players.filter(
+              (player, index, self) =>
+                index === self.findIndex((p) => p.id === player.id)
+            );
+            game.players = uniqueGamePlayers;
+          }
+          setGame(game);
         } else {
           console.warn("Game data not found in response:", gameData);
         }
@@ -84,7 +93,12 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
         // プレイヤーデータの構造を詳しく確認
         if ("players" in playersData) {
           const players = playersData.players as PlayerDBProps[];
-          setAllPlayers(players);
+          // 重複を除去（IDが同じプレイヤーを除去）
+          const uniquePlayers = players.filter(
+            (player, index, self) =>
+              index === self.findIndex((p) => p.id === player.id)
+          );
+          setAllPlayers(uniquePlayers);
         } else if (
           "success" in playersData &&
           playersData.success &&
@@ -92,10 +106,20 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
         ) {
           if ("players" in playersData.data) {
             const players = playersData.data.players as PlayerDBProps[];
-            setAllPlayers(players);
+            // 重複を除去（IDが同じプレイヤーを除去）
+            const uniquePlayers = players.filter(
+              (player, index, self) =>
+                index === self.findIndex((p) => p.id === player.id)
+            );
+            setAllPlayers(uniquePlayers);
           } else if (Array.isArray(playersData.data)) {
             const players = playersData.data as PlayerDBProps[];
-            setAllPlayers(players);
+            // 重複を除去（IDが同じプレイヤーを除去）
+            const uniquePlayers = players.filter(
+              (player, index, self) =>
+                index === self.findIndex((p) => p.id === player.id)
+            );
+            setAllPlayers(uniquePlayers);
           } else {
             console.warn(
               "Players data not found in response data:",

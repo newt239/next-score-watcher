@@ -87,9 +87,14 @@ const Board: React.FC<Props> = ({
   initialSettings,
 }) => {
   const game: OnlineGame | null = isGame(initialGame) ? initialGame : null;
-  const [players] = useState<GameDBPlayerProps[]>(
-    isPlayers(initialPlayers) ? initialPlayers : []
-  );
+  const [players] = useState<GameDBPlayerProps[]>(() => {
+    if (!isPlayers(initialPlayers)) return [];
+    // 重複を除去（IDが同じプレイヤーを除去）
+    return initialPlayers.filter(
+      (player, index, self) =>
+        index === self.findIndex((p) => p.id === player.id)
+    );
+  });
   const [logs, setLogs] = useState<LogDBProps[]>(
     isLogs(initialLogs) ? initialLogs : []
   );

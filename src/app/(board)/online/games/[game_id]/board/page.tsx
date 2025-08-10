@@ -52,7 +52,18 @@ const BoardPage = async ({
     }
     if (playersRes.ok) {
       const json = await playersRes.json();
-      if (json && "players" in json) initial.players = json.players;
+      if (json && "players" in json) {
+        // 重複を除去（IDが同じプレイヤーを除去）
+        const players = json.players as Array<{
+          id: string;
+          [key: string]: unknown;
+        }>;
+        const uniquePlayers = players.filter(
+          (player, index, self) =>
+            index === self.findIndex((p) => p.id === player.id)
+        );
+        initial.players = uniquePlayers;
+      }
     }
     if (logsRes.ok) {
       const json = await logsRes.json();
