@@ -29,6 +29,7 @@ type Props = {
   rule: RuleNames;
   playerList: PlayerDBProps[];
   players: GameDBPlayerProps[];
+  onPlayersUpdated?: () => void;
 };
 
 /**
@@ -40,6 +41,7 @@ const PlayersConfig: React.FC<Props> = ({
   rule,
   playerList,
   players,
+  onPlayersUpdated,
 }) => {
   const [isPending, startTransition] = useTransition();
 
@@ -58,29 +60,55 @@ const PlayersConfig: React.FC<Props> = ({
       startTransition(async () => {
         try {
           const apiClient = createApiClient();
+          const requestData = [
+            {
+              id: game_id,
+              players: debouncedPlayers.map((player) => ({
+                id: player.id,
+                name: player.name,
+                displayOrder: 0, // APIで自動設定
+                initialScore: 0,
+                initialCorrectCount: player.initial_correct || 0,
+                initialWrongCount: player.initial_wrong || 0,
+              })),
+            },
+          ];
+
+          console.log(
+            "PlayersConfig: Sending request to update players:",
+            requestData
+          );
+
           const response = await apiClient.games.$patch({
-            json: [
-              {
-                id: game_id,
-                players: debouncedPlayers.map((player) => ({
-                  id: player.id,
-                  name: player.name,
-                  displayOrder: 0, // APIで自動設定
-                  initialScore: 0,
-                  initialCorrectCount: player.initial_correct || 0,
-                  initialWrongCount: player.initial_wrong || 0,
-                })),
-              },
-            ],
+            json: requestData,
           });
 
+          console.log("PlayersConfig: API Response status:", response.status);
+          console.log("PlayersConfig: API Response ok:", response.ok);
+
           if (!response.ok) {
-            throw new Error("Failed to update players");
+            const errorText = await response.text();
+            console.error("PlayersConfig: API Response Error:", errorText);
+            throw new Error(
+              `Failed to update players: ${response.status} ${response.statusText} - ${errorText}`
+            );
           }
 
           const result = await response.json();
+          console.log("PlayersConfig: API Response result:", result);
+
           if (result.success) {
-            console.log("Players updated successfully:", result.data);
+            console.log(
+              "PlayersConfig: Players updated successfully:",
+              result.data
+            );
+            // プレイヤー更新成功時にコールバックを呼び出し
+            onPlayersUpdated?.();
+          } else {
+            console.error("PlayersConfig: API returned error:", result);
+            throw new Error(
+              `API Error: ${(result as { error?: string }).error || "Unknown error"}`
+            );
           }
         } catch (error) {
           console.error("Failed to update players:", error);
@@ -176,6 +204,7 @@ const PlayersConfig: React.FC<Props> = ({
         players={players}
         form={form}
         disabled={isPending}
+        onPlayersUpdated={onPlayersUpdated}
       />
     </>
   );

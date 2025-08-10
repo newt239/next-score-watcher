@@ -35,6 +35,7 @@ type Props = {
       players: GameDBPlayerProps[];
     }
   >;
+  onPlayersUpdated?: () => void;
 };
 
 /**
@@ -46,6 +47,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   playerList,
   gamePlayers,
   form,
+  onPlayersUpdated,
 }) => {
   const [isPending, startTransition] = useTransition();
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
@@ -171,29 +173,49 @@ const CompactPlayerTable: React.FC<Props> = ({
 
           // プレイヤー選択状態をAPIで保存
           const apiClient = createApiClient();
+          const requestData = [
+            {
+              id: game_id,
+              players: newGamePlayers.map((player) => ({
+                id: player.id,
+                name: player.name,
+                displayOrder: 0, // APIで自動設定
+                initialScore: 0,
+                initialCorrectCount: player.initial_correct || 0,
+                initialWrongCount: player.initial_wrong || 0,
+              })),
+            },
+          ];
+
+          console.log("Sending request to update game players:", requestData);
+
           const response = await apiClient.games.$patch({
-            json: [
-              {
-                id: game_id,
-                players: newGamePlayers.map((player) => ({
-                  id: player.id,
-                  name: player.name,
-                  displayOrder: 0, // APIで自動設定
-                  initialScore: 0,
-                  initialCorrectCount: player.initial_correct || 0,
-                  initialWrongCount: player.initial_wrong || 0,
-                })),
-              },
-            ],
+            json: requestData,
           });
 
+          console.log("API Response status:", response.status);
+          console.log("API Response ok:", response.ok);
+
           if (!response.ok) {
-            throw new Error("Failed to update game players");
+            const errorText = await response.text();
+            console.error("API Response Error:", errorText);
+            throw new Error(
+              `Failed to update game players: ${response.status} ${response.statusText} - ${errorText}`
+            );
           }
 
           const result = await response.json();
+          console.log("API Response result:", result);
+
           if (result.success) {
             console.log("Game players updated successfully:", result.data);
+            // プレイヤー更新成功時にコールバックを呼び出し
+            onPlayersUpdated?.();
+          } else {
+            console.error("API returned error:", result);
+            throw new Error(
+              `API Error: ${(result as { error?: string }).error || "Unknown error"}`
+            );
           }
 
           // フォームにおけるプレイヤーを更新

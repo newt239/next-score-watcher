@@ -29,6 +29,7 @@ type Props = {
     }
   >;
   disabled?: boolean;
+  onPlayersUpdated?: () => void;
 };
 
 /**
@@ -41,6 +42,7 @@ const SelectPlayer: React.FC<Props> = ({
   players,
   form,
   disabled = false,
+  onPlayersUpdated,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -98,6 +100,7 @@ const SelectPlayer: React.FC<Props> = ({
                       game_id={game_id}
                       playerList={playerList}
                       form={form}
+                      onPlayersUpdated={onPlayersUpdated}
                     />
                   )}
                 </Accordion.Panel>

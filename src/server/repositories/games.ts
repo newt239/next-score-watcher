@@ -40,7 +40,13 @@ export const getGame = async (gameId: string, userId: string) => {
     return null;
   }
 
-  return gameData[0];
+  // プレイヤー情報も取得
+  const players = await getGamePlayers(gameId, userId);
+
+  return {
+    ...gameData[0],
+    players,
+  };
 };
 
 /**
@@ -574,36 +580,41 @@ export const updateGamePlayers = async (
 ): Promise<{ updatedCount: number }> => {
   let updatedCount = 0;
 
-  // 既存のプレイヤーを論理削除
-  await DBClient.update(gamePlayer)
-    .set({
-      deletedAt: new Date(),
-      updatedAt: new Date(),
-    })
-    .where(
-      and(
-        eq(gamePlayer.gameId, gameId),
-        eq(gamePlayer.userId, userId),
-        isNull(gamePlayer.deletedAt)
-      )
-    );
+  try {
+    // 既存のプレイヤーを論理削除
+    await DBClient.update(gamePlayer)
+      .set({
+        deletedAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(gamePlayer.gameId, gameId),
+          eq(gamePlayer.userId, userId),
+          isNull(gamePlayer.deletedAt)
+        )
+      );
 
-  // 新しいプレイヤーリストを挿入
-  for (let i = 0; i < players.length; i++) {
-    const player = players[i];
-    await DBClient.insert(gamePlayer).values({
-      gameId,
-      playerId: player.id,
-      displayOrder: i,
-      initialScore: player.initialScore || 0,
-      initialCorrectCount: player.initialCorrectCount || 0,
-      initialWrongCount: player.initialWrongCount || 0,
-      userId,
-    });
-    updatedCount++;
+    // 新しいプレイヤーリストを挿入
+    for (let i = 0; i < players.length; i++) {
+      const player = players[i];
+      await DBClient.insert(gamePlayer).values({
+        gameId,
+        playerId: player.id,
+        displayOrder: i,
+        initialScore: player.initialScore || 0,
+        initialCorrectCount: player.initialCorrectCount || 0,
+        initialWrongCount: player.initialWrongCount || 0,
+        userId,
+      });
+      updatedCount++;
+    }
+
+    return { updatedCount };
+  } catch (error) {
+    console.error("Error in updateGamePlayers:", error);
+    throw error;
   }
-
-  return { updatedCount };
 };
 
 /**
@@ -707,28 +718,33 @@ export const updateGameExtended = async (
     quizUpdated: false,
   };
 
-  // 基本情報の更新
-  const { id, players, quiz, ...basicData } = gameData;
-  if (Object.keys(basicData).length > 0) {
-    const updated = await updateSingleGame(id, basicData, userId);
-    if (updated) {
-      result.updatedCount = 1;
+  try {
+    // 基本情報の更新
+    const { id, players, quiz, ...basicData } = gameData;
+    if (Object.keys(basicData).length > 0) {
+      const updated = await updateSingleGame(id, basicData, userId);
+      if (updated) {
+        result.updatedCount = 1;
+      }
     }
-  }
 
-  // プレイヤー情報の更新
-  if (players && players.length > 0) {
-    const playersResult = await updateGamePlayers(id, players, userId);
-    result.playersUpdatedCount = playersResult.updatedCount;
-  }
+    // プレイヤー情報の更新
+    if (players && players.length > 0) {
+      const playersResult = await updateGamePlayers(id, players, userId);
+      result.playersUpdatedCount = playersResult.updatedCount;
+    }
 
-  // クイズ設定の更新
-  if (quiz) {
-    const quizResult = await updateGameQuiz(id, quiz, userId);
-    result.quizUpdated = quizResult.updated;
-  }
+    // クイズ設定の更新
+    if (quiz) {
+      const quizResult = await updateGameQuiz(id, quiz, userId);
+      result.quizUpdated = quizResult.updated;
+    }
 
-  return result;
+    return result;
+  } catch (error) {
+    console.error("Error in updateGameExtended:", error);
+    throw error;
+  }
 };
 
 /**

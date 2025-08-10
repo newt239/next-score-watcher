@@ -51,6 +51,11 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
   const [allPlayers, setAllPlayers] = useState<PlayerDBProps[]>([]);
   const [logs, setLogs] = useState<LogDBProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const refreshGameData = () => {
+    setRefreshTrigger((prev) => prev + 1);
+  };
 
   useEffect(() => {
     if (!user?.id) return;
@@ -123,7 +128,7 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
     };
 
     fetchData();
-  }, [game_id, user?.id]);
+  }, [game_id, user?.id, refreshTrigger]);
 
   if (loading || !game || !user) return <NotFound />;
 
@@ -177,6 +182,7 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
               rule={game.ruleType}
               playerList={allPlayers}
               players={game.players || []}
+              onPlayersUpdated={refreshGameData}
             />
           </Tabs.Panel>
           <Tabs.Panel value="other">
