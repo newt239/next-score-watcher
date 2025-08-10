@@ -104,7 +104,9 @@ export const AddGameLogRequestSchema = z.object({
  * ゲーム数取得リクエストのスキーマ
  */
 export const GetGameCountsRequestSchema = z.object({
-  gameIds: z.array(z.string().min(1)),
+  gameIds: z
+    .array(z.string().min(1, "Game ID cannot be empty"))
+    .min(0, "Game IDs array is required"),
 });
 
 /**

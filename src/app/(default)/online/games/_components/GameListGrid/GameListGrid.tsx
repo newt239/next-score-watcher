@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Card, Flex, List } from "@mantine/core";
-import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
+import { IconAdjustmentsHorizontal, IconPlayerPlay } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
 import classes from "./GameListGrid.module.css";
@@ -50,13 +50,23 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
               </Card.Section>
               <Flex className={classes.game_footer}>
                 <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
-                <ButtonLink
-                  href={`/online/games/${game.id}/config`}
-                  leftSection={<IconAdjustmentsHorizontal />}
-                  size="sm"
-                >
-                  開く
-                </ButtonLink>
+                <Flex gap="xs">
+                  <ButtonLink
+                    href={`/online/games/${game.id}/board`}
+                    leftSection={<IconPlayerPlay />}
+                    size="sm"
+                    variant="filled"
+                  >
+                    得点表示
+                  </ButtonLink>
+                  <ButtonLink
+                    href={`/online/games/${game.id}/config`}
+                    leftSection={<IconAdjustmentsHorizontal />}
+                    size="sm"
+                  >
+                    設定
+                  </ButtonLink>
+                </Flex>
               </Flex>
             </Card>
           ))}

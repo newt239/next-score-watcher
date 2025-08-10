@@ -241,16 +241,18 @@ const Board: React.FC<Props> = ({
     return () => window.removeEventListener("keydown", handler);
   }, [players, addLog, undo, game]);
 
-  // useEffectを先に定義
-  useEffect(() => {
-    if (!game || !players.length) return;
+  // scores計算をuseMemoで先に実行
+  const isSettings = (v: unknown): v is Record<string, unknown> =>
+    !!v && typeof v === "object";
 
-    const isSettings = (v: unknown): v is Record<string, unknown> =>
-      !!v && typeof v === "object";
+  const settings = isSettings(initialSettings) ? initialSettings : {};
 
-    const settings = isSettings(initialSettings) ? initialSettings : {};
+  const { scores, winPlayers } = useMemo(() => {
+    if (!game || !players.length) {
+      return { scores: [], winPlayers: [] };
+    }
 
-    const { winPlayers } = computeOnlineScore(
+    return computeOnlineScore(
       { id: game.id, name: game.name, ruleType: game.ruleType },
       players,
       logs,
@@ -271,6 +273,11 @@ const Board: React.FC<Props> = ({
             : undefined,
       }
     );
+  }, [game, players, logs, settings]);
+
+  // 勝ち抜け判定とスキップサジェストの処理
+  useEffect(() => {
+    if (!game || !players.length) return;
 
     if (winPlayers && winPlayers.length > 0) {
       const first = winPlayers[0];
@@ -299,7 +306,7 @@ const Board: React.FC<Props> = ({
     } else {
       setSkipSuggest(false);
     }
-  }, [logs, game, players, initialSettings]);
+  }, [logs, game, players, scores, winPlayers]);
 
   // 初期設定取得
   useEffect(() => {
@@ -321,29 +328,6 @@ const Board: React.FC<Props> = ({
       </Box>
     );
   }
-
-  const isSettings = (v: unknown): v is Record<string, unknown> =>
-    !!v && typeof v === "object";
-
-  const settings = isSettings(initialSettings) ? initialSettings : {};
-
-  const { scores } = computeOnlineScore(
-    { id: game.id, name: game.name, ruleType: game.ruleType },
-    players,
-    logs,
-    {
-      winPoint:
-        typeof settings.winPoint === "number" ? settings.winPoint : undefined,
-      losePoint:
-        typeof settings.losePoint === "number" ? settings.losePoint : undefined,
-      targetPoint:
-        typeof settings.targetPoint === "number"
-          ? settings.targetPoint
-          : undefined,
-      restCount:
-        typeof settings.restCount === "number" ? settings.restCount : undefined,
-    }
-  );
 
   return (
     <>
