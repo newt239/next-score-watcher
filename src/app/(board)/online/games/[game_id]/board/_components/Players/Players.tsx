@@ -2,8 +2,8 @@
 
 import { Flex } from "@mantine/core";
 
-import OnlinePlayer from "./OnlinePlayer/OnlinePlayer";
-import classes from "./OnlinePlayers.module.css";
+import Player from "./Player/Player";
+import classes from "./Players.module.css";
 
 import type {
   ComputedScoreProps,
@@ -30,7 +30,7 @@ type Props = {
  * オンライン版のプレイヤー一覧表示コンポーネント
  * ローカル版のPlayersコンポーネントと同等の機能を提供
  */
-const OnlinePlayers: React.FC<Props> = ({
+const Players: React.FC<Props> = ({
   game,
   scores,
   players,
@@ -40,7 +40,7 @@ const OnlinePlayers: React.FC<Props> = ({
   return (
     <Flex className={classes.players} id="players-area">
       {players.map((player, i) => (
-        <OnlinePlayer
+        <Player
           game={game}
           index={i}
           key={`online-player-${i}-${player.id}`}
@@ -54,4 +54,4 @@ const OnlinePlayers: React.FC<Props> = ({
   );
 };
 
-export default OnlinePlayers;
+export default Players;

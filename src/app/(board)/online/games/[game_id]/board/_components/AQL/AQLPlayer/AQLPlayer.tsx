@@ -2,9 +2,9 @@
 
 import { Flex, useComputedColorScheme } from "@mantine/core";
 
-import OnlinePlayerScoreButton from "../../OnlinePlayers/OnlinePlayerScoreButton/OnlinePlayerScoreButton";
+import PlayerScoreButton from "../../Players/PlayerScoreButton/PlayerScoreButton";
 
-import classes from "./OnlineAQLPlayer.module.css";
+import classes from "./AQLPlayer.module.css";
 
 import type {
   ComputedScoreProps,
@@ -34,7 +34,7 @@ type Props = {
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
 };
 
-const OnlineAQLPlayer: React.FC<Props> = ({
+const AQLPlayer: React.FC<Props> = ({
   game,
   player,
   index,
@@ -96,7 +96,7 @@ const OnlineAQLPlayer: React.FC<Props> = ({
         <PlayerName player_name={player.name} isAQL rows={3} />
       </Flex>
       <Flex className={classes.player_score}>
-        <OnlinePlayerScoreButton
+        <PlayerScoreButton
           color={is_incapacity ? "black" : "green"}
           game_id={game.id}
           player_id={player.id}
@@ -105,9 +105,9 @@ const OnlineAQLPlayer: React.FC<Props> = ({
           disabled={is_incapacity}
         >
           {numberSign("pt", score.score)}
-        </OnlinePlayerScoreButton>
+        </PlayerScoreButton>
         <Flex className={classes.player_score_pair}>
-          <OnlinePlayerScoreButton
+          <PlayerScoreButton
             color={is_incapacity ? "black" : "red"}
             game_id={game.id}
             player_id={player.id}
@@ -117,8 +117,8 @@ const OnlineAQLPlayer: React.FC<Props> = ({
             compact={true}
           >
             {numberSign("correct", score.correct)}
-          </OnlinePlayerScoreButton>
-          <OnlinePlayerScoreButton
+          </PlayerScoreButton>
+          <PlayerScoreButton
             color={is_incapacity ? "black" : "blue"}
             game_id={game.id}
             player_id={player.id}
@@ -128,11 +128,11 @@ const OnlineAQLPlayer: React.FC<Props> = ({
             compact={true}
           >
             {numberSign("wrong", score.wrong)}
-          </OnlinePlayerScoreButton>
+          </PlayerScoreButton>
         </Flex>
       </Flex>
     </Flex>
   );
 };
 
-export default OnlineAQLPlayer;
+export default AQLPlayer;

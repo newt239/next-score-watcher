@@ -3,13 +3,15 @@
 import { useCallback, useMemo, useState, useTransition } from "react";
 import { useEffect } from "react";
 
-import { Box, Button, Group, Text } from "@mantine/core";
+import { Box, Button, Flex, Text, Tooltip } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { IconX } from "@tabler/icons-react";
 
-import OnlineAQL from "../OnlineAQL/OnlineAQL";
-import OnlineBoardHeader from "../OnlineBoardHeader";
-import OnlineGameLogs from "../OnlineGameLogs";
-import OnlinePlayers from "../OnlinePlayers/OnlinePlayers";
+import AQL from "../AQL/AQL";
+import BoardHeader from "../BoardHeader/BoardHeader";
+import GameLogs from "../GameLogs";
+import Players from "../Players/Players";
 
 import classes from "./Board.module.css";
 
@@ -100,6 +102,12 @@ const Board: React.FC<Props> = ({
   );
   const [isPending, startTransition] = useTransition();
   const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [skipSuggest, setSkipSuggest] = useState(false);
+
+  const [showHeader] = useLocalStorage({
+    key: "showBoardHeader",
+    defaultValue: true,
+  });
 
   // 勝ち抜けモーダル制御
   const [winTroughPlayer, setWinTroughPlayer] = useState<{
@@ -158,6 +166,10 @@ const Board: React.FC<Props> = ({
     },
     [api, game_id, refreshLogs]
   );
+
+  const addThrough = useCallback(() => {
+    addLog("-", "through");
+  }, [addLog]);
 
   const undo = useCallback(async () => {
     const last = logs[logs.length - 1];
@@ -246,6 +258,26 @@ const Board: React.FC<Props> = ({
         setWinTroughPlayer({ name: player.name, text: first.text });
       }
     }
+
+    // スキップサジェスト判定
+    const playingPlayers = scores.filter((s) => s.state === "playing");
+    const incapacityPlayers = scores.filter(
+      (s) => s.state === "playing" && s.is_incapacity
+    );
+    const last = logs[logs.length - 1];
+    const allWrong =
+      last?.variant === "multiple_wrong" &&
+      typeof last.player_id === "string" &&
+      last.player_id.split(",").length === playingPlayers.length;
+    const allRest =
+      playingPlayers.length > 0 &&
+      playingPlayers.length === incapacityPlayers.length;
+
+    if (allWrong || allRest) {
+      setSkipSuggest(true);
+    } else {
+      setSkipSuggest(false);
+    }
   }, [logs, game, players, initialSettings]);
 
   if (!user) {
@@ -286,30 +318,26 @@ const Board: React.FC<Props> = ({
         typeof settings.restCount === "number" ? settings.restCount : undefined,
     }
   );
-  // スキップサジェスト判定
-  const playingPlayers = scores.filter((s) => s.state === "playing");
-  const incapacityPlayers = scores.filter(
-    (s) => s.state === "playing" && s.is_incapacity
-  );
-  const last = logs[logs.length - 1];
-  const allWrong =
-    last?.variant === "multiple_wrong" &&
-    typeof last.player_id === "string" &&
-    last.player_id.split(",").length === playingPlayers.length;
-  const allRest =
-    playingPlayers.length > 0 &&
-    playingPlayers.length === incapacityPlayers.length;
 
   return (
-    <Box className={classes.board}>
-      <OnlineBoardHeader
+    <>
+      <BoardHeader
         game={{ id: game.id, name: game.name, ruleType: game.ruleType }}
         logsLength={logs.length}
         onUndo={undo}
+        onThrough={addThrough}
       />
-
+      {game.ruleType === "squarex" && (
+        <Box
+          className={classes.squarex_bar}
+          style={{
+            left: logs.length % 2 === 0 ? 0 : undefined,
+            right: logs.length % 2 === 1 ? 0 : undefined,
+          }}
+        />
+      )}
       {game.ruleType === "aql" ? (
-        <OnlineAQL
+        <AQL
           game={game}
           scores={scores}
           players={players}
@@ -325,10 +353,10 @@ const Board: React.FC<Props> = ({
                 ? settings.rightTeam
                 : "Right Team",
           }}
-          show_header={true}
+          show_header={showHeader}
         />
       ) : (
-        <OnlinePlayers
+        <Players
           game={game}
           scores={scores}
           players={players}
@@ -337,64 +365,49 @@ const Board: React.FC<Props> = ({
         />
       )}
 
-      <Group mt="lg" gap="xs">
-        <Button size="xs" variant="default" disabled={isPending} onClick={undo}>
-          一つ戻す
-        </Button>
-        <Button
-          size="xs"
-          variant="default"
-          disabled={isPending}
-          onClick={() => addLog("-", "through")}
-        >
-          スルー
-        </Button>
-      </Group>
-
-      <OnlineGameLogs
+      <GameLogs
         logs={logs}
         players={players}
         order={order}
         onToggleOrder={() => setOrder((o) => (o === "asc" ? "desc" : "asc"))}
       />
 
-      {(allWrong || allRest) && (
-        <Box
-          mt="md"
-          p="sm"
-          style={{
-            border: "1px solid var(--mantine-color-gray-4)",
-            borderRadius: 8,
-          }}
-        >
-          <Text mb="xs">
-            すべてのプレイヤーが休み、または全員が誤答しました。1問スルーしますか？
-          </Text>
-          <Group gap="xs">
-            <Button
-              size="xs"
-              color="blue"
-              onClick={() => addLog("-", "through")}
-            >
-              スルー
-            </Button>
-            <Button
-              size="xs"
-              variant="default"
-              onClick={() => addLog("-", "skip")}
-            >
-              スキップ
-            </Button>
-          </Group>
-        </Box>
-      )}
-
       <WinModal
         onClose={() => setWinTroughPlayer({ name: "", text: "" })}
         winTroughPlayer={winTroughPlayer}
         roundName=""
       />
-    </Box>
+
+      {skipSuggest && (
+        <Flex className={classes.skip_suggest}>
+          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
+          <Flex gap="sm">
+            <Button
+              color="blue"
+              onClick={() => addLog("-", "through")}
+              size="sm"
+            >
+              スルー
+            </Button>
+            <Box visibleFrom="md">
+              <Tooltip label="問題番号が進みますが、問題は更新されません。">
+                <Button onClick={() => addLog("-", "skip")} size="sm">
+                  スキップ
+                </Button>
+              </Tooltip>
+            </Box>
+            <Button
+              leftSection={<IconX />}
+              onClick={() => setSkipSuggest(false)}
+              size="sm"
+              color="red"
+            >
+              閉じる
+            </Button>
+          </Flex>
+        </Flex>
+      )}
+    </>
   );
 };
 

@@ -2,8 +2,8 @@
 
 import { Box, Flex } from "@mantine/core";
 
-import classes from "./OnlineAQL.module.css";
-import OnlineAQLPlayer from "./OnlineAQLPlayer/OnlineAQLPlayer";
+import classes from "./AQL.module.css";
+import AQLPlayer from "./AQLPlayer/AQLPlayer";
 
 import type {
   ComputedScoreProps,
@@ -31,7 +31,7 @@ type Props = {
   show_header: boolean;
 };
 
-const OnlineAQL: React.FC<Props> = ({
+const AQL: React.FC<Props> = ({
   game,
   scores,
   players,
@@ -97,7 +97,7 @@ const OnlineAQL: React.FC<Props> = ({
         </Flex>
         <Flex className={classes.players}>
           {playerScoreList.slice(0, 5).map((item, i) => (
-            <OnlineAQLPlayer
+            <AQLPlayer
               game={game}
               index={i}
               key={i}
@@ -123,7 +123,7 @@ const OnlineAQL: React.FC<Props> = ({
         </Flex>
         <Flex className={classes.players}>
           {playerScoreList.slice(5, 10).map((item, i) => (
-            <OnlineAQLPlayer
+            <AQLPlayer
               game={game}
               index={i}
               key={i}
@@ -139,4 +139,4 @@ const OnlineAQL: React.FC<Props> = ({
     </Flex>
   );
 };
-export default OnlineAQL;
+export default AQL;

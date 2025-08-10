@@ -2,9 +2,9 @@
 
 import { Flex } from "@mantine/core";
 
-import OnlinePlayerScoreButton from "../OnlinePlayerScoreButton/OnlinePlayerScoreButton";
+import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
-import classes from "./OnlinePlayerScore.module.css";
+import classes from "./PlayerScore.module.css";
 
 import type { ComputedScoreProps, LogDBProps, RuleNames } from "@/utils/types";
 
@@ -23,7 +23,7 @@ type Props = {
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
 };
 
-const OnlinePlayerScore: React.FC<Props> = ({
+const PlayerScore: React.FC<Props> = ({
   game,
   player,
   isPending,
@@ -39,65 +39,65 @@ const OnlinePlayerScore: React.FC<Props> = ({
   return (
     <Flex className={classes.player_score}>
       {game.ruleType === "normal" && (
-        <OnlinePlayerScoreButton color="red" {...props}>
+        <PlayerScoreButton color="red" {...props}>
           {numberSign("pt", player.score)}
-        </OnlinePlayerScoreButton>
+        </PlayerScoreButton>
       )}
       {game.ruleType === "nomx" && (
         <>
-          <OnlinePlayerScoreButton color="red" {...props}>
+          <PlayerScoreButton color="red" {...props}>
             {player.state === "win"
               ? player.text
               : numberSign("correct", player.correct)}
-          </OnlinePlayerScoreButton>
-          <OnlinePlayerScoreButton color="blue" {...props}>
+          </PlayerScoreButton>
+          <PlayerScoreButton color="blue" {...props}>
             {player.state === "lose"
               ? player.text
               : numberSign("wrong", player.wrong)}
-          </OnlinePlayerScoreButton>
+          </PlayerScoreButton>
         </>
       )}
       {game.ruleType === "ny" && (
         <>
-          <OnlinePlayerScoreButton color={player.state} disabled {...props}>
+          <PlayerScoreButton color={player.state} disabled {...props}>
             {player.text}
-          </OnlinePlayerScoreButton>
+          </PlayerScoreButton>
           <Flex className={classes.player_score_pair}>
-            <OnlinePlayerScoreButton color="red" compact {...props}>
+            <PlayerScoreButton color="red" compact {...props}>
               {numberSign("correct", player.correct)}
-            </OnlinePlayerScoreButton>
-            <OnlinePlayerScoreButton color="blue" compact {...props}>
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
               {numberSign("wrong", player.wrong)}
-            </OnlinePlayerScoreButton>
+            </PlayerScoreButton>
           </Flex>
         </>
       )}
       {game.ruleType === "nomr" && (
         <>
-          <OnlinePlayerScoreButton
+          <PlayerScoreButton
             color={player.is_incapacity ? "blue" : "green"}
             disabled
             {...props}
           >
             {player.text}
-          </OnlinePlayerScoreButton>
+          </PlayerScoreButton>
           <Flex className={classes.player_score_pair}>
-            <OnlinePlayerScoreButton
+            <PlayerScoreButton
               color={player.is_incapacity ? "gray" : "red"}
               compact
               disabled={player.is_incapacity}
               {...props}
             >
               {numberSign("correct", player.correct)}
-            </OnlinePlayerScoreButton>
-            <OnlinePlayerScoreButton
+            </PlayerScoreButton>
+            <PlayerScoreButton
               color={player.is_incapacity ? "gray" : "blue"}
               compact
               disabled={player.is_incapacity}
               {...props}
             >
               {numberSign("wrong", player.wrong)}
-            </OnlinePlayerScoreButton>
+            </PlayerScoreButton>
           </Flex>
         </>
       )}
@@ -106,4 +106,4 @@ const OnlinePlayerScore: React.FC<Props> = ({
   );
 };
 
-export default OnlinePlayerScore;
+export default PlayerScore;

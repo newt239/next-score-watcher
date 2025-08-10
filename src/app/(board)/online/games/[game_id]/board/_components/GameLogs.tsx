@@ -13,12 +13,7 @@ type Props = {
   onToggleOrder: () => void;
 };
 
-const OnlineGameLogs: React.FC<Props> = ({
-  logs,
-  players,
-  order,
-  onToggleOrder,
-}) => {
+const GameLogs: React.FC<Props> = ({ logs, players, order, onToggleOrder }) => {
   const playerNameById = useMemo(() => {
     const map = new Map<string, string>();
     players.forEach((p) => map.set(p.id, p.name));
@@ -88,4 +83,4 @@ const OnlineGameLogs: React.FC<Props> = ({
   );
 };
 
-export default OnlineGameLogs;
+export default GameLogs;

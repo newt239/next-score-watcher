@@ -3,9 +3,9 @@
 import { Flex, useComputedColorScheme } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 
-import OnlinePlayerScore from "../OnlinePlayerScore/OnlinePlayerScore";
+import PlayerScore from "../PlayerScore/PlayerScore";
 
-import classes from "./OnlinePlayer.module.css";
+import classes from "./Player.module.css";
 
 import type {
   ComputedScoreProps,
@@ -34,7 +34,7 @@ type Props = {
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
 };
 
-const OnlinePlayer: React.FC<Props> = ({
+const Player: React.FC<Props> = ({
   game,
   player,
   index,
@@ -99,7 +99,7 @@ const OnlinePlayer: React.FC<Props> = ({
         />
         <PlayerName player_name={player.name} rows={rows} />
       </Flex>
-      <OnlinePlayerScore
+      <PlayerScore
         game={game}
         player={score}
         isPending={isPending}
@@ -109,4 +109,4 @@ const OnlinePlayer: React.FC<Props> = ({
   );
 };
 
-export default OnlinePlayer;
+export default Player;

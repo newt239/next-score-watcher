@@ -4,7 +4,7 @@ import React from "react";
 
 import { UnstyledButton, useComputedColorScheme } from "@mantine/core";
 
-import classes from "./OnlinePlayerScoreButton.module.css";
+import classes from "./PlayerScoreButton.module.css";
 
 import type { LogDBProps } from "@/utils/types";
 
@@ -28,7 +28,7 @@ type Props = {
   children: string;
 };
 
-const OnlinePlayerScoreButton: React.FC<Props> = ({
+const PlayerScoreButton: React.FC<Props> = ({
   color,
   children,
   filled = false,
@@ -104,4 +104,4 @@ const OnlinePlayerScoreButton: React.FC<Props> = ({
   );
 };
 
-export default OnlinePlayerScoreButton;
+export default PlayerScoreButton;
