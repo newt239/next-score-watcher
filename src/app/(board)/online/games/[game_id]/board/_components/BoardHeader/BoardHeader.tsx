@@ -11,7 +11,6 @@ import {
   IconComet,
   IconMaximize,
   IconSettings,
-  IconSquare,
 } from "@tabler/icons-react";
 
 import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
@@ -129,15 +128,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
             >
               一つ戻す
             </Menu.Item>
-            {game.ruleType !== "aql" && (
-              <Menu.Item
-                leftSection={<IconSquare />}
-                disabled // オンライン版では手動更新機能は無効
-                title="オンライン版では利用できません"
-              >
-                スコアの手動更新
-              </Menu.Item>
-            )}
             {isFullscreenEnabled && (
               <Menu.Item
                 leftSection={<IconMaximize />}
