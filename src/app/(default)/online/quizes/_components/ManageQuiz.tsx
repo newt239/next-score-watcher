@@ -4,6 +4,7 @@ import { Suspense, useCallback, useState } from "react";
 
 import { Tabs, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { parseResponse } from "hono/client";
 
 import CreateQuiz from "./CreateQuiz";
 import ImportQuiz from "./ImportQuiz";
@@ -25,12 +26,12 @@ const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
 
   const refetchQuizes = async () => {
     try {
-      const response = await apiClient.quizes.$get({ query: {} });
-      if (!response.ok) {
+      const result = await parseResponse(apiClient.quizes.$get({ query: {} }));
+      if ("data" in result && result.data?.quizes) {
+        setQuizes(result.data.quizes);
+      } else {
         throw new Error("クイズ問題一覧の取得に失敗しました");
       }
-      const result = await response.json();
-      setQuizes(result.data.quizes);
     } catch (error) {
       notifications.show({
         title: "エラー",
@@ -45,15 +46,11 @@ const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
   // クイズ問題作成（単体・複数統一）
   const createQuizes = useCallback(async (quizData: CreateQuizType[]) => {
     try {
-      const response = await apiClient.quizes.$post({
-        json: quizData,
-      });
-
-      if (!response.ok) {
-        throw new Error("クイズ問題の作成に失敗しました");
-      }
-
-      const data = await response.json();
+      const data = await parseResponse(
+        apiClient.quizes.$post({
+          json: quizData,
+        })
+      );
 
       if (data.success) {
         const count = data.data.createdCount;
@@ -86,13 +83,11 @@ const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
   // クイズ問題削除
   const deleteQuizes = useCallback(async (quizIds: string[]) => {
     try {
-      const response = await apiClient.quizes.$delete({
-        json: quizIds,
-      });
-
-      if (!response.ok) {
-        throw new Error("クイズ問題の削除に失敗しました");
-      }
+      await parseResponse(
+        apiClient.quizes.$delete({
+          json: quizIds,
+        })
+      );
 
       notifications.show({
         title: `${quizIds.length}問のクイズ問題を削除しました`,

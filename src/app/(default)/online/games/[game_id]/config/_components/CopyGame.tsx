@@ -6,6 +6,7 @@ import { useTransition } from "react";
 import { Box, Button, Group, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
+import { parseResponse } from "hono/client";
 
 import type { GamePropsUnion } from "@/utils/types";
 
@@ -27,22 +28,24 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
     startTransition(async () => {
       try {
         const apiClient = createApiClient();
-        const response = await apiClient.games.$post({
-          json: [
-            {
-              name: `${game.name} のコピー`,
-              ruleType: game.rule,
-              discordWebhookUrl:
-                copyType === "copy-all" ? game.discord_webhook_url : undefined,
-            },
-          ],
-        });
+        const newGame = await parseResponse(
+          apiClient.games.$post({
+            json: [
+              {
+                name: `${game.name} のコピー`,
+                ruleType: game.rule,
+                discordWebhookUrl:
+                  copyType === "copy-all"
+                    ? game.discord_webhook_url
+                    : undefined,
+              },
+            ],
+          })
+        );
 
-        if (!response.ok) {
-          throw new Error("Failed to copy game");
+        if (!("success" in newGame) || !newGame.success) {
+          throw new Error("ゲームのコピーに失敗しました");
         }
-
-        const newGame = await response.json();
 
         sendGAEvent({
           event: "copy_game",

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Box, Text } from "@mantine/core";
+import { parseResponse } from "hono/client";
 
 import classes from "./Board.module.css";
 
@@ -37,32 +38,32 @@ const Board: React.FC<Props> = ({ game_id, user }) => {
     const fetchData = async () => {
       try {
         const apiClient = await createApiClient();
-        const [gameResponse, playersResponse, logsResponse] = await Promise.all(
-          [
+        const [gameData, playersData, logsData] = await Promise.all([
+          parseResponse(
             apiClient["games"][":gameId"].$get(
               { param: { gameId: game_id } },
               {
                 headers: { "x-user-id": user.id },
               }
-            ),
+            )
+          ),
+          parseResponse(
             apiClient["games"][":gameId"]["players"].$get(
               { param: { gameId: game_id } },
               {
                 headers: { "x-user-id": user.id },
               }
-            ),
+            )
+          ),
+          parseResponse(
             apiClient["games"][":gameId"]["logs"].$get(
               { param: { gameId: game_id } },
               {
                 headers: { "x-user-id": user.id },
               }
-            ),
-          ]
-        );
-
-        const gameData = await gameResponse.json();
-        const playersData = await playersResponse.json();
-        const logsData = await logsResponse.json();
+            )
+          ),
+        ]);
 
         if ("game" in gameData) {
           setGame(gameData.game);

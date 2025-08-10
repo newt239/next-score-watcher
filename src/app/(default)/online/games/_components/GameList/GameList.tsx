@@ -103,7 +103,7 @@ const GameList: React.FC<GameListProps> = ({
       </Group>
       {parsedGameList.length === 0 ? (
         <p>
-          作成済みのクラウドゲームはありません。
+          作成済みのゲームはありません。
           <Link href="/rules">形式一覧</Link>
           ページから新しいゲームを作ることが出来ます。
         </p>

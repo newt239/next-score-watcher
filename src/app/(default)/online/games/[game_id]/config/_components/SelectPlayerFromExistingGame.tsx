@@ -5,6 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { Box, NativeSelect } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
+import { parseResponse } from "hono/client";
 
 import type { GamePropsUnion } from "@/utils/types";
 
@@ -27,11 +28,12 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
     const fetchGames = async () => {
       try {
         const apiClient = createApiClient();
-        const response = await apiClient.games.$get({
-          query: { limit: "100" },
-        });
-        if (response.ok) {
-          const data = await response.json();
+        const data = await parseResponse(
+          apiClient.games.$get({
+            query: { limit: "100" },
+          })
+        );
+        if ("games" in data) {
           setGames((data.games as unknown as GamePropsUnion[]) || []);
         }
       } catch (error) {

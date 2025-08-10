@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Flex, Loader, Text } from "@mantine/core";
+import { parseResponse } from "hono/client";
 
 import AQLOptions from "./AQLOptions";
 import ConfigBooleanInput from "./ConfigBooleanInput";
@@ -33,15 +34,14 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
     const fetchSettings = async () => {
       try {
         const apiClient = createApiClient();
-        const response = await apiClient["games"][":gameId"]["settings"].$get({
-          param: { gameId },
-        });
+        const data = await parseResponse(
+          apiClient["games"][":gameId"]["settings"].$get({
+            param: { gameId },
+          })
+        );
 
-        if (response.ok) {
-          const data = await response.json();
-          if ("settings" in data) {
-            setSettings(data.settings);
-          }
+        if ("settings" in data) {
+          setSettings(data.settings);
         } else {
           setError("設定の取得に失敗しました");
         }

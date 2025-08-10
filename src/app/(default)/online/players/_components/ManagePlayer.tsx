@@ -4,6 +4,7 @@ import { Suspense, useCallback, useState } from "react";
 
 import { Tabs, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { parseResponse } from "hono/client";
 
 import CreatePlayer from "./CreatePlayer";
 import ImportPlayer from "./ImportPlayer";
@@ -25,12 +26,12 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
 
   const refetchPlayers = async () => {
     try {
-      const response = await apiClient.players.$get({ query: {} });
-      if (!response.ok) {
+      const result = await parseResponse(apiClient.players.$get({ query: {} }));
+      if ("data" in result && result.data?.players) {
+        setPlayers(result.data.players);
+      } else {
         throw new Error("プレイヤー一覧の取得に失敗しました");
       }
-      const result = await response.json();
-      setPlayers(result.data.players);
     } catch (error) {
       notifications.show({
         title: "エラー",
@@ -45,15 +46,11 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
   // プレイヤー作成（単体・複数統一）
   const createPlayers = useCallback(async (playerData: CreatePlayerType[]) => {
     try {
-      const response = await apiClient.players.$post({
-        json: playerData,
-      });
-
-      if (!response.ok) {
-        throw new Error("プレイヤーの作成に失敗しました");
-      }
-
-      const data = await response.json();
+      const data = await parseResponse(
+        apiClient.players.$post({
+          json: playerData,
+        })
+      );
 
       if (data.success) {
         const count = data.data.createdCount;
@@ -86,13 +83,11 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
   // プレイヤー削除
   const deletePlayers = useCallback(async (playerIds: string[]) => {
     try {
-      const response = await apiClient.players.$delete({
-        json: playerIds,
-      });
-
-      if (!response.ok) {
-        throw new Error("プレイヤーの削除に失敗しました");
-      }
+      await parseResponse(
+        apiClient.players.$delete({
+          json: playerIds,
+        })
+      );
 
       notifications.show({
         title: `${playerIds.length}人のプレイヤーを削除しました`,

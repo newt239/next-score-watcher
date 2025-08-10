@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { Accordion, Box, Tabs } from "@mantine/core";
+import { parseResponse } from "hono/client";
 
 import GameStartButton from "../GameStartButton/GameStartButton";
 import OtherConfig from "../OtherConfig";
@@ -13,10 +14,10 @@ import classes from "./Config.module.css";
 
 import type {
   GameDBPlayerProps,
+  GamePropsUnion,
   LogDBProps,
   PlayerDBProps,
   RuleNames,
-  GamePropsUnion,
 } from "@/utils/types";
 
 import NotFound from "@/app/(default)/_components/NotFound";
@@ -57,19 +58,17 @@ const Config: React.FC<Props> = ({ game_id, user }) => {
     const fetchData = async () => {
       try {
         const apiClient = createApiClient();
-        const [gameResponse, playersResponse, logsResponse] = await Promise.all(
-          [
-            apiClient["games"][":gameId"].$get({ param: { gameId: game_id } }),
-            apiClient["players"].$get({ query: {} }),
+        const [gameData, playersData, logsData] = await Promise.all([
+          parseResponse(
+            apiClient["games"][":gameId"].$get({ param: { gameId: game_id } })
+          ),
+          parseResponse(apiClient["players"].$get({ query: {} })),
+          parseResponse(
             apiClient["games"][":gameId"]["logs"].$get({
               param: { gameId: game_id },
-            }),
-          ]
-        );
-
-        const gameData = await gameResponse.json();
-        const playersData = await playersResponse.json();
-        const logsData = await logsResponse.json();
+            })
+          ),
+        ]);
 
         if ("game" in gameData) {
           setGame(gameData.game);

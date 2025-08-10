@@ -5,6 +5,7 @@ import { useRef, useState, useTransition } from "react";
 import { Button, Flex, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 // import { nanoid } from "nanoid";
 
 import type { GameDBPlayerProps } from "@/utils/types";
@@ -40,33 +41,35 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
       try {
         // プレイヤーを作成
         const apiClient = createApiClient();
-        const createPlayerResponse = await apiClient.players.$post({
-          json: [
-            {
-              name: playerName,
-              description: playerText,
-              affiliation: playerBelong,
-            },
-          ],
-        });
+        const newPlayer = await parseResponse(
+          apiClient.players.$post({
+            json: [
+              {
+                name: playerName,
+                description: playerText,
+                affiliation: playerBelong,
+              },
+            ],
+          })
+        );
 
-        if (!createPlayerResponse.ok) {
-          throw new Error("Failed to create player");
+        if (!("success" in newPlayer) || !newPlayer.success) {
+          throw new Error("プレイヤーの作成に失敗しました");
         }
 
-        const newPlayer = await createPlayerResponse.json();
-
         // ゲームにプレイヤーを追加
-        await apiClient.games[":gameId"].players.$post({
-          param: { gameId: game_id },
-          json: {
-            playerId: newPlayer.data.ids[0],
-            displayOrder: players.length,
-            initialScore: 0,
-            initialCorrectCount: 0,
-            initialWrongCount: 0,
-          },
-        });
+        await parseResponse(
+          apiClient.games[":gameId"].players.$post({
+            param: { gameId: game_id },
+            json: {
+              playerId: newPlayer.data.ids[0],
+              displayOrder: players.length,
+              initialScore: 0,
+              initialCorrectCount: 0,
+              initialWrongCount: 0,
+            },
+          })
+        );
 
         notifications.show({
           title: "プレイヤーを作成しました",

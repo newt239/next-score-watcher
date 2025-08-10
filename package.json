@@ -42,7 +42,7 @@
     "dexie-react-hooks": "^1.1.7",
     "drizzle-orm": "^0.44.3",
     "encoding-japanese": "^2.2.0",
-    "hono": "^4.8.9",
+    "hono": "^4.9.0",
     "nanoid": "^5.1.5",
     "next": "15.4.4",
     "postcss-preset-mantine": "^1.18.0",

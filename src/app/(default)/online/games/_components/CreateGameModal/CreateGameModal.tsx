@@ -4,18 +4,19 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
 import {
-  Modal,
   Button,
-  TextInput,
-  Grid,
   Card,
-  Text,
+  Grid,
   Group,
+  Modal,
+  Text,
+  TextInput,
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconPlus } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 
 import type { RuleNames } from "@/utils/types";
 
@@ -75,28 +76,28 @@ const CreateGameModal: React.FC<CreateGameModalProps> = ({ userId }) => {
     startTransition(async () => {
       try {
         const apiClient = await createApiClient();
-        const response = await apiClient["games"].$post(
-          {
-            json: [
-              {
-                name: form.values.name,
-                ruleType: form.values.ruleType!,
-                discordWebhookUrl: "",
-              },
-            ],
-          },
-          {
-            headers: {
-              "x-user-id": userId,
+        const result = await parseResponse(
+          apiClient["games"].$post(
+            {
+              json: [
+                {
+                  name: form.values.name,
+                  ruleType: form.values.ruleType!,
+                  discordWebhookUrl: "",
+                },
+              ],
             },
-          }
+            {
+              headers: {
+                "x-user-id": userId,
+              },
+            }
+          )
         );
 
-        if (!response.ok) {
+        if (!("success" in result) || !result.success) {
           throw new Error("ゲームの作成に失敗しました");
         }
-
-        const result = await response.json();
 
         notifications.show({
           title: "成功",

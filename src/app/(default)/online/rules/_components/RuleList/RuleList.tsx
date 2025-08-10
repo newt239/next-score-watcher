@@ -16,6 +16,7 @@ import {
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 
 import classes from "./RuleList.module.css";
 
@@ -90,28 +91,28 @@ const RuleList: React.FC<Props> = ({ userId }) => {
     startTransition(async () => {
       try {
         const apiClient = await createApiClient();
-        const response = await apiClient["games"].$post(
-          {
-            json: [
-              {
-                name: form.values.name,
-                ruleType: selectedRule,
-                discordWebhookUrl: "",
-              },
-            ],
-          },
-          {
-            headers: {
-              "x-user-id": userId!,
+        const result = await parseResponse(
+          apiClient["games"].$post(
+            {
+              json: [
+                {
+                  name: form.values.name,
+                  ruleType: selectedRule,
+                  discordWebhookUrl: "",
+                },
+              ],
             },
-          }
+            {
+              headers: {
+                "x-user-id": userId!,
+              },
+            }
+          )
         );
 
-        if (!response.ok) {
+        if (!("success" in result) || !result.success) {
           throw new Error("ゲームの作成に失敗しました");
         }
-
-        const result = await response.json();
 
         notifications.show({
           title: "成功",

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { parseResponse } from "hono/client";
+
 import GameList from "./_components/GameList/GameList";
 
 import { getUser } from "@/utils/auth/auth-helpers";
@@ -36,8 +38,7 @@ const GamesPage = async () => {
   if (user?.id) {
     try {
       const apiClient = await createApiClientOnServer();
-      const gamesResponse = await apiClient["games"].$get({});
-      const gamesData = await gamesResponse.json();
+      const gamesData = await parseResponse(apiClient["games"].$get({}));
       if ("games" in gamesData) {
         games = gamesData.games.map((game: ApiGame) => ({
           ...game,
@@ -48,13 +49,14 @@ const GamesPage = async () => {
       const gameIds = games.map((game) => game.id);
 
       if (gameIds.length > 0) {
-        const [logCountsResponse, playerCountsResponse] = await Promise.all([
-          apiClient["games"]["log-counts"].$post({ json: { gameIds } }),
-          apiClient["games"]["player-counts"].$post({ json: { gameIds } }),
+        const [logCountsData, playerCountsData] = await Promise.all([
+          parseResponse(
+            apiClient["games"]["log-counts"].$post({ json: { gameIds } })
+          ),
+          parseResponse(
+            apiClient["games"]["player-counts"].$post({ json: { gameIds } })
+          ),
         ]);
-
-        const logCountsData = await logCountsResponse.json();
-        const playerCountsData = await playerCountsResponse.json();
 
         if ("logCounts" in logCountsData) {
           logCounts = logCountsData.logCounts;

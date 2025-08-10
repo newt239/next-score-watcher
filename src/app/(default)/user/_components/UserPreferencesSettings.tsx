@@ -14,6 +14,7 @@ import {
   Title,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { parseResponse } from "hono/client";
 
 import { type UserPreferencesType } from "@/models/user-preferences";
 import createApiClient from "@/utils/hono/client";
@@ -40,18 +41,14 @@ const UserPreferencesSettings: React.FC<Props> = ({
     startTransition(async () => {
       try {
         const apiClient = await createApiClient();
-        const response = await apiClient.user[":user_id"].preferences.$patch({
-          param: { user_id: userId },
-          json: { [key]: value },
-        });
+        const result = await parseResponse(
+          apiClient.user[":user_id"].preferences.$patch({
+            param: { user_id: userId },
+            json: { [key]: value },
+          })
+        );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (!result.success) {
+        if (!("success" in result) || !result.success) {
           throw new Error("API returned error status");
         }
 

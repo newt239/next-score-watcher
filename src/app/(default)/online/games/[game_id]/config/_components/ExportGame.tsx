@@ -7,6 +7,7 @@ import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
+import { parseResponse } from "hono/client";
 
 import type { GamePropsUnion } from "@/utils/types";
 
@@ -28,15 +29,15 @@ const ExportGame: React.FC<Props> = ({ game }) => {
       try {
         // ゲームデータを取得
         const apiClient = createApiClient();
-        const response = await apiClient.games[":gameId"].$get({
-          param: { gameId: game.id },
-        });
+        const gameData = await parseResponse(
+          apiClient.games[":gameId"].$get({
+            param: { gameId: game.id },
+          })
+        );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch game data");
+        if ("error" in gameData) {
+          throw new Error(gameData.error);
         }
-
-        const gameData = await response.json();
 
         sendGAEvent({
           event: "export_game",
