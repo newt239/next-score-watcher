@@ -23,7 +23,7 @@ type Props = {
  * クイズセット選択、オプション設定、ゲーム管理機能を提供
  */
 const OtherConfig: React.FC<Props> = ({ game }) => {
-  const [_quizsets, _setQuizsets] = useState<string[]>([]);
+  const [quizsets, setQuizsets] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchQuizsets = async () => {
@@ -31,10 +31,17 @@ const OtherConfig: React.FC<Props> = ({ game }) => {
         const apiClient = createApiClient();
         const response = await apiClient.quizes.$get({ query: {} });
         if (response.ok) {
-          // TODO: クイズAPIのレスポンス構造を確認
-          // const data = await response.json();
-          // const uniqueSetNames = Array.from(new Set((data.quizes as { set_name: string }[]).map((quiz) => quiz.set_name)));
-          // setQuizsets(uniqueSetNames);
+          const data = await response.json();
+          if (data.success && data.data?.quizes) {
+            const uniqueSetNames = Array.from(
+              new Set(
+                data.data.quizes
+                  .map((quiz) => quiz.category)
+                  .filter((category) => category)
+              )
+            );
+            setQuizsets(uniqueSetNames);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch quizsets:", error);
@@ -49,7 +56,7 @@ const OtherConfig: React.FC<Props> = ({ game }) => {
       <SelectQuizset
         game_id={game.id}
         game_quiz={game.quiz}
-        quizset_names={_quizsets}
+        quizset_names={quizsets}
       />
       <Title order={3} mt="xl">
         オプション
