@@ -12,10 +12,6 @@ const indexHandler = factory.createHandlers(
     })
   ),
   async (c) => {
-    const { id } = c.req.valid("param");
-
-    console.log(id);
-
     return c.json({ status: "success", data: "test" } as const, 200);
   }
 );

@@ -14,12 +14,13 @@ import {
   Title,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { parseResponse } from "hono/client";
 
-import { type UserPreferences } from "@/models/user-preferences";
-import apiClient from "@/utils/hono/client";
+import { type UserPreferencesType } from "@/models/user-preferences";
+import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  initialPreferences: UserPreferences;
+  initialPreferences: UserPreferencesType;
   userId: string;
 };
 
@@ -28,29 +29,26 @@ const UserPreferencesSettings: React.FC<Props> = ({
   userId,
 }) => {
   const [preferences, setPreferences] =
-    useState<UserPreferences>(initialPreferences);
+    useState<UserPreferencesType>(initialPreferences);
   const [isPending, startTransition] = useTransition();
 
-  const handleUpdate = <K extends keyof UserPreferences>(
+  const handleUpdate = <K extends keyof UserPreferencesType>(
     key: K,
-    value: UserPreferences[K]
+    value: UserPreferencesType[K]
   ) => {
-    setPreferences((prev: UserPreferences) => ({ ...prev, [key]: value }));
+    setPreferences((prev: UserPreferencesType) => ({ ...prev, [key]: value }));
 
     startTransition(async () => {
       try {
-        const response = await apiClient.user[":user_id"].preferences.$patch({
-          param: { user_id: userId },
-          json: { [key]: value },
-        });
+        const apiClient = await createApiClient();
+        const result = await parseResponse(
+          apiClient.user[":user_id"].preferences.$patch({
+            param: { user_id: userId },
+            json: { [key]: value },
+          })
+        );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (!result.success) {
+        if (!("success" in result) || !result.success) {
           throw new Error("API returned error status");
         }
 
@@ -67,7 +65,7 @@ const UserPreferencesSettings: React.FC<Props> = ({
           color: "red",
         });
         // エラー時は設定を元に戻す
-        setPreferences((prev: UserPreferences) => ({
+        setPreferences((prev: UserPreferencesType) => ({
           ...prev,
           [key]: initialPreferences[key],
         }));
@@ -172,7 +170,7 @@ const UserPreferencesSettings: React.FC<Props> = ({
           value={preferences.webhookUrl || ""}
           onChange={(event) => {
             const value = event.currentTarget.value;
-            setPreferences((prev: UserPreferences) => ({
+            setPreferences((prev: UserPreferencesType) => ({
               ...prev,
               webhookUrl: value || null,
             }));

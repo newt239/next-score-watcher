@@ -1,0 +1,23 @@
+.players {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 1.5vh 0;
+
+  @media (width >= 62em) {
+    flex-direction: row;
+    gap: 0 1vw;
+    justify-content: space-evenly;
+    height: calc(100vh - min(15vh, 8rem) - 3rem);
+    padding: 3ch 1vw 0;
+    padding: 2.5vh 1vw;
+    overflow-y: auto;
+    resize: vertical;
+
+    &[data-showheader="false"] {
+      height: calc(100vh - 3rem);
+    }
+  }
+}

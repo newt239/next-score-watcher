@@ -1,8 +1,12 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { UpdateUserPreferencesSchema } from "@/models/user-preferences";
-import { updateUserPreferencesByUserId } from "@/server/repositories/user-preferences";
+import { UpdateUserPreferencesRequestSchema } from "@/models/user-preferences";
+import { getUserId } from "@/server/repositories/auth";
+import {
+  updateUserPreferencesByUserId,
+  ensureUserPreferences,
+} from "@/server/repositories/user-preferences";
 
 const factory = createFactory();
 
@@ -10,16 +14,20 @@ const factory = createFactory();
  * ユーザー設定更新
  */
 const handler = factory.createHandlers(
-  zValidator("json", UpdateUserPreferencesSchema),
+  zValidator("json", UpdateUserPreferencesRequestSchema),
   async (c) => {
     try {
-      const userId = c.req.param("user_id");
-
+      const userId = await getUserId();
       if (!userId) {
-        return c.json({ error: "ユーザーIDが必要です" } as const, 400);
+        return c.json({ error: "ユーザーが見つかりません" } as const, 404);
       }
 
       const preferences = c.req.valid("json");
+
+      // ユーザー設定が存在しない場合はデフォルト値で作成
+      await ensureUserPreferences(userId);
+
+      // 設定を更新
       await updateUserPreferencesByUserId(userId, preferences);
 
       return c.json({ success: true } as const);

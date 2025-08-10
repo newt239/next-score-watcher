@@ -62,8 +62,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       hono:
-        specifier: ^4.8.9
-        version: 4.8.9
+        specifier: ^4.9.0
+        version: 4.9.0
       nanoid:
         specifier: ^5.1.5
         version: 5.1.5
@@ -94,7 +94,7 @@ importers:
         version: 3.3.1
       "@hono/zod-validator":
         specifier: ^0.7.2
-        version: 0.7.2(hono@4.8.9)(zod@4.0.10)
+        version: 0.7.2(hono@4.9.0)(zod@4.0.10)
       "@next/eslint-plugin-next":
         specifier: ^15.4.5
         version: 15.4.5
@@ -4473,10 +4473,10 @@ packages:
         integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==,
       }
 
-  hono@4.8.9:
+  hono@4.9.0:
     resolution:
       {
-        integrity: sha512-ERIxkXMRhUxGV7nS/Af52+j2KL60B1eg+k6cPtgzrGughS+espS9KQ7QO0SMnevtmRlBfAcN0mf1jKtO6j/doA==,
+        integrity: sha512-JAUc4Sqi3lhby2imRL/67LMcJFKiCu7ZKghM7iwvltVZzxEC5bVJCsAa4NTnSfmWGb+N2eOVtFE586R+K3fejA==,
       }
     engines: { node: ">=16.9.0" }
 
@@ -7539,9 +7539,9 @@ snapshots:
 
   "@hexagon/base64@1.1.28": {}
 
-  "@hono/zod-validator@0.7.2(hono@4.8.9)(zod@4.0.10)":
+  "@hono/zod-validator@0.7.2(hono@4.9.0)(zod@4.0.10)":
     dependencies:
-      hono: 4.8.9
+      hono: 4.9.0
       zod: 4.0.10
 
   "@humanfs/core@0.19.1": {}
@@ -9879,7 +9879,7 @@ snapshots:
     dependencies:
       react-is: 16.13.1
 
-  hono@4.8.9: {}
+  hono@4.9.0: {}
 
   hookified@1.11.0: {}
 

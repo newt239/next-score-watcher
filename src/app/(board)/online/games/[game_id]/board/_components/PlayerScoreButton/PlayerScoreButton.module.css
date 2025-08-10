@@ -1,0 +1,58 @@
+/* OnlinePlayerScoreButton.module.css - ローカル版PlayerScoreButton.module.cssと同等 */
+
+.player_score_button {
+  display: inline-flex;
+  align-items: baseline;
+  min-width: 1rem;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 0;
+  transition: all 0.2s;
+
+  @media (width >= 36em) {
+    font-size: 2.5rem;
+  }
+
+  @media (width >= 62em) {
+    justify-content: center;
+    width: 100%;
+    height: 3rem;
+    padding: 0;
+    line-height: 3rem;
+
+    &[data-disabled="false"]:hover {
+      opacity: 0.8;
+    }
+
+    &[data-compact="true"] {
+      @media (width >= 62em) {
+        height: 2rem;
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+    }
+
+    @container (max-width: 100px) {
+      height: 2rem;
+      font-size: 2rem;
+      line-height: 2rem;
+
+      &[data-compact="true"] {
+        height: 2rem;
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+      }
+    }
+
+    @container (min-width: 200px) {
+      height: 4.5rem;
+      font-size: 4.5rem;
+      line-height: 4.5rem;
+    }
+  }
+}

@@ -1,6 +1,10 @@
 import { createFactory } from "hono/factory";
 
-import { getUserPreferences } from "@/server/repositories/user-preferences";
+import { getUserId } from "@/server/repositories/auth";
+import {
+  getUserPreferences,
+  ensureUserPreferences,
+} from "@/server/repositories/user-preferences";
 
 const factory = createFactory();
 
@@ -9,11 +13,13 @@ const factory = createFactory();
  */
 const handler = factory.createHandlers(async (c) => {
   try {
-    const userId = c.req.param("user_id");
-
+    const userId = await getUserId();
     if (!userId) {
-      return c.json({ error: "ユーザーIDが必要です" } as const, 400);
+      return c.json({ error: "ユーザーが見つかりません" } as const, 404);
     }
+
+    // ユーザー設定が存在しない場合はデフォルト値で作成
+    await ensureUserPreferences(userId);
 
     const preferences = await getUserPreferences(userId);
 

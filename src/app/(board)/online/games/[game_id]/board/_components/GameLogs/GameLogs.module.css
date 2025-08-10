@@ -1,0 +1,19 @@
+.game_logs {
+  padding: 1rem;
+  white-space: nowrap;
+  background-color: var(--mantine-color-gray-1);
+
+  [data-mantine-color-scheme="dark"] {
+    background-color: var(--mantine-color-gray-8);
+  }
+
+  @media (width >= 62em) {
+    margin: 1rem;
+    border: 1px solid var(--mantine-color-gray-1);
+    border-radius: 0.5rem;
+
+    [data-mantine-color-scheme="dark"] {
+      border: 1px solid var(--mantine-color-gray-8);
+    }
+  }
+}

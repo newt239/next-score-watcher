@@ -32,17 +32,25 @@ const getLinkList = (
 ): { text: string; path: string; icon: React.ReactNode }[] => [
   { path: "/", text: "ホーム", icon: <IconHome /> },
   {
-    path: isLoggedIn ? "/cloud-rules" : "/rules",
+    path: isLoggedIn ? "/online/rules" : "/rules",
     text: "形式一覧",
     icon: <IconListDetails />,
   },
   {
-    path: isLoggedIn ? "/cloud-games" : "/games",
-    text: isLoggedIn ? "クラウドゲーム" : "作成したゲーム",
+    path: isLoggedIn ? "/online/games" : "/games",
+    text: "作成したゲーム",
     icon: <IconList />,
   },
-  { path: "/players", text: "プレイヤー管理", icon: <IconUsers /> },
-  { path: "/quizes", text: "問題管理", icon: <IconQuestionMark /> },
+  {
+    path: isLoggedIn ? "/online/players" : "/players",
+    text: "プレイヤー管理",
+    icon: <IconUsers />,
+  },
+  {
+    path: isLoggedIn ? "/online/quizes" : "/quizes",
+    text: "問題管理",
+    icon: <IconQuestionMark />,
+  },
   { path: "/option", text: "アプリ設定", icon: <IconSettings /> },
   { path: "/docs", text: "アプリ情報", icon: <IconInfoCircle /> },
   {

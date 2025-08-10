@@ -1,30 +1,47 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { CreateGameSchema } from "@/models/games";
+import { CreateGameRequestSchema } from "@/models/games";
+import { getUserId } from "@/server/repositories/auth";
 import { createGame } from "@/server/repositories/games";
 
 const factory = createFactory();
 
 /**
- * クラウドゲーム作成
+ * ゲーム作成
  */
 const handler = factory.createHandlers(
-  zValidator("json", CreateGameSchema),
+  zValidator("json", CreateGameRequestSchema),
   async (c) => {
     try {
-      const userId = c.req.header("x-user-id");
+      const userId = await getUserId();
       if (!userId) {
         return c.json({ error: "認証が必要です" } as const, 401);
       }
 
-      const gameData = c.req.valid("json");
-      const gameId = await createGame(gameData, userId);
+      const gamesData = c.req.valid("json");
+      const result = await createGame(gamesData, userId);
 
-      return c.json({ gameId } as const, 201);
+      return c.json(
+        {
+          success: true,
+          data: {
+            ids: result.ids,
+            createdCount: result.createdCount,
+            message: `${result.createdCount}件のゲームを作成しました`,
+          },
+        } as const,
+        201
+      );
     } catch (error) {
-      console.error("Error creating cloud game:", error);
-      return c.json({ error: "サーバーエラーが発生しました" } as const, 500);
+      console.error("ゲーム作成エラー:", error);
+      return c.json(
+        {
+          success: false,
+          error: "ゲームの作成に失敗しました",
+        } as const,
+        500
+      );
     }
   }
 );

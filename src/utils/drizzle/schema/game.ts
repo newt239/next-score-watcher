@@ -23,7 +23,6 @@ const gameRuleValues = [
   "endless-chance",
   "variables",
   "aql",
-  "linear",
 ] as const;
 
 // ゲームテーブル

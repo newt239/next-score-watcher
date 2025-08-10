@@ -1,0 +1,193 @@
+.board_header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  padding: 0 0.5rem;
+  overflow-y: auto;
+
+  @media (width >= 62em) {
+    gap: 1rem;
+    height: min(15vh, 8rem);
+    resize: vertical;
+    background-color: var(--mantine-color-gray-1);
+
+    [data-mantine-color-scheme="dark"] {
+      background-color: var(--mantine-color-gray-8);
+    }
+  }
+
+  &[data-withname="false"][data-showqn="false"] {
+    @media (width >= 62em) {
+      &[data-showquiz="true"] {
+        div:nth-child(1) {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          height: auto;
+          padding: 0 0.5rem;
+          opacity: 0.5;
+        }
+      }
+
+      &[data-showquiz="false"] {
+        justify-content: center;
+      }
+    }
+  }
+
+  &[data-withname="true"] {
+    &[data-showquiz="false"] {
+      @media (width >= 62em) {
+        div {
+          width: 50%;
+        }
+
+        div:nth-child(1) {
+          align-items: flex-end;
+
+          div {
+            text-align: right;
+          }
+
+          &[data-showqn="false"] {
+            align-items: center;
+            width: 100%;
+
+            div {
+              text-align: center;
+            }
+          }
+        }
+
+        div:nth-child(2) {
+          align-items: flex-start;
+        }
+      }
+    }
+
+    &[data-showquiz="true"] {
+      @media (width >= 62em) {
+        flex-direction: row;
+        gap: 0.5rem;
+        align-items: flex-start;
+
+        div:nth-child(1) {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  &[data-withname="false"] {
+    &[data-showquiz="false"] {
+      @media (width >= 62em) {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.game_info_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.game_info_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game_name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.5rem;
+  color: black;
+
+  [data-mantine-color-scheme="dark"] {
+    color: white;
+  }
+}
+
+.game_name_only {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+
+  @media (width >= 62em) {
+    align-items: center;
+  }
+
+  span:nth-child(1) {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 2.5rem;
+  }
+
+  span:nth-child(2) {
+    font-size: 1rem;
+    line-height: 1rem;
+    text-wrap: nowrap;
+  }
+
+  &[data-showqn="false"] {
+    span:nth-child(1) {
+      display: none;
+    }
+
+    span:nth-child(2) {
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.5rem;
+    }
+  }
+}
+
+.quiz_number_area {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.quiz_number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  white-space: nowrap;
+}
+
+.quiz_area {
+  display: none;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow: hidden;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+
+  @media (width >= 62em) {
+    display: flex;
+  }
+}
+
+.answer {
+  color: var(--mantine-color-red-9);
+
+  [data-mantine-color-scheme="dark"] {
+    color: var(--mantine-color-red-3);
+  }
+}
+
+.board_action {
+  @media (width >= 62em) {
+    display: none;
+  }
+}

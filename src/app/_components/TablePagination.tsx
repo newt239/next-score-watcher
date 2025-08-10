@@ -1,10 +1,20 @@
 import { Group, NativeSelect, Pagination } from "@mantine/core";
 
+import type {
+  PlayerDetailResponseType,
+  ApiPlayerDataType,
+} from "@/models/players";
+import type { ApiQuizDataType } from "@/models/quizes";
 import type { PlayerDBProps, QuizDBProps } from "@/utils/types";
 import type { Table } from "@tanstack/react-table";
 
 type Props = {
-  table: Table<PlayerDBProps> | Table<QuizDBProps>;
+  table:
+    | Table<PlayerDBProps>
+    | Table<QuizDBProps>
+    | Table<PlayerDetailResponseType>
+    | Table<ApiPlayerDataType>
+    | Table<ApiQuizDataType>;
 };
 
 const TablePagenation: React.FC<Props> = ({ table }) => {
