@@ -64,19 +64,45 @@ const BoardPage = async ({
     return null;
   }
 
-  const game = gameData.game;
-  const players = playersData.players;
-  const logs = logsData.logs;
-  const settings = settingsData.settings;
+  // プレイヤーデータをGameDBPlayerProps形式に変換
+  const convertedPlayers = playersData.players.map((p: unknown) => {
+    const player = p as {
+      id: string;
+      name: string;
+      initialCorrectCount?: number;
+      initialWrongCount?: number;
+    };
+    return {
+      id: player.id,
+      name: player.name,
+      initial_correct: player.initialCorrectCount || 0,
+      initial_wrong: player.initialWrongCount || 0,
+      base_correct_point: 1,
+      base_wrong_point: 1,
+    };
+  });
+
+  // ログデータをLogDBProps形式に変換
+  const convertedLogs = logsData.logs.map((log: unknown) => {
+    const typedLog = log as { system: number; available: number };
+    return {
+      ...typedLog,
+      system: typedLog.system as 0 | 1,
+      available: typedLog.available as 0 | 1,
+    };
+  });
+
+  // ゲームオブジェクトからplayersを除外
+  const { players: _, ...gameWithoutPlayers } = gameData.game;
 
   return (
     <Board
       gameId={game_id}
       user={user}
-      initialGame={game}
-      initialPlayers={players}
-      initialLogs={logs}
-      initialSettings={settings}
+      initialGame={gameWithoutPlayers}
+      initialPlayers={convertedPlayers}
+      initialLogs={convertedLogs}
+      initialSettings={settingsData.settings}
     />
   );
 };

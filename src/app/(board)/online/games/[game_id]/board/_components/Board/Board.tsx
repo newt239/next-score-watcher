@@ -20,8 +20,9 @@ import Players from "../Players/Players";
 
 import classes from "./Board.module.css";
 
+import type { OnlineGameType, OnlineUserType } from "@/models/games";
 import type { UserPreferencesType } from "@/models/user-preferences";
-import type { GameDBPlayerProps, LogDBProps, RuleNames } from "@/utils/types";
+import type { GameDBPlayerProps, LogDBProps } from "@/utils/types";
 
 import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";
 import createApiClient from "@/utils/hono/client";
@@ -29,61 +30,11 @@ import { computeOnlineScore } from "@/utils/online/computeScore";
 
 type BoardProps = {
   gameId: string;
-  user: User | null;
-  initialGame: unknown;
+  user: OnlineUserType | null;
+  initialGame: OnlineGameType;
   initialPlayers: unknown[];
   initialLogs: unknown[];
-  initialSettings: unknown;
-};
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-};
-
-type OnlineGame = { id: string; name: string; ruleType: RuleNames };
-const isGame = (v: unknown): v is OnlineGame => {
-  if (!v || typeof v !== "object") return false;
-  const obj = v as Record<string, unknown>;
-  return (
-    "id" in obj &&
-    "name" in obj &&
-    "ruleType" in obj &&
-    typeof obj.id === "string" &&
-    typeof obj.name === "string" &&
-    typeof obj.ruleType === "string"
-  );
-};
-
-const isPlayers = (v: unknown): v is GameDBPlayerProps[] => {
-  if (!Array.isArray(v)) return false;
-  return v.every((p) => {
-    if (!p || typeof p !== "object") return false;
-    const obj = p as Record<string, unknown>;
-    return (
-      "id" in obj &&
-      "name" in obj &&
-      typeof obj.id === "string" &&
-      typeof obj.name === "string"
-    );
-  });
-};
-
-const isLogs = (v: unknown): v is LogDBProps[] => {
-  if (!Array.isArray(v)) return false;
-  return v.every((l) => {
-    if (!l || typeof l !== "object") return false;
-    const obj = l as Record<string, unknown>;
-    return (
-      "id" in obj &&
-      "player_id" in obj &&
-      "variant" in obj &&
-      (typeof obj.id === "string" || typeof obj.id === "number") &&
-      typeof obj.player_id === "string" &&
-      typeof obj.variant === "string"
-    );
-  });
+  initialSettings: Record<string, unknown>;
 };
 
 const Board: React.FC<BoardProps> = ({
@@ -94,18 +45,32 @@ const Board: React.FC<BoardProps> = ({
   initialLogs,
   initialSettings,
 }) => {
-  const game: OnlineGame | null = isGame(initialGame) ? initialGame : null;
-  const [players] = useState<GameDBPlayerProps[]>(() => {
-    if (!isPlayers(initialPlayers)) return [];
-    // 重複を除去（IDが同じプレイヤーを除去）
-    return initialPlayers.filter(
-      (player, index, self) =>
-        index === self.findIndex((p) => p.id === player.id)
-    );
+  // プレイヤーデータの変換
+  const convertedPlayers = (initialPlayers as unknown[]).map((p) => {
+    const player = p as {
+      id: string;
+      name: string;
+      initial_correct?: number;
+      initial_wrong?: number;
+    };
+    return {
+      id: player.id,
+      name: player.name,
+      initial_correct: player.initial_correct || 0,
+      initial_wrong: player.initial_wrong || 0,
+      base_correct_point: 1,
+      base_wrong_point: 1,
+    };
   });
-  const [logs, setLogs] = useState<LogDBProps[]>(
-    isLogs(initialLogs) ? initialLogs : []
-  );
+
+  // ログデータの変換
+  const convertedLogs = (initialLogs as unknown[]).map((l) => {
+    const log = l as LogDBProps;
+    return log;
+  });
+
+  const [players] = useState<GameDBPlayerProps[]>(convertedPlayers);
+  const [logs, setLogs] = useState<LogDBProps[]>(convertedLogs);
   const [isPending, startTransition] = useTransition();
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [skipSuggest, setSkipSuggest] = useState(false);
@@ -136,7 +101,9 @@ const Board: React.FC<BoardProps> = ({
       });
       if (res.ok) {
         const data = await res.json();
-        setPreferences(data.preferences);
+        if (data && "preferences" in data) {
+          setPreferences(data.preferences);
+        }
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
@@ -151,7 +118,28 @@ const Board: React.FC<BoardProps> = ({
       if (res.ok) {
         const json = await res.json();
         if (json && "logs" in json && Array.isArray(json.logs)) {
-          setLogs(json.logs as LogDBProps[]);
+          const validLogs = json.logs
+            .filter(
+              (log: unknown) =>
+                log &&
+                typeof log === "object" &&
+                "id" in log &&
+                "player_id" in log &&
+                "variant" in log &&
+                "system" in log &&
+                "available" in log &&
+                (log.system === 0 || log.system === 1) &&
+                (log.available === 0 || log.available === 1)
+            )
+            .map((log: unknown) => {
+              const typedLog = log as LogDBProps;
+              return {
+                ...typedLog,
+                system: typedLog.system as 0 | 1,
+                available: typedLog.available as 0 | 1,
+              } as LogDBProps;
+            });
+          setLogs(validLogs);
         }
       }
     } catch (e) {
@@ -217,7 +205,7 @@ const Board: React.FC<BoardProps> = ({
   // キーボードショートカット
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
-      if (!game) return;
+      if (!initialGame) return;
       if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
         const code = event.code.startsWith("Digit")
           ? event.code[5]
@@ -241,35 +229,36 @@ const Board: React.FC<BoardProps> = ({
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [players, addLog, undo, game]);
+  }, [players, addLog, undo, initialGame]);
 
   // useEffectを先に定義
   useEffect(() => {
-    if (!game || !players.length) return;
-
-    const isSettings = (v: unknown): v is Record<string, unknown> =>
-      !!v && typeof v === "object";
-
-    const settings = isSettings(initialSettings) ? initialSettings : {};
+    if (!initialGame || !players.length) return;
 
     const { winPlayers } = computeOnlineScore(
-      { id: game.id, name: game.name, ruleType: game.ruleType },
+      {
+        id: initialGame.id,
+        name: initialGame.name,
+        ruleType: initialGame.ruleType,
+      },
       players,
       logs,
       {
         winPoint:
-          typeof settings.winPoint === "number" ? settings.winPoint : undefined,
+          typeof initialSettings.winPoint === "number"
+            ? initialSettings.winPoint
+            : undefined,
         losePoint:
-          typeof settings.losePoint === "number"
-            ? settings.losePoint
+          typeof initialSettings.losePoint === "number"
+            ? initialSettings.losePoint
             : undefined,
         targetPoint:
-          typeof settings.targetPoint === "number"
-            ? settings.targetPoint
+          typeof initialSettings.targetPoint === "number"
+            ? initialSettings.targetPoint
             : undefined,
         restCount:
-          typeof settings.restCount === "number"
-            ? settings.restCount
+          typeof initialSettings.restCount === "number"
+            ? initialSettings.restCount
             : undefined,
       }
     );
@@ -301,7 +290,7 @@ const Board: React.FC<BoardProps> = ({
     } else {
       setSkipSuggest(false);
     }
-  }, [logs, game, players, initialSettings]);
+  }, [logs, initialGame, players, initialSettings]);
 
   // 初期設定取得
   useEffect(() => {
@@ -316,48 +305,49 @@ const Board: React.FC<BoardProps> = ({
     );
   }
 
-  if (!game) {
-    return (
-      <Box className={classes.error}>
-        <Text>ゲームが見つかりません</Text>
-      </Box>
-    );
-  }
-
-  const isSettings = (v: unknown): v is Record<string, unknown> =>
-    !!v && typeof v === "object";
-
-  const settings = isSettings(initialSettings) ? initialSettings : {};
-
   const { scores } = computeOnlineScore(
-    { id: game.id, name: game.name, ruleType: game.ruleType },
+    {
+      id: initialGame.id,
+      name: initialGame.name,
+      ruleType: initialGame.ruleType,
+    },
     players,
     logs,
     {
       winPoint:
-        typeof settings.winPoint === "number" ? settings.winPoint : undefined,
+        typeof initialSettings.winPoint === "number"
+          ? initialSettings.winPoint
+          : undefined,
       losePoint:
-        typeof settings.losePoint === "number" ? settings.losePoint : undefined,
+        typeof initialSettings.losePoint === "number"
+          ? initialSettings.losePoint
+          : undefined,
       targetPoint:
-        typeof settings.targetPoint === "number"
-          ? settings.targetPoint
+        typeof initialSettings.targetPoint === "number"
+          ? initialSettings.targetPoint
           : undefined,
       restCount:
-        typeof settings.restCount === "number" ? settings.restCount : undefined,
+        typeof initialSettings.restCount === "number"
+          ? initialSettings.restCount
+          : undefined,
     }
   );
 
   return (
     <>
       <BoardHeader
-        game={{ id: game.id, name: game.name, ruleType: game.ruleType }}
+        game={{
+          id: initialGame.id,
+          name: initialGame.name,
+          ruleType: initialGame.ruleType,
+        }}
         logsLength={logs.length}
         onUndo={undo}
         onThrough={addThrough}
         preferences={preferences}
         userId={user.id}
       />
-      {game.ruleType === "squarex" && (
+      {initialGame.ruleType === "squarex" && (
         <Box
           className={classes.squarex_bar}
           style={{
@@ -366,7 +356,7 @@ const Board: React.FC<BoardProps> = ({
           }}
         />
       )}
-      {game.ruleType === "aql" ? (
+      {initialGame.ruleType === "aql" ? (
         <AQL
           scores={scores}
           players={players}
@@ -374,19 +364,19 @@ const Board: React.FC<BoardProps> = ({
           onAddLog={addLog}
           team_name={{
             left_team:
-              typeof settings.leftTeam === "string"
-                ? settings.leftTeam
+              typeof initialSettings.leftTeam === "string"
+                ? initialSettings.leftTeam
                 : "Left Team",
             right_team:
-              typeof settings.rightTeam === "string"
-                ? settings.rightTeam
+              typeof initialSettings.rightTeam === "string"
+                ? initialSettings.rightTeam
                 : "Right Team",
           }}
           show_header={preferences?.showBoardHeader ?? true}
         />
       ) : (
         <Players
-          game={game}
+          game={initialGame}
           scores={scores}
           players={players}
           isPending={isPending}
@@ -396,7 +386,7 @@ const Board: React.FC<BoardProps> = ({
       )}
 
       <ActionButtons
-        game={game}
+        game={initialGame}
         logsLength={logs.length}
         onUndo={undo}
         onThrough={addThrough}

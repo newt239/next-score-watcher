@@ -285,3 +285,63 @@ export type CopyPlayersFromGameResponseType = {
   copiedCount: number;
   message: string;
 };
+
+/**
+ * オンラインゲーム情報の型（API専用）
+ */
+export type OnlineGameType = {
+  id: string;
+  name: string;
+  ruleType: RuleNames;
+  createdAt?: string;
+  updatedAt?: string;
+  discordWebhookUrl?: string | null;
+};
+
+/**
+ * APIレスポンス用のプレイヤー型（変換前）
+ */
+export type ApiPlayerResponseType = {
+  id: string;
+  name: string;
+  initialCorrectCount?: number;
+  initialWrongCount?: number;
+  displayOrder?: number;
+  initialScore?: number;
+};
+
+/**
+ * オンラインゲームプレイヤー情報の型（API専用）
+ */
+export type OnlineGamePlayerType = {
+  id: string;
+  name: string;
+  displayOrder: number;
+  initialScore: number;
+  initialCorrectCount: number;
+  initialWrongCount: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+/**
+ * オンラインゲームログ情報の型（API専用）
+ */
+export type OnlineGameLogType = {
+  id: number | string;
+  player_id: string;
+  variant: Variants;
+  system: number;
+  available: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+/**
+ * オンラインユーザー情報の型（API専用）
+ */
+export type OnlineUserType = {
+  id: string;
+  name: string;
+  email: string;
+};
