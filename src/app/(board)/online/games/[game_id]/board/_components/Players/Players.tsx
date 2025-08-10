@@ -17,6 +17,7 @@ type OnlineGame = {
   id: string;
   name: string;
   ruleType: RuleNames;
+  win_point?: number; // nbyn形式で使用
 };
 
 type Props = {
@@ -44,6 +45,7 @@ const Players: React.FC<Props> = ({
     <Flex
       className={classes.players}
       id="players-area"
+      data-showq={false} // オンライン版では問題セット機能がないためfalse
       data-showheader={preferences?.showBoardHeader ?? true}
     >
       {players.map((player, i) => (
@@ -56,6 +58,7 @@ const Players: React.FC<Props> = ({
           isPending={isPending}
           onAddLog={onAddLog}
           preferences={preferences}
+          totalPlayers={players.length}
         />
       ))}
     </Flex>

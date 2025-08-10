@@ -3,18 +3,25 @@
 import { useCallback, useEffect, useState } from "react";
 
 import {
+  Alert,
   Flex,
   Switch,
   useComputedColorScheme,
   useMantineColorScheme,
 } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 import type { UserPreferencesType } from "@/models/user-preferences";
 
+import { defaultUserPreferences } from "@/models/user-preferences";
 import createApiClient from "@/utils/hono/client";
 
-const OnlinePreferences: React.FC = () => {
+type Props = {
+  userId: string;
+};
+
+const OnlinePreferences: React.FC<Props> = ({ userId }) => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light");
 
@@ -23,25 +30,37 @@ const OnlinePreferences: React.FC = () => {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
-
-  const apiClient = createApiClient();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   // 設定を取得
   const fetchPreferences = useCallback(async () => {
     try {
+      const apiClient = createApiClient();
       const res = await apiClient["user"][":user_id"]["preferences"].$get({
-        param: { user_id: "current" }, // 認証されたユーザーのID
+        param: { user_id: userId },
       });
       if (res.ok) {
         const data = await res.json();
         setPreferences(data.preferences);
+        setIsAuthenticated(true);
+      } else if (res.status === 404) {
+        // ユーザーが認証されていない場合、デフォルト設定を使用
+        console.warn("User not authenticated, using default preferences");
+        setIsAuthenticated(false);
+        setPreferences(defaultUserPreferences);
+      } else {
+        console.error("Failed to fetch preferences:", res.status);
+        setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
+      // エラーが発生した場合もデフォルト設定を使用
+      setIsAuthenticated(false);
+      setPreferences(defaultUserPreferences);
     } finally {
       setIsLoading(false);
     }
-  }, [apiClient]);
+  }, [userId]);
 
   // 設定を更新
   const updatePreferences = useCallback(
@@ -49,18 +68,29 @@ const OnlinePreferences: React.FC = () => {
       if (!preferences) return;
 
       try {
+        const apiClient = createApiClient();
         const res = await apiClient["user"][":user_id"]["preferences"].$patch({
-          param: { user_id: "current" },
+          param: { user_id: userId },
           json: updates,
         });
         if (res.ok) {
           setPreferences({ ...preferences, ...updates });
+        } else if (res.status === 404) {
+          // ユーザーが認証されていない場合、ローカル状態のみ更新
+          console.warn("User not authenticated, updating local state only");
+          setPreferences({ ...preferences, ...updates });
+        } else {
+          console.error("Failed to update preferences:", res.status);
+          // エラーが発生してもローカル状態は更新する
+          setPreferences({ ...preferences, ...updates });
         }
       } catch (error) {
         console.error("Failed to update preferences:", error);
+        // エラーが発生してもローカル状態は更新する
+        setPreferences({ ...preferences, ...updates });
       }
     },
-    [apiClient, preferences]
+    [preferences, userId]
   );
 
   // 初期設定取得
@@ -92,6 +122,16 @@ const OnlinePreferences: React.FC = () => {
 
   return (
     <Flex direction="column" gap="lg" mb="lg">
+      {isAuthenticated === false && (
+        <Alert
+          icon={<IconInfoCircle size={16} />}
+          title="ゲストモード"
+          color="blue"
+          variant="light"
+        >
+          サインインしていないため、設定の変更はこのセッション中のみ有効です。
+        </Alert>
+      )}
       <Switch
         checked={computedColorScheme === "dark"}
         onChange={() => {

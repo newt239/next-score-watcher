@@ -47,7 +47,7 @@ const GameLogs: React.FC<Props> = ({ logs, players, order, onToggleOrder }) => {
   }, [copied]);
 
   const copyAsHTML = async () => {
-    const logsWithTableFormat = `<table>${shownLogs
+    const logsWithTableFormat = `<table><tbody>${shownLogs
       .map((log, qn) => {
         const player = players.find((p) => p.id === log.player_id);
         return `
@@ -67,7 +67,7 @@ const GameLogs: React.FC<Props> = ({ logs, players, order, onToggleOrder }) => {
         </tr>`;
       })
       .join("")}
-    </table>`;
+    </tbody></table>`;
 
     try {
       const blob = new Blob([logsWithTableFormat], {

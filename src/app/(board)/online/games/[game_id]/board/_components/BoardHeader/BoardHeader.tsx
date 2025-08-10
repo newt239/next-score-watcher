@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { ActionIcon, Box, Flex, Menu, MenuDivider } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -9,6 +11,7 @@ import {
   IconComet,
   IconMaximize,
   IconSettings,
+  IconSquare,
 } from "@tabler/icons-react";
 
 import PreferenceDrawer from "../PreferenceDrawer";
@@ -21,12 +24,20 @@ import type { RuleNames } from "@/utils/types";
 import Link from "@/app/_components/Link";
 import { rules } from "@/utils/rules";
 
+type OnlineGame = {
+  id: string;
+  name: string;
+  ruleType: RuleNames;
+  win_point?: number; // nbyn形式で使用
+};
+
 type Props = {
-  game: { id: string; name: string; ruleType: RuleNames };
+  game: OnlineGame;
   logsLength: number;
   onUndo: () => void;
   onThrough: () => void;
   preferences: UserPreferencesType | null;
+  userId: string;
 };
 
 const BoardHeader: React.FC<Props> = ({
@@ -35,19 +46,25 @@ const BoardHeader: React.FC<Props> = ({
   onUndo,
   onThrough,
   preferences,
+  userId,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [isFullscreenEnabled, setIsFullscreenEnabled] = useState(false);
 
   // API経由で設定を取得（デフォルト値を設定）
   const showBoardHeader = preferences?.showBoardHeader ?? true;
   const showQn = preferences?.showQn ?? false;
 
-  const getRuleStringByType = (gameData: {
-    name: string;
-    ruleType: RuleNames;
-  }) => {
-    const rule = rules[gameData.ruleType];
-    return rule ? rule.name : gameData.ruleType;
+  useEffect(() => {
+    // クライアントサイドでのみフルスクリーン機能の有効性をチェック
+    setIsFullscreenEnabled(
+      typeof document !== "undefined" && document.fullscreenEnabled
+    );
+  }, []);
+
+  // オンライン版用のルール名表示関数
+  const getRuleDisplayName = (ruleType: RuleNames): string => {
+    return rules[ruleType].name;
   };
 
   if (!showBoardHeader) return null;
@@ -68,13 +85,13 @@ const BoardHeader: React.FC<Props> = ({
           game.name === rules[game.ruleType].name || game.name === "" ? (
             <div className={classes.game_name_only} data-showqn={showQn}>
               <span>Q{logsLength + 1}</span>
-              <span>{getRuleStringByType(game)}</span>
+              <span>{getRuleDisplayName(game.ruleType)}</span>
             </div>
           ) : (
             <Flex className={classes.game_info_wrapper}>
               <Flex className={classes.game_info_area} data-showqn={showQn}>
                 <div className={classes.game_name}>{game.name}</div>
-                <div>{getRuleStringByType(game)}</div>
+                <div>{getRuleDisplayName(game.ruleType)}</div>
               </Flex>
               {showQn && (
                 <Flex className={classes.quiz_number_area}>
@@ -112,7 +129,16 @@ const BoardHeader: React.FC<Props> = ({
             >
               一つ戻す
             </Menu.Item>
-            {typeof document !== "undefined" && document.fullscreenEnabled && (
+            {game.ruleType !== "aql" && (
+              <Menu.Item
+                leftSection={<IconSquare />}
+                disabled // オンライン版では手動更新機能は無効
+                title="オンライン版では利用できません"
+              >
+                スコアの手動更新
+              </Menu.Item>
+            )}
+            {isFullscreenEnabled && (
               <Menu.Item
                 leftSection={<IconMaximize />}
                 onClick={() => {
@@ -140,7 +166,7 @@ const BoardHeader: React.FC<Props> = ({
           </Menu.Dropdown>
         </Menu>
       </Flex>
-      <PreferenceDrawer isOpen={opened} onClose={close} />
+      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
     </>
   );
 };

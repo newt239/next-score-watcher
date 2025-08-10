@@ -5,9 +5,10 @@ import OnlinePreferences from "./OnlinePreferences";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  userId: string;
 };
 
-const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
+const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose, userId }) => {
   const commands = [
     {
       key: "1",
@@ -47,7 +48,7 @@ const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
         </Tabs.List>
         <Box py="lg">
           <Tabs.Panel value="preferences">
-            <OnlinePreferences />
+            <OnlinePreferences userId={userId} />
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>

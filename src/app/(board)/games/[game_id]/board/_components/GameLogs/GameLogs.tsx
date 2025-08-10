@@ -60,7 +60,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
           <Button
             size="xs"
             onClick={() => {
-              const logsWithTableFormat = `<table>${(reverse
+              const logsWithTableFormat = `<table><tbody>${(reverse
                 ? filterdLogs.slice().reverse()
                 : filterdLogs
               ).map((log, qn) => {
@@ -97,7 +97,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
                   }
                 </tr>`;
               })}
-            </table>`;
+            </tbody></table>`;
               const blob = new Blob([logsWithTableFormat], {
                 type: "text/html",
               });

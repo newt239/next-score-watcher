@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { Button, Group, ScrollArea } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -25,6 +27,7 @@ type Props = {
   onUndo: () => void;
   onThrough: () => void;
   _preferences: UserPreferencesType | null;
+  userId: string;
 };
 
 const ActionButtons: React.FC<Props> = ({
@@ -33,8 +36,17 @@ const ActionButtons: React.FC<Props> = ({
   onUndo,
   onThrough,
   _preferences,
+  userId,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
+  const [isFullscreenEnabled, setIsFullscreenEnabled] = useState(false);
+
+  useEffect(() => {
+    // クライアントサイドでのみフルスクリーン機能の有効性をチェック
+    setIsFullscreenEnabled(
+      typeof document !== "undefined" && document.fullscreenEnabled
+    );
+  }, []);
 
   return (
     <>
@@ -62,7 +74,7 @@ const ActionButtons: React.FC<Props> = ({
           >
             一つ戻す
           </Button>
-          {typeof document !== "undefined" && document.fullscreenEnabled && (
+          {isFullscreenEnabled && (
             <Button
               visibleFrom="md"
               size="xs"
@@ -97,7 +109,7 @@ const ActionButtons: React.FC<Props> = ({
           </ButtonLink>
         </Group>
       </ScrollArea>
-      <PreferenceDrawer isOpen={opened} onClose={close} />
+      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
     </>
   );
 };

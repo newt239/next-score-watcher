@@ -124,9 +124,11 @@ const Board: React.FC<Props> = ({
 
   // 設定を取得
   const fetchPreferences = useCallback(async () => {
+    if (!user?.id) return;
+
     try {
       const res = await api["user"][":user_id"]["preferences"].$get({
-        param: { user_id: "current" }, // 認証されたユーザーのID
+        param: { user_id: user.id },
       });
       if (res.ok) {
         const data = await res.json();
@@ -137,7 +139,7 @@ const Board: React.FC<Props> = ({
     } finally {
       setIsPreferencesLoading(false);
     }
-  }, [api]);
+  }, [api, user?.id]);
 
   const refreshLogs = useCallback(async () => {
     try {
@@ -351,6 +353,7 @@ const Board: React.FC<Props> = ({
         onUndo={undo}
         onThrough={addThrough}
         preferences={preferences}
+        userId={user.id}
       />
       {game.ruleType === "squarex" && (
         <Box
@@ -397,6 +400,7 @@ const Board: React.FC<Props> = ({
         onUndo={undo}
         onThrough={addThrough}
         _preferences={preferences}
+        userId={user.id}
       />
 
       <GameLogs

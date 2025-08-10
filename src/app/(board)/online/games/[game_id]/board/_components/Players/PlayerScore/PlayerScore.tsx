@@ -15,6 +15,7 @@ type OnlineGame = {
   id: string;
   name: string;
   ruleType: RuleNames;
+  win_point?: number; // nbyn形式で使用
 };
 
 type Props = {
@@ -137,7 +138,246 @@ const PlayerScore: React.FC<Props> = ({
           </Flex>
         </>
       )}
-      {/* 他の形式は必要に応じて追加 */}
+      {game.ruleType === "nomx-ad" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <PlayerScoreButton color="red" filled={player.stage === 2} {...props}>
+            {getNumberSign("correct", player.correct)}
+          </PlayerScoreButton>
+          <PlayerScoreButton color="blue" {...props}>
+            {getNumberSign("wrong", player.wrong)}
+          </PlayerScoreButton>
+        </>
+      )}
+      {game.ruleType === "nbyn" && (
+        <>
+          <PlayerScoreButton
+            color={player.state}
+            disabled
+            filled={player.state === "playing"}
+            {...props}
+          >
+            {player.text}
+          </PlayerScoreButton>
+          <PlayerScoreButton color="green" disabled {...props}>
+            {`${player.correct}✕${(game.win_point || 7) - player.wrong}`}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "nupdown" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "divide" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "swedish10" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              color="red"
+              compact
+              disabled={player.state === "lose"}
+              {...props}
+            >
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              color="blue"
+              compact
+              disabled={player.state === "lose"}
+              {...props}
+            >
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "backstream" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "attacksurvival" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "squarex" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <PlayerScoreButton color="green" disabled filled {...props}>
+            {`${player.odd_score}✕${player.even_score}`}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "z" && (
+        <>
+          <PlayerScoreButton
+            color={player.text === "休" ? "blue" : player.state}
+            disabled
+            filled={player.text === "休"}
+            {...props}
+          >
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton
+              color={player.text === "休" ? "gray" : "red"}
+              compact
+              disabled={player.text === "休"}
+              {...props}
+            >
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton
+              color={player.text === "休" ? "gray" : "blue"}
+              compact
+              disabled={player.text === "休"}
+              {...props}
+            >
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+        </>
+      )}
+      {game.ruleType === "freezex" && (
+        <>
+          <PlayerScoreButton
+            color={
+              player.is_incapacity || player.text.endsWith("休")
+                ? "gray"
+                : "red"
+            }
+            {...props}
+          >
+            {player.text}
+          </PlayerScoreButton>
+          <PlayerScoreButton
+            color="blue"
+            disabled={player.is_incapacity}
+            {...props}
+          >
+            {getNumberSign("wrong", player.wrong)}
+          </PlayerScoreButton>
+        </>
+      )}
+      {game.ruleType === "endless-chance" && (
+        <>
+          <PlayerScoreButton
+            disabled={player.is_incapacity}
+            color="red"
+            {...props}
+          >
+            {player.state === "win"
+              ? player.text
+              : getNumberSign("correct", player.correct)}
+          </PlayerScoreButton>
+          <PlayerScoreButton
+            color="blue"
+            disabled={player.is_incapacity}
+            {...props}
+          >
+            {player.state === "lose" || player.is_incapacity
+              ? player.text
+              : getNumberSign("wrong", player.wrong)}
+          </PlayerScoreButton>
+        </>
+      )}
+      {game.ruleType === "variables" && (
+        <>
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+          <Flex className={classes.player_score_pair}>
+            <PlayerScoreButton color="red" compact {...props}>
+              {getNumberSign("correct", player.correct)}
+            </PlayerScoreButton>
+            <PlayerScoreButton color="blue" compact {...props}>
+              {getNumberSign("wrong", player.wrong)}
+            </PlayerScoreButton>
+          </Flex>
+          <PlayerScoreButton color="green" disabled {...props}>
+            {/* variables形式の場合、プレイヤー固有の設定を表示する必要がありますが、
+                オンライン版では実装が複雑なため、プレースホルダーを表示 */}
+            {`+1 / -1`}
+          </PlayerScoreButton>
+        </>
+      )}
+      {game.ruleType === "aql" && (
+        <>
+          {/* AQL形式は専用のAQLコンポーネントで処理されるため、ここでは基本的な表示のみ */}
+          <PlayerScoreButton color={player.state} disabled {...props}>
+            {player.text}
+          </PlayerScoreButton>
+        </>
+      )}
     </Flex>
   );
 };

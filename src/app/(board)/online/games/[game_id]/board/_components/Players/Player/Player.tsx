@@ -23,6 +23,7 @@ type OnlineGame = {
   id: string;
   name: string;
   ruleType: RuleNames;
+  win_point?: number; // nbyn形式で使用
 };
 
 type Props = {
@@ -33,6 +34,7 @@ type Props = {
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
   preferences: UserPreferencesType | null;
+  totalPlayers: number;
 };
 
 const Player: React.FC<Props> = ({
@@ -43,6 +45,7 @@ const Player: React.FC<Props> = ({
   isPending,
   onAddLog,
   preferences,
+  totalPlayers,
 }) => {
   const computedColorScheme = useComputedColorScheme("light");
 
@@ -75,9 +78,7 @@ const Player: React.FC<Props> = ({
       }
       w={{
         base: "100%",
-        md: `clamp(8vw, ${
-          (98 - 5) / 5 // 仮で5プレイヤーとして計算
-        }vw, 15vw)`,
+        md: `clamp(8vw, ${(98 - totalPlayers) / totalPlayers}vw, 15vw)`,
       }}
       style={{
         borderColor: `var(--mantine-color-${(
