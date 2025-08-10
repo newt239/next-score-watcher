@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import {
   Flex,
+  Skeleton,
   Switch,
   useComputedColorScheme,
   useMantineColorScheme,
@@ -106,7 +107,17 @@ const Preferences: React.FC<PreferencesProps> = ({ userId }) => {
   );
 
   if (isLoading || !preferences) {
-    return <div>設定を読み込み中...</div>;
+    return (
+      <Flex direction="column" gap="lg" mb="lg">
+        <Skeleton height={36} radius="sm" />
+        <Skeleton height={36} radius="sm" />
+        <Skeleton height={36} radius="sm" />
+        <Skeleton height={36} radius="sm" />
+        <Skeleton height={36} radius="sm" />
+        <Skeleton height={36} radius="sm" />
+        <Skeleton height={60} radius="sm" />
+      </Flex>
+    );
   }
 
   return (

@@ -3,7 +3,10 @@ import { createFactory } from "hono/factory";
 
 import { UpdateUserPreferencesRequestSchema } from "@/models/user-preferences";
 import { getUserId } from "@/server/repositories/auth";
-import { updateUserPreferencesByUserId } from "@/server/repositories/user-preferences";
+import {
+  updateUserPreferencesByUserId,
+  ensureUserPreferences,
+} from "@/server/repositories/user-preferences";
 
 const factory = createFactory();
 
@@ -20,6 +23,11 @@ const handler = factory.createHandlers(
       }
 
       const preferences = c.req.valid("json");
+
+      // ユーザー設定が存在しない場合はデフォルト値で作成
+      await ensureUserPreferences(userId);
+
+      // 設定を更新
       await updateUserPreferencesByUserId(userId, preferences);
 
       return c.json({ success: true } as const);

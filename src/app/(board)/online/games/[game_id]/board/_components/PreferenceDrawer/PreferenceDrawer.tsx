@@ -1,6 +1,8 @@
 import { Box, Drawer, Kbd, Table, Tabs } from "@mantine/core";
 
-import Preferences from "./Preferences";
+import Preferences from "../Preferences";
+
+import styles from "./PreferenceDrawer.module.css";
 
 type PreferenceDrawerProps = {
   isOpen: boolean;
@@ -50,20 +52,22 @@ const PreferenceDrawer: React.FC<PreferenceDrawerProps> = ({
           <Tabs.Tab value="preferences">表示設定</Tabs.Tab>
           <Tabs.Tab value="shortcuts">ショートカット</Tabs.Tab>
         </Tabs.List>
-        <Box py="lg">
+        <Box py="lg" className={styles["tab_panel_area"]}>
           <Tabs.Panel value="preferences">
             <Preferences userId={userId} />
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>
-              {commands.map((command, index) => (
-                <Table.Tr key={index}>
-                  <Table.Td>
-                    <Kbd>{command.key}</Kbd>
-                  </Table.Td>
-                  <Table.Td>{command.description}</Table.Td>
-                </Table.Tr>
-              ))}
+              <Table.Tbody>
+                {commands.map((command, index) => (
+                  <Table.Tr key={index}>
+                    <Table.Td>
+                      <Kbd>{command.key}</Kbd>
+                    </Table.Td>
+                    <Table.Td>{command.description}</Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
             </Table>
           </Tabs.Panel>
         </Box>

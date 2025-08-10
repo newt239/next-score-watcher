@@ -14,7 +14,7 @@ import {
   IconSquare,
 } from "@tabler/icons-react";
 
-import PreferenceDrawer from "../PreferenceDrawer";
+import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 
 import classes from "./BoardHeader.module.css";
 

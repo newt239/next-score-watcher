@@ -35,7 +35,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       try {
         const apiClient = createApiClient();
         const data = await parseResponse(
-          apiClient["games"][":gameId"]["settings"].$get({
+          apiClient.games[":gameId"].settings.$get({
             param: { gameId },
           })
         );
@@ -185,15 +185,6 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {ruleType === "aql" && (
         <AQLOptions gameId={gameId} ruleType={ruleType} settings={settings} />
       )}
-
-      {/* Discord Webhook URL */}
-      <ConfigInput
-        gameId={gameId}
-        label="Discord Webhook URL"
-        placeholder="https://discord.com/api/webhooks/..."
-        value={settings.discordWebhookUrl || ""}
-        fieldName="discordWebhookUrl"
-      />
     </Flex>
   );
 };

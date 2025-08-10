@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import { NativeSelect, NumberInput } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconUpload } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 
 import type { GameDBQuizProps } from "@/utils/types";
 
@@ -26,13 +27,13 @@ const SelectQuizset: React.FC<Props> = ({
   game_quiz,
   quizset_names,
 }) => {
+  const apiClient = createApiClient();
   const [isPending, startTransition] = useTransition();
 
   const updateQuizSetting = async (quiz: GameDBQuizProps) => {
     startTransition(async () => {
-      try {
-        const apiClient = createApiClient();
-        const response = await apiClient.games.$patch({
+      const data = await parseResponse(
+        apiClient.games.$patch({
           json: [
             {
               id: game_id,
@@ -42,18 +43,11 @@ const SelectQuizset: React.FC<Props> = ({
               },
             },
           ],
-        });
+        })
+      );
 
-        if (!response.ok) {
-          throw new Error("Failed to update quiz setting");
-        }
-
-        const result = await response.json();
-        if (result.success) {
-          console.log("Quiz setting updated successfully:", result.data);
-        }
-      } catch (error) {
-        console.error("Failed to update quiz setting:", error);
+      if (!data.success) {
+        console.log("Failed to update quiz setting");
       }
     });
   };

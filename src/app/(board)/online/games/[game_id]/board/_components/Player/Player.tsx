@@ -49,7 +49,6 @@ const Player: React.FC<Props> = ({
 }) => {
   const computedColorScheme = useComputedColorScheme("light");
 
-  // API経由で設定を取得（デフォルト値を設定）
   const reversePlayerInfo = preferences?.reversePlayerInfo ?? false;
 
   if (!score) return null;

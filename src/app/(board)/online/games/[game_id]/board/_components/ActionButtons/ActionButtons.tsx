@@ -12,7 +12,7 @@ import {
   IconMaximize,
 } from "@tabler/icons-react";
 
-import PreferenceDrawer from "../PreferenceDrawer";
+import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 
 import classes from "./ActionButtons.module.css";
 
