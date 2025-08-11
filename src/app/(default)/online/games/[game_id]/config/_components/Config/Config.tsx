@@ -9,13 +9,13 @@ import RuleSettings from "../RuleSettings";
 
 import classes from "./Config.module.css";
 
-import type { OnlineGameType, OnlineUserType } from "@/models/games";
 import type {
-  GamePropsUnion,
-  LogDBProps,
-  PlayerDBProps,
-  RuleNames,
-} from "@/utils/types";
+  OnlineGameExecutionPlayerType,
+  OnlineGameLogType,
+  OnlineGameType,
+  OnlineUserType,
+} from "@/models/games";
+import type { GamePropsUnion, PlayerDBProps, RuleNames } from "@/utils/types";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
@@ -24,9 +24,12 @@ import { rules } from "@/utils/rules";
 type Props = {
   gameId: string;
   user: OnlineUserType | null;
-  initialGame: OnlineGameType;
+  initialGame: OnlineGameType & {
+    players?: OnlineGameExecutionPlayerType[];
+    settings?: Record<string, unknown>;
+  };
   initialPlayers: unknown[];
-  initialLogs: unknown[];
+  initialLogs: OnlineGameLogType[];
 };
 
 const Config: React.FC<Props> = ({
@@ -47,12 +50,6 @@ const Config: React.FC<Props> = ({
   const convertedPlayers = (initialPlayers as unknown[]).map((p) => {
     const player = p as PlayerDBProps;
     return player;
-  });
-
-  // ログデータの変換
-  const convertedLogs = (initialLogs as unknown[]).map((l) => {
-    const log = l as LogDBProps;
-    return log;
   });
 
   if (!user) return <NotFound />;
@@ -79,7 +76,7 @@ const Config: React.FC<Props> = ({
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-      <GameStartButton logs={convertedLogs} />
+      <GameStartButton logs={initialLogs} game={initialGame} />
       <Tabs
         pt="lg"
         variant="outline"

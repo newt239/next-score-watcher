@@ -1,65 +1,25 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 import { Box, Button, Flex } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 
 import classes from "./GameStartButton.module.css";
 
-import type { GameDBPlayerProps, RuleNames } from "@/utils/types";
+import type {
+  OnlineGameExecutionPlayerType,
+  OnlineGameLogType,
+  OnlineGameType,
+} from "@/models/games";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import createApiClient from "@/utils/hono/client";
 
-type Props = {
-  logs: unknown[];
+type GameStartButtonProps = {
+  logs: OnlineGameLogType[];
+  game: OnlineGameType & {
+    players?: OnlineGameExecutionPlayerType[];
+    settings?: Record<string, unknown>;
+  };
 };
 
-type Game = {
-  id: string;
-  name: string;
-  ruleType: RuleNames;
-  createdAt: string;
-  updatedAt: string;
-  discordWebhookUrl?: string | null;
-  players?: GameDBPlayerProps[];
-  settings?: Record<string, unknown>;
-};
-
-const GameStartButton: React.FC<Props> = ({ logs }) => {
-  const [game, setGame] = useState<Game | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchGameData = async () => {
-      try {
-        const gameId = window.location.pathname.split("/")[4];
-        const apiClient = createApiClient();
-        const response = await apiClient["games"][":gameId"].$get({
-          param: { gameId },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if ("game" in data) {
-            setGame(data.game);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch game data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGameData();
-  }, []);
-
-  if (loading || !game) {
-    return null;
-  }
-
+const GameStartButton: React.FC<GameStartButtonProps> = ({ logs, game }) => {
   const errorMessages = [];
   if (!game.players || game.players.length === 0) {
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");

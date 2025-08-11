@@ -325,6 +325,18 @@ export type OnlineGamePlayerType = {
 };
 
 /**
+ * オンラインゲーム実行時のプレイヤー型（ローカルDBのGameDBPlayerPropsと同等）
+ */
+export type OnlineGameExecutionPlayerType = {
+  id: string;
+  name: string;
+  initial_correct: number;
+  initial_wrong: number;
+  base_correct_point: number;
+  base_wrong_point: number;
+};
+
+/**
  * オンラインゲームログ情報の型（API専用）
  */
 export type OnlineGameLogType = {

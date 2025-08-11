@@ -5,6 +5,8 @@ import { parseResponse } from "hono/client";
 
 import Config from "./_components/Config/Config";
 
+import type { OnlineGameLogType } from "@/models/games";
+
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server-client";
 
@@ -63,7 +65,7 @@ const ConfigPage = async ({
   }
 
   // ログデータの抽出とフィルタリング
-  let filteredLogs: unknown[] = [];
+  let filteredLogs: OnlineGameLogType[] = [];
   if ("logs" in logsData && Array.isArray(logsData.logs)) {
     filteredLogs = logsData.logs
       .filter((log: unknown) => {
@@ -71,23 +73,15 @@ const ConfigPage = async ({
         return typedLog.system === 0 && typedLog.available === 1;
       })
       .map((log: unknown) => {
-        const typedLog = log as { system: number; available: number };
-        return {
-          ...typedLog,
-          system: typedLog.system as 0 | 1,
-          available: typedLog.available as 0 | 1,
-        };
+        return log as OnlineGameLogType;
       });
   }
-
-  // ゲームオブジェクトからplayersを除外
-  const { players: _, ...gameWithoutPlayers } = gameData.game;
 
   return (
     <Config
       gameId={game_id}
       user={user}
-      initialGame={gameWithoutPlayers}
+      initialGame={gameData.game}
       initialPlayers={allPlayers}
       initialLogs={filteredLogs}
     />
