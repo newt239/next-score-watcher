@@ -9,13 +9,13 @@ import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
 
-import type { GamePropsUnion } from "@/utils/types";
+import type { OnlineGameProps } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";
 
 type DeleteGamePropsUnion = {
-  game: GamePropsUnion;
+  game: OnlineGameProps;
 };
 
 /**

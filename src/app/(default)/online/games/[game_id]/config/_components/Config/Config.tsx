@@ -10,12 +10,12 @@ import RuleSettings from "../RuleSettings";
 import classes from "./Config.module.css";
 
 import type {
-  OnlineGameExecutionPlayerType,
+  OnlineGameDBPlayerProps,
   OnlineGameLogType,
   OnlineGameType,
+  OnlinePlayerDBProps,
   OnlineUserType,
 } from "@/models/games";
-import type { GamePropsUnion, PlayerDBProps, RuleNames } from "@/utils/types";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
@@ -25,10 +25,10 @@ type Props = {
   gameId: string;
   user: OnlineUserType | null;
   initialGame: OnlineGameType & {
-    players?: OnlineGameExecutionPlayerType[];
-    settings?: Record<string, unknown>;
+    players: OnlineGameDBPlayerProps[];
+    settings: Record<string, unknown>;
   };
-  initialPlayers: unknown[];
+  initialPlayers: OnlinePlayerDBProps[];
   initialLogs: OnlineGameLogType[];
 };
 
@@ -39,19 +39,6 @@ const Config: React.FC<Props> = ({
   initialPlayers,
   initialLogs,
 }) => {
-  const refreshGameData = () => {
-    // プレイヤー更新時のリフレッシュ処理
-    // 現在はサーバーコンポーネントで初期データ取得しているため、
-    // 更新はページリロードが必要
-    window.location.reload();
-  };
-
-  // プレイヤーデータの変換
-  const convertedPlayers = (initialPlayers as unknown[]).map((p) => {
-    const player = p as PlayerDBProps;
-    return player;
-  });
-
   if (!user) return <NotFound />;
 
   return (
@@ -97,34 +84,26 @@ const Config: React.FC<Props> = ({
             <PlayersConfig
               game_id={gameId}
               rule={initialGame.ruleType}
-              playerList={convertedPlayers}
-              players={[]}
-              onPlayersUpdated={refreshGameData}
+              playerList={initialPlayers}
+              players={initialGame.players}
             />
           </Tabs.Panel>
           <Tabs.Panel value="other">
             <OtherConfig
-              game={
-                {
-                  id: initialGame.id,
-                  name: initialGame.name,
-                  rule: initialGame.ruleType as Exclude<
-                    RuleNames,
-                    "nomx-ad" | "endless-chance"
-                  >,
-                  discord_webhook_url: initialGame.discordWebhookUrl || "",
-                  players: [],
-                  quiz: undefined,
-                  correct_me: 0,
-                  wrong_me: 0,
-                  options:
-                    initialGame.ruleType === "aql"
-                      ? { left_team: "", right_team: "" }
-                      : undefined,
-                  editable: false,
-                  last_open: new Date().toISOString(),
-                } as GamePropsUnion
-              }
+              game={{
+                id: initialGame.id,
+                name: initialGame.name,
+                rule: initialGame.ruleType,
+                discord_webhook_url: initialGame.discordWebhookUrl || "",
+                correct_me: 0,
+                wrong_me: 0,
+                options:
+                  initialGame.ruleType === "aql"
+                    ? { left_team: "", right_team: "" }
+                    : undefined,
+                editable: false,
+                last_open: new Date().toISOString(),
+              }}
             />
           </Tabs.Panel>
         </Box>

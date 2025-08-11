@@ -10,7 +10,10 @@ import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 
-import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
+import type {
+  OnlineGameDBPlayerProps,
+  OnlinePlayerDBProps,
+} from "@/models/games";
 import type { UseFormReturnType } from "@mantine/form";
 
 import ButtonLink from "@/app/_components/ButtonLink";
@@ -18,18 +21,17 @@ import Link from "@/app/_components/Link";
 
 type Props = {
   game_id: string;
-  playerList: PlayerDBProps[];
-  players: GameDBPlayerProps[];
+  playerList: OnlinePlayerDBProps[];
+  players: OnlineGameDBPlayerProps[];
   form: UseFormReturnType<
     {
-      players: GameDBPlayerProps[];
+      players: OnlineGameDBPlayerProps[];
     },
-    (values: { players: GameDBPlayerProps[] }) => {
-      players: GameDBPlayerProps[];
+    (values: { players: OnlineGameDBPlayerProps[] }) => {
+      players: OnlineGameDBPlayerProps[];
     }
   >;
   disabled?: boolean;
-  onPlayersUpdated?: () => void;
 };
 
 /**
@@ -42,7 +44,6 @@ const SelectPlayer: React.FC<Props> = ({
   players,
   form,
   disabled = false,
-  onPlayersUpdated,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -100,7 +101,6 @@ const SelectPlayer: React.FC<Props> = ({
                       game_id={game_id}
                       playerList={playerList}
                       form={form}
-                      onPlayersUpdated={onPlayersUpdated}
                     />
                   )}
                 </Accordion.Panel>

@@ -8,13 +8,13 @@ import classes from "./AQL.module.css";
 
 import type {
   ComputedScoreProps,
-  GameDBPlayerProps,
+  OnlineGameDBPlayerProps,
   LogDBProps,
-} from "@/utils/types";
+} from "@/models/games";
 
 type AQLProps = {
   scores: ComputedScoreProps[];
-  players: GameDBPlayerProps[];
+  players: OnlineGameDBPlayerProps[];
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
   team_name: {
@@ -38,7 +38,7 @@ const AQL: React.FC<AQLProps> = ({
       return { player, score };
     })
     .filter((item) => item.score !== undefined) as {
-    player: GameDBPlayerProps;
+    player: OnlineGameDBPlayerProps;
     score: ComputedScoreProps;
   }[];
 

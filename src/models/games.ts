@@ -1,6 +1,118 @@
 import { z } from "zod";
 
-import type { RuleNames, Variants } from "@/utils/types";
+/**
+ * ルール名の型定義
+ */
+export type RuleNames =
+  | "normal"
+  | "nomx"
+  | "nomx-ad"
+  | "ny"
+  | "nomr"
+  | "nbyn"
+  | "nupdown"
+  | "divide"
+  | "swedish10"
+  | "backstream"
+  | "attacksurvival"
+  | "squarex"
+  | "z"
+  | "freezex"
+  | "endless-chance"
+  | "variables"
+  | "aql";
+
+/**
+ * 操作の種類の型定義
+ */
+export type Variants =
+  | "correct"
+  | "wrong"
+  | "through"
+  | "mutiple_correct"
+  | "multiple_wrong"
+  | "skip"
+  | "blank";
+
+/**
+ * オンライン版での GameProps 型（ローカル版の GamePropsUnion に相当）
+ */
+export type OnlineGameProps = {
+  id: string;
+  name: string;
+  rule: RuleNames;
+  discord_webhook_url: string;
+  correct_me: number;
+  wrong_me: number;
+  options?: {
+    left_team?: string;
+    right_team?: string;
+  };
+  editable: boolean;
+  last_open: string;
+};
+
+/**
+ * オンライン版でのプレイヤーDB型（ローカル版の PlayerDBProps に相当）
+ */
+export type OnlinePlayerDBProps = {
+  id: string;
+  name: string;
+  text: string;
+  belong: string;
+  tags: string[];
+};
+
+/**
+ * オンライン版でのゲームプレイヤー型（ローカル版の GameDBPlayerProps に相当）
+ */
+export type OnlineGameDBPlayerProps = {
+  id: string;
+  name: string;
+  initial_correct: number;
+  initial_wrong: number;
+  base_correct_point: number;
+  base_wrong_point: number;
+};
+
+/**
+ * プレイヤーの状態の型定義
+ */
+export type States = "win" | "lose" | "playing";
+
+/**
+ * 計算されたスコアの型定義
+ */
+export type ComputedScoreProps = {
+  game_id: string;
+  player_id: string;
+  state: States;
+  reach_state: States;
+  score: number;
+  correct: number; // 正解数
+  wrong: number; // 誤答数
+  last_correct: number; // 最後に正解した問題番号
+  last_wrong: number; // 最後に誤答した問題番号
+  odd_score: number; // 奇数問目のスコア
+  even_score: number; // 偶数問目のスコア
+  stage: number;
+  is_incapacity: boolean;
+  order: number; // プレイヤー同士の評価順
+  text: string; // 画面上に表示するための文字
+};
+
+/**
+ * オンライン版でのログDB型（ローカル版の LogDBProps に相当）
+ */
+export type LogDBProps = {
+  id: string;
+  game_id: string;
+  player_id: string;
+  variant: Variants;
+  system: 0 | 1;
+  timestamp: string;
+  available: 0 | 1;
+};
 
 /**
  * ゲーム作成の基本スキーマ

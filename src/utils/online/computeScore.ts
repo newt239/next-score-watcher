@@ -7,4 +7,4 @@ export type {
   OnlineSettings,
   OnlineGameWithSettings,
 } from "./computeScore/index";
-export type { States } from "@/utils/types";
+export type { States } from "@/models/games";

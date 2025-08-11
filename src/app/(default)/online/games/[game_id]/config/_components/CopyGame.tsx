@@ -8,12 +8,12 @@ import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { parseResponse } from "hono/client";
 
-import type { GamePropsUnion } from "@/utils/types";
+import type { OnlineGameProps } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 
 type CopyGamePropsUnion = {
-  game: GamePropsUnion;
+  game: OnlineGameProps;
 };
 
 /**

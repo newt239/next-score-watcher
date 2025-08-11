@@ -5,7 +5,7 @@ import { parseResponse } from "hono/client";
 
 import Config from "./_components/Config/Config";
 
-import type { OnlineGameLogType } from "@/models/games";
+import type { OnlineGameLogType, OnlinePlayerDBProps } from "@/models/games";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server-client";
@@ -43,12 +43,12 @@ const ConfigPage = async ({
     ),
   ]);
 
-  if ("error" in gameData) {
+  if ("error" in gameData || "error" in playersData || "error" in logsData) {
     redirect("/online/games");
   }
 
   // プレイヤーデータの抽出
-  let allPlayers: unknown[] = [];
+  let allPlayers: OnlinePlayerDBProps[] = [];
   if ("players" in playersData && Array.isArray(playersData.players)) {
     allPlayers = playersData.players;
   } else if (
@@ -58,9 +58,9 @@ const ConfigPage = async ({
   ) {
     const data = playersData.data;
     if (data && typeof data === "object" && "players" in data) {
-      allPlayers = data.players as unknown[];
+      allPlayers = data.players as OnlinePlayerDBProps[];
     } else if (Array.isArray(data)) {
-      allPlayers = data;
+      allPlayers = data as OnlinePlayerDBProps[];
     }
   }
 
@@ -81,7 +81,7 @@ const ConfigPage = async ({
     <Config
       gameId={game_id}
       user={user}
-      initialGame={gameData.game}
+      initialGame={{ ...gameData.game, settings: {} }}
       initialPlayers={allPlayers}
       initialLogs={filteredLogs}
     />

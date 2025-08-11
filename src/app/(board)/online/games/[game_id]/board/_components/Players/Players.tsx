@@ -6,13 +6,13 @@ import Player from "../Player/Player";
 
 import classes from "./Players.module.css";
 
-import type { UserPreferencesType } from "@/models/user-preferences";
 import type {
   ComputedScoreProps,
-  GameDBPlayerProps,
   LogDBProps,
+  OnlineGameDBPlayerProps,
   RuleNames,
-} from "@/utils/types";
+} from "@/models/games";
+import type { UserPreferencesType } from "@/models/user-preferences";
 
 type OnlineGame = {
   id: string;
@@ -24,7 +24,7 @@ type OnlineGame = {
 type PlayersProps = {
   game: OnlineGame;
   scores: ComputedScoreProps[];
-  players: GameDBPlayerProps[];
+  players: OnlineGameDBPlayerProps[];
   isPending: boolean;
   onAddLog: (playerId: string, actionType: LogDBProps["variant"]) => void;
   preferences: UserPreferencesType | null;

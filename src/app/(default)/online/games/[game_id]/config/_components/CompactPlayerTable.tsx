@@ -16,7 +16,10 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
+import type {
+  OnlineGameDBPlayerProps,
+  OnlinePlayerDBProps,
+} from "@/models/games";
 import type { UseFormReturnType } from "@mantine/form";
 
 import ButtonLink from "@/app/_components/ButtonLink";
@@ -25,17 +28,16 @@ import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
-  playerList: PlayerDBProps[];
-  gamePlayers: GameDBPlayerProps[];
+  playerList: OnlinePlayerDBProps[];
+  gamePlayers: OnlineGameDBPlayerProps[];
   form: UseFormReturnType<
     {
-      players: GameDBPlayerProps[];
+      players: OnlineGameDBPlayerProps[];
     },
-    (values: { players: GameDBPlayerProps[] }) => {
-      players: GameDBPlayerProps[];
+    (values: { players: OnlineGameDBPlayerProps[] }) => {
+      players: OnlineGameDBPlayerProps[];
     }
   >;
-  onPlayersUpdated?: () => void;
 };
 
 /**
@@ -47,7 +49,6 @@ const CompactPlayerTable: React.FC<Props> = ({
   playerList,
   gamePlayers,
   form,
-  onPlayersUpdated,
 }) => {
   const [isPending, startTransition] = useTransition();
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
@@ -56,7 +57,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   );
   const [searchText, setSearchText] = useState<string>("");
 
-  const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
+  const fuzzyFilter: FilterFn<OnlinePlayerDBProps> = (row) => {
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
@@ -65,8 +66,8 @@ const CompactPlayerTable: React.FC<Props> = ({
     );
   };
 
-  const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns = useMemo<ColumnDef<PlayerDBProps, string>[]>(
+  const columnHelper = createColumnHelper<OnlinePlayerDBProps>();
+  const columns = useMemo<ColumnDef<OnlinePlayerDBProps, string>[]>(
     () => [
       columnHelper.accessor("id", {
         header: "",
@@ -99,7 +100,7 @@ const CompactPlayerTable: React.FC<Props> = ({
     [isPending]
   );
 
-  const table = useReactTable<PlayerDBProps>({
+  const table = useReactTable<OnlinePlayerDBProps>({
     data: playerList,
     columns,
     globalFilterFn: fuzzyFilter,
@@ -135,7 +136,7 @@ const CompactPlayerTable: React.FC<Props> = ({
       try {
         const newGamePlayerIds = table
           .getSelectedRowModel()
-          .rows.map(({ original }) => (original as PlayerDBProps).id);
+          .rows.map(({ original }) => (original as OnlinePlayerDBProps).id);
 
         if (newGamePlayerIds.length !== gamePlayerIds.length) {
           const sortedNewGamePlayerIds = [
@@ -149,7 +150,7 @@ const CompactPlayerTable: React.FC<Props> = ({
             ),
           ];
 
-          const newGamePlayers: GameDBPlayerProps[] =
+          const newGamePlayers: OnlineGameDBPlayerProps[] =
             sortedNewGamePlayerIds.map((player_id) => {
               const gamePlayer = gamePlayers.find(
                 (gamePlayer) => gamePlayer.id === player_id
@@ -167,7 +168,7 @@ const CompactPlayerTable: React.FC<Props> = ({
                   initial_wrong: 0,
                   base_correct_point: 1,
                   base_wrong_point: -1,
-                } as GameDBPlayerProps;
+                } as OnlineGameDBPlayerProps;
               }
             });
 
@@ -209,8 +210,6 @@ const CompactPlayerTable: React.FC<Props> = ({
 
           if (result.success) {
             console.log("Game players updated successfully:", result.data);
-            // プレイヤー更新成功時にコールバックを呼び出し
-            onPlayersUpdated?.();
           } else {
             console.error("API returned error:", result);
             throw new Error(

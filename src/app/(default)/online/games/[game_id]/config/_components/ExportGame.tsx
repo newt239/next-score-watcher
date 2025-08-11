@@ -9,12 +9,12 @@ import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { parseResponse } from "hono/client";
 
-import type { GamePropsUnion } from "@/utils/types";
+import type { OnlineGameProps } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  game: GamePropsUnion;
+  game: OnlineGameProps;
 };
 
 /**

@@ -24,11 +24,14 @@ import type {
   OnlineSettings,
   OnlineGameWithSettings,
 } from "./index";
-import type {
-  GameDBPlayerProps,
-  LogDBProps,
-  WinPlayerProps,
-} from "@/utils/types";
+import type { LogDBProps, OnlineGameDBPlayerProps } from "@/models/games";
+
+// WinPlayerPropsの代替型定義
+type WinPlayerProps = {
+  player_id: string;
+  name: string;
+  text: string;
+};
 
 /**
  * オンライン版のスコア計算（全形式対応）
@@ -36,7 +39,7 @@ import type {
  */
 export const computeOnlineScore = (
   game: OnlineGameCore,
-  players: GameDBPlayerProps[],
+  players: OnlineGameDBPlayerProps[],
   logs: LogDBProps[],
   settings?: OnlineSettings
 ) => {

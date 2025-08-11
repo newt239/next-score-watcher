@@ -18,7 +18,7 @@ import { notifications } from "@mantine/notifications";
 import { IconPlus } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
-import type { RuleNames } from "@/utils/types";
+import type { RuleNames } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 import { rules } from "@/utils/rules";

@@ -7,7 +7,11 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { IconUpload } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
-import type { GameDBQuizProps } from "@/utils/types";
+// GameDBQuizPropsの型定義
+type GameDBQuizProps = {
+  set_name: string;
+  offset: number;
+};
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import createApiClient from "@/utils/hono/client";
@@ -68,7 +72,7 @@ const SelectQuizset: React.FC<Props> = ({
               updateQuizSetting({
                 set_name: v.target.value,
                 offset: game_quiz?.offset || 0,
-              } as GameDBQuizProps);
+              });
             }}
             w="auto"
             disabled={isPending}
@@ -87,8 +91,8 @@ const SelectQuizset: React.FC<Props> = ({
               onChange={async (n) => {
                 updateQuizSetting({
                   set_name: game_quiz.set_name,
-                  offset: n,
-                } as GameDBQuizProps);
+                  offset: typeof n === "string" ? parseInt(n, 10) || 0 : n || 0,
+                });
               }}
               value={game_quiz.offset}
               disabled={isPending}

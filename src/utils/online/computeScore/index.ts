@@ -1,9 +1,9 @@
 import type {
   ComputedScoreProps,
-  GameDBPlayerProps,
+  OnlineGameDBPlayerProps,
   RuleNames,
   States,
-} from "@/utils/types";
+} from "@/models/games";
 
 export type OnlineGameCore = {
   id: string;
@@ -30,7 +30,7 @@ export type OnlineGameWithSettings = OnlineGameCore & OnlineSettings;
  */
 export const getInitialPlayersStateForOnline = (
   game: OnlineGameWithSettings,
-  players: GameDBPlayerProps[]
+  players: OnlineGameDBPlayerProps[]
 ): ComputedScoreProps[] => {
   return players.map((p) => ({
     game_id: game.id,
@@ -56,7 +56,7 @@ export const getInitialPlayersStateForOnline = (
  */
 const getInitialScore = (
   game: OnlineGameWithSettings,
-  player: GameDBPlayerProps
+  player: OnlineGameDBPlayerProps
 ): number => {
   switch (game.ruleType) {
     case "divide":
@@ -85,7 +85,7 @@ const getInitialScore = (
  */
 const getInitialCorrect = (
   game: OnlineGameWithSettings,
-  player: GameDBPlayerProps
+  player: OnlineGameDBPlayerProps
 ): number => {
   if (["attacksurvival", "squarex", "variables"].includes(game.ruleType)) {
     return 0;
@@ -98,7 +98,7 @@ const getInitialCorrect = (
  */
 const getInitialWrong = (
   game: OnlineGameWithSettings,
-  player: GameDBPlayerProps
+  player: OnlineGameDBPlayerProps
 ): number => {
   if (game.ruleType === "backstream") {
     return initialBackstreamWrong(player.initial_wrong);

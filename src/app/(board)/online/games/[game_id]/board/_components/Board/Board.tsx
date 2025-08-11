@@ -20,9 +20,13 @@ import Players from "../Players/Players";
 
 import classes from "./Board.module.css";
 
-import type { OnlineGameType, OnlineUserType } from "@/models/games";
+import type {
+  OnlineGameType,
+  OnlineUserType,
+  OnlineGameDBPlayerProps,
+  LogDBProps,
+} from "@/models/games";
 import type { UserPreferencesType } from "@/models/user-preferences";
-import type { GameDBPlayerProps, LogDBProps } from "@/utils/types";
 
 import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";
 import createApiClient from "@/utils/hono/client";
@@ -69,7 +73,7 @@ const Board: React.FC<BoardProps> = ({
     return log;
   });
 
-  const [players] = useState<GameDBPlayerProps[]>(convertedPlayers);
+  const [players] = useState<OnlineGameDBPlayerProps[]>(convertedPlayers);
   const [logs, setLogs] = useState<LogDBProps[]>(convertedLogs);
   const [isPending, startTransition] = useTransition();
   const [order, setOrder] = useState<"asc" | "desc">("asc");

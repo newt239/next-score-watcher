@@ -11,7 +11,7 @@ import ConfigInput from "./ConfigInput";
 import ConfigNumberInput from "./ConfigNumberInput";
 
 import type { GetGameSettingsResponseType } from "@/models/games";
-import type { RuleNames } from "@/utils/types";
+import type { RuleNames } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 

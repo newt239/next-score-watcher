@@ -1,7 +1,7 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
 import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/utils/types";
+import type { ComputedScoreProps, LogDBProps } from "@/models/games";
 
 /**
  * Divide形式のスコア計算
