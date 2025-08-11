@@ -156,7 +156,7 @@ export const getSortedPlayerOrderListForOnline = (
 export const indicator = (i: number): string => {
   i = Math.abs(i) + 1;
   const cent = i % 100;
-  if (cent >= 10 && cent <= 20) return `${i}st`;
+  if (cent === 11 || cent === 12 || cent === 13) return `${i}th`;
   const dec = i % 10;
   if (dec === 1) return `${i}st`;
   if (dec === 2) return `${i}nd`;
