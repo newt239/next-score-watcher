@@ -29,6 +29,8 @@ import getQuizDetailHandler from "./controllers/quiz/get-detail";
 import getQuizListHandler from "./controllers/quiz/get-list";
 import patchUpdateQuizHandler from "./controllers/quiz/patch-update";
 import postCreateQuizHandler from "./controllers/quiz/post-create";
+import deleteTestSessionHandler from "./controllers/test/delete-session";
+import postCreateTestSessionHandler from "./controllers/test/post-create-session";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
 
@@ -85,6 +87,9 @@ const app = new Hono()
   .patch("/quizes", ...patchUpdateQuizHandler)
   .delete("/quizes", ...deleteQuizHandler)
   .get("/quizes/:id", ...getQuizDetailHandler)
+  // Test endpoints (only available in non-production)
+  .post("/test/create-session", ...postCreateTestSessionHandler)
+  .delete("/test/cleanup-session/:sessionId", ...deleteTestSessionHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);
