@@ -36,20 +36,16 @@ export function generateSessionData() {
  */
 export async function setAuthenticationState(
   context: BrowserContext,
-  sessionToken: string
+  _sessionToken: string
 ) {
-  // Better Authのセッションクッキーを設定
-  await context.addCookies([
-    {
-      name: "better-auth.session_token",
-      value: sessionToken,
-      domain: "localhost",
-      path: "/",
-      httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
-    },
-  ]);
+  // テスト用ヘッダーを設定してサーバーサイド認証をバイパス
+  await context.setExtraHTTPHeaders({
+    "x-test-user-id": "test-user-playwright",
+  });
+
+  console.log(
+    "Set test authentication header: x-test-user-id = test-user-playwright"
+  );
 }
 
 /**

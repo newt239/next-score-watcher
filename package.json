@@ -14,7 +14,7 @@
     "stylelint:fix": "stylelint \"./**/*.css\" --ignore-path .gitignore --fix",
     "lint": "pnpm run eslint && pnpm run prettier && pnpm run stylelint",
     "lint:fix": "pnpm run eslint:fix && pnpm run prettier:fix && pnpm run stylelint:fix",
-    "playwright": "playwright test --ui",
+    "playwright": "playwright test",
     "vitest": "vitest",
     "vitest:ui": "vitest --ui",
     "gen": "cmk",

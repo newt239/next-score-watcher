@@ -8,8 +8,9 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 4,
   reporter: process.env.CI
     ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
-    : "html",
+    : "list",
   use: {
+    baseURL: "http://localhost:3000",
     channel: "chromium",
     headless: true,
     screenshot: process.env.CI ? "off" : "only-on-failure",
@@ -19,6 +20,9 @@ export default defineConfig({
     navigationTimeout: 60000,
     locale: "ja-JP",
     timezoneId: "Asia/Tokyo",
+    extraHTTPHeaders: {
+      "x-playwright-test": "true",
+    },
   },
   projects: [
     {

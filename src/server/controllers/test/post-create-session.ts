@@ -20,24 +20,35 @@ const handler = factory.createHandlers(async (c) => {
     const body = await c.req.json();
     const { sessionId, sessionToken, userId, expiresAt, user: userData } = body;
 
+    console.log("Creating test session with data:", {
+      sessionId,
+      sessionToken,
+      userId,
+      expiresAt,
+    });
+    console.log("User data:", userData);
+
     // ユーザーが存在しない場合は作成
     const existingUsers = await DBClient.select()
       .from(user)
       .where(eq(user.id, userId));
 
     if (existingUsers.length === 0) {
+      console.log("Creating test user:", userData);
       await DBClient.insert(user).values({
         id: userData.id,
         email: userData.email,
         name: userData.name,
         image: userData.image,
         emailVerified: userData.emailVerified,
-        createdAt: userData.createdAt,
-        updatedAt: userData.updatedAt,
+        // SQLite timestamp フィールドには現在時刻を使用
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
     }
 
     // セッションを作成
+    console.log("Creating test session");
     await DBClient.insert(session).values({
       id: sessionId,
       token: sessionToken,
@@ -45,12 +56,29 @@ const handler = factory.createHandlers(async (c) => {
       expiresAt: new Date(expiresAt),
       ipAddress: "127.0.0.1",
       userAgent: "playwright-test",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
 
+    console.log("Test session created successfully");
     return c.json({ success: true, sessionId, sessionToken } as const);
   } catch (error) {
     console.error("Error creating test session:", error);
-    return c.json({ error: "Failed to create session" } as const, 500);
+    console.error(
+      "Error details:",
+      error instanceof Error ? error.message : String(error)
+    );
+    console.error(
+      "Error stack:",
+      error instanceof Error ? error.stack : "No stack trace"
+    );
+    return c.json(
+      {
+        error: "Failed to create session",
+        details: error instanceof Error ? error.message : String(error),
+      } as const,
+      500
+    );
   }
 });
 

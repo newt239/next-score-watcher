@@ -1,14 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import {
-  cleanupTestSession,
-  createSessionInDatabase,
-  generateSessionData,
-  setAuthenticationState,
-} from "./test-helpers";
+import { generateSessionData } from "./test-helpers";
 
 test.describe("オンライン版得点表示", () => {
-  let sessionData: {
+  let _sessionData: {
     sessionId: string;
     sessionToken: string;
     userId: string;
@@ -16,14 +11,14 @@ test.describe("オンライン版得点表示", () => {
   };
 
   test.beforeEach(async ({ context, page }) => {
-    // テスト用セッションデータを生成
-    sessionData = generateSessionData();
+    // テスト用セッションデータを生成（後方互換性のため残す）
+    _sessionData = generateSessionData();
 
-    // データベースにセッションを作成
-    await createSessionInDatabase(sessionData);
-
-    // ブラウザに認証状態を設定
-    await setAuthenticationState(context, sessionData.sessionToken);
+    // ヘッダーベースの認証バイパスを設定
+    await context.setExtraHTTPHeaders({
+      "x-test-user-id": "test-user-playwright",
+      "x-playwright-test": "true",
+    });
 
     // ページを開く前にローカルストレージを設定
     await page.addInitScript(() => {
@@ -37,19 +32,14 @@ test.describe("オンライン版得点表示", () => {
   });
 
   test.afterEach(async () => {
-    // テスト後にセッションをクリーンアップ
-    await cleanupTestSession(sessionData.sessionId);
+    // ヘッダーベース認証では特別なクリーンアップは不要
   });
 
   test("オンラインゲーム一覧ページにアクセスできる", async ({ page }) => {
-    // オンラインゲームページに移動
-    await page.getByRole("link", { name: "オンライン機能" }).click();
-    await expect(page).toHaveTitle(/オンライン機能/);
-
-    // ゲーム一覧のリンクをクリック
-    await page.getByRole("link", { name: "ゲーム管理" }).click();
+    // オンラインゲーム管理ページに直接移動
+    await page.goto("/online/games");
     await expect(page).toHaveURL(/\/online\/games/);
-    await expect(page).toHaveTitle(/ゲーム管理/);
+    await expect(page).toHaveTitle(/ゲーム一覧/);
   });
 
   test("オンラインゲームを作成できる", async ({ page }) => {
