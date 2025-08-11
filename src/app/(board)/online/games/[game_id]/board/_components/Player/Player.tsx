@@ -6,14 +6,14 @@ import PlayerScore from "../PlayerScore/PlayerScore";
 
 import classes from "./Player.module.css";
 
-import type { UserPreferencesType } from "@/models/user-preferences";
 import type {
   ComputedScoreProps,
-  GameDBPlayerProps,
   LogDBProps,
+  OnlineGameDBPlayerProps,
   RuleNames,
   States,
-} from "@/utils/types";
+} from "@/models/games";
+import type { UserPreferencesType } from "@/models/user-preferences";
 
 import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
 import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";
@@ -28,7 +28,7 @@ type OnlineGame = {
 
 type Props = {
   game: OnlineGame;
-  player: GameDBPlayerProps;
+  player: OnlineGameDBPlayerProps;
   index: number;
   score: ComputedScoreProps | undefined;
   isPending: boolean;
@@ -91,11 +91,14 @@ const Player: React.FC<Props> = ({
       <Flex className={classes.player_info} data-rows={rows}>
         <PlayerHeader
           belong={
-            (player as GameDBPlayerProps & { belong?: string }).belong || ""
+            (player as OnlineGameDBPlayerProps & { belong?: string }).belong ||
+            ""
           }
           index={index}
           isVerticalView={true}
-          text={(player as GameDBPlayerProps & { text?: string }).text || ""}
+          text={
+            (player as OnlineGameDBPlayerProps & { text?: string }).text || ""
+          }
         />
         <PlayerName player_name={player.name} rows={rows} />
       </Flex>

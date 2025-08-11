@@ -6,6 +6,11 @@ const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
+const ONLINE_FILES = [
+  "**/*online*/**/*.{ts,tsx,js,jsx}",
+  "**/*online*.{ts,tsx,js,jsx}",
+];
+
 const eslintConfig = [
   {
     ignores: ["node_modules/", ".next/", "public/", "playwright-report/"],
@@ -37,6 +42,19 @@ const eslintConfig = [
           prefer: "type-imports",
           fixStyle: "separate-type-imports",
           disallowTypeAnnotations: false,
+        },
+      ],
+      "import/no-restricted-paths": [
+        "error",
+        {
+          zones: [
+            {
+              target: ONLINE_FILES,
+              from: ["src/utils/types.ts", "src/utils/db.ts"],
+              message:
+                "オンライン版の実装からローカル版の実装であるutils/types.ts, utils/db.ts へ参照することは禁止されています。",
+            },
+          ],
         },
       ],
       "import/order": [

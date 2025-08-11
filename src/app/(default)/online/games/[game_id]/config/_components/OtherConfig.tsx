@@ -10,12 +10,12 @@ import DeleteGame from "./DeleteGame";
 import ExportGame from "./ExportGame";
 import SelectQuizset from "./SelectQuizset";
 
-import type { GamePropsUnion } from "@/utils/types";
+import type { OnlineGameProps } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 
 type Props = {
-  game: GamePropsUnion;
+  game: OnlineGameProps;
 };
 
 /**
@@ -55,7 +55,7 @@ const OtherConfig: React.FC<Props> = ({ game }) => {
     <Box>
       <SelectQuizset
         game_id={game.id}
-        game_quiz={game.quiz}
+        game_quiz={undefined}
         quizset_names={quizsets}
       />
       <Title order={3} mt="xl">

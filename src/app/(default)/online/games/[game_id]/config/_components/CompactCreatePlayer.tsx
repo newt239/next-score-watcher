@@ -8,13 +8,13 @@ import { IconCirclePlus } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 // import { nanoid } from "nanoid";
 
-import type { GameDBPlayerProps } from "@/utils/types";
+import type { OnlineGameDBPlayerProps } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
-  players: GameDBPlayerProps[];
+  players: OnlineGameDBPlayerProps[];
 };
 
 /**

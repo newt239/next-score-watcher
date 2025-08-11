@@ -7,10 +7,10 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { parseResponse } from "hono/client";
 
-import type { GamePropsUnion } from "@/utils/types";
+import type { OnlineGameProps } from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
-import { getRuleStringByType } from "@/utils/rules";
+import { rules } from "@/utils/rules";
 
 type Props = {
   game_id: string;
@@ -21,7 +21,7 @@ type Props = {
  * 既存のゲームからプレイヤーリストをコピー
  */
 const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
-  const [games, setGames] = useState<GamePropsUnion[]>([]);
+  const [games, setGames] = useState<OnlineGameProps[]>([]);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
           })
         );
         if ("games" in data) {
-          setGames((data.games as unknown as GamePropsUnion[]) || []);
+          setGames((data.games as unknown as OnlineGameProps[]) || []);
         } else {
           console.warn("Games data not found in response:", data);
           setGames([]);
@@ -98,7 +98,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
         >
           <option value="">選択してください</option>
           {games
-            .filter((game) => game.players && game.players.length > 0)
+            .filter((game) => game.id !== game_id) // 自分自身は除外
             .toSorted((a, b) => {
               const aTime =
                 "last_open" in a ? new Date(a.last_open).getTime() : 0;
@@ -108,7 +108,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id }) => {
             })
             .map((game) => (
               <option key={game.id} value={game.id}>
-                {getRuleStringByType(game)} (
+                {rules[game.rule]?.name || "不明な形式"} (
                 {"last_open" in game
                   ? cdate(game.last_open).format("MM/DD HH:mm")
                   : "不明"}

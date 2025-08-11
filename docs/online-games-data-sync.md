@@ -6,34 +6,21 @@
 
 **重要**: URLパス（`/online/games`）以外では既存の命名規約をそのまま使用します。コンポーネント名、関数名、型名は既存実装と同じ名前を使用してください。
 
-## 現在の同期方式
+## 現在の実装状況
 
-### 現状の問題点
+### ✅ 実装済み機能
 
-- **ポーリングベース**: 2秒間隔でのデータ取得（非効率）
-- **リアルタイム性の欠如**: 複数ユーザー間での遅延
-- **オフライン未対応**: ネットワーク切断時の機能停止
-- **競合解決なし**: 同時編集時のデータ整合性問題
+- **基本的なオンラインゲーム機能**: ゲーム作成、プレイヤー管理、設定、ボード表示
+- **ポーリングベースの同期**: 2秒間隔でのデータ取得（基本動作は確立済み）
+- **認証基盤**: Better Authによる基本的な認証・セッション管理
+- **データベース設計**: Turso（SQLite）による安定したデータ保存
 
-### 基本的なポーリング実装
+### ❌ 未実装の機能（改善が必要）
 
-```typescript
-// 現在の実装
-useEffect(() => {
-  const interval = setInterval(async () => {
-    try {
-      const updatedLogs = await getOnlineGameLogs(gameId, user.id);
-      if (JSON.stringify(updatedLogs) !== JSON.stringify(logs)) {
-        setLogs(updatedLogs);
-      }
-    } catch (error) {
-      console.error("Failed to update game data:", error);
-    }
-  }, 2000);
-
-  return () => clearInterval(interval);
-}, [gameId, user?.id, logs]);
-```
+- **WebSocketによるリアルタイム同期**: より効率的な同期方式
+- **オフライン対応**: ネットワーク切断時の機能継続
+- **競合解決システム**: 同時編集時のデータ整合性保証
+- **セキュリティ強化**: レート制限、詳細な認証、監査ログ
 
 ## リアルタイム同期
 

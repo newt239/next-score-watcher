@@ -3,7 +3,7 @@
 import ConfigInput from "./ConfigInput";
 
 import type { GetGameSettingsResponseType } from "@/models/games";
-import type { RuleNames } from "@/utils/types";
+import type { RuleNames } from "@/models/games";
 
 type AQLOptionsProps = {
   gameId: string;

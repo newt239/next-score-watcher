@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useTransition } from "react";
+import { useEffect, useRef, useTransition } from "react";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import {
@@ -17,19 +17,18 @@ import { IconGripVertical } from "@tabler/icons-react";
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import type {
-  GameDBPlayerProps,
-  PlayerDBProps,
+  OnlineGameDBPlayerProps,
+  OnlinePlayerDBProps,
   RuleNames,
-} from "@/utils/types";
+} from "@/models/games";
 
 import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
   rule: RuleNames;
-  playerList: PlayerDBProps[];
-  players: GameDBPlayerProps[];
-  onPlayersUpdated?: () => void;
+  playerList: OnlinePlayerDBProps[];
+  players: OnlineGameDBPlayerProps[];
 };
 
 /**
@@ -41,9 +40,10 @@ const PlayersConfig: React.FC<Props> = ({
   rule,
   playerList,
   players,
-  onPlayersUpdated,
 }) => {
   const [isPending, startTransition] = useTransition();
+  const initialPlayersRef = useRef(players);
+  const isInitialMount = useRef(true);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -56,7 +56,28 @@ const PlayersConfig: React.FC<Props> = ({
 
   // デバウンス後の値が変更されたらAPIで更新
   useEffect(() => {
-    if (debouncedPlayers.length === players.length && players.length > 0) {
+    // 初期マウント時はAPIを呼ばない
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    // プレイヤーデータに実質的な変更があるかチェック
+    const hasRealChanges = debouncedPlayers.some((player, index) => {
+      const initialPlayer = initialPlayersRef.current[index];
+      if (!initialPlayer) return true;
+      return (
+        player.name !== initialPlayer.name ||
+        player.initial_correct !== initialPlayer.initial_correct ||
+        player.initial_wrong !== initialPlayer.initial_wrong
+      );
+    });
+
+    if (
+      debouncedPlayers.length === players.length &&
+      players.length > 0 &&
+      hasRealChanges
+    ) {
       startTransition(async () => {
         try {
           const apiClient = createApiClient();
@@ -102,8 +123,6 @@ const PlayersConfig: React.FC<Props> = ({
               "PlayersConfig: Players updated successfully:",
               result.data
             );
-            // プレイヤー更新成功時にコールバックを呼び出し
-            onPlayersUpdated?.();
           } else {
             console.error("PlayersConfig: API returned error:", result);
             throw new Error(
@@ -208,7 +227,6 @@ const PlayersConfig: React.FC<Props> = ({
         players={players}
         form={form}
         disabled={isPending}
-        onPlayersUpdated={onPlayersUpdated}
       />
     </>
   );

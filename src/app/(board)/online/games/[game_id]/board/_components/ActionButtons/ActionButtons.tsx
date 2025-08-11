@@ -16,7 +16,7 @@ import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 
 import classes from "./ActionButtons.module.css";
 
-import type { RuleNames } from "@/utils/types";
+import type { RuleNames } from "@/models/games";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 

@@ -13,11 +13,11 @@ import { cdate } from "cdate";
 
 import classes from "./GameLogs.module.css";
 
-import type { GameDBPlayerProps, LogDBProps } from "@/utils/types";
+import type { OnlineGameDBPlayerProps, LogDBProps } from "@/models/games";
 
 type GameLogsProps = {
   logs: LogDBProps[];
-  players: GameDBPlayerProps[];
+  players: OnlineGameDBPlayerProps[];
   order: "asc" | "desc";
   onToggleOrder: () => void;
 };

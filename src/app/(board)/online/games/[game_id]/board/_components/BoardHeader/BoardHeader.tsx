@@ -11,15 +11,14 @@ import {
   IconComet,
   IconMaximize,
   IconSettings,
-  IconSquare,
 } from "@tabler/icons-react";
 
 import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 
 import classes from "./BoardHeader.module.css";
 
+import type { RuleNames } from "@/models/games";
 import type { UserPreferencesType } from "@/models/user-preferences";
-import type { RuleNames } from "@/utils/types";
 
 import Link from "@/app/_components/Link";
 import { rules } from "@/utils/rules";
@@ -129,15 +128,6 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
             >
               一つ戻す
             </Menu.Item>
-            {game.ruleType !== "aql" && (
-              <Menu.Item
-                leftSection={<IconSquare />}
-                disabled // オンライン版では手動更新機能は無効
-                title="オンライン版では利用できません"
-              >
-                スコアの手動更新
-              </Menu.Item>
-            )}
             {isFullscreenEnabled && (
               <Menu.Item
                 leftSection={<IconMaximize />}

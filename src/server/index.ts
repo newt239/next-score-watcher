@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 import indexHandler from "./controllers";
 import deleteGameHandler from "./controllers/game/delete-game";
@@ -35,6 +36,22 @@ import { auth } from "@/utils/auth/auth";
 
 // Hono RPCで型をつけるため、チェインさせる必要がある
 const app = new Hono()
+  .use(
+    "*",
+    cors({
+      // https://hono.dev/docs/middleware/builtin/cors
+      origin: (origin, _c) => {
+        return origin.endsWith("newts-projects.vercel.app") ||
+          origin.endsWith("score-watcher.com") ||
+          origin.endsWith("localhost:3000")
+          ? origin
+          : "https://score-watcher.com";
+      },
+      allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+    })
+  )
   .get("/", ...indexHandler)
   .get("/user/:user_id/preferences", ...getUserPreferencesHandler)
   .patch("/user/:user_id/preferences", ...updateUserPreferencesHandler)

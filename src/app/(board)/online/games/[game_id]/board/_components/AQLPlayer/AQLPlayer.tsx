@@ -8,17 +8,17 @@ import classes from "./AQLPlayer.module.css";
 
 import type {
   ComputedScoreProps,
-  GameDBPlayerProps,
+  OnlineGameDBPlayerProps,
   LogDBProps,
   States,
-} from "@/utils/types";
+} from "@/models/games";
 
 import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
 import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";
 import { numberSign } from "@/utils/functions";
 
 type AQLPlayerProps = {
-  player: GameDBPlayerProps;
+  player: OnlineGameDBPlayerProps;
   index: number;
   score: ComputedScoreProps | undefined;
   isIncapacity: boolean;
@@ -78,11 +78,14 @@ const AQLPlayer: React.FC<AQLPlayerProps> = ({
       <Flex className={classes.player_info}>
         <PlayerHeader
           belong={
-            (player as GameDBPlayerProps & { belong?: string }).belong || ""
+            (player as OnlineGameDBPlayerProps & { belong?: string }).belong ||
+            ""
           }
           index={index}
           isVerticalView={true}
-          text={(player as GameDBPlayerProps & { text?: string }).text || ""}
+          text={
+            (player as OnlineGameDBPlayerProps & { text?: string }).text || ""
+          }
         />
         <PlayerName player_name={player.name} isAQL rows={3} />
       </Flex>
