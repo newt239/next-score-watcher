@@ -1,29 +1,32 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * EndlessChance形式のスコア計算
  * 同じ問題に対して正答が出るまで複数人が回答できる
  */
 const computeEndlessChance = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "endless-chance" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 7;
-  const losePoint = game.losePoint ?? 3;
+  const winPoint = game.option.winPoint ?? 7;
+  const losePoint = game.option.losePoint ?? 3;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score = s.correct;
       s.last_correct = qn;
@@ -33,7 +36,7 @@ const computeEndlessChance = (
       } else if (s.score === winPoint - 1) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.last_wrong = qn;
 

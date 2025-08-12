@@ -11,27 +11,26 @@ import ImportPlayer from "./ImportPlayer";
 import LoadPlayer from "./LoadPlayer";
 import PlayersTable from "./PlayersTable";
 
-import type { ApiPlayerDataType, CreatePlayerType } from "@/models/players";
+import type { CreatePlayerType, UpdatePlayerType } from "@/models/players";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type Props = {
-  initialPlayers: ApiPlayerDataType[];
+  initialPlayers: UpdatePlayerType[];
   userId: string;
 };
 
 const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
-  const [players, setPlayers] = useState<ApiPlayerDataType[]>(initialPlayers);
+  const [players, setPlayers] = useState<UpdatePlayerType[]>(initialPlayers);
   const apiClient = createApiClient();
 
   const refetchPlayers = async () => {
     try {
       const result = await parseResponse(apiClient.players.$get({ query: {} }));
-      if ("data" in result && result.data?.players) {
-        setPlayers(result.data.players);
-      } else {
+      if ("error" in result) {
         throw new Error("プレイヤー一覧の取得に失敗しました");
       }
+      setPlayers(result);
     } catch (error) {
       notifications.show({
         title: "エラー",

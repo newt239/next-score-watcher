@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
-import { ensureUserPreferences } from "../../server/repositories/user-preferences";
+import { ensureUserPreferences } from "../../server/repositories/user";
 import { DBClient } from "../drizzle/client";
 import { account, session, user, verification } from "../drizzle/schema";
 

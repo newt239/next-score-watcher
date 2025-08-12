@@ -1,19 +1,7 @@
 import { expect, test } from "@playwright/test";
 
-import { generateSessionData } from "./test-helpers";
-
 test.describe("オンライン版得点表示", () => {
-  let _sessionData: {
-    sessionId: string;
-    sessionToken: string;
-    userId: string;
-    expiresAt: Date;
-  };
-
   test.beforeEach(async ({ context, page }) => {
-    // テスト用セッションデータを生成（後方互換性のため残す）
-    _sessionData = generateSessionData();
-
     // ヘッダーベースの認証バイパスを設定
     await context.setExtraHTTPHeaders({
       "x-test-user-id": "test-user-playwright",

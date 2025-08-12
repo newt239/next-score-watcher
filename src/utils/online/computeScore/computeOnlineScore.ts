@@ -20,11 +20,10 @@ import computeZ from "./z";
 import { getInitialPlayersStateForOnline } from "./index";
 
 import type {
-  OnlineGameCore,
-  OnlineSettings,
-  OnlineGameWithSettings,
-} from "./index";
-import type { LogDBProps, OnlineGameDBPlayerProps } from "@/models/games";
+  GamePlayerProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 // WinPlayerPropsの代替型定義
 type WinPlayerProps = {
@@ -38,56 +37,47 @@ type WinPlayerProps = {
  * ローカル版と同じく17種類のゲーム形式に対応
  */
 export const computeOnlineScore = (
-  game: OnlineGameCore,
-  players: OnlineGameDBPlayerProps[],
-  logs: LogDBProps[],
-  settings?: OnlineSettings
+  game: GetGameDetailResponseType,
+  players: GamePlayerProps[],
+  logs: SeriarizedGameLog[]
 ) => {
-  const gameWithSettings: OnlineGameWithSettings = {
-    ...game,
-    ...settings,
-  };
-
-  const initialState = getInitialPlayersStateForOnline(
-    gameWithSettings,
-    players
-  );
+  const initialState = getInitialPlayersStateForOnline(game);
 
   switch (game.ruleType) {
     case "normal":
-      return computeNormal(gameWithSettings, initialState, logs);
+      return computeNormal(game, initialState, logs);
     case "nomx":
-      return computeNomx(gameWithSettings, initialState, logs);
+      return computeNomx(game, initialState, logs);
     case "nomx-ad":
-      return computeNomxAd(gameWithSettings, initialState, logs);
+      return computeNomxAd(game, initialState, logs);
     case "ny":
-      return computeNy(gameWithSettings, initialState, logs);
+      return computeNy(game, initialState, logs);
     case "nomr":
-      return computeNomr(gameWithSettings, initialState, logs);
+      return computeNomr(game, initialState, logs);
     case "nbyn":
-      return computeNbyn(gameWithSettings, initialState, logs);
+      return computeNbyn(game, initialState, logs);
     case "nupdown":
-      return computeNupdown(gameWithSettings, initialState, logs);
+      return computeNupdown(game, initialState, logs);
     case "divide":
-      return computeDivide(gameWithSettings, initialState, logs);
+      return computeDivide(game, initialState, logs);
     case "swedish10":
-      return computeSwedish10(gameWithSettings, initialState, logs);
+      return computeSwedish10(game, initialState, logs);
     case "backstream":
-      return computeBackstream(gameWithSettings, initialState, logs);
+      return computeBackstream(game, initialState, logs);
     case "attacksurvival":
-      return computeAttackSurvival(gameWithSettings, initialState, logs);
+      return computeAttackSurvival(game, initialState, logs);
     case "squarex":
-      return computeSquarex(gameWithSettings, initialState, logs);
+      return computeSquarex(game, initialState, logs);
     case "z":
-      return computeZ(gameWithSettings, initialState, logs);
+      return computeZ(game, initialState, logs);
     case "freezex":
-      return computeFreezex(gameWithSettings, initialState, logs);
+      return computeFreezex(game, initialState, logs);
     case "endless-chance":
-      return computeEndlessChance(gameWithSettings, initialState, logs);
+      return computeEndlessChance(game, initialState, logs);
     case "variables":
-      return computeVariables(gameWithSettings, initialState, logs);
+      return computeVariables(game, initialState, logs);
     case "aql":
-      return computeAql(gameWithSettings, initialState, logs);
+      return computeAql(game, initialState, logs);
     default:
       // 未対応形式の場合は初期状態を返す
       const scores = initialState.map((score, index) => ({

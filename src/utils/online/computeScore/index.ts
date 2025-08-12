@@ -1,38 +1,17 @@
 import type {
   ComputedScoreProps,
-  OnlineGameDBPlayerProps,
-  RuleNames,
+  GamePlayerProps,
+  GetGameDetailResponseType,
   States,
 } from "@/models/games";
-
-export type OnlineGameCore = {
-  id: string;
-  name: string;
-  ruleType: RuleNames;
-};
-
-export type OnlineSettings = {
-  winPoint?: number;
-  losePoint?: number;
-  targetPoint?: number;
-  restCount?: number;
-  correctMe?: number;
-  wrongMe?: number;
-  correctOther?: number;
-  wrongOther?: number;
-  winThrough?: number;
-};
-
-export type OnlineGameWithSettings = OnlineGameCore & OnlineSettings;
 
 /**
  * プレイヤーの初期状態を生成
  */
 export const getInitialPlayersStateForOnline = (
-  game: OnlineGameWithSettings,
-  players: OnlineGameDBPlayerProps[]
+  game: GetGameDetailResponseType
 ): ComputedScoreProps[] => {
-  return players.map((p) => ({
+  return game.players.map((p) => ({
     game_id: game.id,
     player_id: p.id,
     score: getInitialScore(game, p),
@@ -42,8 +21,8 @@ export const getInitialPlayersStateForOnline = (
     last_wrong: -10,
     state: "playing",
     reach_state: "playing",
-    odd_score: game.ruleType === "squarex" ? p.initial_correct : 0,
-    even_score: game.ruleType === "squarex" ? p.initial_wrong : 0,
+    odd_score: game.ruleType === "squarex" ? (p.initialScore ?? 0) : 0,
+    even_score: game.ruleType === "squarex" ? (p.initialScore ?? 0) : 0,
     stage: game.ruleType === "z" ? 1 : 1,
     is_incapacity: false,
     order: 0,
@@ -55,28 +34,29 @@ export const getInitialPlayersStateForOnline = (
  * ゲーム形式に応じた初期スコアを計算
  */
 const getInitialScore = (
-  game: OnlineGameWithSettings,
-  player: OnlineGameDBPlayerProps
+  game: GetGameDetailResponseType,
+  player: GamePlayerProps
 ): number => {
   switch (game.ruleType) {
     case "divide":
-      return game.correctMe ?? 10;
+      return game.option.targetPoint ?? 10;
     case "attacksurvival":
-      return (game.winPoint ?? 15) + player.initial_correct;
+      return (game.option.targetPoint ?? 15) + (player.initialScore ?? 0);
     case "ny":
-      return player.initial_correct - player.initial_wrong;
+      return (player.initialScore ?? 0) - (player.initialScore ?? 0);
     case "nomr":
-      return player.initial_correct;
+      return player.initialScore ?? 0;
     case "backstream":
       return (
-        player.initial_correct - initialBackstreamWrong(player.initial_wrong)
+        (player.initialScore ?? 0) -
+        initialBackstreamWrong(player.initialScore ?? 0)
       );
     case "squarex":
-      return (player.initial_correct || 1) * (player.initial_wrong || 1);
+      return (player.initialScore || 1) * (player.initialScore || 1);
     case "aql":
       return 1;
     default:
-      return player.initial_correct - player.initial_wrong;
+      return (player.initialScore ?? 0) - (player.initialScore ?? 0);
   }
 };
 
@@ -84,29 +64,29 @@ const getInitialScore = (
  * ゲーム形式に応じた初期正解数を計算
  */
 const getInitialCorrect = (
-  game: OnlineGameWithSettings,
-  player: OnlineGameDBPlayerProps
+  game: GetGameDetailResponseType,
+  player: GamePlayerProps
 ): number => {
   if (["attacksurvival", "squarex", "variables"].includes(game.ruleType)) {
     return 0;
   }
-  return player.initial_correct;
+  return player.initialScore ?? 0;
 };
 
 /**
  * ゲーム形式に応じた初期誤答数を計算
  */
 const getInitialWrong = (
-  game: OnlineGameWithSettings,
-  player: OnlineGameDBPlayerProps
+  game: GetGameDetailResponseType,
+  player: GamePlayerProps
 ): number => {
   if (game.ruleType === "backstream") {
-    return initialBackstreamWrong(player.initial_wrong);
+    return initialBackstreamWrong(player.initialScore ?? 0);
   }
   if (game.ruleType === "squarex") {
     return 0;
   }
-  return player.initial_wrong;
+  return player.initialScore ?? 0;
 };
 
 /**

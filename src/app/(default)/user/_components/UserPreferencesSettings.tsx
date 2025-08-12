@@ -17,7 +17,7 @@ import { notifications } from "@mantine/notifications";
 import { parseResponse } from "hono/client";
 
 import { type UserPreferencesType } from "@/models/user-preferences";
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialPreferences: UserPreferencesType;

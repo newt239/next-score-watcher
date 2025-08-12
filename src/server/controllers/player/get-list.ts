@@ -3,10 +3,7 @@ import { createFactory } from "hono/factory";
 
 import { GetPlayersListRequestSchema } from "@/models/players";
 import { getUserId } from "@/server/repositories/auth";
-import {
-  getPlayers,
-  getPlayersWithPagination,
-} from "@/server/repositories/players";
+import { getPlayers } from "@/server/repositories/player";
 
 const factory = createFactory();
 
@@ -18,44 +15,11 @@ const handler = factory.createHandlers(
   async (c) => {
     const userId = await getUserId();
     if (!userId) {
-      return c.json(
-        { success: false, error: "ユーザーが見つかりません" } as const,
-        404
-      );
+      return c.json({ error: "ログインしてください" } as const, 401);
     }
 
-    const { limit, offset } = c.req.valid("query");
-
-    try {
-      // ページネーションパラメータがある場合は getPlayersWithPagination を使用
-      if (limit !== undefined || offset !== undefined) {
-        const result = await getPlayersWithPagination(
-          userId,
-          limit ?? 50,
-          offset ?? 0
-        );
-        return c.json({
-          success: true,
-          data: result,
-        } as const);
-      }
-
-      // パラメータがない場合は従来の getPlayers を使用
-      const players = await getPlayers(userId);
-      return c.json({
-        success: true,
-        data: { players },
-      } as const);
-    } catch (error) {
-      console.error("プレイヤー一覧取得エラー:", error);
-      return c.json(
-        {
-          success: false,
-          error: "プレイヤー一覧の取得に失敗しました",
-        } as const,
-        500
-      );
-    }
+    const players = await getPlayers(userId);
+    return c.json(players, 200);
   }
 );
 

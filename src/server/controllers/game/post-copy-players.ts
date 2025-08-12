@@ -4,10 +4,7 @@ import { z } from "zod";
 
 import { CopyPlayersFromGameRequestSchema } from "@/models/games";
 import { getUserId } from "@/server/repositories/auth";
-import {
-  copyPlayersFromGame,
-  verifyGameAccess,
-} from "@/server/repositories/games";
+import { copyPlayersFromGame } from "@/server/repositories/game";
 
 const factory = createFactory();
 
@@ -29,19 +26,6 @@ const handler = factory.createHandlers(
 
       const { sourceGameId } = c.req.valid("json");
       const { game_id: targetGameId } = c.req.valid("param");
-
-      // 両方のゲームにアクセス権があるかチェック
-      const [targetAccess, sourceAccess] = await Promise.all([
-        verifyGameAccess(targetGameId, userId),
-        verifyGameAccess(sourceGameId, userId),
-      ]);
-
-      if (!targetAccess || !sourceAccess) {
-        return c.json(
-          { success: false, error: "アクセス権限がありません" } as const,
-          403
-        );
-      }
 
       const result = await copyPlayersFromGame(
         targetGameId,

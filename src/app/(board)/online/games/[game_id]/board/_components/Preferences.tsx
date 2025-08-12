@@ -14,7 +14,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 import type { UserPreferencesType } from "@/models/user-preferences";
 
 import { defaultUserPreferences } from "@/models/user-preferences";
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type PreferencesProps = {
   userId: string;

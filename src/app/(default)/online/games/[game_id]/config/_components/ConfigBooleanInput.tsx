@@ -6,7 +6,7 @@ import { Switch, Text } from "@mantine/core";
 
 import type { UpdateGameSettingsRequestType } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type ConfigBooleanInputProps = {
   gameId: string;
@@ -26,19 +26,20 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
   value,
   fieldName,
 }) => {
+  const apiClient = createApiClient();
   const [localValue, setLocalValue] = useState(value || false);
   const [isPending, startTransition] = useTransition();
 
   const updateSetting = async (newValue: boolean) => {
     try {
-      const apiClient = createApiClient();
-      const updateData = {
-        [fieldName]: newValue,
-      } as UpdateGameSettingsRequestType;
-
-      const response = await apiClient["games"][":gameId"]["settings"].$patch({
+      const response = await apiClient.games[":gameId"].$patch({
         param: { gameId },
-        json: updateData,
+        json: {
+          key: "option",
+          value: {
+            [fieldName]: newValue,
+          },
+        },
       });
 
       if (!response.ok) {

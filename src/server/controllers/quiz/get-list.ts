@@ -3,10 +3,7 @@ import { createFactory } from "hono/factory";
 
 import { GetQuizesListRequestSchema } from "@/models/quizes";
 import { getUserId } from "@/server/repositories/auth";
-import {
-  getQuizes,
-  getQuizesWithPagination,
-} from "@/server/repositories/quizes";
+import { getQuizes, getQuizesWithPagination } from "@/server/repositories/quiz";
 
 const factory = createFactory();
 

@@ -1,7 +1,7 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import { getGames } from "@/server/repositories/games";
+import { getGames } from "@/server/repositories/game";
 
 const factory = createFactory();
 

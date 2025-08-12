@@ -9,7 +9,7 @@ import { parseResponse } from "hono/client";
 
 import type { OnlineGameProps } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";
 
 type Props = {

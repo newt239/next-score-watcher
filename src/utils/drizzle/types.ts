@@ -1,8 +1,12 @@
-import type * as schema from "./schema/index";
+import z from "zod";
+
+import type { RuleNames as SchemaRuleNames } from "@/utils/drizzle/schema/game";
+import type * as schema from "@/utils/drizzle/schema/index";
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 // 基本型定義
 export type Player = InferSelectModel<typeof schema.player>;
+export type SeriarizedPlayer = DeepDateToString<Player>;
 export type NewPlayer = InferInsertModel<typeof schema.player>;
 
 export type PlayerTag = InferSelectModel<typeof schema.playerTag>;
@@ -15,6 +19,7 @@ export type GamePlayer = InferSelectModel<typeof schema.gamePlayer>;
 export type NewGamePlayer = InferInsertModel<typeof schema.gamePlayer>;
 
 export type GameLog = InferSelectModel<typeof schema.gameLog>;
+export type SeriarizedGameLog = DeepDateToString<GameLog>;
 export type NewGameLog = InferInsertModel<typeof schema.gameLog>;
 
 export type QuizSet = InferSelectModel<typeof schema.quizSet>;
@@ -23,149 +28,226 @@ export type NewQuizSet = InferInsertModel<typeof schema.quizSet>;
 export type QuizQuestion = InferSelectModel<typeof schema.quizQuestion>;
 export type NewQuizQuestion = InferInsertModel<typeof schema.quizQuestion>;
 
-// ゲーム形式別設定型定義
-export type GameNomxSetting = InferSelectModel<typeof schema.gameNomxSetting>;
-export type NewGameNomxSetting = InferInsertModel<
-  typeof schema.gameNomxSetting
->;
+// ルール名の型定義（スキーマから統一）
+export type RuleNames = SchemaRuleNames;
 
-export type GameNomxAdSetting = InferSelectModel<
-  typeof schema.gameNomxAdSetting
->;
-export type NewGameNomxAdSetting = InferInsertModel<
-  typeof schema.gameNomxAdSetting
->;
+export const NormalOptionSchema = z
+  .object({
+    maxPoint: z.number().default(10),
+    minPoint: z.number().default(-10),
+  })
+  .default({ maxPoint: 10, minPoint: -10 });
+export type NormalOption = z.infer<typeof NormalOptionSchema>;
 
-export type GameNySetting = InferSelectModel<typeof schema.gameNySetting>;
-export type NewGameNySetting = InferInsertModel<typeof schema.gameNySetting>;
+export const NomxOptionSchema = z
+  .object({
+    winPoint: z.number().default(7),
+    losePoint: z.number().default(3),
+  })
+  .default({ winPoint: 7, losePoint: 3 });
+export type NomxOption = z.infer<typeof NomxOptionSchema>;
 
-export type GameNomrSetting = InferSelectModel<typeof schema.gameNomrSetting>;
-export type NewGameNomrSetting = InferInsertModel<
-  typeof schema.gameNomrSetting
->;
+export const NomxAdOptionSchema = z
+  .object({
+    winPoint: z.number().default(7),
+    losePoint: z.number().default(3),
+  })
+  .default({ winPoint: 7, losePoint: 3 });
+export type NomxAdOption = z.infer<typeof NomxAdOptionSchema>;
 
-export type GameNbynSetting = InferSelectModel<typeof schema.gameNbynSetting>;
-export type NewGameNbynSetting = InferInsertModel<
-  typeof schema.gameNbynSetting
->;
+export const NyOptionSchema = z
+  .object({
+    targetPoint: z.number().default(10),
+  })
+  .default({ targetPoint: 10 });
+export type NyOption = z.infer<typeof NyOptionSchema>;
 
-export type GameNupdownSetting = InferSelectModel<
-  typeof schema.gameNupdownSetting
->;
-export type NewGameNupdownSetting = InferInsertModel<
-  typeof schema.gameNupdownSetting
->;
+export const NomrOptionSchema = z
+  .object({
+    winPoint: z.number().default(7),
+    restCount: z.number().default(3),
+  })
+  .default({ winPoint: 7, restCount: 3 });
+export type NomrOption = z.infer<typeof NomrOptionSchema>;
 
-export type GameDivideSetting = InferSelectModel<
-  typeof schema.gameDivideSetting
->;
-export type NewGameDivideSetting = InferInsertModel<
-  typeof schema.gameDivideSetting
->;
+export const NbynOptionSchema = z
+  .object({
+    nValue: z.number().default(7),
+  })
+  .default({ nValue: 7 });
+export type NbynOption = z.infer<typeof NbynOptionSchema>;
 
-export type GameSwedish10Setting = InferSelectModel<
-  typeof schema.gameSwedish10Setting
->;
-export type NewGameSwedish10Setting = InferInsertModel<
-  typeof schema.gameSwedish10Setting
->;
+export const NupdownOptionSchema = z
+  .object({
+    targetPoint: z.number().default(7),
+  })
+  .default({ targetPoint: 7 });
+export type NupdownOption = z.infer<typeof NupdownOptionSchema>;
 
-export type GameBackstreamSetting = InferSelectModel<
-  typeof schema.gameBackstreamSetting
->;
-export type NewGameBackstreamSetting = InferInsertModel<
-  typeof schema.gameBackstreamSetting
->;
+export const DivideOptionSchema = z
+  .object({
+    targetPoint: z.number().default(10),
+  })
+  .default({ targetPoint: 10 });
+export type DivideOption = z.infer<typeof DivideOptionSchema>;
 
-export type GameAttacksurvivalSetting = InferSelectModel<
-  typeof schema.gameAttacksurvivalSetting
->;
-export type NewGameAttacksurvivalSetting = InferInsertModel<
-  typeof schema.gameAttacksurvivalSetting
->;
+export const Swedish10OptionSchema = z
+  .object({
+    targetPoint: z.number().default(10),
+  })
+  .default({ targetPoint: 10 });
+export type Swedish10Option = z.infer<typeof Swedish10OptionSchema>;
 
-export type GameSquarexSetting = InferSelectModel<
-  typeof schema.gameSquarexSetting
->;
-export type NewGameSquarexSetting = InferInsertModel<
-  typeof schema.gameSquarexSetting
->;
+export const BackstreamOptionSchema = z
+  .object({
+    targetPoint: z.number().default(10),
+  })
+  .default({ targetPoint: 10 });
+export type BackstreamOption = z.infer<typeof BackstreamOptionSchema>;
 
-export type GameZSetting = InferSelectModel<typeof schema.gameZSetting>;
-export type NewGameZSetting = InferInsertModel<typeof schema.gameZSetting>;
+export const AttacksurvivalOptionSchema = z
+  .object({
+    targetPoint: z.number().default(10),
+  })
+  .default({ targetPoint: 10 });
+export type AttacksurvivalOption = z.infer<typeof AttacksurvivalOptionSchema>;
 
-export type GameFreezexSetting = InferSelectModel<
-  typeof schema.gameFreezexSetting
->;
-export type NewGameFreezexSetting = InferInsertModel<
-  typeof schema.gameFreezexSetting
->;
+export const SquarexOptionSchema = z
+  .object({
+    squareSize: z.number().default(3),
+    winCondition: z.number().default(7),
+  })
+  .default({ squareSize: 3, winCondition: 7 });
+export type SquarexOption = z.infer<typeof SquarexOptionSchema>;
 
-export type GameEndlessChanceSetting = InferSelectModel<
-  typeof schema.gameEndlessChanceSetting
->;
-export type NewGameEndlessChanceSetting = InferInsertModel<
-  typeof schema.gameEndlessChanceSetting
->;
+export const ZOptionSchema = z
+  .object({
+    targetPoint: z.number().default(10),
+    zonePoint: z.number().default(3),
+  })
+  .default({ targetPoint: 10, zonePoint: 3 });
+export type ZOption = z.infer<typeof ZOptionSchema>;
 
-export type GameVariablesSetting = InferSelectModel<
-  typeof schema.gameVariablesSetting
->;
-export type NewGameVariablesSetting = InferInsertModel<
-  typeof schema.gameVariablesSetting
->;
+export const FreezexOptionSchema = z
+  .object({
+    winPoint: z.number().default(7),
+    freezePoint: z.number().default(3),
+  })
+  .default({ winPoint: 7, freezePoint: 3 });
+export type FreezexOption = z.infer<typeof FreezexOptionSchema>;
 
-export type GameAqlSetting = InferSelectModel<typeof schema.gameAqlSetting>;
-export type NewGameAqlSetting = InferInsertModel<typeof schema.gameAqlSetting>;
+export const EndlessChanceOptionSchema = z
+  .object({
+    winPoint: z.number().default(7),
+    losePoint: z.number().default(3),
+  })
+  .default({ winPoint: 7, losePoint: 3 });
+export type EndlessChanceOption = z.infer<typeof EndlessChanceOptionSchema>;
 
-// ルール名の型定義
-export type RuleNames =
-  | "normal"
-  | "nomx"
-  | "nomx-ad"
-  | "ny"
-  | "nomr"
-  | "nbyn"
-  | "nupdown"
-  | "divide"
-  | "swedish10"
-  | "backstream"
-  | "attacksurvival"
-  | "squarex"
-  | "z"
-  | "freezex"
-  | "endless-chance"
-  | "variables"
-  | "aql";
+export const VariablesOptionSchema = z
+  .object({
+    winPoint: z.number().default(7),
+    losePoint: z.number().default(3),
+  })
+  .default({ winPoint: 7, losePoint: 3 });
+export type VariablesOption = z.infer<typeof VariablesOptionSchema>;
 
-// ゲーム設定の統合型
-export type GameSettings = {
-  normal: null;
-  nomx: GameNomxSetting;
-  "nomx-ad": GameNomxAdSetting;
-  ny: GameNySetting;
-  nomr: GameNomrSetting;
-  nbyn: GameNbynSetting;
-  nupdown: GameNupdownSetting;
-  divide: GameDivideSetting;
-  swedish10: GameSwedish10Setting;
-  backstream: GameBackstreamSetting;
-  attacksurvival: GameAttacksurvivalSetting;
-  squarex: GameSquarexSetting;
-  z: GameZSetting;
-  freezex: GameFreezexSetting;
-  "endless-chance": GameEndlessChanceSetting;
-  variables: GameVariablesSetting;
-  aql: GameAqlSetting;
-};
+export const AqlOptionSchema = z
+  .object({
+    left_team: z.string().default("左チーム"),
+    right_team: z.string().default("右チーム"),
+  })
+  .default({ left_team: "左チーム", right_team: "右チーム" });
+export type AqlOption = z.infer<typeof AqlOptionSchema>;
 
-// 完全な型安全性を持つゲーム型
-export type GameWithSettings<T extends RuleNames> = Game & {
-  ruleType: T;
-  settings: GameSettings[T];
-};
+// 日付を文字列に変換
+export type SeriarizedGame = DeepDateToString<Game>;
 
-// 使用例の型定義
-export type NomxGame = GameWithSettings<"nomx">;
-export type AQLGame = GameWithSettings<"aql">;
-export type NyGame = GameWithSettings<"ny">;
+export type TypedGame<T extends RuleNames = RuleNames> = T extends "normal"
+  ? SeriarizedGame & { ruleType: "normal"; option: NormalOption }
+  : T extends "nomx"
+    ? SeriarizedGame & { ruleType: "nomx"; option: NomxOption }
+    : T extends "nomx-ad"
+      ? SeriarizedGame & { ruleType: "nomx-ad"; option: NomxAdOption }
+      : T extends "ny"
+        ? SeriarizedGame & { ruleType: "ny"; option: NyOption }
+        : T extends "nomr"
+          ? SeriarizedGame & { ruleType: "nomr"; option: NomrOption }
+          : T extends "nbyn"
+            ? SeriarizedGame & { ruleType: "nbyn"; option: NbynOption }
+            : T extends "nupdown"
+              ? SeriarizedGame & { ruleType: "nupdown"; option: NupdownOption }
+              : T extends "divide"
+                ? SeriarizedGame & { ruleType: "divide"; option: DivideOption }
+                : T extends "swedish10"
+                  ? SeriarizedGame & {
+                      ruleType: "swedish10";
+                      option: Swedish10Option;
+                    }
+                  : T extends "backstream"
+                    ? SeriarizedGame & {
+                        ruleType: "backstream";
+                        option: BackstreamOption;
+                      }
+                    : T extends "attacksurvival"
+                      ? SeriarizedGame & {
+                          ruleType: "attacksurvival";
+                          option: AttacksurvivalOption;
+                        }
+                      : T extends "squarex"
+                        ? SeriarizedGame & {
+                            ruleType: "squarex";
+                            option: SquarexOption;
+                          }
+                        : T extends "z"
+                          ? SeriarizedGame & { ruleType: "z"; option: ZOption }
+                          : T extends "freezex"
+                            ? SeriarizedGame & {
+                                ruleType: "freezex";
+                                option: FreezexOption;
+                              }
+                            : T extends "endless-chance"
+                              ? SeriarizedGame & {
+                                  ruleType: "endless-chance";
+                                  option: EndlessChanceOption;
+                                }
+                              : T extends "variables"
+                                ? SeriarizedGame & {
+                                    ruleType: "variables";
+                                    option: VariablesOption;
+                                  }
+                                : T extends "aql"
+                                  ? SeriarizedGame & {
+                                      ruleType: "aql";
+                                      option: AqlOption;
+                                    }
+                                  : never;
+
+export type TypedGameOption =
+  | NormalOption
+  | NomxOption
+  | NomxAdOption
+  | NyOption
+  | NomrOption
+  | NbynOption
+  | NupdownOption
+  | DivideOption
+  | Swedish10Option
+  | BackstreamOption
+  | AttacksurvivalOption
+  | SquarexOption
+  | ZOption
+  | FreezexOption
+  | EndlessChanceOption
+  | VariablesOption
+  | AqlOption;
+
+export type DeepDateToString<T> = T extends Date
+  ? string
+  : T extends readonly (infer U)[]
+    ? readonly DeepDateToString<U>[]
+    : T extends (infer U)[]
+      ? DeepDateToString<U>[]
+      : T extends object
+        ? { [K in keyof T]: DeepDateToString<T[K]> }
+        : T;

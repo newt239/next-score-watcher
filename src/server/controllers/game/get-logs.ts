@@ -1,12 +1,12 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import { getGameLogs } from "@/server/repositories/games";
+import { getGameLogsById } from "@/server/repositories/game";
 
 const factory = createFactory();
 
 /**
- * クラウドゲームログ取得
+ * ゲームログ取得
  */
 const handler = factory.createHandlers(async (c) => {
   try {
@@ -21,7 +21,7 @@ const handler = factory.createHandlers(async (c) => {
       return c.json({ error: "ゲームIDが必要です" } as const, 400);
     }
 
-    const logs = await getGameLogs(gameId, userId);
+    const logs = await getGameLogsById(gameId, userId);
     return c.json({ logs } as const);
   } catch (error) {
     console.error("Error fetching cloud game logs:", error);

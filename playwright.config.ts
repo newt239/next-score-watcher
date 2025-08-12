@@ -26,8 +26,18 @@ export default defineConfig({
   },
   projects: [
     {
+      name: "setup",
+      testMatch: /.*\.setup\.spec\.ts/,
+      teardown: "cleanup",
+    },
+    {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "tests/temp/auth/user.json",
+      },
+      dependencies: ["setup"],
+      testIgnore: /.*\.setup\.spec\.ts/,
     },
   ],
   webServer: {

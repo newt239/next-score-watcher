@@ -1,18 +1,21 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * Variables形式のスコア計算
  * 各プレイヤーが変動値Nを設定、正解で+N、誤答で-N×(N-2)
  */
 const computeVariables = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "variables" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 30;
+  const winPoint = game.option.winPoint ?? 30;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [
@@ -29,12 +32,12 @@ const computeVariables = (
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
     const variableN = s.stage; // 各プレイヤーの変動値
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score += variableN; // 正解で+N
       s.last_correct = qn;
@@ -44,7 +47,7 @@ const computeVariables = (
       } else if (s.score >= winPoint - variableN) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       const penalty = variableN * (variableN - 2); // -N×(N-2)
       s.score -= penalty;

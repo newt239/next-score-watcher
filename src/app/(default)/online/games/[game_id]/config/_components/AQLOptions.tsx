@@ -2,13 +2,13 @@
 
 import ConfigInput from "./ConfigInput";
 
-import type { GetGameSettingsResponseType } from "@/models/games";
 import type { RuleNames } from "@/models/games";
+import type { AqlOption } from "@/utils/drizzle/types";
 
 type AQLOptionsProps = {
   gameId: string;
   ruleType: RuleNames;
-  settings: GetGameSettingsResponseType;
+  settings: AqlOption;
 };
 
 /**
@@ -27,14 +27,14 @@ const AQLOptions: React.FC<AQLOptionsProps> = ({
         gameId={gameId}
         label="左チーム名"
         placeholder="チーム名を入力"
-        value={settings.leftTeam}
+        value={settings.left_team}
         fieldName="leftTeam"
       />
       <ConfigInput
         gameId={gameId}
         label="右チーム名"
         placeholder="チーム名を入力"
-        value={settings.rightTeam}
+        value={settings.right_team}
         fieldName="rightTeam"
       />
     </>

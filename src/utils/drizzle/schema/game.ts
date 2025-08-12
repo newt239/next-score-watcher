@@ -1,11 +1,16 @@
-import { sql } from "drizzle-orm";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { relations, sql } from "drizzle-orm";
+import {
+  blob,
+  index,
+  integer,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 import { nanoid } from "nanoid";
 
 import { user } from "./auth";
 
-// ゲーム形式のenum（SQLiteではtextで代用）
-const gameRuleValues = [
+export const gameRuleValues = [
   "normal",
   "nomx",
   "nomx-ad",
@@ -25,6 +30,8 @@ const gameRuleValues = [
   "aql",
 ] as const;
 
+export type RuleNames = (typeof gameRuleValues)[number];
+
 // ゲームテーブル
 export const game = sqliteTable("game", {
   id: text("id")
@@ -40,6 +47,7 @@ export const game = sqliteTable("game", {
     .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   discordWebhookUrl: text("discord_webhook_url"),
+  option: blob("options", { mode: "json" }),
   userId: text("user_id").references(() => user.id),
 });
 
@@ -212,3 +220,106 @@ export const gameLogGameIdIdx = index("idx_game_log_game_id").on(
 export const gameLogTimestampIdx = index("idx_game_log_timestamp").on(
   gameLog.timestamp
 );
+
+// game のリレーション
+export const gameRelations = relations(game, ({ one, many }) => ({
+  user: one(user, {
+    fields: [game.userId],
+    references: [user.id],
+  }),
+  gameLog: many(gameLog),
+  gamePlayer: many(gamePlayer),
+  gameTag: many(gameTag), // 中間テーブル（タグは gameTag 経由で辿れます）
+}));
+
+// tag のリレーション
+export const tagRelations = relations(tag, ({ one, many }) => ({
+  user: one(user, {
+    fields: [tag.userId],
+    references: [user.id],
+  }),
+  gameTag: many(gameTag),
+}));
+
+// game_tag（中間）のリレーション
+export const gameTagRelations = relations(gameTag, ({ one }) => ({
+  game: one(game, {
+    fields: [gameTag.gameId],
+    references: [game.id],
+  }),
+  tag: one(tag, {
+    fields: [gameTag.tagId],
+    references: [tag.id],
+  }),
+  user: one(user, {
+    fields: [gameTag.userId],
+    references: [user.id],
+  }),
+}));
+
+// player のリレーション
+export const playerRelations = relations(player, ({ one, many }) => ({
+  user: one(user, {
+    fields: [player.userId],
+    references: [user.id],
+  }),
+  gamePlayer: many(gamePlayer),
+  gameLog: many(gameLog),
+  playerPlayerTag: many(playerPlayerTag), // プレイヤー⇔プレイヤータグの中間
+}));
+
+// player_tag のリレーション
+export const playerTagRelations = relations(playerTag, ({ one, many }) => ({
+  user: one(user, {
+    fields: [playerTag.userId],
+    references: [user.id],
+  }),
+  playerPlayerTag: many(playerPlayerTag),
+}));
+
+// player_player_tag（中間）のリレーション
+export const playerPlayerTagRelations = relations(
+  playerPlayerTag,
+  ({ one }) => ({
+    player: one(player, {
+      fields: [playerPlayerTag.playerId],
+      references: [player.id],
+    }),
+    playerTag: one(playerTag, {
+      fields: [playerPlayerTag.playerTagId],
+      references: [playerTag.id],
+    }),
+  })
+);
+
+// game_player のリレーション
+export const gamePlayerRelations = relations(gamePlayer, ({ one }) => ({
+  game: one(game, {
+    fields: [gamePlayer.gameId],
+    references: [game.id],
+  }),
+  player: one(player, {
+    fields: [gamePlayer.playerId],
+    references: [player.id],
+  }),
+  user: one(user, {
+    fields: [gamePlayer.userId],
+    references: [user.id],
+  }),
+}));
+
+// game_log のリレーション
+export const gameLogRelations = relations(gameLog, ({ one }) => ({
+  game: one(game, {
+    fields: [gameLog.gameId],
+    references: [game.id],
+  }),
+  player: one(player, {
+    fields: [gameLog.playerId],
+    references: [player.id],
+  }),
+  user: one(user, {
+    fields: [gameLog.userId],
+    references: [user.id],
+  }),
+}));

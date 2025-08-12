@@ -1,28 +1,31 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * FreezeX形式のスコア計算
  * X回正解で勝ち抜け、N回目の誤答でN回休み
  */
 const computeFreezex = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "freezex" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 7;
+  const winPoint = game.option.winPoint ?? 7;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score = s.correct;
       s.last_correct = qn;
@@ -33,7 +36,7 @@ const computeFreezex = (
       } else if (s.score === winPoint - 1) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.last_wrong = qn;
       s.is_incapacity = true;

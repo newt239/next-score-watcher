@@ -5,14 +5,13 @@ import { auth } from "@/utils/auth/auth";
 export const getUserId = async () => {
   // テスト環境での認証バイパス
   const headersList = await headers();
-  const isPlaywrightTest = headersList.get("x-playwright-test") === "true";
   const testUserId = headersList.get("x-test-user-id");
 
   if (
-    (process.env.NODE_ENV === "test" || isPlaywrightTest) &&
-    testUserId === "test-user-playwright"
+    process.env.NODE_ENV !== "production" &&
+    testUserId === process.env.PLAYWRIGHT_TEST_USER_ID
   ) {
-    return "test-user-playwright";
+    return process.env.PLAYWRIGHT_TEST_USER_ID;
   }
 
   const session = await auth.api.getSession({ headers: headersList });

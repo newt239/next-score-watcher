@@ -9,19 +9,20 @@ import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { parseResponse } from "hono/client";
 
-import type { OnlineGameProps } from "@/models/games";
+import type { RuleNames } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type Props = {
-  game: OnlineGameProps;
+  gameId: string;
+  ruleType: RuleNames;
 };
 
 /**
  * オンライン版ゲームエクスポートコンポーネント
  * ゲームデータをJSONファイルとしてエクスポート
  */
-const ExportGame: React.FC<Props> = ({ game }) => {
+const ExportGame: React.FC<Props> = ({ gameId, ruleType }) => {
   const [isPending, startTransition] = useTransition();
 
   const handleExportGame = async () => {
@@ -31,7 +32,7 @@ const ExportGame: React.FC<Props> = ({ game }) => {
         const apiClient = createApiClient();
         const gameData = await parseResponse(
           apiClient.games[":gameId"].$get({
-            param: { gameId: game.id },
+            param: { gameId },
           })
         );
 
@@ -41,17 +42,17 @@ const ExportGame: React.FC<Props> = ({ game }) => {
 
         sendGAEvent({
           event: "export_game",
-          value: game.rule,
+          value: ruleType,
         });
 
         // JSONファイルとしてダウンロード
-        const blob = new Blob([JSON.stringify(gameData.game, null, "\t")], {
+        const blob = new Blob([JSON.stringify(gameData, null, "\t")], {
           type: "application/json",
         });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `score-watcher_${game.id}_${cdate().format(
+        a.download = `score-watcher_${gameId}_${cdate().format(
           "YYMMDDHHmm"
         )}.json`;
         a.click();

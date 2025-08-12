@@ -3,12 +3,12 @@ import { createFactory } from "hono/factory";
 
 import { AddPlayerToGameRequestSchema } from "@/models/games";
 import { getUserId } from "@/server/repositories/auth";
-import { addGamePlayer } from "@/server/repositories/games";
+import { addGamePlayer } from "@/server/repositories/game";
 
 const factory = createFactory();
 
 /**
- * クラウドゲームプレイヤー追加
+ * ゲームプレイヤー追加
  */
 const handler = factory.createHandlers(
   zValidator("json", AddPlayerToGameRequestSchema),

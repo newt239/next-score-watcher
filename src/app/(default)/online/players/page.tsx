@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import { parseResponse } from "hono/client";
+
 import ManagePlayer from "./_components/ManagePlayer";
 
-import type { ApiPlayerDataType } from "@/models/players";
-
 import { getUser } from "@/utils/auth/auth-helpers";
-import { createApiClientOnServer } from "@/utils/hono/server-client";
+import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
   title: "プレイヤー管理",
@@ -21,18 +21,13 @@ const OnlinePlayerPage = async () => {
     redirect("/sign-in");
   }
 
-  // API Routes経由でプレイヤー一覧を取得
   const apiClient = await createApiClientOnServer();
 
-  let initialPlayers: ApiPlayerDataType[] = [];
-  try {
-    const response = await apiClient.players.$get({ query: {} });
-    if (response.ok) {
-      const data = await response.json();
-      initialPlayers = data.data.players || [];
-    }
-  } catch (error) {
-    console.error("Failed to fetch initial players:", error);
+  const initialPlayers = await parseResponse(
+    apiClient.players.$get({ query: {} })
+  );
+  if ("error" in initialPlayers) {
+    return <div>Error: {initialPlayers.error}</div>;
   }
 
   return <ManagePlayer initialPlayers={initialPlayers} userId={user.id} />;

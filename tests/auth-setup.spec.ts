@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 
 import { expect, test as setup } from "@playwright/test";
 
-const authFile = "tests/.auth/user.json";
+const authFile = "tests/temp/auth/user.json";
 
 /**
  * 認証セットアップ
@@ -10,12 +10,11 @@ const authFile = "tests/.auth/user.json";
  */
 setup("authenticate", async ({ page }) => {
   // テスト用のユーザーデータ
-  const testUserId = "test-user-id";
+  const testUserId = process.env.PLAYWRIGHT_TEST_USER_ID;
   const testUserEmail = "test@example.com";
   const testUserName = "テストユーザー";
 
   // セッションIDとトークンを生成
-  const _sessionId = crypto.randomBytes(32).toString("hex");
   const sessionToken = crypto.randomBytes(32).toString("hex");
 
   // Better Authのセッション形式に合わせてCookieを設定
@@ -52,17 +51,3 @@ setup("authenticate", async ({ page }) => {
   // 認証状態をストレージに保存
   await page.context().storageState({ path: authFile });
 });
-
-/**
- * データベースに直接セッション情報を挿入する関数
- * 実際のテストではこの関数を使用してセッションを作成する
- */
-export async function createTestSession() {
-  // この関数は実際のテストファイルで使用する
-  // データベースクライアントを使って直接セッション情報を挿入
-  return {
-    userId: "test-user-id",
-    sessionId: crypto.randomBytes(32).toString("hex"),
-    sessionToken: crypto.randomBytes(32).toString("hex"),
-  };
-}

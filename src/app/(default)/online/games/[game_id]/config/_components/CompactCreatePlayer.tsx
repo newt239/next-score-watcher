@@ -6,27 +6,28 @@ import { Button, Flex, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
-// import { nanoid } from "nanoid";
 
-import type { OnlineGameDBPlayerProps } from "@/models/games";
+import createApiClient from "@/utils/hono/browser";
 
-import createApiClient from "@/utils/hono/client";
-
-type Props = {
+type CompactCreatePlayerProps = {
   game_id: string;
-  players: OnlineGameDBPlayerProps[];
+  playerCount: number;
 };
 
 /**
  * オンライン版コンパクトプレイヤー作成コンポーネント
  * プレイヤーを作成してゲームに追加
  */
-const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
+const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
+  game_id,
+  playerCount,
+}) => {
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const apiClient = createApiClient();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.nativeEvent.isComposing || e.key !== "Enter") return;
@@ -40,7 +41,6 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
     startTransition(async () => {
       try {
         // プレイヤーを作成
-        const apiClient = createApiClient();
         const newPlayer = await parseResponse(
           apiClient.players.$post({
             json: [
@@ -63,7 +63,7 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players }) => {
             param: { gameId: game_id },
             json: {
               playerId: newPlayer.data.ids[0],
-              displayOrder: players.length,
+              displayOrder: playerCount,
               initialScore: 0,
               initialCorrectCount: 0,
               initialWrongCount: 0,

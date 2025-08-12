@@ -1,29 +1,32 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * Backstream形式のスコア計算
  * 正答で+1、n回目の誤答で-n、目標ポイントで勝ち抜け
  */
 const computeBackstream = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "backstream" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 10;
-  const losePoint = game.losePoint ?? -10;
+  const winPoint = game.option.targetPoint ?? 10;
+  const losePoint = game.option.targetPoint ?? -10;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score += 1;
       s.last_correct = qn;
@@ -33,7 +36,7 @@ const computeBackstream = (
       } else if (s.score === winPoint - 1) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       const newWrong = s.wrong + 1;
       const newScore = s.score - newWrong;
 

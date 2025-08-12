@@ -24,12 +24,12 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { ApiPlayerDataType } from "@/models/players";
+import type { UpdatePlayerType } from "@/models/players";
 
 import TablePagenation from "@/app/_components/TablePagination";
 
 type Props = {
-  players: ApiPlayerDataType[];
+  players: UpdatePlayerType[];
   deletePlayers: (playerIds: string[]) => Promise<boolean>;
   refetchPlayers: () => Promise<void>;
 };
@@ -39,7 +39,7 @@ const PlayersTable: React.FC<Props> = ({
   deletePlayers,
   refetchPlayers,
 }) => {
-  const [players, setPlayers] = useState<ApiPlayerDataType[]>(playersProp);
+  const [players, setPlayers] = useState<UpdatePlayerType[]>(playersProp);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedPlayers, setSelectedPlayers] = useState({});
   const [isPending, startTransition] = useTransition();
@@ -48,18 +48,19 @@ const PlayersTable: React.FC<Props> = ({
     setPlayers(playersProp);
   }, [playersProp]);
 
-  const fuzzyFilter: FilterFn<ApiPlayerDataType> = (row) => {
+  const fuzzyFilter: FilterFn<UpdatePlayerType> = (row) => {
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
-      data.text?.includes(searchText) ||
-      data.belong?.includes(searchText) ||
-      data.tags.join("").includes(searchText)
+      data.displayName?.includes(searchText) ||
+      data.affiliation?.includes(searchText) ||
+      data.description?.includes(searchText) ||
+      false
     );
   };
 
-  const columnHelper = createColumnHelper<ApiPlayerDataType>();
-  const columns: ColumnDef<ApiPlayerDataType, string>[] = [
+  const columnHelper = createColumnHelper<UpdatePlayerType>();
+  const columns: ColumnDef<UpdatePlayerType, string>[] = [
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (
@@ -84,15 +85,15 @@ const PlayersTable: React.FC<Props> = ({
     columnHelper.accessor("name", {
       header: "氏名",
     }),
-    columnHelper.accessor("text", {
+    columnHelper.accessor("displayName", {
       header: "表示名",
     }),
-    columnHelper.accessor("belong", {
+    columnHelper.accessor("affiliation", {
       header: "所属",
     }),
   ];
 
-  const table = useReactTable<ApiPlayerDataType>({
+  const table = useReactTable<UpdatePlayerType>({
     data: players || [],
     columns,
     state: {

@@ -6,7 +6,7 @@ import { TextInput } from "@mantine/core";
 
 import type { UpdateGameSettingsRequestType } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type ConfigInputProps = {
   gameId: string;
@@ -32,13 +32,15 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
   const updateSetting = async (newValue: string) => {
     try {
       const apiClient = createApiClient();
-      const updateData = {
-        [fieldName]: newValue,
-      } as UpdateGameSettingsRequestType;
 
-      const response = await apiClient["games"][":gameId"]["settings"].$patch({
+      const response = await apiClient.games[":gameId"].$patch({
         param: { gameId },
-        json: updateData,
+        json: {
+          key: "option",
+          value: {
+            [fieldName]: newValue,
+          },
+        },
       });
 
       if (!response.ok) {

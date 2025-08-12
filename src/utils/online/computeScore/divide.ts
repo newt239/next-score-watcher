@@ -1,29 +1,32 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * Divide形式のスコア計算
  * 正解で+10pt、誤答回数に応じて割る数が増加
  */
 const computeDivide = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "divide" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 100;
-  const correctPoints = game.correctMe ?? 10;
+  const winPoint = game.option.targetPoint ?? 100;
+  const correctPoints = game.option.targetPoint ?? 10;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
 
       // 正解時のポイント計算: 基本ポイント / (誤答回数 + 1)
@@ -37,7 +40,7 @@ const computeDivide = (
       } else if (s.score >= winPoint - correctPoints) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
 
       // 誤答時のポイント再計算

@@ -3,7 +3,7 @@ import { createFactory } from "hono/factory";
 
 import { DeletePlayerRequestSchema } from "@/models/players";
 import { getUserId } from "@/server/repositories/auth";
-import { deletePlayer } from "@/server/repositories/players";
+import { deletePlayer } from "@/server/repositories/player";
 
 const factory = createFactory();
 

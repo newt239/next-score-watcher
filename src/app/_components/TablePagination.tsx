@@ -1,23 +1,25 @@
 import { Group, NativeSelect, Pagination } from "@mantine/core";
 
+import type { PlayerProps } from "@/models/games";
 import type {
   PlayerDetailResponseType,
-  ApiPlayerDataType,
+  UpdatePlayerType,
 } from "@/models/players";
 import type { ApiQuizDataType } from "@/models/quizes";
 import type { PlayerDBProps, QuizDBProps } from "@/utils/types";
 import type { Table } from "@tanstack/react-table";
 
-type Props = {
+type TablePaginationProps = {
   table:
     | Table<PlayerDBProps>
     | Table<QuizDBProps>
     | Table<PlayerDetailResponseType>
-    | Table<ApiPlayerDataType>
-    | Table<ApiQuizDataType>;
+    | Table<UpdatePlayerType>
+    | Table<ApiQuizDataType>
+    | Table<PlayerProps>;
 };
 
-const TablePagenation: React.FC<Props> = ({ table }) => {
+const TablePagenation: React.FC<TablePaginationProps> = ({ table }) => {
   return (
     <Group justify="space-between">
       <Pagination

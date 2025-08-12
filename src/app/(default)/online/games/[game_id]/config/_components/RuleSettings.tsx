@@ -10,10 +10,10 @@ import ConfigBooleanInput from "./ConfigBooleanInput";
 import ConfigInput from "./ConfigInput";
 import ConfigNumberInput from "./ConfigNumberInput";
 
-import type { GetGameSettingsResponseType } from "@/models/games";
 import type { RuleNames } from "@/models/games";
+import type { AqlOption, TypedGame } from "@/utils/drizzle/types";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type RuleSettingsProps = {
   gameId: string;
@@ -24,9 +24,7 @@ type RuleSettingsProps = {
  * オンライン版ルール設定コンポーネント
  */
 const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
-  const [settings, setSettings] = useState<GetGameSettingsResponseType | null>(
-    null
-  );
+  const [game, setGame] = useState<TypedGame | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,13 +33,18 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       try {
         const apiClient = createApiClient();
         const data = await parseResponse(
-          apiClient.games[":gameId"].settings.$get({
+          apiClient.games[":gameId"].$get({
             param: { gameId },
           })
         );
 
-        if ("settings" in data) {
-          setSettings(data.settings);
+        if ("error" in data) {
+          setError(data.error);
+          return;
+        }
+
+        if (data) {
+          setGame(data);
         } else {
           setError("設定の取得に失敗しました");
         }
@@ -65,7 +68,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
     );
   }
 
-  if (error || !settings) {
+  if (error || !game) {
     return <Text c="red">{error || "設定の読み込みに失敗しました"}</Text>;
   }
 
@@ -90,7 +93,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         gameId={gameId}
         label="ゲーム名"
         placeholder="ゲーム名を入力"
-        value={settings.name}
+        value={game.name}
         fieldName="name"
       />
 
@@ -107,14 +110,16 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         "squarex",
         "freezex",
         "attacksurvival",
-      ].includes(ruleType) && (
+      ].includes(game.ruleType) && (
         <ConfigNumberInput
           gameId={gameId}
-          label={winPointRules[ruleType as keyof typeof winPointRules].name}
-          value={settings.winPoint}
+          label={
+            winPointRules[game.ruleType as keyof typeof winPointRules].name
+          }
+          value={0}
           fieldName="winPoint"
-          max={winPointRules[ruleType as keyof typeof winPointRules].max}
-          min={winPointRules[ruleType as keyof typeof winPointRules].min}
+          max={winPointRules[game.ruleType as keyof typeof winPointRules].max}
+          min={winPointRules[game.ruleType as keyof typeof winPointRules].min}
         />
       )}
 
@@ -126,22 +131,22 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         "nupdown",
         "nomr",
         "endless-chance",
-      ].includes(ruleType) && (
+      ].includes(game.ruleType) && (
         <ConfigNumberInput
           gameId={gameId}
           label={ruleType === "nomr" ? "休み(M)" : "失格誤答数"}
-          value={settings.losePoint || settings.loseCount}
+          value={0}
           fieldName={ruleType === "endless-chance" ? "loseCount" : "losePoint"}
           max={100}
         />
       )}
 
       {/* NY形式の特殊設定 */}
-      {ruleType === "ny" && (
+      {game.ruleType === "ny" && (
         <ConfigNumberInput
           gameId={gameId}
           label="目標ポイント"
-          value={settings.targetPoint}
+          value={game.option.targetPoint}
           fieldName="targetPoint"
           min={3}
           max={1000}
@@ -149,41 +154,45 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       )}
 
       {/* NOMR形式の特殊設定 */}
-      {ruleType === "nomr" && (
+      {game.ruleType === "nomr" && (
         <ConfigNumberInput
           gameId={gameId}
           label="休み回数"
-          value={settings.restCount}
+          value={game.option.restCount}
           fieldName="restCount"
           max={100}
         />
       )}
 
       {/* endless-chance形式のNOM休設定 */}
-      {ruleType === "endless-chance" && (
+      {game.ruleType === "endless-chance" && (
         <ConfigBooleanInput
           gameId={gameId}
           label="NOM休を利用する"
           helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
-          value={settings.useR}
+          value={!!game.option.losePoint}
           fieldName="useR"
         />
       )}
 
       {/* nomx-ad形式の連答設定 */}
-      {ruleType === "nomx-ad" && (
+      {game.ruleType === "nomx-ad" && (
         <ConfigBooleanInput
           gameId={gameId}
           label="3連答以上によるアドバンテージを有効にする"
           helperText="abcの新ルールを使いたい場合はこちらを無効にしてください。"
-          value={settings.streakOver3}
+          value={!!game.option.losePoint}
           fieldName="streakOver3"
         />
       )}
 
       {/* AQL形式のチーム設定 */}
       {ruleType === "aql" && (
-        <AQLOptions gameId={gameId} ruleType={ruleType} settings={settings} />
+        <AQLOptions
+          gameId={gameId}
+          ruleType={ruleType}
+          settings={game.option as AqlOption}
+        />
       )}
     </Flex>
   );

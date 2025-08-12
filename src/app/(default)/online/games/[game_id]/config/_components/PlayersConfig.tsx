@@ -16,19 +16,13 @@ import { IconGripVertical } from "@tabler/icons-react";
 
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
-import type {
-  OnlineGameDBPlayerProps,
-  OnlinePlayerDBProps,
-  RuleNames,
-} from "@/models/games";
-
-import createApiClient from "@/utils/hono/client";
+import type { GamePlayerProps, PlayerProps, RuleNames } from "@/models/games";
 
 type Props = {
   game_id: string;
   rule: RuleNames;
-  playerList: OnlinePlayerDBProps[];
-  players: OnlineGameDBPlayerProps[];
+  players: PlayerProps[];
+  gamePlayers: GamePlayerProps[];
 };
 
 /**
@@ -38,17 +32,17 @@ type Props = {
 const PlayersConfig: React.FC<Props> = ({
   game_id,
   rule,
-  playerList,
   players,
+  gamePlayers,
 }) => {
   const [isPending, startTransition] = useTransition();
-  const initialPlayersRef = useRef(players);
+  const initialPlayersRef = useRef(gamePlayers);
   const isInitialMount = useRef(true);
 
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      players,
+      players: gamePlayers,
     },
   });
 
@@ -68,73 +62,21 @@ const PlayersConfig: React.FC<Props> = ({
       if (!initialPlayer) return true;
       return (
         player.name !== initialPlayer.name ||
-        player.initial_correct !== initialPlayer.initial_correct ||
-        player.initial_wrong !== initialPlayer.initial_wrong
+        player.initialCorrectCount !== initialPlayer.initialCorrectCount ||
+        player.initialWrongCount !== initialPlayer.initialWrongCount
       );
     });
 
     if (
-      debouncedPlayers.length === players.length &&
-      players.length > 0 &&
+      debouncedPlayers.length === gamePlayers.length &&
+      gamePlayers.length > 0 &&
       hasRealChanges
     ) {
       startTransition(async () => {
-        try {
-          const apiClient = createApiClient();
-          const requestData = [
-            {
-              id: game_id,
-              players: debouncedPlayers.map((player) => ({
-                id: player.id,
-                name: player.name,
-                displayOrder: 0, // APIで自動設定
-                initialScore: 0,
-                initialCorrectCount: player.initial_correct || 0,
-                initialWrongCount: player.initial_wrong || 0,
-              })),
-            },
-          ];
-
-          console.log(
-            "PlayersConfig: Sending request to update players:",
-            requestData
-          );
-
-          const response = await apiClient.games.$patch({
-            json: requestData,
-          });
-
-          console.log("PlayersConfig: API Response status:", response.status);
-          console.log("PlayersConfig: API Response ok:", response.ok);
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error("PlayersConfig: API Response Error:", errorText);
-            throw new Error(
-              `Failed to update players: ${response.status} ${response.statusText} - ${errorText}`
-            );
-          }
-
-          const result = await response.json();
-          console.log("PlayersConfig: API Response result:", result);
-
-          if (result.success) {
-            console.log(
-              "PlayersConfig: Players updated successfully:",
-              result.data
-            );
-          } else {
-            console.error("PlayersConfig: API returned error:", result);
-            throw new Error(
-              `API Error: ${(result as { error?: string }).error || "Unknown error"}`
-            );
-          }
-        } catch (error) {
-          console.error("Failed to update players:", error);
-        }
+        // TODO: ゲームプレイヤー更新APIを呼ぶ
       });
     }
-  }, [debouncedPlayers, players.length, game_id]);
+  }, [debouncedPlayers, gamePlayers.length, game_id]);
 
   const fields = form.getValues().players.map((item, index) => (
     <Draggable
@@ -199,7 +141,7 @@ const PlayersConfig: React.FC<Props> = ({
 
   return (
     <>
-      {players.length !== 0 && (
+      {gamePlayers.length !== 0 && (
         <>
           <DragDropContext
             onDragEnd={({ destination, source }) =>
@@ -223,9 +165,8 @@ const PlayersConfig: React.FC<Props> = ({
       )}
       <SelectPlayer
         game_id={game_id}
-        playerList={playerList}
         players={players}
-        form={form}
+        gamePlayers={gamePlayers}
         disabled={isPending}
       />
     </>

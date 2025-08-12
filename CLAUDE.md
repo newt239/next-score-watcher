@@ -324,7 +324,7 @@ const OnlinePlayerPage = async () => {
 
 ```typescript
 // フロントエンド側ではapiClientを使用
-import apiClient from "@/utils/hono/client";
+import apiClient from "@/utils/hono/browser";
 
 const response = await apiClient.endpoint.$get({ query: {} });
 const data = await response.json();

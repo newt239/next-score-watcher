@@ -8,7 +8,7 @@ import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
 import { defaultUserPreferences } from "@/models/user-preferences";
 import { getUser } from "@/utils/auth/auth-helpers";
-import { createApiClientOnServer } from "@/utils/hono/server-client";
+import { createApiClientOnServer } from "@/utils/hono/server";
 
 // ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
