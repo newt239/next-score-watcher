@@ -7,6 +7,7 @@ import type {
   AddGameLogRequestType,
   AddPlayerToGameRequestType,
   CreateGameRequestType,
+  UpdateGamePlayerRequestJsonType,
   UpdateGamePlayerType,
   UpdateGameRequestJsonType,
   UpdateGameSettingsRequestType,
@@ -26,8 +27,11 @@ export const getGameById = async (gameId: string, userId: string) => {
       isNull(game.deletedAt)
     ),
     with: {
-      gameLog: true,
+      gameLog: {
+        where: isNull(gameLog.deletedAt),
+      },
       gamePlayer: {
+        where: isNull(gamePlayer.deletedAt),
         with: {
           player: {
             columns: {
@@ -206,22 +210,19 @@ export const getGamePlayers = async (gameId: string, userId: string) => {
 };
 
 /**
- * クラウドゲームプレイヤー追加
+ * ゲームプレイヤー追加
  */
 export const addGamePlayer = async (
   gameId: string,
   playerData: AddPlayerToGameRequestType,
   userId: string
 ) => {
-  await DBClient.insert(gamePlayer).values({
+  const result = await DBClient.insert(gamePlayer).values({
+    ...playerData,
     gameId,
-    playerId: playerData.playerId,
-    displayOrder: playerData.displayOrder,
-    initialScore: playerData.initialScore || 0,
-    initialCorrectCount: playerData.initialCorrectCount || 0,
-    initialWrongCount: playerData.initialWrongCount || 0,
     userId,
   });
+  return result.rowsAffected > 0;
 };
 
 /**
@@ -449,4 +450,73 @@ export const updateGameOption = async (
     );
 
   return result.rowsAffected > 0;
+};
+
+/**
+ * ゲームプレイヤー個別更新
+ */
+export const updateGamePlayerByKey = async (
+  gamePlayerId: string,
+  updateData: UpdateGamePlayerRequestJsonType,
+  userId: string
+): Promise<boolean> => {
+  try {
+    const { key, value } = updateData;
+
+    const result = await DBClient.update(gamePlayer)
+      .set({
+        [key]: value,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(gamePlayer.id, gamePlayerId),
+          eq(gamePlayer.userId, userId),
+          isNull(gamePlayer.deletedAt)
+        )
+      );
+
+    return result.rowsAffected > 0;
+  } catch (error) {
+    console.error("Failed to update game player:", error);
+    return false;
+  }
+};
+
+/**
+ * ゲームプレイヤー削除（指定されたプレイヤーIDのリストを削除）
+ */
+export const removeGamePlayers = async (
+  gameId: string,
+  playerIds: string[],
+  userId: string
+): Promise<{ deletedCount: number }> => {
+  try {
+    let deletedCount = 0;
+
+    for (const playerId of playerIds) {
+      const result = await DBClient.update(gamePlayer)
+        .set({
+          deletedAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .where(
+          and(
+            eq(gamePlayer.gameId, gameId),
+            eq(gamePlayer.playerId, playerId),
+            eq(gamePlayer.userId, userId),
+            isNull(gamePlayer.deletedAt)
+          )
+        );
+
+      if (result.rowsAffected > 0) {
+        deletedCount++;
+      }
+    }
+
+    return { deletedCount };
+  } catch (error) {
+    console.error("Failed to remove game players:", error);
+    throw error;
+  }
 };

@@ -4,12 +4,15 @@ import { cors } from "hono/cors";
 import indexHandler from "./controllers";
 import deleteGameHandler from "./controllers/game/delete-game";
 import deleteLogHandler from "./controllers/game/delete-log";
+import deletePlayersHandler from "./controllers/game/delete-players";
 import getGameDetailHandler from "./controllers/game/get-detail";
 import getGameListHandler from "./controllers/game/get-list";
 import getGameLogsHandler from "./controllers/game/get-logs";
 import getGamePlayersHandler from "./controllers/game/get-players";
 import patchGameUpdateHandler from "./controllers/game/patch-update";
 import patchGameUpdateOptionsHandler from "./controllers/game/patch-update-options";
+import patchGameUpdatePlayerHandler from "./controllers/game/patch-update-player";
+import patchGameUpdatePlayersHandler from "./controllers/game/patch-update-players";
 import postAddLogHandler from "./controllers/game/post-add-log";
 import postAddPlayerHandler from "./controllers/game/post-add-player";
 import postCopyPlayersHandler from "./controllers/game/post-copy-players";
@@ -64,6 +67,9 @@ const app = new Hono()
   .delete("/games/:gameId", ...deleteGameHandler)
   .get("/games/:gameId/players", ...getGamePlayersHandler)
   .post("/games/:gameId/players", ...postAddPlayerHandler)
+  .patch("/games/:gameId/players", ...patchGameUpdatePlayersHandler)
+  .delete("/games/:gameId/players", ...deletePlayersHandler)
+  .patch("/games/players/:gamePlayerId", ...patchGameUpdatePlayerHandler)
   .post("/games/:game_id/copy-players", ...postCopyPlayersHandler)
   .get("/games/:gameId/logs", ...getGameLogsHandler)
   .post("/games/logs", ...postAddLogHandler)

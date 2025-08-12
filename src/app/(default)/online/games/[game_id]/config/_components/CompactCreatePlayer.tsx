@@ -64,9 +64,6 @@ const CompactCreatePlayer: React.FC<CompactCreatePlayerProps> = ({
             json: {
               playerId: newPlayer.data.ids[0],
               displayOrder: playerCount,
-              initialScore: 0,
-              initialCorrectCount: 0,
-              initialWrongCount: 0,
             },
           })
         );

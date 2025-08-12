@@ -175,6 +175,49 @@ export const UpdateGamePlayerSchema = z.object({
 });
 
 /**
+ * ゲームプレイヤー更新リクエストのパラメータスキーマ
+ */
+export const UpdateGamePlayerRequestParamSchema = z.object({
+  gamePlayerId: z.string().min(1),
+});
+
+/**
+ * ゲームプレイヤー更新リクエストのjsonスキーマ
+ */
+export const UpdateGamePlayerRequestJsonSchema = z.union([
+  z.object({
+    key: z.literal("displayOrder"),
+    value: z.number().int().min(0),
+  }),
+  z.object({
+    key: z.literal("initialScore"),
+    value: z.number().int(),
+  }),
+  z.object({
+    key: z.literal("initialCorrectCount"),
+    value: z.number().int().min(0),
+  }),
+  z.object({
+    key: z.literal("initialWrongCount"),
+    value: z.number().int().min(0),
+  }),
+]);
+
+/**
+ * ゲームプレイヤー一括更新リクエストのパラメータスキーマ
+ */
+export const UpdateGamePlayersRequestParamSchema = z.object({
+  gameId: z.string().min(1),
+});
+
+/**
+ * ゲームプレイヤー一括更新リクエストのjsonスキーマ
+ */
+export const UpdateGamePlayersRequestJsonSchema = z.object({
+  players: z.array(UpdateGamePlayerSchema),
+});
+
+/**
  * クイズ設定更新のスキーマ
  */
 export const UpdateGameQuizSchema = z.object({
@@ -216,9 +259,25 @@ export const DeleteGameRequestParamSchema = z.object({
 export const AddPlayerToGameRequestSchema = z.object({
   playerId: z.string().min(1),
   displayOrder: z.number().int().min(0),
-  initialScore: z.number().int().default(0),
-  initialCorrectCount: z.number().int().default(0),
-  initialWrongCount: z.number().int().default(0),
+  initialScore: z.number().int().default(0).optional(),
+  initialCorrectCount: z.number().int().default(0).optional(),
+  initialWrongCount: z.number().int().default(0).optional(),
+});
+
+/**
+ * ゲームプレイヤー削除リクエストのスキーマ
+ */
+export const RemoveGamePlayersRequestParamSchema = z.object({
+  gameId: z.string().min(1),
+});
+
+/**
+ * ゲームプレイヤー削除リクエストのJSONスキーマ
+ */
+export const RemoveGamePlayersRequestJsonSchema = z.object({
+  playerIds: z
+    .array(z.string().min(1))
+    .min(1, "削除するプレイヤーIDが必要です"),
 });
 
 /**
@@ -270,6 +329,34 @@ export type UpdateGameRequestJsonType = z.infer<
 >;
 
 /**
+ * ゲームプレイヤー更新リクエストのパラメータ型
+ */
+export type UpdateGamePlayerRequestParamType = z.infer<
+  typeof UpdateGamePlayerRequestParamSchema
+>;
+
+/**
+ * ゲームプレイヤー更新リクエストのjson型
+ */
+export type UpdateGamePlayerRequestJsonType = z.infer<
+  typeof UpdateGamePlayerRequestJsonSchema
+>;
+
+/**
+ * ゲームプレイヤー一括更新リクエストのパラメータ型
+ */
+export type UpdateGamePlayersRequestParamType = z.infer<
+  typeof UpdateGamePlayersRequestParamSchema
+>;
+
+/**
+ * ゲームプレイヤー一括更新リクエストのjson型
+ */
+export type UpdateGamePlayersRequestJsonType = z.infer<
+  typeof UpdateGamePlayersRequestJsonSchema
+>;
+
+/**
  * ゲーム削除リクエストの型
  */
 export type DeleteGameRequestParamType = z.infer<
@@ -281,6 +368,20 @@ export type DeleteGameRequestParamType = z.infer<
  */
 export type AddPlayerToGameRequestType = z.infer<
   typeof AddPlayerToGameRequestSchema
+>;
+
+/**
+ * ゲームプレイヤー削除リクエストのパラメータ型
+ */
+export type RemoveGamePlayersRequestParamType = z.infer<
+  typeof RemoveGamePlayersRequestParamSchema
+>;
+
+/**
+ * ゲームプレイヤー削除リクエストのJSON型
+ */
+export type RemoveGamePlayersRequestJsonType = z.infer<
+  typeof RemoveGamePlayersRequestJsonSchema
 >;
 
 /**
@@ -422,6 +523,23 @@ export type UpdateGameOptionsResponseType = {
 export type UpdateGamePlayersResponseType = {
   updated: boolean;
   updatedCount: number;
+  message: string;
+};
+
+/**
+ * ゲームプレイヤー削除レスポンスの型
+ */
+export type RemoveGamePlayersResponseType = {
+  removed: boolean;
+  deletedCount: number;
+  message: string;
+};
+
+/**
+ * ゲームプレイヤー更新レスポンスの型
+ */
+export type UpdateGamePlayerResponseType = {
+  updated: boolean;
   message: string;
 };
 

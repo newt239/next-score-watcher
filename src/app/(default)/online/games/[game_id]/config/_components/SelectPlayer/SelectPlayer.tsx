@@ -20,6 +20,7 @@ type Props = {
   players: PlayerProps[];
   gamePlayers: GamePlayerProps[];
   disabled?: boolean;
+  onPlayersChange?: (newGamePlayerIds: string[]) => void;
 };
 
 /**
@@ -31,6 +32,7 @@ const SelectPlayer: React.FC<Props> = ({
   players,
   gamePlayers,
   disabled = false,
+  onPlayersChange,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -90,6 +92,7 @@ const SelectPlayer: React.FC<Props> = ({
                       gamePlayerIds={gamePlayers.map((p) => p.id)}
                       game_id={game_id}
                       players={players}
+                      onPlayersChange={onPlayersChange}
                     />
                   )}
                 </Accordion.Panel>

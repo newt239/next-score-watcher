@@ -17,14 +17,17 @@ import {
 } from "@tanstack/react-table";
 
 import type { PlayerProps } from "@/models/games";
+import type { RemoveGamePlayersResponseType } from "@/models/games";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";
+import createApiClient from "@/utils/hono/browser";
 
 type CompactPlayerTableProps = {
   game_id: string;
   gamePlayerIds: string[];
   players: PlayerProps[];
+  onPlayersChange?: (newGamePlayerIds: string[]) => void;
 };
 
 /**
@@ -35,6 +38,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   game_id,
   gamePlayerIds,
   players,
+  onPlayersChange,
 }) => {
   const [isPending, startTransition] = useTransition();
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
@@ -118,7 +122,64 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     if (isPending) return;
 
     startTransition(async () => {
-      // TODO: プレイヤーを追加
+      const apiClient = createApiClient();
+
+      // 現在選択されているプレイヤーIDを取得
+      const newSelectedPlayerIds = table
+        .getSelectedRowModel()
+        .rows.map(({ original }) => original.id);
+
+      // 追加されたプレイヤー（新しく選択されたもの）
+      const addedPlayerIds = newSelectedPlayerIds.filter(
+        (playerId) => !gamePlayerIds.includes(playerId)
+      );
+
+      // 削除されたプレイヤー（選択が解除されたもの）
+      const removedPlayerIds = gamePlayerIds.filter(
+        (playerId) => !newSelectedPlayerIds.includes(playerId)
+      );
+
+      try {
+        // プレイヤーを追加
+        if (addedPlayerIds.length > 0) {
+          for (const playerId of addedPlayerIds) {
+            const currentPlayerCount = newSelectedPlayerIds.length;
+            await apiClient.games[":gameId"].players.$post({
+              param: { gameId: game_id },
+              json: {
+                playerId,
+                displayOrder: currentPlayerCount,
+                initialScore: 0,
+                initialCorrectCount: 0,
+                initialWrongCount: 0,
+              },
+            });
+          }
+        }
+
+        // プレイヤーを削除
+        if (removedPlayerIds.length > 0) {
+          const response = await apiClient.games[":gameId"].players.$delete({
+            param: { gameId: game_id },
+            json: { playerIds: removedPlayerIds },
+          });
+
+          if (response.ok) {
+            const data: RemoveGamePlayersResponseType = await response.json();
+            console.log(`プレイヤー削除完了: ${data.message}`);
+          }
+        }
+
+        // 親コンポーネントに新しいプレイヤーIDリストを通知
+        if (
+          (addedPlayerIds.length > 0 || removedPlayerIds.length > 0) &&
+          onPlayersChange
+        ) {
+          onPlayersChange(newSelectedPlayerIds);
+        }
+      } catch (error) {
+        console.error("プレイヤー設定の更新に失敗しました:", error);
+      }
     });
   }, [rowSelection]);
 

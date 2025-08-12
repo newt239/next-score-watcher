@@ -26,9 +26,9 @@ const handler = factory.createHandlers(
       }
 
       const playerData = c.req.valid("json");
-      await addGamePlayer(gameId, playerData, userId);
+      const result = await addGamePlayer(gameId, playerData, userId);
 
-      return c.json({ success: true } as const, 201);
+      return c.json({ result } as const, 201);
     } catch (error) {
       console.error("Error adding cloud game player:", error);
       return c.json({ error: "サーバーエラーが発生しました" } as const, 500);
