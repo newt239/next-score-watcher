@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 
 import { Switch, Text } from "@mantine/core";
 
-import type { UpdateGameSettingsRequestType } from "@/models/games";
+import type { GameOptionKey } from "@/utils/drizzle/types";
 
 import createApiClient from "@/utils/hono/browser";
 
@@ -13,7 +13,7 @@ type ConfigBooleanInputProps = {
   label: string;
   helperText?: string;
   value: boolean | undefined;
-  fieldName: keyof UpdateGameSettingsRequestType;
+  fieldName: GameOptionKey;
 };
 
 /**
@@ -32,18 +32,16 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
 
   const updateSetting = async (newValue: boolean) => {
     try {
-      const response = await apiClient.games[":gameId"].$patch({
+      const response = await apiClient.games[":gameId"].options.$patch({
         param: { gameId },
         json: {
-          key: "option",
-          value: {
-            [fieldName]: newValue,
-          },
+          key: fieldName,
+          value: newValue,
         },
       });
 
       if (!response.ok) {
-        console.error("Failed to update setting");
+        console.error("Failed to update option");
       }
     } catch (error) {
       console.error("Failed to update setting:", error);

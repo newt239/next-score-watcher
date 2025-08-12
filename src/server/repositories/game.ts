@@ -1,15 +1,12 @@
 import { and, asc, count, desc, eq, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import { parseGameOption } from "../utils/options";
+import { parseGameOption, setupDefaultGameOption } from "../utils/options";
 
 import type {
   AddGameLogRequestType,
   AddPlayerToGameRequestType,
   CreateGameRequestType,
-  CreateGameType,
-  DeleteGameRequestParamType,
-  UpdateGameOptionsRequestJsonType,
   UpdateGamePlayerType,
   UpdateGameRequestJsonType,
   UpdateGameSettingsRequestType,
@@ -50,8 +47,6 @@ export const getGameById = async (gameId: string, userId: string) => {
       },
     },
   });
-
-  console.log("queryResult", queryResult);
 
   if (!queryResult || !queryResult.id) {
     return null;
@@ -104,31 +99,11 @@ export const getGames = async (userId: string) => {
     .where(and(eq(game.userId, userId), isNull(game.deletedAt)))
     .orderBy(desc(game.updatedAt));
 
-  return games;
+  return games.filter((g) => g.id !== null);
 };
 
 /**
- * 単一ゲーム作成
- */
-export const createSingleGame = async (
-  gameData: CreateGameType,
-  userId: string
-): Promise<string> => {
-  const gameId = nanoid();
-
-  await DBClient.insert(game).values({
-    id: gameId,
-    name: gameData.name,
-    ruleType: gameData.ruleType,
-    discordWebhookUrl: gameData.discordWebhookUrl,
-    userId,
-  });
-
-  return gameId;
-};
-
-/**
- * ゲーム作成（複数対応）
+ * ゲーム作成
  */
 export const createGame = async (
   gamesData: CreateGameRequestType,
@@ -139,6 +114,7 @@ export const createGame = async (
     name: gameData.name,
     ruleType: gameData.ruleType,
     discordWebhookUrl: gameData.discordWebhookUrl,
+    option: setupDefaultGameOption(gameData),
     userId,
   }));
 
@@ -182,10 +158,7 @@ export const updateGameByKey = async (
 /**
  * ゲーム削除
  */
-export const deleteGameById = async (
-  gameId: DeleteGameRequestParamType,
-  userId: string
-) => {
+export const deleteGameById = async (gameId: string, userId: string) => {
   const result = await DBClient.update(game)
     .set({
       deletedAt: new Date(),
@@ -302,7 +275,7 @@ export const removeGameLog = async (logId: string, userId: string) => {
 };
 
 /**
- * クラウドゲーム設定更新
+ * ゲームの名前かDiscord Webhook URLを更新
  */
 export const updateGameSettings = async (
   gameId: string,
@@ -313,25 +286,12 @@ export const updateGameSettings = async (
     const gameData = await getGameById(gameId, userId);
     if (!gameData) return false;
 
-    // 基本情報の更新
-    const basicUpdateData: {
-      name?: string;
-      discordWebhookUrl?: string;
-      updatedAt?: Date;
-    } = {};
-    if (settingsData.name !== undefined)
-      basicUpdateData.name = settingsData.name;
-    if (settingsData.discordWebhookUrl !== undefined)
-      basicUpdateData.discordWebhookUrl = settingsData.discordWebhookUrl;
-
-    if (Object.keys(basicUpdateData).length > 0) {
-      basicUpdateData.updatedAt = new Date();
-      await DBClient.update(game)
-        .set(basicUpdateData)
-        .where(and(eq(game.id, gameId), eq(game.userId, userId)));
-    }
-
-    // 各ルール形式の設定を更新
+    await DBClient.update(game)
+      .set({
+        ...settingsData,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(game.id, gameId), eq(game.userId, userId)));
 
     return true;
   } catch (error) {
@@ -452,16 +412,36 @@ export const copyPlayersFromGame = async (
 };
 
 /**
+ * ゲームオプション取得
+ */
+export const getGameOptionById = async (gameId: string, userId: string) => {
+  const gameData = await DBClient.query.game.findFirst({
+    where: and(eq(game.id, gameId), eq(game.userId, userId)),
+    columns: {
+      ruleType: true,
+      option: true,
+    },
+  });
+  if (!gameData) {
+    return null;
+  }
+  const parsedOption = setupDefaultGameOption(gameData);
+  return parsedOption;
+};
+
+/**
  * ゲームオプション更新
  */
-export const updateGameOptions = async (
+export const updateGameOption = async (
   gameId: string,
-  options: UpdateGameOptionsRequestJsonType,
+  option: {
+    [key: string]: string | number | boolean;
+  },
   userId: string
 ) => {
   const result = await DBClient.update(game)
     .set({
-      option: JSON.stringify(options),
+      option,
       updatedAt: new Date(),
     })
     .where(

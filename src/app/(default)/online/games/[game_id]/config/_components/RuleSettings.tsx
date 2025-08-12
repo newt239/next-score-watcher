@@ -98,45 +98,51 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       />
 
       {/* win_point が必要なルール */}
-      {[
-        "nomx",
-        "nomx-ad",
-        "nomr",
-        "endless-chance",
-        "ny",
-        "variables",
-        "nbyn",
-        "nupdown",
-        "squarex",
-        "freezex",
-        "attacksurvival",
-      ].includes(game.ruleType) && (
+      {(game.ruleType === "nomx" ||
+        game.ruleType === "nomx-ad" ||
+        game.ruleType === "nomr" ||
+        game.ruleType === "endless-chance" ||
+        game.ruleType === "ny" ||
+        game.ruleType === "variables" ||
+        game.ruleType === "nbyn" ||
+        game.ruleType === "nupdown" ||
+        game.ruleType === "squarex" ||
+        game.ruleType === "freezex" ||
+        game.ruleType === "attacksurvival") && (
         <ConfigNumberInput
           gameId={gameId}
           label={
             winPointRules[game.ruleType as keyof typeof winPointRules].name
           }
-          value={0}
-          fieldName="winPoint"
+          value={game.option.win_point}
+          fieldName="win_point"
           max={winPointRules[game.ruleType as keyof typeof winPointRules].max}
           min={winPointRules[game.ruleType as keyof typeof winPointRules].min}
         />
       )}
 
       {/* lose_point が必要なルール */}
-      {[
-        "nomx",
-        "nomx-ad",
-        "nbyn",
-        "nupdown",
-        "nomr",
-        "endless-chance",
-      ].includes(game.ruleType) && (
+      {(game.ruleType === "nomx" ||
+        game.ruleType === "nomx-ad" ||
+        game.ruleType === "nbyn" ||
+        game.ruleType === "nupdown" ||
+        game.ruleType === "nomr") && (
         <ConfigNumberInput
           gameId={gameId}
           label={ruleType === "nomr" ? "休み(M)" : "失格誤答数"}
-          value={0}
-          fieldName={ruleType === "endless-chance" ? "loseCount" : "losePoint"}
+          value={game.option.lose_point}
+          fieldName="lose_point"
+          max={100}
+        />
+      )}
+
+      {/* lose_count が必要なルール */}
+      {game.ruleType === "endless-chance" && (
+        <ConfigNumberInput
+          gameId={gameId}
+          label="失格誤答数"
+          value={game.option.lose_count}
+          fieldName="lose_count"
           max={100}
         />
       )}
@@ -147,7 +153,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
           gameId={gameId}
           label="目標ポイント"
           value={game.option.target_point}
-          fieldName="targetPoint"
+          fieldName="target_point"
           min={3}
           max={1000}
         />
@@ -159,7 +165,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
           gameId={gameId}
           label="休み回数"
           value={game.option.rest_count}
-          fieldName="restCount"
+          fieldName="rest_count"
           max={100}
         />
       )}
@@ -171,7 +177,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
           label="NOM休を利用する"
           helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
           value={game.option.use_r}
-          fieldName="useR"
+          fieldName="use_r"
         />
       )}
 
@@ -182,7 +188,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
           label="3連答以上によるアドバンテージを有効にする"
           helperText="abcの新ルールを使いたい場合はこちらを無効にしてください。"
           value={game.option.streak_over3}
-          fieldName="streakOver3"
+          fieldName="streak_over3"
         />
       )}
 

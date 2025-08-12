@@ -32,32 +32,45 @@ const DeleteGame: React.FC<DeleteGamePropsUnion> = ({
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const apiClient = createApiClient();
 
   const deleteGame = async () => {
     startTransition(async () => {
-      const apiClient = createApiClient();
-      const result = await parseResponse(
-        apiClient.games[":gameId"].$delete({
-          param: gameId,
-        })
-      );
+      try {
+        const result = await parseResponse(
+          apiClient.games[":gameId"].$delete({
+            param: {
+              gameId,
+            },
+          })
+        );
 
-      if ("success" in result) {
-        notifications.show({
-          title: "ゲームを削除しました",
-          message: `${gameId}(${rules[ruleType].name})を削除しました`,
-          autoClose: 9000,
-          withCloseButton: true,
-        });
+        if ("success" in result) {
+          notifications.show({
+            title: "ゲームを削除しました",
+            message: `${gameName}(${rules[ruleType].name})を削除しました`,
+            autoClose: 9000,
+            withCloseButton: true,
+          });
 
-        sendGAEvent({
-          event: "delete_game",
-          value: gameId,
-        });
+          sendGAEvent({
+            event: "delete_game",
+            value: gameId,
+          });
 
-        router.push("/online/games");
-        router.refresh();
-      } else {
+          router.push("/online/games");
+          router.refresh();
+        } else {
+          notifications.show({
+            title: "エラーが発生しました",
+            message: "ゲームの削除に失敗しました",
+            color: "red",
+            autoClose: 9000,
+            withCloseButton: true,
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting game:", error);
         notifications.show({
           title: "エラーが発生しました",
           message: "ゲームの削除に失敗しました",

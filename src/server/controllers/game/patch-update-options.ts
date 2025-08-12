@@ -6,7 +6,10 @@ import {
   UpdateGameOptionsRequestParamSchema,
 } from "@/models/games";
 import { getUserId } from "@/server/repositories/auth";
-import { updateGameOptions } from "@/server/repositories/game";
+import {
+  getGameOptionById,
+  updateGameOption,
+} from "@/server/repositories/game";
 
 const factory = createFactory();
 
@@ -18,10 +21,7 @@ export default factory.createHandlers(
   zValidator("json", UpdateGameOptionsRequestJsonSchema),
   async (c) => {
     try {
-      const { gameId } = c.req.valid("param");
-      const options = c.req.valid("json");
       const userId = await getUserId();
-
       if (!userId) {
         return c.json(
           {
@@ -32,7 +32,18 @@ export default factory.createHandlers(
         );
       }
 
-      const result = await updateGameOptions(gameId, options, userId);
+      const { gameId } = c.req.valid("param");
+      const option = c.req.valid("json");
+      const currentOption = await getGameOptionById(gameId, userId);
+
+      const result = await updateGameOption(
+        gameId,
+        {
+          ...currentOption,
+          [option.key]: option.value,
+        },
+        userId
+      );
 
       if (!result) {
         return c.json(

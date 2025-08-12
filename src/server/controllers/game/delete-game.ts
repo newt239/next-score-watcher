@@ -19,7 +19,7 @@ const handler = factory.createHandlers(
         return c.json({ error: "ユーザーが見つかりません" } as const, 404);
       }
 
-      const gameId = c.req.valid("param");
+      const { gameId } = c.req.valid("param");
       const result = await deleteGameById(gameId, userId);
 
       return c.json({ success: result } as const, 200);

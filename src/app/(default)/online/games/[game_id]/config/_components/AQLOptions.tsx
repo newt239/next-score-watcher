@@ -28,14 +28,14 @@ const AQLOptions: React.FC<AQLOptionsProps> = ({
         label="左チーム名"
         placeholder="チーム名を入力"
         value={settings.left_team}
-        fieldName="leftTeam"
+        fieldName="left_team"
       />
       <ConfigInput
         gameId={gameId}
         label="右チーム名"
         placeholder="チーム名を入力"
         value={settings.right_team}
-        fieldName="rightTeam"
+        fieldName="right_team"
       />
     </>
   );

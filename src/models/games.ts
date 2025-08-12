@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import type { SeriarizedGameLog, TypedGame } from "@/utils/drizzle/types";
+import { type SeriarizedGameLog, type TypedGame } from "@/utils/drizzle/types";
 
 /**
  * ルール名の型定義
@@ -138,6 +138,7 @@ export const CreateGameSchema = z.object({
   name: z.string().min(1),
   ruleType: z.string() as z.ZodSchema<RuleNames>,
   discordWebhookUrl: z.string().optional(),
+  option: z.unknown().optional(),
 });
 
 /**
@@ -205,7 +206,9 @@ export const UpdateGameRequestJsonSchema = z.union([
 /**
  * ゲーム削除リクエストのスキーマ
  */
-export const DeleteGameRequestParamSchema = z.string().min(1);
+export const DeleteGameRequestParamSchema = z.object({
+  gameId: z.string().min(1),
+});
 
 /**
  * ゲームにプレイヤー追加リクエストのスキーマ
@@ -345,27 +348,14 @@ export const GetGameSettingsResponseSchema = z.object({
 /**
  * ゲーム設定更新リクエストのスキーマ
  */
-export const UpdateGameSettingsRequestSchema = z.object({
-  name: z.string().min(1).optional(),
-  discordWebhookUrl: z.string().optional(),
-  winPoint: z.number().int().min(1).max(1000).optional(),
-  losePoint: z.number().int().min(1).max(100).optional(),
-  targetPoint: z.number().int().min(3).max(1000).optional(),
-  restCount: z.number().int().min(1).max(100).optional(),
-  basePoint: z.number().int().min(1).max(100).optional(),
-  initialPoint: z.number().int().min(0).max(100).optional(),
-  loseThreshold: z.number().int().min(-100).max(100).optional(),
-  attackPoint: z.number().int().min(1).max(100).optional(),
-  squareSize: z.number().int().min(2).max(10).optional(),
-  winCondition: z.number().int().min(1).max(10).optional(),
-  zonePoint: z.number().int().min(1).max(100).optional(),
-  freezePoint: z.number().int().min(1).max(100).optional(),
-  loseCount: z.number().int().min(1).max(100).optional(),
-  useR: z.boolean().optional(),
-  streakOver3: z.boolean().optional(),
-  leftTeam: z.string().max(50).optional(),
-  rightTeam: z.string().max(50).optional(),
-});
+export const UpdateGameSettingsRequestSchema = z.union([
+  z.object({
+    name: z.string().min(1),
+  }),
+  z.object({
+    discordWebhookUrl: z.string(),
+  }),
+]);
 
 /**
  * ゲーム設定取得レスポンスの型
@@ -399,10 +389,10 @@ export const UpdateGameOptionsRequestParamSchema = z.object({
 /**
  * ゲームオプション更新リクエストのjsonスキーマ
  */
-export const UpdateGameOptionsRequestJsonSchema = z.record(
-  z.string(),
-  z.union([z.boolean(), z.number(), z.string()])
-);
+export const UpdateGameOptionsRequestJsonSchema = z.object({
+  key: z.string().min(1),
+  value: z.union([z.number(), z.string(), z.boolean()]),
+});
 
 /**
  * ゲームオプション更新リクエストの型

@@ -12,11 +12,11 @@ import type { RuleNames } from "@/utils/types";
 import { createGame } from "@/utils/functions";
 import { rules } from "@/utils/rules";
 
-type Props = {
+type RuleListProps = {
   currentProfile: string;
 };
 
-const RuleList: React.FC<Props> = ({ currentProfile }) => {
+const RuleList: React.FC<RuleListProps> = ({ currentProfile }) => {
   const router = useRouter();
   const ruleNameList = Object.keys(rules) as RuleNames[];
 

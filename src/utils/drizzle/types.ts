@@ -37,7 +37,9 @@ export const NormalOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({});
+export const NormalOptionKeySchema = z.enum(["limit", "win_through"]);
 export type NormalOption = z.infer<typeof NormalOptionSchema>;
+export type NormalOptionKey = keyof NormalOption;
 
 export const NomxOptionSchema = z
   .object({
@@ -47,14 +49,20 @@ export const NomxOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 7, lose_point: 3 });
+export const NomxOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "limit",
+  "win_through",
+]);
 export type NomxOption = z.infer<typeof NomxOptionSchema>;
+export type NomxOptionKey = keyof NomxOption;
 
 export const NomxAdOptionSchema = z
   .object({
     win_point: z.number().default(7),
     lose_point: z.number().default(3),
     streak_over3: z.boolean().default(true),
-    streakOver3: z.boolean().default(true),
     limit: z.number().optional(),
     win_through: z.number().optional(),
   })
@@ -62,9 +70,16 @@ export const NomxAdOptionSchema = z
     win_point: 7,
     lose_point: 3,
     streak_over3: true,
-    streakOver3: true,
   });
+export const NomxAdOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "streak_over3",
+  "limit",
+  "win_through",
+]);
 export type NomxAdOption = z.infer<typeof NomxAdOptionSchema>;
+export type NomxAdOptionKey = keyof NomxAdOption;
 
 export const NyOptionSchema = z
   .object({
@@ -75,7 +90,15 @@ export const NyOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 10, lose_point: 3, target_point: 10 });
+export const NyOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "target_point",
+  "limit",
+  "win_through",
+]);
 export type NyOption = z.infer<typeof NyOptionSchema>;
+export type NyOptionKey = keyof NyOption;
 
 export const NomrOptionSchema = z
   .object({
@@ -90,7 +113,15 @@ export const NomrOptionSchema = z
     lose_point: 3,
     rest_count: 3,
   });
+export const NomrOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "rest_count",
+  "limit",
+  "win_through",
+]);
 export type NomrOption = z.infer<typeof NomrOptionSchema>;
+export type NomrOptionKey = keyof NomrOption;
 
 export const NbynOptionSchema = z
   .object({
@@ -100,7 +131,14 @@ export const NbynOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 5, lose_point: 5 });
+export const NbynOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "limit",
+  "win_through",
+]);
 export type NbynOption = z.infer<typeof NbynOptionSchema>;
+export type NbynOptionKey = keyof NbynOption;
 
 export const NupdownOptionSchema = z
   .object({
@@ -110,7 +148,14 @@ export const NupdownOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 5, lose_point: 2 });
+export const NupdownOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "limit",
+  "win_through",
+]);
 export type NupdownOption = z.infer<typeof NupdownOptionSchema>;
+export type NupdownOptionKey = keyof NupdownOption;
 
 export const DivideOptionSchema = z
   .object({
@@ -120,7 +165,14 @@ export const DivideOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 100, correct_me: 10 });
+export const DivideOptionKeySchema = z.enum([
+  "win_point",
+  "correct_me",
+  "limit",
+  "win_through",
+]);
 export type DivideOption = z.infer<typeof DivideOptionSchema>;
+export type DivideOptionKey = keyof DivideOption;
 
 export const Swedish10OptionSchema = z
   .object({
@@ -130,7 +182,14 @@ export const Swedish10OptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 10, lose_point: 10 });
+export const Swedish10OptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "limit",
+  "win_through",
+]);
 export type Swedish10Option = z.infer<typeof Swedish10OptionSchema>;
+export type Swedish10OptionKey = keyof Swedish10Option;
 
 export const BackstreamOptionSchema = z
   .object({
@@ -140,7 +199,14 @@ export const BackstreamOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 10, lose_point: -10 });
+export const BackstreamOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "limit",
+  "win_through",
+]);
 export type BackstreamOption = z.infer<typeof BackstreamOptionSchema>;
+export type BackstreamOptionKey = keyof BackstreamOption;
 
 export const AttacksurvivalOptionSchema = z
   .object({
@@ -160,7 +226,17 @@ export const AttacksurvivalOptionSchema = z
     correct_other: -1,
     wrong_other: 0,
   });
+export const AttacksurvivalOptionKeySchema = z.enum([
+  "win_point",
+  "win_through",
+  "correct_me",
+  "wrong_me",
+  "correct_other",
+  "wrong_other",
+  "limit",
+]);
 export type AttacksurvivalOption = z.infer<typeof AttacksurvivalOptionSchema>;
+export type AttacksurvivalOptionKey = keyof AttacksurvivalOption;
 
 export const SquarexOptionSchema = z
   .object({
@@ -169,7 +245,13 @@ export const SquarexOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 16 });
+export const SquarexOptionKeySchema = z.enum([
+  "win_point",
+  "limit",
+  "win_through",
+]);
 export type SquarexOption = z.infer<typeof SquarexOptionSchema>;
+export type SquarexOptionKey = keyof SquarexOption;
 
 export const ZOptionSchema = z
   .object({
@@ -177,7 +259,9 @@ export const ZOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({});
+export const ZOptionKeySchema = z.enum(["limit", "win_through"]);
 export type ZOption = z.infer<typeof ZOptionSchema>;
+export type ZOptionKey = keyof ZOption;
 
 export const FreezexOptionSchema = z
   .object({
@@ -186,7 +270,13 @@ export const FreezexOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 7 });
+export const FreezexOptionKeySchema = z.enum([
+  "win_point",
+  "limit",
+  "win_through",
+]);
 export type FreezexOption = z.infer<typeof FreezexOptionSchema>;
+export type FreezexOptionKey = keyof FreezexOption;
 
 export const EndlessChanceOptionSchema = z
   .object({
@@ -203,7 +293,16 @@ export const EndlessChanceOptionSchema = z
     lose_count: 3,
     use_r: false,
   });
+export const EndlessChanceOptionKeySchema = z.enum([
+  "win_point",
+  "lose_point",
+  "lose_count",
+  "use_r",
+  "limit",
+  "win_through",
+]);
 export type EndlessChanceOption = z.infer<typeof EndlessChanceOptionSchema>;
+export type EndlessChanceOptionKey = keyof EndlessChanceOption;
 
 export const VariablesOptionSchema = z
   .object({
@@ -212,7 +311,13 @@ export const VariablesOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 30 });
+export const VariablesOptionKeySchema = z.enum([
+  "win_point",
+  "limit",
+  "win_through",
+]);
 export type VariablesOption = z.infer<typeof VariablesOptionSchema>;
+export type VariablesOptionKey = keyof VariablesOption;
 
 export const AqlOptionSchema = z
   .object({
@@ -222,7 +327,71 @@ export const AqlOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ left_team: "Team A", right_team: "Team B" });
+export const AqlOptionKeySchema = z.enum([
+  "left_team",
+  "right_team",
+  "limit",
+  "win_through",
+]);
 export type AqlOption = z.infer<typeof AqlOptionSchema>;
+export type AqlOptionKey = keyof AqlOption;
+
+export const GameOptionSchema = z.union([
+  NormalOptionSchema,
+  NomxOptionSchema,
+  NomxAdOptionSchema,
+  NyOptionSchema,
+  NomrOptionSchema,
+  NbynOptionSchema,
+  NupdownOptionSchema,
+  DivideOptionSchema,
+  Swedish10OptionSchema,
+  BackstreamOptionSchema,
+  AttacksurvivalOptionSchema,
+  SquarexOptionSchema,
+  ZOptionSchema,
+  FreezexOptionSchema,
+  EndlessChanceOptionSchema,
+  VariablesOptionSchema,
+  AqlOptionSchema,
+]);
+export const GameOptionKeySchema = z.union([
+  NormalOptionKeySchema,
+  NomxOptionKeySchema,
+  NomxAdOptionKeySchema,
+  NyOptionKeySchema,
+  NomrOptionKeySchema,
+  NbynOptionKeySchema,
+  NupdownOptionKeySchema,
+  DivideOptionKeySchema,
+  Swedish10OptionKeySchema,
+  BackstreamOptionKeySchema,
+  AttacksurvivalOptionKeySchema,
+  SquarexOptionKeySchema,
+  ZOptionKeySchema,
+  FreezexOptionKeySchema,
+  EndlessChanceOptionKeySchema,
+  VariablesOptionKeySchema,
+  AqlOptionKeySchema,
+]);
+export type GameOptionKey =
+  | NormalOptionKey
+  | NomxOptionKey
+  | NomxAdOptionKey
+  | NyOptionKey
+  | NomrOptionKey
+  | NbynOptionKey
+  | NupdownOptionKey
+  | DivideOptionKey
+  | Swedish10OptionKey
+  | BackstreamOptionKey
+  | AttacksurvivalOptionKey
+  | SquarexOptionKey
+  | ZOptionKey
+  | FreezexOptionKey
+  | EndlessChanceOptionKey
+  | VariablesOptionKey
+  | AqlOptionKey;
 
 // 日付を文字列に変換
 export type SeriarizedGame = DeepDateToString<Game>;

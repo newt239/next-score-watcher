@@ -44,6 +44,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({
                 ruleType,
                 discordWebhookUrl:
                   copyType === "copy-all" ? discordWebhookUrl : undefined,
+                option: {},
               },
             ],
           })
