@@ -15,11 +15,11 @@ const computeAttackSurvival = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const correctMe = game.option.targetPoint ?? 0; // 正解時の自分への影響
-  const wrongMe = game.option.targetPoint ?? -2; // 誤答時の自分への影響
-  const correctOther = game.option.targetPoint ?? -1; // 正解時の他プレイヤーへの影響
-  const wrongOther = game.option.targetPoint ?? 0; // 誤答時の他プレイヤーへの影響
-  const winThrough = game.option.targetPoint ?? 3; // 勝ち抜け人数
+  const correctMe = game.option.correct_me; // 正解時の自分への影響
+  const wrongMe = game.option.wrong_me; // 誤答時の自分への影響
+  const correctOther = game.option.correct_other; // 正解時の他プレイヤーへの影響
+  const wrongOther = game.option.wrong_other; // 誤答時の他プレイヤーへの影響
+  const winThrough = game.option.win_through; // 勝ち抜け人数
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])

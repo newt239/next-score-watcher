@@ -146,7 +146,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         <ConfigNumberInput
           gameId={gameId}
           label="目標ポイント"
-          value={game.option.targetPoint}
+          value={game.option.target_point}
           fieldName="targetPoint"
           min={3}
           max={1000}
@@ -158,7 +158,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         <ConfigNumberInput
           gameId={gameId}
           label="休み回数"
-          value={game.option.restCount}
+          value={game.option.rest_count}
           fieldName="restCount"
           max={100}
         />
@@ -170,7 +170,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
           gameId={gameId}
           label="NOM休を利用する"
           helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
-          value={!!game.option.losePoint}
+          value={game.option.use_r}
           fieldName="useR"
         />
       )}
@@ -181,7 +181,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
           gameId={gameId}
           label="3連答以上によるアドバンテージを有効にする"
           helperText="abcの新ルールを使いたい場合はこちらを無効にしてください。"
-          value={!!game.option.losePoint}
+          value={game.option.streak_over3}
           fieldName="streakOver3"
         />
       )}

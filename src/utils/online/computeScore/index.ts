@@ -39,9 +39,9 @@ const getInitialScore = (
 ): number => {
   switch (game.ruleType) {
     case "divide":
-      return game.option.targetPoint ?? 10;
+      return game.option.correct_me;
     case "attacksurvival":
-      return (game.option.targetPoint ?? 15) + (player.initialScore ?? 0);
+      return (game.option.win_through ?? 15) + (player.initialScore ?? 0);
     case "ny":
       return (player.initialScore ?? 0) - (player.initialScore ?? 0);
     case "nomr":

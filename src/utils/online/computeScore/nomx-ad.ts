@@ -16,8 +16,8 @@ const computeNomxAd = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.option.winPoint ?? 7;
-  const losePoint = game.option.losePoint ?? 3;
+  const winPoint = game.option.win_point;
+  const losePoint = game.option.lose_point;
   const streakOver3 = true; // オプション: 3連答以上でアドバンテージ
 
   const byId = new Map<string, ComputedScoreProps>(

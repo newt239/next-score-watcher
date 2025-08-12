@@ -15,8 +15,8 @@ const computeDivide = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.option.targetPoint ?? 100;
-  const correctPoints = game.option.targetPoint ?? 10;
+  const winPoint = game.option.win_point;
+  const correctPoints = game.option.correct_me;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])

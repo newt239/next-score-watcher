@@ -390,6 +390,43 @@ export type UpdateGameSettingsResponseType = {
 };
 
 /**
+ * ゲームオプション更新リクエストのスキーマ
+ */
+export const UpdateGameOptionsRequestParamSchema = z.object({
+  gameId: z.string().min(1),
+});
+
+/**
+ * ゲームオプション更新リクエストのjsonスキーマ
+ */
+export const UpdateGameOptionsRequestJsonSchema = z.record(
+  z.string(),
+  z.union([z.boolean(), z.number(), z.string()])
+);
+
+/**
+ * ゲームオプション更新リクエストの型
+ */
+export type UpdateGameOptionsRequestParamType = z.infer<
+  typeof UpdateGameOptionsRequestParamSchema
+>;
+
+/**
+ * ゲームオプション更新リクエストのjson型
+ */
+export type UpdateGameOptionsRequestJsonType = z.infer<
+  typeof UpdateGameOptionsRequestJsonSchema
+>;
+
+/**
+ * ゲームオプション更新レスポンスの型
+ */
+export type UpdateGameOptionsResponseType = {
+  updated: boolean;
+  message: string;
+};
+
+/**
  * プレイヤー一括更新レスポンスの型
  */
 export type UpdateGamePlayersResponseType = {

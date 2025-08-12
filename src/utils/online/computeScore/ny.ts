@@ -15,8 +15,8 @@ const computeNy = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const target = game.option.targetPoint ?? 10;
-  const losePoint = game.option.targetPoint ?? 3;
+  const target = game.option.target_point;
+  const losePoint = game.option.lose_point;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])

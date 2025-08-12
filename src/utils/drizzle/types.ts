@@ -28,136 +28,200 @@ export type NewQuizSet = InferInsertModel<typeof schema.quizSet>;
 export type QuizQuestion = InferSelectModel<typeof schema.quizQuestion>;
 export type NewQuizQuestion = InferInsertModel<typeof schema.quizQuestion>;
 
-// ルール名の型定義（スキーマから統一）
+// ルール名の型定義
 export type RuleNames = SchemaRuleNames;
 
 export const NormalOptionSchema = z
   .object({
-    maxPoint: z.number().default(10),
-    minPoint: z.number().default(-10),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ maxPoint: 10, minPoint: -10 });
+  .default({});
 export type NormalOption = z.infer<typeof NormalOptionSchema>;
 
 export const NomxOptionSchema = z
   .object({
-    winPoint: z.number().default(7),
-    losePoint: z.number().default(3),
+    win_point: z.number().default(7),
+    lose_point: z.number().default(3),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ winPoint: 7, losePoint: 3 });
+  .default({ win_point: 7, lose_point: 3 });
 export type NomxOption = z.infer<typeof NomxOptionSchema>;
 
 export const NomxAdOptionSchema = z
   .object({
-    winPoint: z.number().default(7),
-    losePoint: z.number().default(3),
+    win_point: z.number().default(7),
+    lose_point: z.number().default(3),
+    streak_over3: z.boolean().default(true),
+    streakOver3: z.boolean().default(true),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ winPoint: 7, losePoint: 3 });
+  .default({
+    win_point: 7,
+    lose_point: 3,
+    streak_over3: true,
+    streakOver3: true,
+  });
 export type NomxAdOption = z.infer<typeof NomxAdOptionSchema>;
 
 export const NyOptionSchema = z
   .object({
-    targetPoint: z.number().default(10),
+    win_point: z.number().default(10),
+    lose_point: z.number().default(3),
+    target_point: z.number().default(10),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ targetPoint: 10 });
+  .default({ win_point: 10, lose_point: 3, target_point: 10 });
 export type NyOption = z.infer<typeof NyOptionSchema>;
 
 export const NomrOptionSchema = z
   .object({
-    winPoint: z.number().default(7),
-    restCount: z.number().default(3),
+    win_point: z.number().default(7),
+    lose_point: z.number().default(3),
+    rest_count: z.number().default(3),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ winPoint: 7, restCount: 3 });
+  .default({
+    win_point: 7,
+    lose_point: 3,
+    rest_count: 3,
+  });
 export type NomrOption = z.infer<typeof NomrOptionSchema>;
 
 export const NbynOptionSchema = z
   .object({
-    nValue: z.number().default(7),
+    win_point: z.number().default(5),
+    lose_point: z.number().default(5),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ nValue: 7 });
+  .default({ win_point: 5, lose_point: 5 });
 export type NbynOption = z.infer<typeof NbynOptionSchema>;
 
 export const NupdownOptionSchema = z
   .object({
-    targetPoint: z.number().default(7),
+    win_point: z.number().default(5),
+    lose_point: z.number().default(2),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ targetPoint: 7 });
+  .default({ win_point: 5, lose_point: 2 });
 export type NupdownOption = z.infer<typeof NupdownOptionSchema>;
 
 export const DivideOptionSchema = z
   .object({
-    targetPoint: z.number().default(10),
+    win_point: z.number().default(100),
+    correct_me: z.number().default(10),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ targetPoint: 10 });
+  .default({ win_point: 100, correct_me: 10 });
 export type DivideOption = z.infer<typeof DivideOptionSchema>;
 
 export const Swedish10OptionSchema = z
   .object({
-    targetPoint: z.number().default(10),
+    win_point: z.number().default(10),
+    lose_point: z.number().default(10),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ targetPoint: 10 });
+  .default({ win_point: 10, lose_point: 10 });
 export type Swedish10Option = z.infer<typeof Swedish10OptionSchema>;
 
 export const BackstreamOptionSchema = z
   .object({
-    targetPoint: z.number().default(10),
+    win_point: z.number().default(10),
+    lose_point: z.number().default(-10),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ targetPoint: 10 });
+  .default({ win_point: 10, lose_point: -10 });
 export type BackstreamOption = z.infer<typeof BackstreamOptionSchema>;
 
 export const AttacksurvivalOptionSchema = z
   .object({
-    targetPoint: z.number().default(10),
+    win_point: z.number().default(15),
+    win_through: z.number().default(3),
+    correct_me: z.number().default(0),
+    wrong_me: z.number().default(-2),
+    correct_other: z.number().default(-1),
+    wrong_other: z.number().default(0),
+    limit: z.number().optional(),
   })
-  .default({ targetPoint: 10 });
+  .default({
+    win_point: 15,
+    win_through: 3,
+    correct_me: 0,
+    wrong_me: -2,
+    correct_other: -1,
+    wrong_other: 0,
+  });
 export type AttacksurvivalOption = z.infer<typeof AttacksurvivalOptionSchema>;
 
 export const SquarexOptionSchema = z
   .object({
-    squareSize: z.number().default(3),
-    winCondition: z.number().default(7),
+    win_point: z.number().default(16),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ squareSize: 3, winCondition: 7 });
+  .default({ win_point: 16 });
 export type SquarexOption = z.infer<typeof SquarexOptionSchema>;
 
 export const ZOptionSchema = z
   .object({
-    targetPoint: z.number().default(10),
-    zonePoint: z.number().default(3),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ targetPoint: 10, zonePoint: 3 });
+  .default({});
 export type ZOption = z.infer<typeof ZOptionSchema>;
 
 export const FreezexOptionSchema = z
   .object({
-    winPoint: z.number().default(7),
-    freezePoint: z.number().default(3),
+    win_point: z.number().default(7),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ winPoint: 7, freezePoint: 3 });
+  .default({ win_point: 7 });
 export type FreezexOption = z.infer<typeof FreezexOptionSchema>;
 
 export const EndlessChanceOptionSchema = z
   .object({
-    winPoint: z.number().default(7),
-    losePoint: z.number().default(3),
+    win_point: z.number().default(7),
+    lose_point: z.number().default(3),
+    lose_count: z.number().default(3),
+    use_r: z.boolean().default(false),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ winPoint: 7, losePoint: 3 });
+  .default({
+    win_point: 7,
+    lose_point: 3,
+    lose_count: 3,
+    use_r: false,
+  });
 export type EndlessChanceOption = z.infer<typeof EndlessChanceOptionSchema>;
 
 export const VariablesOptionSchema = z
   .object({
-    winPoint: z.number().default(7),
-    losePoint: z.number().default(3),
+    win_point: z.number().default(30),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ winPoint: 7, losePoint: 3 });
+  .default({ win_point: 30 });
 export type VariablesOption = z.infer<typeof VariablesOptionSchema>;
 
 export const AqlOptionSchema = z
   .object({
-    left_team: z.string().default("左チーム"),
-    right_team: z.string().default("右チーム"),
+    left_team: z.string().default("Team A"),
+    right_team: z.string().default("Team B"),
+    limit: z.number().optional(),
+    win_through: z.number().optional(),
   })
-  .default({ left_team: "左チーム", right_team: "右チーム" });
+  .default({ left_team: "Team A", right_team: "Team B" });
 export type AqlOption = z.infer<typeof AqlOptionSchema>;
 
 // 日付を文字列に変換

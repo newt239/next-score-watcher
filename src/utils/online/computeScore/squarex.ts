@@ -15,7 +15,7 @@ const computeSquarex = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.option.winCondition ?? 16;
+  const winPoint = game.option.win_point;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s, correct: 0 }])

@@ -11,7 +11,7 @@ import type { SeriarizedGameLog } from "@/utils/drizzle/types";
  * 正解数がスコア、誤答で休み
  */
 const computeAql = (
-  game: Extract<GetGameDetailResponseType, { ruleType: "aql" }>,
+  _game: Extract<GetGameDetailResponseType, { ruleType: "aql" }>,
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {

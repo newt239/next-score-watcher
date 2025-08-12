@@ -16,7 +16,7 @@ const computeNbyn = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.option.nValue ?? 5;
+  const winPoint = game.option.win_point;
   const targetProduct = winPoint * winPoint; // Nの2乗
 
   const byId = new Map<string, ComputedScoreProps>(

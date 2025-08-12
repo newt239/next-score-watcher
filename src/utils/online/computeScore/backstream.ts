@@ -15,8 +15,8 @@ const computeBackstream = (
   playersState: ComputedScoreProps[],
   logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.option.targetPoint ?? 10;
-  const losePoint = game.option.targetPoint ?? -10;
+  const winPoint = game.option.win_point;
+  const losePoint = game.option.lose_point;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])

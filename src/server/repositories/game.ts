@@ -9,6 +9,7 @@ import type {
   CreateGameRequestType,
   CreateGameType,
   DeleteGameRequestParamType,
+  UpdateGameOptionsRequestJsonType,
   UpdateGamePlayerType,
   UpdateGameRequestJsonType,
   UpdateGameSettingsRequestType,
@@ -448,4 +449,24 @@ export const copyPlayersFromGame = async (
   }
 
   return { copiedCount };
+};
+
+/**
+ * ゲームオプション更新
+ */
+export const updateGameOptions = async (
+  gameId: string,
+  options: UpdateGameOptionsRequestJsonType,
+  userId: string
+) => {
+  const result = await DBClient.update(game)
+    .set({
+      option: JSON.stringify(options),
+      updatedAt: new Date(),
+    })
+    .where(
+      and(eq(game.id, gameId), eq(game.userId, userId), isNull(game.deletedAt))
+    );
+
+  return result.rowsAffected > 0;
 };

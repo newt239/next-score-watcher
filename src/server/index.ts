@@ -9,6 +9,7 @@ import getGameListHandler from "./controllers/game/get-list";
 import getGameLogsHandler from "./controllers/game/get-logs";
 import getGamePlayersHandler from "./controllers/game/get-players";
 import patchGameUpdateHandler from "./controllers/game/patch-update";
+import patchGameUpdateOptionsHandler from "./controllers/game/patch-update-options";
 import postAddLogHandler from "./controllers/game/post-add-log";
 import postAddPlayerHandler from "./controllers/game/post-add-player";
 import postCopyPlayersHandler from "./controllers/game/post-copy-players";
@@ -59,6 +60,7 @@ const app = new Hono()
   .post("/games", ...postCreateGameHandler)
   .get("/games/:gameId", ...getGameDetailHandler)
   .patch("/games/:gameId", ...patchGameUpdateHandler)
+  .patch("/games/:gameId/options", ...patchGameUpdateOptionsHandler)
   .delete("/games/:gameId", ...deleteGameHandler)
   .get("/games/:gameId/players", ...getGamePlayersHandler)
   .post("/games/:gameId/players", ...postAddPlayerHandler)
