@@ -19,10 +19,6 @@ test.describe("オンライン版得点表示", () => {
     await expect(page).not.toHaveURL("/sign-in");
   });
 
-  test.afterEach(async () => {
-    // ヘッダーベース認証では特別なクリーンアップは不要
-  });
-
   test("オンラインゲーム一覧ページにアクセスできる", async ({ page }) => {
     // オンラインゲーム管理ページに直接移動
     await page.goto("/online/games");

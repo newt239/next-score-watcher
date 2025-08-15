@@ -32,7 +32,7 @@ const BoardPage = async ({
 
   const apiClient = await createApiClientOnServer();
 
-  const [gameData, playersData, logsData] = await Promise.all([
+  const [gameData, playersData, logsData, preferencesData] = await Promise.all([
     parseResponse(
       apiClient.games[":gameId"].$get({
         param: { gameId: game_id },
@@ -48,13 +48,29 @@ const BoardPage = async ({
         param: { gameId: game_id },
       })
     ),
+    parseResponse(
+      apiClient["user"][":user_id"].preferences.$get({
+        param: { user_id: user.id },
+      })
+    ),
   ]);
 
   if ("error" in gameData || "error" in playersData || "error" in logsData) {
     return null;
   }
 
-  return <Board gameId={game_id} user={user} initialGame={gameData} />;
+  // preferencesがエラーの場合はnullで渡す
+  const preferences =
+    "error" in preferencesData ? null : preferencesData.preferences;
+
+  return (
+    <Board
+      gameId={game_id}
+      user={user}
+      initialGame={gameData}
+      initialPreferences={preferences}
+    />
+  );
 };
 
 export default BoardPage;

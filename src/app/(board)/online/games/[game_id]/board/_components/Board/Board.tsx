@@ -32,18 +32,24 @@ type BoardProps = {
   gameId: string;
   user: OnlineUserType | null;
   initialGame: GetGameDetailResponseType;
+  initialPreferences: UserPreferencesType | null;
 };
 
-const Board: React.FC<BoardProps> = ({ gameId, user, initialGame }) => {
+const Board: React.FC<BoardProps> = ({
+  gameId,
+  user,
+  initialGame,
+  initialPreferences,
+}) => {
   const [players] = useState<GamePlayerProps[]>(initialGame.players);
   const [logs, setLogs] = useState<SeriarizedGameLog[]>(initialGame.logs);
   const [isPending, startTransition] = useTransition();
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [skipSuggest, setSkipSuggest] = useState(false);
 
-  // API経由でユーザー設定を管理
-  const [preferences, setPreferences] = useState<UserPreferencesType | null>(
-    null
+  // サーバーから取得した設定を使用
+  const [preferences] = useState<UserPreferencesType | null>(
+    initialPreferences
   );
 
   // 勝ち抜けモーダル制御
@@ -56,22 +62,6 @@ const Board: React.FC<BoardProps> = ({ gameId, user, initialGame }) => {
   });
 
   const apiClient = createApiClient();
-
-  // 設定を取得
-  const fetchPreferences = useCallback(async () => {
-    if (!user?.id) return;
-
-    const res = await parseResponse(
-      apiClient["user"][":user_id"].preferences.$get({
-        param: { user_id: user.id },
-      })
-    );
-    if ("error" in res) {
-      console.error("Failed to fetch preferences:", res.error);
-      return;
-    }
-    setPreferences(res.preferences);
-  }, [apiClient, user?.id]);
 
   const refreshLogs = useCallback(async () => {
     const res = await parseResponse(
@@ -197,11 +187,6 @@ const Board: React.FC<BoardProps> = ({ gameId, user, initialGame }) => {
     }
   }, [logs, initialGame, players]);
 
-  // 初期設定取得
-  useEffect(() => {
-    fetchPreferences();
-  }, [fetchPreferences]);
-
   if (!user) {
     return (
       <Box className={classes.error}>
@@ -264,6 +249,7 @@ const Board: React.FC<BoardProps> = ({ gameId, user, initialGame }) => {
         onUndo={undo}
         onThrough={addThrough}
         userId={user.id}
+        preferences={preferences}
       />
 
       <GameLogs

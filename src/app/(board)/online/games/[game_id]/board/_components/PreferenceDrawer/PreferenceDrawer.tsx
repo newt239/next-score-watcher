@@ -4,16 +4,20 @@ import Preferences from "../Preferences";
 
 import styles from "./PreferenceDrawer.module.css";
 
+import type { UserPreferencesType } from "@/models/user-preferences";
+
 type PreferenceDrawerProps = {
   isOpen: boolean;
   onClose: () => void;
   userId: string;
+  initialPreferences: UserPreferencesType | null;
 };
 
 const PreferenceDrawer: React.FC<PreferenceDrawerProps> = ({
   isOpen,
   onClose,
   userId,
+  initialPreferences,
 }) => {
   const commands = [
     {
@@ -54,7 +58,10 @@ const PreferenceDrawer: React.FC<PreferenceDrawerProps> = ({
         </Tabs.List>
         <Box py="lg" className={styles["tab_panel_area"]}>
           <Tabs.Panel value="preferences">
-            <Preferences userId={userId} />
+            <Preferences
+              userId={userId}
+              initialPreferences={initialPreferences}
+            />
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>
