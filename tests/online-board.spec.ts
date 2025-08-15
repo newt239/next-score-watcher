@@ -33,23 +33,22 @@ const navigateToBoard = async (page: Page) => {
 };
 
 test.describe("オンライン版得点表示", () => {
-  test.beforeEach(async ({ context, page }) => {
-    // テスト用のユーザーID（auth-helpersと一致させる）
-    const testUserId = "test-user-playwright";
-
-    // ヘッダーベースの認証バイパスを設定
-    await context.setExtraHTTPHeaders({
-      "x-test-user-id": testUserId,
-      "x-playwright-test": "true",
-    });
-
+  test.beforeEach(async ({ page }) => {
     // ページを開く前にローカルストレージを設定
     await page.addInitScript(() => {
       window.localStorage.setItem("scorewatcher-version", "latest");
     });
 
+    // クッキーの状態をデバッグ
+    const cookies = await page.context().cookies();
+    console.log("復元されたクッキー:", cookies);
+
     await page.goto("/");
     await page.waitForLoadState("networkidle");
+
+    // 現在のURLをログ出力
+    const currentURL = page.url();
+    console.log("現在のURL:", currentURL);
 
     // 認証が成功していることを確認
     await expect(page).not.toHaveURL("/sign-in");
@@ -61,8 +60,8 @@ test.describe("オンライン版得点表示", () => {
     await expect(page).toHaveURL(/\/online\/games/);
     await page.waitForLoadState("networkidle");
 
-    // ゲーム一覧のヘッダーまたはコンテンツが表示されることを確認
-    await expect(page.getByText("ゲーム")).toBeVisible();
+    // ゲーム一覧のヘッダーが表示されることを確認
+    await expect(page.getByRole("heading", { name: "ゲーム" })).toBeVisible();
   });
 
   test("オンラインゲームを作成できる", async ({ page }) => {

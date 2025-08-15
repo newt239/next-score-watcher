@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 import indexHandler from "./controllers";
+import deleteTestUserHandler from "./controllers/auth/delete-test-user";
 import postTestLoginHandler from "./controllers/auth/post-test-login";
 import deleteGameHandler from "./controllers/game/delete-game";
 import deleteLogHandler from "./controllers/game/delete-log";
@@ -89,6 +90,7 @@ const app = new Hono()
   .get("/quizes/:id", ...getQuizDetailHandler)
   // テスト用認証（テスト環境でのみ有効）
   .post("/auth/test-login", ...postTestLoginHandler)
+  .delete("/auth/test-user", ...deleteTestUserHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);
