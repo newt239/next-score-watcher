@@ -40,7 +40,7 @@ const handler = factory.createHandlers(async (c) => {
         email: userData.email,
         name: userData.name,
         image: userData.image,
-        emailVerified: userData.emailVerified,
+        emailVerified: !!userData.emailVerified,
         // SQLite timestamp フィールドには現在時刻を使用
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -27,8 +27,7 @@ export default defineConfig({
   projects: [
     {
       name: "setup",
-      testMatch: /.*\.setup\.spec\.ts/,
-      teardown: "cleanup",
+      testMatch: /auth-setup\.spec\.ts/,
     },
     {
       name: "chromium",
@@ -37,7 +36,7 @@ export default defineConfig({
         storageState: "tests/temp/auth/user.json",
       },
       dependencies: ["setup"],
-      testIgnore: /.*\.setup\.spec\.ts/,
+      testIgnore: /auth-setup\.spec\.ts/,
     },
   ],
   webServer: {

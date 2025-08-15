@@ -32,7 +32,13 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
       ) : (
         <Box className={classes.game_list_grid}>
           {gameList.map((game) => (
-            <Card shadow="xs" key={game.id} title={game.name} withBorder>
+            <Card
+              shadow="xs"
+              key={game.id}
+              title={game.name}
+              withBorder
+              data-testid="game-card"
+            >
               <Card.Section
                 className={classes.game_name}
                 withBorder
@@ -57,7 +63,7 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
                     size="sm"
                     variant="filled"
                   >
-                    得点表示
+                    ボード表示
                   </ButtonLink>
                   <ButtonLink
                     href={`/online/games/${game.id}/config`}

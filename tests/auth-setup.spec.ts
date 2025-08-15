@@ -10,37 +10,43 @@ const authFile = "tests/temp/auth/user.json";
  */
 setup("authenticate", async ({ page }) => {
   // テスト用のユーザーデータ
-  const testUserId = process.env.PLAYWRIGHT_TEST_USER_ID;
-  const testUserEmail = "test@example.com";
-  const testUserName = "テストユーザー";
-
-  // セッションIDとトークンを生成
+  const testUserId = "test-user-playwright";
+  const testUserEmail = "playwright-test@example.com";
+  const testUserName = "Playwrightテストユーザー";
   const sessionToken = crypto.randomBytes(32).toString("hex");
+  const sessionId = crypto.randomBytes(16).toString("hex");
 
-  // Better Authのセッション形式に合わせてCookieを設定
-  await page.context().addCookies([
+  // テスト用ユーザーとセッションをデータベースに作成
+  const response = await page.request.post(
+    "http://localhost:3000/api/test/create-session",
     {
-      name: "better-auth.session_token",
-      value: sessionToken,
-      domain: "localhost",
-      path: "/",
-      httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
-    },
-  ]);
-
-  // ローカルストレージにユーザー情報を設定（必要に応じて）
-  await page.addInitScript(
-    (userData) => {
-      window.localStorage.setItem("test-user", JSON.stringify(userData));
-    },
-    {
-      id: testUserId,
-      email: testUserEmail,
-      name: testUserName,
+      data: {
+        sessionId,
+        sessionToken,
+        userId: testUserId,
+        expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7日後
+        user: {
+          id: testUserId,
+          email: testUserEmail,
+          name: testUserName,
+          image: null,
+          emailVerified: 0,
+        },
+      },
     }
   );
+
+  if (!response.ok()) {
+    throw new Error(
+      `Failed to create test session: ${response.status()} ${await response.text()}`
+    );
+  }
+
+  // コンテキストにテスト用ヘッダーを設定
+  await page.context().setExtraHTTPHeaders({
+    "x-test-user-id": testUserId,
+    "x-playwright-test": "true",
+  });
 
   // ホームページにアクセスして認証状態を確認
   await page.goto("/");

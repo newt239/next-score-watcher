@@ -162,13 +162,18 @@ export const parseGameOption = (game: Game) => {
 export const setupDefaultGameOption = (
   game: Partial<Pick<Game, "ruleType" | "option">>
 ) => {
-  if (typeof game.option !== "string" && typeof game.option !== "object") {
-    return null;
-  }
-  const gameOption =
-    typeof game.option === "string" ? JSON.parse(game.option) : game.option;
-  if (typeof gameOption !== "object") {
-    return null;
+  // optionが存在しない場合はデフォルトのオプションを作成
+  let gameOption = {};
+  if (game.option !== undefined && game.option !== null) {
+    if (typeof game.option === "string") {
+      try {
+        gameOption = JSON.parse(game.option);
+      } catch {
+        gameOption = {};
+      }
+    } else if (typeof game.option === "object") {
+      gameOption = game.option;
+    }
   }
 
   switch (game.ruleType) {
