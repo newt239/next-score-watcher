@@ -15,7 +15,7 @@ import type { GamePlayerProps, PlayerProps } from "@/models/games";
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 
-type Props = {
+type SelectPlayerProps = {
   game_id: string;
   players: PlayerProps[];
   gamePlayers: GamePlayerProps[];
@@ -27,7 +27,7 @@ type Props = {
  * オンライン版プレイヤー選択コンポーネント
  * プレイヤーの追加、データベースからの選択、ゲームからのコピー機能を提供
  */
-const SelectPlayer: React.FC<Props> = ({
+const SelectPlayer: React.FC<SelectPlayerProps> = ({
   game_id,
   players,
   gamePlayers,

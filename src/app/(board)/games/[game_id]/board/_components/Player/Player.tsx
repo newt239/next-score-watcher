@@ -73,6 +73,7 @@ const Player: React.FC<Props> = ({
 
   return (
     <Flex
+      data-testid="player"
       className={classes.player}
       bg={getColor(editedScore.state)}
       c={

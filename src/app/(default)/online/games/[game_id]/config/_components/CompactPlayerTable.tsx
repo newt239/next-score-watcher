@@ -16,8 +16,10 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { PlayerProps } from "@/models/games";
-import type { RemoveGamePlayersResponseType } from "@/models/games";
+import type {
+  PlayerProps,
+  RemoveGamePlayersResponseType,
+} from "@/models/games";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";
@@ -59,10 +61,11 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   const columns = useMemo<ColumnDef<PlayerProps, string>[]>(
     () => [
       columnHelper.accessor("id", {
-        header: "",
+        header: "氏名",
         cell: ({ row }) => {
           return (
             <Checkbox
+              label={row.original.name}
               {...{
                 checked: row.getIsSelected(),
                 onChange: row.getToggleSelectedHandler(),
@@ -71,10 +74,6 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
             />
           );
         },
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("name", {
-        header: "氏名",
         footer: (info) => info.column.id,
       }),
       columnHelper.accessor("description", {
