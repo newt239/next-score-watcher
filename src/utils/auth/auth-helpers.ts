@@ -5,11 +5,10 @@ import { auth } from "./auth";
 export async function getSession() {
   // テスト環境での認証バイパス
   const headersList = await headers();
-  const isPlaywrightTest = headersList.get("x-playwright-test") === "true";
   const testUserId = headersList.get("x-test-user-id");
 
   if (
-    (process.env.NODE_ENV === "test" || isPlaywrightTest) &&
+    process.env.NODE_ENV !== "production" &&
     testUserId === "test-user-playwright"
   ) {
     return {
@@ -48,7 +47,7 @@ export async function getUser() {
   const testUserId = headersList.get("x-test-user-id");
 
   if (
-    (process.env.NODE_ENV === "test" || isPlaywrightTest) &&
+    (process.env.NODE_ENV !== "production" || isPlaywrightTest) &&
     testUserId === "test-user-playwright"
   ) {
     return {

@@ -21,11 +21,8 @@ const factory = createFactory();
 export default factory.createHandlers(
   zValidator("json", TestLoginRequestSchema),
   async (c) => {
-    // テスト環境以外では無効
-    if (
-      process.env.NODE_ENV !== "test" &&
-      process.env.ENABLE_EMAIL_AUTH !== "true"
-    ) {
+    // 本番環境では無効
+    if (process.env.NODE_ENV === "production") {
       return c.json({ error: "このエンドポイントは利用できません" }, 403);
     }
 

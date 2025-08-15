@@ -30,9 +30,6 @@ import getQuizDetailHandler from "./controllers/quiz/get-detail";
 import getQuizListHandler from "./controllers/quiz/get-list";
 import patchUpdateQuizHandler from "./controllers/quiz/patch-update";
 import postCreateQuizHandler from "./controllers/quiz/post-create";
-import deleteTestSessionHandler from "./controllers/test/delete-session";
-import getCheckSessionHandler from "./controllers/test/get-check-session";
-import postCreateTestSessionHandler from "./controllers/test/post-create-session";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
 // テスト用認証エンドポイント
@@ -90,10 +87,6 @@ const app = new Hono()
   .patch("/quizes", ...patchUpdateQuizHandler)
   .delete("/quizes", ...deleteQuizHandler)
   .get("/quizes/:id", ...getQuizDetailHandler)
-  // Test endpoints (only available in non-production)
-  .post("/test/create-session", ...postCreateTestSessionHandler)
-  .delete("/test/cleanup-session/:sessionId", ...deleteTestSessionHandler)
-  .get("/test/check-session/:sessionId", ...getCheckSessionHandler)
   // テスト用認証（テスト環境でのみ有効）
   .post("/auth/test-login", ...postTestLoginHandler)
   // Auth
