@@ -9,7 +9,8 @@
       "Bash(pnpm run lint:*)",
       "Bash(pnpm run prettier:fix:*)",
       "Bash(mv:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git push:*)"
     ],
     "deny": [
       "Bash(sudo:*)",
