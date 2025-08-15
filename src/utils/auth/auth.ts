@@ -21,7 +21,11 @@ export const auth = betterAuth({
     },
   }),
   emailAndPassword: {
-    enabled: false,
+    // テスト環境またはEMAIL_AUTH環境変数が有効な場合のみ有効化
+    enabled:
+      process.env.NODE_ENV === "test" ||
+      process.env.ENABLE_EMAIL_AUTH === "true",
+    requireEmailVerification: false, // テスト用のため検証不要
   },
   socialProviders: {
     google: {

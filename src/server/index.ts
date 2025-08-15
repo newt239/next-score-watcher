@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 import indexHandler from "./controllers";
+import postTestLoginHandler from "./controllers/auth/post-test-login";
 import deleteGameHandler from "./controllers/game/delete-game";
 import deleteLogHandler from "./controllers/game/delete-log";
 import deletePlayersHandler from "./controllers/game/delete-players";
@@ -34,6 +35,7 @@ import getCheckSessionHandler from "./controllers/test/get-check-session";
 import postCreateTestSessionHandler from "./controllers/test/post-create-session";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
+// テスト用認証エンドポイント
 
 import { auth } from "@/utils/auth/auth";
 
@@ -92,6 +94,8 @@ const app = new Hono()
   .post("/test/create-session", ...postCreateTestSessionHandler)
   .delete("/test/cleanup-session/:sessionId", ...deleteTestSessionHandler)
   .get("/test/check-session/:sessionId", ...getCheckSessionHandler)
+  // テスト用認証（テスト環境でのみ有効）
+  .post("/auth/test-login", ...postTestLoginHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);

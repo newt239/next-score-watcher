@@ -146,7 +146,6 @@ src/
 ├── components/            # 再利用可能なUIコンポーネント
 ├── utils/
 │   ├── computeScore/      # 17種類のゲーム形式の計算ロジック
-│   ├── supabase/          # Supabase認証・同期処理
 │   ├── db.ts              # IndexedDB操作・スキーマ管理
 │   ├── types.ts           # TypeScript型定義
 │   ├── functions.ts       # 共通ユーティリティ関数

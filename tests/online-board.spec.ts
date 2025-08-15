@@ -2,9 +2,12 @@ import { expect, test } from "@playwright/test";
 
 test.describe("オンライン版得点表示", () => {
   test.beforeEach(async ({ context, page }) => {
+    // テスト用のユーザーID（auth-helpersと一致させる）
+    const testUserId = "test-user-playwright";
+
     // ヘッダーベースの認証バイパスを設定
     await context.setExtraHTTPHeaders({
-      "x-test-user-id": "test-user-playwright",
+      "x-test-user-id": testUserId,
       "x-playwright-test": "true",
     });
 

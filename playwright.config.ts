@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 4,
   reporter: process.env.CI
     ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
-    : "list",
+    : [["list"], ["html", { outputFolder: "html-report", open: "never" }]],
   use: {
     baseURL: "http://localhost:3000",
     channel: "chromium",
@@ -16,8 +16,8 @@ export default defineConfig({
     screenshot: process.env.CI ? "off" : "only-on-failure",
     trace: process.env.CI ? "off" : "on-first-retry",
     video: process.env.CI ? "off" : "retain-on-failure",
-    actionTimeout: 60000,
-    navigationTimeout: 60000,
+    actionTimeout: 30000,
+    navigationTimeout: 10000,
     locale: "ja-JP",
     timezoneId: "Asia/Tokyo",
     extraHTTPHeaders: {
