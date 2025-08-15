@@ -180,6 +180,8 @@ const Board: React.FC<BoardProps> = ({ gameId, user, initialGame }) => {
       (s) => s.state === "playing" && s.is_incapacity
     );
     const last = logs[logs.length - 1];
+    if (!last) return;
+
     const allWrong =
       last.actionType === "multiple_wrong" &&
       typeof last.playerId === "string" &&

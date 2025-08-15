@@ -26,6 +26,7 @@ type Props = {
   rule: RuleNames;
   players: PlayerProps[];
   gamePlayers: GamePlayerProps[];
+  onPlayerCountChange?: (playerCount: number) => void;
 };
 
 /**
@@ -37,6 +38,7 @@ const PlayersConfig: React.FC<Props> = ({
   rule,
   players,
   gamePlayers,
+  onPlayerCountChange,
 }) => {
   const [isPending, startTransition] = useTransition();
   const [currentGamePlayers, setCurrentGamePlayers] = useState(gamePlayers);
@@ -95,6 +97,11 @@ const PlayersConfig: React.FC<Props> = ({
     );
 
     setCurrentGamePlayers(newGamePlayers);
+
+    // 親コンポーネントにプレイヤー数の変更を通知
+    if (onPlayerCountChange) {
+      onPlayerCountChange(newGamePlayers.length);
+    }
   };
 
   // デバウンス後の値が変更されたらAPIで更新

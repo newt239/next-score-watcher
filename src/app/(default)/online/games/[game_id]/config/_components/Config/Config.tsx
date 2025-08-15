@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Accordion, Box, Tabs } from "@mantine/core";
 
 import GameStartButton from "../GameStartButton/GameStartButton";
@@ -26,7 +28,16 @@ type ConfigProps = {
 };
 
 const Config: React.FC<ConfigProps> = ({ user, game, players }) => {
+  const [currentPlayerCount, setCurrentPlayerCount] = useState(
+    game.players.length
+  );
+
   if (!user) return <NotFound />;
+
+  // プレイヤー変更時のコールバック
+  const handlePlayersChange = (playerCount: number) => {
+    setCurrentPlayerCount(playerCount);
+  };
 
   return (
     <>
@@ -52,7 +63,7 @@ const Config: React.FC<ConfigProps> = ({ user, game, players }) => {
       </Accordion>
       <GameStartButton
         ruleType={game.ruleType}
-        playerCount={game.players.length}
+        playerCount={currentPlayerCount}
         logCount={game.logs.length}
       />
       <Tabs
@@ -77,6 +88,7 @@ const Config: React.FC<ConfigProps> = ({ user, game, players }) => {
               rule={game.ruleType}
               players={players}
               gamePlayers={game.players}
+              onPlayerCountChange={handlePlayersChange}
             />
           </Tabs.Panel>
           <Tabs.Panel value="other">
