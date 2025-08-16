@@ -69,14 +69,19 @@ const Config: React.FC<ConfigProps> = ({ user, game, players }) => {
       <Tabs
         pt="lg"
         variant="outline"
-        orientation="vertical"
         defaultValue="rule"
         className={classes.tabs_area}
       >
-        <Tabs.List className={classes.tab_list}>
-          <Tabs.Tab value="rule">形式設定</Tabs.Tab>
-          <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
-          <Tabs.Tab value="other">その他の設定</Tabs.Tab>
+        <Tabs.List className={classes.tab_list} grow>
+          <Tabs.Tab value="rule" py="md">
+            形式設定
+          </Tabs.Tab>
+          <Tabs.Tab value="player" py="md">
+            プレイヤー設定
+          </Tabs.Tab>
+          <Tabs.Tab value="other" py="md">
+            その他の設定
+          </Tabs.Tab>
         </Tabs.List>
         <Box className={classes.tab_panel_area}>
           <Tabs.Panel value="rule">
