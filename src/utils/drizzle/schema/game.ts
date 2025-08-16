@@ -48,6 +48,7 @@ export const game = sqliteTable("game", {
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   discordWebhookUrl: text("discord_webhook_url"),
   option: blob("options", { mode: "json" }),
+  isPublic: integer("is_public", { mode: "boolean" }).default(false),
   userId: text("user_id").references(() => user.id),
 });
 
@@ -56,6 +57,9 @@ export const gameUserIdIdx = index("idx_game_user_id").on(game.userId);
 
 // ゲームテーブルの形式ごとのインデックス
 export const gameRuleTypeIdx = index("idx_game_rule_type").on(game.ruleType);
+
+// ゲームテーブルの公開状態のインデックス
+export const gameIsPublicIdx = index("idx_game_is_public").on(game.isPublic);
 
 // タグテーブル
 export const tag = sqliteTable("tag", {

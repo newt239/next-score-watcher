@@ -155,6 +155,14 @@ export const updateGameByKey = async (
       .set({ option: value })
       .where(and(eq(game.id, gameId), eq(game.userId, userId)));
     return result.rowsAffected > 0;
+  } else if (key === "isPublic") {
+    const result = await DBClient.update(game)
+      .set({
+        isPublic: value as boolean,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(game.id, gameId), eq(game.userId, userId)));
+    return result.rowsAffected > 0;
   }
   return false;
 };
@@ -264,6 +272,21 @@ export const addGameLog = async (
   });
 
   return logId;
+};
+
+/**
+ * ゲームログ情報を取得
+ */
+export const getGameLogById = async (logId: string, userId: string) => {
+  const log = await DBClient.select({
+    id: gameLog.id,
+    gameId: gameLog.gameId,
+  })
+    .from(gameLog)
+    .where(and(eq(gameLog.id, logId), eq(gameLog.userId, userId)))
+    .limit(1);
+
+  return log[0] || null;
 };
 
 /**
@@ -519,4 +542,73 @@ export const removeGamePlayers = async (
     console.error("Failed to remove game players:", error);
     throw error;
   }
+};
+
+/**
+ * 公開ゲーム情報を取得（認証不要）
+ */
+export const getPublicGameById = async (gameId: string) => {
+  const queryResult = await DBClient.query.game.findFirst({
+    where: and(
+      eq(game.id, gameId),
+      eq(game.isPublic, true),
+      isNull(game.deletedAt)
+    ),
+    with: {
+      gameLog: {
+        where: isNull(gameLog.deletedAt),
+      },
+      gamePlayer: {
+        where: isNull(gamePlayer.deletedAt),
+        with: {
+          player: {
+            columns: {
+              id: true,
+              name: true,
+              description: true,
+              affiliation: true,
+            },
+          },
+        },
+        columns: {
+          displayOrder: true,
+          initialScore: true,
+          initialCorrectCount: true,
+          initialWrongCount: true,
+        },
+      },
+    },
+  });
+
+  if (!queryResult || !queryResult.id) {
+    return null;
+  }
+
+  const {
+    gameLog: gameLogData,
+    gamePlayer: gamePlayerData,
+    ...gameData
+  } = queryResult;
+
+  // ゲーム設定を取得
+  const parsedGame = parseGameOption(gameData);
+
+  if (!parsedGame) {
+    return null;
+  }
+
+  return {
+    ...parsedGame,
+    players: gamePlayerData.map((p) => ({
+      id: p.player?.id || "",
+      name: p.player?.name || "",
+      description: p.player?.description || "",
+      affiliation: p.player?.affiliation || "",
+      displayOrder: p.displayOrder,
+      initialScore: p.initialScore,
+      initialCorrectCount: p.initialCorrectCount,
+      initialWrongCount: p.initialWrongCount,
+    })),
+    logs: gameLogData,
+  };
 };

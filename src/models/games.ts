@@ -244,6 +244,10 @@ export const UpdateGameRequestJsonSchema = z.union([
     key: z.literal("option"),
     value: z.record(z.string(), z.union([z.boolean(), z.number(), z.string()])),
   }),
+  z.object({
+    key: z.literal("isPublic"),
+    value: z.boolean(),
+  }),
 ]);
 
 /**
@@ -570,6 +574,7 @@ export type OnlineGameType = {
   createdAt?: string;
   updatedAt?: string;
   discordWebhookUrl?: string | null;
+  isPublic?: boolean;
 };
 
 /**
@@ -630,4 +635,34 @@ export type OnlineUserType = {
   id: string;
   name: string;
   email: string;
+};
+
+/**
+ * Viewer用ボードデータ取得パラメータスキーマ
+ */
+export const GetViewerBoardDataParamSchema = z.object({
+  gameId: z.string().min(1),
+});
+
+/**
+ * Viewer用ボードデータ取得パラメータ型
+ */
+export type GetViewerBoardDataParamType = z.infer<
+  typeof GetViewerBoardDataParamSchema
+>;
+
+/**
+ * Viewer用ボードデータレスポンス型
+ */
+export type GetViewerBoardDataResponseType = {
+  game: {
+    id: string;
+    name: string;
+    ruleType: RuleNames;
+    isPublic: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+  };
+  players: ComputedScoreProps[];
+  logs: OnlineGameLogType[];
 };

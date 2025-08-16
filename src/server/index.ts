@@ -33,6 +33,7 @@ import patchUpdateQuizHandler from "./controllers/quiz/patch-update";
 import postCreateQuizHandler from "./controllers/quiz/post-create";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
+import getViewerBoardDataHandler from "./controllers/viewer/get-board-data";
 // テスト用認証エンドポイント
 
 import { auth } from "@/utils/auth/auth";
@@ -88,6 +89,8 @@ const app = new Hono()
   .patch("/quizes", ...patchUpdateQuizHandler)
   .delete("/quizes", ...deleteQuizHandler)
   .get("/quizes/:id", ...getQuizDetailHandler)
+  // Viewer API (認証不要)
+  .get("/viewer/games/:gameId/board", ...getViewerBoardDataHandler)
   // テスト用認証
   .post("/e2e/test-login", ...postTestLoginHandler)
   .delete("/e2e/test-user", ...deleteTestUserHandler)
