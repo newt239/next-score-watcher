@@ -12,7 +12,7 @@ import ExportGame from "./ExportGame";
 import PublicityToggle from "./PublicityToggle";
 import SelectQuizset from "./SelectQuizset";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 
 import createApiClient from "@/utils/hono/browser";
 
@@ -49,7 +49,7 @@ const OtherConfig: React.FC<Props> = ({
               new Set(
                 data.data.quizes
                   .map((quiz) => quiz.category)
-                  .filter((category) => category)
+                  .filter((category): category is string => Boolean(category))
               )
             );
             setQuizsets(uniqueSetNames);

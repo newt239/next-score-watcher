@@ -2,10 +2,7 @@ import { cdate } from "cdate";
 
 import { computeOnlineScore } from "./computeScore/computeOnlineScore";
 
-import type {
-  GetGameDetailResponseType,
-  GamePlayerProps,
-} from "@/models/games";
+import type { GetGameDetailResponseType, GamePlayerProps } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 // リポジトリからのゲームデータ型（非同期で取得される実際の型）

@@ -2,7 +2,7 @@ import { Flex, Text } from "@mantine/core";
 
 import styles from "../ViewerBoard/ViewerBoard.module.css";
 
-import type { ComputedScoreProps } from "@/models/games";
+import type { ComputedScoreProps } from "@/models/game";
 
 // AQL専用ボード（観戦専用）
 const ViewerAQLBoard = ({ players }: { players: ComputedScoreProps[] }) => {

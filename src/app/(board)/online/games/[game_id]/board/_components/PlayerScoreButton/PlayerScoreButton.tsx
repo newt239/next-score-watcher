@@ -6,7 +6,7 @@ import { UnstyledButton, useComputedColorScheme } from "@mantine/core";
 
 import classes from "./PlayerScoreButton.module.css";
 
-import type { LogDBProps } from "@/models/games";
+import type { LogDBProps } from "@/models/game";
 
 type PlayerScoreButtonProps = {
   color:

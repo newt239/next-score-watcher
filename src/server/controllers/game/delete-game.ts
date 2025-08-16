@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { DeleteGameRequestParamSchema } from "@/models/games";
+import { DeleteGameRequestParamSchema } from "@/models/game";
 import { getUserId } from "@/server/repositories/auth";
 import { deleteGameById } from "@/server/repositories/game";
 

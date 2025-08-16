@@ -11,7 +11,7 @@ import ImportPlayer from "./ImportPlayer";
 import LoadPlayer from "./LoadPlayer";
 import PlayersTable from "./PlayersTable";
 
-import type { CreatePlayerType, UpdatePlayerType } from "@/models/players";
+import type { CreatePlayerType, UpdatePlayerType } from "@/models/player";
 
 import createApiClient from "@/utils/hono/browser";
 

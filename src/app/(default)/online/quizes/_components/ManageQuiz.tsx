@@ -11,7 +11,7 @@ import ImportQuiz from "./ImportQuiz";
 import LoadQuiz from "./LoadQuiz";
 import QuizesTable from "./QuizesTable";
 
-import type { ApiQuizDataType, CreateQuizType } from "@/models/quizes";
+import type { ApiQuizDataType, CreateQuizType } from "@/models/quiz";
 
 import createApiClient from "@/utils/hono/browser";
 

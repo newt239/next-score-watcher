@@ -2,7 +2,7 @@
 
 import ConfigInput from "../../_components/ConfigInput";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 import type { AqlOption } from "@/utils/drizzle/types";
 
 type AQLOptionsProps = {

@@ -3,7 +3,7 @@ import { IconPlayerPlay } from "@tabler/icons-react";
 
 import classes from "./GameStartButton.module.css";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 

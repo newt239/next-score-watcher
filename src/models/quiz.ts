@@ -6,14 +6,21 @@ import { z } from "zod";
 export const CreateQuizSchema = z.object({
   question: z.string().min(1, "問題文は必須です"),
   answer: z.string().min(1, "答えは必須です"),
-  annotation: z.string().optional(),
-  category: z.string().optional(),
+  annotation: z.string().optional().default(""),
+  category: z.string().optional().default(""),
   setName: z.string().min(1, "セット名は必須です"),
   questionNumber: z
     .number()
     .int()
     .min(1, "問題番号は1以上である必要があります"),
 });
+
+/**
+ * クイズ問題作成リクエストのスキーマ
+ */
+export const CreateQuizRequestSchema = z
+  .array(CreateQuizSchema)
+  .min(1, "最低1つのクイズ問題が必要です");
 
 /**
  * クイズ問題更新の基本スキーマ
@@ -33,14 +40,7 @@ export const UpdateQuizSchema = z.object({
 });
 
 /**
- * クイズ問題一括作成リクエストのスキーマ
- */
-export const CreateQuizRequestSchema = z
-  .array(CreateQuizSchema)
-  .min(1, "最低1つのクイズ問題が必要です");
-
-/**
- * クイズ問題一括更新リクエストのスキーマ
+ * クイズ問題更新リクエストのスキーマ
  */
 export const UpdateQuizRequestSchema = z
   .array(UpdateQuizSchema)
@@ -59,8 +59,8 @@ export const DeleteQuizRequestSchema = z
 export const GetQuizzesQuerySchema = z.object({
   setName: z.string().optional(),
   category: z.string().optional(),
-  limit: z.number().int().min(1).max(1000).default(100),
-  offset: z.number().int().min(0).default(0),
+  limit: z.coerce.number().int().min(1).max(1000).default(100),
+  offset: z.coerce.number().int().min(0).default(0),
   search: z.string().optional(),
 });
 
@@ -77,17 +77,17 @@ export const GetQuizSetsResponseSchema = z.object({
 export type CreateQuizType = z.infer<typeof CreateQuizSchema>;
 
 /**
+ * クイズ問題作成リクエストの型
+ */
+export type CreateQuizRequestType = z.infer<typeof CreateQuizRequestSchema>;
+
+/**
  * クイズ問題更新の基本型
  */
 export type UpdateQuizType = z.infer<typeof UpdateQuizSchema>;
 
 /**
- * クイズ問題一括作成リクエストの型
- */
-export type CreateQuizRequestType = z.infer<typeof CreateQuizRequestSchema>;
-
-/**
- * クイズ問題一括更新リクエストの型
+ * クイズ問題更新リクエストの型
  */
 export type UpdateQuizRequestType = z.infer<typeof UpdateQuizRequestSchema>;
 
@@ -156,4 +156,27 @@ export type GetQuizzesResponseType = {
     hasMore: boolean;
   };
   message: string;
+};
+
+/**
+ * クイズ問題詳細レスポンスの型
+ */
+export type QuizDetailResponseType = {
+  id: string;
+  question: string;
+  answer: string;
+  annotation: string;
+  category: string;
+  setName: string;
+  questionNumber: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+// レガシー互換性のためのエイリアス
+export type ApiQuizDataType = ApiQuizType;
+export type GetQuizesListRequestType = GetQuizzesQueryType;
+export type GetQuizesListResponseType = {
+  quizes: ApiQuizType[];
+  total: number;
 };

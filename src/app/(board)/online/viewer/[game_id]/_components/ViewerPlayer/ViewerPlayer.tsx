@@ -2,7 +2,7 @@ import { Text } from "@mantine/core";
 
 import styles from "./ViewerPlayer.module.css";
 
-import type { ComputedScoreProps } from "@/models/games";
+import type { ComputedScoreProps } from "@/models/game";
 
 // 個別プレイヤーカード（観戦専用）
 type ViewerPlayerProps = {

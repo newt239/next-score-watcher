@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { CreateGameRequestSchema } from "@/models/games";
+import { CreateGameRequestSchema } from "@/models/game";
 import { getUserId } from "@/server/repositories/auth";
 import { createGame } from "@/server/repositories/game";
 

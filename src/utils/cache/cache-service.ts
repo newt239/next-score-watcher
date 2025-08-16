@@ -1,7 +1,7 @@
 import { getBoardCacheKey } from "./cache-keys";
 import { deleteFromKV, getFromKV, putToKV } from "./cloudflare-kv";
 
-import type { GetViewerBoardDataResponseType } from "@/models/games";
+import type { GetViewerBoardDataResponseType } from "@/models/game";
 
 /**
  * ボードデータをキャッシュに保存

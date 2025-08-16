@@ -8,7 +8,7 @@ import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { parseResponse } from "hono/client";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 
 import createApiClient from "@/utils/hono/browser";
 

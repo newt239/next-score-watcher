@@ -3,7 +3,7 @@ import type {
   GamePlayerProps,
   GetGameDetailResponseType,
   States,
-} from "@/models/games";
+} from "@/models/game";
 
 /**
  * プレイヤーの初期状態を生成

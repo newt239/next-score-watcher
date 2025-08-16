@@ -6,7 +6,7 @@ import { Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 
-import type { CreateQuizType } from "@/models/quizes";
+import type { CreateQuizType } from "@/models/quiz";
 import type { FileWithPath } from "@mantine/dropzone";
 
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
@@ -79,6 +79,8 @@ const ImportQuiz: React.FC<Props> = ({ createQuizes }) => {
           answer,
           category,
           annotation,
+          setName: "インポート",
+          questionNumber: quizesData.length + 1,
         });
       }
     }

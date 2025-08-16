@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { UpdateUserPreferencesRequestSchema } from "@/models/user-preferences";
+import { UpdateUserPreferencesRequestSchema } from "@/models/user-preference";
 import { getUserId } from "@/server/repositories/auth";
 import {
   ensureUserPreferences,

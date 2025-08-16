@@ -11,7 +11,7 @@ import ConfigNumberInput from "../../_components/ConfigNumberInput";
 
 import AQLOptions from "./AQLOptions";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 import type { AqlOption, TypedGame } from "@/utils/drizzle/types";
 
 import createApiClient from "@/utils/hono/browser";

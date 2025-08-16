@@ -10,7 +10,7 @@ import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 
-import type { GamePlayerProps, PlayerProps } from "@/models/games";
+import type { GamePlayerProps, PlayerProps } from "@/models/game";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";

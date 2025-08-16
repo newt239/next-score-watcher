@@ -11,8 +11,8 @@ import type {
   GamePlayerProps,
   LogDBProps,
   RuleNames,
-} from "@/models/games";
-import type { UserPreferencesType } from "@/models/user-preferences";
+} from "@/models/game";
+import type { UserPreferencesType } from "@/models/user-preference";
 
 type OnlineGame = {
   id: string;

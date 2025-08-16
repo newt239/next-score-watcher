@@ -3,7 +3,7 @@ import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 import type {
   ComputedScoreProps,
   GetGameDetailResponseType,
-} from "@/models/games";
+} from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**

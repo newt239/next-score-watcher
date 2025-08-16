@@ -4,7 +4,7 @@ import { Accordion } from "@mantine/core";
 
 import GameStartButton from "../GameStartButton/GameStartButton";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 
 import Link from "@/app/_components/Link";
 import { rules } from "@/utils/rules";

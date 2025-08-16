@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { CreateQuizRequestSchema } from "@/models/quizes";
+import { CreateQuizRequestSchema } from "@/models/quiz";
 import { getUserId } from "@/server/repositories/auth";
 import { createQuiz } from "@/server/repositories/quiz";
 

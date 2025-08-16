@@ -7,7 +7,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { parseResponse } from "hono/client";
 
-import type { OnlineGameProps } from "@/models/games";
+import type { OnlineGameProps } from "@/models/game";
 
 import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";

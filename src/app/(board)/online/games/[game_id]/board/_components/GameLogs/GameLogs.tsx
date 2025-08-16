@@ -13,7 +13,7 @@ import { cdate } from "cdate";
 
 import classes from "./GameLogs.module.css";
 
-import type { GamePlayerProps } from "@/models/games";
+import type { GamePlayerProps } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type GameLogsProps = {

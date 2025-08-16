@@ -4,7 +4,7 @@ import Preferences from "../Preferences";
 
 import styles from "./PreferenceDrawer.module.css";
 
-import type { UserPreferencesType } from "@/models/user-preferences";
+import type { UserPreferencesType } from "@/models/user-preference";
 
 type PreferenceDrawerProps = {
   isOpen: boolean;

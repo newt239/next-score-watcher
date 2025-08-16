@@ -1,9 +1,9 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import type { Variants } from "@/models/games";
+import type { Variants } from "@/models/game";
 
-import { AddGameLogRequestSchema } from "@/models/games";
+import { AddGameLogRequestSchema } from "@/models/game";
 import { getUserId } from "@/server/repositories/auth";
 import { addGameLog, getGameById } from "@/server/repositories/game";
 import { cacheBoardData } from "@/utils/cache/cache-service";

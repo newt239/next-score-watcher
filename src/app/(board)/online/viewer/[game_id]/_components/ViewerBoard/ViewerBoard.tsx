@@ -9,7 +9,7 @@ import ViewerPlayer from "../ViewerPlayer/ViewerPlayer";
 
 import styles from "./ViewerBoard.module.css";
 
-import type { GetViewerBoardDataResponseType } from "@/models/games";
+import type { GetViewerBoardDataResponseType } from "@/models/game";
 
 import createApiClient from "@/utils/hono/browser";
 

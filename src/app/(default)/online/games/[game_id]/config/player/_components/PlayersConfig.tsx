@@ -17,7 +17,7 @@ import { parseResponse } from "hono/client";
 
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
-import type { GamePlayerProps, PlayerProps, RuleNames } from "@/models/games";
+import type { GamePlayerProps, PlayerProps, RuleNames } from "@/models/game";
 
 import createApiClient from "@/utils/hono/browser";
 

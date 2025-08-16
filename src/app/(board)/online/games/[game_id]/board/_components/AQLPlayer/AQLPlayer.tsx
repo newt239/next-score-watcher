@@ -11,7 +11,7 @@ import type {
   GamePlayerProps,
   LogDBProps,
   States,
-} from "@/models/games";
+} from "@/models/game";
 
 import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
 import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";

@@ -20,7 +20,7 @@ import { parseResponse } from "hono/client";
 
 import classes from "./RuleList.module.css";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 
 import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";

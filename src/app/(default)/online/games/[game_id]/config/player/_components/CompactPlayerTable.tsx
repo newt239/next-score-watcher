@@ -16,10 +16,7 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type {
-  PlayerProps,
-  RemoveGamePlayersResponseType,
-} from "@/models/games";
+import type { PlayerProps, RemoveGamePlayersResponseType } from "@/models/game";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";

@@ -11,7 +11,7 @@ import type {
   UpdateGamePlayerType,
   UpdateGameRequestJsonType,
   UpdateGameSettingsRequestType,
-} from "@/models/games";
+} from "@/models/game";
 
 import { DBClient } from "@/utils/drizzle/client";
 import { game, gameLog, gamePlayer, player } from "@/utils/drizzle/schema";

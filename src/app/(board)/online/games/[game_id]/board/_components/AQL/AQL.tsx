@@ -10,7 +10,7 @@ import type {
   ComputedScoreProps,
   GamePlayerProps,
   LogDBProps,
-} from "@/models/games";
+} from "@/models/game";
 
 type AQLProps = {
   scores: ComputedScoreProps[];
