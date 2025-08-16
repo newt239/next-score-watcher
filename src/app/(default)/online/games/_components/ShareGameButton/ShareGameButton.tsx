@@ -29,7 +29,18 @@ const ShareGameButton: React.FC<ShareGameButtonProps> = ({
   }
 
   const viewerUrl = `${window.location.origin}/viewer/games/${gameId}`;
+  const [viewerUrl, setViewerUrl] = useState("");
 
+  // Set viewerUrl on client after mount
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setViewerUrl(`${window.location.origin}/viewer/games/${gameId}`);
+    }
+  }, [gameId]);
+
+  if (!isPublic) {
+    return null;
+  }
   return (
     <CopyButton value={viewerUrl} timeout={2000}>
       {({ copied, copy }) => (
