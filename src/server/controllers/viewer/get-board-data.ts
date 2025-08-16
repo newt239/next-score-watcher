@@ -33,7 +33,7 @@ const handler = factory.createHandlers(
         return c.json(
           {
             error: "ゲームが見つからないか、非公開に設定されています",
-          },
+          } as const,
           404
         );
       }
