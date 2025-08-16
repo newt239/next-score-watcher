@@ -1,13 +1,13 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * SquareX形式のe2eテスト（簡潔版）
+ * NomX形式（N○M✕）のe2e
  * 特徴:
- * - 奇数問目・偶数問目の正解数の積でスコア計算
- * - 3行レイアウト（スコア・計算式・操作ボタン）
- * - 問題番号による分類システム
+ * - N回正解で勝ち抜け
+ * - M回誤答で失格
+ * - リーチ状態の表示
  */
-test.describe("SquareX形式のテスト", () => {
+test.describe("NomX形式", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
       window.localStorage.setItem("scorewatcher-version", "latest");
@@ -27,7 +27,7 @@ test.describe("SquareX形式のテスト", () => {
         .locator("..")
         .locator("..")
         .textContent();
-      if (cardContent?.includes("SquareX") || cardContent?.includes("Square")) {
+      if (cardContent?.includes("N○M✕") && !cardContent?.includes("連答つき")) {
         await button.click();
         break;
       }
@@ -35,7 +35,7 @@ test.describe("SquareX形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("SquareX設定テスト");
+    await page.getByLabel("ゲーム名").fill("NomX設定");
     await page.waitForTimeout(500);
 
     await page
@@ -46,10 +46,14 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/config/);
     await page.waitForLoadState("networkidle");
 
-    // 勝ち抜けスコアを16に設定
-    const winPointInput = page.getByLabel("勝ち抜けスコア");
+    // 5○3✕に設定
+    const winPointInput = page.getByLabel("正解数（勝ち抜け）");
     await winPointInput.clear();
-    await winPointInput.fill("16");
+    await winPointInput.fill("5");
+
+    const losePointInput = page.getByLabel("誤答数（失格）");
+    await losePointInput.clear();
+    await losePointInput.fill("3");
 
     await page.getByRole("tab", { name: "プレイヤー設定" }).click();
     await page.waitForLoadState("networkidle");
@@ -60,10 +64,10 @@ test.describe("SquareX形式のテスト", () => {
     const dialog = page.getByRole("dialog", { name: "プレイヤー選択" });
     await expect(dialog).toBeVisible();
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
       await playerCheckbox.check();
     }
@@ -78,8 +82,8 @@ test.describe("SquareX形式のテスト", () => {
     await page.waitForLoadState("networkidle");
   });
 
-  test("奇数偶数スコア計算", async ({ page }) => {
-    // SquareXゲーム作成（共通処理）
+  test("基本操作（正解・誤答）", async ({ page }) => {
+    // ゲーム作成（共通処理）
     await page.goto("/online/rules");
     await page.waitForLoadState("networkidle");
 
@@ -92,7 +96,7 @@ test.describe("SquareX形式のテスト", () => {
         .locator("..")
         .locator("..")
         .textContent();
-      if (cardContent?.includes("SquareX") || cardContent?.includes("Square")) {
+      if (cardContent?.includes("N○M✕") && !cardContent?.includes("連答つき")) {
         await button.click();
         break;
       }
@@ -100,7 +104,7 @@ test.describe("SquareX形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("SquareXスコア計算テスト");
+    await page.getByLabel("ゲーム名").fill("NomX基本操作");
     await page.waitForTimeout(500);
 
     await page
@@ -111,10 +115,14 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/config/);
     await page.waitForLoadState("networkidle");
 
-    // 勝ち抜けスコアを16に設定
-    const winPointInput = page.getByLabel("勝ち抜けスコア");
+    // 5○3✕に設定
+    const winPointInput = page.getByLabel("正解数（勝ち抜け）");
     await winPointInput.clear();
-    await winPointInput.fill("16");
+    await winPointInput.fill("5");
+
+    const losePointInput = page.getByLabel("誤答数（失格）");
+    await losePointInput.clear();
+    await losePointInput.fill("3");
 
     await page.getByRole("tab", { name: "プレイヤー設定" }).click();
     await page.waitForLoadState("networkidle");
@@ -125,10 +133,10 @@ test.describe("SquareX形式のテスト", () => {
     const dialog = page.getByRole("dialog", { name: "プレイヤー選択" });
     await expect(dialog).toBeVisible();
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
       await playerCheckbox.check();
     }
@@ -142,36 +150,29 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/board/);
     await page.waitForLoadState("networkidle");
 
-    const firstPlayer = page.locator("#players-area").first();
-    const correctButton = firstPlayer.getByRole("button").first();
+    const players = [
+      page.locator("#players-area").nth(0),
+      page.locator("#players-area").nth(1),
+      page.locator("#players-area").nth(2),
+    ];
 
-    // 初期状態確認
-    await expect(firstPlayer).toContainText("0pt");
+    // 基本操作テスト
+    const correctButton = players[0].getByRole("button").first();
+    const wrongButton = players[0].getByRole("button").last();
 
-    // 奇数偶数スコア計算テスト
-    // Q1（奇数問目）で正解
+    // 正解操作
     await correctButton.click();
-    await page.waitForTimeout(500);
-    await expect(firstPlayer).toContainText("0pt"); // 1×0=0pt
+    await page.waitForTimeout(300);
+    await expect(players[0]).toContainText("1-0");
 
-    // Q2（偶数問目）で正解
-    await correctButton.click();
-    await page.waitForTimeout(500);
-    await expect(firstPlayer).toContainText("1pt"); // 1×1=1pt
-
-    // Q3（奇数問目）で正解
-    await correctButton.click();
-    await page.waitForTimeout(500);
-    await expect(firstPlayer).toContainText("2pt"); // 2×1=2pt
-
-    // Q4（偶数問目）で正解
-    await correctButton.click();
-    await page.waitForTimeout(500);
-    await expect(firstPlayer).toContainText("4pt"); // 2×2=4pt
+    // 誤答操作
+    await wrongButton.click();
+    await page.waitForTimeout(300);
+    await expect(players[0]).toContainText("1-1");
   });
 
-  test("計算式表示確認", async ({ page }) => {
-    // SquareXゲーム作成（共通処理）
+  test("リーチ状態テスト", async ({ page }) => {
+    // ゲーム作成（共通処理）
     await page.goto("/online/rules");
     await page.waitForLoadState("networkidle");
 
@@ -184,7 +185,7 @@ test.describe("SquareX形式のテスト", () => {
         .locator("..")
         .locator("..")
         .textContent();
-      if (cardContent?.includes("SquareX") || cardContent?.includes("Square")) {
+      if (cardContent?.includes("N○M✕") && !cardContent?.includes("連答つき")) {
         await button.click();
         break;
       }
@@ -192,7 +193,7 @@ test.describe("SquareX形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("SquareX計算式テスト");
+    await page.getByLabel("ゲーム名").fill("NomXリーチ");
     await page.waitForTimeout(500);
 
     await page
@@ -203,10 +204,14 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/config/);
     await page.waitForLoadState("networkidle");
 
-    // 勝ち抜けスコアを16に設定
-    const winPointInput = page.getByLabel("勝ち抜けスコア");
+    // 5○3✕に設定
+    const winPointInput = page.getByLabel("正解数（勝ち抜け）");
     await winPointInput.clear();
-    await winPointInput.fill("16");
+    await winPointInput.fill("5");
+
+    const losePointInput = page.getByLabel("誤答数（失格）");
+    await losePointInput.clear();
+    await losePointInput.fill("3");
 
     await page.getByRole("tab", { name: "プレイヤー設定" }).click();
     await page.waitForLoadState("networkidle");
@@ -217,10 +222,10 @@ test.describe("SquareX形式のテスト", () => {
     const dialog = page.getByRole("dialog", { name: "プレイヤー選択" });
     await expect(dialog).toBeVisible();
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
       await playerCheckbox.check();
     }
@@ -234,26 +239,25 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/board/);
     await page.waitForLoadState("networkidle");
 
-    const firstPlayer = page.locator("#players-area").first();
-    const correctButton = firstPlayer.getByRole("button").first();
+    const players = [
+      page.locator("#players-area").nth(0),
+      page.locator("#players-area").nth(1),
+      page.locator("#players-area").nth(2),
+    ];
 
-    // 4回正解して2×2の状態にする
+    const correctButton = players[0].getByRole("button").first();
+
+    // プレイヤー1を正解リーチ状態にする（4正解）
     for (let i = 0; i < 4; i++) {
       await correctButton.click();
       await page.waitForTimeout(200);
     }
-
-    // 計算式表示確認
-    const formulaDisplay = firstPlayer.locator(
-      ".formula-display, .calculation-display"
-    );
-    if (await formulaDisplay.isVisible()) {
-      await expect(formulaDisplay).toContainText("2×2");
-    }
+    await expect(players[0]).toContainText("4-0");
+    await expect(players[0]).toHaveClass(/reach/);
   });
 
-  test("勝ち抜けテスト", async ({ page }) => {
-    // SquareXゲーム作成（共通処理）
+  test("勝ち抜け・失格テスト", async ({ page }) => {
+    // ゲーム作成（共通処理）
     await page.goto("/online/rules");
     await page.waitForLoadState("networkidle");
 
@@ -266,7 +270,7 @@ test.describe("SquareX形式のテスト", () => {
         .locator("..")
         .locator("..")
         .textContent();
-      if (cardContent?.includes("SquareX") || cardContent?.includes("Square")) {
+      if (cardContent?.includes("N○M✕") && !cardContent?.includes("連答つき")) {
         await button.click();
         break;
       }
@@ -274,7 +278,7 @@ test.describe("SquareX形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("SquareX勝ち抜けテスト");
+    await page.getByLabel("ゲーム名").fill("NomX勝敗");
     await page.waitForTimeout(500);
 
     await page
@@ -285,10 +289,14 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/config/);
     await page.waitForLoadState("networkidle");
 
-    // 勝ち抜けスコアを16に設定
-    const winPointInput = page.getByLabel("勝ち抜けスコア");
+    // 5○3✕に設定
+    const winPointInput = page.getByLabel("正解数（勝ち抜け）");
     await winPointInput.clear();
-    await winPointInput.fill("16");
+    await winPointInput.fill("5");
+
+    const losePointInput = page.getByLabel("誤答数（失格）");
+    await losePointInput.clear();
+    await losePointInput.fill("3");
 
     await page.getByRole("tab", { name: "プレイヤー設定" }).click();
     await page.waitForLoadState("networkidle");
@@ -299,10 +307,10 @@ test.describe("SquareX形式のテスト", () => {
     const dialog = page.getByRole("dialog", { name: "プレイヤー選択" });
     await expect(dialog).toBeVisible();
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
       await playerCheckbox.check();
     }
@@ -316,22 +324,32 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/board/);
     await page.waitForLoadState("networkidle");
 
-    const firstPlayer = page.locator("#players-area").first();
-    const correctButton = firstPlayer.getByRole("button").first();
+    const players = [
+      page.locator("#players-area").nth(0),
+      page.locator("#players-area").nth(1),
+      page.locator("#players-area").nth(2),
+    ];
 
-    // 勝ち抜けテスト（16pt到達）
-    // 8回正解（4×4=16ptを目指す）
-    for (let i = 0; i < 8; i++) {
+    // 勝ち抜けテスト（プレイヤー1が5回正解）
+    const correctButton = players[0].getByRole("button").first();
+    for (let i = 0; i < 5; i++) {
       await correctButton.click();
       await page.waitForTimeout(200);
     }
-    await expect(firstPlayer).toContainText("16pt");
-    await expect(firstPlayer).toContainText("1st");
+    await expect(players[0]).toContainText("1st");
     await expect(correctButton).toBeDisabled();
+
+    // 失格テスト（プレイヤー2を失格させる）
+    for (let i = 0; i < 3; i++) {
+      await players[1].getByRole("button").last().click();
+      await page.waitForTimeout(200);
+    }
+    await expect(players[1]).toContainText("LOSE");
+    await expect(players[1].getByRole("button").first()).toBeDisabled();
   });
 
-  test("誤答の影響とキーボードショートカット", async ({ page }) => {
-    // SquareXゲーム作成（共通処理）
+  test("Undo機能とキーボードショートカット", async ({ page }) => {
+    // ゲーム作成（共通処理）
     await page.goto("/online/rules");
     await page.waitForLoadState("networkidle");
 
@@ -344,7 +362,7 @@ test.describe("SquareX形式のテスト", () => {
         .locator("..")
         .locator("..")
         .textContent();
-      if (cardContent?.includes("SquareX") || cardContent?.includes("Square")) {
+      if (cardContent?.includes("N○M✕") && !cardContent?.includes("連答つき")) {
         await button.click();
         break;
       }
@@ -352,7 +370,7 @@ test.describe("SquareX形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("SquareX機能テスト");
+    await page.getByLabel("ゲーム名").fill("NomX機能");
     await page.waitForTimeout(500);
 
     await page
@@ -363,10 +381,14 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/config/);
     await page.waitForLoadState("networkidle");
 
-    // 勝ち抜けスコアを16に設定
-    const winPointInput = page.getByLabel("勝ち抜けスコア");
+    // 5○3✕に設定
+    const winPointInput = page.getByLabel("正解数（勝ち抜け）");
     await winPointInput.clear();
-    await winPointInput.fill("16");
+    await winPointInput.fill("5");
+
+    const losePointInput = page.getByLabel("誤答数（失格）");
+    await losePointInput.clear();
+    await losePointInput.fill("3");
 
     await page.getByRole("tab", { name: "プレイヤー設定" }).click();
     await page.waitForLoadState("networkidle");
@@ -377,10 +399,10 @@ test.describe("SquareX形式のテスト", () => {
     const dialog = page.getByRole("dialog", { name: "プレイヤー選択" });
     await expect(dialog).toBeVisible();
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
       await playerCheckbox.check();
     }
@@ -394,39 +416,30 @@ test.describe("SquareX形式のテスト", () => {
     await expect(page).toHaveURL(/\/online\/games\/.*\/board/);
     await page.waitForLoadState("networkidle");
 
-    const secondPlayer = page.locator("#players-area").nth(1);
-    const player2Correct = secondPlayer.getByRole("button").first();
-    const player2Wrong = secondPlayer.getByRole("button").last();
+    const players = [
+      page.locator("#players-area").nth(0),
+      page.locator("#players-area").nth(1),
+      page.locator("#players-area").nth(2),
+    ];
 
-    // 誤答の影響テスト（プレイヤー2で実行）
-    // 2回正解（Q1奇数、Q2偶数）
-    await player2Correct.click();
-    await page.waitForTimeout(200);
-    await player2Correct.click();
-    await page.waitForTimeout(200);
-    await expect(secondPlayer).toContainText("1pt"); // 1×1=1pt
-
-    // 誤答（Q3奇数で誤答）
-    await player2Wrong.click();
-    await page.waitForTimeout(200);
-    await expect(secondPlayer).toContainText("1pt"); // スコア変わらず
+    // プレイヤー2を失格手前まで進める
+    for (let i = 0; i < 2; i++) {
+      await players[1].getByRole("button").last().click();
+      await page.waitForTimeout(200);
+    }
 
     // Undo機能テスト
     await page.getByRole("button", { name: "一つ戻す" }).click();
     await page.waitForTimeout(500);
-    // 最後の誤答が取り消される
+    await expect(players[1]).not.toContainText("LOSE");
 
     // キーボードショートカット
-    await page.keyboard.press("2");
+    await page.keyboard.press("3");
     await page.waitForTimeout(500);
-    // プレイヤー2正解
+    // プレイヤー3が正解
 
-    await page.keyboard.press("Shift+2");
+    await page.keyboard.press("Shift+3");
     await page.waitForTimeout(500);
-    // プレイヤー2誤答
-
-    await page.keyboard.press(",");
-    await page.waitForTimeout(500);
-    // Undo操作
+    // プレイヤー3が誤答
   });
 });

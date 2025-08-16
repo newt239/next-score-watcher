@@ -1,38 +1,18 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * AQL形式のe2eテスト（簡潔版）
+ * AQL形式のe2e
  * 特徴:
  * - 10人固定のチーム戦
  * - 左チーム（1-5番）vs 右チーム（6-10番）
  * - チームスコア積が200以上で勝利
  * - 相手チーム誤答時の自動復活システム
  */
-test.describe("AQL形式のテスト", () => {
+test.describe("AQL形式", () => {
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(() => {
       window.localStorage.setItem("scorewatcher-version", "latest");
     });
-  });
-
-  test("プレイヤー作成", async ({ page }) => {
-    // 10人のプレイヤーを作成
-    await page.goto("/online/players");
-    await page.waitForLoadState("networkidle");
-
-    for (let i = 1; i <= 10; i++) {
-      const playerName = `テストプレイヤー${i}`;
-
-      const existingPlayer = page.getByRole("table").getByText(playerName);
-      if (await existingPlayer.isVisible()) {
-        continue;
-      }
-
-      await page.getByLabel("氏名").fill(playerName);
-      await page.getByRole("button", { name: "作成" }).click();
-      await page.waitForTimeout(500);
-    }
-    await expect(page.getByRole("table")).toContainText("テストプレイヤー10");
   });
 
   test("ゲーム作成とチーム設定", async ({ page }) => {
@@ -57,7 +37,7 @@ test.describe("AQL形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("AQLチーム設定テスト");
+    await page.getByLabel("ゲーム名").fill("AQLチーム設定");
     await page.waitForTimeout(500);
 
     await page
@@ -89,7 +69,7 @@ test.describe("AQL形式のテスト", () => {
     for (let i = 1; i <= 10; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
 
       if (await playerCheckbox.isVisible()) {
@@ -112,7 +92,7 @@ test.describe("AQL形式のテスト", () => {
 
     // プレイヤー表示確認
     for (let i = 1; i <= 10; i++) {
-      await expect(page.getByText(`テストプレイヤー${i}`)).toBeVisible();
+      await expect(page.getByText(`プレイヤー${i}`)).toBeVisible();
     }
   });
 
@@ -138,7 +118,7 @@ test.describe("AQL形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("AQLスコア操作テスト");
+    await page.getByLabel("ゲーム名").fill("AQLスコア操作");
     await page.waitForTimeout(500);
 
     await page
@@ -170,7 +150,7 @@ test.describe("AQL形式のテスト", () => {
     for (let i = 1; i <= 10; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
 
       if (await playerCheckbox.isVisible()) {
@@ -226,7 +206,7 @@ test.describe("AQL形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("AQL復活システムテスト");
+    await page.getByLabel("ゲーム名").fill("AQL復活システム");
     await page.waitForTimeout(500);
 
     await page
@@ -258,7 +238,7 @@ test.describe("AQL形式のテスト", () => {
     for (let i = 1; i <= 10; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
 
       if (await playerCheckbox.isVisible()) {
@@ -316,7 +296,7 @@ test.describe("AQL形式のテスト", () => {
 
     const modal = page.getByRole("dialog");
     await expect(modal).toBeVisible();
-    await page.getByLabel("ゲーム名").fill("AQLキーボードテスト");
+    await page.getByLabel("ゲーム名").fill("AQLキーボード");
     await page.waitForTimeout(500);
 
     await page
@@ -348,7 +328,7 @@ test.describe("AQL形式のテスト", () => {
     for (let i = 1; i <= 10; i++) {
       const playerCheckbox = page
         .getByRole("table")
-        .getByRole("checkbox", { name: `テストプレイヤー${i}` })
+        .getByRole("checkbox", { name: `プレイヤー${i}`, exact: true })
         .first();
 
       if (await playerCheckbox.isVisible()) {

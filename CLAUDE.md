@@ -354,3 +354,23 @@ export type ApiDataType = {
 - `src/utils/types.ts`はローカル版のDBの型です。オンライン版の型はmodelsの下にあるので、ここの物を使うか、新たにここに実装するようにしてください
 - Pull Requestを作成する際は原則として`develop`ブランチに対して作成してください。
 - 適切な粒度でコミットを行ってください。
+
+## サブスクリプション/課金に関する共通ルール
+
+本プロジェクトのサブスクリプション機能は以下の共通ルールに従う。
+
+- プランは「free」「plus」の2種類。未契約ユーザーは常に「free」として扱う。
+- 上限値は以下で固定する（ユーザー単位）。
+  - free: game 10 / player 50 / quiz 200 / viewer rate 60回/分
+  - plus: game 100 / player 500 / quiz 2000 / viewer rate 1000回/分
+- プランの上限値（作成できるゲーム数・プレイヤー数・問題数、観戦レート上限）はコードにハードコードして管理する。DBにプランテーブルは作成しない。
+- Stripe の Product ID は環境変数で管理する（例：`STRIPE_PRODUCT_FREE`, `STRIPE_PRODUCT_PLUS`）。週払い・月払いは同一プラン「plus」として扱い、Stripe APIで Product に紐づく Price を interval（`week`/`month`）で解決して使用する。
+- 契約状態は Drizzle の `user_subscription` テーブルで管理する。コントローラーではこの状態を参照して上限チェックを行う。
+- 観戦ページのレートリミットは Cloudflare KV を使用して分バケットで集計する。DBテーブルは作成しない。必要な認証情報は環境変数（`CF_ACCOUNT_ID`, `CF_API_TOKEN`, `CF_KV_NAMESPACE_ID`）で管理する。
+- API からのエラーレスポンスは日本語メッセージとエラーコードを返し、フロントはそのまま表示する。上限超過はHTTP 403、観戦レート超過はHTTP 429を返す。
+
+### ダウングレード（解約）時の表示仕様
+
+- plus を解約して free に戻った場合、保存データは削除せず、上限を超える部分は表示しない。
+- リストAPIは totalCount と visibleCount を返し、返却データは上限までに制限する。
+- 再度 plus を契約した場合は上限超過分の表示が自動的に復帰する。

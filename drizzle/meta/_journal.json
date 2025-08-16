@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1754968409292,
-      "tag": "0000_mute_true_believers",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1755325955565,
-      "tag": "0001_amazing_hannibal_king",
+      "when": 1755363008456,
+      "tag": "0000_ambiguous_purifiers",
       "breakpoints": true
     }
   ]

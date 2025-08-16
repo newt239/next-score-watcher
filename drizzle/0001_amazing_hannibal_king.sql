@@ -1,1 +1,0 @@
-ALTER TABLE `game` ADD `is_public` integer DEFAULT false;

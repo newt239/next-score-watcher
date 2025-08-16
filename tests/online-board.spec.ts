@@ -19,15 +19,13 @@ test.describe("オンライン版得点表示", () => {
     ).toBeVisible();
 
     // プレイヤーを3人追加する
-    const testPlayerNames = [
-      "テストプレイヤー1",
-      "テストプレイヤー2",
-      "テストプレイヤー3",
-    ];
+    const testPlayerNames = ["プレイヤー1", "プレイヤー2", "プレイヤー3"];
 
     // すでにプレイヤーが存在する場合はスキップ
     for (const playerName of testPlayerNames) {
-      const player = page.getByRole("table").getByText(playerName);
+      const player = page
+        .getByRole("table")
+        .getByText(playerName, { exact: true });
       if (await player.isVisible()) {
         continue;
       }
@@ -36,7 +34,9 @@ test.describe("オンライン版得点表示", () => {
       await page.getByRole("button", { name: "作成" }).click();
 
       // プレイヤーがテーブルに表示されることを確認
-      await expect(page.getByRole("table")).toContainText(playerName);
+      await expect(
+        page.getByRole("table").getByText(playerName, { exact: true })
+      ).toBeVisible();
     }
   });
 
@@ -108,10 +108,10 @@ test.describe("オンライン版得点表示", () => {
     const dialog = page.getByRole("dialog", { name: "プレイヤー選択" });
     await expect(dialog).toBeVisible();
 
-    // 「テストプレイヤー1」のチェックボックスを選択
+    // 「プレイヤー1」のチェックボックスを選択
     const firstPlayerCheckbox = page
       .getByRole("table")
-      .getByRole("checkbox", { name: "テストプレイヤー1" })
+      .getByRole("checkbox", { name: "プレイヤー1", exact: true })
       .first();
     await firstPlayerCheckbox.check();
 
@@ -137,6 +137,6 @@ test.describe("オンライン版得点表示", () => {
     await expect(page.getByText(/No\.\d+/)).toBeVisible();
 
     // プレイヤーが表示されることを確認（全角に変換されている）
-    await expect(page.getByText("テストプレイヤー１")).toBeVisible();
+    await expect(page.getByText("プレイヤー１", { exact: true })).toBeVisible();
   });
 });
