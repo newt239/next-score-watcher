@@ -1,7 +1,8 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import { removeGameLog } from "@/server/repositories/game";
+import { getGameLogById, removeGameLog } from "@/server/repositories/game";
+import { invalidateBoardCache } from "@/utils/cache/cache-service";
 
 const factory = createFactory();
 
@@ -21,7 +22,15 @@ const handler = factory.createHandlers(async (c) => {
       return c.json({ error: "ログIDが必要です" } as const, 400);
     }
 
+    // ログ削除前にゲームIDを取得
+    const logInfo = await getGameLogById(logId, userId);
+
     await removeGameLog(logId, userId);
+
+    // ログが公開ゲームのものの場合、キャッシュを無効化
+    if (logInfo?.gameId) {
+      await invalidateBoardCache(logInfo.gameId);
+    }
 
     return c.json({ success: true } as const);
   } catch (error) {
