@@ -1,0 +1,134 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1200px;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.header {
+  padding: 1.5rem;
+  text-align: center;
+  background-color: var(--mantine-color-dark-8);
+  border: 2px solid var(--mantine-color-yellow-6);
+  border-radius: var(--mantine-radius-md);
+}
+
+.board {
+  min-height: 400px;
+  padding: 1.5rem;
+  background-color: var(--mantine-color-dark-8);
+  border-radius: var(--mantine-radius-lg);
+}
+
+.playersList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.playerCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background-color: var(--mantine-color-dark-7);
+  border: 1px solid var(--mantine-color-dark-5);
+  border-radius: var(--mantine-radius-md);
+  transition: transform 0.2s ease;
+}
+
+.playerCard:hover {
+  border-color: var(--mantine-color-blue-6);
+  transform: translateY(-2px);
+}
+
+.playerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.playerScore {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.playerStats {
+  display: flex;
+  gap: 1rem;
+}
+
+.aqlBoard {
+  width: 100%;
+}
+
+.aqlContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aqlPlayers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.aqlPlayer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background-color: var(--mantine-color-dark-7);
+  border: 1px solid var(--mantine-color-dark-5);
+  border-radius: var(--mantine-radius-md);
+}
+
+.logs {
+  max-height: 300px;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background-color: var(--mantine-color-dark-8);
+  border-radius: var(--mantine-radius-lg);
+}
+
+.logsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.logItem {
+  padding: 0.5rem;
+  background-color: var(--mantine-color-dark-7);
+  border-left: 3px solid var(--mantine-color-blue-6);
+  border-radius: var(--mantine-radius-sm);
+}
+
+/* レスポンシブ対応 */
+@media (width <= 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .playersList {
+    grid-template-columns: 1fr;
+  }
+
+  .aqlPlayers {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .playerCard {
+    padding: 1rem;
+  }
+
+  .aqlPlayer {
+    padding: 1rem;
+  }
+}
