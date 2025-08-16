@@ -16,6 +16,8 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
+import { useGameState } from "../../_hooks/useGameState";
+
 import type { PlayerProps, RemoveGamePlayersResponseType } from "@/models/game";
 
 import ButtonLink from "@/app/_components/ButtonLink";
@@ -44,6 +46,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
     {}
   );
   const [searchText, setSearchText] = useState<string>("");
+  const { updateGame } = useGameState();
 
   const fuzzyFilter: FilterFn<PlayerProps> = (row) => {
     const data = row.original;
@@ -172,6 +175,11 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
           onPlayersChange
         ) {
           onPlayersChange(newSelectedPlayerIds);
+        }
+
+        // ゲーム状態を更新してGameStartButtonに反映
+        if (addedPlayerIds.length > 0 || removedPlayerIds.length > 0) {
+          await updateGame();
         }
       } catch (error) {
         console.error("プレイヤー設定の更新に失敗しました:", error);

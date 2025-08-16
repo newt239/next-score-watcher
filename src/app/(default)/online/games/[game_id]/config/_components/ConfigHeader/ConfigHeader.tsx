@@ -2,28 +2,24 @@
 
 import { Accordion } from "@mantine/core";
 
+import { useGameState } from "../../_hooks/useGameState";
 import GameStartButton from "../GameStartButton/GameStartButton";
-
-import type { RuleNames } from "@/models/game";
 
 import Link from "@/app/_components/Link";
 import { rules } from "@/utils/rules";
 
-type ConfigHeaderProps = {
-  ruleType: RuleNames;
-  playerCount: number;
-  logCount: number;
-};
-
 /**
  * ゲーム設定ページのヘッダー部分
- * ゲームタイトル、ルール説明、開始ボタンを表示するサーバーコンポーネント
+ * ゲームタイトル、ルール説明、開始ボタンを表示するクライアントコンポーネント
  */
-const ConfigHeader = ({
-  ruleType,
-  playerCount,
-  logCount,
-}: ConfigHeaderProps) => {
+const ConfigHeader = () => {
+  const { game } = useGameState();
+
+  if (!game) {
+    return <div>ゲーム情報を読み込み中...</div>;
+  }
+
+  const { ruleType, players, logs } = game;
   return (
     <>
       <h2>{rules[ruleType]?.name || "不明な形式"}</h2>
@@ -46,8 +42,8 @@ const ConfigHeader = ({
       </Accordion>
       <GameStartButton
         ruleType={ruleType}
-        playerCount={playerCount}
-        logCount={logCount}
+        playerCount={players.length}
+        logCount={logs.length}
       />
     </>
   );

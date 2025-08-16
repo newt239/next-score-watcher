@@ -5,6 +5,7 @@ import { parseResponse } from "hono/client";
 
 import ConfigHeader from "./_components/ConfigHeader/ConfigHeader";
 import ConfigTabs from "./_components/ConfigTabs/ConfigTabs";
+import { GameStateProvider } from "./_hooks/useGameState";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import { getUser } from "@/utils/auth/auth-helpers";
@@ -47,14 +48,10 @@ const ConfigLayout = async ({ children, params }: ConfigLayoutProps) => {
   const game = gameData.data;
 
   return (
-    <>
-      <ConfigHeader
-        ruleType={game.ruleType}
-        playerCount={game.players.length}
-        logCount={game.logs.length}
-      />
+    <GameStateProvider gameId={game_id} initialGame={game}>
+      <ConfigHeader />
       <ConfigTabs gameId={game_id}>{children}</ConfigTabs>
-    </>
+    </GameStateProvider>
   );
 };
 

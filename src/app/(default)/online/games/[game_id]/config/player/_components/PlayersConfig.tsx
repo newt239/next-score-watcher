@@ -15,6 +15,8 @@ import { useDebouncedValue } from "@mantine/hooks";
 import { IconGripVertical } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
+import { useGameState } from "../../_hooks/useGameState";
+
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import type { GamePlayerProps, PlayerProps, RuleNames } from "@/models/game";
@@ -45,6 +47,7 @@ const PlayersConfig: React.FC<Props> = ({
   const initialPlayersRef = useRef(gamePlayers);
   const isInitialMount = useRef(true);
   const apiClient = createApiClient();
+  const { updateGame } = useGameState();
 
   // propsが変更された時に内部状態も更新
   useEffect(() => {
@@ -151,6 +154,8 @@ const PlayersConfig: React.FC<Props> = ({
           } else {
             // 成功した場合は初期値を更新
             initialPlayersRef.current = [...debouncedPlayers];
+            // ゲーム状態を更新してGameStartButtonに反映
+            await updateGame();
           }
         } catch (error) {
           console.error("Failed to update players:", error);
