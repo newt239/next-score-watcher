@@ -1,6 +1,6 @@
 "use client";
 
-import ConfigInput from "./ConfigInput";
+import ConfigInput from "../../_components/ConfigInput";
 
 import type { RuleNames } from "@/models/games";
 import type { AqlOption } from "@/utils/drizzle/types";

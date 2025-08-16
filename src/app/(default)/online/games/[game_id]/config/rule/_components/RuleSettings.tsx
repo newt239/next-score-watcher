@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { Flex, Loader, Text } from "@mantine/core";
 import { parseResponse } from "hono/client";
 
+import ConfigBooleanInput from "../../_components/ConfigBooleanInput";
+import ConfigInput from "../../_components/ConfigInput";
+import ConfigNumberInput from "../../_components/ConfigNumberInput";
+
 import AQLOptions from "./AQLOptions";
-import ConfigBooleanInput from "./ConfigBooleanInput";
-import ConfigInput from "./ConfigInput";
-import ConfigNumberInput from "./ConfigNumberInput";
 
 import type { RuleNames } from "@/models/games";
 import type { AqlOption, TypedGame } from "@/utils/drizzle/types";

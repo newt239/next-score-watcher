@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 import { Box, Title } from "@mantine/core";
 
-import ConfigInput from "./ConfigInput";
+import ConfigInput from "../../_components/ConfigInput";
+
 import CopyGame from "./CopyGame";
 import DeleteGame from "./DeleteGame";
 import ExportGame from "./ExportGame";
