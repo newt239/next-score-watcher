@@ -53,7 +53,7 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                   <Table.Td>{game.playerCount}人</Table.Td>
                   <Table.Td>{game.logCount}問目</Table.Td>
                   <Table.Td>
-                    <PublicityBadge isPublic={game.isPublic} size="sm" />
+                    <PublicityBadge isPublic={game.isPublic} size="lg" />
                   </Table.Td>
                   <Table.Td>
                     {cdate(game.updatedAt).format("MM/DD HH:mm")}
@@ -63,7 +63,6 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                       <ShareGameButton
                         gameId={game.id}
                         isPublic={game.isPublic}
-                        size="xs"
                       />
                       <ButtonLink
                         href={`/online/games/${game.id}/config`}

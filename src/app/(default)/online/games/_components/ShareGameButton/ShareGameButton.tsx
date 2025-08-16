@@ -8,8 +8,6 @@ import { IconCheck, IconShare } from "@tabler/icons-react";
 type ShareGameButtonProps = {
   gameId: string;
   isPublic: boolean;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
-  variant?: "filled" | "light" | "outline" | "subtle" | "default";
 };
 
 /**
@@ -19,8 +17,6 @@ type ShareGameButtonProps = {
 const ShareGameButton: React.FC<ShareGameButtonProps> = ({
   gameId,
   isPublic,
-  size = "sm",
-  variant = "light",
 }) => {
   const [tooltipOpened, setTooltipOpened] = useState(false);
 
@@ -28,21 +24,14 @@ const ShareGameButton: React.FC<ShareGameButtonProps> = ({
     return null;
   }
 
-  const viewerUrl = `${window.location.origin}/viewer/games/${gameId}`;
-  const [viewerUrl, setViewerUrl] = useState("");
-
-  // Set viewerUrl on client after mount
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      setViewerUrl(`${window.location.origin}/viewer/games/${gameId}`);
-    }
-  }, [gameId]);
-
   if (!isPublic) {
     return null;
   }
   return (
-    <CopyButton value={viewerUrl} timeout={2000}>
+    <CopyButton
+      value={`https://score-watcher.com/viewer/games/${gameId}`}
+      timeout={2000}
+    >
       {({ copied, copy }) => (
         <Tooltip
           label={copied ? "コピーしました" : "Viewer URLをコピー"}
@@ -52,8 +41,8 @@ const ShareGameButton: React.FC<ShareGameButtonProps> = ({
         >
           <Button
             color={copied ? "teal" : "blue"}
-            variant={variant}
-            size={size}
+            variant="light"
+            size="xs"
             onClick={() => {
               copy();
               setTooltipOpened(false);

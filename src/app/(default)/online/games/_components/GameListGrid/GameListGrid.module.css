@@ -10,6 +10,11 @@
   white-space: nowrap;
 }
 
+.game_avatar {
+  height: 100px;
+  overflow: hidden;
+}
+
 .game_description {
   margin: 0.5rem 0;
 }
