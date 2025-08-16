@@ -44,6 +44,7 @@ const ConfigHeader = () => {
         ruleType={ruleType}
         playerCount={players.length}
         logCount={logs.length}
+        gameId={game.id}
       />
     </>
   );

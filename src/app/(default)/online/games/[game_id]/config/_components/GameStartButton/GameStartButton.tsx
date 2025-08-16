@@ -12,6 +12,7 @@ type GameStartButtonProps = {
   playerCount: number;
   logCount: number;
   winThrough?: number;
+  gameId: string;
 };
 
 const GameStartButton: React.FC<GameStartButtonProps> = ({
@@ -19,6 +20,7 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({
   playerCount,
   logCount,
   winThrough,
+  gameId,
 }) => {
   const errorMessages = [];
   if (playerCount === 0) {
@@ -76,7 +78,7 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({
             size="xl"
             variant="gradient"
             gradient={{ from: "teal", to: "lime", deg: 135 }}
-            href="./board"
+            href={`/online/games/${gameId}/board`}
             leftSection={<IconPlayerPlay />}
             miw={200}
           >
