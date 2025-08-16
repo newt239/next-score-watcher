@@ -37,7 +37,9 @@ const RulePage = async ({ params }: RulePageProps) => {
     return "ゲーム情報の取得に失敗しました";
   }
 
-  return <RuleSettings gameId={game_id} ruleType={gameData.data.ruleType} />;
+  return (
+    <RuleSettings game={gameData.data} ruleType={gameData.data.ruleType} />
+  );
 };
 
 export default RulePage;

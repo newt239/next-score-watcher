@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-import { Flex, Loader, Text } from "@mantine/core";
-import { parseResponse } from "hono/client";
+import { Flex } from "@mantine/core";
 
 import ConfigBooleanInput from "../../_components/ConfigBooleanInput";
 import ConfigInput from "../../_components/ConfigInput";
@@ -11,68 +8,18 @@ import ConfigNumberInput from "../../_components/ConfigNumberInput";
 
 import AQLOptions from "./AQLOptions";
 
-import type { RuleNames } from "@/models/game";
-import type { AqlOption, TypedGame } from "@/utils/drizzle/types";
-
-import createApiClient from "@/utils/hono/browser";
+import type { GetGameDetailResponseType, RuleNames } from "@/models/game";
+import type { AqlOption } from "@/utils/drizzle/types";
 
 type RuleSettingsProps = {
-  gameId: string;
+  game: GetGameDetailResponseType;
   ruleType: RuleNames;
 };
 
 /**
  * オンライン版ルール設定コンポーネント
  */
-const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
-  const [game, setGame] = useState<TypedGame | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const apiClient = createApiClient();
-        const data = await parseResponse(
-          apiClient.games[":gameId"].$get({
-            param: { gameId },
-          })
-        );
-
-        if ("error" in data) {
-          setError(data.error);
-          return;
-        }
-
-        if (data) {
-          setGame(data.data);
-        } else {
-          setError("設定の取得に失敗しました");
-        }
-      } catch (err) {
-        console.error("Failed to fetch game settings:", err);
-        setError("設定の取得に失敗しました");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSettings();
-  }, [gameId]);
-
-  if (loading) {
-    return (
-      <Flex align="center" gap="md">
-        <Loader size="sm" />
-        <Text>設定を読み込み中...</Text>
-      </Flex>
-    );
-  }
-
-  if (error || !game) {
-    return <Text c="red">{error || "設定の読み込みに失敗しました"}</Text>;
-  }
-
+const RuleSettings: React.FC<RuleSettingsProps> = ({ game, ruleType }) => {
   const winPointRules = {
     nomx: { name: "勝ち抜けポイント", max: 1000, min: undefined },
     "nomx-ad": { name: "勝ち抜けポイント", max: 1000, min: undefined },
@@ -91,7 +38,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
     <Flex direction="column" gap="lg">
       {/* ゲーム名 */}
       <ConfigInput
-        gameId={gameId}
+        gameId={game.id}
         label="ゲーム名"
         placeholder="ゲーム名を入力"
         value={game.name}
@@ -111,7 +58,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         game.ruleType === "freezex" ||
         game.ruleType === "attacksurvival") && (
         <ConfigNumberInput
-          gameId={gameId}
+          gameId={game.id}
           label={
             winPointRules[game.ruleType as keyof typeof winPointRules].name
           }
@@ -129,7 +76,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         game.ruleType === "nupdown" ||
         game.ruleType === "nomr") && (
         <ConfigNumberInput
-          gameId={gameId}
+          gameId={game.id}
           label={ruleType === "nomr" ? "休み(M)" : "失格誤答数"}
           value={game.option.lose_point}
           fieldName="lose_point"
@@ -140,7 +87,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {/* lose_count が必要なルール */}
       {game.ruleType === "endless-chance" && (
         <ConfigNumberInput
-          gameId={gameId}
+          gameId={game.id}
           label="失格誤答数"
           value={game.option.lose_count}
           fieldName="lose_count"
@@ -151,7 +98,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {/* NY形式の特殊設定 */}
       {game.ruleType === "ny" && (
         <ConfigNumberInput
-          gameId={gameId}
+          gameId={game.id}
           label="目標ポイント"
           value={game.option.target_point}
           fieldName="target_point"
@@ -163,7 +110,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {/* NOMR形式の特殊設定 */}
       {game.ruleType === "nomr" && (
         <ConfigNumberInput
-          gameId={gameId}
+          gameId={game.id}
           label="休み回数"
           value={game.option.rest_count}
           fieldName="rest_count"
@@ -174,7 +121,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {/* endless-chance形式のNOM休設定 */}
       {game.ruleType === "endless-chance" && (
         <ConfigBooleanInput
-          gameId={gameId}
+          gameId={game.id}
           label="NOM休を利用する"
           helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
           value={game.option.use_r}
@@ -185,7 +132,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {/* nomx-ad形式の連答設定 */}
       {game.ruleType === "nomx-ad" && (
         <ConfigBooleanInput
-          gameId={gameId}
+          gameId={game.id}
           label="3連答以上によるアドバンテージを有効にする"
           helperText="abcの新ルールを使いたい場合はこちらを無効にしてください。"
           value={game.option.streak_over3}
@@ -196,7 +143,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
       {/* AQL形式のチーム設定 */}
       {ruleType === "aql" && (
         <AQLOptions
-          gameId={gameId}
+          gameId={game.id}
           ruleType={ruleType}
           settings={game.option as AqlOption}
         />
