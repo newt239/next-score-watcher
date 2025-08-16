@@ -8,6 +8,7 @@ import { getUserId } from "@/server/repositories/auth";
 import { addGameLog, getGameById } from "@/server/repositories/game";
 import { cacheBoardData } from "@/utils/cache/cache-service";
 import { computeOnlineScore } from "@/utils/online/computeScore/computeOnlineScore";
+import { sendDiscordWinnerNotification } from "@/utils/online/discord";
 
 const factory = createFactory();
 
@@ -108,6 +109,17 @@ const handler = factory.createHandlers(
 
       // ログ追加後、ゲームが公開設定の場合はスコア計算してキャッシュ更新
       await updateBoardCacheIfPublic(logData.gameId, userId);
+
+      // Discord Webhook通知を送信（勝ち抜け通知）
+      try {
+        const gameData = await getGameById(logData.gameId, userId);
+        if (gameData) {
+          await sendDiscordWinnerNotification(gameData);
+        }
+      } catch (discordError) {
+        // Discord通知の失敗は非致命的エラーとして扱う
+        console.error("Discord notification failed:", discordError);
+      }
 
       return c.json({ logId } as const, 201);
     } catch (error) {
