@@ -4,6 +4,9 @@ import { Box, Card, Flex, List } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconPlayerPlay } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
+import PublicityBadge from "../PublicityBadge/PublicityBadge";
+import ShareGameButton from "../ShareGameButton/ShareGameButton";
+
 import classes from "./GameListGrid.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
@@ -17,6 +20,7 @@ type GameListGridProps = {
     playerCount: number;
     logCount: number;
     updatedAt: string;
+    isPublic: boolean;
   }[];
 };
 
@@ -47,16 +51,24 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
                 {game.name}
               </Card.Section>
               <Card.Section className={classes.game_description}>
-                <List>
-                  <List.Item>
+                <Flex justify="space-between" align="center" mb="xs">
+                  <div>
                     {game.ruleType} ／ {game.playerCount}人
-                  </List.Item>
+                  </div>
+                  <PublicityBadge isPublic={game.isPublic} size="xs" />
+                </Flex>
+                <List>
                   <List.Item>進行状況: {game.logCount}問目</List.Item>
                 </List>
               </Card.Section>
               <Flex className={classes.game_footer}>
                 <Box>{cdate(game.updatedAt).format("MM/DD HH:mm")}</Box>
                 <Flex gap="xs">
+                  <ShareGameButton
+                    gameId={game.id}
+                    isPublic={game.isPublic}
+                    size="sm"
+                  />
                   <ButtonLink
                     href={`/online/games/${game.id}/board`}
                     leftSection={<IconPlayerPlay />}
