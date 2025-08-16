@@ -3,7 +3,7 @@ import { createFactory } from "hono/factory";
 
 import { getPublicGameById } from "../../repositories/game";
 
-import { GetViewerBoardDataParamSchema } from "@/models/games";
+import { GetViewerBoardDataParamSchema } from "@/models/game";
 import { getCachedBoardData } from "@/utils/cache/cache-service";
 
 const factory = createFactory();
@@ -33,7 +33,7 @@ const handler = factory.createHandlers(
         return c.json(
           {
             error: "ゲームが見つからないか、非公開に設定されています",
-          },
+          } as const,
           404
         );
       }

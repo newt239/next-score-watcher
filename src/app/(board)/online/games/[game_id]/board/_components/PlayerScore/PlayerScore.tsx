@@ -6,8 +6,8 @@ import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
 import classes from "./PlayerScore.module.css";
 
-import type { ComputedScoreProps, LogDBProps, RuleNames } from "@/models/games";
-import type { UserPreferencesType } from "@/models/user-preferences";
+import type { ComputedScoreProps, LogDBProps, RuleNames } from "@/models/game";
+import type { UserPreferencesType } from "@/models/user-preference";
 
 type OnlineGame = {
   id: string;

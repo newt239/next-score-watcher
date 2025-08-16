@@ -24,7 +24,7 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { UpdatePlayerType } from "@/models/players";
+import type { UpdatePlayerType } from "@/models/player";
 
 import TablePagenation from "@/app/_components/TablePagination";
 

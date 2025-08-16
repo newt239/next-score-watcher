@@ -12,8 +12,8 @@ import type {
   LogDBProps,
   RuleNames,
   States,
-} from "@/models/games";
-import type { UserPreferencesType } from "@/models/user-preferences";
+} from "@/models/game";
+import type { UserPreferencesType } from "@/models/user-preference";
 
 import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
 import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";

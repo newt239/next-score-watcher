@@ -115,9 +115,6 @@ test.describe("オンライン版得点表示", () => {
       .first();
     await firstPlayerCheckbox.check();
 
-    // チェックボックス選択後、自動保存を待つ
-    await page.waitForTimeout(2000);
-
     // ダイアログを閉じる
     await page.keyboard.press("Escape");
     await page.waitForTimeout(3000);
@@ -129,6 +126,8 @@ test.describe("オンライン版得点表示", () => {
 
     // ゲーム開始ボタンをクリックし、得点表示画面を開く
     await page.getByRole("link", { name: "ゲーム開始" }).click();
+
+    await page.waitForTimeout(3000);
 
     // ボードページが表示される
     await expect(page).toHaveURL(/\/online\/games\/.*\/board/);

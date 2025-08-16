@@ -3,7 +3,7 @@ import { IconPlayerPlay } from "@tabler/icons-react";
 
 import classes from "./GameStartButton.module.css";
 
-import type { RuleNames } from "@/models/games";
+import type { RuleNames } from "@/models/game";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
@@ -12,6 +12,7 @@ type GameStartButtonProps = {
   playerCount: number;
   logCount: number;
   winThrough?: number;
+  gameId: string;
 };
 
 const GameStartButton: React.FC<GameStartButtonProps> = ({
@@ -19,6 +20,7 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({
   playerCount,
   logCount,
   winThrough,
+  gameId,
 }) => {
   const errorMessages = [];
   if (playerCount === 0) {
@@ -76,7 +78,7 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({
             size="xl"
             variant="gradient"
             gradient={{ from: "teal", to: "lime", deg: 135 }}
-            href="./board"
+            href={`/online/games/${gameId}/board`}
             leftSection={<IconPlayerPlay />}
             miw={200}
           >

@@ -6,7 +6,7 @@ import { Avatar, Box, Group, Text, Title } from "@mantine/core";
 import SignOutButton from "./_components/SignOutButton";
 import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
-import { defaultUserPreferences } from "@/models/user-preferences";
+import { defaultUserPreferences } from "@/models/user-preference";
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";
 

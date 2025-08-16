@@ -4,6 +4,8 @@ import { useState, useTransition } from "react";
 
 import { Switch, Text } from "@mantine/core";
 
+import { useGameState } from "../_hooks/useGameState";
+
 import type { GameOptionKey } from "@/utils/drizzle/types";
 
 import createApiClient from "@/utils/hono/browser";
@@ -29,6 +31,7 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
   const apiClient = createApiClient();
   const [localValue, setLocalValue] = useState(value || false);
   const [isPending, startTransition] = useTransition();
+  const { updateGame } = useGameState();
 
   const updateSetting = async (newValue: boolean) => {
     try {
@@ -42,6 +45,9 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
 
       if (!response.ok) {
         console.error("Failed to update option");
+      } else {
+        // ゲーム状態を更新してGameStartButtonに反映
+        await updateGame();
       }
     } catch (error) {
       console.error("Failed to update setting:", error);

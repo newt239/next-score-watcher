@@ -14,7 +14,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 
-import type { CreateQuizType } from "@/models/quizes";
+import type { CreateQuizType } from "@/models/quiz";
 
 type Props = {
   createQuizes: (quizesData: CreateQuizType[]) => Promise<number>;
@@ -49,6 +49,8 @@ const LoadQuiz: React.FC<Props> = ({ createQuizes }) => {
             answer,
             category: category || "",
             annotation: annotation || "",
+            setName: "貼り付け",
+            questionNumber: quizesData.length + 1,
           });
         }
       }

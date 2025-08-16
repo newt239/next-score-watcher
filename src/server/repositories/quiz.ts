@@ -7,17 +7,27 @@ import type {
   DeleteQuizRequestType,
   GetQuizesListResponseType,
   UpdateQuizRequestType,
-} from "@/models/quizes";
+} from "@/models/quiz";
 
 import { DBClient } from "@/utils/drizzle/client";
-import { quizQuestion } from "@/utils/drizzle/schema";
+import { quizQuestion, quizSet } from "@/utils/drizzle/schema";
 
 /**
  * クイズ問題一覧取得
  */
 export const getQuizes = async (userId: string) => {
-  const quizes = await DBClient.select()
+  const quizes = await DBClient.select({
+    id: quizQuestion.id,
+    questionText: quizQuestion.questionText,
+    answerText: quizQuestion.answerText,
+    category: quizQuestion.category,
+    questionNumber: quizQuestion.questionNumber,
+    createdAt: quizQuestion.createdAt,
+    updatedAt: quizQuestion.updatedAt,
+    setName: quizSet.name,
+  })
     .from(quizQuestion)
+    .leftJoin(quizSet, eq(quizQuestion.quizSetId, quizSet.id))
     .where(and(eq(quizQuestion.userId, userId), isNull(quizQuestion.deletedAt)))
     .orderBy(asc(quizQuestion.questionText));
 
@@ -27,6 +37,8 @@ export const getQuizes = async (userId: string) => {
     answer: q.answerText,
     annotation: "", // データベースにannotationフィールドがないため空文字
     category: q.category || "",
+    setName: q.setName || "未分類",
+    questionNumber: q.questionNumber,
     createdAt: q.createdAt?.toISOString(),
     updatedAt: q.updatedAt?.toISOString(),
   }));
@@ -59,8 +71,18 @@ export const getQuizesWithPagination = async (
     .where(and(...whereConditions));
 
   // データを取得
-  const quizes = await DBClient.select()
+  const quizes = await DBClient.select({
+    id: quizQuestion.id,
+    questionText: quizQuestion.questionText,
+    answerText: quizQuestion.answerText,
+    category: quizQuestion.category,
+    questionNumber: quizQuestion.questionNumber,
+    createdAt: quizQuestion.createdAt,
+    updatedAt: quizQuestion.updatedAt,
+    setName: quizSet.name,
+  })
     .from(quizQuestion)
+    .leftJoin(quizSet, eq(quizQuestion.quizSetId, quizSet.id))
     .where(and(...whereConditions))
     .orderBy(asc(quizQuestion.questionText))
     .limit(limit)
@@ -72,6 +94,8 @@ export const getQuizesWithPagination = async (
     answer: q.answerText,
     annotation: "", // データベースにannotationフィールドがないため空文字
     category: q.category || "",
+    setName: q.setName || "未分類",
+    questionNumber: q.questionNumber,
     createdAt: q.createdAt?.toISOString(),
     updatedAt: q.updatedAt?.toISOString(),
   }));
@@ -119,13 +143,43 @@ export const createQuiz = async (
   const createdQuizes = [];
 
   for (const quizData of quizesData) {
+    // セットを取得または作成
+    let [existingSet] = await DBClient.select()
+      .from(quizSet)
+      .where(
+        and(eq(quizSet.name, quizData.setName), eq(quizSet.userId, userId))
+      );
+
+    if (!existingSet) {
+      const setId = nanoid();
+      await DBClient.insert(quizSet).values({
+        id: setId,
+        name: quizData.setName,
+        totalQuestions: 1,
+        userId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      existingSet = {
+        id: setId,
+        name: quizData.setName,
+        description: null,
+        totalQuestions: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        deletedAt: null,
+        userId,
+      };
+    }
+
     const id = nanoid();
     await DBClient.insert(quizQuestion).values({
       id,
+      quizSetId: existingSet.id,
       questionText: quizData.question,
       answerText: quizData.answer,
       category: quizData.category || null,
-      questionNumber: 0, // 必須フィールドなので0を設定
+      questionNumber: quizData.questionNumber,
       userId,
       createdAt: new Date(),
       updatedAt: new Date(),

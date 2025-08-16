@@ -67,7 +67,7 @@ const BoardPage = async ({
     <Board
       gameId={game_id}
       user={user}
-      initialGame={gameData}
+      initialGame={gameData.data}
       initialPreferences={preferences}
     />
   );

@@ -259,7 +259,7 @@ const handler = factory.createHandlers(
 - 各ファイルでは`default export`でハンドラーをエクスポートしてください
 - `src/server/index.ts`でimportして使用してください
 - **必ず`factory.createHandlers`を使用してください**: 既存の実装パターンに合わせて、すべてのハンドラーで`createFactory()`から生成したfactoryの`createHandlers`メソッドを使用してください
-- **既存ファイルとの統合を優先**: 新しい機能を実装する際は、新しいファイルを作成するのではなく、既存の同種ファイル（例：`models/players.ts`、`repositories/players.ts`）に機能を追加してください
+- **既存ファイルとの統合を優先**: 新しい機能を実装する際は、新しいファイルを作成するのではなく、既存の同種ファイル（例：`models/player.ts`、`repositories/player.ts`）に機能を追加してください
 
 ### Models管理
 
@@ -269,9 +269,9 @@ const handler = factory.createHandlers(
 
 ```
 src/models/
-├── games.ts            # ゲーム関連の型定義・スキーマ
-├── players.ts          # プレイヤー関連の型定義・スキーマ
-└── user-preferences.ts # ユーザー設定関連の型定義・スキーマ
+├── game.ts            # ゲーム関連の型定義・スキーマ
+├── player.ts          # プレイヤー関連の型定義・スキーマ
+└── user-preference.ts # ユーザー設定関連の型定義・スキーマ
 ```
 
 **使用ルール:**

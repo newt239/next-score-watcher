@@ -1,11 +1,11 @@
 "use client";
 
-import { Box, Card, Flex, List } from "@mantine/core";
+import { Box, Card, Group, Text } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconPlayerPlay } from "@tabler/icons-react";
+import Avatar from "boring-avatars";
 import { cdate } from "cdate";
 
 import PublicityBadge from "../PublicityBadge/PublicityBadge";
-import ShareGameButton from "../ShareGameButton/ShareGameButton";
 
 import classes from "./GameListGrid.module.css";
 
@@ -43,49 +43,50 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
               withBorder
               data-testid="game-card"
             >
-              <Card.Section
-                className={classes.game_name}
-                withBorder
-                inheritPadding
-              >
-                {game.name}
+              <Card.Section className={classes.game_avatar}>
+                <Avatar
+                  name={game.id}
+                  square
+                  colors={[
+                    "#92A1C6",
+                    "#146A7C",
+                    "#F0AB3D",
+                    "#C271B4",
+                    "#C20D90",
+                  ]}
+                />
               </Card.Section>
+              <Group justify="space-between" align="center" my="xs">
+                <Text fw="bold" size="lg">
+                  {game.name}
+                </Text>
+                <PublicityBadge isPublic={game.isPublic} size="xs" />
+              </Group>
               <Card.Section className={classes.game_description}>
-                <Flex justify="space-between" align="center" mb="xs">
-                  <div>
-                    {game.ruleType} ／ {game.playerCount}人
-                  </div>
-                  <PublicityBadge isPublic={game.isPublic} size="xs" />
-                </Flex>
-                <List>
-                  <List.Item>進行状況: {game.logCount}問目</List.Item>
-                </List>
+                <Text size="sm">
+                  {game.logCount}問目 ・ {game.playerCount}人 ・{" "}
+                  {cdate(game.updatedAt).format("MM/DD")}
+                </Text>
               </Card.Section>
-              <Flex className={classes.game_footer}>
-                <Box>{cdate(game.updatedAt).format("MM/DD HH:mm")}</Box>
-                <Flex gap="xs">
-                  <ShareGameButton
-                    gameId={game.id}
-                    isPublic={game.isPublic}
-                    size="sm"
-                  />
-                  <ButtonLink
-                    href={`/online/games/${game.id}/board`}
-                    leftSection={<IconPlayerPlay />}
-                    size="sm"
-                    variant="filled"
-                  >
-                    ボード表示
-                  </ButtonLink>
-                  <ButtonLink
-                    href={`/online/games/${game.id}/config`}
-                    leftSection={<IconAdjustmentsHorizontal />}
-                    size="sm"
-                  >
-                    設定
-                  </ButtonLink>
-                </Flex>
-              </Flex>
+              <Group className={classes.game_footer}>
+                <ButtonLink
+                  href={`/online/games/${game.id}/config`}
+                  leftSection={<IconAdjustmentsHorizontal />}
+                  size="sm"
+                  flex={1}
+                  variant="outline"
+                >
+                  設定
+                </ButtonLink>
+                <ButtonLink
+                  href={`/online/games/${game.id}/board`}
+                  leftSection={<IconPlayerPlay />}
+                  size="sm"
+                  flex={1}
+                >
+                  表示
+                </ButtonLink>
+              </Group>
             </Card>
           ))}
         </Box>

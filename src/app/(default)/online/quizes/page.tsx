@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import ManageQuiz from "./_components/ManageQuiz";
 
-import type { ApiQuizDataType } from "@/models/quizes";
+import type { ApiQuizDataType } from "@/models/quiz";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";

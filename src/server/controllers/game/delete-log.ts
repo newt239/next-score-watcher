@@ -1,8 +1,13 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import { getGameLogById, removeGameLog } from "@/server/repositories/game";
+import {
+  getGameLogById,
+  removeGameLog,
+  getGameById,
+} from "@/server/repositories/game";
 import { invalidateBoardCache } from "@/utils/cache/cache-service";
+import { sendDiscordResetNotification } from "@/utils/online/discord";
 
 const factory = createFactory();
 
@@ -22,14 +27,34 @@ const handler = factory.createHandlers(async (c) => {
       return c.json({ error: "ログIDが必要です" } as const, 400);
     }
 
-    // ログ削除前にゲームIDを取得
+    // ログ削除前にゲームIDとログ情報を取得
     const logInfo = await getGameLogById(logId, userId);
+
+    if (!logInfo?.gameId) {
+      return c.json({ error: "ログが見つかりません" } as const, 404);
+    }
+
+    // ログ削除前のゲーム状態を取得
+    const gameDataBefore = await getGameById(logInfo.gameId, userId);
+    const logCountBefore = gameDataBefore?.logs.length || 0;
 
     await removeGameLog(logId, userId);
 
+    // ログ削除後のゲーム状態を取得
+    const gameDataAfter = await getGameById(logInfo.gameId, userId);
+    const logCountAfter = gameDataAfter?.logs.length || 0;
+
     // ログが公開ゲームのものの場合、キャッシュを無効化
-    if (logInfo?.gameId) {
-      await invalidateBoardCache(logInfo.gameId);
+    await invalidateBoardCache(logInfo.gameId);
+
+    // ゲームリセット（全ログ削除）の場合にDiscord通知を送信
+    if (gameDataAfter && logCountBefore > 0 && logCountAfter === 0) {
+      try {
+        await sendDiscordResetNotification(gameDataAfter);
+      } catch (discordError) {
+        // Discord通知の失敗は非致命的エラーとして扱う
+        console.error("Discord reset notification failed:", discordError);
+      }
     }
 
     return c.json({ success: true } as const);

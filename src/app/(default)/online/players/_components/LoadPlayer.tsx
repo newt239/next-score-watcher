@@ -14,7 +14,7 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 
-import type { CreatePlayerType } from "@/models/players";
+import type { CreatePlayerType } from "@/models/player";
 
 type Props = {
   createPlayers: (playersData: CreatePlayerType[]) => Promise<number>;

@@ -5,7 +5,7 @@ import { useTransition } from "react";
 import { Button, Group, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
-import { CreatePlayerSchema, type CreatePlayerType } from "@/models/players";
+import { CreatePlayerSchema, type CreatePlayerType } from "@/models/player";
 
 type Props = {
   createPlayers: (playerData: CreatePlayerType[]) => Promise<number>;

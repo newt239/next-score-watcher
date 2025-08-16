@@ -2,7 +2,7 @@ import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 import { z } from "zod";
 
-import { CopyPlayersFromGameRequestSchema } from "@/models/games";
+import { CopyPlayersFromGameRequestSchema } from "@/models/game";
 import { getUserId } from "@/server/repositories/auth";
 import { copyPlayersFromGame } from "@/server/repositories/game";
 

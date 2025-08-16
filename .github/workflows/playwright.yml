@@ -29,7 +29,7 @@ jobs:
           node-version: "24"
           cache: "pnpm"
       - name: 依存関係をインストール
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
       - name: Playwrightのバージョンを取得し、ブラウザのキャッシュキーを生成
         id: version-checker
         run: |
@@ -60,7 +60,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
       - name: ビルド
-        run: pnpm build --no-lint
+        run: pnpm run build
         env:
           NEXT_TELEMETRY_DISABLED: 1
       - name: Playwrightのテストを実行

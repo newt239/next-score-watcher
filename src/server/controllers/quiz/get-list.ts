@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { GetQuizesListRequestSchema } from "@/models/quizes";
+import { GetQuizzesQuerySchema } from "@/models/quiz";
 import { getUserId } from "@/server/repositories/auth";
 import { getQuizes, getQuizesWithPagination } from "@/server/repositories/quiz";
 
@@ -11,7 +11,7 @@ const factory = createFactory();
  * クイズ問題一覧取得
  */
 const handler = factory.createHandlers(
-  zValidator("query", GetQuizesListRequestSchema),
+  zValidator("query", GetQuizzesQuerySchema),
   async (c) => {
     const userId = await getUserId();
     if (!userId) {

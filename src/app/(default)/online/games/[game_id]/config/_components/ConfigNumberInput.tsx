@@ -5,6 +5,8 @@ import { useState, useTransition } from "react";
 import { NumberInput } from "@mantine/core";
 import { parseResponse } from "hono/client";
 
+import { useGameState } from "../_hooks/useGameState";
+
 import type { GameOptionKey } from "@/utils/drizzle/types";
 
 import createApiClient from "@/utils/hono/browser";
@@ -31,6 +33,7 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
 }) => {
   const [localValue, setLocalValue] = useState<number | string>(value ?? "");
   const [isPending, startTransition] = useTransition();
+  const { updateGame } = useGameState();
 
   const updateSetting = async (newValue: number) => {
     try {
@@ -48,6 +51,9 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
 
       if (!result.updated) {
         console.error("Failed to update option");
+      } else {
+        // ゲーム状態を更新してGameStartButtonに反映
+        await updateGame();
       }
     } catch (error) {
       console.error("Failed to update setting:", error);

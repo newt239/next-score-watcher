@@ -4,7 +4,7 @@ import { createFactory } from "hono/factory";
 import {
   UpdateGamePlayerRequestJsonSchema,
   UpdateGamePlayerRequestParamSchema,
-} from "@/models/games";
+} from "@/models/game";
 import { getUserId } from "@/server/repositories/auth";
 import { updateGamePlayerByKey } from "@/server/repositories/game";
 

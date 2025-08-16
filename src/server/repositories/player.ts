@@ -11,7 +11,7 @@ import type {
   RemovePlayerTagRequestType,
   UpdatePlayerRequestType,
   UpdatePlayerType,
-} from "@/models/players";
+} from "@/models/player";
 
 import { DBClient } from "@/utils/drizzle/client";
 import { player, playerPlayerTag, playerTag } from "@/utils/drizzle/schema";

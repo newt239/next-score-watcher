@@ -5,7 +5,6 @@ import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
 import PublicityBadge from "../PublicityBadge/PublicityBadge";
-import ShareGameButton from "../ShareGameButton/ShareGameButton";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
@@ -53,18 +52,13 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                   <Table.Td>{game.playerCount}人</Table.Td>
                   <Table.Td>{game.logCount}問目</Table.Td>
                   <Table.Td>
-                    <PublicityBadge isPublic={game.isPublic} size="sm" />
+                    <PublicityBadge isPublic={game.isPublic} size="lg" />
                   </Table.Td>
                   <Table.Td>
                     {cdate(game.updatedAt).format("MM/DD HH:mm")}
                   </Table.Td>
                   <Table.Td>
                     <Group gap="xs">
-                      <ShareGameButton
-                        gameId={game.id}
-                        isPublic={game.isPublic}
-                        size="xs"
-                      />
                       <ButtonLink
                         href={`/online/games/${game.id}/config`}
                         leftSection={<IconAdjustmentsHorizontal />}

@@ -37,6 +37,7 @@
     "@tabler/icons-react": "^3.34.1",
     "@tanstack/react-table": "^8.21.3",
     "better-auth": "^1.3.4",
+    "boring-avatars": "^2.0.1",
     "cdate": "^0.0.7",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",

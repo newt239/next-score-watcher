@@ -11,9 +11,9 @@ import {
 } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 
-import type { UserPreferencesType } from "@/models/user-preferences";
+import type { UserPreferencesType } from "@/models/user-preference";
 
-import { defaultUserPreferences } from "@/models/user-preferences";
+import { defaultUserPreferences } from "@/models/user-preference";
 import createApiClient from "@/utils/hono/browser";
 
 type PreferencesProps = {

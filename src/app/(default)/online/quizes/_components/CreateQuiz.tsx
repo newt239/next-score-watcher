@@ -2,10 +2,10 @@
 
 import { useTransition } from "react";
 
-import { Button, Group, TextInput, Textarea } from "@mantine/core";
+import { Button, Group, NumberInput, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
-import { CreateQuizSchema, type CreateQuizType } from "@/models/quizes";
+import { CreateQuizSchema, type CreateQuizType } from "@/models/quiz";
 
 type Props = {
   createQuizes: (quizData: CreateQuizType[]) => Promise<number>;
@@ -33,6 +33,8 @@ const CreateQuiz: React.FC<Props> = ({ createQuizes }) => {
       answer: "",
       annotation: "",
       category: "",
+      setName: "",
+      questionNumber: 1,
     },
   });
 
@@ -56,6 +58,21 @@ const CreateQuiz: React.FC<Props> = ({ createQuizes }) => {
         required
         mt="md"
         {...form.getInputProps("answer")}
+        disabled={isPending}
+      />
+      <TextInput
+        label="セット名"
+        required
+        mt="md"
+        {...form.getInputProps("setName")}
+        disabled={isPending}
+      />
+      <NumberInput
+        label="問題番号"
+        required
+        mt="md"
+        min={1}
+        {...form.getInputProps("questionNumber")}
         disabled={isPending}
       />
       <TextInput

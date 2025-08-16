@@ -20,8 +20,8 @@ import type {
   GetGameDetailResponseType,
   LogDBProps,
   OnlineUserType,
-} from "@/models/games";
-import type { UserPreferencesType } from "@/models/user-preferences";
+} from "@/models/game";
+import type { UserPreferencesType } from "@/models/user-preference";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";

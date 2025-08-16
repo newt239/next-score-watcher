@@ -19,10 +19,7 @@ import computeZ from "./z";
 
 import { getInitialPlayersStateForOnline } from "./index";
 
-import type {
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/games";
+import type { GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 // WinPlayerPropsの代替型定義

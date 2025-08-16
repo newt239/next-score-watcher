@@ -24,7 +24,7 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { ApiQuizDataType } from "@/models/quizes";
+import type { ApiQuizDataType } from "@/models/quiz";
 
 import TablePagenation from "@/app/_components/TablePagination";
 
@@ -50,7 +50,7 @@ const QuizesTable: React.FC<Props> = ({
 
   const fuzzyFilter: FilterFn<ApiQuizDataType> = (row) => {
     const data = row.original;
-    return (
+    return !!(
       data.question?.includes(searchText) ||
       data.answer?.includes(searchText) ||
       data.category?.includes(searchText) ||
