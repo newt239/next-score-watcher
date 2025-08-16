@@ -352,3 +352,5 @@ export type ApiDataType = {
 ## 追加メモリ
 
 - `src/utils/types.ts`はローカル版のDBの型です。オンライン版の型はmodelsの下にあるので、ここの物を使うか、新たにここに実装するようにしてください
+- Pull Requestを作成する際は原則として`develop`ブランチに対して作成してください。
+- 適切な粒度でコミットを行ってください。
