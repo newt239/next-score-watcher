@@ -1,8 +1,11 @@
 "use client";
 
-import { Table } from "@mantine/core";
+import { Group, Table } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
+
+import PublicityBadge from "../PublicityBadge/PublicityBadge";
+import ShareGameButton from "../ShareGameButton/ShareGameButton";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
@@ -15,6 +18,7 @@ type GameListTableProps = {
     playerCount: number;
     logCount: number;
     updatedAt: string;
+    isPublic: boolean;
   }[];
 };
 
@@ -36,6 +40,7 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                 <Table.Th>形式</Table.Th>
                 <Table.Th>プレイヤー数</Table.Th>
                 <Table.Th>進行状況</Table.Th>
+                <Table.Th>公開状態</Table.Th>
                 <Table.Th>最終更新日時</Table.Th>
                 <Table.Th></Table.Th>
               </Table.Tr>
@@ -48,16 +53,26 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                   <Table.Td>{game.playerCount}人</Table.Td>
                   <Table.Td>{game.logCount}問目</Table.Td>
                   <Table.Td>
+                    <PublicityBadge isPublic={game.isPublic} size="sm" />
+                  </Table.Td>
+                  <Table.Td>
                     {cdate(game.updatedAt).format("MM/DD HH:mm")}
                   </Table.Td>
                   <Table.Td>
-                    <ButtonLink
-                      href={`/online/games/${game.id}/config`}
-                      leftSection={<IconAdjustmentsHorizontal />}
-                      size="sm"
-                    >
-                      開く
-                    </ButtonLink>
+                    <Group gap="xs">
+                      <ShareGameButton
+                        gameId={game.id}
+                        isPublic={game.isPublic}
+                        size="xs"
+                      />
+                      <ButtonLink
+                        href={`/online/games/${game.id}/config`}
+                        leftSection={<IconAdjustmentsHorizontal />}
+                        size="sm"
+                      >
+                        開く
+                      </ButtonLink>
+                    </Group>
                   </Table.Td>
                 </Table.Tr>
               ))}

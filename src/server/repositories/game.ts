@@ -94,6 +94,7 @@ export const getGames = async (userId: string) => {
     name: game.name,
     ruleType: game.ruleType,
     updatedAt: game.updatedAt,
+    isPublic: game.isPublic,
     logCount: count(gameLog.id),
     playerCount: count(gamePlayer.id),
   })

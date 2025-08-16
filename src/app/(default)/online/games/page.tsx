@@ -30,7 +30,10 @@ const GamesPage = async () => {
     return "データ取得に失敗しました";
   }
 
-  const games = gamesData.games;
+  const games = gamesData.games.map((game) => ({
+    ...game,
+    isPublic: game.isPublic ?? false,
+  }));
 
   return <GameList games={games} />;
 };

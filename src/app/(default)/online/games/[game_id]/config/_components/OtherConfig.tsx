@@ -8,6 +8,7 @@ import ConfigInput from "./ConfigInput";
 import CopyGame from "./CopyGame";
 import DeleteGame from "./DeleteGame";
 import ExportGame from "./ExportGame";
+import PublicityToggle from "./PublicityToggle";
 import SelectQuizset from "./SelectQuizset";
 
 import type { RuleNames } from "@/models/games";
@@ -19,6 +20,7 @@ type Props = {
   gameName: string;
   ruleType: RuleNames;
   discordWebhookUrl: string;
+  isPublic?: boolean;
 };
 
 /**
@@ -30,6 +32,7 @@ const OtherConfig: React.FC<Props> = ({
   gameName,
   ruleType,
   discordWebhookUrl,
+  isPublic = false,
 }) => {
   const [quizsets, setQuizsets] = useState<string[]>([]);
 
@@ -65,6 +68,14 @@ const OtherConfig: React.FC<Props> = ({
         game_id={gameId}
         game_quiz={undefined}
         quizset_names={quizsets}
+      />
+      <Title order={3} mt="xl">
+        公開設定
+      </Title>
+      <PublicityToggle
+        gameId={gameId}
+        isPublic={isPublic}
+        gameName={gameName}
       />
       <Title order={3} mt="xl">
         オプション

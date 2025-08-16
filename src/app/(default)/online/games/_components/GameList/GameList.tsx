@@ -18,6 +18,7 @@ type Game = {
   updatedAt: string;
   logCount: number;
   playerCount: number;
+  isPublic: boolean;
 };
 
 type GameListProps = {
