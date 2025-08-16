@@ -8,22 +8,35 @@ export default defineConfig({
   workers: process.env.CI ? 2 : 4,
   reporter: process.env.CI
     ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
-    : "html",
+    : [["list"], ["html", { outputFolder: "html-report", open: "never" }]],
   use: {
+    baseURL: "http://localhost:3000",
     channel: "chromium",
     headless: true,
     screenshot: process.env.CI ? "off" : "only-on-failure",
     trace: process.env.CI ? "off" : "on-first-retry",
     video: process.env.CI ? "off" : "retain-on-failure",
-    actionTimeout: 60000,
-    navigationTimeout: 60000,
+    actionTimeout: 30000,
+    navigationTimeout: 10000,
     locale: "ja-JP",
     timezoneId: "Asia/Tokyo",
+    extraHTTPHeaders: {
+      "x-playwright-test": "true",
+    },
   },
   projects: [
     {
+      name: "setup",
+      testMatch: /auth-setup\.spec\.ts/,
+    },
+    {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "tests/temp/auth/user.json",
+      },
+      dependencies: ["setup"],
+      testIgnore: /auth-setup\.spec\.ts/,
     },
   ],
   webServer: {

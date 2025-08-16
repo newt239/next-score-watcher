@@ -3,12 +3,12 @@ import { createFactory } from "hono/factory";
 
 import { AddGameLogRequestSchema } from "@/models/games";
 import { getUserId } from "@/server/repositories/auth";
-import { addGameLog } from "@/server/repositories/games";
+import { addGameLog } from "@/server/repositories/game";
 
 const factory = createFactory();
 
 /**
- * クラウドゲームログ追加
+ * ゲームログ追加
  */
 const handler = factory.createHandlers(
   zValidator("json", AddGameLogRequestSchema),

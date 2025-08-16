@@ -5,5 +5,6 @@ pre-commit:
       run: npx tsc --noEmit
       fail_text: "型チェックに失敗しました。エラーを修正してください。"
     lint:
-      run: pnpm run lint
+      run: pnpm run lint:fix
+      stage_fixed: true
       fail_text: "Lintエラーがあります。修正してください。"

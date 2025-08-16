@@ -1,22 +1,25 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * AttackSurvival形式のスコア計算
  * 正解で他のプレイヤーのポイントを減らし、誤答で自分のポイントが減る
  */
 const computeAttackSurvival = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "attacksurvival" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const correctMe = game.correctMe ?? 0; // 正解時の自分への影響
-  const wrongMe = game.wrongMe ?? -2; // 誤答時の自分への影響
-  const correctOther = game.correctOther ?? -1; // 正解時の他プレイヤーへの影響
-  const wrongOther = game.wrongOther ?? 0; // 誤答時の他プレイヤーへの影響
-  const winThrough = game.winThrough ?? 3; // 勝ち抜け人数
+  const correctMe = game.option.correct_me; // 正解時の自分への影響
+  const wrongMe = game.option.wrong_me; // 誤答時の自分への影響
+  const correctOther = game.option.correct_other; // 正解時の他プレイヤーへの影響
+  const wrongOther = game.option.wrong_other; // 誤答時の他プレイヤーへの影響
+  const winThrough = game.option.win_through; // 勝ち抜け人数
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
@@ -25,10 +28,10 @@ const computeAttackSurvival = (
   let winCount = 0;
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       // 正解者自身の処理
       const newScore = s.score + correctMe;
       s.correct += 1;
@@ -37,7 +40,7 @@ const computeAttackSurvival = (
 
       // 他のプレイヤーのポイントを減らす
       for (const [otherId, otherState] of byId) {
-        if (otherId !== log.player_id && otherState.state === "playing") {
+        if (otherId !== log.playerId && otherState.state === "playing") {
           const otherNewScore = otherState.score + correctOther;
           otherState.score = otherNewScore;
 
@@ -75,7 +78,7 @@ const computeAttackSurvival = (
           winCount++;
         }
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       // 誤答者自身の処理
       const newScore = s.score + wrongMe;
       s.wrong += 1;
@@ -90,7 +93,7 @@ const computeAttackSurvival = (
 
       // 他のプレイヤーへの影響
       for (const [otherId, otherState] of byId) {
-        if (otherId !== log.player_id && otherState.state === "playing") {
+        if (otherId !== log.playerId && otherState.state === "playing") {
           const otherNewScore = otherState.score + wrongOther;
           otherState.score = otherNewScore;
 

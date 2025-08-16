@@ -17,63 +17,55 @@ import {
 } from "@tanstack/react-table";
 
 import type {
-  OnlineGameDBPlayerProps,
-  OnlinePlayerDBProps,
+  PlayerProps,
+  RemoveGamePlayersResponseType,
 } from "@/models/games";
-import type { UseFormReturnType } from "@mantine/form";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import TablePagenation from "@/app/_components/TablePagination";
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
-type Props = {
+type CompactPlayerTableProps = {
   game_id: string;
-  playerList: OnlinePlayerDBProps[];
-  gamePlayers: OnlineGameDBPlayerProps[];
-  form: UseFormReturnType<
-    {
-      players: OnlineGameDBPlayerProps[];
-    },
-    (values: { players: OnlineGameDBPlayerProps[] }) => {
-      players: OnlineGameDBPlayerProps[];
-    }
-  >;
+  gamePlayerIds: string[];
+  players: PlayerProps[];
+  onPlayersChange?: (newGamePlayerIds: string[]) => void;
 };
 
 /**
  * オンライン版コンパクトプレイヤーテーブルコンポーネント
  * プレイヤー選択テーブル
  */
-const CompactPlayerTable: React.FC<Props> = ({
+const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   game_id,
-  playerList,
-  gamePlayers,
-  form,
+  gamePlayerIds,
+  players,
+  onPlayersChange,
 }) => {
   const [isPending, startTransition] = useTransition();
-  const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
     {}
   );
   const [searchText, setSearchText] = useState<string>("");
 
-  const fuzzyFilter: FilterFn<OnlinePlayerDBProps> = (row) => {
+  const fuzzyFilter: FilterFn<PlayerProps> = (row) => {
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
-      data.text?.includes(searchText) ||
-      data.belong?.includes(searchText)
+      data.description?.includes(searchText) ||
+      data.affiliation?.includes(searchText)
     );
   };
 
-  const columnHelper = createColumnHelper<OnlinePlayerDBProps>();
-  const columns = useMemo<ColumnDef<OnlinePlayerDBProps, string>[]>(
+  const columnHelper = createColumnHelper<PlayerProps>();
+  const columns = useMemo<ColumnDef<PlayerProps, string>[]>(
     () => [
       columnHelper.accessor("id", {
-        header: "",
+        header: "氏名",
         cell: ({ row }) => {
           return (
             <Checkbox
+              label={row.original.name}
               {...{
                 checked: row.getIsSelected(),
                 onChange: row.getToggleSelectedHandler(),
@@ -84,15 +76,11 @@ const CompactPlayerTable: React.FC<Props> = ({
         },
         footer: (info) => info.column.id,
       }),
-      columnHelper.accessor("name", {
-        header: "氏名",
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("text", {
+      columnHelper.accessor("description", {
         header: "順位",
         footer: (info) => info.column.id,
       }),
-      columnHelper.accessor("belong", {
+      columnHelper.accessor("affiliation", {
         header: "所属",
         footer: (info) => info.column.id,
       }),
@@ -100,8 +88,8 @@ const CompactPlayerTable: React.FC<Props> = ({
     [isPending]
   );
 
-  const table = useReactTable<OnlinePlayerDBProps>({
-    data: playerList,
+  const table = useReactTable<PlayerProps>({
+    data: players,
     columns,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
@@ -119,7 +107,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   useEffect(() => {
     (async () => {
       const initialPlayerIdList: { [key: number]: boolean } = {};
-      playerList.forEach((player, i) => {
+      players.forEach((player, i) => {
         if (gamePlayerIds.includes(player.id)) {
           initialPlayerIdList[i] = true;
         }
@@ -133,95 +121,63 @@ const CompactPlayerTable: React.FC<Props> = ({
     if (isPending) return;
 
     startTransition(async () => {
+      const apiClient = createApiClient();
+
+      // 現在選択されているプレイヤーIDを取得
+      const newSelectedPlayerIds = table
+        .getSelectedRowModel()
+        .rows.map(({ original }) => original.id);
+
+      // 追加されたプレイヤー（新しく選択されたもの）
+      const addedPlayerIds = newSelectedPlayerIds.filter(
+        (playerId) => !gamePlayerIds.includes(playerId)
+      );
+
+      // 削除されたプレイヤー（選択が解除されたもの）
+      const removedPlayerIds = gamePlayerIds.filter(
+        (playerId) => !newSelectedPlayerIds.includes(playerId)
+      );
+
       try {
-        const newGamePlayerIds = table
-          .getSelectedRowModel()
-          .rows.map(({ original }) => (original as OnlinePlayerDBProps).id);
-
-        if (newGamePlayerIds.length !== gamePlayerIds.length) {
-          const sortedNewGamePlayerIds = [
-            // newGamePlayersのうちすでに選択されているプレイヤー
-            ...gamePlayerIds.filter((gamePlayerId) =>
-              newGamePlayerIds.includes(gamePlayerId)
-            ),
-            // newGamePlayersのうち今まで選択されていなかったプレイヤー
-            ...newGamePlayerIds.filter(
-              (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
-            ),
-          ];
-
-          const newGamePlayers: OnlineGameDBPlayerProps[] =
-            sortedNewGamePlayerIds.map((player_id) => {
-              const gamePlayer = gamePlayers.find(
-                (gamePlayer) => gamePlayer.id === player_id
-              );
-              if (gamePlayer) {
-                return gamePlayer;
-              } else {
-                const player = playerList.find(
-                  (player) => player.id === player_id
-                );
-                return {
-                  id: player_id,
-                  name: player ? player.name : "不明なユーザー",
-                  initial_correct: 0,
-                  initial_wrong: 0,
-                  base_correct_point: 1,
-                  base_wrong_point: -1,
-                } as OnlineGameDBPlayerProps;
-              }
-            });
-
-          // プレイヤー選択状態をAPIで保存
-          const apiClient = createApiClient();
-          const requestData = [
-            {
-              id: game_id,
-              players: newGamePlayers.map((player) => ({
-                id: player.id,
-                name: player.name,
-                displayOrder: 0, // APIで自動設定
+        // プレイヤーを追加
+        if (addedPlayerIds.length > 0) {
+          for (const playerId of addedPlayerIds) {
+            const currentPlayerCount = newSelectedPlayerIds.length;
+            await apiClient.games[":gameId"].players.$post({
+              param: { gameId: game_id },
+              json: {
+                playerId,
+                displayOrder: currentPlayerCount,
                 initialScore: 0,
-                initialCorrectCount: player.initial_correct || 0,
-                initialWrongCount: player.initial_wrong || 0,
-              })),
-            },
-          ];
+                initialCorrectCount: 0,
+                initialWrongCount: 0,
+              },
+            });
+          }
+        }
 
-          console.log("Sending request to update game players:", requestData);
-
-          const response = await apiClient.games.$patch({
-            json: requestData,
+        // プレイヤーを削除
+        if (removedPlayerIds.length > 0) {
+          const response = await apiClient.games[":gameId"].players.$delete({
+            param: { gameId: game_id },
+            json: { playerIds: removedPlayerIds },
           });
 
-          console.log("API Response status:", response.status);
-          console.log("API Response ok:", response.ok);
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error("API Response Error:", errorText);
-            throw new Error(
-              `Failed to update game players: ${response.status} ${response.statusText} - ${errorText}`
-            );
+          if (response.ok) {
+            const data: RemoveGamePlayersResponseType = await response.json();
+            console.log(`プレイヤー削除完了: ${data.message}`);
           }
+        }
 
-          const result = await response.json();
-          console.log("API Response result:", result);
-
-          if (result.success) {
-            console.log("Game players updated successfully:", result.data);
-          } else {
-            console.error("API returned error:", result);
-            throw new Error(
-              `API Error: ${(result as { error?: string }).error || "Unknown error"}`
-            );
-          }
-
-          // フォームにおけるプレイヤーを更新
-          form.setFieldValue("players", newGamePlayers);
+        // 親コンポーネントに新しいプレイヤーIDリストを通知
+        if (
+          (addedPlayerIds.length > 0 || removedPlayerIds.length > 0) &&
+          onPlayersChange
+        ) {
+          onPlayersChange(newSelectedPlayerIds);
         }
       } catch (error) {
-        console.error("Failed to update game players:", error);
+        console.error("プレイヤー設定の更新に失敗しました:", error);
       }
     });
   }, [rowSelection]);
@@ -283,7 +239,7 @@ const CompactPlayerTable: React.FC<Props> = ({
           <Group justify="flex-end" mt="sm">
             <ButtonLink
               leftSection={<IconSettings />}
-              href={`/online/players?from=cloud-games/${game_id}`}
+              href={`/online/players?from=online/games/${game_id}`}
               variant="default"
               size="sm"
               disabled={isPending}

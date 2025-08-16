@@ -8,8 +8,8 @@ import classes from "./Player.module.css";
 
 import type {
   ComputedScoreProps,
+  GamePlayerProps,
   LogDBProps,
-  OnlineGameDBPlayerProps,
   RuleNames,
   States,
 } from "@/models/games";
@@ -28,7 +28,7 @@ type OnlineGame = {
 
 type Props = {
   game: OnlineGame;
-  player: OnlineGameDBPlayerProps;
+  player: GamePlayerProps;
   index: number;
   score: ComputedScoreProps | undefined;
   isPending: boolean;
@@ -90,15 +90,10 @@ const Player: React.FC<Props> = ({
     >
       <Flex className={classes.player_info} data-rows={rows}>
         <PlayerHeader
-          belong={
-            (player as OnlineGameDBPlayerProps & { belong?: string }).belong ||
-            ""
-          }
+          belong={player.affiliation || ""}
           index={index}
           isVerticalView={true}
-          text={
-            (player as OnlineGameDBPlayerProps & { text?: string }).text || ""
-          }
+          text={player.description || ""}
         />
         <PlayerName player_name={player.name} rows={rows} />
       </Flex>

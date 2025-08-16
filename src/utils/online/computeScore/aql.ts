@@ -1,31 +1,34 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * AQL形式のスコア計算
  * 正解数がスコア、誤答で休み
  */
 const computeAql = (
-  game: OnlineGameWithSettings,
+  _game: Extract<GetGameDetailResponseType, { ruleType: "aql" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score = s.correct; // AQLではスコア=正解数
       s.last_correct = qn;
       s.is_incapacity = false; // 正解で復活
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.last_wrong = qn;
       s.is_incapacity = true; // 誤答で休み

@@ -14,24 +14,29 @@ import { sendGAEvent } from "@next/third-parties/google";
 import type { UserPreferencesType } from "@/models/user-preferences";
 
 import { defaultUserPreferences } from "@/models/user-preferences";
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type PreferencesProps = {
   userId: string;
+  initialPreferences: UserPreferencesType | null;
 };
 
-const Preferences: React.FC<PreferencesProps> = ({ userId }) => {
+const Preferences: React.FC<PreferencesProps> = ({
+  userId,
+  initialPreferences,
+}) => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light");
 
-  // API経由でユーザー設定を管理
+  // 初期値を設定し、コンポーネントマウント時に最新設定を取得
   const [preferences, setPreferences] = useState<UserPreferencesType | null>(
-    null
+    initialPreferences || defaultUserPreferences
   );
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // 設定を取得
-  const fetchPreferences = useCallback(async () => {
+  // 最新の設定を取得（設定画面を開いたときのみ実行）
+  const fetchLatestPreferences = useCallback(async () => {
+    setIsLoading(true);
     try {
       const apiClient = createApiClient();
       const res = await apiClient["user"][":user_id"]["preferences"].$get({
@@ -45,8 +50,6 @@ const Preferences: React.FC<PreferencesProps> = ({ userId }) => {
       }
     } catch (error) {
       console.error("Failed to fetch preferences:", error);
-
-      setPreferences(defaultUserPreferences);
     } finally {
       setIsLoading(false);
     }
@@ -83,10 +86,10 @@ const Preferences: React.FC<PreferencesProps> = ({ userId }) => {
     [preferences, userId]
   );
 
-  // 初期設定取得
+  // コンポーネントマウント時に最新設定を1回だけ取得
   useEffect(() => {
-    fetchPreferences();
-  }, [fetchPreferences]);
+    fetchLatestPreferences();
+  }, []); // 空の依存配列で1回だけ実行
 
   // 設定更新のヘルパー関数
   const updateSetting = useCallback(

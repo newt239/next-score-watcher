@@ -17,6 +17,7 @@ import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 import classes from "./ActionButtons.module.css";
 
 import type { RuleNames } from "@/models/games";
+import type { UserPreferencesType } from "@/models/user-preferences";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
@@ -26,6 +27,7 @@ type ActionButtonsProps = {
   onUndo: () => void;
   onThrough: () => void;
   userId: string;
+  preferences: UserPreferencesType | null;
 };
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -34,6 +36,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   onUndo,
   onThrough,
   userId,
+  preferences,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [isFullscreenEnabled, setIsFullscreenEnabled] = useState(false);
@@ -106,7 +109,12 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           </ButtonLink>
         </Group>
       </ScrollArea>
-      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
+      <PreferenceDrawer
+        isOpen={opened}
+        onClose={close}
+        userId={userId}
+        initialPreferences={preferences}
+      />
     </>
   );
 };

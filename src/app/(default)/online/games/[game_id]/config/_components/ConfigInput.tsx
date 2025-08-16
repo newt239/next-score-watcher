@@ -3,17 +3,18 @@
 import { useState, useTransition } from "react";
 
 import { TextInput } from "@mantine/core";
+import { parseResponse } from "hono/client";
 
-import type { UpdateGameSettingsRequestType } from "@/models/games";
+import type { GameOptionKey } from "@/utils/drizzle/types";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type ConfigInputProps = {
   gameId: string;
   label: string;
   placeholder?: string;
   value: string | undefined;
-  fieldName: keyof UpdateGameSettingsRequestType;
+  fieldName: "name" | "discordWebhookUrl" | GameOptionKey;
 };
 
 /**
@@ -28,21 +29,38 @@ const ConfigInput: React.FC<ConfigInputProps> = ({
 }) => {
   const [localValue, setLocalValue] = useState(value || "");
   const [isPending, startTransition] = useTransition();
+  const apiClient = createApiClient();
 
   const updateSetting = async (newValue: string) => {
     try {
-      const apiClient = createApiClient();
-      const updateData = {
-        [fieldName]: newValue,
-      } as UpdateGameSettingsRequestType;
+      if (fieldName === "name" || fieldName === "discordWebhookUrl") {
+        const result = await parseResponse(
+          apiClient.games[":gameId"].$patch({
+            param: { gameId },
+            json: {
+              key: fieldName,
+              value: newValue,
+            },
+          })
+        );
 
-      const response = await apiClient["games"][":gameId"]["settings"].$patch({
-        param: { gameId },
-        json: updateData,
-      });
+        if ("error" in result) {
+          console.error("Failed to update setting");
+        }
+      } else {
+        const result = await parseResponse(
+          apiClient.games[":gameId"].options.$patch({
+            param: { gameId },
+            json: {
+              key: fieldName,
+              value: newValue,
+            },
+          })
+        );
 
-      if (!response.ok) {
-        console.error("Failed to update setting");
+        if (!result.updated) {
+          console.error("Failed to update setting");
+        }
       }
     } catch (error) {
       console.error("Failed to update setting:", error);

@@ -1,7 +1,10 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * NomxAd形式のスコア計算
@@ -9,12 +12,12 @@ import type { ComputedScoreProps, LogDBProps } from "@/models/games";
  * stageの値が2のときアドバンテージ状態を表す
  */
 const computeNomxAd = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "nomx-ad" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 7;
-  const losePoint = game.losePoint ?? 3;
+  const winPoint = game.option.win_point;
+  const losePoint = game.option.lose_point;
   const streakOver3 = true; // オプション: 3連答以上でアドバンテージ
 
   const byId = new Map<string, ComputedScoreProps>(
@@ -24,10 +27,10 @@ const computeNomxAd = (
   let lastCorrectPlayer: string = "";
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       const isAd = s.stage === 2;
       const newScore = s.score + (isAd ? 2 : 1);
       const nextAd =
@@ -45,7 +48,7 @@ const computeNomxAd = (
       } else if (newScore === winPoint - 1) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.last_wrong = qn;
       s.stage = 1; // 誤答でアドバンテージ解除
@@ -62,9 +65,9 @@ const computeNomxAd = (
     }
 
     // 他のプレイヤーのアドバンテージ解除
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       for (const [otherId, otherState] of byId) {
-        if (otherId !== log.player_id && otherState.stage === 2) {
+        if (otherId !== log.playerId && otherState.stage === 2) {
           otherState.stage = 1;
         }
       }

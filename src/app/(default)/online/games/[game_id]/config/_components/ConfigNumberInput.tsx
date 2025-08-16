@@ -3,16 +3,17 @@
 import { useState, useTransition } from "react";
 
 import { NumberInput } from "@mantine/core";
+import { parseResponse } from "hono/client";
 
-import type { UpdateGameSettingsRequestType } from "@/models/games";
+import type { GameOptionKey } from "@/utils/drizzle/types";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type ConfigNumberInputProps = {
   gameId: string;
   label: string;
   value: number | undefined;
-  fieldName: keyof UpdateGameSettingsRequestType;
+  fieldName: GameOptionKey;
   min?: number;
   max?: number;
 };
@@ -34,17 +35,19 @@ const ConfigNumberInput: React.FC<ConfigNumberInputProps> = ({
   const updateSetting = async (newValue: number) => {
     try {
       const apiClient = createApiClient();
-      const updateData = {
-        [fieldName]: newValue,
-      } as UpdateGameSettingsRequestType;
 
-      const response = await apiClient["games"][":gameId"]["settings"].$patch({
-        param: { gameId },
-        json: updateData,
-      });
+      const result = await parseResponse(
+        apiClient.games[":gameId"].options.$patch({
+          param: { gameId },
+          json: {
+            key: fieldName,
+            value: newValue,
+          },
+        })
+      );
 
-      if (!response.ok) {
-        console.error("Failed to update setting");
+      if (!result.updated) {
+        console.error("Failed to update option");
       }
     } catch (error) {
       console.error("Failed to update setting:", error);

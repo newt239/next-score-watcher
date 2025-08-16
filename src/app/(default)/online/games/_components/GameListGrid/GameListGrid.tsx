@@ -9,18 +9,18 @@ import classes from "./GameListGrid.module.css";
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 
-type Props = {
+type GameListGridProps = {
   gameList: {
     id: string;
     name: string;
-    type: string;
-    player_count: number;
-    state: string;
-    last_open: string;
+    ruleType: string;
+    playerCount: number;
+    logCount: number;
+    updatedAt: string;
   }[];
 };
 
-const GameListGrid: React.FC<Props> = ({ gameList }) => {
+const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
   return (
     <>
       {gameList.length === 0 ? (
@@ -32,7 +32,13 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
       ) : (
         <Box className={classes.game_list_grid}>
           {gameList.map((game) => (
-            <Card shadow="xs" key={game.id} title={game.name} withBorder>
+            <Card
+              shadow="xs"
+              key={game.id}
+              title={game.name}
+              withBorder
+              data-testid="game-card"
+            >
               <Card.Section
                 className={classes.game_name}
                 withBorder
@@ -43,13 +49,13 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
               <Card.Section className={classes.game_description}>
                 <List>
                   <List.Item>
-                    {game.type} ／ {game.player_count}人
+                    {game.ruleType} ／ {game.playerCount}人
                   </List.Item>
-                  <List.Item>進行状況: {game.state}</List.Item>
+                  <List.Item>進行状況: {game.logCount}問目</List.Item>
                 </List>
               </Card.Section>
               <Flex className={classes.game_footer}>
-                <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
+                <Box>{cdate(game.updatedAt).format("MM/DD HH:mm")}</Box>
                 <Flex gap="xs">
                   <ButtonLink
                     href={`/online/games/${game.id}/board`}
@@ -57,7 +63,7 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
                     size="sm"
                     variant="filled"
                   >
-                    得点表示
+                    ボード表示
                   </ButtonLink>
                   <ButtonLink
                     href={`/online/games/${game.id}/config`}

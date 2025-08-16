@@ -2,9 +2,9 @@ import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
 import {
-  getUserPreferences,
   ensureUserPreferences,
-} from "@/server/repositories/user-preferences";
+  getUserPreferences,
+} from "@/server/repositories/user";
 
 const factory = createFactory();
 

@@ -8,52 +8,69 @@ import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 
-import type { OnlineGameProps } from "@/models/games";
+import type { RuleNames } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";
 
 type DeleteGamePropsUnion = {
-  game: OnlineGameProps;
+  gameId: string;
+  gameName: string;
+  ruleType: RuleNames;
 };
 
 /**
  * オンライン版ゲーム削除コンポーネント
  * ゲームの削除機能
  */
-const DeleteGame: React.FC<DeleteGamePropsUnion> = ({ game }) => {
+const DeleteGame: React.FC<DeleteGamePropsUnion> = ({
+  gameId,
+  gameName,
+  ruleType,
+}) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const apiClient = createApiClient();
 
   const deleteGame = async () => {
     startTransition(async () => {
       try {
-        const apiClient = createApiClient();
-        const response = await apiClient.games.$delete({
-          json: [game.id],
-        });
+        const result = await parseResponse(
+          apiClient.games[":gameId"].$delete({
+            param: {
+              gameId,
+            },
+          })
+        );
 
-        if (!response.ok) {
-          throw new Error("Failed to delete game");
+        if ("success" in result) {
+          notifications.show({
+            title: "ゲームを削除しました",
+            message: `${gameName}(${rules[ruleType].name})を削除しました`,
+            autoClose: 9000,
+            withCloseButton: true,
+          });
+
+          sendGAEvent({
+            event: "delete_game",
+            value: gameId,
+          });
+
+          router.push("/online/games");
+          router.refresh();
+        } else {
+          notifications.show({
+            title: "エラーが発生しました",
+            message: "ゲームの削除に失敗しました",
+            color: "red",
+            autoClose: 9000,
+            withCloseButton: true,
+          });
         }
-
-        notifications.show({
-          title: "ゲームを削除しました",
-          message: `${game.name}(${rules[game.rule].name})を削除しました`,
-          autoClose: 9000,
-          withCloseButton: true,
-        });
-
-        sendGAEvent({
-          event: "delete_game",
-          value: game.id,
-        });
-
-        router.push("/online/games");
-        router.refresh();
       } catch (error) {
-        console.error("Failed to delete game:", error);
+        console.error("Error deleting game:", error);
         notifications.show({
           title: "エラーが発生しました",
           message: "ゲームの削除に失敗しました",
@@ -71,7 +88,7 @@ const DeleteGame: React.FC<DeleteGamePropsUnion> = ({ game }) => {
       centered: true,
       children: (
         <Box>
-          <p>ゲーム「{game.name}」を削除します。</p>
+          <p>ゲーム「{gameName}」を削除します。</p>
           <p>この操作は取り消せません。</p>
         </Box>
       ),

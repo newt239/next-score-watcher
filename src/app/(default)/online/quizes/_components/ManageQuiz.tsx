@@ -13,7 +13,7 @@ import QuizesTable from "./QuizesTable";
 
 import type { ApiQuizDataType, CreateQuizType } from "@/models/quizes";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialQuizes: ApiQuizDataType[];

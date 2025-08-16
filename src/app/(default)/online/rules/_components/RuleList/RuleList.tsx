@@ -22,25 +22,11 @@ import classes from "./RuleList.module.css";
 
 import type { RuleNames } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";
 
 type Props = {
   userId?: string;
-};
-
-/**
- * ゲーム名の自動生成
- */
-const generateDefaultGameName = (ruleType: RuleNames): string => {
-  const ruleName = rules[ruleType].name;
-  const timestamp = new Date().toLocaleString("ja-JP", {
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  return `${ruleName} ${timestamp}`;
 };
 
 const RuleList: React.FC<Props> = ({ userId }) => {
@@ -48,6 +34,7 @@ const RuleList: React.FC<Props> = ({ userId }) => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedRule, setSelectedRule] = useState<RuleNames | null>(null);
   const [isPending, startTransition] = useTransition();
+  const apiClient = createApiClient();
 
   const form = useForm({
     initialValues: {
@@ -72,13 +59,12 @@ const RuleList: React.FC<Props> = ({ userId }) => {
         message: "ログインが必要です",
         color: "red",
       });
-      router.push("/login");
+      router.push("/sign-in");
       return;
     }
 
     setSelectedRule(rule_name);
-    const defaultName = generateDefaultGameName(rule_name);
-    form.setFieldValue("name", defaultName);
+    form.setFieldValue("name", rules[rule_name].name);
     setCreateModalOpen(true);
   };
 
@@ -89,50 +75,34 @@ const RuleList: React.FC<Props> = ({ userId }) => {
     if (validation.hasErrors) return;
 
     startTransition(async () => {
-      try {
-        const apiClient = await createApiClient();
-        const result = await parseResponse(
-          apiClient["games"].$post(
+      const result = await parseResponse(
+        apiClient["games"].$post({
+          json: [
             {
-              json: [
-                {
-                  name: form.values.name,
-                  ruleType: selectedRule,
-                  discordWebhookUrl: "",
-                },
-              ],
+              name: form.values.name,
+              ruleType: selectedRule,
             },
-            {
-              headers: {
-                "x-user-id": userId!,
-              },
-            }
-          )
-        );
+          ],
+        })
+      );
 
-        if (!("success" in result) || !result.success) {
-          throw new Error("ゲームの作成に失敗しました");
-        }
+      setCreateModalOpen(false);
+      form.reset();
+      setSelectedRule(null);
 
+      if ("error" in result) {
+        notifications.show({
+          title: "エラー",
+          message: result.error,
+          color: "red",
+        });
+      } else {
         notifications.show({
           title: "成功",
           message: "ゲームを作成しました",
           color: "green",
         });
-
-        setCreateModalOpen(false);
-        form.reset();
-        setSelectedRule(null);
         router.push(`/online/games/${result.data.ids[0]}/config`);
-      } catch (error) {
-        notifications.show({
-          title: "エラー",
-          message:
-            error instanceof Error
-              ? error.message
-              : "ゲームの作成に失敗しました",
-          color: "red",
-        });
       }
     });
   };
@@ -145,9 +115,9 @@ const RuleList: React.FC<Props> = ({ userId }) => {
 
   return (
     <>
-      <Title order={2}>クラウドゲーム作成</Title>
+      <Title order={2}>形式一覧</Title>
       <Text size="sm" c="dimmed" mb="md">
-        クラウドDBに記録されるゲームを作成します。形式を選択してゲームを作成してください。
+        形式を選択してゲームを作成してください。
       </Text>
       <Box className={classes.rule_list_grid}>
         {ruleNameList.map((rule_name) => {
@@ -208,7 +178,7 @@ const RuleList: React.FC<Props> = ({ userId }) => {
             loading={isPending}
             disabled={!form.values.name}
           >
-            作成
+            作る
           </Button>
         </Group>
       </Modal>

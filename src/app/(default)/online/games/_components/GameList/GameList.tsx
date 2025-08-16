@@ -3,87 +3,50 @@
 import { useState } from "react";
 
 import { Group, NativeSelect, SegmentedControl, Title } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 
-import CreateGameModal from "../CreateGameModal/CreateGameModal";
 import GameListGrid from "../GameListGrid/GameListGrid";
 import GameListTable from "../GameListTable/GameListTable";
 
+import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-};
 
 type Game = {
   id: string;
   name: string;
   ruleType: string;
-  updatedAt: Date;
+  updatedAt: string;
+  logCount: number;
+  playerCount: number;
 };
 
 type GameListProps = {
-  user: User | null;
   games: Game[];
-  logCounts: Record<string, number>;
-  playerCounts: Record<string, number>;
 };
 
-const GameList: React.FC<GameListProps> = ({
-  user,
-  games,
-  logCounts,
-  playerCounts,
-}) => {
+const GameList: React.FC<GameListProps> = ({ games }) => {
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
   const [displayMode, setDisplayMode] = useState<"grid" | "table">("grid");
 
-  const parsedGameList = games
-    .sort((prev, cur) => {
-      if (orderType === "last_open") {
-        if (prev.updatedAt > cur.updatedAt) return -1;
-        if (prev.updatedAt < cur.updatedAt) return 1;
-        return 0;
-      } else {
-        if (prev.name < cur.name) return -1;
-        if (prev.name > cur.name) return 1;
-        return 0;
-      }
-    })
-    .map((game) => {
-      const logCount = logCounts[game.id] || 0;
-      const playerCount = playerCounts[game.id] || 0;
-      const gameState = logCount === 0 ? "設定中" : `${logCount}問目`;
-
-      return {
-        id: game.id,
-        name: game.name,
-        type: game.ruleType,
-        player_count: playerCount,
-        state: gameState,
-        last_open: game.updatedAt.toISOString(),
-      };
-    });
-
-  if (!user) {
-    return (
-      <>
-        <Title order={2}>ゲーム</Title>
-        <p>
-          ゲームを利用するには
-          <Link href="/sign-in">サインイン</Link>
-          が必要です。
-        </p>
-      </>
-    );
-  }
+  const orderedGameList = games.sort((prev, cur) => {
+    if (orderType === "last_open") {
+      if (prev.updatedAt > cur.updatedAt) return -1;
+      if (prev.updatedAt < cur.updatedAt) return 1;
+      return 0;
+    } else {
+      if (prev.name < cur.name) return -1;
+      if (prev.name > cur.name) return 1;
+      return 0;
+    }
+  });
 
   return (
     <>
       <Group justify="space-between" mb="lg">
         <Title order={2}>ゲーム</Title>
-        <CreateGameModal userId={user.id} />
+        <ButtonLink href="/online/rules" leftSection={<IconPlus size={16} />}>
+          新しいゲームを作成
+        </ButtonLink>
       </Group>
       <Group justify="end" mb="lg" gap="md">
         <SegmentedControl
@@ -101,16 +64,16 @@ const GameList: React.FC<GameListProps> = ({
           <option value="name">ゲーム名順</option>
         </NativeSelect>
       </Group>
-      {parsedGameList.length === 0 ? (
+      {orderedGameList.length === 0 ? (
         <p>
           作成済みのゲームはありません。
           <Link href="/online/rules">形式一覧</Link>
           ページから新しいゲームを作ることが出来ます。
         </p>
       ) : displayMode === "grid" ? (
-        <GameListGrid gameList={parsedGameList} />
+        <GameListGrid gameList={orderedGameList} />
       ) : (
-        <GameListTable gameList={parsedGameList} />
+        <GameListTable gameList={orderedGameList} />
       )}
     </>
   );

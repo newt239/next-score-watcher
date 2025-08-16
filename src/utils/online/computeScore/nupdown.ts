@@ -1,29 +1,32 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * Nupdown形式のスコア計算
  * N回正解で勝ち抜け、一度でも誤答すると0に戻る
  */
 const computeNupdown = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "nupdown" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 5;
-  const losePoint = game.losePoint ?? 2;
+  const winPoint = game.option.win_point;
+  const losePoint = game.option.lose_point;
 
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score = s.correct; // Nupdownではスコア=連続正解数
       s.last_correct = qn;
@@ -33,7 +36,7 @@ const computeNupdown = (
       } else if (s.score === winPoint - 1) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.score = 0; // 誤答で0にリセット
       s.last_wrong = qn;

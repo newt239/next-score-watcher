@@ -8,19 +8,27 @@ import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { parseResponse } from "hono/client";
 
-import type { OnlineGameProps } from "@/models/games";
+import type { RuleNames } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type CopyGamePropsUnion = {
-  game: OnlineGameProps;
+  gameId: string;
+  gameName: string;
+  ruleType: RuleNames;
+  discordWebhookUrl: string;
 };
 
 /**
  * オンライン版ゲームコピーコンポーネント
  * ゲームの形式設定のみ、またはすべてをコピー
  */
-const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
+const CopyGame: React.FC<CopyGamePropsUnion> = ({
+  gameId,
+  gameName,
+  ruleType,
+  discordWebhookUrl,
+}) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -32,12 +40,11 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
           apiClient.games.$post({
             json: [
               {
-                name: `${game.name} のコピー`,
-                ruleType: game.rule,
+                name: `${gameId} のコピー`,
+                ruleType,
                 discordWebhookUrl:
-                  copyType === "copy-all"
-                    ? game.discord_webhook_url
-                    : undefined,
+                  copyType === "copy-all" ? discordWebhookUrl : undefined,
+                option: {},
               },
             ],
           })
@@ -49,12 +56,12 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game }) => {
 
         sendGAEvent({
           event: "copy_game",
-          value: game.rule,
+          value: ruleType,
         });
 
         notifications.show({
           title: "ゲームをコピーしました",
-          message: `${game.name} のコピーを作成しました`,
+          message: `${gameName} のコピーを作成しました`,
           autoClose: 9000,
           withCloseButton: true,
         });

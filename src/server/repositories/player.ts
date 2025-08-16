@@ -38,23 +38,29 @@ const getPlayerTags = async (playerId: string): Promise<string[]> => {
  * プレイヤー一覧取得
  */
 export const getPlayers = async (userId: string) => {
-  const players = await DBClient.select()
-    .from(player)
-    .where(and(eq(player.userId, userId), isNull(player.deletedAt)))
-    .orderBy(asc(player.name));
+  const players = await DBClient.query.player.findMany({
+    where: and(eq(player.userId, userId), isNull(player.deletedAt)),
+    orderBy: asc(player.name),
+    with: {
+      playerPlayerTag: {
+        with: {
+          playerTag: true,
+        },
+      },
+    },
+  });
 
-  // プレイヤーごとにタグを取得
-  const playersWithTags = await Promise.all(
-    players.map(async (p) => ({
-      id: p.id,
-      name: p.name,
-      text: p.displayName,
-      belong: p.affiliation || "",
-      tags: await getPlayerTags(p.id),
-    }))
-  );
+  const mappedPlayers = players.map((player) => ({
+    id: player.id,
+    name: player.name,
+    description: player.description || "",
+    affiliation: player.affiliation || "",
+    tags: player.playerPlayerTag
+      .map((tag) => tag.playerTag?.tagName)
+      .filter((tag) => tag !== undefined),
+  }));
 
-  return playersWithTags;
+  return mappedPlayers;
 };
 
 /**

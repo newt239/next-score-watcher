@@ -3,12 +3,12 @@ import { createFactory } from "hono/factory";
 
 import { AddPlayerToGameRequestSchema } from "@/models/games";
 import { getUserId } from "@/server/repositories/auth";
-import { addGamePlayer } from "@/server/repositories/games";
+import { addGamePlayer } from "@/server/repositories/game";
 
 const factory = createFactory();
 
 /**
- * クラウドゲームプレイヤー追加
+ * ゲームプレイヤー追加
  */
 const handler = factory.createHandlers(
   zValidator("json", AddPlayerToGameRequestSchema),
@@ -26,9 +26,9 @@ const handler = factory.createHandlers(
       }
 
       const playerData = c.req.valid("json");
-      await addGamePlayer(gameId, playerData, userId);
+      const result = await addGamePlayer(gameId, playerData, userId);
 
-      return c.json({ success: true } as const, 201);
+      return c.json({ result } as const, 201);
     } catch (error) {
       console.error("Error adding cloud game player:", error);
       return c.json({ error: "サーバーエラーが発生しました" } as const, 500);

@@ -3,7 +3,7 @@ import { createFactory } from "hono/factory";
 
 import { DeleteQuizRequestSchema } from "@/models/quizes";
 import { getUserId } from "@/server/repositories/auth";
-import { deleteQuiz } from "@/server/repositories/quizes";
+import { deleteQuiz } from "@/server/repositories/quiz";
 
 const factory = createFactory();
 

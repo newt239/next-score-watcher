@@ -5,7 +5,6 @@ import { useTransition } from "react";
 import { NativeSelect, NumberInput } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconUpload } from "@tabler/icons-react";
-import { parseResponse } from "hono/client";
 
 // GameDBQuizPropsの型定義
 type GameDBQuizProps = {
@@ -14,7 +13,6 @@ type GameDBQuizProps = {
 };
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import createApiClient from "@/utils/hono/client";
 
 type Props = {
   game_id: string;
@@ -31,28 +29,11 @@ const SelectQuizset: React.FC<Props> = ({
   game_quiz,
   quizset_names,
 }) => {
-  const apiClient = createApiClient();
   const [isPending, startTransition] = useTransition();
 
-  const updateQuizSetting = async (quiz: GameDBQuizProps) => {
+  const updateQuizSetting = async (_quiz: GameDBQuizProps) => {
     startTransition(async () => {
-      const data = await parseResponse(
-        apiClient.games.$patch({
-          json: [
-            {
-              id: game_id,
-              quiz: {
-                setName: quiz.set_name,
-                offset: quiz.offset,
-              },
-            },
-          ],
-        })
-      );
-
-      if (!data.success) {
-        console.log("Failed to update quiz setting");
-      }
+      // TODO: 問題設定の更新
     });
   };
 

@@ -1,7 +1,10 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * NbyN形式のスコア計算
@@ -9,11 +12,11 @@ import type { ComputedScoreProps, LogDBProps } from "@/models/games";
  * 積がNの2乗に達したら勝ち抜け
  */
 const computeNbyn = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "nbyn" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
-  const winPoint = game.winPoint ?? 5;
+  const winPoint = game.option.win_point;
   const targetProduct = winPoint * winPoint; // Nの2乗
 
   const byId = new Map<string, ComputedScoreProps>(
@@ -32,10 +35,10 @@ const computeNbyn = (
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s) return;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.score = s.correct * s.wrong; // 積を再計算
       s.last_correct = qn;
@@ -45,7 +48,7 @@ const computeNbyn = (
       } else if (s.score === targetProduct - 1) {
         s.reach_state = "win";
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.score = s.correct * s.wrong; // 積を再計算
       s.last_wrong = qn;

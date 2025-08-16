@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { Accordion, Box, Tabs } from "@mantine/core";
 
 import GameStartButton from "../GameStartButton/GameStartButton";
@@ -10,51 +12,47 @@ import RuleSettings from "../RuleSettings";
 import classes from "./Config.module.css";
 
 import type {
-  OnlineGameDBPlayerProps,
-  OnlineGameLogType,
-  OnlineGameType,
-  OnlinePlayerDBProps,
+  GetGameDetailResponseType,
   OnlineUserType,
+  PlayerProps,
 } from "@/models/games";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/app/_components/Link";
 import { rules } from "@/utils/rules";
 
-type Props = {
-  gameId: string;
+type ConfigProps = {
   user: OnlineUserType | null;
-  initialGame: OnlineGameType & {
-    players: OnlineGameDBPlayerProps[];
-    settings: Record<string, unknown>;
-  };
-  initialPlayers: OnlinePlayerDBProps[];
-  initialLogs: OnlineGameLogType[];
+  game: GetGameDetailResponseType;
+  players: PlayerProps[];
 };
 
-const Config: React.FC<Props> = ({
-  gameId,
-  user,
-  initialGame,
-  initialPlayers,
-  initialLogs,
-}) => {
+const Config: React.FC<ConfigProps> = ({ user, game, players }) => {
+  const [currentPlayerCount, setCurrentPlayerCount] = useState(
+    game.players.length
+  );
+
   if (!user) return <NotFound />;
+
+  // プレイヤー変更時のコールバック
+  const handlePlayersChange = (playerCount: number) => {
+    setCurrentPlayerCount(playerCount);
+  };
 
   return (
     <>
-      <h2>{rules[initialGame.ruleType]?.name || "不明な形式"}</h2>
+      <h2>{rules[game.ruleType]?.name || "不明な形式"}</h2>
       <Accordion variant="separated">
         <Accordion.Item value="rule_description">
           <Accordion.Control>
-            {rules[initialGame.ruleType].short_description}
+            {rules[game.ruleType].short_description}
           </Accordion.Control>
           <Accordion.Panel pb={4}>
-            <p>{rules[initialGame.ruleType].description}</p>
+            <p>{rules[game.ruleType].description}</p>
             <p>
               より詳細な説明は
               <Link
-                href={`https://docs.score-watcher.com/rules/${initialGame.ruleType}`}
+                href={`https://docs.score-watcher.com/rules/${game.ruleType}`}
               >
                 ヘルプサイト
               </Link>
@@ -63,7 +61,11 @@ const Config: React.FC<Props> = ({
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
-      <GameStartButton logs={initialLogs} game={initialGame} />
+      <GameStartButton
+        ruleType={game.ruleType}
+        playerCount={currentPlayerCount}
+        logCount={game.logs.length}
+      />
       <Tabs
         pt="lg"
         variant="outline"
@@ -78,32 +80,23 @@ const Config: React.FC<Props> = ({
         </Tabs.List>
         <Box className={classes.tab_panel_area}>
           <Tabs.Panel value="rule">
-            <RuleSettings gameId={gameId} ruleType={initialGame.ruleType} />
+            <RuleSettings gameId={game.id} ruleType={game.ruleType} />
           </Tabs.Panel>
           <Tabs.Panel value="player">
             <PlayersConfig
-              game_id={gameId}
-              rule={initialGame.ruleType}
-              playerList={initialPlayers}
-              players={initialGame.players}
+              game_id={game.id}
+              rule={game.ruleType}
+              players={players}
+              gamePlayers={game.players}
+              onPlayerCountChange={handlePlayersChange}
             />
           </Tabs.Panel>
           <Tabs.Panel value="other">
             <OtherConfig
-              game={{
-                id: initialGame.id,
-                name: initialGame.name,
-                rule: initialGame.ruleType,
-                discord_webhook_url: initialGame.discordWebhookUrl || "",
-                correct_me: 0,
-                wrong_me: 0,
-                options:
-                  initialGame.ruleType === "aql"
-                    ? { left_team: "", right_team: "" }
-                    : undefined,
-                editable: false,
-                last_open: new Date().toISOString(),
-              }}
+              gameId={game.id}
+              gameName={game.name}
+              ruleType={game.ruleType}
+              discordWebhookUrl={game.discordWebhookUrl || ""}
             />
           </Tabs.Panel>
         </Box>

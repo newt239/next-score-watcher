@@ -3,7 +3,7 @@ import { createFactory } from "hono/factory";
 
 import { AddPlayerTagRequestSchema } from "@/models/players";
 import { getUserId } from "@/server/repositories/auth";
-import { addPlayerTag } from "@/server/repositories/players";
+import { addPlayerTag } from "@/server/repositories/player";
 
 const factory = createFactory();
 

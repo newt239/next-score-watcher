@@ -10,46 +10,35 @@ import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 
-import type {
-  OnlineGameDBPlayerProps,
-  OnlinePlayerDBProps,
-} from "@/models/games";
-import type { UseFormReturnType } from "@mantine/form";
+import type { GamePlayerProps, PlayerProps } from "@/models/games";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 
-type Props = {
+type SelectPlayerProps = {
   game_id: string;
-  playerList: OnlinePlayerDBProps[];
-  players: OnlineGameDBPlayerProps[];
-  form: UseFormReturnType<
-    {
-      players: OnlineGameDBPlayerProps[];
-    },
-    (values: { players: OnlineGameDBPlayerProps[] }) => {
-      players: OnlineGameDBPlayerProps[];
-    }
-  >;
+  players: PlayerProps[];
+  gamePlayers: GamePlayerProps[];
   disabled?: boolean;
+  onPlayersChange?: (newGamePlayerIds: string[]) => void;
 };
 
 /**
  * オンライン版プレイヤー選択コンポーネント
  * プレイヤーの追加、データベースからの選択、ゲームからのコピー機能を提供
  */
-const SelectPlayer: React.FC<Props> = ({
+const SelectPlayer: React.FC<SelectPlayerProps> = ({
   game_id,
-  playerList,
   players,
-  form,
+  gamePlayers,
   disabled = false,
+  onPlayersChange,
 }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
-      {playerList.length === 0 ? (
+      {players.length === 0 ? (
         <ButtonLink
           leftSection={<IconUpload />}
           mt={3}
@@ -84,23 +73,26 @@ const SelectPlayer: React.FC<Props> = ({
               <Accordion.Item value="add">
                 <Accordion.Control>新しく追加</Accordion.Control>
                 <Accordion.Panel pb={4}>
-                  <CompactCreatePlayer game_id={game_id} players={players} />
+                  <CompactCreatePlayer
+                    game_id={game_id}
+                    playerCount={gamePlayers.length}
+                  />
                 </Accordion.Panel>
               </Accordion.Item>
               <Accordion.Item value="select">
                 <Accordion.Control>データベースから追加</Accordion.Control>
                 <Accordion.Panel pb={4}>
-                  {playerList.length === 0 ? (
+                  {players.length === 0 ? (
                     <Box py={3}>
                       <Link href="/online/players">プレイヤー管理</Link>
                       ページから一括でプレイヤー情報を登録できます。
                     </Box>
                   ) : (
                     <CompactPlayerTable
-                      gamePlayers={players}
+                      gamePlayerIds={gamePlayers.map((p) => p.id)}
                       game_id={game_id}
-                      playerList={playerList}
-                      form={form}
+                      players={players}
+                      onPlayersChange={onPlayersChange}
                     />
                   )}
                 </Accordion.Panel>

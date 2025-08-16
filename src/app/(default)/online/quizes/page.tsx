@@ -6,7 +6,7 @@ import ManageQuiz from "./_components/ManageQuiz";
 import type { ApiQuizDataType } from "@/models/quizes";
 
 import { getUser } from "@/utils/auth/auth-helpers";
-import { createApiClientOnServer } from "@/utils/hono/server-client";
+import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
   title: "クイズ問題管理",

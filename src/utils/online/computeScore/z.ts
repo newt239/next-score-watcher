@@ -1,28 +1,31 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type { OnlineGameWithSettings } from "./index";
-import type { ComputedScoreProps, LogDBProps } from "@/models/games";
+import type {
+  ComputedScoreProps,
+  GetGameDetailResponseType,
+} from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
  * Z形式のスコア計算
  * 5つのステージをクリアしていく形式
  */
 const computeZ = (
-  game: OnlineGameWithSettings,
+  game: Extract<GetGameDetailResponseType, { ruleType: "z" }>,
   playersState: ComputedScoreProps[],
-  logs: LogDBProps[]
+  logs: SeriarizedGameLog[]
 ) => {
   const byId = new Map<string, ComputedScoreProps>(
     playersState.map((s) => [s.player_id, { ...s, stage: 1 }])
   );
 
   logs.forEach((log, qn) => {
-    const s = byId.get(log.player_id);
+    const s = byId.get(log.playerId || "");
     if (!s || s.state !== "playing") return;
 
     const currentStage = s.stage;
 
-    if (log.variant === "correct") {
+    if (log.actionType === "correct") {
       s.correct += 1;
       s.last_correct = qn;
 
@@ -57,7 +60,7 @@ const computeZ = (
 
         // ステージクリア時に全員の状態をリセット
         for (const [otherId, otherState] of byId) {
-          if (otherId !== log.player_id) {
+          if (otherId !== log.playerId) {
             otherState.correct = 0;
             otherState.wrong = 0;
             otherState.state = "playing";
@@ -71,7 +74,7 @@ const computeZ = (
         s.wrong = 0;
         s.is_incapacity = false;
       }
-    } else if (log.variant === "wrong") {
+    } else if (log.actionType === "wrong") {
       s.wrong += 1;
       s.last_wrong = qn;
 

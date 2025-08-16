@@ -2,21 +2,23 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 import indexHandler from "./controllers";
+import deleteTestUserHandler from "./controllers/e2e/delete-test-user";
+import postTestLoginHandler from "./controllers/e2e/post-test-login";
 import deleteGameHandler from "./controllers/game/delete-game";
 import deleteLogHandler from "./controllers/game/delete-log";
+import deletePlayersHandler from "./controllers/game/delete-players";
 import getGameDetailHandler from "./controllers/game/get-detail";
 import getGameListHandler from "./controllers/game/get-list";
 import getGameLogsHandler from "./controllers/game/get-logs";
 import getGamePlayersHandler from "./controllers/game/get-players";
-import getGameSettingsHandler from "./controllers/game/get-settings";
-import patchGameSettingsHandler from "./controllers/game/patch-settings";
 import patchGameUpdateHandler from "./controllers/game/patch-update";
+import patchGameUpdateOptionsHandler from "./controllers/game/patch-update-options";
+import patchGameUpdatePlayerHandler from "./controllers/game/patch-update-player";
+import patchGameUpdatePlayersHandler from "./controllers/game/patch-update-players";
 import postAddLogHandler from "./controllers/game/post-add-log";
 import postAddPlayerHandler from "./controllers/game/post-add-player";
 import postCopyPlayersHandler from "./controllers/game/post-copy-players";
 import postCreateGameHandler from "./controllers/game/post-create";
-import postLogCountsHandler from "./controllers/game/post-log-counts";
-import postPlayerCountsHandler from "./controllers/game/post-player-counts";
 import deletePlayerHandler from "./controllers/player/delete-player";
 import deletePlayerTagHandler from "./controllers/player/delete-tag";
 import getPlayerDetailHandler from "./controllers/player/get-detail";
@@ -31,6 +33,7 @@ import patchUpdateQuizHandler from "./controllers/quiz/patch-update";
 import postCreateQuizHandler from "./controllers/quiz/post-create";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
+// テスト用認証エンドポイント
 
 import { auth } from "@/utils/auth/auth";
 
@@ -58,19 +61,19 @@ const app = new Hono()
   // Games API
   .get("/games", ...getGameListHandler)
   .post("/games", ...postCreateGameHandler)
-  .patch("/games", ...patchGameUpdateHandler)
-  .delete("/games", ...deleteGameHandler)
   .get("/games/:gameId", ...getGameDetailHandler)
-  .get("/games/:gameId/settings", ...getGameSettingsHandler)
-  .patch("/games/:gameId/settings", ...patchGameSettingsHandler)
+  .patch("/games/:gameId", ...patchGameUpdateHandler)
+  .patch("/games/:gameId/options", ...patchGameUpdateOptionsHandler)
+  .delete("/games/:gameId", ...deleteGameHandler)
   .get("/games/:gameId/players", ...getGamePlayersHandler)
   .post("/games/:gameId/players", ...postAddPlayerHandler)
+  .patch("/games/:gameId/players", ...patchGameUpdatePlayersHandler)
+  .delete("/games/:gameId/players", ...deletePlayersHandler)
+  .patch("/games/players/:gamePlayerId", ...patchGameUpdatePlayerHandler)
   .post("/games/:game_id/copy-players", ...postCopyPlayersHandler)
   .get("/games/:gameId/logs", ...getGameLogsHandler)
   .post("/games/logs", ...postAddLogHandler)
   .delete("/games/logs/:logId", ...deleteLogHandler)
-  .post("/games/log-counts", ...postLogCountsHandler)
-  .post("/games/player-counts", ...postPlayerCountsHandler)
   // Players API
   .get("/players", ...getPlayerListHandler)
   .post("/players", ...postCreatePlayerHandler)
@@ -85,6 +88,9 @@ const app = new Hono()
   .patch("/quizes", ...patchUpdateQuizHandler)
   .delete("/quizes", ...deleteQuizHandler)
   .get("/quizes/:id", ...getQuizDetailHandler)
+  // テスト用認証
+  .post("/e2e/test-login", ...postTestLoginHandler)
+  .delete("/e2e/test-user", ...deleteTestUserHandler)
   // Auth
   .post("/auth/*", (c) => {
     return auth.handler(c.req.raw);

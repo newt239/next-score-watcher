@@ -7,23 +7,23 @@ import { cdate } from "cdate";
 import ButtonLink from "@/app/_components/ButtonLink";
 import Link from "@/app/_components/Link";
 
-type Props = {
+type GameListTableProps = {
   gameList: {
     id: string;
     name: string;
-    type: string;
-    player_count: number;
-    state: string;
-    last_open: string;
+    ruleType: string;
+    playerCount: number;
+    logCount: number;
+    updatedAt: string;
   }[];
 };
 
-const GameListTable: React.FC<Props> = ({ gameList }) => {
+const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
   return (
     <>
       {gameList.length === 0 ? (
         <p>
-          作成済みのクラウドゲームはありません。
+          作成済みのゲームはありません。
           <Link href="/rules">形式一覧</Link>
           ページから新しいゲームを作ることが出来ます。
         </p>
@@ -44,11 +44,11 @@ const GameListTable: React.FC<Props> = ({ gameList }) => {
               {gameList.map((game) => (
                 <Table.Tr key={game.id}>
                   <Table.Td>{game.name}</Table.Td>
-                  <Table.Td>{game.type}</Table.Td>
-                  <Table.Td>{game.player_count}人</Table.Td>
-                  <Table.Td>{game.state}</Table.Td>
+                  <Table.Td>{game.ruleType}</Table.Td>
+                  <Table.Td>{game.playerCount}人</Table.Td>
+                  <Table.Td>{game.logCount}問目</Table.Td>
                   <Table.Td>
-                    {cdate(game.last_open).format("MM/DD HH:mm")}
+                    {cdate(game.updatedAt).format("MM/DD HH:mm")}
                   </Table.Td>
                   <Table.Td>
                     <ButtonLink

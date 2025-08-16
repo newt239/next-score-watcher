@@ -5,7 +5,7 @@ import RuleList from "./_components/RuleList/RuleList";
 import { getUser } from "@/utils/auth/auth-helpers";
 
 export const metadata: Metadata = {
-  title: "クラウドゲーム作成",
+  title: "形式一覧",
   alternates: {
     canonical: "https://score-watcher.com/cloud-rules",
   },
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
   },
 };
 
-const CloudRulesPage = async () => {
+const RulesPage = async () => {
   const user = await getUser();
 
   return <RuleList userId={user?.id} />;
 };
 
-export default CloudRulesPage;
+export default RulesPage;

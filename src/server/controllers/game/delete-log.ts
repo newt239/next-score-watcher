@@ -1,12 +1,12 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import { removeGameLog } from "@/server/repositories/games";
+import { removeGameLog } from "@/server/repositories/game";
 
 const factory = createFactory();
 
 /**
- * クラウドゲームログ削除
+ * ゲームログ削除
  */
 const handler = factory.createHandlers(async (c) => {
   try {

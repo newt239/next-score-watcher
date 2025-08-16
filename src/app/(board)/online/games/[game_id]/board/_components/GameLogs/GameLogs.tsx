@@ -13,11 +13,12 @@ import { cdate } from "cdate";
 
 import classes from "./GameLogs.module.css";
 
-import type { OnlineGameDBPlayerProps, LogDBProps } from "@/models/games";
+import type { GamePlayerProps } from "@/models/games";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type GameLogsProps = {
-  logs: LogDBProps[];
-  players: OnlineGameDBPlayerProps[];
+  logs: SeriarizedGameLog[];
+  players: GamePlayerProps[];
   order: "asc" | "desc";
   onToggleOrder: () => void;
 };
@@ -31,7 +32,7 @@ const GameLogs: React.FC<GameLogsProps> = ({
   const [copied, setCopied] = useState<boolean>(false);
 
   const filteredLogs = useMemo(() => {
-    return logs.filter((log) => log.variant !== "multiple_wrong");
+    return logs.filter((log) => log.actionType !== "multiple_wrong");
   }, [logs]);
 
   const shownLogs = useMemo(() => {
@@ -48,17 +49,21 @@ const GameLogs: React.FC<GameLogsProps> = ({
   const copyAsHTML = async () => {
     const logsWithTableFormat = `<table><tbody>${shownLogs
       .map((log, qn) => {
-        const player = players.find((p) => p.id === log.player_id);
+        const player = players.find((p) => p.id === log.playerId);
         return `
         <tr>
           <td>${order === "desc" ? filteredLogs.length - qn : qn + 1}.</td>
           <td>${
-            player ? player.name : log.variant === "through" ? "(スルー)" : "-"
+            player
+              ? player.name
+              : log.actionType === "through"
+                ? "(スルー)"
+                : "-"
           }</td>
           <td>${
-            log.variant === "correct"
+            log.actionType === "correct"
               ? "o"
-              : log.variant === "wrong"
+              : log.actionType === "wrong"
                 ? "x"
                 : "-"
           }</td>
@@ -115,7 +120,7 @@ const GameLogs: React.FC<GameLogsProps> = ({
           <Table highlightOnHover>
             <Table.Tbody>
               {shownLogs.map((log, qn) => {
-                const player = players.find((p) => p.id === log.player_id);
+                const player = players.find((p) => p.id === log.playerId);
                 return (
                   <Table.Tr key={log.id}>
                     <Table.Td>
@@ -124,14 +129,14 @@ const GameLogs: React.FC<GameLogsProps> = ({
                     <Table.Td>
                       {player
                         ? player.name
-                        : log.variant === "through"
+                        : log.actionType === "through"
                           ? "(スルー)"
                           : "-"}
                     </Table.Td>
                     <Table.Td>
-                      {log.variant === "correct"
+                      {log.actionType === "correct"
                         ? "o"
-                        : log.variant === "wrong"
+                        : log.actionType === "wrong"
                           ? "x"
                           : "-"}
                     </Table.Td>

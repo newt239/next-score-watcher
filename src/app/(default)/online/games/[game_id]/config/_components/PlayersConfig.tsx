@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import {
@@ -13,22 +13,20 @@ import {
 import { useForm } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconGripVertical } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
-import type {
-  OnlineGameDBPlayerProps,
-  OnlinePlayerDBProps,
-  RuleNames,
-} from "@/models/games";
+import type { GamePlayerProps, PlayerProps, RuleNames } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   game_id: string;
   rule: RuleNames;
-  playerList: OnlinePlayerDBProps[];
-  players: OnlineGameDBPlayerProps[];
+  players: PlayerProps[];
+  gamePlayers: GamePlayerProps[];
+  onPlayerCountChange?: (playerCount: number) => void;
 };
 
 /**
@@ -38,21 +36,73 @@ type Props = {
 const PlayersConfig: React.FC<Props> = ({
   game_id,
   rule,
-  playerList,
   players,
+  gamePlayers,
+  onPlayerCountChange,
 }) => {
   const [isPending, startTransition] = useTransition();
-  const initialPlayersRef = useRef(players);
+  const [currentGamePlayers, setCurrentGamePlayers] = useState(gamePlayers);
+  const initialPlayersRef = useRef(gamePlayers);
   const isInitialMount = useRef(true);
+  const apiClient = createApiClient();
+
+  // propsが変更された時に内部状態も更新
+  useEffect(() => {
+    setCurrentGamePlayers(gamePlayers);
+  }, [gamePlayers]);
 
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      players,
+      players: currentGamePlayers,
     },
   });
 
+  // 内部状態が変更されたらフォームも更新
+  useEffect(() => {
+    form.setValues({ players: currentGamePlayers });
+  }, [currentGamePlayers]);
+
   const [debouncedPlayers] = useDebouncedValue(form.getValues().players, 500);
+
+  // プレイヤーの変更を処理
+  const handlePlayersChange = async (newGamePlayerIds: string[]) => {
+    // newGamePlayerIdsを基に新しいGamePlayerPropsの配列を作成
+    const newGamePlayers: GamePlayerProps[] = newGamePlayerIds.map(
+      (playerId, index) => {
+        // 既存のゲームプレイヤーから探す
+        const existingGamePlayer = currentGamePlayers.find(
+          (gp) => gp.id === playerId
+        );
+        if (existingGamePlayer) {
+          return {
+            ...existingGamePlayer,
+            displayOrder: index,
+          };
+        }
+
+        // 新しいプレイヤーの場合、playersから情報を取得
+        const player = players.find((p) => p.id === playerId);
+        return {
+          id: playerId,
+          name: player?.name || "不明なプレイヤー",
+          description: player?.description || "",
+          affiliation: player?.affiliation || "",
+          displayOrder: index,
+          initialScore: 0,
+          initialCorrectCount: 0,
+          initialWrongCount: 0,
+        } as GamePlayerProps;
+      }
+    );
+
+    setCurrentGamePlayers(newGamePlayers);
+
+    // 親コンポーネントにプレイヤー数の変更を通知
+    if (onPlayerCountChange) {
+      onPlayerCountChange(newGamePlayers.length);
+    }
+  };
 
   // デバウンス後の値が変更されたらAPIで更新
   useEffect(() => {
@@ -68,73 +118,46 @@ const PlayersConfig: React.FC<Props> = ({
       if (!initialPlayer) return true;
       return (
         player.name !== initialPlayer.name ||
-        player.initial_correct !== initialPlayer.initial_correct ||
-        player.initial_wrong !== initialPlayer.initial_wrong
+        player.initialCorrectCount !== initialPlayer.initialCorrectCount ||
+        player.initialWrongCount !== initialPlayer.initialWrongCount
       );
     });
 
     if (
-      debouncedPlayers.length === players.length &&
-      players.length > 0 &&
+      debouncedPlayers.length === currentGamePlayers.length &&
+      currentGamePlayers.length > 0 &&
       hasRealChanges
     ) {
       startTransition(async () => {
         try {
-          const apiClient = createApiClient();
-          const requestData = [
-            {
-              id: game_id,
-              players: debouncedPlayers.map((player) => ({
-                id: player.id,
-                name: player.name,
-                displayOrder: 0, // APIで自動設定
-                initialScore: 0,
-                initialCorrectCount: player.initial_correct || 0,
-                initialWrongCount: player.initial_wrong || 0,
-              })),
-            },
-          ];
+          const updateData = debouncedPlayers.map((player, index) => ({
+            id: player.id,
+            name: player.name,
+            displayOrder: index,
+            initialScore: player.initialScore || 0,
+            initialCorrectCount: player.initialCorrectCount || 0,
+            initialWrongCount: player.initialWrongCount || 0,
+          }));
 
-          console.log(
-            "PlayersConfig: Sending request to update players:",
-            requestData
+          const result = await parseResponse(
+            apiClient.games[":gameId"].players.$patch({
+              param: { gameId: game_id },
+              json: { players: updateData },
+            })
           );
 
-          const response = await apiClient.games.$patch({
-            json: requestData,
-          });
-
-          console.log("PlayersConfig: API Response status:", response.status);
-          console.log("PlayersConfig: API Response ok:", response.ok);
-
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error("PlayersConfig: API Response Error:", errorText);
-            throw new Error(
-              `Failed to update players: ${response.status} ${response.statusText} - ${errorText}`
-            );
-          }
-
-          const result = await response.json();
-          console.log("PlayersConfig: API Response result:", result);
-
-          if (result.success) {
-            console.log(
-              "PlayersConfig: Players updated successfully:",
-              result.data
-            );
+          if ("error" in result) {
+            console.error("Failed to update players");
           } else {
-            console.error("PlayersConfig: API returned error:", result);
-            throw new Error(
-              `API Error: ${(result as { error?: string }).error || "Unknown error"}`
-            );
+            // 成功した場合は初期値を更新
+            initialPlayersRef.current = [...debouncedPlayers];
           }
         } catch (error) {
           console.error("Failed to update players:", error);
         }
       });
     }
-  }, [debouncedPlayers, players.length, game_id]);
+  }, [debouncedPlayers, currentGamePlayers.length, game_id]);
 
   const fields = form.getValues().players.map((item, index) => (
     <Draggable
@@ -164,14 +187,16 @@ const PlayersConfig: React.FC<Props> = ({
                 <NumberInput
                   label="初期正答数"
                   size="md"
-                  key={form.key(`players.${index}.initial_correct`)}
-                  {...form.getInputProps(`players.${index}.initial_correct`)}
+                  key={form.key(`players.${index}.initialCorrectCount`)}
+                  {...form.getInputProps(
+                    `players.${index}.initialCorrectCount`
+                  )}
                 />
                 <NumberInput
                   label="初期誤答数"
                   size="md"
-                  key={form.key(`players.${index}.initial_wrong`)}
-                  {...form.getInputProps(`players.${index}.initial_wrong`)}
+                  key={form.key(`players.${index}.initialWrongCount`)}
+                  {...form.getInputProps(`players.${index}.initialWrongCount`)}
                 />
               </>
             )}
@@ -180,14 +205,16 @@ const PlayersConfig: React.FC<Props> = ({
                 <NumberInput
                   label="奇数問目の正解数"
                   size="md"
-                  key={form.key(`players.${index}.initial_correct`)}
-                  {...form.getInputProps(`players.${index}.initial_correct`)}
+                  key={form.key(`players.${index}.initialCorrectCount`)}
+                  {...form.getInputProps(
+                    `players.${index}.initialCorrectCount`
+                  )}
                 />
                 <NumberInput
                   label="偶数問目の正解数"
                   size="md"
-                  key={form.key(`players.${index}.initial_wrong`)}
-                  {...form.getInputProps(`players.${index}.initial_wrong`)}
+                  key={form.key(`players.${index}.initialWrongCount`)}
+                  {...form.getInputProps(`players.${index}.initialWrongCount`)}
                 />
               </>
             )}
@@ -199,7 +226,7 @@ const PlayersConfig: React.FC<Props> = ({
 
   return (
     <>
-      {players.length !== 0 && (
+      {currentGamePlayers.length !== 0 && (
         <>
           <DragDropContext
             onDragEnd={({ destination, source }) =>
@@ -223,10 +250,10 @@ const PlayersConfig: React.FC<Props> = ({
       )}
       <SelectPlayer
         game_id={game_id}
-        playerList={playerList}
         players={players}
-        form={form}
+        gamePlayers={currentGamePlayers}
         disabled={isPending}
+        onPlayersChange={handlePlayersChange}
       />
     </>
   );

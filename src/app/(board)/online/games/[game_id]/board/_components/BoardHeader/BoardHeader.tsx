@@ -156,7 +156,12 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
           </Menu.Dropdown>
         </Menu>
       </Flex>
-      <PreferenceDrawer isOpen={opened} onClose={close} userId={userId} />
+      <PreferenceDrawer
+        isOpen={opened}
+        onClose={close}
+        userId={userId}
+        initialPreferences={preferences}
+      />
     </>
   );
 };

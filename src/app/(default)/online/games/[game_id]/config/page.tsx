@@ -6,7 +6,7 @@ import { parseResponse } from "hono/client";
 import Config from "./_components/Config/Config";
 
 import { getUser } from "@/utils/auth/auth-helpers";
-import { createApiClientOnServer } from "@/utils/hono/server-client";
+import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
   title: "ゲーム設定",
@@ -29,37 +29,18 @@ const ConfigPage = async ({
 
   const apiClient = await createApiClientOnServer();
 
-  const [gameData, playersData, logsData] = await Promise.all([
-    parseResponse(
-      apiClient["games"][":gameId"].$get({ param: { gameId: game_id } })
-    ),
-    parseResponse(apiClient["players"].$get({ query: {} })),
-    parseResponse(
-      apiClient["games"][":gameId"]["logs"].$get({
-        param: { gameId: game_id },
-      })
-    ),
-  ]);
+  const gameData = await parseResponse(
+    apiClient.games[":gameId"].$get({ param: { gameId: game_id } })
+  );
+  const playersData = await parseResponse(
+    apiClient.players.$get({ query: {} })
+  );
 
-  if ("error" in gameData || "error" in playersData || "error" in logsData) {
+  if ("error" in gameData || "error" in playersData) {
     return "データ取得に失敗しました";
   }
 
-  const game = gameData.game;
-  const players = playersData.data.players;
-  const logs = logsData.logs.filter(
-    (log) => log.system === 0 && log.available === 1
-  );
-
-  return (
-    <Config
-      gameId={game_id}
-      user={user}
-      initialGame={{ ...game, settings: {} }}
-      initialPlayers={players}
-      initialLogs={logs}
-    />
-  );
+  return <Config user={user} game={gameData} players={playersData} />;
 };
 
 export default ConfigPage;

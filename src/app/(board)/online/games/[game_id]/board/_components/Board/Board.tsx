@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useTransition,
-} from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 
 import { Box, Button, Flex, Text, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
+import { parseResponse } from "hono/client";
 
 import AQL from "../AQL/AQL";
 import ActionButtons from "../ActionButtons/ActionButtons";
@@ -21,67 +16,40 @@ import Players from "../Players/Players";
 import classes from "./Board.module.css";
 
 import type {
-  OnlineGameType,
-  OnlineUserType,
-  OnlineGameDBPlayerProps,
+  GamePlayerProps,
+  GetGameDetailResponseType,
   LogDBProps,
+  OnlineUserType,
 } from "@/models/games";
 import type { UserPreferencesType } from "@/models/user-preferences";
+import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";
-import createApiClient from "@/utils/hono/client";
-import { computeOnlineScore } from "@/utils/online/computeScore";
+import createApiClient from "@/utils/hono/browser";
+import { computeOnlineScore } from "@/utils/online/computeScore/computeOnlineScore";
 
 type BoardProps = {
   gameId: string;
   user: OnlineUserType | null;
-  initialGame: OnlineGameType;
-  initialPlayers: unknown[];
-  initialLogs: unknown[];
-  initialSettings: Record<string, unknown>;
+  initialGame: GetGameDetailResponseType;
+  initialPreferences: UserPreferencesType | null;
 };
 
 const Board: React.FC<BoardProps> = ({
   gameId,
   user,
   initialGame,
-  initialPlayers,
-  initialLogs,
-  initialSettings,
+  initialPreferences,
 }) => {
-  // プレイヤーデータの変換
-  const convertedPlayers = (initialPlayers as unknown[]).map((p) => {
-    const player = p as {
-      id: string;
-      name: string;
-      initial_correct?: number;
-      initial_wrong?: number;
-    };
-    return {
-      id: player.id,
-      name: player.name,
-      initial_correct: player.initial_correct || 0,
-      initial_wrong: player.initial_wrong || 0,
-      base_correct_point: 1,
-      base_wrong_point: 1,
-    };
-  });
-
-  // ログデータの変換
-  const convertedLogs = (initialLogs as unknown[]).map((l) => {
-    const log = l as LogDBProps;
-    return log;
-  });
-
-  const [players] = useState<OnlineGameDBPlayerProps[]>(convertedPlayers);
-  const [logs, setLogs] = useState<LogDBProps[]>(convertedLogs);
+  const [players] = useState<GamePlayerProps[]>(initialGame.players);
+  const [logs, setLogs] = useState<SeriarizedGameLog[]>(initialGame.logs);
   const [isPending, startTransition] = useTransition();
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [skipSuggest, setSkipSuggest] = useState(false);
 
-  // API経由でユーザー設定を管理
-  const [preferences, setPreferences] = useState<UserPreferencesType | null>(
-    null
+  // サーバーから取得した設定を使用
+  const [preferences] = useState<UserPreferencesType | null>(
+    initialPreferences
   );
 
   // 勝ち抜けモーダル制御
@@ -93,93 +61,38 @@ const Board: React.FC<BoardProps> = ({
     text: "",
   });
 
-  const api = useMemo(() => createApiClient(), []);
-
-  // 設定を取得
-  const fetchPreferences = useCallback(async () => {
-    if (!user?.id) return;
-
-    try {
-      const res = await api["user"][":user_id"]["preferences"].$get({
-        param: { user_id: user.id },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data && "preferences" in data) {
-          setPreferences(data.preferences);
-        }
-      }
-    } catch (error) {
-      console.error("Failed to fetch preferences:", error);
-    }
-  }, [api, user?.id]);
+  const apiClient = createApiClient();
 
   const refreshLogs = useCallback(async () => {
-    try {
-      const res = await api["games"][":gameId"]["logs"].$get({
+    const res = await parseResponse(
+      apiClient.games[":gameId"].logs.$get({
         param: { gameId },
-      });
-      if (res.ok) {
-        const json = await res.json();
-        if (json && "logs" in json && Array.isArray(json.logs)) {
-          const validLogs = json.logs
-            .filter(
-              (log: unknown) =>
-                log &&
-                typeof log === "object" &&
-                "id" in log &&
-                "player_id" in log &&
-                "variant" in log &&
-                "system" in log &&
-                "available" in log &&
-                (log.system === 0 || log.system === 1) &&
-                (log.available === 0 || log.available === 1)
-            )
-            .map((log: unknown) => {
-              const typedLog = log as LogDBProps;
-              return {
-                ...typedLog,
-                system: typedLog.system as 0 | 1,
-                available: typedLog.available as 0 | 1,
-              } as LogDBProps;
-            });
-          setLogs(validLogs);
-        }
-      }
-    } catch (e) {
-      console.error("Failed to refresh logs:", e);
-      notifications.show({
-        title: "エラー",
-        message: "ログの取得に失敗しました",
-        color: "red",
-      });
+      })
+    );
+    if ("error" in res) {
+      console.error("Failed to fetch logs:", res.error);
+      return;
     }
-  }, [api, gameId]);
+    setLogs(res.logs);
+  }, [gameId]);
 
   const addLog = useCallback(
     async (playerId: string, actionType: LogDBProps["variant"]) => {
       startTransition(async () => {
-        try {
-          await api["games"]["logs"].$post({
+        await parseResponse(
+          apiClient.games.logs.$post({
             json: {
               gameId,
               playerId,
               actionType,
               isSystemAction: false,
             },
-          });
-          await refreshLogs();
-        } catch (e) {
-          console.error("Failed to add log:", e);
-          notifications.show({
-            title: "エラー",
-            message: "操作の記録に失敗しました",
-            color: "red",
-          });
-        }
+          })
+        );
+        await refreshLogs();
       });
     },
-    [api, gameId, refreshLogs]
+    [gameId, refreshLogs]
   );
 
   const addThrough = useCallback(() => {
@@ -191,9 +104,11 @@ const Board: React.FC<BoardProps> = ({
     if (!last) return;
     startTransition(async () => {
       try {
-        await api["games"]["logs"][":logId"].$delete({
-          param: { logId: String(last.id) },
-        });
+        await parseResponse(
+          apiClient.games.logs[":logId"].$delete({
+            param: { logId: String(last.id) },
+          })
+        );
         await refreshLogs();
       } catch (e) {
         console.error("Failed to undo log:", e);
@@ -204,7 +119,7 @@ const Board: React.FC<BoardProps> = ({
         });
       }
     });
-  }, [api, logs, refreshLogs]);
+  }, [logs, refreshLogs]);
 
   // キーボードショートカット
   useEffect(() => {
@@ -239,33 +154,7 @@ const Board: React.FC<BoardProps> = ({
   useEffect(() => {
     if (!initialGame || !players.length) return;
 
-    const { winPlayers } = computeOnlineScore(
-      {
-        id: initialGame.id,
-        name: initialGame.name,
-        ruleType: initialGame.ruleType,
-      },
-      players,
-      logs,
-      {
-        winPoint:
-          typeof initialSettings.winPoint === "number"
-            ? initialSettings.winPoint
-            : undefined,
-        losePoint:
-          typeof initialSettings.losePoint === "number"
-            ? initialSettings.losePoint
-            : undefined,
-        targetPoint:
-          typeof initialSettings.targetPoint === "number"
-            ? initialSettings.targetPoint
-            : undefined,
-        restCount:
-          typeof initialSettings.restCount === "number"
-            ? initialSettings.restCount
-            : undefined,
-      }
-    );
+    const { winPlayers } = computeOnlineScore(initialGame, players, logs);
 
     if (winPlayers && winPlayers.length > 0) {
       const first = winPlayers[0];
@@ -281,10 +170,12 @@ const Board: React.FC<BoardProps> = ({
       (s) => s.state === "playing" && s.is_incapacity
     );
     const last = logs[logs.length - 1];
+    if (!last) return;
+
     const allWrong =
-      last?.variant === "multiple_wrong" &&
-      typeof last.player_id === "string" &&
-      last.player_id.split(",").length === playingPlayers.length;
+      last.actionType === "multiple_wrong" &&
+      typeof last.playerId === "string" &&
+      last.playerId.split(",").length === playingPlayers.length;
     const allRest =
       playingPlayers.length > 0 &&
       playingPlayers.length === incapacityPlayers.length;
@@ -294,12 +185,7 @@ const Board: React.FC<BoardProps> = ({
     } else {
       setSkipSuggest(false);
     }
-  }, [logs, initialGame, players, initialSettings]);
-
-  // 初期設定取得
-  useEffect(() => {
-    fetchPreferences();
-  }, [fetchPreferences]);
+  }, [logs, initialGame, players]);
 
   if (!user) {
     return (
@@ -309,33 +195,7 @@ const Board: React.FC<BoardProps> = ({
     );
   }
 
-  const { scores } = computeOnlineScore(
-    {
-      id: initialGame.id,
-      name: initialGame.name,
-      ruleType: initialGame.ruleType,
-    },
-    players,
-    logs,
-    {
-      winPoint:
-        typeof initialSettings.winPoint === "number"
-          ? initialSettings.winPoint
-          : undefined,
-      losePoint:
-        typeof initialSettings.losePoint === "number"
-          ? initialSettings.losePoint
-          : undefined,
-      targetPoint:
-        typeof initialSettings.targetPoint === "number"
-          ? initialSettings.targetPoint
-          : undefined,
-      restCount:
-        typeof initialSettings.restCount === "number"
-          ? initialSettings.restCount
-          : undefined,
-    }
-  );
+  const { scores } = computeOnlineScore(initialGame, players, logs);
 
   return (
     <>
@@ -367,14 +227,8 @@ const Board: React.FC<BoardProps> = ({
           isPending={isPending}
           onAddLog={addLog}
           team_name={{
-            left_team:
-              typeof initialSettings.leftTeam === "string"
-                ? initialSettings.leftTeam
-                : "Left Team",
-            right_team:
-              typeof initialSettings.rightTeam === "string"
-                ? initialSettings.rightTeam
-                : "Right Team",
+            left_team: initialGame.option.left_team ?? "",
+            right_team: initialGame.option.right_team ?? "",
           }}
           show_header={preferences?.showBoardHeader ?? true}
         />
@@ -395,6 +249,7 @@ const Board: React.FC<BoardProps> = ({
         onUndo={undo}
         onThrough={addThrough}
         userId={user.id}
+        preferences={preferences}
       />
 
       <GameLogs

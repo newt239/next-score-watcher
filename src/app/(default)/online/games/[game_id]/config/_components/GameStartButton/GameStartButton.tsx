@@ -3,48 +3,47 @@ import { IconPlayerPlay } from "@tabler/icons-react";
 
 import classes from "./GameStartButton.module.css";
 
-import type {
-  OnlineGameExecutionPlayerType,
-  OnlineGameLogType,
-  OnlineGameType,
-} from "@/models/games";
+import type { RuleNames } from "@/models/games";
 
 import ButtonLink from "@/app/_components/ButtonLink";
 
 type GameStartButtonProps = {
-  logs: OnlineGameLogType[];
-  game: OnlineGameType & {
-    players?: OnlineGameExecutionPlayerType[];
-    settings?: Record<string, unknown>;
-  };
+  ruleType: RuleNames;
+  playerCount: number;
+  logCount: number;
+  winThrough?: number;
 };
 
-const GameStartButton: React.FC<GameStartButtonProps> = ({ logs, game }) => {
+const GameStartButton: React.FC<GameStartButtonProps> = ({
+  ruleType,
+  playerCount,
+  logCount,
+  winThrough,
+}) => {
   const errorMessages = [];
-  if (!game.players || game.players.length === 0) {
+  if (playerCount === 0) {
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
   }
-  if (game.players && game.players.length > 14) {
+  if (playerCount > 14) {
     errorMessages.push("プレイヤー人数は14人以内で設定してください。");
   }
 
   // ゲーム設定から勝ち抜け人数を取得
-  const winThrough = game.settings?.win_through as number | undefined;
-  if (winThrough && game.players && game.players.length <= winThrough) {
+  if (winThrough && playerCount <= winThrough) {
     errorMessages.push(
       "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
     );
   }
 
-  if (logs.length > 0) {
+  if (logCount > 0) {
     errorMessages.push(
       `現在${
-        logs.length + 1
+        logCount + 1
       }問目です。ゲームが開始済みであるため、一部の設定を変更するとプレイログが削除されることがあります。`
     );
   }
 
-  if (game.ruleType === "aql" && game.players && game.players.length !== 10) {
+  if (ruleType === "aql" && playerCount !== 10) {
     errorMessages.push("AQLは10人でプレイする必要があります。");
   }
 
@@ -81,7 +80,7 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({ logs, game }) => {
             leftSection={<IconPlayerPlay />}
             miw={200}
           >
-            {logs.length === 0 ? "ゲーム開始" : "ボードを開く"}
+            {logCount === 0 ? "ゲーム開始" : "ボードを開く"}
           </ButtonLink>
         )}
       </Flex>

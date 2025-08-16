@@ -1,12 +1,12 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import { getGame } from "@/server/repositories/games";
+import { getGameById } from "@/server/repositories/game";
 
 const factory = createFactory();
 
 /**
- * クラウドゲーム詳細取得
+ * ゲーム詳細取得
  */
 const handler = factory.createHandlers(async (c) => {
   try {
@@ -21,12 +21,12 @@ const handler = factory.createHandlers(async (c) => {
       return c.json({ error: "ゲームIDが必要です" } as const, 400);
     }
 
-    const game = await getGame(gameId, userId);
-    if (!game) {
+    const data = await getGameById(gameId, userId);
+    if (!data) {
       return c.json({ error: "ゲームが見つかりません" } as const, 404);
     }
 
-    return c.json({ game } as const);
+    return c.json(data);
   } catch (error) {
     console.error("Error fetching cloud game:", error);
     return c.json({ error: "サーバーエラーが発生しました" } as const, 500);

@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { UpdateGameSettingsRequestSchema } from "@/models/games";
 import { getUserId } from "@/server/repositories/auth";
-import { updateGameSettings } from "@/server/repositories/games";
+import { updateGameSettings } from "@/server/repositories/game";
 
 const factory = createFactory();
 

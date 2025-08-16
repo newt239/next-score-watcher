@@ -10,19 +10,27 @@ import DeleteGame from "./DeleteGame";
 import ExportGame from "./ExportGame";
 import SelectQuizset from "./SelectQuizset";
 
-import type { OnlineGameProps } from "@/models/games";
+import type { RuleNames } from "@/models/games";
 
-import createApiClient from "@/utils/hono/client";
+import createApiClient from "@/utils/hono/browser";
 
 type Props = {
-  game: OnlineGameProps;
+  gameId: string;
+  gameName: string;
+  ruleType: RuleNames;
+  discordWebhookUrl: string;
 };
 
 /**
  * オンライン版その他設定コンポーネント
  * クイズセット選択、オプション設定、ゲーム管理機能を提供
  */
-const OtherConfig: React.FC<Props> = ({ game }) => {
+const OtherConfig: React.FC<Props> = ({
+  gameId,
+  gameName,
+  ruleType,
+  discordWebhookUrl,
+}) => {
   const [quizsets, setQuizsets] = useState<string[]>([]);
 
   useEffect(() => {
@@ -54,7 +62,7 @@ const OtherConfig: React.FC<Props> = ({ game }) => {
   return (
     <Box>
       <SelectQuizset
-        game_id={game.id}
+        game_id={gameId}
         game_quiz={undefined}
         quizset_names={quizsets}
       />
@@ -62,18 +70,23 @@ const OtherConfig: React.FC<Props> = ({ game }) => {
         オプション
       </Title>
       <ConfigInput
-        gameId={game.id}
+        gameId={gameId}
         label="Discord Webhook"
         placeholder="https://discord.com/api/webhooks/..."
-        value={game.discord_webhook_url || ""}
+        value={discordWebhookUrl}
         fieldName="discordWebhookUrl"
       />
       <Title order={3} mt="xl">
         ゲーム
       </Title>
-      <CopyGame game={game} />
-      <ExportGame game={game} />
-      <DeleteGame game={game} />
+      <CopyGame
+        gameId={gameId}
+        gameName={gameName}
+        ruleType={ruleType}
+        discordWebhookUrl={discordWebhookUrl}
+      />
+      <ExportGame gameId={gameId} ruleType={ruleType} />
+      <DeleteGame gameId={gameId} gameName={gameName} ruleType={ruleType} />
     </Box>
   );
 };

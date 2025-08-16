@@ -1,7 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
-import { ensureUserPreferences } from "../../server/repositories/user-preferences";
+import { ensureUserPreferences } from "../../server/repositories/user";
 import { DBClient } from "../drizzle/client";
 import { account, session, user, verification } from "../drizzle/schema";
 
@@ -21,7 +21,9 @@ export const auth = betterAuth({
     },
   }),
   emailAndPassword: {
-    enabled: false,
+    // テスト環境のみ有効化
+    enabled: process.env.NODE_ENV !== "production",
+    requireEmailVerification: false, // テスト用のため検証不要
   },
   socialProviders: {
     google: {

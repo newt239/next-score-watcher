@@ -4,9 +4,9 @@ import { createFactory } from "hono/factory";
 import { UpdateUserPreferencesRequestSchema } from "@/models/user-preferences";
 import { getUserId } from "@/server/repositories/auth";
 import {
-  updateUserPreferencesByUserId,
   ensureUserPreferences,
-} from "@/server/repositories/user-preferences";
+  updateUserPreferencesByUserId,
+} from "@/server/repositories/user";
 
 const factory = createFactory();
 
