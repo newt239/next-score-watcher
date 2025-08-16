@@ -13,8 +13,8 @@ const ViewerPlayer = ({ player }: ViewerPlayerProps) => {
   // プレイヤー名を取得（player.textを使用）
   const playerName = player.text || `プレイヤー${player.player_id}`;
   return (
-    <div className={styles.playerCard}>
-      <div className={styles.playerInfo}>
+    <div className={styles["player-card"]}>
+      <div className={styles["player-info"]}>
         <Text size="lg" fw={600} c="white">
           {playerName}
         </Text>
@@ -22,11 +22,11 @@ const ViewerPlayer = ({ player }: ViewerPlayerProps) => {
           {player.order}位
         </Text>
       </div>
-      <div className={styles.playerScore}>
+      <div className={styles["player-score"]}>
         <Text size="xl" fw={700} c="yellow">
           {player.score}pt
         </Text>
-        <div className={styles.playerStats}>
+        <div className={styles["player-stats"]}>
           <Text size="sm" c="green">
             正解: {player.correct}
           </Text>
