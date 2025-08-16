@@ -102,7 +102,7 @@ const Config: React.FC<ConfigProps> = ({ user, game, players }) => {
               gameName={game.name}
               ruleType={game.ruleType}
               discordWebhookUrl={game.discordWebhookUrl || ""}
-              isPublic={game.isPublic || false}
+              isPublic={game.isPublic}
             />
           </Tabs.Panel>
         </Box>

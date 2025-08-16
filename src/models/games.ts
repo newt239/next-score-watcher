@@ -127,6 +127,7 @@ export type GamePlayerProps = {
  * ゲーム詳細取得のレスポンスの型
  */
 export type GetGameDetailResponseType = TypedGame & {
+  isPublic: boolean;
   players: GamePlayerProps[];
   logs: SeriarizedGameLog[];
 };

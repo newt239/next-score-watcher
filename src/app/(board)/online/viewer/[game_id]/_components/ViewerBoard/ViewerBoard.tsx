@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { Flex, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
+
+import ViewerAQLBoard from "../ViewerAQLBoard/ViewerAQLBoard";
+import ViewerPlayer from "../ViewerPlayer/ViewerPlayer";
 
 import styles from "./ViewerBoard.module.css";
 
-import type {
-  ComputedScoreProps,
-  GetViewerBoardDataResponseType,
-} from "@/models/games";
+import type { GetViewerBoardDataResponseType } from "@/models/games";
 
 import createApiClient from "@/utils/hono/browser";
 
@@ -55,16 +55,6 @@ const ViewerBoard = ({ gameId, initialData }: ViewerBoardProps) => {
     return () => clearInterval(interval);
   }, [fetchData]);
 
-  // ページのフォーカス時に即座に更新
-  useEffect(() => {
-    const handleFocus = () => {
-      fetchData();
-    };
-
-    window.addEventListener("focus", handleFocus);
-    return () => window.removeEventListener("focus", handleFocus);
-  }, [fetchData]);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -84,12 +74,12 @@ const ViewerBoard = ({ gameId, initialData }: ViewerBoardProps) => {
       <div className={styles.board}>
         {gameData.game.ruleType === "aql" ? (
           <div className={styles.aqlBoard}>
-            <AQLViewerBoard players={players} />
+            <ViewerAQLBoard players={players} />
           </div>
         ) : (
           <div className={styles.playersList}>
             {players.map((player) => (
-              <PlayerViewerCard key={player.player_id} player={player} />
+              <ViewerPlayer key={player.player_id} player={player} />
             ))}
           </div>
         )}
@@ -114,69 +104,6 @@ const ViewerBoard = ({ gameId, initialData }: ViewerBoardProps) => {
             );
           })}
         </div>
-      </div>
-    </div>
-  );
-};
-
-// 個別プレイヤーカード（観戦専用）
-type PlayerCardProps = {
-  player: ComputedScoreProps;
-};
-
-const PlayerViewerCard = ({ player }: PlayerCardProps) => {
-  // プレイヤー名を取得（player.textを使用）
-  const playerName = player.text || `プレイヤー${player.player_id}`;
-  return (
-    <div className={styles.playerCard}>
-      <div className={styles.playerInfo}>
-        <Text size="lg" fw={600} c="white">
-          {playerName}
-        </Text>
-        <Text size="sm" c="dimmed">
-          {player.order}位
-        </Text>
-      </div>
-      <div className={styles.playerScore}>
-        <Text size="xl" fw={700} c="yellow">
-          {player.score}pt
-        </Text>
-        <div className={styles.playerStats}>
-          <Text size="sm" c="green">
-            正解: {player.correct}
-          </Text>
-          <Text size="sm" c="red">
-            誤答: {player.wrong}
-          </Text>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// AQL専用ボード（観戦専用）
-const AQLViewerBoard = ({ players }: { players: ComputedScoreProps[] }) => {
-  return (
-    <div className={styles.aqlContainer}>
-      <div className={styles.aqlPlayers}>
-        {players.map((player) => (
-          <div key={player.player_id} className={styles.aqlPlayer}>
-            <Text size="md" fw={600} c="white" ta="center">
-              {player.text || `プレイヤー${player.player_id}`}
-            </Text>
-            <Text size="xl" fw={700} c="yellow" ta="center">
-              {player.score}
-            </Text>
-            <Flex gap="sm" justify="center">
-              <Text size="sm" c="green">
-                {player.correct}
-              </Text>
-              <Text size="sm" c="red">
-                {player.wrong}
-              </Text>
-            </Flex>
-          </div>
-        ))}
       </div>
     </div>
   );

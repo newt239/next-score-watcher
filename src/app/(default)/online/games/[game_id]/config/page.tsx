@@ -40,7 +40,7 @@ const ConfigPage = async ({
     return "データ取得に失敗しました";
   }
 
-  return <Config user={user} game={gameData} players={playersData} />;
+  return <Config user={user} game={gameData.data} players={playersData} />;
 };
 
 export default ConfigPage;

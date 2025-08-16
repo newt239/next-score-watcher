@@ -26,7 +26,7 @@ const handler = factory.createHandlers(async (c) => {
       return c.json({ error: "ゲームが見つかりません" } as const, 404);
     }
 
-    return c.json(data);
+    return c.json({ data } as const);
   } catch (error) {
     console.error("Error fetching cloud game:", error);
     return c.json({ error: "サーバーエラーが発生しました" } as const, 500);

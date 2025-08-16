@@ -44,7 +44,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ gameId, ruleType }) => {
         }
 
         if (data) {
-          setGame(data);
+          setGame(data.data);
         } else {
           setError("設定の取得に失敗しました");
         }

@@ -20,7 +20,7 @@ type Props = {
   gameName: string;
   ruleType: RuleNames;
   discordWebhookUrl: string;
-  isPublic?: boolean;
+  isPublic: boolean;
 };
 
 /**
@@ -32,7 +32,7 @@ const OtherConfig: React.FC<Props> = ({
   gameName,
   ruleType,
   discordWebhookUrl,
-  isPublic = false,
+  isPublic,
 }) => {
   const [quizsets, setQuizsets] = useState<string[]>([]);
 

@@ -48,7 +48,7 @@ export const game = sqliteTable("game", {
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   discordWebhookUrl: text("discord_webhook_url"),
   option: blob("options", { mode: "json" }),
-  isPublic: integer("is_public", { mode: "boolean" }).default(false),
+  isPublic: integer("is_public", { mode: "boolean" }).default(false).notNull(),
   userId: text("user_id").references(() => user.id),
 });
 
