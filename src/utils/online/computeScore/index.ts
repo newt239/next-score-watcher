@@ -51,8 +51,10 @@ const getInitialScore = (
         (player.initialScore ?? 0) -
         initialBackstreamWrong(player.initialScore ?? 0)
       );
-    case "squarex":
-      return (player.initialScore || 1) * (player.initialScore || 1);
+    case "squarex": {
+      const baseScore = player.initialScore ?? 0;
+      return baseScore * baseScore;
+    }
     case "aql":
       return 1;
     default:

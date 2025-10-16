@@ -73,6 +73,7 @@ CREATE TABLE `game` (
 	`deleted_at` integer,
 	`discord_webhook_url` text,
 	`options` blob,
+	`is_public` integer DEFAULT false NOT NULL,
 	`user_id` text,
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );

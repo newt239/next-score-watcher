@@ -340,3 +340,7 @@ Backstream形式の最大の特徴は、誤答を重ねるほど減点幅が大�
 4. **学習支援機能**：最適解答タイミングの提案
 
 この形式は、誤答に対して累積的かつ段階的なペナルティを設けることで、プレイヤーに継続的なリスク管理と数学的思考を要求する高度な戦略性を持つルールです。失格の可能性と復活の可能性を両立させることで、最後まで緊張感を維持できる競技形式として設計されています。
+
+## ユニットテスト観点
+
+ユニットテストでは`getInitialPlayersStateForOnline`がbackstream形式のプレイヤーに対して初期スコアを`initialScore - initialBackstreamWrong(initialScore)`で計算すること、誤答数が`initialBackstreamWrong`の戻り値に一致すること、正解数が`initialScore`で開始することを確認する。`initialBackstreamWrong`単体のテストも行い、0〜4の入力で三角数が返り、5以上で値が10に固定される境界値を検証する。さらに、複数プレイヤーを同点・異なる誤答数の組み合わせで初期化し、`getSortedPlayerOrderListForOnline`が誤答数の少ないプレイヤーを上位に並べることを確かめる。
