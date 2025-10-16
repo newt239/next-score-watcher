@@ -8,7 +8,7 @@ import ConfigInput from "./ConfigInput";
 import ConfigLimit from "./ConfigLimit/ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
 
-import { GamePropsUnion } from "@/utils/types";
+import type { GamePropsUnion } from "@/utils/types";
 
 type RuleSettingsProps = {
   game: GamePropsUnion;
@@ -31,7 +31,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
       min: undefined,
     },
     nomr: {
-      name: "休み(M)",
+      name: "勝ち抜け(N)",
       max: 100,
       min: undefined,
     },
@@ -169,7 +169,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
           <ConfigBooleanInput
             input_id="use_r"
             rule={game.rule}
-            helperText="オンにすると、誤答のたびに指定された回数だけ休みとなります。"
+            helperText="オンにすると、誤答のたびに「失格誤答数」で指定された回数だけ休みとなります。このとき、何回誤答しても失格にはなりません。"
             label="NOM休を利用する"
             currentProfile={currentProfile}
           />

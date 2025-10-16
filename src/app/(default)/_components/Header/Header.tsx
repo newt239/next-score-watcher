@@ -10,7 +10,9 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
-export default async function Header() {
+import { getUser } from "@/utils/auth/auth-helpers";
+
+const Header = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
@@ -18,6 +20,9 @@ export default async function Header() {
     : [];
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
+
+  // Better Authユーザー取得
+  const user = await getUser();
 
   const common = {
     alt: "Score Watcherのロゴ。モノカラーで、三日月の中央部に円が配置された形をしている。",
@@ -57,11 +62,11 @@ export default async function Header() {
         </Flex>
         <Box hiddenFrom="md">
           <Hamburger>
-            <SubMenu />
+            <SubMenu user={user} />
           </Hamburger>
         </Box>
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
-          <SubMenu />
+          <SubMenu user={user} />
           <Flex direction="column" gap={4}>
             <SelectProfile
               profileList={profileList}
@@ -86,4 +91,6 @@ export default async function Header() {
       </Flex>
     </Box>
   );
-}
+};
+
+export default Header;

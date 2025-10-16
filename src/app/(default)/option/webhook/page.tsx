@@ -1,10 +1,10 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Code } from "@mantine/core";
 import { IconArrowBackUp } from "@tabler/icons-react";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 
 export const metadata: Metadata = {
   title: "Webhookについて",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WebhookPage() {
+const WebhookPage = () => {
   return (
     <>
       <ButtonLink
@@ -51,4 +51,6 @@ export default function WebhookPage() {
       </div>
     </>
   );
-}
+};
+
+export default WebhookPage;

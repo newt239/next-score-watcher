@@ -6,7 +6,7 @@ import AQLPlayer from "../AQLPlayer/AQLPlayer";
 
 import classes from "./AQL.module.css";
 
-import {
+import type {
   ComputedScoreProps,
   GamePropsUnion,
   PlayerDBProps,

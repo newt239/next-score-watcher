@@ -1,10 +1,11 @@
+import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
-import { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
 const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
@@ -24,7 +25,7 @@ const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
                 last_correct: qn,
                 state: "win",
               };
-            } else if (newScore === game.win_point!) {
+            } else if (newScore === game.win_point! - 1) {
               return {
                 ...playerState,
                 score: newScore,
@@ -42,7 +43,7 @@ const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
             }
           case "wrong":
             const newWrong = playerState.wrong + 1;
-            if (newWrong >= game.lose_point!) {
+            if (game.lose_point && newWrong >= game.lose_point) {
               return {
                 ...playerState,
                 score: playerState.score - 1,
@@ -50,10 +51,7 @@ const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
                 last_wrong: qn,
                 state: "lose",
               };
-            } else if (
-              newWrong + 1 === game.lose_point! &&
-              playerState.correct + 1 !== game.win_point!
-            ) {
+            } else if (game.lose_point && newWrong === game.lose_point - 1) {
               return {
                 ...playerState,
                 score: playerState.score - 1,

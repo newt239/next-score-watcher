@@ -1,0 +1,8 @@
+.tab_panel_area {
+  background-color: var(--mantine-color-gray-1);
+  border-radius: 0.5rem;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--mantine-color-gray-8);
+  }
+}

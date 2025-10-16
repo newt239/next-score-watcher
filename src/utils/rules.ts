@@ -1,4 +1,4 @@
-import { GamePropsUnion, RuleNames } from "@/utils/types";
+import type { GamePropsUnion, RuleNames } from "@/utils/types";
 
 type RuleProps = {
   [T in RuleNames]: {

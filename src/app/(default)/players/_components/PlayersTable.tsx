@@ -28,9 +28,10 @@ import {
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import type { PlayerDBProps } from "@/utils/types";
+
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
-import { PlayerDBProps } from "@/utils/types";
 
 type Props = {
   currentProfile: string;

@@ -5,8 +5,9 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
+import type { GamePropsUnion } from "@/utils/types";
+
 import computeScore from "@/utils/computeScore";
-import { GamePropsUnion } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;

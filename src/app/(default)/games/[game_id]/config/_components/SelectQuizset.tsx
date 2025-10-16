@@ -4,9 +4,10 @@ import { NativeSelect, NumberInput } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconUpload } from "@tabler/icons-react";
 
+import type { GameDBQuizProps } from "@/utils/types";
+
 import ButtonLink from "@/app/_components/ButtonLink";
 import db from "@/utils/db";
-import { GameDBQuizProps } from "@/utils/types";
 
 type Props = {
   game_id: string;

@@ -5,7 +5,7 @@ import { IconArrowRight } from "@tabler/icons-react";
 
 import classes from "./Hero.module.css";
 
-export default function Hero() {
+const Hero = () => {
   return (
     <Box className={classes.hero}>
       <Image
@@ -42,4 +42,6 @@ export default function Hero() {
       </Box>
     </Box>
   );
-}
+};
+
+export default Hero;

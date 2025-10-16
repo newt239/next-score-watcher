@@ -4,6 +4,18 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  webpack: (config) => {
+    config.infrastructureLogging = {
+      level: "error",
+    };
+
+    // パフォーマンス警告を抑制
+    config.performance = {
+      hints: false,
+    };
+
+    return config;
+  },
 };
 
 export default withSentryConfig(nextConfig, {

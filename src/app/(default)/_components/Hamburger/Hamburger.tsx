@@ -30,7 +30,13 @@ const Hamburger: React.FC<Props> = ({ children }) => {
 
   return (
     <>
-      <Burger color="white" opened={opened} onClick={toggle} />
+      <Burger
+        color="white"
+        className={classes.burger}
+        opened={opened}
+        onClick={toggle}
+        aria-label="メニューを開く"
+      />
       <nav className={classes.burger_menu} data-show={opened}>
         {children}
       </nav>

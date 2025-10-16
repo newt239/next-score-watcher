@@ -7,15 +7,16 @@ import { IconCirclePlus } from "@tabler/icons-react";
 
 import classes from "./RuleList.module.css";
 
+import type { RuleNames } from "@/utils/types";
+
 import { createGame } from "@/utils/functions";
 import { rules } from "@/utils/rules";
-import { RuleNames } from "@/utils/types";
 
-type Props = {
+type RuleListProps = {
   currentProfile: string;
 };
 
-const RuleList: React.FC<Props> = ({ currentProfile }) => {
+const RuleList: React.FC<RuleListProps> = ({ currentProfile }) => {
   const router = useRouter();
   const ruleNameList = Object.keys(rules) as RuleNames[];
 

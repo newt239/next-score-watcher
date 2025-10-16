@@ -7,7 +7,7 @@ import { cdate } from "cdate";
 import classes from "./GameListGrid.module.css";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 
 type Props = {
   gameList: {

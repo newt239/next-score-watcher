@@ -8,9 +8,10 @@ import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
 
+import type { GamePropsUnion } from "@/utils/types";
+
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
-import { GamePropsUnion } from "@/utils/types";
 
 type CopyGamePropsUnion = {
   game: GamePropsUnion;

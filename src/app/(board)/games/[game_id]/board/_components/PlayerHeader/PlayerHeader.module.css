@@ -2,13 +2,13 @@
   width: 100%;
   padding-top: 0.25rem;
   overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 0.75rem;
   line-height: 0.75rem;
   text-align: left;
-  text-overflow: ellipsis;
   white-space: nowrap;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     text-align: center;
   }
 }
@@ -17,11 +17,11 @@
   padding: 0 0.5rem;
   text-align: center;
 
-  @media(width >= 36em) {
+  @media (width >= 36em) {
     text-align: left;
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     padding: 0.5rem 0;
     text-align: center;
     opacity: 0.3;
@@ -37,17 +37,17 @@
   height: 3rem;
   padding-top: 0.25rem;
   overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 0.75rem;
   line-height: 0.75rem;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .horizontal_player_belong {
   width: 100%;
   overflow-x: hidden;
-  text-align: center;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .horizontal_player_number {

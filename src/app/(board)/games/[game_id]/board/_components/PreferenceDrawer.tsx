@@ -1,6 +1,6 @@
 import { Box, Drawer, Kbd, Table, Tabs } from "@mantine/core";
 
-import Preferences from "@/app/_components/Preferences";
+import Preferences from "@/app/(default)/option/_components/Preferences";
 
 type Props = {
   isOpen: boolean;
@@ -51,14 +51,16 @@ const PreferenceDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>
-              {commands.map((command, index) => (
-                <Table.Tr key={index}>
-                  <Table.Td>
-                    <Kbd>{command.key}</Kbd>
-                  </Table.Td>
-                  <Table.Td>{command.description}</Table.Td>
-                </Table.Tr>
-              ))}
+              <Table.Tbody>
+                {commands.map((command, index) => (
+                  <Table.Tr key={index}>
+                    <Table.Td>
+                      <Kbd>{command.key}</Kbd>
+                    </Table.Td>
+                    <Table.Td>{command.description}</Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
             </Table>
           </Tabs.Panel>
         </Box>

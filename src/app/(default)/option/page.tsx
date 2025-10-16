@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { Title } from "@mantine/core";
@@ -7,7 +7,10 @@ import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
-import Preferences from "@/app/_components/Preferences";
+import Preferences from "@/app/(default)/option/_components/Preferences";
+
+// ページを動的レンダリングとして明示的に設定
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "アプリ設定",
@@ -16,7 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function OptionPage() {
+const OptionPage = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value
@@ -35,4 +38,6 @@ export default async function OptionPage() {
       <InitializeApp currentProfile={currentProfile} />
     </>
   );
-}
+};
+
+export default OptionPage;

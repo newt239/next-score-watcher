@@ -1,10 +1,11 @@
+import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
+
 import {
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
-import { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
 /*
 stageの値が2のときアドバンテージ状態を表す

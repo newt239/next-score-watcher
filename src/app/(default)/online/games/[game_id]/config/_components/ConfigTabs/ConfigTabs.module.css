@@ -1,0 +1,52 @@
+.tabs_area {
+  width: 100%;
+}
+
+.tab_list {
+  min-width: 200px;
+
+  /* Linkのデフォルトスタイルをリセット */
+  & button {
+    color: var(--mantine-color-gray-7);
+
+    @mixin dark & {
+      color: var(--mantine-color-gray-3);
+    }
+  }
+
+  /* アクティブなタブのスタイル */
+  & button[role="tab"][aria-current="page"] {
+    color: var(--mantine-color-gray-9);
+    background-color: var(--mantine-color-gray-1);
+    border-bottom: 1px solid transparent;
+
+    @mixin dark & {
+      color: var(--mantine-color-gray-1);
+      background-color: var(--mantine-color-gray-8);
+    }
+  }
+
+  /* ホバー時のスタイル */
+  & button[role="tab"]:hover:not([aria-current="page"]) {
+    color: var(--mantine-color-gray-9);
+
+    @mixin dark & {
+      color: var(--mantine-color-gray-1);
+    }
+  }
+}
+
+.tab_panel_area {
+  min-height: 80vh;
+  padding: 1rem;
+  overflow: scroll;
+  background-color: var(--mantine-color-gray-1);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-top: 1px solid transparent;
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+    border: 1px solid var(--mantine-color-gray-7);
+    border-top: 1px solid transparent;
+  }
+}

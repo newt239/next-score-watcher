@@ -2,9 +2,10 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
+import type { GamePropsUnion, RuleNames, States } from "@/utils/types";
+
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
-import { GamePropsUnion, RuleNames, States } from "@/utils/types";
 
 export const createGame = async (
   param:

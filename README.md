@@ -4,7 +4,7 @@
 
 <img
   src="https://raw.githubusercontent.com/newt239/next-score-watcher/main/public/score-watcher-ogp.webp" 
-  alt="Score Watcher アイキャッチ画像"
+  alt="Score Watcher"
 />
 
 競技クイズにおけるプレイヤーの得点状況を可視化するための Web アプリケーションです。
@@ -55,5 +55,5 @@ http://localhost:3000/
 ### テスト
 
 ```bash
-npx playwright test --ui
+pnpm run test
 ```

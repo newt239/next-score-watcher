@@ -13,8 +13,9 @@ import { cdate } from "cdate";
 
 import classes from "./GameLogs.module.css";
 
+import type { LogDBProps, QuizDBProps } from "@/utils/types";
+
 import db from "@/utils/db";
-import { LogDBProps, QuizDBProps } from "@/utils/types";
 
 type Props = {
   players: { id: string; name: string }[];
@@ -59,7 +60,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
           <Button
             size="xs"
             onClick={() => {
-              const logsWithTableFormat = `<table>${(reverse
+              const logsWithTableFormat = `<table><tbody>${(reverse
                 ? filterdLogs.slice().reverse()
                 : filterdLogs
               ).map((log, qn) => {
@@ -96,7 +97,7 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
                   }
                 </tr>`;
               })}
-            </table>`;
+            </tbody></table>`;
               const blob = new Blob([logsWithTableFormat], {
                 type: "text/html",
               });

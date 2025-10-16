@@ -11,9 +11,10 @@ import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
 import classes from "./AQLPlayer.module.css";
 
+import type { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
+
 import db from "@/utils/db";
 import { numberSign } from "@/utils/functions";
-import { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
 
 type Props = {
   game_id: string;

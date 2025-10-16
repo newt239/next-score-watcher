@@ -6,7 +6,7 @@ import Player from "../Player/Player";
 
 import classes from "./Players.module.css";
 
-import {
+import type {
   ComputedScoreProps,
   GamePropsUnion,
   PlayerDBProps,

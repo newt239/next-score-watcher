@@ -19,16 +19,16 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-  type ColumnDef,
   type FilterFn,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import classes from "./QuizesTable.module.css";
 
+import type { QuizDBProps } from "@/utils/types";
+
 import TablePagenation from "@/app/_components/TablePagination";
 import db from "@/utils/db";
-import { QuizDBProps } from "@/utils/types";
 
 type Props = {
   currentProfile: string;
@@ -53,7 +53,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
   };
 
   const columnHelper = createColumnHelper<QuizDBProps>();
-  const columns: ColumnDef<QuizDBProps, any>[] = [
+  const columns = [
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (

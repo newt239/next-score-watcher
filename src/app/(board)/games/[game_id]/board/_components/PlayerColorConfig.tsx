@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 import {
   ActionIcon,
@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 
-import { States } from "@/utils/types";
+import type { States } from "@/utils/types";
 
 type Props = {
   colorState: string | undefined;

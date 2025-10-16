@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { Box, Button, Group, Title } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 
+import type { GamePropsUnion } from "@/utils/types";
+
 import { createGame } from "@/utils/functions";
-import { GamePropsUnion } from "@/utils/types";
 
 type CopyGamePropsUnion = {
   game: GamePropsUnion;

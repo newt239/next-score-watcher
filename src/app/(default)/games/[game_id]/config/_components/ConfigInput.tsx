@@ -7,8 +7,9 @@ import { TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import type { GamePropsUnion } from "@/utils/types";
+
 import db from "@/utils/db";
-import { GamePropsUnion } from "@/utils/types";
 
 type Props = {
   input_id: keyof GamePropsUnion;
@@ -46,6 +47,7 @@ const ConfigInput: React.FC<Props> = ({
   useEffect(() => {
     if (inputText !== "") {
       db(currentProfile).games.update(game_id as string, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [input_id as any]: inputText,
       });
     }

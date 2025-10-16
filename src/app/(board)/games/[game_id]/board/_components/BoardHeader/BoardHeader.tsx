@@ -29,10 +29,11 @@ import PreferenceDrawer from "../PreferenceDrawer";
 
 import classes from "./BoardHeader.module.css";
 
-import Link from "@/app/_components/Link/Link";
+import type { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
+
+import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType, rules } from "@/utils/rules";
-import { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;
@@ -143,7 +144,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
         }
         {game.quiz && quizList.length > quizPosition && (
           <Box className={classes.quiz_area}>
-            <span className={classes.quiz}>
+            <span>
               {qn === 0 || quizPosition < 0
                 ? "ここに問題文が表示されます"
                 : quizList[quizPosition].q}

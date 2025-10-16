@@ -3,8 +3,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import classes from "./ConfigLimit.module.css";
 
+import type { RuleNames } from "@/utils/types";
+
 import db from "@/utils/db";
-import { RuleNames } from "@/utils/types";
 
 type Props = {
   rule: RuleNames;

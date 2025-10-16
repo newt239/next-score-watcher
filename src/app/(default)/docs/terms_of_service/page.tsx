@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Group, Text, Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 
 export const metadata: Metadata = {
   title: "利用規約",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyPolicyPage() {
+const PrivacyPolicyPage = () => {
   return (
     <>
       <Title order={2}>利用規約</Title>
@@ -36,4 +36,6 @@ export default function PrivacyPolicyPage() {
       <Group justify="end">2024年7月18日 制定</Group>
     </>
   );
-}
+};
+
+export default PrivacyPolicyPage;

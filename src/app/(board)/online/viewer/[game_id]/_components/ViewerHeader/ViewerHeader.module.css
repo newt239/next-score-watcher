@@ -1,0 +1,36 @@
+.header {
+  padding: 1rem;
+  background-color: var(--mantine-color-dark-8);
+  border-bottom: 1px solid var(--mantine-color-dark-6);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.shareContent {
+  padding: 0.5rem 0;
+}
+
+.urlContainer {
+  padding: 0.75rem;
+  background-color: var(--mantine-color-gray-1);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-sm);
+}
+
+.url {
+  font-family: monospace;
+  color: var(--mantine-color-dark-7);
+  word-break: break-all;
+}

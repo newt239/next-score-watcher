@@ -5,8 +5,9 @@ import { IconPlayerPlay } from "@tabler/icons-react";
 
 import classes from "./GameStartButton.module.css";
 
+import type { GamePropsUnion, LogDBProps } from "@/utils/types";
+
 import ButtonLink from "@/app/_components/ButtonLink";
-import { GamePropsUnion, LogDBProps } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;

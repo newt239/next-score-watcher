@@ -8,7 +8,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import GameListGrid from "../GameListGrid/GameListGrid";
 import GameListTable from "../GameListTable/GameListTable";
 
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 

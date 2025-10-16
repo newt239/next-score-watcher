@@ -6,20 +6,20 @@
   width: 100%;
   padding-top: 0.25rem;
   overflow-x: hidden;
+  text-overflow: ellipsis;
   font-family: "fot-udkakugo-large-pr6n", sans-serif;
   font-size: 2rem;
   font-weight: 700;
   line-height: 2rem;
-  text-overflow: ellipsis;
   white-space: nowrap;
   writing-mode: horizontal-tb;
   text-orientation: upright;
 
-  @media(width >= 36em) {
+  @media (width >= 36em) {
     justify-content: flex-start;
   }
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     padding-top: 0;
     font-size: clamp(2rem, 8vh, 4.5rem);
     line-height: clamp(2rem, 8vh, 4.5rem);

@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Text, Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyPolicyPage() {
+const PrivacyPolicyPage = () => {
   return (
     <>
       <Title order={2}>プライバシーポリシー</Title>
@@ -43,4 +43,6 @@ export default function PrivacyPolicyPage() {
       </Text>
     </>
   );
-}
+};
+
+export default PrivacyPolicyPage;

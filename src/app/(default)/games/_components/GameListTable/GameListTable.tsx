@@ -5,7 +5,7 @@ import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
 import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link/Link";
+import Link from "@/app/_components/Link";
 
 type Props = {
   gameList: {

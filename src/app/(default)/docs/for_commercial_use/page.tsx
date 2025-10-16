@@ -1,6 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
-import { Anchor, Group, Text, Title } from "@mantine/core";
+import { Group, Text, Title } from "@mantine/core";
+
+import Link from "@/app/_components/Link";
 
 export const metadata: Metadata = {
   title: "商用利用について",
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyPolicyPage() {
+const PrivacyPolicyPage = () => {
   return (
     <>
       <Title order={2}>商用利用に関するルール</Title>
@@ -39,22 +41,16 @@ export default function PrivacyPolicyPage() {
         許諾のない非営利目的での利用が確認された場合、当該団体に対してアクセス制限や団体名公表などの措置を行う場合があります。
       </Text>
       <Text mb="sm">
-        ただし、開発者とのコンタクトにより条件面でのすり合わせが出来た場合は許諾を行う場合があります。
-        <Anchor href="https://x.com/newt239" target="_blank">
-          開発者のTwitter
-        </Anchor>
-        や
-        <Anchor href="mailto:contact@newt239.dev" target="_blank">
-          メール
-        </Anchor>
-        、
-        <Anchor href="https://discord.gg/rct5sx6rbZ" target="_blank">
-          Discordサーバー
-        </Anchor>
+        かならず開発者と連絡を取り、許可を得てください。
+        <Link href="https://x.com/newt239">Twitter</Link>や
+        <Link href="mailto:contact@newt239.dev">メール</Link>、
+        <Link href="https://discord.gg/rct5sx6rbZ">Discordサーバー</Link>
         などでお気軽にご相談ください。
       </Text>
       <Group justify="end">2024年7月18日 制定</Group>
       <Group justify="end">2024年8月31日 改定</Group>
     </>
   );
-}
+};
+
+export default PrivacyPolicyPage;

@@ -17,8 +17,9 @@ import { nanoid } from "nanoid";
 
 import classes from "./LoadPlayer.module.css";
 
+import type { PlayerDBProps } from "@/utils/types";
+
 import db from "@/utils/db";
-import { PlayerDBProps } from "@/utils/types";
 
 type Props = {
   currentProfile: string;

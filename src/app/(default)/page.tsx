@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 import Features from "./_components/Features/Features";
 import Hero from "./_components/Hero/Hero";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <>
       <Hero />
@@ -18,4 +18,6 @@ export default function HomePage() {
       <Term />
     </>
   );
-}
+};
+
+export default HomePage;

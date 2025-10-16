@@ -25,7 +25,7 @@
   line-height: 2.25rem;
   text-shadow: black 1px 0 10px;
 
-  @media(width >= 62em) {
+  @media (width >= 62em) {
     font-size: 3.75rem;
     line-height: 3.75rem;
   }

@@ -1,5 +1,13 @@
 import { cdate } from "cdate";
 
+import type {
+  ComputedScoreProps,
+  GameDBPlayerProps,
+  GamePropsUnion,
+  States,
+  WinPlayerProps,
+} from "@/utils/types";
+
 import aql from "@/utils/computeScore/aql";
 import attacksurvival from "@/utils/computeScore/attacksurvival";
 import backstream from "@/utils/computeScore/backstream";
@@ -18,13 +26,6 @@ import swedish10 from "@/utils/computeScore/swedish10";
 import variables from "@/utils/computeScore/variables";
 import z from "@/utils/computeScore/z";
 import db from "@/utils/db";
-import {
-  ComputedScoreProps,
-  GameDBPlayerProps,
-  GamePropsUnion,
-  States,
-  WinPlayerProps,
-} from "@/utils/types";
 
 const computeScore = async (game_id: string, currentProfile: string) => {
   const game = await db(currentProfile).games.get(game_id);
