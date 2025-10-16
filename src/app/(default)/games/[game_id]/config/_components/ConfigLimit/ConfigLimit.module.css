@@ -11,7 +11,7 @@
   border-radius: var(--mantine-radius-default);
 
   @mixin dark {
-    background-color: var(--mantine-color-gray-1);
+    background-color: var(--mantine-color-gray-9);
     border-color: var(--mantine-color-gray-7);
   }
 
