@@ -26,26 +26,10 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "setup",
-      testMatch: /auth-setup\.spec\.ts/,
-    },
-    {
-      name: "player-setup",
-      testMatch: /player-setup\.spec\.ts/,
-      use: {
-        ...devices["Desktop Chrome"],
-        storageState: "tests/temp/auth/user.json",
-      },
-      dependencies: ["setup"],
-    },
-    {
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        storageState: "tests/temp/auth/user.json",
       },
-      dependencies: ["player-setup"],
-      testIgnore: /(auth-setup|player-setup)\.spec\.ts/,
     },
   ],
   webServer: {
