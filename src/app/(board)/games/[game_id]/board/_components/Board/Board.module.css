@@ -20,7 +20,7 @@
   background-color: var(--mantine-color-gray-3);
   border-radius: 1rem;
 
-  [data-mantine-color-scheme="dark"] {
+  @mixin dark {
     background-color: var(--mantine-color-gray-8);
   }
 }

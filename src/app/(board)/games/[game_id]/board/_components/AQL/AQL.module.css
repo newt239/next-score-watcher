@@ -37,7 +37,7 @@
   &[data-state="win"] {
     background-color: var(--mantine-color-red-9);
 
-    [data-mantine-color-scheme="dark"] {
+    @mixin dark {
       background-color: var(--mantine-color-red-3);
 
       .team_name,
@@ -50,7 +50,7 @@
   &[data-state="lose"] {
     background-color: var(--mantine-color-blue-9);
 
-    [data-mantine-color-scheme="dark"] {
+    @mixin dark {
       background-color: var(--mantine-color-blue-3);
 
       .team_name,

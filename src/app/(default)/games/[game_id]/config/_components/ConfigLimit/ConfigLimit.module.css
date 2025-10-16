@@ -10,7 +10,7 @@
   border: 1px solid var(--mantine-color-default-border);
   border-radius: var(--mantine-radius-default);
 
-  [data-mantine-color-scheme="dark"] {
+  @mixin dark {
     background-color: var(--mantine-color-gray-1);
     border-color: var(--mantine-color-gray-7);
   }

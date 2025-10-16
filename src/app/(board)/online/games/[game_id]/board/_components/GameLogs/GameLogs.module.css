@@ -3,7 +3,7 @@
   white-space: nowrap;
   background-color: var(--mantine-color-gray-1);
 
-  [data-mantine-color-scheme="dark"] {
+  @mixin dark {
     background-color: var(--mantine-color-gray-8);
   }
 
@@ -12,7 +12,7 @@
     border: 1px solid var(--mantine-color-gray-1);
     border-radius: 0.5rem;
 
-    [data-mantine-color-scheme="dark"] {
+    @mixin dark {
       border: 1px solid var(--mantine-color-gray-8);
     }
   }
