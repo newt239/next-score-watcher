@@ -13,7 +13,7 @@
     resize: vertical;
     background-color: var(--mantine-color-gray-1);
 
-    [data-mantine-color-scheme="dark"] {
+    @mixin dark {
       background-color: var(--mantine-color-gray-8);
     }
   }
@@ -108,7 +108,7 @@
   line-height: 1.5rem;
   color: black;
 
-  [data-mantine-color-scheme="dark"] {
+  @mixin dark {
     color: white;
   }
 }
@@ -181,7 +181,7 @@
 .answer {
   color: var(--mantine-color-red-9);
 
-  [data-mantine-color-scheme="dark"] {
+  @mixin dark {
     color: var(--mantine-color-red-3);
   }
 }

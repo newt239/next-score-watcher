@@ -13,7 +13,7 @@
     padding: 1rem;
   }
 
-  [data-mantine-color-scheme="dark"] {
+  @mixin dark {
     background-color: var(--mantine-color-teal-8);
   }
 }
