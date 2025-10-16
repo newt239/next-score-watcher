@@ -34,7 +34,7 @@ npx tsc --noEmit && pnpm run lint:fix
 
 ### ドキュメントの更新
 
-ユーザーとの会話で新しくプロジェクト全体に共通するルールが指示された場合は、まず`CLAUDE.md`を更新してください。
+ユーザーとの会話で新しくプロジェクト全体に共通するルールが指示された場合は、まず`AGENTS.md`を更新してください。
 
 ドキュメントを追加するよう指示があった場合は`docs`以下にMarkdownファイルを作成して記述してください。
 
@@ -137,20 +137,45 @@ pnpm run vitest       # Vitest ユニットテスト
 
 ### ディレクトリ構成
 
-```
+```bash
 src/
 ├── app/
 │   ├── (board)/           # スコアボード表示ページ群
 │   ├── (default)/         # メイン管理ページ群
-│   └── globals.css        # グローバルスタイル
-├── components/            # 再利用可能なUIコンポーネント
+│   ├── _components/       # アプリ全体で使用する共有コンポーネント
+│   ├── api/               # API Routes（Honoでルーティング）
+│   ├── globals.css        # グローバルスタイル
+│   └── layout.tsx         # ルートレイアウト
+├── assets/                # 画像などの静的アセット
+├── models/                # Zodスキーマと型定義（機能ごと）
+│   ├── game.ts            # ゲーム関連
+│   ├── player.ts          # プレイヤー関連
+│   └── user-preference.ts # ユーザー設定関連
+├── server/                # サーバーサイド実装
+│   ├── controllers/       # APIハンドラー（機能別ディレクトリ）
+│   │   ├── game/          # ゲーム関連エンドポイント
+│   │   ├── player/        # プレイヤー関連エンドポイント
+│   │   ├── quiz/          # クイズ関連エンドポイント
+│   │   ├── user/          # ユーザー関連エンドポイント
+│   │   ├── viewer/        # 観戦者関連エンドポイント
+│   │   └── e2e/           # E2Eテスト用エンドポイント
+│   ├── repositories/      # データベース操作層
+│   ├── utils/             # サーバー専用ユーティリティ
+│   └── index.ts           # Honoアプリのエントリーポイント
 ├── utils/
+│   ├── auth/              # 認証関連ユーティリティ
+│   ├── cache/             # キャッシュ管理
 │   ├── computeScore/      # 17種類のゲーム形式の計算ロジック
+│   ├── drizzle/           # Drizzle ORM設定
+│   ├── hono/              # Honoクライアント設定
+│   ├── online/            # オンライン機能関連
 │   ├── db.ts              # IndexedDB操作・スキーマ管理
 │   ├── types.ts           # TypeScript型定義
 │   ├── functions.ts       # 共通ユーティリティ関数
 │   ├── rules.ts           # ゲームルール定義
 │   └── theme.ts           # Mantineテーマ設定
+├── middleware.ts          # Next.js ミドルウェア
+└── instrumentation.ts     # Next.js 計測設定
 ```
 
 ### データベース設計

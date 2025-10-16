@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 
 import { Alert, Button, Title } from "@mantine/core";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 import { authClient } from "@/utils/auth/auth-client";
 
@@ -28,6 +29,14 @@ const LoginPage = () => {
   return (
     <main>
       <Title>ログイン</Title>
+      <Alert
+        color="red"
+        title="アルファ版の機能です"
+        icon={<IconInfoCircle />}
+        mt="md"
+      >
+        ログイン機能はアルファ版の機能です。この期間に保存されたデータはすべて正式リリース時に削除されます。
+      </Alert>
       <Button
         mt="lg"
         onClick={handleLogin}
