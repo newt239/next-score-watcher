@@ -8,6 +8,7 @@ import {
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import UpdateModal from "./_components/UpdateModal";
 
@@ -60,13 +61,15 @@ const RootLayout = ({
         <TypekitLoader />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <ModalsProvider>
-            {children}
-            <UpdateModal />
-          </ModalsProvider>
-          <Notifications />
-        </MantineProvider>
+        <NuqsAdapter>
+          <MantineProvider theme={theme}>
+            <ModalsProvider>
+              {children}
+              <UpdateModal />
+            </ModalsProvider>
+            <Notifications />
+          </MantineProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

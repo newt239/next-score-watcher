@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { parseResponse } from "hono/client";
 
@@ -7,8 +7,6 @@ import ConfigHeader from "./_components/ConfigHeader/ConfigHeader";
 import ConfigTabs from "./_components/ConfigTabs/ConfigTabs";
 import { GameStateProvider } from "./_hooks/useGameState";
 
-import NotFound from "@/app/(default)/_components/NotFound";
-import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
@@ -29,26 +27,18 @@ type ConfigLayoutProps = {
  */
 const ConfigLayout = async ({ children, params }: ConfigLayoutProps) => {
   const { game_id } = await params;
-  const user = await getUser();
-
-  if (!user) {
-    redirect("/sign-in");
-  }
 
   const apiClient = await createApiClientOnServer();
-
   const gameData = await parseResponse(
     apiClient.games[":gameId"].$get({ param: { gameId: game_id } })
   );
 
   if ("error" in gameData) {
-    return <NotFound />;
+    return notFound();
   }
 
-  const game = gameData.data;
-
   return (
-    <GameStateProvider gameId={game_id} initialGame={game}>
+    <GameStateProvider gameId={game_id} initialGame={gameData.data}>
       <ConfigHeader />
       <ConfigTabs gameId={game_id}>{children}</ConfigTabs>
     </GameStateProvider>

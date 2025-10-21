@@ -1,6 +1,4 @@
-"use client";
-
-import { Box, Card, Group, Text } from "@mantine/core";
+import { Box, Card, CardSection, Group, Text } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconPlayerPlay } from "@tabler/icons-react";
 import Avatar from "boring-avatars";
 import { cdate } from "cdate";
@@ -43,7 +41,7 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
               withBorder
               data-testid="game-card"
             >
-              <Card.Section className={classes.game_avatar}>
+              <CardSection className={classes.game_avatar}>
                 <Avatar
                   name={game.id}
                   square
@@ -55,19 +53,19 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
                     "#C20D90",
                   ]}
                 />
-              </Card.Section>
+              </CardSection>
               <Group justify="space-between" align="center" my="xs">
                 <Text fw="bold" size="lg">
                   {game.name}
                 </Text>
                 <PublicityBadge isPublic={game.isPublic} size="xs" />
               </Group>
-              <Card.Section className={classes.game_description}>
+              <CardSection className={classes.game_description}>
                 <Text size="sm">
                   {game.logCount}問目 ・ {game.playerCount}人 ・{" "}
                   {cdate(game.updatedAt).format("MM/DD")}
                 </Text>
-              </Card.Section>
+              </CardSection>
               <Group className={classes.game_footer}>
                 <ButtonLink
                   href={`/online/games/${game.id}/config`}
@@ -83,6 +81,7 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
                   leftSection={<IconPlayerPlay />}
                   size="sm"
                   flex={1}
+                  disabled={game.playerCount === 0}
                 >
                   表示
                 </ButtonLink>

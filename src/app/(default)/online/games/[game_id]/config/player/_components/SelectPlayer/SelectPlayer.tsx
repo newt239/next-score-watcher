@@ -6,7 +6,7 @@ import { IconPlus, IconUpload } from "@tabler/icons-react";
 
 import CompactCreatePlayer from "../CompactCreatePlayer";
 import CompactPlayerTable from "../CompactPlayerTable";
-import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
+import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame/SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 

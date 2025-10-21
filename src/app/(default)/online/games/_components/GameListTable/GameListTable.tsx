@@ -1,6 +1,13 @@
-"use client";
-
-import { Group, Table } from "@mantine/core";
+import {
+  Group,
+  Table,
+  TableScrollContainer,
+  TableTbody,
+  TableTd,
+  TableTh,
+  TableThead,
+  TableTr,
+} from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
@@ -31,33 +38,33 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
           ページから新しいゲームを作ることが出来ます。
         </p>
       ) : (
-        <Table.ScrollContainer minWidth={500}>
+        <TableScrollContainer minWidth={500}>
           <Table highlightOnHover>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>ゲーム名</Table.Th>
-                <Table.Th>形式</Table.Th>
-                <Table.Th>プレイヤー数</Table.Th>
-                <Table.Th>進行状況</Table.Th>
-                <Table.Th>公開状態</Table.Th>
-                <Table.Th>最終更新日時</Table.Th>
-                <Table.Th></Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
+            <TableThead>
+              <TableTr>
+                <TableTh>ゲーム名</TableTh>
+                <TableTh>形式</TableTh>
+                <TableTh>プレイヤー数</TableTh>
+                <TableTh>進行状況</TableTh>
+                <TableTh>公開状態</TableTh>
+                <TableTh>最終更新日時</TableTh>
+                <TableTh></TableTh>
+              </TableTr>
+            </TableThead>
+            <TableTbody>
               {gameList.map((game) => (
-                <Table.Tr key={game.id}>
-                  <Table.Td>{game.name}</Table.Td>
-                  <Table.Td>{game.ruleType}</Table.Td>
-                  <Table.Td>{game.playerCount}人</Table.Td>
-                  <Table.Td>{game.logCount}問目</Table.Td>
-                  <Table.Td>
+                <TableTr key={game.id}>
+                  <TableTd>{game.name}</TableTd>
+                  <TableTd>{game.ruleType}</TableTd>
+                  <TableTd>{game.playerCount}人</TableTd>
+                  <TableTd>{game.logCount}問目</TableTd>
+                  <TableTd>
                     <PublicityBadge isPublic={game.isPublic} size="lg" />
-                  </Table.Td>
-                  <Table.Td>
+                  </TableTd>
+                  <TableTd>
                     {cdate(game.updatedAt).format("MM/DD HH:mm")}
-                  </Table.Td>
-                  <Table.Td>
+                  </TableTd>
+                  <TableTd>
                     <Group gap="xs">
                       <ButtonLink
                         href={`/online/games/${game.id}/config`}
@@ -67,12 +74,12 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                         開く
                       </ButtonLink>
                     </Group>
-                  </Table.Td>
-                </Table.Tr>
+                  </TableTd>
+                </TableTr>
               ))}
-            </Table.Tbody>
+            </TableTbody>
           </Table>
-        </Table.ScrollContainer>
+        </TableScrollContainer>
       )}
     </>
   );

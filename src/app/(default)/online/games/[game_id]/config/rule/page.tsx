@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { parseResponse } from "hono/client";
 
 import RuleSettings from "./_components/RuleSettings";
 
-import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
@@ -21,11 +19,6 @@ type RulePageProps = {
  */
 const RulePage = async ({ params }: RulePageProps) => {
   const { game_id } = await params;
-  const user = await getUser();
-
-  if (!user) {
-    redirect("/sign-in");
-  }
 
   const apiClient = await createApiClientOnServer();
 
