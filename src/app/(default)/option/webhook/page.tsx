@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { Code } from "@mantine/core";
 import { IconArrowBackUp } from "@tabler/icons-react";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 export const metadata: Metadata = {
   title: "Webhookについて",

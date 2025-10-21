@@ -39,7 +39,12 @@ const ConfigLayout = async ({ children, params }: ConfigLayoutProps) => {
 
   return (
     <GameStateProvider gameId={game_id} initialGame={gameData.data}>
-      <ConfigHeader />
+      <ConfigHeader
+        gameId={game_id}
+        ruleType={gameData.data.ruleType}
+        playerCount={gameData.data.players.length}
+        logCount={gameData.data.logs.length}
+      />
       <ConfigTabs gameId={game_id}>{children}</ConfigTabs>
     </GameStateProvider>
   );

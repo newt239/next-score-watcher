@@ -15,7 +15,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 type AuthUser = {
   id: string;

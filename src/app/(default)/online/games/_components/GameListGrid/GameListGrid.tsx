@@ -7,8 +7,8 @@ import PublicityBadge from "../PublicityBadge/PublicityBadge";
 
 import classes from "./GameListGrid.module.css";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type GameListGridProps = {
   gameList: {

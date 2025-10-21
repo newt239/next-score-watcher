@@ -3,7 +3,7 @@
 import { Text, TextInput, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 
 const WebhookSettings: React.FC = () => {
   // 常にlocalStorageを使用（従来通り）

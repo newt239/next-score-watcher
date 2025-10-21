@@ -9,8 +9,8 @@ import GameListControl from "./_components/GameListControl/GameListControl";
 import GameListGrid from "./_components/GameListGrid/GameListGrid";
 import GameListTable from "./_components/GameListTable/GameListTable";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
@@ -29,8 +29,6 @@ type GamesPageProps = {
 
 /**
  * ゲーム一覧ページ
- * @param searchParams - URLパラメータ
- * @returns ゲーム一覧ページ
  */
 const GamesPage = async ({ searchParams }: GamesPageProps) => {
   const params = await searchParams;

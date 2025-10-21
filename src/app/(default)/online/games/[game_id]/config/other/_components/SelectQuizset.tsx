@@ -12,7 +12,7 @@ type GameDBQuizProps = {
   offset: number;
 };
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 type Props = {
   game_id: string;

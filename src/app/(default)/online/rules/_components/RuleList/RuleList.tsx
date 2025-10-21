@@ -25,11 +25,7 @@ import type { RuleNames } from "@/models/game";
 import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";
 
-type Props = {
-  userId?: string;
-};
-
-const RuleList: React.FC<Props> = ({ userId }) => {
+const RuleList: React.FC = () => {
   const router = useRouter();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedRule, setSelectedRule] = useState<RuleNames | null>(null);
@@ -53,16 +49,6 @@ const RuleList: React.FC<Props> = ({ userId }) => {
   const ruleNameList = Object.keys(rules) as RuleNames[];
 
   const onClick = (rule_name: RuleNames) => {
-    if (!userId) {
-      notifications.show({
-        title: "エラー",
-        message: "ログインが必要です",
-        color: "red",
-      });
-      router.push("/sign-in");
-      return;
-    }
-
     setSelectedRule(rule_name);
     form.setFieldValue("name", rules[rule_name].name);
     setCreateModalOpen(true);

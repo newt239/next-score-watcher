@@ -6,8 +6,8 @@ import { cdate } from "cdate";
 
 import classes from "./GameListGrid.module.css";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type Props = {
   gameList: {

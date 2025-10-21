@@ -5,7 +5,7 @@ import classes from "./GameStartButton.module.css";
 
 import type { RuleNames } from "@/models/game";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 type GameStartButtonProps = {
   ruleType: RuleNames;

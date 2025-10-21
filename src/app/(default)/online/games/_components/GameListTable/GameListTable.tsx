@@ -13,8 +13,8 @@ import { cdate } from "cdate";
 
 import PublicityBadge from "../PublicityBadge/PublicityBadge";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type GameListTableProps = {
   gameList: {

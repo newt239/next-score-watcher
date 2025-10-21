@@ -31,7 +31,7 @@ import classes from "./BoardHeader.module.css";
 
 import type { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType, rules } from "@/utils/rules";
 
