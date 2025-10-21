@@ -20,8 +20,8 @@ import { useGameState } from "../../_hooks/useGameState";
 
 import type { PlayerProps, RemoveGamePlayersResponseType } from "@/models/game";
 
-import TablePagenation from "@/app/_components/TablePagination";
 import ButtonLink from "@/components/ButtonLink";
+import TablePagenation from "@/components/TablePagination";
 import createApiClient from "@/utils/hono/browser";
 
 type CompactPlayerTableProps = {

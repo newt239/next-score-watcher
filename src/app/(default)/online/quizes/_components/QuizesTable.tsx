@@ -26,7 +26,7 @@ import {
 
 import type { ApiQuizDataType } from "@/models/quiz";
 
-import TablePagenation from "@/app/_components/TablePagination";
+import TablePagenation from "@/components/TablePagination";
 
 type Props = {
   quizes: ApiQuizDataType[];

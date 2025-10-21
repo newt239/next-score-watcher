@@ -30,7 +30,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import type { PlayerDBProps } from "@/utils/types";
 
-import TablePagenation from "@/app/_components/TablePagination";
+import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
 
 type Props = {
