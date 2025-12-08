@@ -79,7 +79,7 @@ const RuleList: React.FC = () => {
       if ("error" in result) {
         notifications.show({
           title: "エラー",
-          message: result.error,
+          message: String(result.error),
           color: "red",
         });
       } else {

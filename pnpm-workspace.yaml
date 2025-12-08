@@ -1,1 +1,7 @@
 minimumReleaseAge: 1440
+
+onlyBuiltDependencies:
+  - "@sentry/cli"
+  - esbuild
+  - lefthook
+  - sharp

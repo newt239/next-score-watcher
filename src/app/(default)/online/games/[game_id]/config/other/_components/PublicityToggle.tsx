@@ -66,11 +66,17 @@ const PublicityToggle: React.FC<PublicityToggleProps> = ({
           })
         );
 
-        if ("result" in result) {
+        // 成功時は result プロパティが存在する
+        if (result && typeof result === "object" && "result" in result) {
           setConfirmModalOpened(false);
           setPendingValue(null);
         } else {
-          console.error("公開設定の更新に失敗しました:", result.error);
+          // エラー時の処理
+          const errorMessage =
+            result && typeof result === "object" && "error" in result
+              ? String((result as { error: unknown }).error)
+              : "公開設定の更新に失敗しました";
+          console.error("公開設定の更新に失敗しました:", errorMessage);
         }
       } catch (error) {
         console.error("公開設定の更新でエラーが発生しました:", error);

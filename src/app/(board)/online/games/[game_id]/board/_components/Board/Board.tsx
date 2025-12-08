@@ -63,6 +63,8 @@ const Board: React.FC<BoardProps> = ({
 
   const apiClient = createApiClient();
 
+  const { scores } = computeOnlineScore(initialGame, players, logs);
+
   const refreshLogs = useCallback(async () => {
     const res = await parseResponse(
       apiClient.games[":gameId"].logs.$get({
@@ -194,8 +196,6 @@ const Board: React.FC<BoardProps> = ({
       </Box>
     );
   }
-
-  const { scores } = computeOnlineScore(initialGame, players, logs);
 
   return (
     <>

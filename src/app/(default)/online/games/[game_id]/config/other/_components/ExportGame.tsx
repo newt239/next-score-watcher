@@ -37,7 +37,7 @@ const ExportGame: React.FC<Props> = ({ gameId, ruleType }) => {
         );
 
         if ("error" in gameData) {
-          throw new Error(gameData.error);
+          throw new Error(String(gameData.error));
         }
 
         sendGAEvent({
