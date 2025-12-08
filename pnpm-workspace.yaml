@@ -1,7 +1,8 @@
+packages:
+  - "."
 minimumReleaseAge: 1440
-
-onlyBuiltDependencies:
+ignoredBuiltDependencies:
   - "@sentry/cli"
-  - esbuild
-  - lefthook
-  - sharp
+  - "esbuild"
+  - "lefthook"
+  - "sharp"
