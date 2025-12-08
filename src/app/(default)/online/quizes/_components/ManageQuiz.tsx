@@ -17,7 +17,6 @@ import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialQuizes: ApiQuizDataType[];
-  userId: string;
 };
 
 const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {

@@ -6,7 +6,7 @@ import { IconUpload } from "@tabler/icons-react";
 
 import type { GameDBQuizProps } from "@/utils/types";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 import db from "@/utils/db";
 
 type Props = {

@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, List, Modal, Title } from "@mantine/core";
+import { Box, List, ListItem, Modal, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-import Link from "./Link";
+import Link from "@/components/Link";
 
 const UpdateModal: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -75,7 +75,7 @@ const UpdateModal: React.FC = () => {
               <Title order={3}>🎉新機能</Title>
               <List>
                 {feature.feature.map((v, i) => (
-                  <List.Item key={i}>{v}</List.Item>
+                  <ListItem key={i}>{v}</ListItem>
                 ))}
               </List>
             </Box>
@@ -83,11 +83,11 @@ const UpdateModal: React.FC = () => {
           {feature.bugfix.length > 0 && (
             <Box mt="md">
               <Title order={3}>🐛不具合修正</Title>
-              <ul>
+              <List>
                 {feature.bugfix.map((v, i) => (
-                  <li key={i}>{v}</li>
+                  <ListItem key={i}>{v}</ListItem>
                 ))}
-              </ul>
+              </List>
             </Box>
           )}
         </>

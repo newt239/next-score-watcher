@@ -21,7 +21,7 @@ import classes from "./ActionButtons.module.css";
 
 import type { GamePropsUnion, LogDBProps } from "@/utils/types";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 import db from "@/utils/db";
 
 type Props = {

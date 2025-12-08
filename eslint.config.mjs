@@ -1,10 +1,6 @@
-import { FlatCompat } from "@eslint/eslintrc";
-import eslintConfigPrettier from "eslint-config-prettier";
-
-const compat = new FlatCompat({
-  // import.meta.dirname is available after Node.js v20.11.0
-  baseDirectory: import.meta.dirname,
-});
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+import prettier from "eslint-config-prettier";
 
 const ONLINE_FILES = [
   "**/*online*/**/*.{ts,tsx,js,jsx}",
@@ -13,13 +9,22 @@ const ONLINE_FILES = [
 
 const eslintConfig = [
   {
-    ignores: ["node_modules/", ".next/", "public/", "playwright-report/"],
+    ignores: [
+      "node_modules/",
+      ".next/",
+      "public/",
+      "playwright-report/",
+      "next-env.d.ts",
+    ],
   },
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  eslintConfigPrettier,
+  ...nextVitals,
+  ...nextTs,
+  prettier,
   {
     rules: {
       "react-hooks/exhaustive-deps": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/incompatible-library": "off",
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",

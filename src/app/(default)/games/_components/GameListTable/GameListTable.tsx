@@ -4,8 +4,8 @@ import { Table } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type Props = {
   gameList: {

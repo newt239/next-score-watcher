@@ -6,14 +6,13 @@ import { IconPlus, IconUpload } from "@tabler/icons-react";
 
 import CompactCreatePlayer from "../CompactCreatePlayer";
 import CompactPlayerTable from "../CompactPlayerTable";
-import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
 
 import classes from "./SelectPlayer.module.css";
 
 import type { GamePlayerProps, PlayerProps } from "@/models/game";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type SelectPlayerProps = {
   game_id: string;
@@ -95,12 +94,6 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
                       onPlayersChange={onPlayersChange}
                     />
                   )}
-                </Accordion.Panel>
-              </Accordion.Item>
-              <Accordion.Item value="copy">
-                <Accordion.Control>既存のゲームからコピー</Accordion.Control>
-                <Accordion.Panel pb={4}>
-                  <SelectPlayerFromExistingGame game_id={game_id} />
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>

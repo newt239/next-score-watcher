@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { Group, Input, Text, Title } from "@mantine/core";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 const ViewerNotFound = () => {
   const [gameId, setGameId] = useState("");

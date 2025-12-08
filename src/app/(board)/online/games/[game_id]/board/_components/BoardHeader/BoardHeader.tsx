@@ -20,7 +20,7 @@ import classes from "./BoardHeader.module.css";
 import type { RuleNames } from "@/models/game";
 import type { UserPreferencesType } from "@/models/user-preference";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 import { rules } from "@/utils/rules";
 
 type OnlineGame = {

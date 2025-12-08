@@ -17,7 +17,6 @@ import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialPlayers: UpdatePlayerType[];
-  userId: string;
 };
 
 const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {

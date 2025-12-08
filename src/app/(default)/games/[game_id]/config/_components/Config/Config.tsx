@@ -11,7 +11,7 @@ import RuleSettings from "../RuleSettings";
 import classes from "./Config.module.css";
 
 import NotFound from "@/app/(default)/_components/NotFound";
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
 

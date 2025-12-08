@@ -7,7 +7,7 @@ import classes from "./GameStartButton.module.css";
 
 import type { GamePropsUnion, LogDBProps } from "@/utils/types";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 type Props = {
   game: GamePropsUnion;

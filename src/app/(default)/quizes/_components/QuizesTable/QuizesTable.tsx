@@ -27,7 +27,7 @@ import classes from "./QuizesTable.module.css";
 
 import type { QuizDBProps } from "@/utils/types";
 
-import TablePagenation from "@/app/_components/TablePagination";
+import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
 
 type Props = {

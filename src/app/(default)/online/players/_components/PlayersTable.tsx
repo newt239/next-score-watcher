@@ -26,7 +26,7 @@ import {
 
 import type { UpdatePlayerType } from "@/models/player";
 
-import TablePagenation from "@/app/_components/TablePagination";
+import TablePagenation from "@/components/TablePagination";
 
 type Props = {
   players: UpdatePlayerType[];

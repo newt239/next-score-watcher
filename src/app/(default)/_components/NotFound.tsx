@@ -1,6 +1,6 @@
 import { Box } from "@mantine/core";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 
 const NotFound: React.FC = () => {
   return (
