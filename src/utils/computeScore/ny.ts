@@ -1,10 +1,6 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
 
 const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
@@ -77,25 +73,15 @@ const ny = async (game: AllGameProps["ny"], gameLogList: LogDBProps[]) => {
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
-    const state = detectPlayerState(
-      game,
-      playerState.state,
-      order,
-      gameLogList.length
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
+    const state = detectPlayerState(game, playerState.state, order, gameLogList.length);
     const text =
       state === "win"
         ? indicator(order)
         : state === "lose"
           ? "LOSE"
           : numberSign("pt", playerState.score);
-    if (
-      state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+    if (state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, state, text };

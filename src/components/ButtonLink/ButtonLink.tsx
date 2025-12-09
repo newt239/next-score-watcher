@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { Button, type ButtonProps } from "@mantine/core";

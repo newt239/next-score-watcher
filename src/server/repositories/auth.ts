@@ -29,10 +29,7 @@ export const getUserId = async () => {
  * メールアドレスでユーザーを取得
  */
 export async function getUserByEmail(email: string) {
-  const result = await DBClient.select()
-    .from(user)
-    .where(eq(user.email, email))
-    .limit(1);
+  const result = await DBClient.select().from(user).where(eq(user.email, email)).limit(1);
 
   return result[0] || null;
 }

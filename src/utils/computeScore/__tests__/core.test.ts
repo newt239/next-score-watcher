@@ -2,11 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { AllGameProps, LogDBProps } from "@/utils/types";
 
-import {
-  clipNumber,
-  getInitialPlayersState,
-  indicator,
-} from "@/utils/computeScore";
+import { clipNumber, getInitialPlayersState, indicator } from "@/utils/computeScore";
 import nbyn from "@/utils/computeScore/nbyn";
 import nomx from "@/utils/computeScore/nomx";
 import normal from "@/utils/computeScore/normal";

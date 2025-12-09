@@ -15,11 +15,7 @@ const EachFeature: React.FC<FeatureProps> = ({ title, image, description }) => {
         <Box className={classes.feature_decoration}></Box>
       </Box>
       <Box className={classes.feature_title}>{title}</Box>
-      <Image
-        src={`images/${image}`}
-        alt={description}
-        className={classes.feature_image}
-      />
+      <Image src={`images/${image}`} alt={description} className={classes.feature_image} />
     </Flex>
   );
 };

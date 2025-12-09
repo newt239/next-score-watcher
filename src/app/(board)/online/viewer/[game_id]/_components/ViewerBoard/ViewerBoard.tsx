@@ -91,9 +91,7 @@ const ViewerBoard = ({ gameId, initialData }: ViewerBoardProps) => {
         </Text>
         <div className={styles.logsContainer}>
           {gameData.logs.slice(-10).map((log, index) => {
-            const player = gameData.players.find(
-              (p) => p.player_id === log.player_id
-            );
+            const player = gameData.players.find((p) => p.player_id === log.player_id);
             const playerName = player?.text || `プレイヤー${log.player_id}`;
             return (
               <div key={index} className={styles.logItem}>

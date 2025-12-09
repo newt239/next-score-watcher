@@ -47,9 +47,7 @@ const GameListTable: React.FC<Props> = ({ gameList }) => {
                   <Table.Td>{game.type}</Table.Td>
                   <Table.Td>{game.player_count}人</Table.Td>
                   <Table.Td>{game.state}</Table.Td>
-                  <Table.Td>
-                    {cdate(game.last_open).format("MM/DD HH:mm")}
-                  </Table.Td>
+                  <Table.Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Table.Td>
                   <Table.Td>
                     <ButtonLink
                       href={`/games/${game.id}/config`}

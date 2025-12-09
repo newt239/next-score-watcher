@@ -13,10 +13,7 @@ type Props = {
   currentProfile: string;
 };
 
-const SelectPlayerFromExistingGame: React.FC<Props> = ({
-  game_id,
-  currentProfile,
-}) => {
+const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id, currentProfile }) => {
   const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
   const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
 
@@ -24,15 +21,11 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({
 
   return (
     <>
-      <p>
-        これまでに作成したゲームで選択したプレイヤーをまとめて選択できます。
-      </p>
+      <p>これまでに作成したゲームで選択したプレイヤーをまとめて選択できます。</p>
       <Box mt={3}>
         <NativeSelect
           onChange={async (e) => {
-            const selectedGame = games?.find(
-              (game) => game.id === e.target.value
-            );
+            const selectedGame = games?.find((game) => game.id === e.target.value);
             if (selectedGame) {
               await db(currentProfile).games.update(game_id, {
                 players: selectedGame.players,
@@ -60,8 +53,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({
             })
             .map((game) => (
               <option key={game.id} value={game.id}>
-                {getRuleStringByType(game)} (
-                {cdate(game.last_open).format("MM/DD HH:mm")})
+                {getRuleStringByType(game)} ({cdate(game.last_open).format("MM/DD HH:mm")})
               </option>
             ))}
         </NativeSelect>

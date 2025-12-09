@@ -24,11 +24,7 @@ type Props = {
  * オンライン版クイズセット選択コンポーネント
  * クイズセットの選択とオフセット設定
  */
-const SelectQuizset: React.FC<Props> = ({
-  game_id,
-  game_quiz,
-  quizset_names,
-}) => {
+const SelectQuizset: React.FC<Props> = ({ game_id, game_quiz, quizset_names }) => {
   const [isPending, startTransition] = useTransition();
 
   const updateQuizSetting = async (_quiz: GameDBQuizProps) => {

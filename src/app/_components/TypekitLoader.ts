@@ -11,8 +11,7 @@ const TypekitLoader: React.FC = () => {
       };
       const h = d.documentElement;
       const t = setTimeout(() => {
-        h.className =
-          h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+        h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
       }, config.scriptTimeout);
       const tk = d.createElement("script");
 

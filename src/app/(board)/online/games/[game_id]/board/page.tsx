@@ -18,11 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-const BoardPage = async ({
-  params,
-}: {
-  params: Promise<{ game_id: string }>;
-}) => {
+const BoardPage = async ({ params }: { params: Promise<{ game_id: string }> }) => {
   const { game_id } = await params;
   const user = await getUser();
 
@@ -60,8 +56,7 @@ const BoardPage = async ({
   }
 
   // preferencesがエラーの場合はnullで渡す
-  const preferences =
-    "error" in preferencesData ? null : preferencesData.preferences;
+  const preferences = "error" in preferencesData ? null : preferencesData.preferences;
 
   return (
     <Board

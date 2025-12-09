@@ -9,15 +9,7 @@ import classes from "./PlayerScoreButton.module.css";
 import type { LogDBProps } from "@/models/game";
 
 type PlayerScoreButtonProps = {
-  color:
-    | "red"
-    | "blue"
-    | "green"
-    | "gray"
-    | "black"
-    | "win"
-    | "lose"
-    | "playing";
+  color: "red" | "blue" | "green" | "gray" | "black" | "win" | "lose" | "playing";
   filled?: boolean;
   compact?: boolean;
   playerId: string;
@@ -93,9 +85,7 @@ const PlayerScoreButton: React.FC<PlayerScoreButtonProps> = ({
       ) : (
         <>
           <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
-          <span style={{ fontSize: "50%" }}>
-            {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
-          </span>
+          <span style={{ fontSize: "50%" }}>{children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}</span>
         </>
       )}
     </UnstyledButton>

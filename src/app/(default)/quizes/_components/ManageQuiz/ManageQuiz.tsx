@@ -21,11 +21,7 @@ const ManageQuiz: React.FC<Props> = ({ currentProfile }) => {
     <>
       <Title order={2}>問題管理</Title>
       <h3>問題の読み込み</h3>
-      <TextInput
-        label="セット名"
-        onChange={(e) => setSetName(e.target.value)}
-        value={setName}
-      />
+      <TextInput label="セット名" onChange={(e) => setSetName(e.target.value)} value={setName} />
       <Tabs pt="lg" variant="outline" defaultValue="paste">
         <Tabs.List mt="lg" grow>
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>

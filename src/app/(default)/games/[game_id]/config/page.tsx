@@ -10,11 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-const ConfigPage = async ({
-  params,
-}: {
-  params: Promise<{ game_id: string }>;
-}) => {
+const ConfigPage = async ({ params }: { params: Promise<{ game_id: string }> }) => {
   const { game_id } = await params;
   const cookieStore = await cookies();
   const currentProfileCookie = cookieStore.get("scorew_current_profile");

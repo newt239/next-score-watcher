@@ -17,9 +17,7 @@ export const metadata: Metadata = {
 const OnlinePlayerPage = async () => {
   const apiClient = await createApiClientOnServer();
 
-  const initialPlayers = await parseResponse(
-    apiClient.players.$get({ query: {} })
-  );
+  const initialPlayers = await parseResponse(apiClient.players.$get({ query: {} }));
   if ("error" in initialPlayers) {
     return notFound();
   }

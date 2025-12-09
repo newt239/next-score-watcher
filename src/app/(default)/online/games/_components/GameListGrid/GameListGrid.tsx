@@ -34,24 +34,12 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
       ) : (
         <Box className={classes.game_list_grid}>
           {gameList.map((game) => (
-            <Card
-              shadow="xs"
-              key={game.id}
-              title={game.name}
-              withBorder
-              data-testid="game-card"
-            >
+            <Card shadow="xs" key={game.id} title={game.name} withBorder data-testid="game-card">
               <CardSection className={classes.game_avatar}>
                 <Avatar
                   name={game.id}
                   square
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
+                  colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
                 />
               </CardSection>
               <Group justify="space-between" align="center" my="xs">

@@ -18,20 +18,13 @@ const handler = factory.createHandlers(
     try {
       const userId = await getUserId();
       if (!userId) {
-        return c.json(
-          { success: false, error: "ユーザーが見つかりません" } as const,
-          404
-        );
+        return c.json({ success: false, error: "ユーザーが見つかりません" } as const, 404);
       }
 
       const { sourceGameId } = c.req.valid("json");
       const { game_id: targetGameId } = c.req.valid("param");
 
-      const result = await copyPlayersFromGame(
-        targetGameId,
-        sourceGameId,
-        userId
-      );
+      const result = await copyPlayersFromGame(targetGameId, sourceGameId, userId);
 
       return c.json(
         {

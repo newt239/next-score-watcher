@@ -1,16 +1,9 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState } from "@/utils/functions";
 
-const variables = async (
-  game: AllGameProps["variables"],
-  gameLogList: LogDBProps[]
-) => {
+const variables = async (game: AllGameProps["variables"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
@@ -19,9 +12,8 @@ const variables = async (
         switch (log.variant) {
           case "correct":
             const correct_point =
-              game.players.find(
-                (gamePlayer) => gamePlayer.id === playerState.player_id
-              )?.base_correct_point || 0;
+              game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
+                ?.base_correct_point || 0;
             const newScore = playerState.score + correct_point;
             if (newScore >= game.win_point!) {
               return {
@@ -48,9 +40,8 @@ const variables = async (
             }
           case "wrong":
             const wrong_point =
-              game.players.find(
-                (gamePlayer) => gamePlayer.id === playerState.player_id
-              )?.base_wrong_point || 0;
+              game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
+                ?.base_wrong_point || 0;
             return {
               ...playerState,
               wrong: playerState.wrong + 1,
@@ -67,25 +58,11 @@ const variables = async (
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
-    const state = detectPlayerState(
-      game,
-      playerState.state,
-      order,
-      gameLogList.length
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
+    const state = detectPlayerState(game, playerState.state, order, gameLogList.length);
     const text =
-      state === "win"
-        ? indicator(order)
-        : state === "lose"
-          ? "LOSE"
-          : `${playerState.score}pt`;
-    if (
-      state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+      state === "win" ? indicator(order) : state === "lose" ? "LOSE" : `${playerState.score}pt`;
+    if (state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, state, text };

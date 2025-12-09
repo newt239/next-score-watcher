@@ -1,23 +1,13 @@
 "use client";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import {
-  Center,
-  Group,
-  NumberInput,
-  ScrollArea,
-  TextInput,
-} from "@mantine/core";
+import { Center, Group, NumberInput, ScrollArea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconGripVertical } from "@tabler/icons-react";
 
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
-import type {
-  GameDBPlayerProps,
-  PlayerDBProps,
-  RuleNames,
-} from "@/utils/types";
+import type { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
 
 import db from "@/utils/db";
 
@@ -29,13 +19,7 @@ type Props = {
   currentProfile: string;
 };
 
-const PlayersConfig: React.FC<Props> = ({
-  game_id,
-  rule,
-  playerList,
-  players,
-  currentProfile,
-}) => {
+const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, currentProfile }) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -54,11 +38,7 @@ const PlayersConfig: React.FC<Props> = ({
   const fields = form.getValues().players.map((item, index) => (
     <Draggable key={item.id} index={index} draggableId={item.id}>
       {(provided) => (
-        <ScrollArea
-          offsetScrollbars
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-        >
+        <ScrollArea offsetScrollbars ref={provided.innerRef} {...provided.draggableProps}>
           <Group w={500} wrap="nowrap">
             <Center {...provided.dragHandleProps}>
               <IconGripVertical size="1.2rem" />

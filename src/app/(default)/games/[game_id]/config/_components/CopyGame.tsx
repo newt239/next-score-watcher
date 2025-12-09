@@ -45,10 +45,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
         </Button>
         <Button
           onClick={async () => {
-            const game_id = await createGame(
-              { game, action_type: "copy-all" },
-              currentProfile
-            );
+            const game_id = await createGame({ game, action_type: "copy-all" }, currentProfile);
             onCompleteCopy(game_id as string);
           }}
         >

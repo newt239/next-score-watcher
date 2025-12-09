@@ -2,11 +2,7 @@
 
 import React from "react";
 
-import {
-  TextInput,
-  UnstyledButton,
-  useComputedColorScheme,
-} from "@mantine/core";
+import { TextInput, UnstyledButton, useComputedColorScheme } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
@@ -16,15 +12,7 @@ import classes from "./PlayerScoreButton.module.css";
 import db from "@/utils/db";
 
 type Props = {
-  color:
-    | "red"
-    | "blue"
-    | "green"
-    | "gray"
-    | "black"
-    | "win"
-    | "lose"
-    | "playing";
+  color: "red" | "blue" | "green" | "gray" | "black" | "win" | "lose" | "playing";
   filled?: boolean;
   compact?: boolean;
   game_id: string;
@@ -103,10 +91,10 @@ const PlayerScoreButton: React.FC<Props> = ({
           styles={{
             input: {
               cursor: "text",
-              color: `var(--mantine-color-${(filled
-                ? defaultColor
-                : variantColor
-              ).replace(".", "-")})`,
+              color: `var(--mantine-color-${(filled ? defaultColor : variantColor).replace(
+                ".",
+                "-"
+              )})`,
               backgroundColor: filled ? variantColor : "transparent",
             },
           }}
@@ -145,9 +133,7 @@ const PlayerScoreButton: React.FC<Props> = ({
           ) : (
             <>
               <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
-              <span style={{ fontSize: "50%" }}>
-                {children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}
-              </span>
+              <span style={{ fontSize: "50%" }}>{children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}</span>
             </>
           )}
         </UnstyledButton>

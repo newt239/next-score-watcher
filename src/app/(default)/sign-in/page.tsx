@@ -29,21 +29,10 @@ const LoginPage = () => {
   return (
     <main>
       <Title>ログイン</Title>
-      <Alert
-        color="red"
-        title="アルファ版の機能です"
-        icon={<IconInfoCircle />}
-        mt="md"
-      >
+      <Alert color="red" title="アルファ版の機能です" icon={<IconInfoCircle />} mt="md">
         ログイン機能はアルファ版の機能です。この期間に保存されたデータはすべて正式リリース時に削除されます。
       </Alert>
-      <Button
-        mt="lg"
-        onClick={handleLogin}
-        color="blue"
-        loading={isPending}
-        disabled={isPending}
-      >
+      <Button mt="lg" onClick={handleLogin} color="blue" loading={isPending} disabled={isPending}>
         Googleでログイン
       </Button>
       {error && (

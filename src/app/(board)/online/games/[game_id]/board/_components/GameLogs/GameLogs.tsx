@@ -3,12 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { Box, Button, Group, Table, Text } from "@mantine/core";
-import {
-  IconCheck,
-  IconCopy,
-  IconSortAscending,
-  IconSortDescending,
-} from "@tabler/icons-react";
+import { IconCheck, IconCopy, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
 import classes from "./GameLogs.module.css";
@@ -23,12 +18,7 @@ type GameLogsProps = {
   onToggleOrder: () => void;
 };
 
-const GameLogs: React.FC<GameLogsProps> = ({
-  logs,
-  players,
-  order,
-  onToggleOrder,
-}) => {
+const GameLogs: React.FC<GameLogsProps> = ({ logs, players, order, onToggleOrder }) => {
   const [copied, setCopied] = useState<boolean>(false);
 
   const filteredLogs = useMemo(() => {
@@ -53,20 +43,8 @@ const GameLogs: React.FC<GameLogsProps> = ({
         return `
         <tr>
           <td>${order === "desc" ? filteredLogs.length - qn : qn + 1}.</td>
-          <td>${
-            player
-              ? player.name
-              : log.actionType === "through"
-                ? "(スルー)"
-                : "-"
-          }</td>
-          <td>${
-            log.actionType === "correct"
-              ? "o"
-              : log.actionType === "wrong"
-                ? "x"
-                : "-"
-          }</td>
+          <td>${player ? player.name : log.actionType === "through" ? "(スルー)" : "-"}</td>
+          <td>${log.actionType === "correct" ? "o" : log.actionType === "wrong" ? "x" : "-"}</td>
           <td>${cdate(log.timestamp || new Date().toISOString()).format("YYYY/MM/DD HH:mm:ss")}</td>
         </tr>`;
       })
@@ -77,9 +55,7 @@ const GameLogs: React.FC<GameLogsProps> = ({
       const blob = new Blob([logsWithTableFormat], {
         type: "text/html",
       });
-      await window.navigator.clipboard.write([
-        new ClipboardItem({ [blob.type]: blob }),
-      ]);
+      await window.navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
       setCopied(true);
     } catch (e) {
       console.error("Failed to copy logs html:", e);
@@ -94,19 +70,13 @@ const GameLogs: React.FC<GameLogsProps> = ({
           <Button
             size="xs"
             onClick={copyAsHTML}
-            leftSection={
-              copied ? <IconCheck size={20} /> : <IconCopy size={20} />
-            }
+            leftSection={copied ? <IconCheck size={20} /> : <IconCopy size={20} />}
           >
             コピーする
           </Button>
           <Button
             leftSection={
-              order === "desc" ? (
-                <IconSortAscending size={20} />
-              ) : (
-                <IconSortDescending size={20} />
-              )
+              order === "desc" ? <IconSortAscending size={20} /> : <IconSortDescending size={20} />
             }
             onClick={onToggleOrder}
             size="xs"
@@ -123,31 +93,19 @@ const GameLogs: React.FC<GameLogsProps> = ({
                 const player = players.find((p) => p.id === log.playerId);
                 return (
                   <Table.Tr key={log.id}>
+                    <Table.Td>{order === "desc" ? filteredLogs.length - qn : qn + 1}.</Table.Td>
                     <Table.Td>
-                      {order === "desc" ? filteredLogs.length - qn : qn + 1}.
+                      {player ? player.name : log.actionType === "through" ? "(スルー)" : "-"}
                     </Table.Td>
                     <Table.Td>
-                      {player
-                        ? player.name
-                        : log.actionType === "through"
-                          ? "(スルー)"
-                          : "-"}
-                    </Table.Td>
-                    <Table.Td>
-                      {log.actionType === "correct"
-                        ? "o"
-                        : log.actionType === "wrong"
-                          ? "x"
-                          : "-"}
+                      {log.actionType === "correct" ? "o" : log.actionType === "wrong" ? "x" : "-"}
                     </Table.Td>
                     <Table.Td
-                      title={cdate(
-                        log.timestamp || new Date().toISOString()
-                      ).format("YYYY年MM月DD日 HH時mm分ss秒")}
-                    >
-                      {cdate(log.timestamp || new Date().toISOString()).format(
-                        "HH:mm:ss"
+                      title={cdate(log.timestamp || new Date().toISOString()).format(
+                        "YYYY年MM月DD日 HH時mm分ss秒"
                       )}
+                    >
+                      {cdate(log.timestamp || new Date().toISOString()).format("HH:mm:ss")}
                     </Table.Td>
                   </Table.Tr>
                 );

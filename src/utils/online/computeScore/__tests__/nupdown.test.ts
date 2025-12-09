@@ -7,11 +7,7 @@ import {
 } from "../index";
 import computeNupdown from "../nupdown";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type NupdownGame = Extract<GetGameDetailResponseType, { ruleType: "nupdown" }>;
@@ -76,9 +72,7 @@ const createPlayer = (
  * @param override 上書きするスコア情報
  * @returns 計算済みスコア
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-nupdown",
   player_id: "player-base",
   state: "playing",
@@ -99,10 +93,7 @@ const createScoreState = (
 
 describe("online nupdown形式", () => {
   it("初期状態でスコアは0、正解数と誤答数がinitialScoreに一致する", () => {
-    const players = [
-      createPlayer("player-1", 2, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 2, 0), createPlayer("player-2", null, 1)];
     const game = createNupdownGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -149,19 +140,11 @@ describe("online nupdown形式", () => {
       }),
     ]);
 
-    expect(sorted).toEqual([
-      "winner",
-      "higher-score",
-      "lower-score",
-      "more-wrong",
-    ]);
+    expect(sorted).toEqual(["winner", "higher-score", "lower-score", "more-wrong"]);
   });
 
   it("誤答でスコアがリセットされ勝敗判定が行われる", () => {
-    const players = [
-      createPlayer("player-1", 0, 0),
-      createPlayer("player-2", 0, 1),
-    ];
+    const players = [createPlayer("player-1", 0, 0), createPlayer("player-2", 0, 1)];
     const logs: SeriarizedGameLog[] = [
       {
         id: "log-1",

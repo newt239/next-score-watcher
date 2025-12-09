@@ -9,9 +9,7 @@ const NotFound: React.FC = () => {
       <p>お探しのページは移動または削除された可能性があります。</p>
       <p>以下のリンクからトップページに戻ってください。</p>
       <p>
-        <Link href="https://score-watcher.com/">
-          https://score-watcher.com/
-        </Link>
+        <Link href="https://score-watcher.com/">https://score-watcher.com/</Link>
       </p>
     </Box>
   );

@@ -1,10 +1,6 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 
 const z = async (game: AllGameProps["z"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
@@ -80,21 +76,15 @@ const z = async (game: AllGameProps["z"], gameLogList: LogDBProps[]) => {
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
     const text =
       playerState.state === "win"
         ? indicator(order)
         : playerState.is_incapacity ||
-            (gameLogList.length === playerState.last_wrong + 1 &&
-              playerState.stage === 1)
+            (gameLogList.length === playerState.last_wrong + 1 && playerState.stage === 1)
           ? "休"
           : `Stage${playerState.stage}`;
-    if (
-      playerState.state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+    if (playerState.state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, text };

@@ -14,9 +14,7 @@ type Props = {
 };
 
 const ConfigLimit: React.FC<Props> = ({ rule, game_id, currentProfile }) => {
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
 
   if (!game) return null;
 

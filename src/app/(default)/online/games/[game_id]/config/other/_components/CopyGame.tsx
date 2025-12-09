@@ -42,8 +42,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({
               {
                 name: `${gameId} のコピー`,
                 ruleType,
-                discordWebhookUrl:
-                  copyType === "copy-all" ? discordWebhookUrl : undefined,
+                discordWebhookUrl: copyType === "copy-all" ? discordWebhookUrl : undefined,
                 option: {},
               },
             ],

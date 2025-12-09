@@ -7,11 +7,7 @@ import {
 } from "../index";
 import computeSquarex from "../squarex";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type SquarexGame = Extract<GetGameDetailResponseType, { ruleType: "squarex" }>;
@@ -73,9 +69,7 @@ const createPlayer = (
  * @param override 上書きするスコア情報
  * @returns 計算済みスコア
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-squarex",
   player_id: "player-base",
   state: "playing",
@@ -96,10 +90,7 @@ const createScoreState = (
 
 describe("online squarex形式", () => {
   it("初期状態で奇数・偶数スコアがinitialScoreで初期化され積が総合スコアになる", () => {
-    const players = [
-      createPlayer("player-1", 3, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 3, 0), createPlayer("player-2", null, 1)];
     const game = createSquarexGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -228,8 +219,6 @@ describe("online squarex形式", () => {
         text: "1st",
       },
     ]);
-    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe(
-      "1st"
-    );
+    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe("1st");
   });
 });

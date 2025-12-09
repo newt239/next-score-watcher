@@ -71,9 +71,7 @@ export const updateUserPreferencesByUserId = async (
       updatedAt: new Date(),
     };
 
-    await DBClient.update(userPreference)
-      .set(updateData)
-      .where(eq(userPreference.userId, userId));
+    await DBClient.update(userPreference).set(updateData).where(eq(userPreference.userId, userId));
 
     return true;
   } catch (error) {

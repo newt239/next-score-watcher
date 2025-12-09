@@ -7,11 +7,7 @@ import {
 } from "../index";
 import computeNomr from "../nomr";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type NomrGame = Extract<GetGameDetailResponseType, { ruleType: "nomr" }>;
@@ -64,9 +60,7 @@ const createPlayer = (
 /**
  * 計算済みスコアを生成する。
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-nomr",
   player_id: "player-base",
   state: "playing",
@@ -87,10 +81,7 @@ const createScoreState = (
 
 describe("online nomr形式", () => {
   it("初期状態で全員が休み状態ではなくscoreはinitialScoreに一致する", () => {
-    const players = [
-      createPlayer("player-1", 2, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 2, 0), createPlayer("player-2", null, 1)];
     const game = createNomrGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -156,10 +147,7 @@ describe("online nomr形式", () => {
   });
 
   it("誤答後に規定休み数を経過すると解答権が回復する", () => {
-    const players = [
-      createPlayer("player-1", 0, 0),
-      createPlayer("player-2", 0, 1),
-    ];
+    const players = [createPlayer("player-1", 0, 0), createPlayer("player-2", 0, 1)];
     const logs: SeriarizedGameLog[] = [
       {
         id: "log-1",
@@ -269,8 +257,6 @@ describe("online nomr形式", () => {
         text: "1st",
       },
     ]);
-    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe(
-      "1st"
-    );
+    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe("1st");
   });
 });

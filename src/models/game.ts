@@ -152,9 +152,7 @@ export const CopyPlayersFromGameRequestSchema = z.object({
 /**
  * 既存ゲームからプレイヤーをコピーするリクエスト型
  */
-export type CopyPlayersFromGameRequestType = z.infer<
-  typeof CopyPlayersFromGameRequestSchema
->;
+export type CopyPlayersFromGameRequestType = z.infer<typeof CopyPlayersFromGameRequestSchema>;
 
 /**
  * ゲーム作成リクエストのスキーマ
@@ -280,9 +278,7 @@ export const RemoveGamePlayersRequestParamSchema = z.object({
  * ゲームプレイヤー削除リクエストのJSONスキーマ
  */
 export const RemoveGamePlayersRequestJsonSchema = z.object({
-  playerIds: z
-    .array(z.string().min(1))
-    .min(1, "削除するプレイヤーIDが必要です"),
+  playerIds: z.array(z.string().min(1)).min(1, "削除するプレイヤーIDが必要です"),
 });
 
 /**
@@ -329,65 +325,47 @@ export type UpdateGameQuizType = z.infer<typeof UpdateGameQuizSchema>;
 /**
  * ゲーム更新リクエストの型
  */
-export type UpdateGameRequestJsonType = z.infer<
-  typeof UpdateGameRequestJsonSchema
->;
+export type UpdateGameRequestJsonType = z.infer<typeof UpdateGameRequestJsonSchema>;
 
 /**
  * ゲームプレイヤー更新リクエストのパラメータ型
  */
-export type UpdateGamePlayerRequestParamType = z.infer<
-  typeof UpdateGamePlayerRequestParamSchema
->;
+export type UpdateGamePlayerRequestParamType = z.infer<typeof UpdateGamePlayerRequestParamSchema>;
 
 /**
  * ゲームプレイヤー更新リクエストのjson型
  */
-export type UpdateGamePlayerRequestJsonType = z.infer<
-  typeof UpdateGamePlayerRequestJsonSchema
->;
+export type UpdateGamePlayerRequestJsonType = z.infer<typeof UpdateGamePlayerRequestJsonSchema>;
 
 /**
  * ゲームプレイヤー一括更新リクエストのパラメータ型
  */
-export type UpdateGamePlayersRequestParamType = z.infer<
-  typeof UpdateGamePlayersRequestParamSchema
->;
+export type UpdateGamePlayersRequestParamType = z.infer<typeof UpdateGamePlayersRequestParamSchema>;
 
 /**
  * ゲームプレイヤー一括更新リクエストのjson型
  */
-export type UpdateGamePlayersRequestJsonType = z.infer<
-  typeof UpdateGamePlayersRequestJsonSchema
->;
+export type UpdateGamePlayersRequestJsonType = z.infer<typeof UpdateGamePlayersRequestJsonSchema>;
 
 /**
  * ゲーム削除リクエストの型
  */
-export type DeleteGameRequestParamType = z.infer<
-  typeof DeleteGameRequestParamSchema
->;
+export type DeleteGameRequestParamType = z.infer<typeof DeleteGameRequestParamSchema>;
 
 /**
  * ゲームにプレイヤー追加リクエストの型
  */
-export type AddPlayerToGameRequestType = z.infer<
-  typeof AddPlayerToGameRequestSchema
->;
+export type AddPlayerToGameRequestType = z.infer<typeof AddPlayerToGameRequestSchema>;
 
 /**
  * ゲームプレイヤー削除リクエストのパラメータ型
  */
-export type RemoveGamePlayersRequestParamType = z.infer<
-  typeof RemoveGamePlayersRequestParamSchema
->;
+export type RemoveGamePlayersRequestParamType = z.infer<typeof RemoveGamePlayersRequestParamSchema>;
 
 /**
  * ゲームプレイヤー削除リクエストのJSON型
  */
-export type RemoveGamePlayersRequestJsonType = z.infer<
-  typeof RemoveGamePlayersRequestJsonSchema
->;
+export type RemoveGamePlayersRequestJsonType = z.infer<typeof RemoveGamePlayersRequestJsonSchema>;
 
 /**
  * ゲームログ追加リクエストの型
@@ -397,9 +375,7 @@ export type AddGameLogRequestType = z.infer<typeof AddGameLogRequestSchema>;
 /**
  * ゲーム数取得リクエストの型
  */
-export type GetGameCountsRequestType = z.infer<
-  typeof GetGameCountsRequestSchema
->;
+export type GetGameCountsRequestType = z.infer<typeof GetGameCountsRequestSchema>;
 
 /**
  * ゲーム作成レスポンスの型
@@ -466,16 +442,12 @@ export const UpdateGameSettingsRequestSchema = z.union([
 /**
  * ゲーム設定取得レスポンスの型
  */
-export type GetGameSettingsResponseType = z.infer<
-  typeof GetGameSettingsResponseSchema
->;
+export type GetGameSettingsResponseType = z.infer<typeof GetGameSettingsResponseSchema>;
 
 /**
  * ゲーム設定更新リクエストの型
  */
-export type UpdateGameSettingsRequestType = z.infer<
-  typeof UpdateGameSettingsRequestSchema
->;
+export type UpdateGameSettingsRequestType = z.infer<typeof UpdateGameSettingsRequestSchema>;
 
 /**
  * ゲーム設定更新レスポンスの型
@@ -503,16 +475,12 @@ export const UpdateGameOptionsRequestJsonSchema = z.object({
 /**
  * ゲームオプション更新リクエストの型
  */
-export type UpdateGameOptionsRequestParamType = z.infer<
-  typeof UpdateGameOptionsRequestParamSchema
->;
+export type UpdateGameOptionsRequestParamType = z.infer<typeof UpdateGameOptionsRequestParamSchema>;
 
 /**
  * ゲームオプション更新リクエストのjson型
  */
-export type UpdateGameOptionsRequestJsonType = z.infer<
-  typeof UpdateGameOptionsRequestJsonSchema
->;
+export type UpdateGameOptionsRequestJsonType = z.infer<typeof UpdateGameOptionsRequestJsonSchema>;
 
 /**
  * ゲームオプション更新レスポンスの型
@@ -648,9 +616,7 @@ export const GetViewerBoardDataParamSchema = z.object({
 /**
  * Viewer用ボードデータ取得パラメータ型
  */
-export type GetViewerBoardDataParamType = z.infer<
-  typeof GetViewerBoardDataParamSchema
->;
+export type GetViewerBoardDataParamType = z.infer<typeof GetViewerBoardDataParamSchema>;
 
 /**
  * Viewer用ボードデータレスポンス型

@@ -22,9 +22,7 @@ const InitializeApp: React.FC<Props> = ({ currentProfile }) => {
   const openInitializeModal = () => {
     modals.openConfirmModal({
       title: "アプリの初期化",
-      children: (
-        <Text>アプリのデータを初期化します。この操作は取り消せません。</Text>
-      ),
+      children: <Text>アプリのデータを初期化します。この操作は取り消せません。</Text>,
       labels: { confirm: "初期化する", cancel: "初期化しない" },
       confirmProps: { color: "red" },
       onConfirm: deleteAppData,

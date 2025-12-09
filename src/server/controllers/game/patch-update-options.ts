@@ -6,10 +6,7 @@ import {
   UpdateGameOptionsRequestParamSchema,
 } from "@/models/game";
 import { getUserId } from "@/server/repositories/auth";
-import {
-  getGameOptionById,
-  updateGameOption,
-} from "@/server/repositories/game";
+import { getGameOptionById, updateGameOption } from "@/server/repositories/game";
 
 const factory = createFactory();
 

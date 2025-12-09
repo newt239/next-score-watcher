@@ -1,11 +1,7 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import {
-  getGameLogById,
-  removeGameLog,
-  getGameById,
-} from "@/server/repositories/game";
+import { getGameLogById, removeGameLog, getGameById } from "@/server/repositories/game";
 import { invalidateBoardCache } from "@/utils/cache/cache-service";
 import { sendDiscordResetNotification } from "@/utils/online/discord";
 

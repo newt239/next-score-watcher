@@ -16,22 +16,13 @@ const ViewerNotFound = () => {
       <Text>お探しのゲームは存在しないか、非公開に設定されています。</Text>
       <Text>以下のフォームからIDを入力し直してください。</Text>
       <Group gap="sm" my="lg">
-        <Input
-          placeholder="ゲームID"
-          value={gameId}
-          onChange={(e) => setGameId(e.target.value)}
-        />
-        <ButtonLink
-          href={`/online/viewer/${gameId}`}
-          disabled={gameId.trim() === ""}
-        >
+        <Input placeholder="ゲームID" value={gameId} onChange={(e) => setGameId(e.target.value)} />
+        <ButtonLink href={`/online/viewer/${gameId}`} disabled={gameId.trim() === ""}>
           観戦する
         </ButtonLink>
       </Group>
       <Text>
-        <Link href="https://score-watcher.com/">
-          https://score-watcher.com/
-        </Link>
+        <Link href="https://score-watcher.com/">https://score-watcher.com/</Link>
       </Text>
     </main>
   );

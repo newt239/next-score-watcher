@@ -38,11 +38,8 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
       }
     })
     .map((game) => {
-      const eachGameLogs = (logs || []).filter(
-        (log) => log.game_id === game.id
-      );
-      const gameState =
-        eachGameLogs.length === 0 ? "設定中" : `${eachGameLogs.length}問目`;
+      const eachGameLogs = (logs || []).filter((log) => log.game_id === game.id);
+      const gameState = eachGameLogs.length === 0 ? "設定中" : `${eachGameLogs.length}問目`;
       return {
         id: game.id,
         name: game.name,
@@ -65,9 +62,7 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
             { value: "table", label: "テーブル" },
           ]}
         />
-        <NativeSelect
-          onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}
-        >
+        <NativeSelect onChange={(v) => setOrderType(v.target.value as "last_open" | "name")}>
           <option value="last_open">最終閲覧順</option>
           <option value="name">ゲーム名順</option>
         </NativeSelect>

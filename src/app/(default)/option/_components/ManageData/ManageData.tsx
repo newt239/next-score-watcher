@@ -60,13 +60,8 @@ const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
 
         if (typeof jsonData === "object") {
           const newProfileId = `profile_${nanoid()}`;
-          const newProfileList = [
-            ...profileList,
-            { name: encodeURI(input), id: newProfileId },
-          ];
-          window.document.cookie = `scorew_profile_list=${JSON.stringify(
-            newProfileList
-          )}`;
+          const newProfileList = [...profileList, { name: encodeURI(input), id: newProfileId }];
+          window.document.cookie = `scorew_profile_list=${JSON.stringify(newProfileList)}`;
           window.document.cookie = `scorew_current_profile=${newProfileId}`;
 
           if (jsonData.games) {
@@ -100,9 +95,7 @@ const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
   return (
     <>
       <Title order={3}>エクスポート</Title>
-      <Text>
-        ゲームデータ及びプレイヤーデータ、クイズ問題データをエクスポートします。
-      </Text>
+      <Text>ゲームデータ及びプレイヤーデータ、クイズ問題データをエクスポートします。</Text>
       <Group justify="flex-start" gap="1rem" mb="lg">
         <Button onClick={exportGameData} color="green">
           エクスポート
@@ -117,11 +110,7 @@ const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <Dropzone
-          disabled={input === ""}
-          onDrop={handleOnChange}
-          accept={["application/json"]}
-        />
+        <Dropzone disabled={input === ""} onDrop={handleOnChange} accept={["application/json"]} />
       </Stack>
     </>
   );

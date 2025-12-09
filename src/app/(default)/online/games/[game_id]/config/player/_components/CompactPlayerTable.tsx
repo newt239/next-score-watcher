@@ -42,9 +42,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
   onPlayersChange,
 }) => {
   const [isPending, startTransition] = useTransition();
-  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
-    {}
-  );
+  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>({});
   const [searchText, setSearchText] = useState<string>("");
   const { updateGame } = useGameState();
 
@@ -170,10 +168,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         }
 
         // 親コンポーネントに新しいプレイヤーIDリストを通知
-        if (
-          (addedPlayerIds.length > 0 || removedPlayerIds.length > 0) &&
-          onPlayersChange
-        ) {
+        if ((addedPlayerIds.length > 0 || removedPlayerIds.length > 0) && onPlayersChange) {
           onPlayersChange(newSelectedPlayerIds);
         }
 
@@ -197,9 +192,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
         disabled={isPending}
       />
       {table.getRowModel().rows.length === 0 ? (
-        <Text p="sm">
-          「{searchText}」に一致するプレイヤーは見つかりませんでした。
-        </Text>
+        <Text p="sm">「{searchText}」に一致するプレイヤーは見つかりませんでした。</Text>
       ) : (
         <>
           <Table.ScrollContainer minWidth={500}>
@@ -211,10 +204,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                       <Table.Th colSpan={header.colSpan} key={header.id}>
                         {header.isPlaceholder
                           ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                       </Table.Th>
                     ))}
                   </Table.Tr>
@@ -227,10 +217,7 @@ const CompactPlayerTable: React.FC<CompactPlayerTableProps> = ({
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <Table.Td key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </Table.Td>
                         );
                       })}

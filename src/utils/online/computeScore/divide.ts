@@ -1,9 +1,6 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type {
-  ComputedScoreProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
@@ -46,8 +43,7 @@ const computeDivide = (
       // 誤答時のポイント再計算
       const basePoints = s.correct * correctPoints;
       const divisor = s.wrong;
-      s.score =
-        basePoints > 0 && divisor > 0 ? Math.floor(basePoints / divisor) : 0;
+      s.score = basePoints > 0 && divisor > 0 ? Math.floor(basePoints / divisor) : 0;
       s.last_wrong = qn;
     }
   });

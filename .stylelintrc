@@ -1,13 +1,9 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
-  "rules": {
-    "selector-class-pattern": null,
-    "no-descending-specificity": null,
-    "at-rule-no-unknown": [
-      true,
-      {
-        "ignoreAtRules": ["mixin"]
-      }
-    ]
-  }
+  "rules":
+    {
+      "selector-class-pattern": null,
+      "no-descending-specificity": null,
+      "at-rule-no-unknown": [true, { "ignoreAtRules": ["mixin"] }],
+    },
 }

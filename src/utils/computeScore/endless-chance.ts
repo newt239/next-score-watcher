@@ -1,23 +1,14 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
 
-const endlessChance = async (
-  game: AllGameProps["endless-chance"],
-  gameLogList: LogDBProps[]
-) => {
+const endlessChance = async (game: AllGameProps["endless-chance"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   const realQuizLength =
-    gameLogList.filter((log) => ["correct", "through"].includes(log.variant))
-      .length +
-    (gameLogList.length !== 0 &&
-    gameLogList[gameLogList.length - 1].variant === "multiple_wrong"
+    gameLogList.filter((log) => ["correct", "through"].includes(log.variant)).length +
+    (gameLogList.length !== 0 && gameLogList[gameLogList.length - 1].variant === "multiple_wrong"
       ? 1
       : 0);
   let currentQn = 0;
@@ -113,15 +104,8 @@ const endlessChance = async (
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
-    const state = detectPlayerState(
-      game,
-      playerState.state,
-      order,
-      realQuizLength
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
+    const state = detectPlayerState(game, playerState.state, order, realQuizLength);
     const text =
       state === "win"
         ? indicator(order)

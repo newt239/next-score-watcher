@@ -32,10 +32,8 @@ type GamesPageProps = {
  */
 const GamesPage = async ({ searchParams }: GamesPageProps) => {
   const params = await searchParams;
-  const displayMode: "grid" | "table" =
-    params.display === "table" ? "table" : "grid";
-  const orderType: "last_open" | "name" =
-    params.order === "name" ? "name" : "last_open";
+  const displayMode: "grid" | "table" = params.display === "table" ? "table" : "grid";
+  const orderType: "last_open" | "name" = params.order === "name" ? "name" : "last_open";
 
   const apiClient = await createApiClientOnServer();
   const gamesData = await parseResponse(apiClient["games"].$get());

@@ -17,9 +17,7 @@ export const metadata: Metadata = {
 const OnlineQuizPage = async () => {
   const apiClient = await createApiClientOnServer();
 
-  const initialQuizes = await parseResponse(
-    apiClient.quizes.$get({ query: {} })
-  );
+  const initialQuizes = await parseResponse(apiClient.quizes.$get({ query: {} }));
   if ("error" in initialQuizes) {
     return notFound();
   }

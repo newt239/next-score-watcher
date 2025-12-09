@@ -46,10 +46,7 @@ const ImportQuiz: React.FC<Props> = ({ createQuizes }) => {
             } catch (error) {
               notifications.show({
                 title: "エラー",
-                message:
-                  error instanceof Error
-                    ? error.message
-                    : "インポートに失敗しました",
+                message: error instanceof Error ? error.message : "インポートに失敗しました",
                 color: "red",
               });
             }
@@ -94,14 +91,9 @@ const ImportQuiz: React.FC<Props> = ({ createQuizes }) => {
 
   return (
     <Flex direction="column" gap="md">
-      <Dropzone
-        onDrop={handleOnChange}
-        accept={["text/csv"]}
-        loading={isPending}
-      />
+      <Dropzone onDrop={handleOnChange} accept={["text/csv"]} loading={isPending} />
       <Text size="sm">
-        CSVファイル形式: 1列目: 問題文、2列目: 答え、3列目: カテゴリ、4列目:
-        解説・補足
+        CSVファイル形式: 1列目: 問題文、2列目: 答え、3列目: カテゴリ、4列目: 解説・補足
       </Text>
     </Flex>
   );

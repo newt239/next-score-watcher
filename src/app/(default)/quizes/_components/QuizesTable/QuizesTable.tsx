@@ -1,14 +1,6 @@
 import { useState } from "react";
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Group,
-  Table,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Box, Button, Checkbox, Group, Table, Text, TextInput } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { IconFilter, IconTrash } from "@tabler/icons-react";
@@ -35,10 +27,7 @@ type Props = {
 };
 
 const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
-  const quizes = useLiveQuery(
-    () => db(currentProfile).quizes.orderBy("set_name").sortBy("n"),
-    []
-  );
+  const quizes = useLiveQuery(() => db(currentProfile).quizes.orderBy("set_name").sortBy("n"), []);
   const [searchText, setSearchText] = useState<string>("");
 
   const [selectedQuizes, setSelectedQuizes] = useState({});
@@ -136,9 +125,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
                       confirmProps: { color: "red" },
                       onConfirm: () => {
                         db(currentProfile).quizes.bulkDelete(
-                          table
-                            .getSelectedRowModel()
-                            .rows.map((row) => row.original.id)
+                          table.getSelectedRowModel().rows.map((row) => row.original.id)
                         );
                         notifications.show({
                           message: `${
@@ -168,9 +155,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
           }
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>
-              <Text>
-                「{searchText}」に一致する問題データは見つかりませんでした。
-              </Text>
+              <Text>「{searchText}」に一致する問題データは見つかりませんでした。</Text>
             </Box>
           ) : (
             <>
@@ -183,10 +168,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
                           <Table.Th colSpan={header.colSpan} key={i}>
                             {header.isPlaceholder
                               ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
+                              : flexRender(header.column.columnDef.header, header.getContext())}
                           </Table.Th>
                         ))}
                       </Table.Tr>
@@ -202,10 +184,7 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
                                 key={`${row.original.id}_${i}`}
                                 w={cell.column.id === "a" ? 300 : undefined}
                               >
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext()
-                                )}
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
                               </Table.Td>
                             );
                           })}

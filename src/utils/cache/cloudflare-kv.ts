@@ -44,11 +44,7 @@ export const getFromKV = async (key: string): Promise<string | null> => {
 /**
  * Cloudflare KVにデータを保存
  */
-export const putToKV = async (
-  key: string,
-  value: string,
-  ttl?: number
-): Promise<boolean> => {
+export const putToKV = async (key: string, value: string, ttl?: number): Promise<boolean> => {
   try {
     const namespaceId = process.env.CLOUDFLARE_KV_NAMESPACE_ID;
     const apiToken = process.env.CLOUDFLARE_KV_API_TOKEN;

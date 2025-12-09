@@ -7,11 +7,7 @@ import {
   getSortedPlayerOrderListForOnline,
 } from "../index";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type FreezexGame = Extract<GetGameDetailResponseType, { ruleType: "freezex" }>;
@@ -73,9 +69,7 @@ const createPlayer = (
  * @param override 上書きするスコア情報
  * @returns 計算済みスコア
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-freezex",
   player_id: "player-base",
   state: "playing",
@@ -96,10 +90,7 @@ const createScoreState = (
 
 describe("online freezex形式", () => {
   it("初期状態で正解数・誤答数がinitialScoreに一致し休みフラグはfalse", () => {
-    const players = [
-      createPlayer("player-1", 2, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 2, 0), createPlayer("player-2", null, 1)];
     const game = createFreezexGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -118,10 +109,7 @@ describe("online freezex形式", () => {
   });
 
   it("誤答で休みになり必要な問題数経過で復帰する", () => {
-    const players = [
-      createPlayer("player-1", 0, 0),
-      createPlayer("player-2", 0, 1),
-    ];
+    const players = [createPlayer("player-1", 0, 0), createPlayer("player-2", 0, 1)];
     const logs: SeriarizedGameLog[] = [
       {
         id: "log-1",
@@ -238,9 +226,7 @@ describe("online freezex形式", () => {
         text: "1st",
       },
     ]);
-    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe(
-      "1st"
-    );
+    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe("1st");
   });
 
   it("順位ソートは勝敗とスコアを優先する", () => {
@@ -270,11 +256,6 @@ describe("online freezex形式", () => {
       }),
     ]);
 
-    expect(sorted).toEqual([
-      "winner",
-      "higher-score",
-      "lower-score",
-      "more-wrong",
-    ]);
+    expect(sorted).toEqual(["winner", "higher-score", "lower-score", "more-wrong"]);
   });
 });

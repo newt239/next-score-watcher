@@ -1,10 +1,7 @@
 import { Group, NativeSelect, Pagination } from "@mantine/core";
 
 import type { PlayerProps } from "@/models/game";
-import type {
-  PlayerDetailResponseType,
-  UpdatePlayerType,
-} from "@/models/player";
+import type { PlayerDetailResponseType, UpdatePlayerType } from "@/models/player";
 import type { ApiQuizDataType } from "@/models/quiz";
 import type { PlayerDBProps, QuizDBProps } from "@/utils/types";
 import type { Table } from "@tanstack/react-table";

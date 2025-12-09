@@ -221,10 +221,7 @@ export const updatePlayer = async (
 /**
  * プレイヤー削除（複数対応）
  */
-export const deletePlayer = async (
-  playerIds: DeletePlayerRequestType,
-  userId: string
-) => {
+export const deletePlayer = async (playerIds: DeletePlayerRequestType, userId: string) => {
   const deletedPlayerIds: string[] = [];
 
   for (const playerId of playerIds) {

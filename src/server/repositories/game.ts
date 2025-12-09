@@ -21,11 +21,7 @@ import { game, gameLog, gamePlayer, player } from "@/utils/drizzle/schema";
  */
 export const getGameById = async (gameId: string, userId: string) => {
   const queryResult = await DBClient.query.game.findFirst({
-    where: and(
-      eq(game.id, gameId),
-      eq(game.userId, userId),
-      isNull(game.deletedAt)
-    ),
+    where: and(eq(game.id, gameId), eq(game.userId, userId), isNull(game.deletedAt)),
     with: {
       gameLog: {
         where: isNull(gameLog.deletedAt),
@@ -56,11 +52,7 @@ export const getGameById = async (gameId: string, userId: string) => {
     return null;
   }
 
-  const {
-    gameLog: gameLogData,
-    gamePlayer: gamePlayerData,
-    ...gameData
-  } = queryResult;
+  const { gameLog: gameLogData, gamePlayer: gamePlayerData, ...gameData } = queryResult;
 
   // ゲーム設定を取得
   const parsedGame = parseGameOption(gameData);
@@ -240,13 +232,7 @@ export const addGamePlayer = async (
 export const getGameLogsById = async (gameId: string, userId: string) => {
   const logs = await DBClient.select()
     .from(gameLog)
-    .where(
-      and(
-        eq(gameLog.gameId, gameId),
-        eq(gameLog.userId, userId),
-        isNull(gameLog.deletedAt)
-      )
-    )
+    .where(and(eq(gameLog.gameId, gameId), eq(gameLog.userId, userId), isNull(gameLog.deletedAt)))
     .orderBy(asc(gameLog.timestamp));
 
   return logs;
@@ -255,10 +241,7 @@ export const getGameLogsById = async (gameId: string, userId: string) => {
 /**
  * クラウドゲームログ追加
  */
-export const addGameLog = async (
-  logData: AddGameLogRequestType,
-  userId: string
-) => {
+export const addGameLog = async (logData: AddGameLogRequestType, userId: string) => {
   const logId = nanoid();
 
   await DBClient.insert(gameLog).values({
@@ -294,9 +277,7 @@ export const getGameLogById = async (logId: string, userId: string) => {
  * クラウドゲームログ削除（元に戻す用）
  */
 export const removeGameLog = async (logId: string, userId: string) => {
-  await DBClient.delete(gameLog).where(
-    and(eq(gameLog.id, logId), eq(gameLog.userId, userId))
-  );
+  await DBClient.delete(gameLog).where(and(eq(gameLog.id, logId), eq(gameLog.userId, userId)));
 };
 
 /**
@@ -469,9 +450,7 @@ export const updateGameOption = async (
       option,
       updatedAt: new Date(),
     })
-    .where(
-      and(eq(game.id, gameId), eq(game.userId, userId), isNull(game.deletedAt))
-    );
+    .where(and(eq(game.id, gameId), eq(game.userId, userId), isNull(game.deletedAt)));
 
   return result.rowsAffected > 0;
 };
@@ -550,11 +529,7 @@ export const removeGamePlayers = async (
  */
 export const getPublicGameById = async (gameId: string) => {
   const queryResult = await DBClient.query.game.findFirst({
-    where: and(
-      eq(game.id, gameId),
-      eq(game.isPublic, true),
-      isNull(game.deletedAt)
-    ),
+    where: and(eq(game.id, gameId), eq(game.isPublic, true), isNull(game.deletedAt)),
     with: {
       gameLog: {
         where: isNull(gameLog.deletedAt),
@@ -585,11 +560,7 @@ export const getPublicGameById = async (gameId: string) => {
     return null;
   }
 
-  const {
-    gameLog: gameLogData,
-    gamePlayer: gamePlayerData,
-    ...gameData
-  } = queryResult;
+  const { gameLog: gameLogData, gamePlayer: gamePlayerData, ...gameData } = queryResult;
 
   // ゲーム設定を取得
   const parsedGame = parseGameOption(gameData);

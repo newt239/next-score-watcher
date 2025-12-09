@@ -56,10 +56,7 @@ export const getQuizesWithPagination = async (
   category?: string
 ): Promise<GetQuizesListResponseType> => {
   // フィルタ条件を構築
-  const whereConditions = [
-    eq(quizQuestion.userId, userId),
-    isNull(quizQuestion.deletedAt),
-  ];
+  const whereConditions = [eq(quizQuestion.userId, userId), isNull(quizQuestion.deletedAt)];
 
   if (category) {
     whereConditions.push(like(quizQuestion.category, `%${category}%`));
@@ -136,19 +133,14 @@ export const getQuizDetail = async (quizId: string, userId: string) => {
 /**
  * クイズ問題作成
  */
-export const createQuiz = async (
-  quizesData: CreateQuizRequestType,
-  userId: string
-) => {
+export const createQuiz = async (quizesData: CreateQuizRequestType, userId: string) => {
   const createdQuizes = [];
 
   for (const quizData of quizesData) {
     // セットを取得または作成
     let [existingSet] = await DBClient.select()
       .from(quizSet)
-      .where(
-        and(eq(quizSet.name, quizData.setName), eq(quizSet.userId, userId))
-      );
+      .where(and(eq(quizSet.name, quizData.setName), eq(quizSet.userId, userId)));
 
     if (!existingSet) {
       const setId = nanoid();
@@ -196,10 +188,7 @@ export const createQuiz = async (
 /**
  * クイズ問題更新
  */
-export const updateQuiz = async (
-  quizesData: UpdateQuizRequestType,
-  userId: string
-) => {
+export const updateQuiz = async (quizesData: UpdateQuizRequestType, userId: string) => {
   let updatedCount = 0;
 
   for (const quizData of quizesData) {
@@ -243,10 +232,7 @@ export const updateQuiz = async (
 /**
  * クイズ問題削除（ソフトデリート）
  */
-export const deleteQuiz = async (
-  quizIds: DeleteQuizRequestType,
-  userId: string
-) => {
+export const deleteQuiz = async (quizIds: DeleteQuizRequestType, userId: string) => {
   const deletedIds = [];
 
   for (const quizId of quizIds) {

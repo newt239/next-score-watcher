@@ -58,10 +58,7 @@ const PreferenceDrawer: React.FC<PreferenceDrawerProps> = ({
         </Tabs.List>
         <Box py="lg" className={styles["tab_panel_area"]}>
           <Tabs.Panel value="preferences">
-            <Preferences
-              userId={userId}
-              initialPreferences={initialPreferences}
-            />
+            <Preferences userId={userId} initialPreferences={initialPreferences} />
           </Tabs.Panel>
           <Tabs.Panel value="shortcuts">
             <Table highlightOnHover>

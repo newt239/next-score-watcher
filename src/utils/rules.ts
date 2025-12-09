@@ -16,8 +16,7 @@ export const rules = {
     rule: "normal",
     name: "スコア計算",
     short_description: "スコアの計算を行います。",
-    description:
-      "ポイント数が表示されている部分をクリックすることでポイントが増加します。",
+    description: "ポイント数が表示されている部分をクリックすることでポイントが増加します。",
     options: undefined,
     rows: 1,
   },
@@ -34,8 +33,7 @@ export const rules = {
   "nomx-ad": {
     rule: "nomx-ad",
     name: "連答つきN○M✕",
-    short_description:
-      "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
+    short_description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
     description: "abcの新形式に対応しています。",
     win_point: 7,
     lose_point: 3,
@@ -57,8 +55,7 @@ export const rules = {
   nomr: {
     rule: "nomr",
     name: "N○M休",
-    short_description:
-      "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
+    short_description: "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
     description: "プレイヤーは何回でも誤答することができます。",
     win_point: 7,
     lose_point: 3,
@@ -79,8 +76,7 @@ export const rules = {
   nupdown: {
     rule: "nupdown",
     name: "Nupdown",
-    short_description:
-      "N回正解で勝ち抜けですが、途中で一度でも誤答すると0に戻る形式です。",
+    short_description: "N回正解で勝ち抜けですが、途中で一度でも誤答すると0に戻る形式です。",
     description: "一回の誤答が結果を大きく左右するため、誤答に厳しい形式です。",
     win_point: 5,
     lose_point: 2,
@@ -101,8 +97,7 @@ export const rules = {
   swedish10: {
     rule: "swedish10",
     name: "Swedish10",
-    short_description:
-      "正答数に応じて誤答時のダメージポイントが変動する形式です。",
+    short_description: "正答数に応じて誤答時のダメージポイントが変動する形式です。",
     description:
       "10回の正答で勝ち抜けですが、誤答すると正答数が0の時1✕、1～2の時2✕、3～5の時3✕、6～9の時4✕が付与され、10✕以上で失格となります。",
     win_point: 10,
@@ -114,8 +109,7 @@ export const rules = {
     rule: "backstream",
     name: "Backstream",
     short_description: "正答数 - 誤答数が10になると勝ち抜ける形式です。",
-    description:
-      "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。-10になると失格となります。",
+    description: "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。-10になると失格となります。",
     win_point: 10,
     lose_point: -10,
     options: undefined,
@@ -124,8 +118,7 @@ export const rules = {
   attacksurvival: {
     rule: "attacksurvival",
     name: "アタックサバイバル",
-    short_description:
-      "ゲームの進行とともに各プレイヤーのポイントが減っていく形式です。",
+    short_description: "ゲームの進行とともに各プレイヤーのポイントが減っていく形式です。",
     description:
       "プレイヤーは各自Nポイントを持った状態で開始します。正解すると他の回答者全員のポイントをXポイント減らすことができ、また誤答すると自分のポイントがYポイント減ります。ポイントが0になった時失格となります。",
     win_point: 15, // 初期値
@@ -140,10 +133,8 @@ export const rules = {
   squarex: {
     rule: "squarex",
     name: "SquareX",
-    short_description:
-      "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
-    description:
-      "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
+    short_description: "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
+    description: "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
     win_point: 16,
     options: undefined,
     rows: 3,
@@ -169,8 +160,7 @@ export const rules = {
   "endless-chance": {
     rule: "endless-chance",
     name: "エンドレスチャンス",
-    short_description:
-      "同じ問題に対して正答が出るまで複数人が回答できる形式です。",
+    short_description: "同じ問題に対して正答が出るまで複数人が回答できる形式です。",
     description: "正解者が出るかスルーになるまで次の問題に進みません。",
     win_point: 7,
     lose_point: 3,
@@ -184,8 +174,7 @@ export const rules = {
     name: "Variables",
     short_description:
       "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N✕(N-2)されます。",
-    description:
-      "Nを大きくすればするほど、誤答時のダメージが大きくなる形式です。",
+    description: "Nを大きくすればするほど、誤答時のダメージが大きくなる形式です。",
     win_point: 30,
     options: undefined,
     rows: 3,

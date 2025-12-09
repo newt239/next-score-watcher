@@ -21,10 +21,7 @@ type PreferencesProps = {
   initialPreferences: UserPreferencesType | null;
 };
 
-const Preferences: React.FC<PreferencesProps> = ({
-  userId,
-  initialPreferences,
-}) => {
+const Preferences: React.FC<PreferencesProps> = ({ userId, initialPreferences }) => {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light");
 
@@ -150,11 +147,7 @@ const Preferences: React.FC<PreferencesProps> = ({
       <Switch
         checked={preferences.showBoardHeader}
         onChange={(event) => {
-          updateSetting(
-            "showBoardHeader",
-            event.currentTarget.checked,
-            "show_board_header"
-          );
+          updateSetting("showBoardHeader", event.currentTarget.checked, "show_board_header");
         }}
         label="ヘッダーを表示"
         size="md"
@@ -170,11 +163,7 @@ const Preferences: React.FC<PreferencesProps> = ({
       <Switch
         checked={preferences.showSignString}
         onChange={(event) => {
-          updateSetting(
-            "showSignString",
-            event.currentTarget.checked,
-            "show_sign_string"
-          );
+          updateSetting("showSignString", event.currentTarget.checked, "show_sign_string");
         }}
         label="スコアに「○」「✕」「pt」の文字列を付与する"
         size="md"
@@ -182,11 +171,7 @@ const Preferences: React.FC<PreferencesProps> = ({
       <Switch
         checked={preferences.reversePlayerInfo}
         onChange={(event) => {
-          updateSetting(
-            "reversePlayerInfo",
-            event.currentTarget.checked,
-            "reverse_player_info"
-          );
+          updateSetting("reversePlayerInfo", event.currentTarget.checked, "reverse_player_info");
         }}
         label="スコアを名前の上に表示"
         size="md"
@@ -194,11 +179,7 @@ const Preferences: React.FC<PreferencesProps> = ({
       <Switch
         checked={preferences.wrongNumber}
         onChange={(event) => {
-          updateSetting(
-            "wrongNumber",
-            event.currentTarget.checked,
-            "wrong_number"
-          );
+          updateSetting("wrongNumber", event.currentTarget.checked, "wrong_number");
         }}
         label="誤答数が4以下のとき✕の数で表示"
         description="誤答数が0のときは中黒・で表示されます。"

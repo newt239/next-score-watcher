@@ -45,17 +45,12 @@ export const getCachedBoardData = async (
 /**
  * ボードデータのキャッシュを削除
  */
-export const invalidateBoardCache = async (
-  gameId: string
-): Promise<boolean> => {
+export const invalidateBoardCache = async (gameId: string): Promise<boolean> => {
   try {
     const cacheKey = getBoardCacheKey(gameId);
     return await deleteFromKV(cacheKey);
   } catch (error) {
-    console.error(
-      `Failed to invalidate board cache for game ${gameId}:`,
-      error
-    );
+    console.error(`Failed to invalidate board cache for game ${gameId}:`, error);
     return false;
   }
 };

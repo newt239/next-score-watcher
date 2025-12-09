@@ -25,10 +25,7 @@ const GameListControl: React.FC = () => {
           { value: "table", label: "テーブル" },
         ]}
       />
-      <NativeSelect
-        value={orderType}
-        onChange={(e) => setOrderType(e.target.value)}
-      >
+      <NativeSelect value={orderType} onChange={(e) => setOrderType(e.target.value)}>
         <option value="last_open">最終更新順</option>
         <option value="name">ゲーム名順</option>
       </NativeSelect>

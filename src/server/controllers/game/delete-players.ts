@@ -20,10 +20,7 @@ const handler = factory.createHandlers(
     try {
       const userId = await getUserId();
       if (!userId) {
-        return c.json(
-          { success: false, error: "ログインしてください" } as const,
-          401
-        );
+        return c.json({ success: false, error: "ログインしてください" } as const, 401);
       }
 
       const { gameId } = c.req.valid("param");
