@@ -1,9 +1,6 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type {
-  ComputedScoreProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**

@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 
-import {
-  Button,
-  Flex,
-  NativeSelect,
-  Popover,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Flex, NativeSelect, Popover, TextInput, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
@@ -23,8 +16,7 @@ type Props = {
 };
 
 const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
-  const currentProfileName =
-    profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
+  const currentProfileName = profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
 
   return (
@@ -72,9 +64,7 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
                 ...profileList,
                 { name: encodeURI(newProfileName), id: newProfileId },
               ];
-              window.document.cookie = `scorew_profile_list=${JSON.stringify(
-                newProfileList
-              )}`;
+              window.document.cookie = `scorew_profile_list=${JSON.stringify(newProfileList)}`;
               window.document.cookie = `scorew_current_profile=${newProfileId}`;
               window.location.reload();
             }}
@@ -98,14 +88,11 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
                   labels: { confirm: "削除する", cancel: "削除しない" },
                   confirmProps: { color: "red" },
                   onConfirm: () => {
-                    const newProfileList = profileList.filter(
-                      (p) => p.id !== currentProfile
-                    );
+                    const newProfileList = profileList.filter((p) => p.id !== currentProfile);
                     window.document.cookie = `scorew_profile_list=${JSON.stringify(
                       newProfileList
                     )}`;
-                    window.document.cookie =
-                      "scorew_current_profile=score_watcher";
+                    window.document.cookie = "scorew_current_profile=score_watcher";
                     db(currentProfile)
                       .delete()
                       .then(() => {

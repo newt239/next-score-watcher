@@ -26,9 +26,7 @@ const PlayerPage = async ({ params }: PlayerPageProps) => {
   const gameData = await parseResponse(
     apiClient.games[":gameId"].$get({ param: { gameId: game_id } })
   );
-  const playersData = await parseResponse(
-    apiClient.players.$get({ query: {} })
-  );
+  const playersData = await parseResponse(apiClient.players.$get({ query: {} }));
 
   if ("error" in gameData || "error" in playersData) {
     return notFound();

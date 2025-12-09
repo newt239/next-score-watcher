@@ -2,17 +2,7 @@
 
 import { useState, useTransition } from "react";
 
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Group,
-  Switch,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Box, Button, Divider, Flex, Group, Switch, Text, TextInput, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { parseResponse } from "hono/client";
 
@@ -24,12 +14,8 @@ type Props = {
   userId: string;
 };
 
-const UserPreferencesSettings: React.FC<Props> = ({
-  initialPreferences,
-  userId,
-}) => {
-  const [preferences, setPreferences] =
-    useState<UserPreferencesType>(initialPreferences);
+const UserPreferencesSettings: React.FC<Props> = ({ initialPreferences, userId }) => {
+  const [preferences, setPreferences] = useState<UserPreferencesType>(initialPreferences);
   const [isPending, startTransition] = useTransition();
 
   const handleUpdate = <K extends keyof UserPreferencesType>(

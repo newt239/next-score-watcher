@@ -2,15 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import {
-  Button,
-  Flex,
-  Group,
-  Radio,
-  RadioGroup,
-  Text,
-  Textarea,
-} from "@mantine/core";
+import { Button, Flex, Group, Radio, RadioGroup, Text, Textarea } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
@@ -35,13 +27,9 @@ const LoadPlayer: React.FC<Props> = ({ currentProfile }) => {
       const playerRaw = rawPlayerText.split("\n");
       const dataArray: PlayerDBProps[] = [];
       for (let i = 0; i < playerRaw.length; i++) {
-        const name = playerRaw[i].split(
-          separateType === "comma" ? "," : "\t"
-        )[0];
-        const text =
-          playerRaw[i].split(separateType === "comma" ? "," : "\t")[1] || "";
-        const belong =
-          playerRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
+        const name = playerRaw[i].split(separateType === "comma" ? "," : "\t")[0];
+        const text = playerRaw[i].split(separateType === "comma" ? "," : "\t")[1] || "";
+        const belong = playerRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
         if (name !== "") {
           dataArray.push({ id: nanoid(), name, text, belong, tags: [] });
         }
@@ -67,9 +55,7 @@ const LoadPlayer: React.FC<Props> = ({ currentProfile }) => {
 
   return (
     <Flex className={classes.load_player}>
-      <Text>
-        Excelやスプレッドシートからコピーし、まとめてインポートできます。
-      </Text>
+      <Text>Excelやスプレッドシートからコピーし、まとめてインポートできます。</Text>
       <Textarea
         rows={4}
         onChange={(e) => setRawPlayerText(e.target.value)}
@@ -79,10 +65,7 @@ const LoadPlayer: React.FC<Props> = ({ currentProfile }) => {
       />
       <Text>A列: 氏名、 B列: 順位、 C列: 所属</Text>
       <Group justify="end">
-        <RadioGroup
-          onChange={(e) => setSparateType(e as "tab" | "comma")}
-          value={separateType}
-        >
+        <RadioGroup onChange={(e) => setSparateType(e as "tab" | "comma")} value={separateType}>
           <Group>
             <Radio label="カンマ区切り" value="comma" />
             <Radio label="タブ区切り" value="tab" />

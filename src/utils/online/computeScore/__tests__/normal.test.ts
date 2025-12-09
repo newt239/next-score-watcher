@@ -8,11 +8,7 @@ import {
 } from "../index";
 import computeNormal from "../normal";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type NormalGame = Extract<GetGameDetailResponseType, { ruleType: "normal" }>;
@@ -20,10 +16,7 @@ type NormalGame = Extract<GetGameDetailResponseType, { ruleType: "normal" }>;
 /**
  * normal形式のゲームデータを生成する。
  */
-const createNormalGame = (
-  players: GamePlayerProps[],
-  logs: SeriarizedGameLog[]
-): NormalGame => ({
+const createNormalGame = (players: GamePlayerProps[], logs: SeriarizedGameLog[]): NormalGame => ({
   id: "game-normal",
   name: "normal",
   ruleType: "normal" as const,
@@ -59,9 +52,7 @@ const createPlayer = (
 /**
  * 計算済みスコアのひな型を生成する。
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-normal",
   player_id: "player-base",
   state: "playing",
@@ -82,10 +73,7 @@ const createScoreState = (
 
 describe("online normal形式", () => {
   it("初期状態をinitialScoreに応じて生成する", () => {
-    const players = [
-      createPlayer("player-1", 3, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 3, 0), createPlayer("player-2", null, 1)];
     const game = createNormalGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);

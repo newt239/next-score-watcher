@@ -61,9 +61,7 @@ const GameListTable: React.FC<GameListTableProps> = ({ gameList }) => {
                   <TableTd>
                     <PublicityBadge isPublic={game.isPublic} size="lg" />
                   </TableTd>
-                  <TableTd>
-                    {cdate(game.updatedAt).format("MM/DD HH:mm")}
-                  </TableTd>
+                  <TableTd>{cdate(game.updatedAt).format("MM/DD HH:mm")}</TableTd>
                   <TableTd>
                     <Group gap="xs">
                       <ButtonLink

@@ -3,16 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
-import {
-  Box,
-  Button,
-  Card,
-  Group,
-  Modal,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Box, Button, Card, Group, Modal, Text, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
@@ -110,16 +101,10 @@ const RuleList: React.FC = () => {
           const description = rules[rule_name].short_description;
           return (
             <Card shadow="xs" key={rule_name} withBorder>
-              <Card.Section
-                withBorder
-                inheritPadding
-                className={classes.rule_name}
-              >
+              <Card.Section withBorder inheritPadding className={classes.rule_name}>
                 {rules[rule_name].name}
               </Card.Section>
-              <Card.Section className={classes.rule_description}>
-                {description}
-              </Card.Section>
+              <Card.Section className={classes.rule_description}>{description}</Card.Section>
               <Group justify="flex-end">
                 <Button
                   onClick={() => onClick(rule_name)}
@@ -152,18 +137,10 @@ const RuleList: React.FC = () => {
         />
 
         <Group justify="flex-end">
-          <Button
-            variant="outline"
-            onClick={handleCloseModal}
-            disabled={isPending}
-          >
+          <Button variant="outline" onClick={handleCloseModal} disabled={isPending}>
             キャンセル
           </Button>
-          <Button
-            onClick={handleCreateGame}
-            loading={isPending}
-            disabled={!form.values.name}
-          >
+          <Button onClick={handleCreateGame} loading={isPending} disabled={!form.values.name}>
             作る
           </Button>
         </Group>

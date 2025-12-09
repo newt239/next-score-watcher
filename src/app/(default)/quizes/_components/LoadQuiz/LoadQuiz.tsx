@@ -30,10 +30,8 @@ const LoadQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
       const dataArray: QuizDBProps[] = [];
       for (let i = 0; i < quizRaw.length; i++) {
         const n = quizRaw[i].split(separateType === "comma" ? "," : "\t")[0];
-        const q =
-          quizRaw[i].split(separateType === "comma" ? "," : "\t")[1] || "";
-        const a =
-          quizRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
+        const q = quizRaw[i].split(separateType === "comma" ? "," : "\t")[1] || "";
+        const a = quizRaw[i].split(separateType === "comma" ? "," : "\t")[2] || "";
         if (n !== "") {
           dataArray.push({
             id: nanoid(),
@@ -65,9 +63,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
 
   return (
     <Flex className={classes.load_quiz}>
-      <Text>
-        Excelやスプレッドシートからコピーし、まとめてインポートできます。
-      </Text>
+      <Text>Excelやスプレッドシートからコピーし、まとめてインポートできます。</Text>
       <Textarea
         rows={4}
         disabled={set_name === ""}
@@ -78,10 +74,7 @@ const LoadQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
       />
       <Text>A列: 問題番号、 B列: 問題文 C列: 答え</Text>
       <Group justify="end">
-        <Radio.Group
-          onChange={(e) => setSparateType(e as "tab" | "comma")}
-          value={separateType}
-        >
+        <Radio.Group onChange={(e) => setSparateType(e as "tab" | "comma")} value={separateType}>
           <Group>
             <Radio value="comma" label="カンマ区切り" />
             <Radio value="tab" label="タブ区切り" />

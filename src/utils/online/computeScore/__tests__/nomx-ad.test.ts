@@ -7,11 +7,7 @@ import {
 } from "../index";
 import computeNomxAd from "../nomx-ad";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type NomxAdGame = Extract<GetGameDetailResponseType, { ruleType: "nomx-ad" }>;
@@ -64,9 +60,7 @@ const createPlayer = (
 /**
  * 計算済みスコアを生成する。
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-nomx-ad",
   player_id: "player-base",
   state: "playing",
@@ -87,10 +81,7 @@ const createScoreState = (
 
 describe("online nomx-ad形式", () => {
   it("初期状態で全員stage=1かつscoreはinitialScoreに一致する", () => {
-    const players = [
-      createPlayer("player-1", 2, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 2, 0), createPlayer("player-2", null, 1)];
     const game = createNomxAdGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -136,19 +127,11 @@ describe("online nomx-ad形式", () => {
       }),
     ]);
 
-    expect(sorted).toEqual([
-      "winner",
-      "ad-player",
-      "higher-score",
-      "lower-score",
-    ]);
+    expect(sorted).toEqual(["winner", "ad-player", "higher-score", "lower-score"]);
   });
 
   it("同一プレイヤーの連答でアドバンテージが付与され他者の正解で解除される", () => {
-    const players = [
-      createPlayer("player-1", 0, 0),
-      createPlayer("player-2", 0, 1),
-    ];
+    const players = [createPlayer("player-1", 0, 0), createPlayer("player-2", 0, 1)];
     const logs: SeriarizedGameLog[] = [
       {
         id: "log-1",
@@ -333,8 +316,6 @@ describe("online nomx-ad形式", () => {
       state: "lose",
       text: "LOSE",
     });
-    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe(
-      "LOSE"
-    );
+    expect(generateScoreText(result.scores[0], result.scores[0].order)).toBe("LOSE");
   });
 });

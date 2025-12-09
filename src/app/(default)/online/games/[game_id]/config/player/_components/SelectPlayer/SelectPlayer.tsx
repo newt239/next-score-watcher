@@ -72,10 +72,7 @@ const SelectPlayer: React.FC<SelectPlayerProps> = ({
               <Accordion.Item value="add">
                 <Accordion.Control>新しく追加</Accordion.Control>
                 <Accordion.Panel pb={4}>
-                  <CompactCreatePlayer
-                    game_id={game_id}
-                    playerCount={gamePlayers.length}
-                  />
+                  <CompactCreatePlayer game_id={game_id} playerCount={gamePlayers.length} />
                 </Accordion.Panel>
               </Accordion.Item>
               <Accordion.Item value="select">

@@ -17,11 +17,7 @@ type Props = {
   currentProfile: string;
 };
 
-const CompactCreatePlayer: React.FC<Props> = ({
-  game_id,
-  players,
-  currentProfile,
-}) => {
+const CompactCreatePlayer: React.FC<Props> = ({ game_id, players, currentProfile }) => {
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");

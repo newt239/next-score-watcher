@@ -6,12 +6,7 @@ import Player from "../Player/Player";
 
 import classes from "./Players.module.css";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  LogDBProps,
-  RuleNames,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, LogDBProps, RuleNames } from "@/models/game";
 import type { UserPreferencesType } from "@/models/user-preference";
 
 type OnlineGame = {

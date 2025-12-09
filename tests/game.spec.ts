@@ -17,9 +17,7 @@ test.describe("アップデートモーダル", () => {
 
   test("初めてアクセスしたときアップデートモーダルが表示される", async () => {
     const headerEl = page.getByRole("dialog");
-    await expect(headerEl).toContainText(
-      "新しいバージョンがリリースされました"
-    );
+    await expect(headerEl).toContainText("新しいバージョンがリリースされました");
   });
 
   test("アップデートモーダルを閉じる", async () => {
@@ -45,11 +43,7 @@ test.describe("得点表示", () => {
   });
 
   test("ゲーム設定ページに移動できる", async () => {
-    await page
-      .getByRole("main")
-      .getByRole("button", { name: "作る" })
-      .first()
-      .click();
+    await page.getByRole("main").getByRole("button", { name: "作る" }).first().click();
     await expect(page).toHaveTitle(/ゲーム設定/);
   });
 
@@ -87,9 +81,7 @@ test.describe("得点表示", () => {
   test("得点表示のページに移動できる", async () => {
     await page.getByRole("link", { name: "ゲーム開始" }).click();
     await expect(page).toHaveURL(/board/);
-    await expect(
-      page.getByRole("banner").locator("span").first()
-    ).toContainText("Q1");
+    await expect(page.getByRole("banner").locator("span").first()).toContainText("Q1");
   });
 
   test("得点表示画面にプレイヤーが正しく表示される", async () => {
@@ -107,9 +99,7 @@ test.describe("得点表示", () => {
       await expect(log.locator("td").nth(1)).toContainText(`プレイヤー${i}`);
       await expect(log.locator("td").nth(2)).toContainText("o");
     }
-    await expect(
-      page.getByRole("banner").locator("span").first()
-    ).toContainText("Q6");
+    await expect(page.getByRole("banner").locator("span").first()).toContainText("Q6");
   });
 
   test("スルーを実行できる", async ({ isMobile }) => {
@@ -119,9 +109,7 @@ test.describe("得点表示", () => {
     } else {
       await page.getByRole("button", { name: "スルー" }).click();
     }
-    await expect(
-      page.getByRole("banner").locator("span").first()
-    ).toContainText("Q7");
+    await expect(page.getByRole("banner").locator("span").first()).toContainText("Q7");
     const log = page.locator("tr").first();
     await expect(log.locator("td").nth(1)).toContainText("(スルー)");
     await expect(log.locator("td").nth(2)).toContainText("-");
@@ -135,9 +123,7 @@ test.describe("得点表示", () => {
       } else {
         await page.getByRole("button", { name: "一つ戻す" }).click();
       }
-      await expect(
-        page.getByRole("banner").locator("span").first()
-      ).toContainText(`Q${i + 1}`);
+      await expect(page.getByRole("banner").locator("span").first()).toContainText(`Q${i + 1}`);
       const log = page.locator("tr").first();
       await expect(log.locator("td").nth(0)).toContainText(`${i}.`);
       await expect(log.locator("td").nth(1)).toContainText(`プレイヤー${i}`);

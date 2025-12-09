@@ -6,11 +6,7 @@ import Player from "../Player/Player";
 
 import classes from "./Players.module.css";
 
-import type {
-  ComputedScoreProps,
-  GamePropsUnion,
-  PlayerDBProps,
-} from "@/utils/types";
+import type { ComputedScoreProps, GamePropsUnion, PlayerDBProps } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;
@@ -20,13 +16,7 @@ type Props = {
   show_header: boolean;
 };
 
-const Players: React.FC<Props> = ({
-  game,
-  scores,
-  players,
-  currentProfile,
-  show_header,
-}) => {
+const Players: React.FC<Props> = ({ game, scores, players, currentProfile, show_header }) => {
   return (
     <Flex
       className={classes.players}
@@ -41,10 +31,7 @@ const Players: React.FC<Props> = ({
           index={i}
           key={i}
           player={player}
-          score={scores.find(
-            (score) =>
-              score.game_id === game.id && score.player_id === player.id
-          )}
+          score={scores.find((score) => score.game_id === game.id && score.player_id === player.id)}
         />
       ))}
     </Flex>

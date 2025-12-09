@@ -55,11 +55,7 @@ const OtherPage = async ({ params }: OtherPageProps) => {
       <Title order={3} mt="xl">
         公開設定
       </Title>
-      <PublicityToggle
-        gameId={game.id}
-        isPublic={game.isPublic}
-        gameName={game.name}
-      />
+      <PublicityToggle gameId={game.id} isPublic={game.isPublic} gameName={game.name} />
       <Title order={3} mt="xl">
         オプション
       </Title>
@@ -80,11 +76,7 @@ const OtherPage = async ({ params }: OtherPageProps) => {
         discordWebhookUrl={game.discordWebhookUrl || ""}
       />
       <ExportGame gameId={game.id} ruleType={game.ruleType} />
-      <DeleteGame
-        gameId={game.id}
-        gameName={game.name}
-        ruleType={game.ruleType}
-      />
+      <DeleteGame gameId={game.id} gameName={game.name} ruleType={game.ruleType} />
     </Box>
   );
 };

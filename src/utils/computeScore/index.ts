@@ -29,8 +29,7 @@ import db from "@/utils/db";
 
 const computeScore = async (game_id: string, currentProfile: string) => {
   const game = await db(currentProfile).games.get(game_id);
-  if (!game)
-    return { data: { scores: [], win_players: [], incapacity_players: [] } };
+  if (!game) return { data: { scores: [], win_players: [], incapacity_players: [] } };
   const gameLogList = await db(currentProfile)
     .logs.where({ game_id: game_id, available: 1 })
     .sortBy("timestamp");
@@ -95,10 +94,7 @@ const computeScore = async (game_id: string, currentProfile: string) => {
 
   const incapacity_players: string[] = [];
   result.scores.map((score) => {
-    if (
-      score.state === "playing" &&
-      (score.is_incapacity || score.text.endsWith("休"))
-    ) {
+    if (score.state === "playing" && (score.is_incapacity || score.text.endsWith("休"))) {
       incapacity_players.push(score.player_id);
     }
   });
@@ -116,11 +112,7 @@ const computeScore = async (game_id: string, currentProfile: string) => {
     if (playerName) {
       result.winPlayers[0].name = playerName;
 
-      if (
-        game.discord_webhook_url?.startsWith(
-          "https://discord.com/api/webhooks/"
-        )
-      ) {
+      if (game.discord_webhook_url?.startsWith("https://discord.com/api/webhooks/")) {
         const description = `
           ${result.winPlayers[0].name}さんが勝ち抜けました:tada:\n
           https://score-watcher.com/games/${game.id}/board
@@ -184,9 +176,7 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
     case "nomr":
       return player.initial_correct;
     case "backstream":
-      return (
-        player.initial_correct - initialBackstreamWrong(player.initial_wrong)
-      );
+      return player.initial_correct - initialBackstreamWrong(player.initial_wrong);
     case "squarex":
       return (player.initial_correct || 1) * (player.initial_wrong || 1);
     case "aql":
@@ -197,35 +187,33 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
 };
 
 export const getInitialPlayersState = (game: GamePropsUnion) => {
-  const initialPlayersState = game.players.map(
-    (gamePlayer): ComputedScoreProps => {
-      const playerState = {
-        game_id: game.id,
-        player_id: gamePlayer.id,
-        state: "playing" as States,
-        reach_state: "playing" as States,
-        score: getInitialScore(game, gamePlayer),
-        correct: ["attacksurvival", "squarex", "variables"].includes(game.rule)
-          ? 0
-          : gamePlayer.initial_correct,
-        wrong:
-          game.rule === "backstream"
-            ? initialBackstreamWrong(gamePlayer.initial_wrong)
-            : game.rule === "squarex"
-              ? 0
-              : gamePlayer.initial_wrong,
-        last_correct: -10,
-        last_wrong: -10,
-        odd_score: game.rule === "squarex" ? gamePlayer.initial_correct : 0,
-        even_score: game.rule === "squarex" ? gamePlayer.initial_wrong : 0,
-        stage: 1,
-        is_incapacity: false,
-        order: 0,
-        text: "",
-      };
-      return playerState;
-    }
-  );
+  const initialPlayersState = game.players.map((gamePlayer): ComputedScoreProps => {
+    const playerState = {
+      game_id: game.id,
+      player_id: gamePlayer.id,
+      state: "playing" as States,
+      reach_state: "playing" as States,
+      score: getInitialScore(game, gamePlayer),
+      correct: ["attacksurvival", "squarex", "variables"].includes(game.rule)
+        ? 0
+        : gamePlayer.initial_correct,
+      wrong:
+        game.rule === "backstream"
+          ? initialBackstreamWrong(gamePlayer.initial_wrong)
+          : game.rule === "squarex"
+            ? 0
+            : gamePlayer.initial_wrong,
+      last_correct: -10,
+      last_wrong: -10,
+      odd_score: game.rule === "squarex" ? gamePlayer.initial_correct : 0,
+      even_score: game.rule === "squarex" ? gamePlayer.initial_wrong : 0,
+      stage: 1,
+      is_incapacity: false,
+      order: 0,
+      text: "",
+    };
+    return playerState;
+  });
   return initialPlayersState;
 };
 

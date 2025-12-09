@@ -31,13 +31,7 @@ type Props = {
   >;
 };
 
-const SelectPlayer: React.FC<Props> = ({
-  game_id,
-  playerList,
-  players,
-  currentProfile,
-  form,
-}) => {
+const SelectPlayer: React.FC<Props> = ({ game_id, playerList, players, currentProfile, form }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
@@ -104,10 +98,7 @@ const SelectPlayer: React.FC<Props> = ({
               <Accordion.Item value="copy">
                 <Accordion.Control>既存のゲームからコピー</Accordion.Control>
                 <Accordion.Panel pb={4}>
-                  <SelectPlayerFromExistingGame
-                    currentProfile={currentProfile}
-                    game_id={game_id}
-                  />
+                  <SelectPlayerFromExistingGame currentProfile={currentProfile} game_id={game_id} />
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>

@@ -22,9 +22,9 @@ jobs:
       TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
       BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - run: corepack enable
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version: "24"
           cache: "pnpm"
@@ -37,7 +37,7 @@ jobs:
         shell: bash
       - name: ブラウザのキャッシュを復元
         id: restore-chromium
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.cache/ms-playwright
           key: playwright-chromium-${{ steps.version-checker.outputs.playwright-version }}
@@ -47,13 +47,13 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
         if: ${{ steps.restore-chromium.outputs.cache-hit != 'true' }}
       - name: ブラウザのキャッシュを保存
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         if: ${{ steps.restore-chromium.outputs.cache-hit != 'true' }}
         with:
           path: ~/.cache/ms-playwright
           key: playwright-chromium-${{ steps.version-checker.outputs.playwright-version }}
       - name: ビルドキャッシュを復元
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: .next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
@@ -65,7 +65,7 @@ jobs:
           NEXT_TELEMETRY_DISABLED: 1
       - name: Playwrightのテストを実行
         run: pnpm exec playwright test --workers=2
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
           name: playwright-report

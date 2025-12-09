@@ -1,16 +1,9 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
 
-const backstream = async (
-  game: AllGameProps["backstream"],
-  gameLogList: LogDBProps[]
-) => {
+const backstream = async (game: AllGameProps["backstream"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
@@ -65,25 +58,15 @@ const backstream = async (
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
-    const state = detectPlayerState(
-      game,
-      playerState.state,
-      order,
-      gameLogList.length
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
+    const state = detectPlayerState(game, playerState.state, order, gameLogList.length);
     const text =
       state === "win"
         ? indicator(order)
         : playerState.state === "lose"
           ? "LOSE"
           : numberSign("pt", playerState.score);
-    if (
-      state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+    if (state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, state, text };

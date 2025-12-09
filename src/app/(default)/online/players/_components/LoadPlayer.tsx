@@ -2,15 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 
-import {
-  Button,
-  Flex,
-  Group,
-  Radio,
-  RadioGroup,
-  Text,
-  Textarea,
-} from "@mantine/core";
+import { Button, Flex, Group, Radio, RadioGroup, Text, Textarea } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 
@@ -80,9 +72,7 @@ const LoadPlayer: React.FC<Props> = ({ createPlayers }) => {
 
   return (
     <Flex direction="column" gap="md" style={{ paddingTop: "1rem" }}>
-      <Text>
-        Excelやスプレッドシートからコピーし、まとめてインポートできます。
-      </Text>
+      <Text>Excelやスプレッドシートからコピーし、まとめてインポートできます。</Text>
       <Textarea
         rows={4}
         onChange={(e) => setRawPlayerText(e.target.value)}
@@ -93,10 +83,7 @@ const LoadPlayer: React.FC<Props> = ({ createPlayers }) => {
       />
       <Text>A列: 氏名、 B列: 所属</Text>
       <Group justify="end">
-        <RadioGroup
-          onChange={(e) => setSeparateType(e as "tab" | "comma")}
-          value={separateType}
-        >
+        <RadioGroup onChange={(e) => setSeparateType(e as "tab" | "comma")} value={separateType}>
           <Group>
             <Radio label="カンマ区切り" value="comma" disabled={isPending} />
             <Radio label="タブ区切り" value="tab" disabled={isPending} />

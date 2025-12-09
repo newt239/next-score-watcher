@@ -49,12 +49,7 @@ export const NomxOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 7, lose_point: 3 });
-export const NomxOptionKeySchema = z.enum([
-  "win_point",
-  "lose_point",
-  "limit",
-  "win_through",
-]);
+export const NomxOptionKeySchema = z.enum(["win_point", "lose_point", "limit", "win_through"]);
 export type NomxOption = z.infer<typeof NomxOptionSchema>;
 export type NomxOptionKey = keyof NomxOption;
 
@@ -131,12 +126,7 @@ export const NbynOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 5, lose_point: 5 });
-export const NbynOptionKeySchema = z.enum([
-  "win_point",
-  "lose_point",
-  "limit",
-  "win_through",
-]);
+export const NbynOptionKeySchema = z.enum(["win_point", "lose_point", "limit", "win_through"]);
 export type NbynOption = z.infer<typeof NbynOptionSchema>;
 export type NbynOptionKey = keyof NbynOption;
 
@@ -148,12 +138,7 @@ export const NupdownOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 5, lose_point: 2 });
-export const NupdownOptionKeySchema = z.enum([
-  "win_point",
-  "lose_point",
-  "limit",
-  "win_through",
-]);
+export const NupdownOptionKeySchema = z.enum(["win_point", "lose_point", "limit", "win_through"]);
 export type NupdownOption = z.infer<typeof NupdownOptionSchema>;
 export type NupdownOptionKey = keyof NupdownOption;
 
@@ -165,12 +150,7 @@ export const DivideOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 100, correct_me: 10 });
-export const DivideOptionKeySchema = z.enum([
-  "win_point",
-  "correct_me",
-  "limit",
-  "win_through",
-]);
+export const DivideOptionKeySchema = z.enum(["win_point", "correct_me", "limit", "win_through"]);
 export type DivideOption = z.infer<typeof DivideOptionSchema>;
 export type DivideOptionKey = keyof DivideOption;
 
@@ -182,12 +162,7 @@ export const Swedish10OptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 10, lose_point: 10 });
-export const Swedish10OptionKeySchema = z.enum([
-  "win_point",
-  "lose_point",
-  "limit",
-  "win_through",
-]);
+export const Swedish10OptionKeySchema = z.enum(["win_point", "lose_point", "limit", "win_through"]);
 export type Swedish10Option = z.infer<typeof Swedish10OptionSchema>;
 export type Swedish10OptionKey = keyof Swedish10Option;
 
@@ -245,11 +220,7 @@ export const SquarexOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 16 });
-export const SquarexOptionKeySchema = z.enum([
-  "win_point",
-  "limit",
-  "win_through",
-]);
+export const SquarexOptionKeySchema = z.enum(["win_point", "limit", "win_through"]);
 export type SquarexOption = z.infer<typeof SquarexOptionSchema>;
 export type SquarexOptionKey = keyof SquarexOption;
 
@@ -270,11 +241,7 @@ export const FreezexOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 7 });
-export const FreezexOptionKeySchema = z.enum([
-  "win_point",
-  "limit",
-  "win_through",
-]);
+export const FreezexOptionKeySchema = z.enum(["win_point", "limit", "win_through"]);
 export type FreezexOption = z.infer<typeof FreezexOptionSchema>;
 export type FreezexOptionKey = keyof FreezexOption;
 
@@ -311,11 +278,7 @@ export const VariablesOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ win_point: 30 });
-export const VariablesOptionKeySchema = z.enum([
-  "win_point",
-  "limit",
-  "win_through",
-]);
+export const VariablesOptionKeySchema = z.enum(["win_point", "limit", "win_through"]);
 export type VariablesOption = z.infer<typeof VariablesOptionSchema>;
 export type VariablesOptionKey = keyof VariablesOption;
 
@@ -327,12 +290,7 @@ export const AqlOptionSchema = z
     win_through: z.number().optional(),
   })
   .default({ left_team: "Team A", right_team: "Team B" });
-export const AqlOptionKeySchema = z.enum([
-  "left_team",
-  "right_team",
-  "limit",
-  "win_through",
-]);
+export const AqlOptionKeySchema = z.enum(["left_team", "right_team", "limit", "win_through"]);
 export type AqlOption = z.infer<typeof AqlOptionSchema>;
 export type AqlOptionKey = keyof AqlOption;
 

@@ -80,14 +80,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.ruleType === "nomx" && (
         <>
           <PlayerScoreButton color="red" {...props}>
-            {player.state === "win"
-              ? player.text
-              : getNumberSign("correct", player.correct)}
+            {player.state === "win" ? player.text : getNumberSign("correct", player.correct)}
           </PlayerScoreButton>
           <PlayerScoreButton color="blue" {...props}>
-            {player.state === "lose"
-              ? player.text
-              : getNumberSign("wrong", player.wrong)}
+            {player.state === "lose" ? player.text : getNumberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
@@ -108,11 +104,7 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       )}
       {game.ruleType === "nomr" && (
         <>
-          <PlayerScoreButton
-            color={player.is_incapacity ? "blue" : "green"}
-            disabled
-            {...props}
-          >
+          <PlayerScoreButton color={player.is_incapacity ? "blue" : "green"} disabled {...props}>
             {player.text}
           </PlayerScoreButton>
           <Flex className={classes.player_score_pair}>
@@ -207,20 +199,10 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
             {player.text}
           </PlayerScoreButton>
           <Flex className={classes.player_score_pair}>
-            <PlayerScoreButton
-              color="red"
-              compact
-              disabled={player.state === "lose"}
-              {...props}
-            >
+            <PlayerScoreButton color="red" compact disabled={player.state === "lose"} {...props}>
               {getNumberSign("correct", player.correct)}
             </PlayerScoreButton>
-            <PlayerScoreButton
-              color="blue"
-              compact
-              disabled={player.state === "lose"}
-              {...props}
-            >
+            <PlayerScoreButton color="blue" compact disabled={player.state === "lose"} {...props}>
               {getNumberSign("wrong", player.wrong)}
             </PlayerScoreButton>
           </Flex>
@@ -307,40 +289,22 @@ const PlayerScore: React.FC<PlayerScoreProps> = ({
       {game.ruleType === "freezex" && (
         <>
           <PlayerScoreButton
-            color={
-              player.is_incapacity || player.text.endsWith("休")
-                ? "gray"
-                : "red"
-            }
+            color={player.is_incapacity || player.text.endsWith("休") ? "gray" : "red"}
             {...props}
           >
             {player.text}
           </PlayerScoreButton>
-          <PlayerScoreButton
-            color="blue"
-            disabled={player.is_incapacity}
-            {...props}
-          >
+          <PlayerScoreButton color="blue" disabled={player.is_incapacity} {...props}>
             {getNumberSign("wrong", player.wrong)}
           </PlayerScoreButton>
         </>
       )}
       {game.ruleType === "endless-chance" && (
         <>
-          <PlayerScoreButton
-            disabled={player.is_incapacity}
-            color="red"
-            {...props}
-          >
-            {player.state === "win"
-              ? player.text
-              : getNumberSign("correct", player.correct)}
+          <PlayerScoreButton disabled={player.is_incapacity} color="red" {...props}>
+            {player.state === "win" ? player.text : getNumberSign("correct", player.correct)}
           </PlayerScoreButton>
-          <PlayerScoreButton
-            color="blue"
-            disabled={player.is_incapacity}
-            {...props}
-          >
+          <PlayerScoreButton color="blue" disabled={player.is_incapacity} {...props}>
             {player.state === "lose" || player.is_incapacity
               ? player.text
               : getNumberSign("wrong", player.wrong)}

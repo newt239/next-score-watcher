@@ -23,17 +23,13 @@ const Term: React.FC = () => {
         </List.Item>
         <List.Item>
           お問い合わせは
-          <Link href="https://discord.gg/rct5sx6rbZ">
-            開発者のDiscordサーバー
-          </Link>
-          や<Link href="https://twitter.com/newt239">Twitter</Link>
+          <Link href="https://discord.gg/rct5sx6rbZ">開発者のDiscordサーバー</Link>や
+          <Link href="https://twitter.com/newt239">Twitter</Link>
           からお願いします。
         </List.Item>
         <List.Item>
           本サービスを利用した際はぜひ
-          <Link href="https://twitter.com/hashtag/ScoreWatcher?f=live">
-            #ScoreWatcher
-          </Link>
+          <Link href="https://twitter.com/hashtag/ScoreWatcher?f=live">#ScoreWatcher</Link>
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
         </List.Item>
         <List.Item>

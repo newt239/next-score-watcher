@@ -68,12 +68,7 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
 
   return (
     <div>
-      <Switch
-        label={label}
-        checked={localValue}
-        onChange={handleChange}
-        disabled={isPending}
-      />
+      <Switch label={label} checked={localValue} onChange={handleChange} disabled={isPending} />
       {helperText && (
         <Text size="sm" c="dimmed" mt="xs">
           {helperText}

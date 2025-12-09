@@ -43,20 +43,13 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
 
   useEffect(() => {
     // クライアントサイドでのみフルスクリーン機能の有効性をチェック
-    setIsFullscreenEnabled(
-      typeof document !== "undefined" && document.fullscreenEnabled
-    );
+    setIsFullscreenEnabled(typeof document !== "undefined" && document.fullscreenEnabled);
   }, []);
 
   return (
     <>
       <ScrollArea w="100%">
-        <Group
-          justify="flex-end"
-          p="xs"
-          gap="xs"
-          className={classes.action_button_list}
-        >
+        <Group justify="flex-end" p="xs" gap="xs" className={classes.action_button_list}>
           <Button
             size="xs"
             variant="default"

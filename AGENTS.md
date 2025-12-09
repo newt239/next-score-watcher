@@ -111,11 +111,10 @@ pnpm run start        # プロダクションサーバー起動
 ### 品質管理
 
 ```bash
-pnpm run lint         # ESLint + Prettier + Stylelint実行
-pnpm run prettier
-pnpm run prettier:fix
-pnpm run eslint
-pnpm run eslint:fix
+pnpm run formatt
+pnpm run formatt:fix
+pnpm run lint
+pnpm run lint:fix
 pnpm run stylelint
 pnpm run stylelint:fix
 pnpm run gen          # CSS Modules Kitによる型生成
@@ -277,7 +276,7 @@ const handler = factory.createHandlers(
     const query = c.req.valid("query");
     const body = c.req.valid("json");
     // 処理...
-  }
+  },
 );
 ```
 

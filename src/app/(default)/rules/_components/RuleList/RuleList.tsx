@@ -33,16 +33,10 @@ const RuleList: React.FC<RuleListProps> = ({ currentProfile }) => {
           const description = rules[rule_name].short_description;
           return (
             <Card shadow="xs" key={rule_name} withBorder>
-              <Card.Section
-                withBorder
-                inheritPadding
-                className={classes.rule_name}
-              >
+              <Card.Section withBorder inheritPadding className={classes.rule_name}>
                 {rules[rule_name].name}
               </Card.Section>
-              <Card.Section className={classes.rule_description}>
-                {description}
-              </Card.Section>
+              <Card.Section className={classes.rule_description}>{description}</Card.Section>
               <Group justify="flex-end">
                 <Button
                   onClick={() => onClick(rule_name)}

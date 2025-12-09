@@ -23,14 +23,12 @@ const UpdateModal: React.FC = () => {
     caches.keys().then((cacheNames) => {
       cacheNames.forEach((cacheName) => {
         caches.delete(cacheName);
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(function (registrations) {
-            // 登録されているworkerを全て削除する
-            for (const registration of registrations) {
-              registration.unregister();
-            }
-          });
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+          // 登録されているworkerを全て削除する
+          for (const registration of registrations) {
+            registration.unregister();
+          }
+        });
       });
     });
   }, []);
@@ -44,10 +42,7 @@ const UpdateModal: React.FC = () => {
       </>
     ),
     feature: ["オンライン機能の提供に向けたアルファ版をリリース"],
-    bugfix: [
-      "ダークモードにおける表示崩れの修正",
-      "一部形式におけるラベルミスを修正",
-    ],
+    bugfix: ["ダークモードにおける表示崩れの修正", "一部形式におけるラベルミスを修正"],
   };
 
   return (
@@ -59,8 +54,7 @@ const UpdateModal: React.FC = () => {
       size="auto"
     >
       <Box>
-        {currentVersion && `v.${currentVersion} から`} v.{latestVersion}{" "}
-        にアップデートしました。
+        {currentVersion && `v.${currentVersion} から`} v.{latestVersion} にアップデートしました。
       </Box>
       {feature && (
         <>
@@ -94,9 +88,7 @@ const UpdateModal: React.FC = () => {
       )}
       <Box mt="md">
         詳細は
-        <Link href="https://github.com/newt239/next-score-watcher/releases">
-          リリースノート
-        </Link>
+        <Link href="https://github.com/newt239/next-score-watcher/releases">リリースノート</Link>
         をご確認ください。
       </Box>
     </Modal>

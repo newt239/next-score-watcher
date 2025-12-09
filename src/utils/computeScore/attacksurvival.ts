@@ -1,24 +1,16 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
 
-const attacksurvival = async (
-  game: AllGameProps["attacksurvival"],
-  gameLogList: LogDBProps[]
-) => {
+const attacksurvival = async (game: AllGameProps["attacksurvival"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         const newScore =
-          playerState.score +
-          (log.variant === "wrong" ? game.wrong_me : game.correct_me);
+          playerState.score + (log.variant === "wrong" ? game.wrong_me : game.correct_me);
         /*
         個人初期値が0以下の場合1問目の回答前からstateがLOSEになるが、
         この組み方はおかしいので表示はそのままにする
@@ -84,10 +76,7 @@ const attacksurvival = async (
             score: 0,
             state: "lose",
           };
-        } else if (
-          newScore + game.correct_other! <= 0 ||
-          newScore + game.wrong_me <= 0
-        ) {
+        } else if (newScore + game.correct_other! <= 0 || newScore + game.wrong_me <= 0) {
           return {
             ...playerState,
             score: newScore,
@@ -105,9 +94,7 @@ const attacksurvival = async (
   const playerOrderList = getSortedPlayerOrderList(playersState);
   const playingPlayers = playersState.filter((p) => p.state === "playing");
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
     // 現在生き残っているプレイヤー数が勝ち抜け人数より少ない場合は、生き残っているプレイヤーを勝ち抜けとする
     const currentState =
       game.win_through &&
@@ -115,22 +102,14 @@ const attacksurvival = async (
       playerState.state === "playing"
         ? "win"
         : playerState.state;
-    const state = detectPlayerState(
-      game,
-      currentState,
-      order,
-      gameLogList.length
-    );
+    const state = detectPlayerState(game, currentState, order, gameLogList.length);
     const text =
       state === "win"
         ? indicator(order)
         : playerState.state === "lose"
           ? "LOSE"
           : numberSign("pt", playerState.score);
-    if (
-      state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+    if (state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, state, text };

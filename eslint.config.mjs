@@ -1,25 +1,14 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
-import prettier from "eslint-config-prettier";
 
-const ONLINE_FILES = [
-  "**/*online*/**/*.{ts,tsx,js,jsx}",
-  "**/*online*.{ts,tsx,js,jsx}",
-];
+const ONLINE_FILES = ["**/*online*/**/*.{ts,tsx,js,jsx}", "**/*online*.{ts,tsx,js,jsx}"];
 
 const eslintConfig = [
   {
-    ignores: [
-      "node_modules/",
-      ".next/",
-      "public/",
-      "playwright-report/",
-      "next-env.d.ts",
-    ],
+    ignores: ["node_modules/", ".next/", "public/", "playwright-report/", "next-env.d.ts"],
   },
   ...nextVitals,
   ...nextTs,
-  prettier,
   {
     rules: {
       "react-hooks/exhaustive-deps": "off",
@@ -65,15 +54,7 @@ const eslintConfig = [
       "import/order": [
         "error",
         {
-          groups: [
-            "builtin",
-            "external",
-            "parent",
-            "sibling",
-            "index",
-            "object",
-            "type",
-          ],
+          groups: ["builtin", "external", "parent", "sibling", "index", "object", "type"],
           pathGroups: [
             {
               pattern: "{react,react-dom/**,react-router-dom,next,next/**}",

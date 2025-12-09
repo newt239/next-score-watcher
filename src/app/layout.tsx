@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 
-import {
-  ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider,
-} from "@mantine/core";
+import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
@@ -25,12 +21,10 @@ export const metadata: Metadata = {
     template: "%s - Score Watcher",
     default: "Score Watcher",
   },
-  description:
-    "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
+  description: "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
   openGraph: {
     title: "Score Watcher",
-    description:
-      "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
+    description: "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
     siteName: "Score Watcher",
     type: "website",
     locale: "ja_JP",

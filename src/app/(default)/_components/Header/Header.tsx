@@ -15,9 +15,7 @@ import { getUser } from "@/utils/auth/auth-helpers";
 const Header = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
-  const profileList = profileListCookie?.value
-    ? JSON.parse(profileListCookie?.value)
-    : [];
+  const profileList = profileListCookie?.value ? JSON.parse(profileListCookie?.value) : [];
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 
@@ -54,10 +52,7 @@ const Header = async () => {
           <picture className={classes.header_logo}>
             <source media="(min-width:62em)" srcSet={desktop} />
             <source media="(max-width:62em)" srcSet={mobile} />
-            <img
-              {...rest}
-              alt="Score Watcherのロゴ。三日月の中央に円が配置されたモノカラー"
-            />
+            <img {...rest} alt="Score Watcherのロゴ。三日月の中央に円が配置されたモノカラー" />
           </picture>
         </Flex>
         <Box hiddenFrom="md">
@@ -68,10 +63,7 @@ const Header = async () => {
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
           <SubMenu user={user} />
           <Flex direction="column" gap={4}>
-            <SelectProfile
-              profileList={profileList}
-              currentProfile={currentProfile}
-            />
+            <SelectProfile profileList={profileList} currentProfile={currentProfile} />
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}

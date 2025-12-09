@@ -44,24 +44,9 @@ const CreatePlayer: React.FC<Props> = ({ createPlayers }) => {
 
   return (
     <form onSubmit={form.onSubmit(handleCreatePlayer)}>
-      <TextInput
-        label="氏名"
-        required
-        {...form.getInputProps("name")}
-        disabled={isPending}
-      />
-      <TextInput
-        label="所属"
-        mt="md"
-        {...form.getInputProps("affiliation")}
-        disabled={isPending}
-      />
-      <Textarea
-        label="説明"
-        mt="md"
-        {...form.getInputProps("description")}
-        disabled={isPending}
-      />
+      <TextInput label="氏名" required {...form.getInputProps("name")} disabled={isPending} />
+      <TextInput label="所属" mt="md" {...form.getInputProps("affiliation")} disabled={isPending} />
+      <Textarea label="説明" mt="md" {...form.getInputProps("description")} disabled={isPending} />
       <Group justify="flex-end" mt="md">
         <Button type="submit" disabled={isPending} loading={isPending}>
           作成

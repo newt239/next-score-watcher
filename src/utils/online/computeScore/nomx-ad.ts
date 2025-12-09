@@ -1,9 +1,6 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type {
-  ComputedScoreProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
@@ -34,8 +31,7 @@ const computeNomxAd = (
       const isAd = s.stage === 2;
       const newScore = s.score + (isAd ? 2 : 1);
       const nextAd =
-        (!streakOver3 && s.stage === 1) ||
-        (streakOver3 && lastCorrectPlayer === s.player_id);
+        (!streakOver3 && s.stage === 1) || (streakOver3 && lastCorrectPlayer === s.player_id);
 
       s.correct += 1;
       s.score = newScore;

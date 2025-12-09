@@ -15,9 +15,7 @@ type GameStateContextType = {
   updateGame: () => Promise<void>;
 };
 
-const GameStateContext = createContext<GameStateContextType | undefined>(
-  undefined
-);
+const GameStateContext = createContext<GameStateContextType | undefined>(undefined);
 
 type GameStateProviderProps = {
   children: React.ReactNode;
@@ -29,14 +27,8 @@ type GameStateProviderProps = {
  * ゲーム状態を管理するProvider
  * config内の各コンポーネントでゲーム状態を共有し、更新を同期する
  */
-export const GameStateProvider = ({
-  children,
-  gameId,
-  initialGame,
-}: GameStateProviderProps) => {
-  const [game, setGame] = useState<GetGameDetailResponseType | null>(
-    initialGame
-  );
+export const GameStateProvider = ({ children, gameId, initialGame }: GameStateProviderProps) => {
+  const [game, setGame] = useState<GetGameDetailResponseType | null>(initialGame);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -75,11 +67,7 @@ export const GameStateProvider = ({
     updateGame,
   };
 
-  return (
-    <GameStateContext.Provider value={value}>
-      {children}
-    </GameStateContext.Provider>
-  );
+  return <GameStateContext.Provider value={value}>{children}</GameStateContext.Provider>;
 };
 
 /**

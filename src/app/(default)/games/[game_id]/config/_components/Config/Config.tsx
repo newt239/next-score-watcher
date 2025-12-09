@@ -21,13 +21,8 @@ type Props = {
 };
 
 const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
-  const players = useLiveQuery(
-    () => db(currentProfile).players.orderBy("name").toArray(),
-    []
-  );
+  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
+  const players = useLiveQuery(() => db(currentProfile).players.orderBy("name").toArray(), []);
   const logs = useLiveQuery(
     () =>
       db(currentProfile)
@@ -45,16 +40,12 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
       <h2>{rules[game.rule].name}</h2>
       <Accordion variant="separated">
         <Accordion.Item value="rule_description">
-          <Accordion.Control>
-            {rules[game.rule].short_description}
-          </Accordion.Control>
+          <Accordion.Control>{rules[game.rule].short_description}</Accordion.Control>
           <Accordion.Panel pb={4}>
             <p>{rules[game.rule]?.description}</p>
             <p>
               より詳細な説明は
-              <Link href={`https://docs.score-watcher.com/rules/${game.rule}`}>
-                ヘルプサイト
-              </Link>
+              <Link href={`https://docs.score-watcher.com/rules/${game.rule}`}>ヘルプサイト</Link>
               をご覧ください。
             </p>
           </Accordion.Panel>

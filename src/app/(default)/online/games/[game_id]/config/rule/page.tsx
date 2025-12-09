@@ -79,9 +79,7 @@ const RulePage = async ({ params }: RulePageProps) => {
         game.ruleType === "attacksurvival") && (
         <ConfigNumberInput
           gameId={game.id}
-          label={
-            winPointRules[game.ruleType as keyof typeof winPointRules].name
-          }
+          label={winPointRules[game.ruleType as keyof typeof winPointRules].name}
           value={game.option.win_point}
           fieldName="win_point"
           max={winPointRules[game.ruleType as keyof typeof winPointRules].max}
@@ -162,11 +160,7 @@ const RulePage = async ({ params }: RulePageProps) => {
 
       {/* AQL形式のチーム設定 */}
       {ruleType === "aql" && (
-        <AQLOptions
-          gameId={game.id}
-          ruleType={ruleType}
-          settings={game.option as AqlOption}
-        />
+        <AQLOptions gameId={game.id} ruleType={ruleType} settings={game.option as AqlOption} />
       )}
     </Flex>
   );

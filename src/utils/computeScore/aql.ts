@@ -1,10 +1,6 @@
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-  indicator,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState, numberSign } from "@/utils/functions";
 
 const aql = async (game: AllGameProps["aql"], gameLogList: LogDBProps[]) => {
@@ -47,9 +43,7 @@ const aql = async (game: AllGameProps["aql"], gameLogList: LogDBProps[]) => {
         }
       } else {
         if (log.variant === "wrong" && playerState.is_incapacity) {
-          const wrongPlayerIndex = game.players.findIndex(
-            (player) => player.id === log.player_id
-          );
+          const wrongPlayerIndex = game.players.findIndex((player) => player.id === log.player_id);
           const incapacityPlayerIndex = game.players.findIndex(
             (player) => player.id === playerState.player_id
           );
@@ -72,27 +66,15 @@ const aql = async (game: AllGameProps["aql"], gameLogList: LogDBProps[]) => {
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
-    const state = detectPlayerState(
-      game,
-      playerState.state,
-      order,
-      gameLogList.length
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
+    const state = detectPlayerState(game, playerState.state, order, gameLogList.length);
     const text =
       state === "win"
         ? indicator(order)
         : playerState.is_incapacity
-          ? `${
-              game.lose_point! - gameLogList.length + playerState.last_wrong + 1
-            }休`
+          ? `${game.lose_point! - gameLogList.length + playerState.last_wrong + 1}休`
           : numberSign("pt", playerState.correct);
-    if (
-      state === "win" &&
-      playerState.last_correct + 1 === gameLogList.length
-    ) {
+    if (state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
     return { ...playerState, order, state, text };

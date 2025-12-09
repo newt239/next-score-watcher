@@ -31,9 +31,7 @@ type Props = {
 };
 
 const Board: React.FC<Props> = ({ game_id, current_profile }) => {
-  const game = useLiveQuery(() =>
-    db(current_profile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db(current_profile).games.get(game_id as string));
   const logs = useLiveQuery(
     () =>
       db(current_profile)
@@ -42,10 +40,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
     []
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
-  const playerList = useLiveQuery(
-    () => db(current_profile).players.toArray(),
-    []
-  );
+  const playerList = useLiveQuery(() => db(current_profile).players.toArray(), []);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const [skipSuggest, setSkipSuggest] = useState(false);
 
@@ -88,10 +83,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   useEffect(() => {
     if (logs) {
       const executeComputeScore = async () => {
-        const { data: result } = await computeScore(
-          game_id as string,
-          current_profile
-        );
+        const { data: result } = await computeScore(game_id as string, current_profile);
         setScores(result.scores);
         if (result.win_players.length > 0) {
           if (result.win_players[0].name) {
@@ -101,17 +93,13 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
             });
           }
         }
-        const playingPlayers = result.scores.filter(
-          (score) => score.state === "playing"
-        );
+        const playingPlayers = result.scores.filter((score) => score.state === "playing");
         // 全員が不正解になったときスキップサジェストを出す
         if (
           (logs.at(-1)?.variant === "multiple_wrong" &&
-            logs.at(-1)?.player_id.split(",").length ===
-              playingPlayers.length) ||
+            logs.at(-1)?.player_id.split(",").length === playingPlayers.length) ||
           // N◯M休を利用している場合
-          (playingPlayers.length > 0 &&
-            playingPlayers.length === result.incapacity_players.length)
+          (playingPlayers.length > 0 && playingPlayers.length === result.incapacity_players.length)
         ) {
           setSkipSuggest(true);
         } else {
@@ -126,8 +114,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
     // TODO: incapacity状態のプレイヤーに対してショートカットキーによるアクションを追加できないようにする
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
       if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
-        const playerIndex =
-          event.code[0] === "D" ? Number(event.code[5]) : Number(event.code[6]);
+        const playerIndex = event.code[0] === "D" ? Number(event.code[5]) : Number(event.code[6]);
         if (
           typeof playerIndex === "number" &&
           !isNaN(playerIndex) &&
@@ -156,8 +143,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           }
         }
       } else if (["Minus", "Equal", "IntlYen"].includes(event.code)) {
-        const playerIndex =
-          ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
+        const playerIndex = ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
         if (
           typeof playerIndex === "number" &&
           !isNaN(playerIndex) &&
@@ -232,12 +218,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         />
       )}
       <ActionButtons game={game} logs={logs} currentProfile={current_profile} />
-      <GameLogs
-        logs={logs}
-        players={players}
-        quiz={game.quiz}
-        currentProfile={current_profile}
-      />
+      <GameLogs logs={logs} players={players} quiz={game.quiz} currentProfile={current_profile} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}

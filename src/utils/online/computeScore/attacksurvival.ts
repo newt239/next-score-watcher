@@ -1,9 +1,6 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type {
-  ComputedScoreProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
@@ -58,9 +55,7 @@ const computeAttackSurvival = (
       }
 
       // 勝ち抜け判定: 上位3名が決まったら勝ち抜け
-      const currentLose = [...byId.values()].filter(
-        (p) => p.state === "lose"
-      ).length;
+      const currentLose = [...byId.values()].filter((p) => p.state === "lose").length;
       const totalPlayers = byId.size;
 
       if (totalPlayers - currentLose <= winThrough && winCount < winThrough) {
@@ -69,11 +64,7 @@ const computeAttackSurvival = (
           .filter((p) => p.state === "playing")
           .sort((a, b) => b.score - a.score);
 
-        for (
-          let i = 0;
-          i < Math.min(winThrough - winCount, remainingPlayers.length);
-          i++
-        ) {
+        for (let i = 0; i < Math.min(winThrough - winCount, remainingPlayers.length); i++) {
           remainingPlayers[i].state = "win";
           winCount++;
         }

@@ -71,10 +71,7 @@ const Player: React.FC<Props> = ({
     <Flex
       className={classes.player}
       bg={getColor(score.state)}
-      c={
-        getColor(score.state) &&
-        (computedColorScheme === "light" ? "white" : "black")
-      }
+      c={getColor(score.state) && (computedColorScheme === "light" ? "white" : "black")}
       w={{
         base: "100%",
         md: `clamp(8vw, ${(98 - totalPlayers) / totalPlayers}vw, 15vw)`,

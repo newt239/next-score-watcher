@@ -1,10 +1,7 @@
 import { createFactory } from "hono/factory";
 
 import { getUserId } from "@/server/repositories/auth";
-import {
-  ensureUserPreferences,
-  getUserPreferences,
-} from "@/server/repositories/user";
+import { ensureUserPreferences, getUserPreferences } from "@/server/repositories/user";
 
 const factory = createFactory();
 

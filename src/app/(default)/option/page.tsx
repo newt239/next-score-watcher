@@ -22,9 +22,7 @@ export const metadata: Metadata = {
 const OptionPage = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
-  const profileList = profileListCookie?.value
-    ? JSON.parse(profileListCookie?.value)
-    : [];
+  const profileList = profileListCookie?.value ? JSON.parse(profileListCookie?.value) : [];
   const currentProfileCookie = cookieStore.get("scorew_current_profile");
   const currentProfile = currentProfileCookie?.value || "score_watcher";
 

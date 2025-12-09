@@ -2,15 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Group,
-  Table,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Box, Button, Checkbox, Group, Table, Text, TextInput } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconTrash } from "@tabler/icons-react";
 import {
@@ -34,11 +26,7 @@ type Props = {
   refetchPlayers: () => Promise<void>;
 };
 
-const PlayersTable: React.FC<Props> = ({
-  players: playersProp,
-  deletePlayers,
-  refetchPlayers,
-}) => {
+const PlayersTable: React.FC<Props> = ({ players: playersProp, deletePlayers, refetchPlayers }) => {
   const [players, setPlayers] = useState<UpdatePlayerType[]>(playersProp);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedPlayers, setSelectedPlayers] = useState({});
@@ -167,9 +155,7 @@ const PlayersTable: React.FC<Props> = ({
           </Group>
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>
-              <Text>
-                「{searchText}」に一致するプレイヤーは見つかりませんでした。
-              </Text>
+              <Text>「{searchText}」に一致するプレイヤーは見つかりませんでした。</Text>
             </Box>
           ) : (
             <>
@@ -181,10 +167,7 @@ const PlayersTable: React.FC<Props> = ({
                         <Table.Th colSpan={header.colSpan} key={i}>
                           {header.isPlaceholder
                             ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                            : flexRender(header.column.columnDef.header, header.getContext())}
                         </Table.Th>
                       ))}
                     </Table.Tr>
@@ -197,10 +180,7 @@ const PlayersTable: React.FC<Props> = ({
                         {row.getVisibleCells().map((cell, i) => {
                           return (
                             <Table.Td key={`${row.original.id}_${i}`}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </Table.Td>
                           );
                         })}

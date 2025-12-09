@@ -56,9 +56,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
 
   useEffect(() => {
     // クライアントサイドでのみフルスクリーン機能の有効性をチェック
-    setIsFullscreenEnabled(
-      typeof document !== "undefined" && document.fullscreenEnabled
-    );
+    setIsFullscreenEnabled(typeof document !== "undefined" && document.fullscreenEnabled);
   }, []);
 
   // オンライン版用のルール名表示関数
@@ -73,9 +71,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
       <Flex
         component="header"
         className={classes.board_header}
-        data-withname={
-          !(game.name === rules[game.ruleType].name || game.name === "")
-        }
+        data-withname={!(game.name === rules[game.ruleType].name || game.name === "")}
         data-showquiz={false} // オンライン版では問題セット機能がないためfalse
         data-showqn={showQn}
       >
@@ -113,11 +109,7 @@ const BoardHeader: React.FC<BoardHeaderProps> = ({
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item
-              closeMenuOnClick={false}
-              leftSection={<IconComet />}
-              onClick={onThrough}
-            >
+            <Menu.Item closeMenuOnClick={false} leftSection={<IconComet />} onClick={onThrough}>
               スルー
             </Menu.Item>
             <Menu.Item

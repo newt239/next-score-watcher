@@ -7,17 +7,10 @@ import {
   getSortedPlayerOrderListForOnline,
 } from "../index";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
-type AttackSurvivalGame = Extract<
-  GetGameDetailResponseType,
-  { ruleType: "attacksurvival" }
->;
+type AttackSurvivalGame = Extract<GetGameDetailResponseType, { ruleType: "attacksurvival" }>;
 
 /**
  * attacksurvival形式のゲームデータを生成する。
@@ -72,9 +65,7 @@ const createPlayer = (
  * @param override 上書きするスコア情報
  * @returns 計算済みスコア
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-attacksurvival",
   player_id: "player-base",
   state: "playing",
@@ -105,10 +96,7 @@ describe("online attacksurvival形式", () => {
   };
 
   it("初期状態でスコアがwin_throughとinitialScoreの合算になる", () => {
-    const players = [
-      createPlayer("player-1", 3, 0),
-      createPlayer("player-2", 1, 1),
-    ];
+    const players = [createPlayer("player-1", 3, 0), createPlayer("player-2", 1, 1)];
     const game = createAttackSurvivalGame(players, [], baseOption);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -158,19 +146,11 @@ describe("online attacksurvival形式", () => {
       }),
     ]);
 
-    expect(sorted).toEqual([
-      "winner",
-      "higher-score",
-      "lower-score",
-      "more-wrong",
-    ]);
+    expect(sorted).toEqual(["winner", "higher-score", "lower-score", "more-wrong"]);
   });
 
   it("正解が他プレイヤーのスコアに影響し勝者を決定する", () => {
-    const players = [
-      createPlayer("player-1", 3, 0),
-      createPlayer("player-2", 2, 1),
-    ];
+    const players = [createPlayer("player-1", 3, 0), createPlayer("player-2", 2, 1)];
     const logs: SeriarizedGameLog[] = [
       {
         id: "log-1",

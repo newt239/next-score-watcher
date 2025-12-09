@@ -6,12 +6,7 @@ import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 
 import classes from "./AQLPlayer.module.css";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  LogDBProps,
-  States,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, LogDBProps, States } from "@/models/game";
 
 import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
 import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";
@@ -53,14 +48,8 @@ const AQLPlayer: React.FC<AQLPlayerProps> = ({
   return (
     <Flex
       className={classes.player}
-      bg={
-        getColor(score.state) ||
-        (computedColorScheme === "light" ? "gray.1" : "gray.9")
-      }
-      c={
-        getColor(score.state) &&
-        (computedColorScheme === "light" ? "white" : "gray.9")
-      }
+      bg={getColor(score.state) || (computedColorScheme === "light" ? "gray.1" : "gray.9")}
+      c={getColor(score.state) && (computedColorScheme === "light" ? "white" : "gray.9")}
       w={{
         base: "100%",
         md: `clamp(8vw, ${

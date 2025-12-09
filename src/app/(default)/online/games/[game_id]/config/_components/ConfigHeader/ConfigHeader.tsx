@@ -1,9 +1,4 @@
-import {
-  Accordion,
-  AccordionControl,
-  AccordionItem,
-  AccordionPanel,
-} from "@mantine/core";
+import { Accordion, AccordionControl, AccordionItem, AccordionPanel } from "@mantine/core";
 
 import GameStartButton from "../GameStartButton/GameStartButton";
 
@@ -22,27 +17,18 @@ type ConfigHeaderProps = {
 /**
  * ゲーム設定ページのヘッダー部分
  */
-const ConfigHeader: React.FC<ConfigHeaderProps> = ({
-  gameId,
-  ruleType,
-  playerCount,
-  logCount,
-}) => {
+const ConfigHeader: React.FC<ConfigHeaderProps> = ({ gameId, ruleType, playerCount, logCount }) => {
   return (
     <>
       <h2>{rules[ruleType]?.name || "不明な形式"}</h2>
       <Accordion variant="separated">
         <AccordionItem value="rule_description">
-          <AccordionControl>
-            {rules[ruleType].short_description}
-          </AccordionControl>
+          <AccordionControl>{rules[ruleType].short_description}</AccordionControl>
           <AccordionPanel pb={4}>
             <p>{rules[ruleType].description}</p>
             <p>
               より詳細な説明は
-              <Link href={`https://docs.score-watcher.com/rules/${ruleType}`}>
-                ヘルプサイト
-              </Link>
+              <Link href={`https://docs.score-watcher.com/rules/${ruleType}`}>ヘルプサイト</Link>
               をご覧ください。
             </p>
           </AccordionPanel>

@@ -12,11 +12,7 @@ export async function register() {
   }
 }
 
-export async function onRequestError(
-  err: unknown,
-  request: NextRequest,
-  _context?: unknown
-) {
+export async function onRequestError(err: unknown, request: NextRequest, _context?: unknown) {
   // Capture the error with additional context
   Sentry.captureException(err, {
     contexts: {

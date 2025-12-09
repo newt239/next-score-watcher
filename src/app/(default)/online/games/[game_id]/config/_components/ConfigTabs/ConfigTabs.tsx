@@ -25,18 +25,14 @@ const ConfigTabs = ({ gameId, children }: ConfigTabsProps) => {
       variant="outline"
       className={classes.tabs_area}
       value={pathname.split("/").at(-1)}
-      onChange={(value) =>
-        router.push(`/online/games/${gameId}/config/${value}`)
-      }
+      onChange={(value) => router.push(`/online/games/${gameId}/config/${value}`)}
     >
       <Tabs.List className={classes.tab_list} grow>
         <Tabs.Tab
           value="rule"
           py="md"
           role="tab"
-          aria-current={
-            pathname.split("/").at(-1) === "rule" ? "page" : undefined
-          }
+          aria-current={pathname.split("/").at(-1) === "rule" ? "page" : undefined}
           tabIndex={0}
         >
           形式設定
@@ -45,9 +41,7 @@ const ConfigTabs = ({ gameId, children }: ConfigTabsProps) => {
           value="player"
           py="md"
           role="tab"
-          aria-current={
-            pathname.split("/").at(-1) === "player" ? "page" : undefined
-          }
+          aria-current={pathname.split("/").at(-1) === "player" ? "page" : undefined}
           tabIndex={0}
         >
           プレイヤー設定
@@ -56,9 +50,7 @@ const ConfigTabs = ({ gameId, children }: ConfigTabsProps) => {
           value="other"
           py="md"
           role="tab"
-          aria-current={
-            pathname.split("/").at(-1) === "other" ? "page" : undefined
-          }
+          aria-current={pathname.split("/").at(-1) === "other" ? "page" : undefined}
           tabIndex={0}
         >
           その他の設定
