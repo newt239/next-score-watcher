@@ -155,6 +155,9 @@ importers:
       lefthook:
         specifier: 2.0.8
         version: 2.0.8
+      oxfmt:
+        specifier: 0.17.0
+        version: 0.17.0
       postcss:
         specifier: 8.5.6
         version: 8.5.6
@@ -1994,6 +1997,74 @@ packages:
     engines: { node: ^18.19.0 || >=20.6.0 }
     peerDependencies:
       "@opentelemetry/api": ^1.1.0
+
+  "@oxfmt/darwin-arm64@0.17.0":
+    resolution:
+      {
+        integrity: sha512-OMv0tOb+xiwSZKjYbM6TwMSP5QwFJlBGQmEsk98QJ30sHhdyC//0UvGKuR0KZuzZW4E0+k0rHDmos1Z5DmBEkA==,
+      }
+    cpu: [arm64]
+    os: [darwin]
+
+  "@oxfmt/darwin-x64@0.17.0":
+    resolution:
+      {
+        integrity: sha512-trzidyzryKIdL/cLCYU9IwprgJegVBUrz1rqzOMe5is+qdgH/RxTCvhYUNFzxRHpil3g4QUYd2Ja831tc5Nehg==,
+      }
+    cpu: [x64]
+    os: [darwin]
+
+  "@oxfmt/linux-arm64-gnu@0.17.0":
+    resolution:
+      {
+        integrity: sha512-KlwzidgvHznbUaaglZT1goTS30osTV553pfbKve9B1PyTDkluNDfm/polOaf3SVLN7wL/NNLFZRMupvJ1eJXAw==,
+      }
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  "@oxfmt/linux-arm64-musl@0.17.0":
+    resolution:
+      {
+        integrity: sha512-+tbYJTocF4BNLaQQbc/xrBWTNgiU6zmYeF4NvRDxuuQjDOnmUZPn0EED3PZBRJyg4/YllhplHDo8x+gfcb9G3A==,
+      }
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  "@oxfmt/linux-x64-gnu@0.17.0":
+    resolution:
+      {
+        integrity: sha512-pEmv7zJIw2HpnA4Tn1xrfJNGi2wOH2+usT14Pkvf/c5DdB+pOir6k/5jzfe70+V3nEtmtV9Lm+spndN/y6+X7A==,
+      }
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  "@oxfmt/linux-x64-musl@0.17.0":
+    resolution:
+      {
+        integrity: sha512-+DrFSCZWyFdtEAWR5xIBTV8GX0RA9iB+y7ZlJPRAXrNG8TdBY9vc7/MIGolIgrkMPK4mGMn07YG/qEyPY+iKaw==,
+      }
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  "@oxfmt/win32-arm64@0.17.0":
+    resolution:
+      {
+        integrity: sha512-FoUZRR7mVpTYIaY/qz2BYwzqMnL+HsUxmMWAIy6nl29UEkDgxNygULJ4rIGY4/Axne41fhtldLrSGBOpwNm3jA==,
+      }
+    cpu: [arm64]
+    os: [win32]
+
+  "@oxfmt/win32-x64@0.17.0":
+    resolution:
+      {
+        integrity: sha512-fBIcUpHmCwf3leWlo0cYwLb9Pd2mzxQlZYJX9dD9nylPvsxOnsy9fmsaflpj34O0JbQJN3Y0SRkoaCcHHlxFww==,
+      }
+    cpu: [x64]
+    os: [win32]
 
   "@pkgjs/parseargs@0.11.0":
     resolution:
@@ -5658,6 +5729,14 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  oxfmt@0.17.0:
+    resolution:
+      {
+        integrity: sha512-12Rmq2ub61rUZ3Pqnsvmo99rRQ6hQJwQsjnFnbvXYLMrlIsWT6SFVsrjAkBBrkXXSHv8ePIpKQ0nZph5KDrOqw==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    hasBin: true
+
   p-limit@3.1.0:
     resolution:
       {
@@ -8340,6 +8419,30 @@ snapshots:
       "@opentelemetry/api": 1.9.0
       "@opentelemetry/core": 2.2.0(@opentelemetry/api@1.9.0)
 
+  "@oxfmt/darwin-arm64@0.17.0":
+    optional: true
+
+  "@oxfmt/darwin-x64@0.17.0":
+    optional: true
+
+  "@oxfmt/linux-arm64-gnu@0.17.0":
+    optional: true
+
+  "@oxfmt/linux-arm64-musl@0.17.0":
+    optional: true
+
+  "@oxfmt/linux-x64-gnu@0.17.0":
+    optional: true
+
+  "@oxfmt/linux-x64-musl@0.17.0":
+    optional: true
+
+  "@oxfmt/win32-arm64@0.17.0":
+    optional: true
+
+  "@oxfmt/win32-x64@0.17.0":
+    optional: true
+
   "@pkgjs/parseargs@0.11.0":
     optional: true
 
@@ -10720,6 +10823,17 @@ snapshots:
       get-intrinsic: 1.3.0
       object-keys: 1.1.1
       safe-push-apply: 1.0.0
+
+  oxfmt@0.17.0:
+    optionalDependencies:
+      "@oxfmt/darwin-arm64": 0.17.0
+      "@oxfmt/darwin-x64": 0.17.0
+      "@oxfmt/linux-arm64-gnu": 0.17.0
+      "@oxfmt/linux-arm64-musl": 0.17.0
+      "@oxfmt/linux-x64-gnu": 0.17.0
+      "@oxfmt/linux-x64-musl": 0.17.0
+      "@oxfmt/win32-arm64": 0.17.0
+      "@oxfmt/win32-x64": 0.17.0
 
   p-limit@3.1.0:
     dependencies:
