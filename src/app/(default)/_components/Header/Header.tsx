@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { getImageProps } from "next/image";
-import Link from "next/link";
 
 import { Anchor, Box, Flex } from "@mantine/core";
 
@@ -10,6 +9,7 @@ import SubMenu from "../SubMenu";
 
 import classes from "./Header.module.css";
 
+import ClientLink from "@/components/ClientLink/ClientLink";
 import { getUser } from "@/utils/auth/auth-helpers";
 
 const Header = async () => {
@@ -48,7 +48,7 @@ const Header = async () => {
   return (
     <Box component="header" className={classes.header}>
       <Flex className={classes.header_inner}>
-        <Flex component={Link} className={classes.header_link} href="/">
+        <Flex component={ClientLink} className={classes.header_link} href="/">
           <picture className={classes.header_logo}>
             <source media="(min-width:62em)" srcSet={desktop} />
             <source media="(max-width:62em)" srcSet={mobile} />
@@ -67,12 +67,7 @@ const Header = async () => {
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}
-                <Anchor
-                  component={Link}
-                  c="white"
-                  href="https://twitter.com/newt239"
-                  target="_blank"
-                >
+                <Anchor component={ClientLink} c="white" href="https://twitter.com/newt239">
                   newt239
                 </Anchor>
               </Box>
