@@ -11,7 +11,7 @@ const GlobalError = ({ error }) => {
   }, [error]);
 
   return (
-    <html>
+    <html lang="ja">
       <body>
         <Error />
       </body>

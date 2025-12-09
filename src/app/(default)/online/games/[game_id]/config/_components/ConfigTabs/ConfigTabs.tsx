@@ -32,6 +32,7 @@ const ConfigTabs = ({ gameId, children }: ConfigTabsProps) => {
           value="rule"
           py="md"
           role="tab"
+          aria-selected={pathname.split("/").at(-1) === "rule"}
           aria-current={pathname.split("/").at(-1) === "rule" ? "page" : undefined}
           tabIndex={0}
         >
@@ -41,6 +42,7 @@ const ConfigTabs = ({ gameId, children }: ConfigTabsProps) => {
           value="player"
           py="md"
           role="tab"
+          aria-selected={pathname.split("/").at(-1) === "player"}
           aria-current={pathname.split("/").at(-1) === "player" ? "page" : undefined}
           tabIndex={0}
         >
@@ -50,6 +52,7 @@ const ConfigTabs = ({ gameId, children }: ConfigTabsProps) => {
           value="other"
           py="md"
           role="tab"
+          aria-selected={pathname.split("/").at(-1) === "other"}
           aria-current={pathname.split("/").at(-1) === "other" ? "page" : undefined}
           tabIndex={0}
         >
