@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Group, Text, Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 
 export const metadata: Metadata = {
   title: "商用利用について",
@@ -21,9 +21,7 @@ const PrivacyPolicyPage = () => {
       <Text mb="sm">
         このため、本サービスを商用に利用することや、営利目的で利用することは、原則として禁止しています。
       </Text>
-      <Text mb="sm">
-        ここで言う「商用利用」とは、以下のような場合を指します。
-      </Text>
+      <Text mb="sm">ここで言う「商用利用」とは、以下のような場合を指します。</Text>
       <ul>
         <li>
           参加者がクイズに参加するために参加費（名称にかかわない）を支払う必要があるイベントにおいて利用する場合

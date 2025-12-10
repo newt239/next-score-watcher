@@ -17,7 +17,6 @@ import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialQuizes: ApiQuizDataType[];
-  userId: string;
 };
 
 const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
@@ -35,8 +34,7 @@ const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
     } catch (error) {
       notifications.show({
         title: "エラー",
-        message:
-          error instanceof Error ? error.message : "不明なエラーが発生しました",
+        message: error instanceof Error ? error.message : "不明なエラーが発生しました",
         color: "red",
       });
     }
@@ -68,9 +66,7 @@ const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
       throw new Error("クイズ問題の作成に失敗しました");
     } catch (error) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "クイズ問題の作成に失敗しました";
+        error instanceof Error ? error.message : "クイズ問題の作成に失敗しました";
       notifications.show({
         title: "エラー",
         message: errorMessage,
@@ -130,11 +126,7 @@ const ManageQuiz: React.FC<Props> = ({ initialQuizes }) => {
         </Tabs.Panel>
       </Tabs>
 
-      <QuizesTable
-        quizes={quizes}
-        deleteQuizes={deleteQuizes}
-        refetchQuizes={refetchQuizes}
-      />
+      <QuizesTable quizes={quizes} deleteQuizes={deleteQuizes} refetchQuizes={refetchQuizes} />
     </>
   );
 };

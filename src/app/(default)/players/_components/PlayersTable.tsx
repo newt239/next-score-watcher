@@ -30,7 +30,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import type { PlayerDBProps } from "@/utils/types";
 
-import TablePagenation from "@/app/_components/TablePagination";
+import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
 
 type Props = {
@@ -39,10 +39,7 @@ type Props = {
 
 const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
   const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
-  const players = useLiveQuery(
-    () => db(currentProfile).players.orderBy("name").toArray(),
-    []
-  );
+  const players = useLiveQuery(() => db(currentProfile).players.orderBy("name").toArray(), []);
   const [searchText, setSearchText] = useState<string>("");
 
   const [selectedPlayers, setSelectedPlayers] = useState({});
@@ -112,17 +109,12 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
     .getSelectedRowModel()
     .rows.map(({ original: player }) => player.id);
   const affectedGameList = games.filter((game) =>
-    game.players
-      .map((gamePlayer) => deletePlayerList.includes(gamePlayer.id))
-      .includes(true)
+    game.players.map((gamePlayer) => deletePlayerList.includes(gamePlayer.id)).includes(true)
   );
 
   const deletePlayers = async () => {
     await db(currentProfile).players.bulkDelete(deletePlayerList);
-    await db(currentProfile)
-      .logs.where("player_id")
-      .anyOf(deletePlayerList)
-      .delete();
+    await db(currentProfile).logs.where("player_id").anyOf(deletePlayerList).delete();
     await db(currentProfile)
       .games.where("id")
       .anyOf(affectedGameList.map((game) => game.id))
@@ -198,9 +190,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
           }
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>
-              <Text>
-                「{searchText}」に一致するプレイヤーは見つかりませんでした。
-              </Text>
+              <Text>「{searchText}」に一致するプレイヤーは見つかりませんでした。</Text>
             </Box>
           ) : (
             <>
@@ -212,10 +202,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
                         <Table.Th colSpan={header.colSpan} key={i}>
                           {header.isPlaceholder
                             ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                            : flexRender(header.column.columnDef.header, header.getContext())}
                         </Table.Th>
                       ))}
                     </Table.Tr>
@@ -228,10 +215,7 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
                         {row.getVisibleCells().map((cell, i) => {
                           return (
                             <Table.Td key={`${row.original.id}_${i}`}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </Table.Td>
                           );
                         })}

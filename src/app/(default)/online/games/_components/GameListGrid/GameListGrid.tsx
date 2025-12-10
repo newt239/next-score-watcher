@@ -1,6 +1,4 @@
-"use client";
-
-import { Box, Card, Group, Text } from "@mantine/core";
+import { Box, Card, CardSection, Group, Text } from "@mantine/core";
 import { IconAdjustmentsHorizontal, IconPlayerPlay } from "@tabler/icons-react";
 import Avatar from "boring-avatars";
 import { cdate } from "cdate";
@@ -9,8 +7,8 @@ import PublicityBadge from "../PublicityBadge/PublicityBadge";
 
 import classes from "./GameListGrid.module.css";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type GameListGridProps = {
   gameList: {
@@ -36,38 +34,26 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
       ) : (
         <Box className={classes.game_list_grid}>
           {gameList.map((game) => (
-            <Card
-              shadow="xs"
-              key={game.id}
-              title={game.name}
-              withBorder
-              data-testid="game-card"
-            >
-              <Card.Section className={classes.game_avatar}>
+            <Card shadow="xs" key={game.id} title={game.name} withBorder data-testid="game-card">
+              <CardSection className={classes.game_avatar}>
                 <Avatar
                   name={game.id}
                   square
-                  colors={[
-                    "#92A1C6",
-                    "#146A7C",
-                    "#F0AB3D",
-                    "#C271B4",
-                    "#C20D90",
-                  ]}
+                  colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
                 />
-              </Card.Section>
+              </CardSection>
               <Group justify="space-between" align="center" my="xs">
                 <Text fw="bold" size="lg">
                   {game.name}
                 </Text>
                 <PublicityBadge isPublic={game.isPublic} size="xs" />
               </Group>
-              <Card.Section className={classes.game_description}>
+              <CardSection className={classes.game_description}>
                 <Text size="sm">
                   {game.logCount}問目 ・ {game.playerCount}人 ・{" "}
                   {cdate(game.updatedAt).format("MM/DD")}
                 </Text>
-              </Card.Section>
+              </CardSection>
               <Group className={classes.game_footer}>
                 <ButtonLink
                   href={`/online/games/${game.id}/config`}
@@ -83,6 +69,7 @@ const GameListGrid: React.FC<GameListGridProps> = ({ gameList }) => {
                   leftSection={<IconPlayerPlay />}
                   size="sm"
                   flex={1}
+                  disabled={game.playerCount === 0}
                 >
                   表示
                 </ButtonLink>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Text, Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 
 export const metadata: Metadata = {
   title: "プライバシーポリシー",
@@ -36,9 +36,7 @@ const PrivacyPolicyPage = () => {
       </Text>
       <Text mb="sm">
         この機能はCookieを無効にすることで収集を拒否することが出来ますので、お使いのブラウザの設定をご確認ください。この規約に関しての詳細は
-        <Link href="https://sentry.io/privacy/">
-          Sentryプライバシーポリシー
-        </Link>
+        <Link href="https://sentry.io/privacy/">Sentryプライバシーポリシー</Link>
         のページをご覧ください。
       </Text>
     </>

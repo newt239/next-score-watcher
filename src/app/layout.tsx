@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 
-import {
-  ColorSchemeScript,
-  mantineHtmlProps,
-  MantineProvider,
-} from "@mantine/core";
+import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import UpdateModal from "./_components/UpdateModal";
 
@@ -24,12 +21,10 @@ export const metadata: Metadata = {
     template: "%s - Score Watcher",
     default: "Score Watcher",
   },
-  description:
-    "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
+  description: "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
   openGraph: {
     title: "Score Watcher",
-    description:
-      "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
+    description: "競技クイズ用の得点表示ソフトです。プレイヤーの得点状況を可視化します。",
     siteName: "Score Watcher",
     type: "website",
     locale: "ja_JP",
@@ -60,13 +55,15 @@ const RootLayout = ({
         <TypekitLoader />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <ModalsProvider>
-            {children}
-            <UpdateModal />
-          </ModalsProvider>
-          <Notifications />
-        </MantineProvider>
+        <NuqsAdapter>
+          <MantineProvider theme={theme}>
+            <ModalsProvider>
+              {children}
+              <UpdateModal />
+            </ModalsProvider>
+            <Notifications />
+          </MantineProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

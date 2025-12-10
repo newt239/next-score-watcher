@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 
 import { Switch, Text } from "@mantine/core";
+import { parseResponse } from "hono/client";
 
 import { useGameState } from "../_hooks/useGameState";
 
@@ -35,15 +36,17 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
 
   const updateSetting = async (newValue: boolean) => {
     try {
-      const response = await apiClient.games[":gameId"].options.$patch({
-        param: { gameId },
-        json: {
-          key: fieldName,
-          value: newValue,
-        },
-      });
+      const response = await parseResponse(
+        apiClient.games[":gameId"].options.$patch({
+          param: { gameId },
+          json: {
+            key: fieldName,
+            value: newValue,
+          },
+        })
+      );
 
-      if (!response.ok) {
+      if ("error" in response) {
         console.error("Failed to update option");
       } else {
         // ゲーム状態を更新してGameStartButtonに反映
@@ -65,12 +68,7 @@ const ConfigBooleanInput: React.FC<ConfigBooleanInputProps> = ({
 
   return (
     <div>
-      <Switch
-        label={label}
-        checked={localValue}
-        onChange={handleChange}
-        disabled={isPending}
-      />
+      <Switch label={label} checked={localValue} onChange={handleChange} disabled={isPending} />
       {helperText && (
         <Text size="sm" c="dimmed" mt="xs">
           {helperText}

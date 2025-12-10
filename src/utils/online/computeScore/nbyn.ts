@@ -1,9 +1,6 @@
 import { generateScoreText, getSortedPlayerOrderListForOnline } from "./index";
 
-import type {
-  ComputedScoreProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 /**
@@ -76,10 +73,7 @@ const computeNbyn = (
   const winPlayers = finalScores
     .filter((s) => s.state === "win")
     .filter(() => logs.length > 0)
-    .filter(
-      (s) =>
-        s.last_correct === logs.length - 1 || s.last_wrong === logs.length - 1
-    )
+    .filter((s) => s.last_correct === logs.length - 1 || s.last_wrong === logs.length - 1)
     .map((s) => ({ player_id: s.player_id, text: s.text }));
 
   return { scores: finalScores, winPlayers } as const;

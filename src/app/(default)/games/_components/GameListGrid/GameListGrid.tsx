@@ -6,8 +6,8 @@ import { cdate } from "cdate";
 
 import classes from "./GameListGrid.module.css";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type Props = {
   gameList: {
@@ -33,11 +33,7 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
         <Box className={classes.game_list_grid}>
           {gameList.map((game) => (
             <Card shadow="xs" key={game.id} title={game.name} withBorder>
-              <Card.Section
-                className={classes.game_name}
-                withBorder
-                inheritPadding
-              >
+              <Card.Section className={classes.game_name} withBorder inheritPadding>
                 {game.name}
               </Card.Section>
               <Card.Section className={classes.game_description}>

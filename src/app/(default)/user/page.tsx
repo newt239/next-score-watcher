@@ -53,9 +53,7 @@ const AccountPage = async () => {
 
       <UserPreferencesSettings
         initialPreferences={
-          "preferences" in preferences
-            ? preferences.preferences
-            : defaultUserPreferences
+          "preferences" in preferences ? preferences.preferences : defaultUserPreferences
         }
         userId={user.id}
       />

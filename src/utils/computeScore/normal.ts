@@ -1,21 +1,14 @@
 import type { AllGameProps, LogDBProps } from "@/utils/types";
 
-import {
-  getInitialPlayersState,
-  getSortedPlayerOrderList,
-} from "@/utils/computeScore";
+import { getInitialPlayersState, getSortedPlayerOrderList } from "@/utils/computeScore";
 
-const normal = async (
-  game: AllGameProps["normal"],
-  gameLogList: LogDBProps[]
-) => {
+const normal = async (game: AllGameProps["normal"], gameLogList: LogDBProps[]) => {
   let playersState = getInitialPlayersState(game);
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
         const newScore =
-          playerState.score +
-          (log.variant === "correct" ? game.correct_me : game.wrong_me);
+          playerState.score + (log.variant === "correct" ? game.correct_me : game.wrong_me);
         switch (log.variant) {
           case "correct":
             if (newScore >= game.win_point!) {
@@ -62,9 +55,7 @@ const normal = async (
   });
   const playerOrderList = getSortedPlayerOrderList(playersState);
   playersState = playersState.map((playerState) => {
-    const order = playerOrderList.findIndex(
-      (score) => score === playerState.player_id
-    );
+    const order = playerOrderList.findIndex((score) => score === playerState.player_id);
     return { ...playerState, order };
   });
 

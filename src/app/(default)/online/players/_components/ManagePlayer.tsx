@@ -17,7 +17,6 @@ import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialPlayers: UpdatePlayerType[];
-  userId: string;
 };
 
 const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
@@ -34,8 +33,7 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
     } catch (error) {
       notifications.show({
         title: "エラー",
-        message:
-          error instanceof Error ? error.message : "不明なエラーが発生しました",
+        message: error instanceof Error ? error.message : "不明なエラーが発生しました",
         color: "red",
       });
     }
@@ -67,9 +65,7 @@ const ManagePlayer: React.FC<Props> = ({ initialPlayers }) => {
       throw new Error("プレイヤーの作成に失敗しました");
     } catch (error) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "プレイヤーの作成に失敗しました";
+        error instanceof Error ? error.message : "プレイヤーの作成に失敗しました";
       notifications.show({
         title: "エラー",
         message: errorMessage,

@@ -47,12 +47,7 @@ const CreateQuiz: React.FC<Props> = ({ createQuizes }) => {
 
   return (
     <form onSubmit={form.onSubmit(handleCreateQuiz)}>
-      <TextInput
-        label="問題文"
-        required
-        {...form.getInputProps("question")}
-        disabled={isPending}
-      />
+      <TextInput label="問題文" required {...form.getInputProps("question")} disabled={isPending} />
       <TextInput
         label="答え"
         required

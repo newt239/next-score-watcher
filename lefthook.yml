@@ -1,10 +1,15 @@
 pre-commit:
   parallel: true
   commands:
-    typecheck:
-      run: npx tsc --noEmit
-      fail_text: "型チェックに失敗しました。エラーを修正してください。"
     lint:
       run: pnpm run lint:fix
       stage_fixed: true
       fail_text: "Lintエラーがあります。修正してください。"
+    format:
+      run: pnpm run format:fix
+      stage_fixed: true
+      fail_text: "Formatエラーがあります。修正してください。"
+    stylelint:
+      run: pnpm run stylelint:fix
+      stage_fixed: true
+      fail_text: "Stylelintエラーがあります。修正してください。"

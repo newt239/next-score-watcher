@@ -90,9 +90,7 @@ export const GetPlayersListRequestSchema = z.object({
 /**
  * プレイヤー一覧取得リクエストのクエリパラメータ型
  */
-export type GetPlayersListRequestType = z.infer<
-  typeof GetPlayersListRequestSchema
->;
+export type GetPlayersListRequestType = z.infer<typeof GetPlayersListRequestSchema>;
 
 /**
  * API レスポンス内のプレイヤーデータの型（APIから返される生の型）
@@ -162,9 +160,7 @@ export const RemovePlayerTagRequestSchema = z.object({
 /**
  * プレイヤータグ削除リクエストの型
  */
-export type RemovePlayerTagRequestType = z.infer<
-  typeof RemovePlayerTagRequestSchema
->;
+export type RemovePlayerTagRequestType = z.infer<typeof RemovePlayerTagRequestSchema>;
 
 /**
  * プレイヤータグ操作レスポンスの型

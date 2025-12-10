@@ -20,26 +20,17 @@ const handler = factory.createHandlers(
     try {
       const userId = await getUserId();
       if (!userId) {
-        return c.json(
-          { success: false, error: "ログインしてください" } as const,
-          401
-        );
+        return c.json({ success: false, error: "ログインしてください" } as const, 401);
       }
 
       const { gamePlayerId } = c.req.valid("param");
       const jsonData = c.req.valid("json");
-      const result = await updateGamePlayerByKey(
-        gamePlayerId,
-        jsonData,
-        userId
-      );
+      const result = await updateGamePlayerByKey(gamePlayerId, jsonData, userId);
 
       return c.json(
         {
           updated: result,
-          message: result
-            ? "プレイヤー設定を更新しました"
-            : "プレイヤー設定の更新に失敗しました",
+          message: result ? "プレイヤー設定を更新しました" : "プレイヤー設定の更新に失敗しました",
         } as const,
         200
       );

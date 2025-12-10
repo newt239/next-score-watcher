@@ -10,23 +10,10 @@
   font-weight: 700;
   text-align: center;
   background:
-    radial-gradient(
-      ellipse at center,
-      rgb(255 255 255 / 20%) 0%,
-      rgb(255 255 255 / 0%) 100%
-    ),
+    radial-gradient(ellipse at center, rgb(255 255 255 / 20%) 0%, rgb(255 255 255 / 0%) 100%),
     radial-gradient(ellipse at 80% 5%, #4c00ff 0%, rgb(255 40 184 / 0%) 30%),
-    radial-gradient(
-      ellipse at bottom left,
-      #ff0076 0%,
-      rgb(15 156 255 / 31%) 60%
-    ),
-    linear-gradient(
-      135deg,
-      rgb(18 46 119 / 0%) 0%,
-      rgb(18 46 119 / 0%) 75%,
-      #395eff 100%
-    ),
+    radial-gradient(ellipse at bottom left, #ff0076 0%, rgb(15 156 255 / 31%) 60%),
+    linear-gradient(135deg, rgb(18 46 119 / 0%) 0%, rgb(18 46 119 / 0%) 75%, #395eff 100%),
     linear-gradient(82deg, #00c4ff 0%, #74b5ff 27%, #88b8ff 74%, #3b88ff 100%);
   background-blend-mode: screen, hue, color, overlay;
   animation: popUp 0.5s ease-out;

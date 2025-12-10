@@ -29,9 +29,7 @@ const ConfigNumberInput: React.FC<Props> = ({
 }) => {
   const id = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
 
   if (!game) return null;
 

@@ -33,10 +33,7 @@ export const getInitialPlayersStateForOnline = (
 /**
  * ゲーム形式に応じた初期スコアを計算
  */
-const getInitialScore = (
-  game: GetGameDetailResponseType,
-  player: GamePlayerProps
-): number => {
+const getInitialScore = (game: GetGameDetailResponseType, player: GamePlayerProps): number => {
   switch (game.ruleType) {
     case "divide":
       return game.option.correct_me;
@@ -47,10 +44,7 @@ const getInitialScore = (
     case "nomr":
       return player.initialScore ?? 0;
     case "backstream":
-      return (
-        (player.initialScore ?? 0) -
-        initialBackstreamWrong(player.initialScore ?? 0)
-      );
+      return (player.initialScore ?? 0) - initialBackstreamWrong(player.initialScore ?? 0);
     case "squarex": {
       const baseScore = player.initialScore ?? 0;
       return baseScore * baseScore;
@@ -65,10 +59,7 @@ const getInitialScore = (
 /**
  * ゲーム形式に応じた初期正解数を計算
  */
-const getInitialCorrect = (
-  game: GetGameDetailResponseType,
-  player: GamePlayerProps
-): number => {
+const getInitialCorrect = (game: GetGameDetailResponseType, player: GamePlayerProps): number => {
   if (["attacksurvival", "squarex", "variables"].includes(game.ruleType)) {
     return 0;
   }
@@ -78,10 +69,7 @@ const getInitialCorrect = (
 /**
  * ゲーム形式に応じた初期誤答数を計算
  */
-const getInitialWrong = (
-  game: GetGameDetailResponseType,
-  player: GamePlayerProps
-): number => {
+const getInitialWrong = (game: GetGameDetailResponseType, player: GamePlayerProps): number => {
   if (game.ruleType === "backstream") {
     return initialBackstreamWrong(player.initialScore ?? 0);
   }
@@ -102,9 +90,7 @@ const initialBackstreamWrong = (wrong_num: number): number => {
 /**
  * プレイヤー順序の計算
  */
-export const getSortedPlayerOrderListForOnline = (
-  playersState: ComputedScoreProps[]
-): string[] => {
+export const getSortedPlayerOrderListForOnline = (playersState: ComputedScoreProps[]): string[] => {
   return playersState
     .sort((pre, cur) => {
       // 勝ち抜けているかどうか
@@ -149,10 +135,7 @@ export const indicator = (i: number): string => {
 /**
  * スコア表示用のテキスト生成
  */
-export const generateScoreText = (
-  score: ComputedScoreProps,
-  order: number
-): string => {
+export const generateScoreText = (score: ComputedScoreProps, order: number): string => {
   if (score.state === "win") {
     return indicator(order);
   }

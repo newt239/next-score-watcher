@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Flex,
-  Switch,
-  useComputedColorScheme,
-  useMantineColorScheme,
-} from "@mantine/core";
+import { Flex, Switch, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
 
@@ -40,11 +35,7 @@ const Preferences: React.FC = () => {
   });
 
   // 設定更新のヘルパー関数
-  const updateSetting = <T,>(
-    localSetter: (value: T) => void,
-    value: T,
-    eventName: string
-  ) => {
+  const updateSetting = <T,>(localSetter: (value: T) => void, value: T, eventName: string) => {
     // 常にlocalStorageを更新
     localSetter(value);
 
@@ -86,11 +77,7 @@ const Preferences: React.FC = () => {
       <Switch
         checked={showBoardHeader}
         onChange={(event) => {
-          updateSetting(
-            setShowBoardHeader,
-            event.currentTarget.checked,
-            "show_board_header"
-          );
+          updateSetting(setShowBoardHeader, event.currentTarget.checked, "show_board_header");
         }}
         label="ヘッダーを表示"
         size="md"
@@ -106,11 +93,7 @@ const Preferences: React.FC = () => {
       <Switch
         checked={showSignString}
         onChange={(event) => {
-          updateSetting(
-            setShowSignString,
-            event.currentTarget.checked,
-            "show_sign_string"
-          );
+          updateSetting(setShowSignString, event.currentTarget.checked, "show_sign_string");
         }}
         label="スコアに「○」「✕」「pt」の文字列を付与する"
         size="md"
@@ -118,11 +101,7 @@ const Preferences: React.FC = () => {
       <Switch
         checked={reversePlayerInfo}
         onChange={(event) => {
-          updateSetting(
-            setReversePlayerInfo,
-            event.currentTarget.checked,
-            "reverse_player_info"
-          );
+          updateSetting(setReversePlayerInfo, event.currentTarget.checked, "reverse_player_info");
         }}
         label="スコアを名前の上に表示"
         size="md"
@@ -130,11 +109,7 @@ const Preferences: React.FC = () => {
       <Switch
         checked={wrongNumber}
         onChange={(event) => {
-          updateSetting(
-            setWrongNumber,
-            event.currentTarget.checked,
-            "wrong_number"
-          );
+          updateSetting(setWrongNumber, event.currentTarget.checked, "wrong_number");
         }}
         label="誤答数が4以下のとき✕の数で表示"
         description="誤答数が0のときは中黒・で表示されます。"

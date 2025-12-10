@@ -6,7 +6,7 @@ import { IconUpload } from "@tabler/icons-react";
 
 import type { GameDBQuizProps } from "@/utils/types";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 import db from "@/utils/db";
 
 type Props = {
@@ -16,12 +16,7 @@ type Props = {
   currentProfile: string;
 };
 
-const SelectQuizset: React.FC<Props> = ({
-  game_id,
-  game_quiz,
-  quizset_names,
-  currentProfile,
-}) => {
+const SelectQuizset: React.FC<Props> = ({ game_id, game_quiz, quizset_names, currentProfile }) => {
   return (
     <>
       <h3>問題設定</h3>
@@ -68,10 +63,7 @@ const SelectQuizset: React.FC<Props> = ({
           )}
         </>
       ) : (
-        <ButtonLink
-          leftSection={<IconUpload />}
-          href={`/quizes?from=${game_id}`}
-        >
+        <ButtonLink leftSection={<IconUpload />} href={`/quizes?from=${game_id}`}>
           問題データを読み込む
         </ButtonLink>
       )}

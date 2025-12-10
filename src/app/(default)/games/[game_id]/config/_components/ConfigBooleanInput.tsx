@@ -30,9 +30,7 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
 }) => {
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
 
   if (!game || !game.options) return null;
 

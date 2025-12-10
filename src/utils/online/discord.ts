@@ -14,13 +14,9 @@ type GameWithRelations = NonNullable<
  * Discord Webhookによる勝ち抜け通知を送信する
  * @param gameData リポジトリから取得したゲームデータ
  */
-export async function sendDiscordWinnerNotification(
-  gameData: GameWithRelations
-): Promise<void> {
+export async function sendDiscordWinnerNotification(gameData: GameWithRelations): Promise<void> {
   // Discord Webhook URLが設定されていない場合は何もしない
-  if (
-    !gameData.discordWebhookUrl?.startsWith("https://discord.com/api/webhooks/")
-  ) {
+  if (!gameData.discordWebhookUrl?.startsWith("https://discord.com/api/webhooks/")) {
     return;
   }
 
@@ -49,11 +45,7 @@ export async function sendDiscordWinnerNotification(
     };
 
     // スコア計算を実行して勝者を判定
-    const result = computeOnlineScore(
-      gameForCompute,
-      gameForCompute.players,
-      gameForCompute.logs
-    );
+    const result = computeOnlineScore(gameForCompute, gameForCompute.players, gameForCompute.logs);
 
     // 勝ち抜けプレイヤーがいない場合は通知しない
     if (!result.winPlayers || result.winPlayers.length === 0) {
@@ -105,13 +97,9 @@ export async function sendDiscordWinnerNotification(
  * Discord Webhookによるゲームリセット通知を送信する
  * @param gameData リポジトリから取得したゲームデータ
  */
-export async function sendDiscordResetNotification(
-  gameData: GameWithRelations
-): Promise<void> {
+export async function sendDiscordResetNotification(gameData: GameWithRelations): Promise<void> {
   // Discord Webhook URLが設定されていない場合は何もしない
-  if (
-    !gameData.discordWebhookUrl?.startsWith("https://discord.com/api/webhooks/")
-  ) {
+  if (!gameData.discordWebhookUrl?.startsWith("https://discord.com/api/webhooks/")) {
     return;
   }
 

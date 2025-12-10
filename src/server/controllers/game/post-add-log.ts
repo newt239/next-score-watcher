@@ -94,39 +94,36 @@ const updateBoardCacheIfPublic = async (gameId: string, userId: string) => {
 /**
  * ゲームログ追加
  */
-const handler = factory.createHandlers(
-  zValidator("json", AddGameLogRequestSchema),
-  async (c) => {
-    try {
-      const userId = await getUserId();
+const handler = factory.createHandlers(zValidator("json", AddGameLogRequestSchema), async (c) => {
+  try {
+    const userId = await getUserId();
 
-      if (!userId) {
-        return c.json({ error: "認証が必要です" } as const, 401);
-      }
-
-      const logData = c.req.valid("json");
-      const logId = await addGameLog(logData, userId);
-
-      // ログ追加後、ゲームが公開設定の場合はスコア計算してキャッシュ更新
-      await updateBoardCacheIfPublic(logData.gameId, userId);
-
-      // Discord Webhook通知を送信（勝ち抜け通知）
-      try {
-        const gameData = await getGameById(logData.gameId, userId);
-        if (gameData) {
-          await sendDiscordWinnerNotification(gameData);
-        }
-      } catch (discordError) {
-        // Discord通知の失敗は非致命的エラーとして扱う
-        console.error("Discord notification failed:", discordError);
-      }
-
-      return c.json({ logId } as const, 201);
-    } catch (error) {
-      console.error("Error adding cloud game log:", error);
-      return c.json({ error: "サーバーエラーが発生しました" } as const, 500);
+    if (!userId) {
+      return c.json({ error: "認証が必要です" } as const, 401);
     }
+
+    const logData = c.req.valid("json");
+    const logId = await addGameLog(logData, userId);
+
+    // ログ追加後、ゲームが公開設定の場合はスコア計算してキャッシュ更新
+    await updateBoardCacheIfPublic(logData.gameId, userId);
+
+    // Discord Webhook通知を送信（勝ち抜け通知）
+    try {
+      const gameData = await getGameById(logData.gameId, userId);
+      if (gameData) {
+        await sendDiscordWinnerNotification(gameData);
+      }
+    } catch (discordError) {
+      // Discord通知の失敗は非致命的エラーとして扱う
+      console.error("Discord notification failed:", discordError);
+    }
+
+    return c.json({ logId } as const, 201);
+  } catch (error) {
+    console.error("Error adding cloud game log:", error);
+    return c.json({ error: "サーバーエラーが発生しました" } as const, 500);
   }
-);
+});
 
 export default handler;

@@ -28,8 +28,7 @@ export const parseGameOption = (game: Game) => {
   if (typeof game.option !== "string" && typeof game.option !== "object") {
     return null;
   }
-  const gameOption =
-    typeof game.option === "string" ? JSON.parse(game.option) : game.option;
+  const gameOption = typeof game.option === "string" ? JSON.parse(game.option) : game.option;
   if (typeof gameOption !== "object") {
     return null;
   }
@@ -159,9 +158,7 @@ export const parseGameOption = (game: Game) => {
   }
 };
 
-export const setupDefaultGameOption = (
-  game: Partial<Pick<Game, "ruleType" | "option">>
-) => {
+export const setupDefaultGameOption = (game: Partial<Pick<Game, "ruleType" | "option">>) => {
   // optionが存在しない場合はデフォルトのオプションを作成
   let gameOption = {};
   if (game.option !== undefined && game.option !== null) {

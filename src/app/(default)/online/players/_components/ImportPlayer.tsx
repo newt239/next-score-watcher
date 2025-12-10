@@ -76,11 +76,7 @@ const ImportPlayer: React.FC<Props> = ({ createPlayers }) => {
 
   return (
     <Flex direction="column" gap="md" style={{ paddingTop: "1rem" }}>
-      <Dropzone
-        onDrop={handleOnChange}
-        accept={["text/csv"]}
-        loading={isPending}
-      />
+      <Dropzone onDrop={handleOnChange} accept={["text/csv"]} loading={isPending} />
       <Text>1列目: 氏名、 2列目: 所属</Text>
     </Flex>
   );

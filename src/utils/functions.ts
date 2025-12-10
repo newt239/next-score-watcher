@@ -35,16 +35,15 @@ export const createGame = async (
     });
     try {
       const game_id = nanoid(6);
-      const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> =
-        {
-          id: game_id,
-          players: [],
-          correct_me: 1,
-          wrong_me: -1,
-          discord_webhook_url: "",
-          editable: false,
-          last_open: cdate().text(),
-        };
+      const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> = {
+        id: game_id,
+        players: [],
+        correct_me: 1,
+        wrong_me: -1,
+        discord_webhook_url: "",
+        editable: false,
+        last_open: cdate().text(),
+      };
       const { description: _unused1, rows: _unused2, ...params } = rules[param];
       await db(currentProfile).games.put({
         ...commonGameProps,
@@ -57,10 +56,7 @@ export const createGame = async (
   }
 };
 
-export const numberSign = (
-  type: "correct" | "wrong" | "pt",
-  score?: number
-) => {
+export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => {
   const showSignString = localStorage.getItem("scorew-show-sign-string");
   const wrongNumber = localStorage.getItem("scorew-wrong-number");
   if (typeof score === "undefined") {

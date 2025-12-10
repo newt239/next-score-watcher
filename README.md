@@ -24,7 +24,7 @@ https://score-watcher.com/
 
 ### 起動に必要なもの
 
-- Node.js (v22 以降)
+- Node.js (v24 以降)
 - pnpm
 
 ### 環境変数

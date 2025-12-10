@@ -28,9 +28,7 @@ const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
     const a = document.createElement("a");
     a.href = url;
 
-    a.download = `score-watcher_${game.id}_${cdate().format(
-      "YYMMDDHHmm"
-    )}.json`;
+    a.download = `score-watcher_${game.id}_${cdate().format("YYMMDDHHmm")}.json`;
     a.click();
   };
 

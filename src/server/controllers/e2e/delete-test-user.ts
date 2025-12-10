@@ -19,10 +19,7 @@ export default factory.createHandlers(async (c) => {
 
   try {
     // テストユーザーを取得
-    const testUser = await DBClient.select()
-      .from(user)
-      .where(eq(user.email, TEST_EMAIL))
-      .limit(1);
+    const testUser = await DBClient.select().from(user).where(eq(user.email, TEST_EMAIL)).limit(1);
 
     if (testUser.length === 0) {
       return c.json({ message: "テストユーザーは存在しません" });

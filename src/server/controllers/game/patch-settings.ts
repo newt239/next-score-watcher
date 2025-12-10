@@ -27,10 +27,7 @@ const handler = factory.createHandlers(
       const updated = await updateGameSettings(gameId, settingsData, userId);
 
       if (!updated) {
-        return c.json(
-          { error: "ゲーム設定の更新に失敗しました" } as const,
-          400
-        );
+        return c.json({ error: "ゲーム設定の更新に失敗しました" } as const, 400);
       }
 
       return c.json({

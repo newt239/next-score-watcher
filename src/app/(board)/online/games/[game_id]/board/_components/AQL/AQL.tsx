@@ -6,11 +6,7 @@ import AQLPlayer from "../AQLPlayer/AQLPlayer";
 
 import classes from "./AQL.module.css";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  LogDBProps,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, LogDBProps } from "@/models/game";
 
 type AQLProps = {
   scores: ComputedScoreProps[];
@@ -80,11 +76,7 @@ const AQL: React.FC<AQLProps> = ({
         <Flex className={classes.team_info}>
           <Box className={classes.team_name}>{team_name.left_team}</Box>
           <Box className={classes.team_score}>
-            {leftTeamState === "win"
-              ? "WIN"
-              : leftTeamState === "lose"
-                ? "LOSE"
-                : leftTeamScore}
+            {leftTeamState === "win" ? "WIN" : leftTeamState === "lose" ? "LOSE" : leftTeamScore}
           </Box>
         </Flex>
         <Flex className={classes.players}>
@@ -105,11 +97,7 @@ const AQL: React.FC<AQLProps> = ({
         <Flex className={classes.team_info}>
           <Box className={classes.team_name}>{team_name.right_team}</Box>
           <Box className={classes.team_score}>
-            {rightTeamState === "win"
-              ? "WIN"
-              : rightTeamState === "lose"
-                ? "LOSE"
-                : rightTeamScore}
+            {rightTeamState === "win" ? "WIN" : rightTeamState === "lose" ? "LOSE" : rightTeamScore}
           </Box>
         </Flex>
         <Flex className={classes.players}>

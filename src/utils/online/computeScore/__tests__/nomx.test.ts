@@ -7,11 +7,7 @@ import {
 } from "../index";
 import computeNomx from "../nomx";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type NomxGame = Extract<GetGameDetailResponseType, { ruleType: "nomx" }>;
@@ -76,9 +72,7 @@ const createPlayer = (
  * @param override 上書きするスコア情報
  * @returns 計算済みスコア
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-nomx",
   player_id: "player-base",
   state: "playing",
@@ -99,10 +93,7 @@ const createScoreState = (
 
 describe("online nomx形式", () => {
   it("初期状態で正解数と誤答数がinitialScoreで初期化される", () => {
-    const players = [
-      createPlayer("player-1", 2, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 2, 0), createPlayer("player-2", null, 1)];
     const game = createNomxGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);
@@ -168,10 +159,7 @@ describe("online nomx形式", () => {
   });
 
   it("正解と誤答ログに応じて状態とテキストが更新される", () => {
-    const players = [
-      createPlayer("player-1", 0, 0),
-      createPlayer("player-2", 0, 1),
-    ];
+    const players = [createPlayer("player-1", 0, 0), createPlayer("player-2", 0, 1)];
     const logs: SeriarizedGameLog[] = [
       {
         id: "log-1",

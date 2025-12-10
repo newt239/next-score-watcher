@@ -21,7 +21,7 @@ import classes from "./ActionButtons.module.css";
 
 import type { GamePropsUnion, LogDBProps } from "@/utils/types";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 import db from "@/utils/db";
 
 type Props = {
@@ -36,12 +36,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
   return (
     <>
       <ScrollArea w="100%">
-        <Group
-          justify="flex-end"
-          p="xs"
-          gap="xs"
-          className={classes.action_button_list}
-        >
+        <Group justify="flex-end" p="xs" gap="xs" className={classes.action_button_list}>
           <Button
             size="xs"
             variant="default"
@@ -89,13 +84,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
               visibleFrom="md"
               size="xs"
               variant="default"
-              leftSection={
-                game.editable ? (
-                  <IconSquareCheck size={20} />
-                ) : (
-                  <IconSquare size={20} />
-                )
-              }
+              leftSection={game.editable ? <IconSquareCheck size={20} /> : <IconSquare size={20} />}
               onClick={async () => {
                 try {
                   await db(currentProfile).games.put({

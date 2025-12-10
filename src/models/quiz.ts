@@ -9,10 +9,7 @@ export const CreateQuizSchema = z.object({
   annotation: z.string().optional().default(""),
   category: z.string().optional().default(""),
   setName: z.string().min(1, "セット名は必須です"),
-  questionNumber: z
-    .number()
-    .int()
-    .min(1, "問題番号は1以上である必要があります"),
+  questionNumber: z.number().int().min(1, "問題番号は1以上である必要があります"),
 });
 
 /**
@@ -32,11 +29,7 @@ export const UpdateQuizSchema = z.object({
   annotation: z.string().optional(),
   category: z.string().optional(),
   setName: z.string().min(1, "セット名は必須です").optional(),
-  questionNumber: z
-    .number()
-    .int()
-    .min(1, "問題番号は1以上である必要があります")
-    .optional(),
+  questionNumber: z.number().int().min(1, "問題番号は1以上である必要があります").optional(),
 });
 
 /**

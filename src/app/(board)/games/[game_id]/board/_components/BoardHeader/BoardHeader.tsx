@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Flex,
-  Menu,
-  MenuDivider,
-} from "@mantine/core";
+import { ActionIcon, Box, Button, Flex, Menu, MenuDivider } from "@mantine/core";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
 import {
@@ -31,7 +24,7 @@ import classes from "./BoardHeader.module.css";
 
 import type { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType, rules } from "@/utils/rules";
 
@@ -61,9 +54,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
     const getQuizList = async () => {
       if (game.quiz) {
         setQuizList(
-          await db(currentProfile)
-            .quizes.where({ set_name: game.quiz.set_name })
-            .sortBy("n")
+          await db(currentProfile).quizes.where({ set_name: game.quiz.set_name }).sortBy("n")
         );
       }
     };
@@ -71,10 +62,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
   }, [game.quiz]);
 
   const qn = logs.filter(
-    (log) =>
-      log.variant === "correct" ||
-      log.variant === "wrong" ||
-      log.variant === "through"
+    (log) => log.variant === "correct" || log.variant === "wrong" || log.variant === "through"
   ).length;
   const quizPosition = game.editable
     ? manualQuizPosition
@@ -93,9 +81,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
       <Flex
         component="header"
         className={classes.board_header}
-        data-withname={
-          !(game.name === rules[game.rule].name || game.name === "")
-        }
+        data-withname={!(game.name === rules[game.rule].name || game.name === "")}
         data-showquiz={game.quiz?.set_name !== "" && game.quiz !== undefined}
         data-showqn={showQn}
       >
@@ -128,9 +114,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                       </Button>
                       <Button
                         h="auto"
-                        disabled={
-                          game.quiz && manualQuizPosition >= quizList.length - 1
-                        }
+                        disabled={game.quiz && manualQuizPosition >= quizList.length - 1}
                         onClick={() => setManualQuizPosition((v) => v + 1)}
                       >
                         {">"}
@@ -150,9 +134,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                 : quizList[quizPosition].q}
             </span>
             <span className={classes.answer}>
-              {qn === 0 || quizPosition < 0
-                ? "ここに答えが表示されます"
-                : quizList[quizPosition].a}
+              {qn === 0 || quizPosition < 0 ? "ここに答えが表示されます" : quizList[quizPosition].a}
             </span>
           </Box>
         )}
@@ -201,10 +183,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                     event: "undo_log",
                     value: game.rule,
                   });
-                  await db(currentProfile).logs.update(
-                    logs[logs.length - 1].id,
-                    { available: 0 }
-                  );
+                  await db(currentProfile).logs.update(logs[logs.length - 1].id, { available: 0 });
                 }
               }}
             >
@@ -212,9 +191,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             </Menu.Item>
             {game.rule !== "aql" && (
               <Menu.Item
-                leftSection={
-                  game.editable ? <IconSquareCheck /> : <IconSquare />
-                }
+                leftSection={game.editable ? <IconSquareCheck /> : <IconSquare />}
                 onClick={async () => {
                   try {
                     await db(currentProfile).games.put({

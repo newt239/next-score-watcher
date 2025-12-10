@@ -2,15 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Group,
-  Table,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Box, Button, Checkbox, Group, Table, Text, TextInput } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconTrash } from "@tabler/icons-react";
 import {
@@ -26,7 +18,7 @@ import {
 
 import type { ApiQuizDataType } from "@/models/quiz";
 
-import TablePagenation from "@/app/_components/TablePagination";
+import TablePagenation from "@/components/TablePagination";
 
 type Props = {
   quizes: ApiQuizDataType[];
@@ -34,11 +26,7 @@ type Props = {
   refetchQuizes: () => Promise<void>;
 };
 
-const QuizesTable: React.FC<Props> = ({
-  quizes: quizesProp,
-  deleteQuizes,
-  refetchQuizes,
-}) => {
+const QuizesTable: React.FC<Props> = ({ quizes: quizesProp, deleteQuizes, refetchQuizes }) => {
   const [quizes, setQuizes] = useState<ApiQuizDataType[]>(quizesProp);
   const [searchText, setSearchText] = useState<string>("");
   const [selectedQuizes, setSelectedQuizes] = useState({});
@@ -111,9 +99,7 @@ const QuizesTable: React.FC<Props> = ({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const deleteQuizList = table
-    .getSelectedRowModel()
-    .rows.map(({ original: quiz }) => quiz.id);
+  const deleteQuizList = table.getSelectedRowModel().rows.map(({ original: quiz }) => quiz.id);
 
   const handleDeleteQuizes = async () => {
     startTransition(async () => {
@@ -170,9 +156,7 @@ const QuizesTable: React.FC<Props> = ({
           </Group>
           {table.getRowModel().rows.length === 0 ? (
             <Box p={3}>
-              <Text>
-                「{searchText}」に一致するクイズ問題は見つかりませんでした。
-              </Text>
+              <Text>「{searchText}」に一致するクイズ問題は見つかりませんでした。</Text>
             </Box>
           ) : (
             <>
@@ -184,10 +168,7 @@ const QuizesTable: React.FC<Props> = ({
                         <Table.Th colSpan={header.colSpan} key={i}>
                           {header.isPlaceholder
                             ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
+                            : flexRender(header.column.columnDef.header, header.getContext())}
                         </Table.Th>
                       ))}
                     </Table.Tr>
@@ -200,10 +181,7 @@ const QuizesTable: React.FC<Props> = ({
                         {row.getVisibleCells().map((cell, i) => {
                           return (
                             <Table.Td key={`${row.original.id}_${i}`}>
-                              {flexRender(
-                                cell.column.columnDef.cell,
-                                cell.getContext()
-                              )}
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </Table.Td>
                           );
                         })}

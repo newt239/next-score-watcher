@@ -16,11 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-const ViewerPage = async ({
-  params,
-}: {
-  params: Promise<{ game_id: string }>;
-}) => {
+const ViewerPage = async ({ params }: { params: Promise<{ game_id: string }> }) => {
   const { game_id } = await params;
 
   const apiClient = await createApiClientOnServer();

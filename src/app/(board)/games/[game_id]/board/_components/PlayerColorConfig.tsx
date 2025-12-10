@@ -2,12 +2,7 @@
 
 import type { Dispatch, SetStateAction } from "react";
 
-import {
-  ActionIcon,
-  Popover,
-  Radio,
-  useComputedColorScheme,
-} from "@mantine/core";
+import { ActionIcon, Popover, Radio, useComputedColorScheme } from "@mantine/core";
 import { IconEdit } from "@tabler/icons-react";
 
 import type { States } from "@/utils/types";
@@ -18,11 +13,7 @@ type Props = {
   setEditableState: Dispatch<SetStateAction<States>>;
 };
 
-const PlayerColorConfig: React.FC<Props> = ({
-  colorState,
-  editableState,
-  setEditableState,
-}) => {
+const PlayerColorConfig: React.FC<Props> = ({ colorState, editableState, setEditableState }) => {
   const colorScheme = useComputedColorScheme("light");
 
   return (

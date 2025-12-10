@@ -7,11 +7,7 @@ import {
 } from "../index";
 import computeNy from "../ny";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
 type NyGame = Extract<GetGameDetailResponseType, { ruleType: "ny" }>;
@@ -64,9 +60,7 @@ const createPlayer = (
 /**
  * 計算済みスコアを生成する。
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-ny",
   player_id: "player-base",
   state: "playing",
@@ -87,10 +81,7 @@ const createScoreState = (
 
 describe("online ny形式", () => {
   it("初期化時はスコア0で正解数・誤答数のみinitialScoreを踏襲する", () => {
-    const players = [
-      createPlayer("player-1", 2, 0),
-      createPlayer("player-2", null, 1),
-    ];
+    const players = [createPlayer("player-1", 2, 0), createPlayer("player-2", null, 1)];
     const game = createNyGame(players, []);
 
     const initialStates = getInitialPlayersStateForOnline(game);

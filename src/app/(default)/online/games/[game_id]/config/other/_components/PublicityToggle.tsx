@@ -2,16 +2,7 @@
 
 import { useTransition, useState } from "react";
 
-import {
-  Switch,
-  Text,
-  Group,
-  Alert,
-  Modal,
-  Button,
-  List,
-  ThemeIcon,
-} from "@mantine/core";
+import { Switch, Text, Group, Alert, Modal, Button, List, ThemeIcon } from "@mantine/core";
 import {
   IconGlobe,
   IconInfoCircle,
@@ -33,11 +24,7 @@ type PublicityToggleProps = {
 /**
  * ゲーム公開/非公開切り替えトグルコンポーネント
  */
-const PublicityToggle: React.FC<PublicityToggleProps> = ({
-  gameId,
-  isPublic,
-  gameName,
-}) => {
+const PublicityToggle: React.FC<PublicityToggleProps> = ({ gameId, isPublic, gameName }) => {
   const [isPending, startTransition] = useTransition();
   const [confirmModalOpened, setConfirmModalOpened] = useState(false);
   const [pendingValue, setPendingValue] = useState<boolean | null>(null);
@@ -66,11 +53,17 @@ const PublicityToggle: React.FC<PublicityToggleProps> = ({
           })
         );
 
-        if ("result" in result) {
+        // 成功時は result プロパティが存在する
+        if (result && typeof result === "object" && "result" in result) {
           setConfirmModalOpened(false);
           setPendingValue(null);
         } else {
-          console.error("公開設定の更新に失敗しました:", result.error);
+          // エラー時の処理
+          const errorMessage =
+            result && typeof result === "object" && "error" in result
+              ? String((result as { error: unknown }).error)
+              : "公開設定の更新に失敗しました";
+          console.error("公開設定の更新に失敗しました:", errorMessage);
         }
       } catch (error) {
         console.error("公開設定の更新でエラーが発生しました:", error);
@@ -102,13 +95,7 @@ const PublicityToggle: React.FC<PublicityToggleProps> = ({
           onChange={(event) => handleToggle(event.currentTarget.checked)}
           disabled={isPending}
           size="md"
-          thumbIcon={
-            isPublic ? (
-              <IconGlobe size={14} />
-            ) : (
-              <div style={{ width: 14, height: 14 }} />
-            )
-          }
+          thumbIcon={isPublic ? <IconGlobe size={14} /> : <div style={{ width: 14, height: 14 }} />}
         />
       </Group>
 
@@ -132,9 +119,7 @@ const PublicityToggle: React.FC<PublicityToggleProps> = ({
               <IconExclamationCircle size={16} />
             </ThemeIcon>
             <Text fw={500}>
-              {pendingValue
-                ? "ゲームを公開しますか？"
-                : "ゲームを非公開にしますか？"}
+              {pendingValue ? "ゲームを公開しますか？" : "ゲームを非公開にしますか？"}
             </Text>
           </Group>
         }
@@ -142,12 +127,7 @@ const PublicityToggle: React.FC<PublicityToggleProps> = ({
       >
         {pendingValue ? (
           <>
-            <Alert
-              variant="light"
-              color="orange"
-              icon={<IconExclamationCircle />}
-              mb="md"
-            >
+            <Alert variant="light" color="orange" icon={<IconExclamationCircle />} mb="md">
               <Text size="sm" fw={500} mb="xs">
                 以下の内容が公開されます：
               </Text>
@@ -189,8 +169,8 @@ const PublicityToggle: React.FC<PublicityToggleProps> = ({
           <>
             <Alert variant="light" color="blue" icon={<IconLock />} mb="md">
               <Text size="sm">
-                ゲームが非公開になります。観戦者はアクセスできなくなり、
-                シェアされたViewer URLも無効になります。
+                ゲームが非公開になります。観戦者はアクセスできなくなり、 シェアされたViewer
+                URLも無効になります。
               </Text>
             </Alert>
           </>

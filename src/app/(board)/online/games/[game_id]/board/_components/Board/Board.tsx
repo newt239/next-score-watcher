@@ -35,12 +35,7 @@ type BoardProps = {
   initialPreferences: UserPreferencesType | null;
 };
 
-const Board: React.FC<BoardProps> = ({
-  gameId,
-  user,
-  initialGame,
-  initialPreferences,
-}) => {
+const Board: React.FC<BoardProps> = ({ gameId, user, initialGame, initialPreferences }) => {
   const [players] = useState<GamePlayerProps[]>(initialGame.players);
   const [logs, setLogs] = useState<SeriarizedGameLog[]>(initialGame.logs);
   const [isPending, startTransition] = useTransition();
@@ -48,9 +43,7 @@ const Board: React.FC<BoardProps> = ({
   const [skipSuggest, setSkipSuggest] = useState(false);
 
   // サーバーから取得した設定を使用
-  const [preferences] = useState<UserPreferencesType | null>(
-    initialPreferences
-  );
+  const [preferences] = useState<UserPreferencesType | null>(initialPreferences);
 
   // 勝ち抜けモーダル制御
   const [winTroughPlayer, setWinTroughPlayer] = useState<{
@@ -62,6 +55,8 @@ const Board: React.FC<BoardProps> = ({
   });
 
   const apiClient = createApiClient();
+
+  const { scores } = computeOnlineScore(initialGame, players, logs);
 
   const refreshLogs = useCallback(async () => {
     const res = await parseResponse(
@@ -126,9 +121,7 @@ const Board: React.FC<BoardProps> = ({
     const handler = (event: KeyboardEvent) => {
       if (!initialGame) return;
       if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
-        const code = event.code.startsWith("Digit")
-          ? event.code[5]
-          : event.code[6];
+        const code = event.code.startsWith("Digit") ? event.code[5] : event.code[6];
         const idx = Number(code);
         if (!Number.isNaN(idx) && players.length > 0) {
           let player = players[idx - 1];
@@ -166,9 +159,7 @@ const Board: React.FC<BoardProps> = ({
 
     // スキップサジェスト判定
     const playingPlayers = scores.filter((s) => s.state === "playing");
-    const incapacityPlayers = scores.filter(
-      (s) => s.state === "playing" && s.is_incapacity
-    );
+    const incapacityPlayers = scores.filter((s) => s.state === "playing" && s.is_incapacity);
     const last = logs[logs.length - 1];
     if (!last) return;
 
@@ -176,9 +167,7 @@ const Board: React.FC<BoardProps> = ({
       last.actionType === "multiple_wrong" &&
       typeof last.playerId === "string" &&
       last.playerId.split(",").length === playingPlayers.length;
-    const allRest =
-      playingPlayers.length > 0 &&
-      playingPlayers.length === incapacityPlayers.length;
+    const allRest = playingPlayers.length > 0 && playingPlayers.length === incapacityPlayers.length;
 
     if (allWrong || allRest) {
       setSkipSuggest(true);
@@ -194,8 +183,6 @@ const Board: React.FC<BoardProps> = ({
       </Box>
     );
   }
-
-  const { scores } = computeOnlineScore(initialGame, players, logs);
 
   return (
     <>
@@ -269,11 +256,7 @@ const Board: React.FC<BoardProps> = ({
         <Flex className={classes.skip_suggest}>
           <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
           <Flex gap="sm">
-            <Button
-              color="blue"
-              onClick={() => addLog("-", "through")}
-              size="sm"
-            >
+            <Button color="blue" onClick={() => addLog("-", "through")} size="sm">
               スルー
             </Button>
             <Box visibleFrom="md">

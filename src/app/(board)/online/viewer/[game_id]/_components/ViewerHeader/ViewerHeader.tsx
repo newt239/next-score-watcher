@@ -9,8 +9,7 @@ import { IconCopy, IconShare } from "@tabler/icons-react";
 import styles from "./ViewerHeader.module.css";
 
 const ViewerHeader = () => {
-  const [shareOpened, { open: openShare, close: closeShare }] =
-    useDisclosure(false);
+  const [shareOpened, { open: openShare, close: closeShare }] = useDisclosure(false);
   const [copied, setCopied] = useState(false);
 
   const handleCopyUrl = async () => {
@@ -37,25 +36,14 @@ const ViewerHeader = () => {
           </div>
 
           <Group gap="sm">
-            <ActionIcon
-              variant="light"
-              color="blue"
-              size="lg"
-              onClick={openShare}
-              title="シェア"
-            >
+            <ActionIcon variant="light" color="blue" size="lg" onClick={openShare} title="シェア">
               <IconShare size={18} />
             </ActionIcon>
           </Group>
         </div>
       </header>
 
-      <Modal
-        opened={shareOpened}
-        onClose={closeShare}
-        title="観戦ページをシェア"
-        centered
-      >
+      <Modal opened={shareOpened} onClose={closeShare} title="観戦ページをシェア" centered>
         <div className={styles.shareContent}>
           <Text size="sm" c="dimmed" mb="md">
             このURLを共有して、他の人もゲームを観戦できます

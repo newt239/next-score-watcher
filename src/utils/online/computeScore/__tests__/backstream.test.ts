@@ -1,22 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import computeBackstream from "../backstream";
-import {
-  getInitialPlayersStateForOnline,
-  getSortedPlayerOrderListForOnline,
-} from "../index";
+import { getInitialPlayersStateForOnline, getSortedPlayerOrderListForOnline } from "../index";
 
-import type {
-  ComputedScoreProps,
-  GamePlayerProps,
-  GetGameDetailResponseType,
-} from "@/models/game";
+import type { ComputedScoreProps, GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
 
-type BackstreamGame = Extract<
-  GetGameDetailResponseType,
-  { ruleType: "backstream" }
->;
+type BackstreamGame = Extract<GetGameDetailResponseType, { ruleType: "backstream" }>;
 
 /**
  * backstream形式のゲームデータを生成する。
@@ -45,11 +35,7 @@ const createBackstreamGame = (
 /**
  * ゲーム参加者を生成する。
  */
-const createPlayer = (
-  id: string,
-  initialScore: number,
-  order: number
-): GamePlayerProps => ({
+const createPlayer = (id: string, initialScore: number, order: number): GamePlayerProps => ({
   id,
   name: id,
   description: "",
@@ -63,9 +49,7 @@ const createPlayer = (
 /**
  * 計算済みスコアを生成する。
  */
-const createScoreState = (
-  override: Partial<ComputedScoreProps>
-): ComputedScoreProps => ({
+const createScoreState = (override: Partial<ComputedScoreProps>): ComputedScoreProps => ({
   game_id: "game-backstream",
   player_id: "player-base",
   state: "playing",

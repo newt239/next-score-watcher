@@ -4,8 +4,8 @@ import { Table } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import Link from "@/app/_components/Link";
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
 
 type Props = {
   gameList: {
@@ -47,9 +47,7 @@ const GameListTable: React.FC<Props> = ({ gameList }) => {
                   <Table.Td>{game.type}</Table.Td>
                   <Table.Td>{game.player_count}人</Table.Td>
                   <Table.Td>{game.state}</Table.Td>
-                  <Table.Td>
-                    {cdate(game.last_open).format("MM/DD HH:mm")}
-                  </Table.Td>
+                  <Table.Td>{cdate(game.last_open).format("MM/DD HH:mm")}</Table.Td>
                   <Table.Td>
                     <ButtonLink
                       href={`/games/${game.id}/config`}

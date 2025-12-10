@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { parseResponse } from "hono/client";
 
 import ManagePlayer from "./_components/ManagePlayer";
 
-import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
@@ -16,21 +15,14 @@ export const metadata: Metadata = {
 };
 
 const OnlinePlayerPage = async () => {
-  const user = await getUser();
-  if (!user) {
-    redirect("/sign-in");
-  }
-
   const apiClient = await createApiClientOnServer();
 
-  const initialPlayers = await parseResponse(
-    apiClient.players.$get({ query: {} })
-  );
+  const initialPlayers = await parseResponse(apiClient.players.$get({ query: {} }));
   if ("error" in initialPlayers) {
-    return <div>Error: {initialPlayers.error}</div>;
+    return notFound();
   }
 
-  return <ManagePlayer initialPlayers={initialPlayers} userId={user.id} />;
+  return <ManagePlayer initialPlayers={initialPlayers} />;
 };
 
 export default OnlinePlayerPage;

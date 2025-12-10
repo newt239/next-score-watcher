@@ -114,7 +114,7 @@ if (newScoreWhenCorrect >= game.win_point!) {
 
 ```typescript
 const newScoreWhenWrong = Math.floor(
-  playerState.score / (playerState.wrong + 1)
+  playerState.score / (playerState.wrong + 1),
 );
 ```
 

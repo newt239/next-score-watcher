@@ -9,12 +9,7 @@ type Props = {
   isVerticalView: boolean;
 };
 
-const PlayerHeader: React.FC<Props> = ({
-  index,
-  text,
-  belong,
-  isVerticalView,
-}) => {
+const PlayerHeader: React.FC<Props> = ({ index, text, belong, isVerticalView }) => {
   return (
     <>
       {isVerticalView ? (

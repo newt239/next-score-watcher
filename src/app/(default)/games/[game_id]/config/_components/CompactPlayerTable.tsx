@@ -20,8 +20,8 @@ import { useLiveQuery } from "dexie-react-hooks";
 import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 import type { UseFormReturnType } from "@mantine/form";
 
-import ButtonLink from "@/app/_components/ButtonLink";
-import TablePagenation from "@/app/_components/TablePagination";
+import ButtonLink from "@/components/ButtonLink";
+import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
 
 type Props = {
@@ -49,9 +49,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
 
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
-  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>(
-    {}
-  );
+  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>({});
   const [searchText, setSearchText] = useState<string>("");
 
   const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
@@ -133,13 +131,9 @@ const CompactPlayerTable: React.FC<Props> = ({
       if (newGamePlayerIds.length !== gamePlayerIds.length) {
         const sortedNewGamePlayerIds = [
           // newGamePlayersのうちすでに選択されているプレイヤー
-          ...gamePlayerIds.filter((gamePlayerId) =>
-            newGamePlayerIds.includes(gamePlayerId)
-          ),
+          ...gamePlayerIds.filter((gamePlayerId) => newGamePlayerIds.includes(gamePlayerId)),
           // newGamePlayersのうち今まで選択されていなかったプレイヤー
-          ...newGamePlayerIds.filter(
-            (newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)
-          ),
+          ...newGamePlayerIds.filter((newGamePlayerId) => !gamePlayerIds.includes(newGamePlayerId)),
         ];
 
         // 選択が解除されたプレイヤーのゲームログを削除
@@ -153,28 +147,22 @@ const CompactPlayerTable: React.FC<Props> = ({
           await db(currentProfile).logs.bulkDelete(deleteGameLogIdList);
         }
 
-        const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map(
-          (player_id) => {
-            const gamePlayer = gamePlayers.find(
-              (gamePlayer) => gamePlayer.id === player_id
-            );
-            if (gamePlayer) {
-              return gamePlayer;
-            } else {
-              const player = playerList.find(
-                (player) => player.id === player_id
-              );
-              return {
-                id: player_id,
-                name: player ? player.name : "不明なユーザー",
-                initial_correct: 0,
-                initial_wrong: 0,
-                base_correct_point: 1,
-                base_wrong_point: -1,
-              } as GameDBPlayerProps;
-            }
+        const newGamePlayers: GameDBPlayerProps[] = sortedNewGamePlayerIds.map((player_id) => {
+          const gamePlayer = gamePlayers.find((gamePlayer) => gamePlayer.id === player_id);
+          if (gamePlayer) {
+            return gamePlayer;
+          } else {
+            const player = playerList.find((player) => player.id === player_id);
+            return {
+              id: player_id,
+              name: player ? player.name : "不明なユーザー",
+              initial_correct: 0,
+              initial_wrong: 0,
+              base_correct_point: 1,
+              base_wrong_point: -1,
+            } as GameDBPlayerProps;
           }
-        );
+        });
 
         await db(currentProfile).games.update(game_id, {
           players: newGamePlayers,
@@ -195,9 +183,7 @@ const CompactPlayerTable: React.FC<Props> = ({
         rightSection={<IconFilter />}
       />
       {table.getRowModel().rows.length === 0 ? (
-        <Text p="sm">
-          「{searchText}」に一致するプレイヤーは見つかりませんでした。
-        </Text>
+        <Text p="sm">「{searchText}」に一致するプレイヤーは見つかりませんでした。</Text>
       ) : (
         <>
           <Table.ScrollContainer minWidth={500}>
@@ -209,10 +195,7 @@ const CompactPlayerTable: React.FC<Props> = ({
                       <Table.Th colSpan={header.colSpan} key={header.id}>
                         {header.isPlaceholder
                           ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                          : flexRender(header.column.columnDef.header, header.getContext())}
                       </Table.Th>
                     ))}
                   </Table.Tr>
@@ -225,10 +208,7 @@ const CompactPlayerTable: React.FC<Props> = ({
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <Table.Td key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </Table.Td>
                         );
                       })}

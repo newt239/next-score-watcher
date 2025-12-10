@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, List, Modal, Title } from "@mantine/core";
+import { Box, List, ListItem, Modal, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-import Link from "./Link";
+import Link from "@/components/Link";
 
 const UpdateModal: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
@@ -23,14 +23,12 @@ const UpdateModal: React.FC = () => {
     caches.keys().then((cacheNames) => {
       cacheNames.forEach((cacheName) => {
         caches.delete(cacheName);
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(function (registrations) {
-            // 登録されているworkerを全て削除する
-            for (const registration of registrations) {
-              registration.unregister();
-            }
-          });
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+          // 登録されているworkerを全て削除する
+          for (const registration of registrations) {
+            registration.unregister();
+          }
+        });
       });
     });
   }, []);
@@ -44,10 +42,7 @@ const UpdateModal: React.FC = () => {
       </>
     ),
     feature: ["オンライン機能の提供に向けたアルファ版をリリース"],
-    bugfix: [
-      "ダークモードにおける表示崩れの修正",
-      "一部形式におけるラベルミスを修正",
-    ],
+    bugfix: ["ダークモードにおける表示崩れの修正", "一部形式におけるラベルミスを修正"],
   };
 
   return (
@@ -59,8 +54,7 @@ const UpdateModal: React.FC = () => {
       size="auto"
     >
       <Box>
-        {currentVersion && `v.${currentVersion} から`} v.{latestVersion}{" "}
-        にアップデートしました。
+        {currentVersion && `v.${currentVersion} から`} v.{latestVersion} にアップデートしました。
       </Box>
       {feature && (
         <>
@@ -75,7 +69,7 @@ const UpdateModal: React.FC = () => {
               <Title order={3}>🎉新機能</Title>
               <List>
                 {feature.feature.map((v, i) => (
-                  <List.Item key={i}>{v}</List.Item>
+                  <ListItem key={i}>{v}</ListItem>
                 ))}
               </List>
             </Box>
@@ -83,20 +77,18 @@ const UpdateModal: React.FC = () => {
           {feature.bugfix.length > 0 && (
             <Box mt="md">
               <Title order={3}>🐛不具合修正</Title>
-              <ul>
+              <List>
                 {feature.bugfix.map((v, i) => (
-                  <li key={i}>{v}</li>
+                  <ListItem key={i}>{v}</ListItem>
                 ))}
-              </ul>
+              </List>
             </Box>
           )}
         </>
       )}
       <Box mt="md">
         詳細は
-        <Link href="https://github.com/newt239/next-score-watcher/releases">
-          リリースノート
-        </Link>
+        <Link href="https://github.com/newt239/next-score-watcher/releases">リリースノート</Link>
         をご確認ください。
       </Box>
     </Modal>

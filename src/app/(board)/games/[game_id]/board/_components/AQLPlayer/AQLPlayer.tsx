@@ -34,9 +34,7 @@ const AQLPlayer: React.FC<Props> = ({
   currentProfile,
 }) => {
   const computedColorScheme = useComputedColorScheme("light");
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
 
   useEffect(() => {
@@ -67,19 +65,11 @@ const AQLPlayer: React.FC<Props> = ({
   return (
     <Flex
       className={classes.player}
-      bg={
-        getColor(editedScore.state) ||
-        (computedColorScheme === "light" ? "gray.1" : "gray.9")
-      }
-      c={
-        getColor(editedScore.state) &&
-        (computedColorScheme === "light" ? "white" : "gray.9")
-      }
+      bg={getColor(editedScore.state) || (computedColorScheme === "light" ? "gray.1" : "gray.9")}
+      c={getColor(editedScore.state) && (computedColorScheme === "light" ? "white" : "gray.9")}
       w={{
         base: "100%",
-        md: `clamp(8vw, ${
-          (98 - game.players.length) / game.players.length
-        }vw, 15vw)`,
+        md: `clamp(8vw, ${(98 - game.players.length) / game.players.length}vw, 15vw)`,
       }}
       style={{
         borderColor: `var(--mantine-color-${(

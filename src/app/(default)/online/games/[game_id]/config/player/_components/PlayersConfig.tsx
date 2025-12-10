@@ -3,13 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import {
-  Center,
-  Group,
-  NumberInput,
-  ScrollArea,
-  TextInput,
-} from "@mantine/core";
+import { Center, Group, NumberInput, ScrollArea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconGripVertical } from "@tabler/icons-react";
@@ -71,33 +65,29 @@ const PlayersConfig: React.FC<Props> = ({
   // プレイヤーの変更を処理
   const handlePlayersChange = async (newGamePlayerIds: string[]) => {
     // newGamePlayerIdsを基に新しいGamePlayerPropsの配列を作成
-    const newGamePlayers: GamePlayerProps[] = newGamePlayerIds.map(
-      (playerId, index) => {
-        // 既存のゲームプレイヤーから探す
-        const existingGamePlayer = currentGamePlayers.find(
-          (gp) => gp.id === playerId
-        );
-        if (existingGamePlayer) {
-          return {
-            ...existingGamePlayer,
-            displayOrder: index,
-          };
-        }
-
-        // 新しいプレイヤーの場合、playersから情報を取得
-        const player = players.find((p) => p.id === playerId);
+    const newGamePlayers: GamePlayerProps[] = newGamePlayerIds.map((playerId, index) => {
+      // 既存のゲームプレイヤーから探す
+      const existingGamePlayer = currentGamePlayers.find((gp) => gp.id === playerId);
+      if (existingGamePlayer) {
         return {
-          id: playerId,
-          name: player?.name || "不明なプレイヤー",
-          description: player?.description || "",
-          affiliation: player?.affiliation || "",
+          ...existingGamePlayer,
           displayOrder: index,
-          initialScore: 0,
-          initialCorrectCount: 0,
-          initialWrongCount: 0,
-        } as GamePlayerProps;
+        };
       }
-    );
+
+      // 新しいプレイヤーの場合、playersから情報を取得
+      const player = players.find((p) => p.id === playerId);
+      return {
+        id: playerId,
+        name: player?.name || "不明なプレイヤー",
+        description: player?.description || "",
+        affiliation: player?.affiliation || "",
+        displayOrder: index,
+        initialScore: 0,
+        initialCorrectCount: 0,
+        initialWrongCount: 0,
+      } as GamePlayerProps;
+    });
 
     setCurrentGamePlayers(newGamePlayers);
 
@@ -171,11 +161,7 @@ const PlayersConfig: React.FC<Props> = ({
       draggableId={`player-${index}-${item.id}`}
     >
       {(provided) => (
-        <ScrollArea
-          offsetScrollbars
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-        >
+        <ScrollArea offsetScrollbars ref={provided.innerRef} {...provided.draggableProps}>
           <Group w={500} wrap="nowrap">
             <Center {...provided.dragHandleProps}>
               <IconGripVertical size="1.2rem" />
@@ -193,9 +179,7 @@ const PlayersConfig: React.FC<Props> = ({
                   label="初期正答数"
                   size="md"
                   key={form.key(`players.${index}.initialCorrectCount`)}
-                  {...form.getInputProps(
-                    `players.${index}.initialCorrectCount`
-                  )}
+                  {...form.getInputProps(`players.${index}.initialCorrectCount`)}
                 />
                 <NumberInput
                   label="初期誤答数"
@@ -211,9 +195,7 @@ const PlayersConfig: React.FC<Props> = ({
                   label="奇数問目の正解数"
                   size="md"
                   key={form.key(`players.${index}.initialCorrectCount`)}
-                  {...form.getInputProps(
-                    `players.${index}.initialCorrectCount`
-                  )}
+                  {...form.getInputProps(`players.${index}.initialCorrectCount`)}
                 />
                 <NumberInput
                   label="偶数問目の正解数"

@@ -7,7 +7,7 @@ import classes from "./GameStartButton.module.css";
 
 import type { GamePropsUnion, LogDBProps } from "@/utils/types";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 type Props = {
   game: GamePropsUnion;
@@ -19,12 +19,9 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
   const errorMessages = [];
   if (game.players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
-  if (game.players.length > 14)
-    errorMessages.push("プレイヤー人数は14人以内で設定してください。");
+  if (game.players.length > 14) errorMessages.push("プレイヤー人数は14人以内で設定してください。");
   if (game.win_through && game.players.length <= game.win_through)
-    errorMessages.push(
-      "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
-    );
+    errorMessages.push("「勝ち抜け人数」はプレイヤーの人数より少なくしてください。");
   if (disabled)
     errorMessages.push(
       `現在${
@@ -35,14 +32,10 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
     errorMessages.push("AQLは10人でプレイする必要があります。");
 
   const playButtonIsDisabled =
-    errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !==
-    0;
+    errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !== 0;
 
   return (
-    <Box
-      className={classes.game_start_container}
-      data-disabled={playButtonIsDisabled}
-    >
+    <Box className={classes.game_start_container} data-disabled={playButtonIsDisabled}>
       <Flex className={classes.game_start_wrapper}>
         <Box className={classes.error_message}>
           {errorMessages.map((m) => (

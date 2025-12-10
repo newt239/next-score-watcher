@@ -2,15 +2,15 @@ import { redirect } from "next/navigation";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
-type CloudRulesLayoutProps = {
+type OnlineLayoutProps = {
   children: React.ReactNode;
 };
 
 /**
- * クラウドルール管理ページのレイアウト
+ * オンライン版のレイアウト
  * ユーザーが未ログインの場合は/sign-inにリダイレクトする
  */
-const CloudRulesLayout = async ({ children }: CloudRulesLayoutProps) => {
+const OnlineLayout = async ({ children }: OnlineLayoutProps) => {
   const user = await getUser();
 
   if (!user) {
@@ -20,4 +20,4 @@ const CloudRulesLayout = async ({ children }: CloudRulesLayoutProps) => {
   return <>{children}</>;
 };
 
-export default CloudRulesLayout;
+export default OnlineLayout;

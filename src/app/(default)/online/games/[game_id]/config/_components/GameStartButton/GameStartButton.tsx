@@ -5,7 +5,7 @@ import classes from "./GameStartButton.module.css";
 
 import type { RuleNames } from "@/models/game";
 
-import ButtonLink from "@/app/_components/ButtonLink";
+import ButtonLink from "@/components/ButtonLink";
 
 type GameStartButtonProps = {
   ruleType: RuleNames;
@@ -32,9 +32,7 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({
 
   // ゲーム設定から勝ち抜け人数を取得
   if (winThrough && playerCount <= winThrough) {
-    errorMessages.push(
-      "「勝ち抜け人数」はプレイヤーの人数より少なくしてください。"
-    );
+    errorMessages.push("「勝ち抜け人数」はプレイヤーの人数より少なくしてください。");
   }
 
   if (logCount > 0) {
@@ -50,14 +48,10 @@ const GameStartButton: React.FC<GameStartButtonProps> = ({
   }
 
   const playButtonIsDisabled =
-    errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !==
-    0;
+    errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !== 0;
 
   return (
-    <Box
-      className={classes.game_start_container}
-      data-disabled={playButtonIsDisabled}
-    >
+    <Box className={classes.game_start_container} data-disabled={playButtonIsDisabled}>
       <Flex className={classes.game_start_wrapper}>
         <Box className={classes.error_message}>
           {errorMessages.map((m) => (

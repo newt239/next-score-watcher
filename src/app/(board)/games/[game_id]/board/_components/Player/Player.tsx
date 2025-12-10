@@ -26,17 +26,9 @@ type Props = {
   currentProfile: string;
 };
 
-const Player: React.FC<Props> = ({
-  game_id,
-  player,
-  index,
-  score,
-  currentProfile,
-}) => {
+const Player: React.FC<Props> = ({ game_id, player, index, score, currentProfile }) => {
   const computedColorScheme = useComputedColorScheme("light");
-  const game = useLiveQuery(() =>
-    db(currentProfile).games.get(game_id as string)
-  );
+  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");
 
   const [reversePlayerInfo] = useLocalStorage({
@@ -76,15 +68,10 @@ const Player: React.FC<Props> = ({
       data-testid="player"
       className={classes.player}
       bg={getColor(editedScore.state)}
-      c={
-        getColor(editedScore.state) &&
-        (computedColorScheme === "light" ? "white" : "black")
-      }
+      c={getColor(editedScore.state) && (computedColorScheme === "light" ? "white" : "black")}
       w={{
         base: "100%",
-        md: `clamp(8vw, ${
-          (98 - game.players.length) / game.players.length
-        }vw, 15vw)`,
+        md: `clamp(8vw, ${(98 - game.players.length) / game.players.length}vw, 15vw)`,
       }}
       style={{
         borderColor: `var(--mantine-color-${(
@@ -112,11 +99,7 @@ const Player: React.FC<Props> = ({
         )}
         <PlayerName player_name={player.name} rows={rows} />
       </Flex>
-      <PlayerScore
-        game={game}
-        player={editedScore}
-        currentProfile={currentProfile}
-      />
+      <PlayerScore game={game} player={editedScore} currentProfile={currentProfile} />
     </Flex>
   );
 };

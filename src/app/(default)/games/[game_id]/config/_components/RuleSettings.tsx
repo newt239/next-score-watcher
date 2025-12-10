@@ -15,10 +15,7 @@ type RuleSettingsProps = {
   currentProfile: string;
 };
 
-const RuleSettings: React.FC<RuleSettingsProps> = ({
-  game,
-  currentProfile,
-}) => {
+const RuleSettings: React.FC<RuleSettingsProps> = ({ game, currentProfile }) => {
   const winPointPaires = {
     nomx: {
       name: "勝ち抜けポイント",
@@ -101,22 +98,13 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
         ].includes(game.rule) && (
           <ConfigNumberInput
             input_id="win_point"
-            label={
-              winPointPaires[game.rule as keyof typeof winPointPaires].name
-            }
+            label={winPointPaires[game.rule as keyof typeof winPointPaires].name}
             max={winPointPaires[game.rule as keyof typeof winPointPaires].max}
             min={winPointPaires[game.rule as keyof typeof winPointPaires].min}
             currentProfile={currentProfile}
           />
         )}
-        {[
-          "nomx",
-          "nomx-ad",
-          "nbyn",
-          "nupdown",
-          "nomr",
-          "endless-chance",
-        ].includes(game.rule) && (
+        {["nomx", "nomx-ad", "nbyn", "nupdown", "nomr", "endless-chance"].includes(game.rule) && (
           <ConfigNumberInput
             input_id="lose_point"
             label={game.rule === "nomr" ? "休み(M)" : "失格誤答数"}
@@ -183,15 +171,9 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({
             currentProfile={currentProfile}
           />
         )}
-        {game.rule === "aql" && (
-          <AQLOptions game={game} currentProfile={currentProfile} />
-        )}
+        {game.rule === "aql" && <AQLOptions game={game} currentProfile={currentProfile} />}
         {game.rule !== "normal" && (
-          <ConfigLimit
-            game_id={game.id}
-            rule={game.rule}
-            currentProfile={currentProfile}
-          />
+          <ConfigLimit game_id={game.id} rule={game.rule} currentProfile={currentProfile} />
         )}
       </Flex>
     </>

@@ -25,11 +25,7 @@ type DeleteGamePropsUnion = {
  * オンライン版ゲーム削除コンポーネント
  * ゲームの削除機能
  */
-const DeleteGame: React.FC<DeleteGamePropsUnion> = ({
-  gameId,
-  gameName,
-  ruleType,
-}) => {
+const DeleteGame: React.FC<DeleteGamePropsUnion> = ({ gameId, gameName, ruleType }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const apiClient = createApiClient();

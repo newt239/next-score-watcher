@@ -55,12 +55,7 @@ const DeleteGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   return (
     <Box mt="sm">
       <Title order={4}>ゲームを削除</Title>
-      <Button
-        mt="sm"
-        color="red"
-        leftSection={<IconTrash />}
-        onClick={showDeleteGameConfirm}
-      >
+      <Button mt="sm" color="red" leftSection={<IconTrash />} onClick={showDeleteGameConfirm}>
         削除する
       </Button>
     </Box>

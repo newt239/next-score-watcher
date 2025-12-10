@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Group, Text, Title } from "@mantine/core";
 
-import Link from "@/app/_components/Link";
+import Link from "@/components/Link";
 
 export const metadata: Metadata = {
   title: "利用規約",
@@ -30,9 +30,7 @@ const PrivacyPolicyPage = () => {
         をご確認ください。
       </Text>
       <Text mb="sm">全ての規約は、予告無く改変する場合があります。</Text>
-      <Text mb="sm">
-        本サービスを利用することで、これらの規約に同意したとみなします。
-      </Text>
+      <Text mb="sm">本サービスを利用することで、これらの規約に同意したとみなします。</Text>
       <Group justify="end">2024年7月18日 制定</Group>
     </>
   );

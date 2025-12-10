@@ -37,7 +37,7 @@ const ExportGame: React.FC<Props> = ({ gameId, ruleType }) => {
         );
 
         if ("error" in gameData) {
-          throw new Error(gameData.error);
+          throw new Error(String(gameData.error));
         }
 
         sendGAEvent({
@@ -52,9 +52,7 @@ const ExportGame: React.FC<Props> = ({ gameId, ruleType }) => {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `score-watcher_${gameId}_${cdate().format(
-          "YYMMDDHHmm"
-        )}.json`;
+        a.download = `score-watcher_${gameId}_${cdate().format("YYMMDDHHmm")}.json`;
         a.click();
 
         notifications.show({
