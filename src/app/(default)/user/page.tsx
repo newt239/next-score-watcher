@@ -10,6 +10,8 @@ import { defaultUserPreferences } from "@/models/user-preference";
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "ユーザー設定",
   alternates: {

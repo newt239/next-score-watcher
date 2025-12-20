@@ -8,6 +8,8 @@ import Board from "./_components/Board/Board";
 import { getUser } from "@/utils/auth/auth-helpers";
 import { createApiClientOnServer } from "@/utils/hono/server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "クラウド得点表示",
   robots: {

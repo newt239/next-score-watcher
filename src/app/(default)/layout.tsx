@@ -3,6 +3,8 @@ import { Flex } from "@mantine/core";
 import Header from "./_components/Header/Header";
 import classes from "./layout.module.css";
 
+export const dynamic = "force-static";
+
 const DefaultLayout = async ({
   children,
 }: Readonly<{
