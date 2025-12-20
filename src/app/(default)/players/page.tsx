@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 
 import ManagePlayer from "./_components/ManagePlayer/ManagePlayer";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "プレイヤー管理",
   alternates: {
