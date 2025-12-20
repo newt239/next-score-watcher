@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 
 import { getUser } from "@/utils/auth/auth-helpers";
 
+export const dynamic = "force-dynamic";
+
 type OnlineLayoutProps = {
   children: React.ReactNode;
 };

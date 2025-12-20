@@ -9,7 +9,6 @@ import WebhookSettings from "./_components/WebhookSettings";
 
 import Preferences from "@/app/(default)/option/_components/Preferences";
 
-// ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {

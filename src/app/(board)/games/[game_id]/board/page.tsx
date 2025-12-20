@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 
 import Board from "./_components/Board/Board";
 
-// ページを動的レンダリングとして明示的に設定
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {

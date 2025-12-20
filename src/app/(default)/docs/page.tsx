@@ -25,24 +25,30 @@ const AppInfoPage = () => {
         各種表記
       </Title>
       <SimpleGrid cols={2}>
-        <Card component={Link} href="/docs/terms_of_service" shadow="sm" withBorder>
-          <Group justify="space-between">
-            <Box>利用規約</Box>
-            <IconArrowRight />
-          </Group>
-        </Card>
-        <Card component={Link} href="/docs/privacy_policy" shadow="sm" withBorder>
-          <Group justify="space-between">
-            <Box>プライバシーポリシー</Box>
-            <IconArrowRight />
-          </Group>
-        </Card>
-        <Card component={Link} href="/docs/for_commercial_use" shadow="sm" withBorder>
-          <Group justify="space-between">
-            <Box>商用利用に関するルール</Box>
-            <IconArrowRight />
-          </Group>
-        </Card>
+        <Link href="/docs/terms_of_service" style={{ textDecoration: "none" }}>
+          <Card shadow="sm" withBorder>
+            <Group justify="space-between">
+              <Box>利用規約</Box>
+              <IconArrowRight />
+            </Group>
+          </Card>
+        </Link>
+        <Link href="/docs/privacy_policy" style={{ textDecoration: "none" }}>
+          <Card shadow="sm" withBorder>
+            <Group justify="space-between">
+              <Box>プライバシーポリシー</Box>
+              <IconArrowRight />
+            </Group>
+          </Card>
+        </Link>
+        <Link href="/docs/for_commercial_use" style={{ textDecoration: "none" }}>
+          <Card shadow="sm" withBorder>
+            <Group justify="space-between">
+              <Box>商用利用に関するルール</Box>
+              <IconArrowRight />
+            </Group>
+          </Card>
+        </Link>
       </SimpleGrid>
     </>
   );
