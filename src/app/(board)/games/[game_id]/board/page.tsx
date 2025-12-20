@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 
 import Board from "./_components/Board/Board";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "得点表示",
   robots: {

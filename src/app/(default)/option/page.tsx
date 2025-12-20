@@ -9,6 +9,8 @@ import WebhookSettings from "./_components/WebhookSettings";
 
 import Preferences from "@/app/(default)/option/_components/Preferences";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "アプリ設定",
   alternates: {
