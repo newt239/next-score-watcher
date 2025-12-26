@@ -53,7 +53,13 @@ test.describe("得点表示", () => {
 
   test("プレイヤー作成画面に移動できる", async () => {
     await page.getByRole("tab", { name: "プレイヤー設定" }).click();
-    await page.getByRole("link", { name: "プレイヤーを読み込む" }).click();
+    await page.getByRole("button", { name: "プレイヤーを選択" }).click();
+    await page.getByRole("button", { name: "過去に作成したプレイヤーを追加" }).click();
+    await page
+      .getByLabel("過去に作成したプレイヤーを追加")
+      .getByRole("link", { name: "プレイヤー管理" })
+      .click();
+    await page.waitForLoadState("domcontentloaded");
     await expect(page).toHaveTitle(/プレイヤー管理/);
   });
 

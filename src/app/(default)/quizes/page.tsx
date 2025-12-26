@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 type Props = {
   searchParams: Promise<{
-    from: string;
+    from?: string;
   }>;
 };
 

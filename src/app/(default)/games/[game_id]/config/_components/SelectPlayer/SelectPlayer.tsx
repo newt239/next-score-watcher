@@ -69,7 +69,7 @@ const SelectPlayer: React.FC<Props> = ({ game_id, playerList, players, currentPr
             <Accordion.Panel pb={4}>
               {playerList.length === 0 ? (
                 <Box py={3}>
-                  <Link href="/players">プレイヤー管理</Link>
+                  <Link href={`/players?from=${game_id}`}>プレイヤー管理</Link>
                   ページから一括でプレイヤー情報を登録できます。
                 </Box>
               ) : (

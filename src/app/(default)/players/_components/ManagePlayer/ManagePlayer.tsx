@@ -13,9 +13,10 @@ import classes from "./ManagePlayer.module.css";
 
 type Props = {
   currentProfile: string;
+  from?: string;
 };
 
-const ManagePlayer: React.FC<Props> = ({ currentProfile }) => {
+const ManagePlayer: React.FC<Props> = ({ currentProfile, from }) => {
   return (
     <>
       <Title order={2}>プレイヤー管理</Title>
@@ -29,7 +30,7 @@ const ManagePlayer: React.FC<Props> = ({ currentProfile }) => {
         <Tabs.Panel value="add" className={classes.tab_panel}>
           <Suspense>
             {/* ref: https://qiita.com/nk175/items/5b437355e9c2c3e59e19 */}
-            <CreatePlayer currentProfile={currentProfile} />
+            <CreatePlayer currentProfile={currentProfile} from={from} />
           </Suspense>
         </Tabs.Panel>
         <Tabs.Panel value="paste" className={classes.tab_panel}>

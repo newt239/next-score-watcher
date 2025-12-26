@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
 import { Button, Flex, Group, TextInput } from "@mantine/core";
@@ -16,11 +15,10 @@ import db from "@/utils/db";
 
 type Props = {
   currentProfile: string;
+  from?: string;
 };
 
-const CreatePlayer: React.FC<Props> = ({ currentProfile }) => {
-  const searchParams = useSearchParams();
-  const from = searchParams.get("from");
+const CreatePlayer: React.FC<Props> = ({ currentProfile, from }) => {
   const [playerOrder, setPlayerOrder] = useState<string>("");
   const [playerName, setPlayerName] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
