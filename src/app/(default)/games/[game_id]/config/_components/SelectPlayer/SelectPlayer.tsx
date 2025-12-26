@@ -86,7 +86,11 @@ const SelectPlayer: React.FC<Props> = ({ game_id, playerList, players, currentPr
           <Accordion.Item value="copy">
             <Accordion.Control>既存のゲームからコピー</Accordion.Control>
             <Accordion.Panel pb={4}>
-              <SelectPlayerFromExistingGame currentProfile={currentProfile} game_id={game_id} />
+              <SelectPlayerFromExistingGame
+                currentProfile={currentProfile}
+                game_id={game_id}
+                form={form}
+              />
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
