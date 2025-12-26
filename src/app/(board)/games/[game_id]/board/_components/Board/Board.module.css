@@ -5,22 +5,3 @@
   height: 100%;
   background-color: var(--mantine-color-teal-5);
 }
-
-.skip_suggest {
-  position: fixed;
-  right: 0;
-  bottom: 1rem;
-  left: 0;
-  flex-direction: row;
-  gap: 0.25rem;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 1rem;
-  margin: 1.25rem;
-  background-color: var(--mantine-color-gray-3);
-  border-radius: 1rem;
-
-  @mixin dark {
-    background-color: var(--mantine-color-gray-8);
-  }
-}

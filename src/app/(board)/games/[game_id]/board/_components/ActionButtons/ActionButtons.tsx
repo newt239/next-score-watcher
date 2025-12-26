@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Group, ScrollArea } from "@mantine/core";
+import { Box, Button, Flex, Group, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
 import {
@@ -28,14 +28,59 @@ type Props = {
   game: GamePropsUnion;
   logs: LogDBProps[];
   currentProfile: string;
+  skipSuggest: boolean;
 };
 
-const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
+const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSuggest }) => {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
     <>
-      <ScrollArea w="100%">
+      <Flex className={classes.action_buttons_container}>
+        {skipSuggest && (
+          <Flex className={classes.skip_suggest}>
+            <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
+            <Flex gap="sm">
+              <Button
+                color="blue"
+                onClick={() =>
+                  db(currentProfile).logs.put({
+                    id: nanoid(),
+                    game_id: game.id,
+                    player_id: "-",
+                    variant: "through",
+                    system: 0,
+                    timestamp: cdate().text(),
+                    available: 1,
+                  })
+                }
+                size="sm"
+              >
+                スルー
+              </Button>
+              <Box visibleFrom="md">
+                <Tooltip label="問題番号が進みますが、問題は更新されません。">
+                  <Button
+                    onClick={() =>
+                      db(currentProfile).logs.put({
+                        id: nanoid(),
+                        game_id: game.id,
+                        player_id: "-",
+                        variant: "skip",
+                        system: 0,
+                        timestamp: cdate().text(),
+                        available: 1,
+                      })
+                    }
+                    size="sm"
+                  >
+                    スキップ
+                  </Button>
+                </Tooltip>
+              </Box>
+            </Flex>
+          </Flex>
+        )}
         <Group justify="flex-end" p="xs" gap="xs" className={classes.action_button_list}>
           <Button
             size="xs"
@@ -141,7 +186,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile }) => {
             ゲーム設定
           </ButtonLink>
         </Group>
-      </ScrollArea>
+      </Flex>
       <PreferenceDrawer isOpen={opened} onClose={close} />
     </>
   );

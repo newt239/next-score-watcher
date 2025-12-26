@@ -82,6 +82,16 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
                 />
               </>
             )}
+            {rule === "variables" && (
+              <>
+                <NumberInput
+                  label="N"
+                  size="md"
+                  key={form.key(`players.${index}.base_correct_point`)}
+                  {...form.getInputProps(`players.${index}.base_correct_point`)}
+                />
+              </>
+            )}
           </Group>
         </ScrollArea>
       )}
