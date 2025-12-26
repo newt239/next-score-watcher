@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import { Button, Flex, TextInput } from "@mantine/core";
+import type { UseFormReturnType } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
@@ -15,9 +16,17 @@ type Props = {
   game_id: string;
   players: GameDBPlayerProps[];
   currentProfile: string;
+  form: UseFormReturnType<
+    {
+      players: GameDBPlayerProps[];
+    },
+    (values: { players: GameDBPlayerProps[] }) => {
+      players: GameDBPlayerProps[];
+    }
+  >;
 };
 
-const CompactCreatePlayer: React.FC<Props> = ({ game_id, players, currentProfile }) => {
+const CompactCreatePlayer: React.FC<Props> = ({ game_id, players, currentProfile, form }) => {
   const [playerName, setPlayerName] = useState<string>("");
   const [playerText, setPlayerText] = useState<string>("");
   const [playerBelong, setPlayerBelong] = useState<string>("");
@@ -60,6 +69,18 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players, currentProfile
     setPlayerText("");
     setPlayerBelong("");
     nameInputRef.current?.focus();
+
+    form.setFieldValue("players", [
+      ...players,
+      {
+        id: player_id,
+        name: playerName,
+        initial_correct: 0,
+        initial_wrong: 0,
+        base_correct_point: 1,
+        base_wrong_point: -1,
+      },
+    ]);
   };
 
   return (
@@ -92,7 +113,7 @@ const CompactCreatePlayer: React.FC<Props> = ({ game_id, players, currentProfile
         onClick={addNewPlayer}
         size="md"
       >
-        追加
+        追加する
       </Button>
     </Flex>
   );
