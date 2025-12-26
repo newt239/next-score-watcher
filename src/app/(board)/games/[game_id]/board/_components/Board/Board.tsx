@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, Button, Flex, Tooltip } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
-import { IconX } from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -217,65 +216,18 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           show_header={showHeader}
         />
       )}
-      <ActionButtons game={game} logs={logs} currentProfile={current_profile} />
+      <ActionButtons
+        game={game}
+        logs={logs}
+        currentProfile={current_profile}
+        skipSuggest={skipSuggest}
+      />
       <GameLogs logs={logs} players={players} quiz={game.quiz} currentProfile={current_profile} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}
         winTroughPlayer={winThroughPlayer}
       />
-      {skipSuggest && (
-        <Flex className={classes.skip_suggest}>
-          <Box>すべてのプレイヤーが休みの状態です。1問スルーしますか？</Box>
-          <Flex gap="sm">
-            <Button
-              color="blue"
-              onClick={() =>
-                db(current_profile).logs.put({
-                  id: nanoid(),
-                  game_id: game.id,
-                  player_id: "-",
-                  variant: "through",
-                  system: 0,
-                  timestamp: cdate().text(),
-                  available: 1,
-                })
-              }
-              size="sm"
-            >
-              スルー
-            </Button>
-            <Box visibleFrom="md">
-              <Tooltip label="問題番号が進みますが、問題は更新されません。">
-                <Button
-                  onClick={() =>
-                    db(current_profile).logs.put({
-                      id: nanoid(),
-                      game_id: game.id,
-                      player_id: "-",
-                      variant: "skip",
-                      system: 0,
-                      timestamp: cdate().text(),
-                      available: 1,
-                    })
-                  }
-                  size="sm"
-                >
-                  スキップ
-                </Button>
-              </Tooltip>
-            </Box>
-            <Button
-              leftSection={<IconX />}
-              onClick={() => setSkipSuggest(false)}
-              size="sm"
-              color="red"
-            >
-              閉じる
-            </Button>
-          </Flex>
-        </Flex>
-      )}
     </>
   );
 };

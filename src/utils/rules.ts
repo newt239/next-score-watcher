@@ -173,7 +173,7 @@ export const rules = {
     rule: "variables",
     name: "Variables",
     short_description:
-      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N✕(N-2)されます。",
+      "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N * 2されます。",
     description: "Nを大きくすればするほど、誤答時のダメージが大きくなる形式です。",
     win_point: 30,
     options: undefined,

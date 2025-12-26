@@ -39,13 +39,15 @@ const variables = async (game: AllGameProps["variables"], gameLogList: LogDBProp
               };
             }
           case "wrong":
-            const wrong_point =
+            //  - N * 2
+            const baseCorrectPoint =
               game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
-                ?.base_wrong_point || 0;
+                ?.base_correct_point || 1;
+            const wrongPoint = baseCorrectPoint * 2;
             return {
               ...playerState,
               wrong: playerState.wrong + 1,
-              score: playerState.score + wrong_point,
+              score: playerState.score - wrongPoint,
               last_wrong: qn,
             };
           default:

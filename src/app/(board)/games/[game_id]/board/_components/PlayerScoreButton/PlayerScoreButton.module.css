@@ -46,11 +46,5 @@
         line-height: 1.5rem;
       }
     }
-
-    @container (min-width: 200px) {
-      height: 4.5rem;
-      font-size: 4.5rem;
-      line-height: 4.5rem;
-    }
   }
 }

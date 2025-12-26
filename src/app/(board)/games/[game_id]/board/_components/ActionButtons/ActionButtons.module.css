@@ -1,8 +1,33 @@
+.action_buttons_container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .action_button_list {
   display: flex;
   flex-flow: row-reverse nowrap;
 
   @media (width >= 62em) {
     flex-direction: row;
+  }
+}
+
+.skip_suggest {
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  background-color: var(--mantine-color-gray-3);
+  border-radius: 0.5rem;
+
+  @media (width >= 62em) {
+    flex-direction: row;
+  }
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
   }
 }
