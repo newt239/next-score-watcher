@@ -1,0 +1,27 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/score-watcher-develop-env/versions/latest
+      env: ENV_FILE
+
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    env:
+      - "ENV_FILE=${ENV_FILE}"
+    args:
+      - "-c"
+      - |
+        # Secret Manager の内容を .env に書き出し
+        printf '%s' "$ENV_FILE" > .env
+
+        # ルートディレクトリをビルドコンテキストとして Docker イメージをビルド
+        docker build \
+          -f infra/Dockerfile.develop \
+          -t gcr.io/$PROJECT_ID/score-watcher-develop \
+          .
+
+images:
+  - "gcr.io/$PROJECT_ID/score-watcher-develop"

@@ -1,10 +1,4 @@
-#
-# develop ブランチ（開発／ステージング環境）向け Dockerfile
-# Google Cloud Run 上での稼働を想定した構成です。
-#
-
-# ベースイメージ（共通設定）
-FROM node:22.14.0-slim AS base
+FROM node:24-slim AS base
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -31,14 +25,14 @@ COPY . .
 RUN corepack enable && pnpm run build
 
 # 実行ステージ
-FROM node:22.14.0-slim AS runner
+FROM node:24-slim AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 # アプリケーション独自の環境区分
-ENV APP_ENV=development
+ENV APP_ENV=production
 
 # Cloud Run デフォルトポート
 ENV PORT=8080
