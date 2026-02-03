@@ -4,18 +4,18 @@ options:
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/score-watcher-develop-env/versions/latest
-      env: ENV_FILE
+      env: _ENV_FILE
 
 steps:
   - name: "gcr.io/cloud-builders/docker"
     entrypoint: "bash"
     env:
-      - "ENV_FILE"
+      - "_ENV_FILE"
     args:
       - "-c"
       - |
         # Secret Manager の内容を .env に書き出し
-        printf '%s' "$ENV_FILE" > .env
+        printf '%s' "$_ENV_FILE" > .env
 
         # ルートディレクトリをビルドコンテキストとして Docker イメージをビルド
         docker build \
