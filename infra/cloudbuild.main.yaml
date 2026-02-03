@@ -10,7 +10,7 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     entrypoint: "bash"
     env:
-      - "ENV_FILE=${ENV_FILE}"
+      - "ENV_FILE"
     args:
       - "-c"
       - |
