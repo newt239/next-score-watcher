@@ -1,19 +1,13 @@
 FROM node:24-slim AS base
 
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-
 WORKDIR /app
 
-# 依存関係のインストールステージ
 FROM base AS deps
 
-# pnpm のセットアップと依存関係のインストール
 COPY package.json pnpm-lock.yaml* ./
 
 RUN corepack enable && pnpm install --frozen-lockfile
 
-# ビルドステージ
 FROM base AS builder
 
 WORKDIR /app
@@ -21,28 +15,17 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Next.js アプリケーションのビルド
 RUN corepack enable && pnpm run build
 
-# 実行ステージ
 FROM node:24-slim AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-# アプリケーション独自の環境区分
-ENV APP_ENV=production
-
-# Cloud Run デフォルトポート
 ENV PORT=8080
 EXPOSE 8080
 
-# Next.js standalone 出力をコピー
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Next.js standalone サーバーを起動
 CMD ["node", "server.js"]
-
