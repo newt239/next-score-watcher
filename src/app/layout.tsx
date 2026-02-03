@@ -52,7 +52,6 @@ const RootLayout = ({
           </>
         )}
         <ColorSchemeScript />
-        <TypekitLoader />
       </head>
       <body>
         <NuqsAdapter>
@@ -62,6 +61,7 @@ const RootLayout = ({
               <UpdateModal />
             </ModalsProvider>
             <Notifications />
+            <TypekitLoader />
           </MantineProvider>
         </NuqsAdapter>
       </body>
