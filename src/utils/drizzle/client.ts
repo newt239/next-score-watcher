@@ -6,14 +6,6 @@ import * as schema from "./schema/index";
 const tursoUrl = process.env.TURSO_DATABASE_URL!;
 const tursoToken = process.env.TURSO_AUTH_TOKEN!;
 
-if (!tursoUrl) {
-  throw new Error("TURSO_DATABASE_URL environment variable is required");
-}
-
-if (!tursoToken) {
-  throw new Error("TURSO_AUTH_TOKEN environment variable is required");
-}
-
 // Turso接続設定
 const sqlClient = createClient({
   url: tursoUrl,
