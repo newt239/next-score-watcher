@@ -5,14 +5,13 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
+import db from "@/utils/db";
+import { numberSign } from "@/utils/functions";
 
+import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 import classes from "./PlayerScore.module.css";
 
 import type { ComputedScoreProps, GamePropsUnion } from "@/utils/types";
-
-import db from "@/utils/db";
-import { numberSign } from "@/utils/functions";
 
 type Props = {
   game: GamePropsUnion;

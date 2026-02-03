@@ -102,8 +102,7 @@ Score Watcherでは、プレイヤーデータは3つの段階で管理されて
 
 ```typescript
 const newCorrect = playerState.correct + 1; // 正答時
-const newScoreInCorrectCase =
-  newCorrect * (game.win_point! - playerState.wrong);
+const newScoreInCorrectCase = newCorrect * (game.win_point! - playerState.wrong);
 
 const newWrong = playerState.wrong + 1; // 誤答時
 const newScoreInWrongCase = playerState.correct * (game.win_point! - newWrong);

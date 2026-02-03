@@ -1,11 +1,11 @@
 import { Box, Button, Flex } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 
+import ButtonLink from "@/components/ButtonLink";
+
 import classes from "./GameStartButton.module.css";
 
 import type { RuleNames } from "@/models/game";
-
-import ButtonLink from "@/components/ButtonLink";
 
 type GameStartButtonProps = {
   ruleType: RuleNames;

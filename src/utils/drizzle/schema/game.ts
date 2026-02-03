@@ -33,8 +33,12 @@ export const game = sqliteTable("game", {
     .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
   ruleType: text("rule_type", { enum: gameRuleValues }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   discordWebhookUrl: text("discord_webhook_url"),
   option: blob("options", { mode: "json" }),
@@ -57,8 +61,12 @@ export const tag = sqliteTable("tag", {
     .primaryKey()
     .$defaultFn(() => nanoid()),
   name: text("name").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   userId: text("user_id").references(() => user.id),
 });
@@ -89,8 +97,12 @@ export const player = sqliteTable("player", {
   displayName: text("display_name").notNull(),
   affiliation: text("affiliation"),
   description: text("description"),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   userId: text("user_id").references(() => user.id),
 });
@@ -106,8 +118,12 @@ export const playerTag = sqliteTable("player_tag", {
     onDelete: "cascade",
   }),
   tagName: text("tag_name").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   userId: text("user_id").references(() => user.id),
 });
@@ -123,8 +139,12 @@ export const playerPlayerTag = sqliteTable("player_player_tag", {
   playerTagId: text("player_tag_id").references(() => playerTag.id, {
     onDelete: "cascade",
   }),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
@@ -144,8 +164,12 @@ export const gamePlayer = sqliteTable("game_player", {
   initialCorrectCount: integer("initial_correct_count").default(0),
   initialWrongCount: integer("initial_wrong_count").default(0),
   userId: text("user_id").references(() => user.id),
-  createdAt: integer("created_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
 });
 
@@ -176,7 +200,9 @@ export const gameLog = sqliteTable("game_log", {
   questionNumber: integer("question_number"),
   actionType: text("action_type", { enum: actionTypeValues }).notNull(),
   scoreChange: integer("score_change").default(0),
-  timestamp: integer("timestamp", { mode: "timestamp" }).default(sql`(unixepoch())`).notNull(),
+  timestamp: integer("timestamp", { mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
   isSystemAction: integer("is_system_action", { mode: "boolean" }).default(false),
   deletedAt: integer("deleted_at", { mode: "timestamp" }),
   userId: text("user_id").references(() => user.id),

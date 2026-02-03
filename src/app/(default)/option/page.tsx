@@ -3,11 +3,11 @@ import { cookies } from "next/headers";
 
 import { Title } from "@mantine/core";
 
+import Preferences from "@/app/(default)/option/_components/Preferences";
+
 import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
-
-import Preferences from "@/app/(default)/option/_components/Preferences";
 
 export const dynamic = "force-dynamic";
 

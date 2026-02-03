@@ -113,9 +113,7 @@ if (newScoreWhenCorrect >= game.win_point!) {
 3. 失格条件は存在しないため、競技続行
 
 ```typescript
-const newScoreWhenWrong = Math.floor(
-  playerState.score / (playerState.wrong + 1),
-);
+const newScoreWhenWrong = Math.floor(playerState.score / (playerState.wrong + 1));
 ```
 
 #### 具体的な計算例

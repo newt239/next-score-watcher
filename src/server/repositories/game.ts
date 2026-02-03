@@ -1,6 +1,9 @@
 import { and, asc, count, desc, eq, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
+import { DBClient } from "@/utils/drizzle/client";
+import { game, gameLog, gamePlayer, player } from "@/utils/drizzle/schema";
+
 import { parseGameOption, setupDefaultGameOption } from "../utils/options";
 
 import type {
@@ -12,9 +15,6 @@ import type {
   UpdateGameRequestJsonType,
   UpdateGameSettingsRequestType,
 } from "@/models/game";
-
-import { DBClient } from "@/utils/drizzle/client";
-import { game, gameLog, gamePlayer, player } from "@/utils/drizzle/schema";
 
 /**
  * 特定のゲーム情報を取得

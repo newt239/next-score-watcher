@@ -3,7 +3,6 @@
 import { Flex } from "@mantine/core";
 
 import Player from "../Player/Player";
-
 import classes from "./Players.module.css";
 
 import type { ComputedScoreProps, GamePropsUnion, PlayerDBProps } from "@/utils/types";

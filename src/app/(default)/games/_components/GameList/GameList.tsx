@@ -5,12 +5,12 @@ import { useState } from "react";
 import { Group, NativeSelect, SegmentedControl, Title } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import GameListGrid from "../GameListGrid/GameListGrid";
-import GameListTable from "../GameListTable/GameListTable";
-
 import Link from "@/components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
+
+import GameListGrid from "../GameListGrid/GameListGrid";
+import GameListTable from "../GameListTable/GameListTable";
 
 type Props = {
   currentProfile: string;

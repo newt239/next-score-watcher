@@ -3,14 +3,13 @@ import { getImageProps } from "next/image";
 
 import { Anchor, Box, Flex } from "@mantine/core";
 
+import ClientLink from "@/components/ClientLink/ClientLink";
+import { getUser } from "@/utils/auth/auth-helpers";
+
 import Hamburger from "../Hamburger/Hamburger";
 import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
-
 import classes from "./Header.module.css";
-
-import ClientLink from "@/components/ClientLink/ClientLink";
-import { getUser } from "@/utils/auth/auth-helpers";
 
 const Header = async () => {
   const cookieStore = await cookies();

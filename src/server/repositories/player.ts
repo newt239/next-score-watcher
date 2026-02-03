@@ -1,6 +1,9 @@
 import { and, asc, count, eq, isNull } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
+import { DBClient } from "@/utils/drizzle/client";
+import { player, playerPlayerTag, playerTag } from "@/utils/drizzle/schema";
+
 import type {
   AddPlayerTagRequestType,
   ApiPlayerDataType,
@@ -12,9 +15,6 @@ import type {
   UpdatePlayerRequestType,
   UpdatePlayerType,
 } from "@/models/player";
-
-import { DBClient } from "@/utils/drizzle/client";
-import { player, playerPlayerTag, playerTag } from "@/utils/drizzle/schema";
 
 /**
  * プレイヤーのタグ一覧を取得

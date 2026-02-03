@@ -3,6 +3,8 @@
 import { Box, Title } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import db from "@/utils/db";
+
 import ConfigInput from "./ConfigInput";
 import CopyGame from "./CopyGame";
 import DeleteGame from "./DeleteGame";
@@ -10,8 +12,6 @@ import ExportGame from "./ExportGame";
 import SelectQuizset from "./SelectQuizset";
 
 import type { GamePropsUnion } from "@/utils/types";
-
-import db from "@/utils/db";
 
 type Props = {
   game: GamePropsUnion;

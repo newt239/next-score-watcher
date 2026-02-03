@@ -6,13 +6,13 @@ import { sendGAEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
-import classes from "./ImportQuiz.module.css";
-
-import type { FileWithPath } from "@mantine/dropzone";
-
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
 import { str2num } from "@/utils/functions";
+
+import classes from "./ImportQuiz.module.css";
+
+import type { FileWithPath } from "@mantine/dropzone";
 
 type Props = {
   set_name: string;

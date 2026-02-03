@@ -4,9 +4,9 @@ import React, { createContext, useCallback, useContext, useState } from "react";
 
 import { parseResponse } from "hono/client";
 
-import type { GetGameDetailResponseType } from "@/models/game";
-
 import createApiClient from "@/utils/hono/browser";
+
+import type { GetGameDetailResponseType } from "@/models/game";
 
 type GameStateContextType = {
   game: GetGameDetailResponseType | null;

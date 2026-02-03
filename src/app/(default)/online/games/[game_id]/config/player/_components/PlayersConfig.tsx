@@ -9,13 +9,12 @@ import { useDebouncedValue } from "@mantine/hooks";
 import { IconGripVertical } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
-import { useGameState } from "../../_hooks/useGameState";
+import createApiClient from "@/utils/hono/browser";
 
+import { useGameState } from "../../_hooks/useGameState";
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import type { GamePlayerProps, PlayerProps, RuleNames } from "@/models/game";
-
-import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   game_id: string;

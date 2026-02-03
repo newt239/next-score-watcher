@@ -8,7 +8,6 @@ import CreatePlayer from "../CreatePlayer/CreatePlayer";
 import ImportPlayer from "../ImportPlayer/ImportPlayer";
 import LoadPlayer from "../LoadPlayer/LoadPlayer";
 import PlayersTable from "../PlayersTable";
-
 import classes from "./ManagePlayer.module.css";
 
 type Props = {

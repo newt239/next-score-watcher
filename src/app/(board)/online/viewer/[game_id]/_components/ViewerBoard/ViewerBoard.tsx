@@ -4,14 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Text } from "@mantine/core";
 
+import createApiClient from "@/utils/hono/browser";
+
 import ViewerAQLBoard from "../ViewerAQLBoard/ViewerAQLBoard";
 import ViewerPlayer from "../ViewerPlayer/ViewerPlayer";
-
 import styles from "./ViewerBoard.module.css";
 
 import type { GetViewerBoardDataResponseType } from "@/models/game";
-
-import createApiClient from "@/utils/hono/browser";
 
 type ViewerBoardProps = {
   gameId: string;

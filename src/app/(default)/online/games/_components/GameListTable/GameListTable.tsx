@@ -11,10 +11,10 @@ import {
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
-import PublicityBadge from "../PublicityBadge/PublicityBadge";
-
 import ButtonLink from "@/components/ButtonLink";
 import Link from "@/components/Link";
+
+import PublicityBadge from "../PublicityBadge/PublicityBadge";
 
 type GameListTableProps = {
   gameList: {

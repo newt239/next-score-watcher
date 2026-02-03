@@ -3,11 +3,11 @@
 import { Box, Button, Flex } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 
+import ButtonLink from "@/components/ButtonLink";
+
 import classes from "./GameStartButton.module.css";
 
 import type { GamePropsUnion, LogDBProps } from "@/utils/types";
-
-import ButtonLink from "@/components/ButtonLink";
 
 type Props = {
   game: GamePropsUnion;

@@ -3,12 +3,11 @@ import { IconAdjustmentsHorizontal, IconPlayerPlay } from "@tabler/icons-react";
 import Avatar from "boring-avatars";
 import { cdate } from "cdate";
 
-import PublicityBadge from "../PublicityBadge/PublicityBadge";
-
-import classes from "./GameListGrid.module.css";
-
 import ButtonLink from "@/components/ButtonLink";
 import Link from "@/components/Link";
+
+import PublicityBadge from "../PublicityBadge/PublicityBadge";
+import classes from "./GameListGrid.module.css";
 
 type GameListGridProps = {
   gameList: {

@@ -12,14 +12,13 @@ import {
   IconMaximize,
 } from "@tabler/icons-react";
 
-import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
+import ButtonLink from "@/components/ButtonLink";
 
+import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 import classes from "./ActionButtons.module.css";
 
 import type { RuleNames } from "@/models/game";
 import type { UserPreferencesType } from "@/models/user-preference";
-
-import ButtonLink from "@/components/ButtonLink";
 
 type ActionButtonsProps = {
   game: { id: string; name: string; ruleType: RuleNames };

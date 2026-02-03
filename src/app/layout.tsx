@@ -6,10 +6,10 @@ import { Notifications } from "@mantine/notifications";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-import UpdateModal from "./_components/UpdateModal";
-
 import TypekitLoader from "@/app/_components/TypekitLoader";
 import { theme } from "@/utils/theme";
+
+import UpdateModal from "./_components/UpdateModal";
 
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";

@@ -5,10 +5,6 @@ import { useState } from "react";
 import { Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
 import { nanoid } from "nanoid";
 
-import classes from "./ManageData.module.css";
-
-import type { FileWithPath } from "@mantine/dropzone";
-
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
 import db from "@/utils/db";
 import {
@@ -17,6 +13,10 @@ import {
   type PlayerDBProps,
   type QuizDBProps,
 } from "@/utils/types";
+
+import classes from "./ManageData.module.css";
+
+import type { FileWithPath } from "@mantine/dropzone";
 
 type Props = {
   profileList: { name: string; id: string }[];

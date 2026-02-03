@@ -2,6 +2,7 @@ import z from "zod";
 
 import type { RuleNames as SchemaRuleNames } from "@/utils/drizzle/schema/game";
 import type * as schema from "@/utils/drizzle/schema/index";
+
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 // 基本型定義
@@ -338,17 +339,10 @@ export type GameOptionKey =
   | NomxAdOptionKey
   | NyOptionKey
   | NomrOptionKey
-  | NbynOptionKey
-  | NupdownOptionKey
   | DivideOptionKey
-  | Swedish10OptionKey
-  | BackstreamOptionKey
   | AttacksurvivalOptionKey
   | SquarexOptionKey
-  | ZOptionKey
-  | FreezexOptionKey
   | EndlessChanceOptionKey
-  | VariablesOptionKey
   | AqlOptionKey;
 
 // 日付を文字列に変換

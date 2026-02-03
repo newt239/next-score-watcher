@@ -3,7 +3,6 @@
 import { Flex } from "@mantine/core";
 
 import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
-
 import classes from "./PlayerScore.module.css";
 
 import type { ComputedScoreProps, LogDBProps, RuleNames } from "@/models/game";

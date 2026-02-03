@@ -1,11 +1,11 @@
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
-import type { UpdateUserPreferencesRequestType } from "@/models/user-preference";
-
 import { defaultUserPreferences } from "@/models/user-preference";
 import { DBClient } from "@/utils/drizzle/client";
 import { userPreference } from "@/utils/drizzle/schema";
+
+import type { UpdateUserPreferencesRequestType } from "@/models/user-preference";
 
 /**
  * ユーザー設定を取得

@@ -6,14 +6,14 @@ import { Tabs, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { parseResponse } from "hono/client";
 
+import createApiClient from "@/utils/hono/browser";
+
 import CreateQuiz from "./CreateQuiz";
 import ImportQuiz from "./ImportQuiz";
 import LoadQuiz from "./LoadQuiz";
 import QuizesTable from "./QuizesTable";
 
 import type { ApiQuizDataType, CreateQuizType } from "@/models/quiz";
-
-import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialQuizes: ApiQuizDataType[];

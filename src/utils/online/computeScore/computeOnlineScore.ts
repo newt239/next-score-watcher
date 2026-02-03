@@ -5,6 +5,7 @@ import computeBackstream from "./backstream";
 import computeDivide from "./divide";
 import computeEndlessChance from "./endless-chance";
 import computeFreezex from "./freezex";
+import { getInitialPlayersStateForOnline } from "./index";
 import computeNbyn from "./nbyn";
 import computeNomr from "./nomr";
 import computeNomx from "./nomx";
@@ -16,8 +17,6 @@ import computeSquarex from "./squarex";
 import computeSwedish10 from "./swedish10";
 import computeVariables from "./variables";
 import computeZ from "./z";
-
-import { getInitialPlayersStateForOnline } from "./index";
 
 import type { GamePlayerProps, GetGameDetailResponseType } from "@/models/game";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";

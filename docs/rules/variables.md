@@ -92,8 +92,8 @@ Score Watcherでは、プレイヤーデータは3つの段階で管理されて
 
 ```typescript
 const correct_point =
-  game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
-    ?.base_correct_point || 0;
+  game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)?.base_correct_point ||
+  0;
 const newScore = playerState.score + correct_point;
 ```
 
@@ -105,8 +105,7 @@ const newScore = playerState.score + correct_point;
 
 ```typescript
 const wrong_point =
-  game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)
-    ?.base_wrong_point || 0;
+  game.players.find((gamePlayer) => gamePlayer.id === playerState.player_id)?.base_wrong_point || 0;
 return {
   ...playerState,
   wrong: playerState.wrong + 1,

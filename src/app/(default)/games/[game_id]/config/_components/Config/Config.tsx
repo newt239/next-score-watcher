@@ -3,17 +3,16 @@
 import { Accordion, Box, Tabs } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import GameStartButton from "../GameStartButton/GameStartButton";
-import OtherConfig from "../OtherConfig";
-import PlayersConfig from "../PlayersConfig";
-import RuleSettings from "../RuleSettings";
-
-import classes from "./Config.module.css";
-
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/components/Link";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
+
+import GameStartButton from "../GameStartButton/GameStartButton";
+import OtherConfig from "../OtherConfig";
+import PlayersConfig from "../PlayersConfig";
+import RuleSettings from "../RuleSettings";
+import classes from "./Config.module.css";
 
 type Props = {
   game_id: string;

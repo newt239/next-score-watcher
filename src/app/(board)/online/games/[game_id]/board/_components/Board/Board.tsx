@@ -7,12 +7,15 @@ import { notifications } from "@mantine/notifications";
 import { IconX } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
-import AQL from "../AQL/AQL";
+import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";
+import createApiClient from "@/utils/hono/browser";
+import { computeOnlineScore } from "@/utils/online/computeScore/computeOnlineScore";
+
 import ActionButtons from "../ActionButtons/ActionButtons";
+import AQL from "../AQL/AQL";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import GameLogs from "../GameLogs/GameLogs";
 import Players from "../Players/Players";
-
 import classes from "./Board.module.css";
 
 import type {
@@ -23,10 +26,6 @@ import type {
 } from "@/models/game";
 import type { UserPreferencesType } from "@/models/user-preference";
 import type { SeriarizedGameLog } from "@/utils/drizzle/types";
-
-import WinModal from "@/app/(board)/games/[game_id]/board/_components/WinModal/WinModal";
-import createApiClient from "@/utils/hono/browser";
-import { computeOnlineScore } from "@/utils/online/computeScore/computeOnlineScore";
 
 type BoardProps = {
   gameId: string;

@@ -17,12 +17,13 @@ import {
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
-import type { UseFormReturnType } from "@mantine/form";
-
 import ButtonLink from "@/components/ButtonLink";
 import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
+
+import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
+
+import type { UseFormReturnType } from "@mantine/form";
 
 type Props = {
   game_id: string;

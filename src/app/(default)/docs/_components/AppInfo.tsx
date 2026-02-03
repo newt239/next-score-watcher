@@ -2,9 +2,9 @@
 
 import { Table } from "@mantine/core";
 
-import CurrentVersion from "./CurrentVersion";
-
 import Link from "@/components/Link";
+
+import CurrentVersion from "./CurrentVersion";
 
 const AppInfo = () => {
   return (

@@ -3,14 +3,15 @@
 import { useRef, useState } from "react";
 
 import { Button, Flex, TextInput } from "@mantine/core";
-import type { UseFormReturnType } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 
+import db from "@/utils/db";
+
 import type { GameDBPlayerProps } from "@/utils/types";
 
-import db from "@/utils/db";
+import type { UseFormReturnType } from "@mantine/form";
 
 type Props = {
   game_id: string;

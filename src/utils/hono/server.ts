@@ -4,9 +4,9 @@ import { headers } from "next/headers";
 
 import { hc } from "hono/client";
 
-import type { APIRouteType } from "@/server";
-
 import { getUser } from "@/utils/auth/auth-helpers";
+
+import type { APIRouteType } from "@/server";
 
 /**
  * サーバーサイドで使用するAPIクライアント

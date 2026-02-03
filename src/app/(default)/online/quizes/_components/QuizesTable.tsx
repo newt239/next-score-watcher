@@ -16,9 +16,9 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import type { ApiQuizDataType } from "@/models/quiz";
-
 import TablePagenation from "@/components/TablePagination";
+
+import type { ApiQuizDataType } from "@/models/quiz";
 
 type Props = {
   quizes: ApiQuizDataType[];

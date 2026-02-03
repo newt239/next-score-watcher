@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 import { Box, Button, Card, Group, Title } from "@mantine/core";
 import { IconCirclePlus } from "@tabler/icons-react";
 
+import { createGame } from "@/utils/functions";
+import { rules } from "@/utils/rules";
+
 import classes from "./RuleList.module.css";
 
 import type { RuleNames } from "@/utils/types";
-
-import { createGame } from "@/utils/functions";
-import { rules } from "@/utils/rules";
 
 type RuleListProps = {
   currentProfile: string;

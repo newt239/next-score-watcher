@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { createApiClientOnServer } from "@/utils/hono/server";
+
 import ViewerBoard from "./_components/ViewerBoard/ViewerBoard";
 import ViewerHeader from "./_components/ViewerHeader/ViewerHeader";
 import styles from "./page.module.css";
-
-import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const dynamic = "force-dynamic";
 

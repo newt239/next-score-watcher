@@ -18,15 +18,14 @@ import {
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import PreferenceDrawer from "../PreferenceDrawer";
-
-import classes from "./BoardHeader.module.css";
-
-import type { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
-
 import Link from "@/components/Link";
 import db from "@/utils/db";
 import { getRuleStringByType, rules } from "@/utils/rules";
+
+import PreferenceDrawer from "../PreferenceDrawer";
+import classes from "./BoardHeader.module.css";
+
+import type { GamePropsUnion, LogDBProps, QuizDBProps } from "@/utils/types";
 
 type Props = {
   game: GamePropsUnion;

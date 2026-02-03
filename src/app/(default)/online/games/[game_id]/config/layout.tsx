@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 
 import { parseResponse } from "hono/client";
 
+import { createApiClientOnServer } from "@/utils/hono/server";
+
 import ConfigHeader from "./_components/ConfigHeader/ConfigHeader";
 import ConfigTabs from "./_components/ConfigTabs/ConfigTabs";
 import { GameStateProvider } from "./_hooks/useGameState";
-
-import { createApiClientOnServer } from "@/utils/hono/server";
 
 export const metadata: Metadata = {
   title: "ゲーム設定",

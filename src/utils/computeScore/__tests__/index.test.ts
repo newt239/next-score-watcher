@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import type { AllGameProps, GameDBPlayerProps } from "@/utils/types";
-
 import {
   clipNumber,
   getInitialPlayersState,
   getSortedPlayerOrderList,
   indicator,
 } from "@/utils/computeScore";
+
+import type { AllGameProps, GameDBPlayerProps } from "@/utils/types";
 
 describe("computeScore ユーティリティ関数", () => {
   const mockPlayers: GameDBPlayerProps[] = [

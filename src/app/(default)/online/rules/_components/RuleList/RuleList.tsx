@@ -9,12 +9,12 @@ import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
+import createApiClient from "@/utils/hono/browser";
+import { rules } from "@/utils/rules";
+
 import classes from "./RuleList.module.css";
 
 import type { RuleNames } from "@/models/game";
-
-import createApiClient from "@/utils/hono/browser";
-import { rules } from "@/utils/rules";
 
 const RuleList: React.FC = () => {
   const router = useRouter();
