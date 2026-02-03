@@ -8,21 +8,20 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import AQL from "../AQL/AQL";
-import ActionButtons from "../ActionButtons/ActionButtons";
-import BoardHeader from "../BoardHeader/BoardHeader";
-import GameLogs from "../GameLogs/GameLogs";
-import Players from "../Players/Players";
-import WinModal from "../WinModal/WinModal";
-
-import classes from "./Board.module.css";
-
-import type { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
-
 import NotFound from "@/app/(default)/_components/NotFound";
 import computeScore from "@/utils/computeScore";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
+
+import ActionButtons from "../ActionButtons/ActionButtons";
+import AQL from "../AQL/AQL";
+import BoardHeader from "../BoardHeader/BoardHeader";
+import GameLogs from "../GameLogs/GameLogs";
+import Players from "../Players/Players";
+import WinModal from "../WinModal/WinModal";
+import classes from "./Board.module.css";
+
+import type { ComputedScoreProps, PlayerDBProps } from "@/utils/types";
 
 type Props = {
   game_id: string;

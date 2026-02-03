@@ -276,7 +276,7 @@ const handler = factory.createHandlers(
     const query = c.req.valid("query");
     const body = c.req.valid("json");
     // 処理...
-  },
+  }
 );
 ```
 

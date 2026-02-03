@@ -1,7 +1,7 @@
-import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
-
 import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
 import { detectPlayerState } from "@/utils/functions";
+
+import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
 const freezex = async (game: AllGameProps["freezex"], gameLogList: LogDBProps[]) => {
   const winPlayers: WinPlayerProps[] = [];

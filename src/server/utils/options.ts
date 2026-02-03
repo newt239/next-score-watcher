@@ -1,5 +1,3 @@
-import type { Game } from "@/utils/drizzle/types";
-
 import {
   AqlOptionSchema,
   AttacksurvivalOptionSchema,
@@ -19,6 +17,8 @@ import {
   VariablesOptionSchema,
   ZOptionSchema,
 } from "@/utils/drizzle/types";
+
+import type { Game } from "@/utils/drizzle/types";
 
 /*
  * gameテーブルのoptionsをZodでバリデーションして返す

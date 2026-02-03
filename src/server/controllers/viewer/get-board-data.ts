@@ -1,10 +1,10 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 
-import { getPublicGameById } from "../../repositories/game";
-
 import { GetViewerBoardDataParamSchema } from "@/models/game";
 import { getCachedBoardData } from "@/utils/cache/cache-service";
+
+import { getPublicGameById } from "../../repositories/game";
 
 const factory = createFactory();
 

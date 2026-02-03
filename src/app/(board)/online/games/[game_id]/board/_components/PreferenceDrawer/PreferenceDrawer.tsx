@@ -1,7 +1,6 @@
 import { Box, Drawer, Kbd, Table, Tabs } from "@mantine/core";
 
 import Preferences from "../Preferences";
-
 import styles from "./PreferenceDrawer.module.css";
 
 import type { UserPreferencesType } from "@/models/user-preference";

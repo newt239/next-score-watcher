@@ -4,15 +4,14 @@ import { Accordion, Box, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus, IconUpload } from "@tabler/icons-react";
 
+import ButtonLink from "@/components/ButtonLink";
+import Link from "@/components/Link";
+
 import CompactCreatePlayer from "../CompactCreatePlayer";
 import CompactPlayerTable from "../CompactPlayerTable";
-
 import classes from "./SelectPlayer.module.css";
 
 import type { GamePlayerProps, PlayerProps } from "@/models/game";
-
-import ButtonLink from "@/components/ButtonLink";
-import Link from "@/components/Link";
 
 type SelectPlayerProps = {
   game_id: string;

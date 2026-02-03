@@ -10,10 +10,10 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
 import { parseResponse } from "hono/client";
 
-import type { RuleNames } from "@/models/game";
-
 import createApiClient from "@/utils/hono/browser";
 import { rules } from "@/utils/rules";
+
+import type { RuleNames } from "@/models/game";
 
 type DeleteGamePropsUnion = {
   gameId: string;

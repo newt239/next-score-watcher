@@ -99,8 +99,7 @@ Score Watcherでは、プレイヤーデータは2つの段階で管理されて
 
 ```typescript
 // 休み状態から回復する条件
-const isRecovered =
-  game.lose_point! < gameLogList.length - playerState.last_wrong;
+const isRecovered = game.lose_point! < gameLogList.length - playerState.last_wrong;
 ```
 
 休み状態からの回復は、`logs`テーブルで`variant`が`correct`、`wrong`、`through`のいずれかであるログエントリの累積数に基づいて判定されます。最後に誤答した問題番号からの経過問題数が`lose_point`以上になると解答権が回復します。

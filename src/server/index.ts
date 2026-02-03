@@ -1,6 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
+import { auth } from "@/utils/auth/auth";
+
 import indexHandler from "./controllers";
 import deleteTestUserHandler from "./controllers/e2e/delete-test-user";
 import postTestLoginHandler from "./controllers/e2e/post-test-login";
@@ -34,8 +36,6 @@ import postCreateQuizHandler from "./controllers/quiz/post-create";
 import getUserPreferencesHandler from "./controllers/user/get-preferences";
 import updateUserPreferencesHandler from "./controllers/user/update-preferences";
 import getViewerBoardDataHandler from "./controllers/viewer/get-board-data";
-
-import { auth } from "@/utils/auth/auth";
 
 // Hono RPCで型をつけるため、チェインさせる必要がある
 const app = new Hono()

@@ -3,7 +3,6 @@
 import { Box, Flex } from "@mantine/core";
 
 import AQLPlayer from "../AQLPlayer/AQLPlayer";
-
 import classes from "./AQL.module.css";
 
 import type { ComputedScoreProps, GamePropsUnion, PlayerDBProps } from "@/utils/types";

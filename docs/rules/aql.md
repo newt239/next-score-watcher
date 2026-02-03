@@ -211,11 +211,7 @@ const rightTeamScore = playerScoreList.slice(5, 10).reduce((acc, cur) => {
 
 // 勝敗判定
 const leftTeamState =
-  leftTeamScore >= 200
-    ? "win"
-    : rightTeamScore >= 200 || 失格者5人
-      ? "lose"
-      : "playing";
+  leftTeamScore >= 200 ? "win" : rightTeamScore >= 200 || 失格者5人 ? "lose" : "playing";
 ```
 
 ## 使用場面

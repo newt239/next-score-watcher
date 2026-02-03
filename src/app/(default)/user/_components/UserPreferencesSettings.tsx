@@ -26,7 +26,7 @@ const UserPreferencesSettings: React.FC<Props> = ({ initialPreferences, userId }
 
     startTransition(async () => {
       try {
-        const apiClient = await createApiClient();
+        const apiClient = createApiClient();
         const result = await parseResponse(
           apiClient.user[":user_id"].preferences.$patch({
             param: { user_id: userId },

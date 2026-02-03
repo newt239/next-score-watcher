@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
-import ButtonLink from "@/components/ButtonLink";
 import { Flex } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
+
+import ButtonLink from "@/components/ButtonLink";
+
 import ManageQuiz from "./_components/ManageQuiz/ManageQuiz";
 
 export const metadata: Metadata = {

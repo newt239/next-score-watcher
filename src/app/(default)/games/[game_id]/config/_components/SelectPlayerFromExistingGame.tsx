@@ -7,7 +7,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
+
 import type { GameDBPlayerProps } from "@/utils/types";
+
 import type { UseFormReturnType } from "@mantine/form";
 
 type Props = {

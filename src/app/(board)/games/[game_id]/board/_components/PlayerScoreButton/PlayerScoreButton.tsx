@@ -7,9 +7,9 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import classes from "./PlayerScoreButton.module.css";
-
 import db from "@/utils/db";
+
+import classes from "./PlayerScoreButton.module.css";
 
 type Props = {
   color: "red" | "blue" | "green" | "gray" | "black" | "win" | "lose" | "playing";

@@ -2,8 +2,11 @@
 
 import { Flex, useComputedColorScheme } from "@mantine/core";
 
-import PlayerScore from "../PlayerScore/PlayerScore";
+import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
+import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";
+import { rules } from "@/utils/rules";
 
+import PlayerScore from "../PlayerScore/PlayerScore";
 import classes from "./Player.module.css";
 
 import type {
@@ -14,10 +17,6 @@ import type {
   States,
 } from "@/models/game";
 import type { UserPreferencesType } from "@/models/user-preference";
-
-import PlayerHeader from "@/app/(board)/games/[game_id]/board/_components/PlayerHeader/PlayerHeader";
-import PlayerName from "@/app/(board)/games/[game_id]/board/_components/PlayerName/PlayerName";
-import { rules } from "@/utils/rules";
 
 type OnlineGame = {
   id: string;

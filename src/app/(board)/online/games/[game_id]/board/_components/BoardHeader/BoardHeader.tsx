@@ -13,15 +13,14 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 
-import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
+import Link from "@/components/Link";
+import { rules } from "@/utils/rules";
 
+import PreferenceDrawer from "../PreferenceDrawer/PreferenceDrawer";
 import classes from "./BoardHeader.module.css";
 
 import type { RuleNames } from "@/models/game";
 import type { UserPreferencesType } from "@/models/user-preference";
-
-import Link from "@/components/Link";
-import { rules } from "@/utils/rules";
 
 type OnlineGame = {
   id: string;

@@ -8,6 +8,9 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
   replaysSessionSampleRate: 0.1,
   integrations: [
+    // import/namespaceルールでは型定義に存在しないプロパティアクセスとして警告されるため無効化
+    // ランタイムでは問題なく動作することを確認済み
+    // eslint-disable-next-line import/namespace
     Sentry.replayIntegration({
       maskAllText: true,
       blockAllMedia: true,
@@ -15,4 +18,5 @@ Sentry.init({
   ],
 });
 
+// eslint-disable-next-line import/namespace
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

@@ -7,9 +7,9 @@ import { TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import type { GamePropsUnion } from "@/utils/types";
-
 import db from "@/utils/db";
+
+import type { GamePropsUnion } from "@/utils/types";
 
 type Props = {
   input_id: keyof GamePropsUnion;

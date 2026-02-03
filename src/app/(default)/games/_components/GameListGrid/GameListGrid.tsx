@@ -4,10 +4,10 @@ import { Box, Card, Flex, List } from "@mantine/core";
 import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
-import classes from "./GameListGrid.module.css";
-
 import ButtonLink from "@/components/ButtonLink";
 import Link from "@/components/Link";
+
+import classes from "./GameListGrid.module.css";
 
 type Props = {
   gameList: {

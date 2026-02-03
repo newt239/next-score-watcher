@@ -1,9 +1,9 @@
 import { Box, Flex, Modal } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 
-import classes from "./WinModal.module.css";
-
 import XIntentButton from "@/app/_components/XIntentButton/XIntentButton";
+
+import classes from "./WinModal.module.css";
 
 type Props = {
   onClose: () => void;

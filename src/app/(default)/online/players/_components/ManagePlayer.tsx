@@ -6,14 +6,14 @@ import { Tabs, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { parseResponse } from "hono/client";
 
+import createApiClient from "@/utils/hono/browser";
+
 import CreatePlayer from "./CreatePlayer";
 import ImportPlayer from "./ImportPlayer";
 import LoadPlayer from "./LoadPlayer";
 import PlayersTable from "./PlayersTable";
 
 import type { CreatePlayerType, UpdatePlayerType } from "@/models/player";
-
-import createApiClient from "@/utils/hono/browser";
 
 type Props = {
   initialPlayers: UpdatePlayerType[];

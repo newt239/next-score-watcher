@@ -15,14 +15,13 @@ import {
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import PreferenceDrawer from "../PreferenceDrawer";
+import ButtonLink from "@/components/ButtonLink";
+import db from "@/utils/db";
 
+import PreferenceDrawer from "../PreferenceDrawer";
 import classes from "./ActionButtons.module.css";
 
 import type { GamePropsUnion, LogDBProps } from "@/utils/types";
-
-import ButtonLink from "@/components/ButtonLink";
-import db from "@/utils/db";
 
 type Props = {
   game: GamePropsUnion;

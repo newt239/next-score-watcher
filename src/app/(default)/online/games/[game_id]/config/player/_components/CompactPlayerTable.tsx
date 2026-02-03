@@ -16,13 +16,13 @@ import {
   type FilterFn,
 } from "@tanstack/react-table";
 
-import { useGameState } from "../../_hooks/useGameState";
-
-import type { PlayerProps, RemoveGamePlayersResponseType } from "@/models/game";
-
 import ButtonLink from "@/components/ButtonLink";
 import TablePagenation from "@/components/TablePagination";
 import createApiClient from "@/utils/hono/browser";
+
+import { useGameState } from "../../_hooks/useGameState";
+
+import type { PlayerProps, RemoveGamePlayersResponseType } from "@/models/game";
 
 type CompactPlayerTableProps = {
   game_id: string;

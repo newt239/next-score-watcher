@@ -7,7 +7,6 @@ import { Tabs, TextInput, Title } from "@mantine/core";
 import ImportQuiz from "../ImportQuiz/ImportQuiz";
 import LoadQuiz from "../LoadQuiz/LoadQuiz";
 import QuizesTable from "../QuizesTable/QuizesTable";
-
 import classes from "./ManageQuiz.module.css";
 
 type Props = {

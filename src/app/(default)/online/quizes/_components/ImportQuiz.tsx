@@ -6,10 +6,11 @@ import { Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import Encoding from "encoding-japanese";
 
-import type { CreateQuizType } from "@/models/quiz";
-import type { FileWithPath } from "@mantine/dropzone";
-
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
+
+import type { CreateQuizType } from "@/models/quiz";
+
+import type { FileWithPath } from "@mantine/dropzone";
 
 type Props = {
   createQuizes: (quizesData: CreateQuizType[]) => Promise<number>;

@@ -9,9 +9,9 @@ import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
 import { parseResponse } from "hono/client";
 
-import type { RuleNames } from "@/models/game";
-
 import createApiClient from "@/utils/hono/browser";
+
+import type { RuleNames } from "@/models/game";
 
 type Props = {
   gameId: string;

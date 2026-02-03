@@ -25,7 +25,7 @@ const computeNbyn = (
           ...s,
           correct: 0,
           wrong: winPoint,
-          score: 0 * winPoint, // 積をスコアとする
+          score: 0, // 積をスコアとする（初期値は0）
         },
       ];
     })

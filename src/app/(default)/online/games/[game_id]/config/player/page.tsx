@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 
 import { parseResponse } from "hono/client";
 
-import PlayersConfig from "./_components/PlayersConfig";
-
 import { createApiClientOnServer } from "@/utils/hono/server";
+
+import PlayersConfig from "./_components/PlayersConfig";
 
 export const metadata: Metadata = {
   title: "プレイヤー設定",

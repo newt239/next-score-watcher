@@ -139,10 +139,7 @@ const newScore = playerState.score + game.correct_other;
 if (newScore <= 0) {
   // 失格
   state = "lose";
-} else if (
-  newScore + game.correct_other <= 0 ||
-  newScore + game.wrong_me <= 0
-) {
+} else if (newScore + game.correct_other <= 0 || newScore + game.wrong_me <= 0) {
   // 失格リーチ
   reach_state = "lose";
 }
@@ -160,9 +157,7 @@ if (newScore <= 0) {
 ```typescript
 const playingPlayers = playersState.filter((p) => p.state === "playing");
 const currentState =
-  game.win_through &&
-  game.win_through >= playingPlayers.length &&
-  playerState.state === "playing"
+  game.win_through && game.win_through >= playingPlayers.length && playerState.state === "playing"
     ? "win"
     : playerState.state;
 ```

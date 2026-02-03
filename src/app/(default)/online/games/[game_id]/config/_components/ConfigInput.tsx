@@ -5,11 +5,11 @@ import { useState, useTransition } from "react";
 import { TextInput } from "@mantine/core";
 import { parseResponse } from "hono/client";
 
+import createApiClient from "@/utils/hono/browser";
+
 import { useGameState } from "../_hooks/useGameState";
 
 import type { GameOptionKey } from "@/utils/drizzle/types";
-
-import createApiClient from "@/utils/hono/browser";
 
 type ConfigInputProps = {
   gameId: string;

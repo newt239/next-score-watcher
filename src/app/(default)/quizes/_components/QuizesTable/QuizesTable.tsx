@@ -15,12 +15,12 @@ import {
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import TablePagenation from "@/components/TablePagination";
+import db from "@/utils/db";
+
 import classes from "./QuizesTable.module.css";
 
 import type { QuizDBProps } from "@/utils/types";
-
-import TablePagenation from "@/components/TablePagination";
-import db from "@/utils/db";
 
 type Props = {
   currentProfile: string;
