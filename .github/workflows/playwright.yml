@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v6.1.0
         with:
-          node-version: "25"
+          node-version: "24"
           cache: "pnpm"
       - name: 依存関係をインストール
         run: pnpm install
