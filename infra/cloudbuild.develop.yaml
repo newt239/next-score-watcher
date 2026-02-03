@@ -1,70 +1,39 @@
 options:
   logging: CLOUD_LOGGING_ONLY
 
-availableSecrets:
-  secretManager:
-    - versionName: projects/$_PROJECT_NUMBER/secrets/NEXT_PUBLIC_APP_VERSION/versions/latest
-      env: NEXT_PUBLIC_APP_VERSION
-    - versionName: projects/$_PROJECT_NUMBER/secrets/NEXT_PUBLIC_APP_URL/versions/latest
-      env: NEXT_PUBLIC_APP_URL
-    - versionName: projects/$_PROJECT_NUMBER/secrets/NEXT_PUBLIC_GA_ID/versions/latest
-      env: NEXT_PUBLIC_GA_ID
-    - versionName: projects/$_PROJECT_NUMBER/secrets/NEXT_PUBLIC_TAG_ID/versions/latest
-      env: NEXT_PUBLIC_TAG_ID
-    - versionName: projects/$_PROJECT_NUMBER/secrets/NEXT_PUBLIC_SENTRY_DSN/versions/latest
-      env: NEXT_PUBLIC_SENTRY_DSN
-    - versionName: projects/$_PROJECT_NUMBER/secrets/SENTRY_AUTH_TOKEN/versions/latest
-      env: SENTRY_AUTH_TOKEN
-    - versionName: projects/$_PROJECT_NUMBER/secrets/GOOGLE_CLIENT_ID/versions/latest
-      env: GOOGLE_CLIENT_ID
-    - versionName: projects/$_PROJECT_NUMBER/secrets/GOOGLE_CLIENT_SECRET/versions/latest
-      env: GOOGLE_CLIENT_SECRET
-    - versionName: projects/$_PROJECT_NUMBER/secrets/TURSO_DATABASE_URL/versions/latest
-      env: TURSO_DATABASE_URL
-    - versionName: projects/$_PROJECT_NUMBER/secrets/TURSO_AUTH_TOKEN/versions/latest
-      env: TURSO_AUTH_TOKEN
-    - versionName: projects/$_PROJECT_NUMBER/secrets/BETTER_AUTH_SECRET/versions/latest
-      env: BETTER_AUTH_SECRET
-    - versionName: projects/$_PROJECT_NUMBER/secrets/CLOUDFLARE_KV_NAMESPACE_ID/versions/latest
-      env: CLOUDFLARE_KV_NAMESPACE_ID
-    - versionName: projects/$_PROJECT_NUMBER/secrets/CLOUDFLARE_KV_API_TOKEN/versions/latest
-      env: CLOUDFLARE_KV_API_TOKEN
-
 steps:
-  - name: "gcr.io/cloud-builders/docker"
+  # Secret Manager から .env を生成するステップ
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     entrypoint: "bash"
-    secretEnv:
-      - "NEXT_PUBLIC_APP_VERSION"
-      - "NEXT_PUBLIC_APP_URL"
-      - "NEXT_PUBLIC_GA_ID"
-      - "NEXT_PUBLIC_TAG_ID"
-      - "NEXT_PUBLIC_SENTRY_DSN"
-      - "SENTRY_AUTH_TOKEN"
-      - "GOOGLE_CLIENT_ID"
-      - "GOOGLE_CLIENT_SECRET"
-      - "TURSO_DATABASE_URL"
-      - "TURSO_AUTH_TOKEN"
-      - "BETTER_AUTH_SECRET"
-      - "CLOUDFLARE_KV_NAMESPACE_ID"
-      - "CLOUDFLARE_KV_API_TOKEN"
     args:
       - "-c"
       - |
-        # Secret Manager から取得した環境変数を .env に書き出し
+        set -euo pipefail
+
         : > .env
+
         for key in NEXT_PUBLIC_APP_VERSION NEXT_PUBLIC_APP_URL NEXT_PUBLIC_GA_ID NEXT_PUBLIC_TAG_ID NEXT_PUBLIC_SENTRY_DSN SENTRY_AUTH_TOKEN GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET TURSO_DATABASE_URL TURSO_AUTH_TOKEN BETTER_AUTH_SECRET CLOUDFLARE_KV_NAMESPACE_ID CLOUDFLARE_KV_API_TOKEN; do
-          value="${!key}"
+          value="$(gcloud secrets versions access latest --secret="${key}" --project="${PROJECT_ID}")" || {
+            echo "Error: failed to access secret ${key}" >&2
+            exit 1
+          }
+
           if [ -z "${value}" ]; then
-            echo "Warning: $key is empty" >&2
+            echo "Warning: ${key} is empty" >&2
           fi
-          printf '%s=%s\n' "$key" "$value" >> .env
+
+          printf '%s=%s\n' "${key}" "${value}" >> .env
         done
 
-        # ルートディレクトリをビルドコンテキストとして Docker イメージをビルド
-        docker build \
-          -f infra/Dockerfile.develop \
-          -t gcr.io/$PROJECT_ID/score-watcher-develop \
-          .
+  # Docker イメージをビルドするステップ
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-f"
+      - "infra/Dockerfile.develop"
+      - "-t"
+      - "gcr.io/$PROJECT_ID/score-watcher-develop"
+      - "."
 
 images:
   - "gcr.io/$PROJECT_ID/score-watcher-develop"
