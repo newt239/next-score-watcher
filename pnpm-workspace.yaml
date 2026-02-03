@@ -1,6 +1,6 @@
 packages:
   - "."
-minimumReleaseAge: 720
+minimumReleaseAge: 1440
 ignoredBuiltDependencies:
   - "@sentry/cli"
   - "esbuild"
