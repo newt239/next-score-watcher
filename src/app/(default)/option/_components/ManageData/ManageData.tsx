@@ -3,9 +3,11 @@
 import { useState } from "react";
 
 import { Button, Group, Stack, Text, TextInput, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { nanoid } from "nanoid";
 
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
+import { CURRENT_PROFILE_STORAGE_KEY, setStoredCurrentProfile } from "@/utils/current-profile";
 import db from "@/utils/db";
 import {
   type GamePropsUnion,
@@ -24,21 +26,25 @@ type Props = {
 };
 
 const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
   const [input, setInput] = useState<string>("");
 
   const exportGameData = async () => {
     const data = {
-      games: await db(currentProfile).games.toArray(),
-      players: await db(currentProfile).players.toArray(),
-      quizes: await db(currentProfile).quizes.toArray(),
-      logs: await db(currentProfile).logs.toArray(),
+      games: await db(storedCurrentProfile).games.toArray(),
+      players: await db(storedCurrentProfile).players.toArray(),
+      quizes: await db(storedCurrentProfile).quizes.toArray(),
+      logs: await db(storedCurrentProfile).logs.toArray(),
     };
     const dataStr = JSON.stringify(data, null, 2);
     const blob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${currentProfile}.json`;
+    a.download = `${storedCurrentProfile}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -62,7 +68,7 @@ const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
           const newProfileId = `profile_${nanoid()}`;
           const newProfileList = [...profileList, { name: encodeURI(input), id: newProfileId }];
           window.document.cookie = `scorew_profile_list=${JSON.stringify(newProfileList)}`;
-          window.document.cookie = `scorew_current_profile=${newProfileId}`;
+          setStoredCurrentProfile(newProfileId);
 
           if (jsonData.games) {
             db(newProfileId).games.bulkPut(jsonData.games);

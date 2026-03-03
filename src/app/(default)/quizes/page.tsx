@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 
 import { Flex } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
 
 import ButtonLink from "@/components/ButtonLink";
+import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import ManageQuiz from "./_components/ManageQuiz/ManageQuiz";
 
@@ -23,9 +23,6 @@ type Props = {
 
 const QuizesPage = async ({ searchParams }: Props) => {
   const { from } = await searchParams;
-  const cookieStore = await cookies();
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
 
   return (
     <Flex direction="column" gap="xs">
@@ -39,7 +36,7 @@ const QuizesPage = async ({ searchParams }: Props) => {
           ゲーム設定に戻る
         </ButtonLink>
       )}
-      <ManageQuiz currentProfile={currentProfile} />
+      <ManageQuiz currentProfile={DEFAULT_CURRENT_PROFILE} />
     </Flex>
   );
 };

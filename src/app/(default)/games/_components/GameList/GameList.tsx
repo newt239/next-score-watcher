@@ -3,9 +3,11 @@
 import { useState } from "react";
 
 import { Group, NativeSelect, SegmentedControl, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import Link from "@/components/Link";
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 
@@ -17,11 +19,15 @@ type Props = {
 };
 
 const GameList: React.FC<Props> = ({ currentProfile }) => {
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
   const games = useLiveQuery(
-    () => db(currentProfile).games.orderBy("last_open").reverse().toArray(),
-    []
+    () => db(storedCurrentProfile).games.orderBy("last_open").reverse().toArray(),
+    [storedCurrentProfile]
   );
-  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
+  const logs = useLiveQuery(() => db(storedCurrentProfile).logs.toArray(), [storedCurrentProfile]);
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
   const [displayMode, setDisplayMode] = useState<"grid" | "table">("grid");
 

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { Title } from "@mantine/core";
 
 import Preferences from "@/app/(default)/option/_components/Preferences";
+import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
@@ -22,8 +23,6 @@ const OptionPage = async () => {
   const cookieStore = await cookies();
   const profileListCookie = cookieStore.get("scorew_profile_list");
   const profileList = profileListCookie?.value ? JSON.parse(profileListCookie?.value) : [];
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
 
   return (
     <>
@@ -31,8 +30,8 @@ const OptionPage = async () => {
       <Title order={3}>表示設定</Title>
       <Preferences />
       <WebhookSettings />
-      <ManageData profileList={profileList} currentProfile={currentProfile} />
-      <InitializeApp currentProfile={currentProfile} />
+      <ManageData profileList={profileList} currentProfile={DEFAULT_CURRENT_PROFILE} />
+      <InitializeApp currentProfile={DEFAULT_CURRENT_PROFILE} />
     </>
   );
 };

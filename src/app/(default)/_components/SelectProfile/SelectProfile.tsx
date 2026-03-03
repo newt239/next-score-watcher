@@ -3,11 +3,17 @@
 import { useState } from "react";
 
 import { Button, Flex, NativeSelect, Popover, TextInput, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 
+import {
+  CURRENT_PROFILE_STORAGE_KEY,
+  DEFAULT_CURRENT_PROFILE,
+  setStoredCurrentProfile,
+} from "@/utils/current-profile";
 import db from "@/utils/db";
 
 type Props = {
@@ -16,7 +22,12 @@ type Props = {
 };
 
 const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
-  const currentProfileName = profileList.find((p) => p.id === currentProfile)?.name || "デフォルト";
+  const [storedCurrentProfile, setCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
+  const currentProfileName =
+    profileList.find((p) => p.id === storedCurrentProfile)?.name || "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
 
   return (
@@ -30,13 +41,14 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
           <NativeSelect
             mt="sm"
             label="選択する"
-            defaultValue={currentProfile}
+            value={storedCurrentProfile}
             onChange={(e) => {
+              const profileId = e.target.value;
               sendGAEvent({
                 event: "change_profile",
-                value: e.target.value,
+                value: profileId,
               });
-              window.document.cookie = `scorew_current_profile=${e.target.value}`;
+              setCurrentProfile(profileId);
               window.location.reload();
             }}
           >
@@ -65,13 +77,13 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
                 { name: encodeURI(newProfileName), id: newProfileId },
               ];
               window.document.cookie = `scorew_profile_list=${JSON.stringify(newProfileList)}`;
-              window.document.cookie = `scorew_current_profile=${newProfileId}`;
+              setStoredCurrentProfile(newProfileId);
               window.location.reload();
             }}
           >
             作成
           </Button>
-          {currentProfile !== "score_watcher" && (
+          {storedCurrentProfile !== DEFAULT_CURRENT_PROFILE && (
             <Button
               color="red"
               leftSection={<IconTrash />}
@@ -88,12 +100,12 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
                   labels: { confirm: "削除する", cancel: "削除しない" },
                   confirmProps: { color: "red" },
                   onConfirm: () => {
-                    const newProfileList = profileList.filter((p) => p.id !== currentProfile);
+                    const newProfileList = profileList.filter((p) => p.id !== storedCurrentProfile);
                     window.document.cookie = `scorew_profile_list=${JSON.stringify(
                       newProfileList
                     )}`;
-                    window.document.cookie = "scorew_current_profile=score_watcher";
-                    db(currentProfile)
+                    setCurrentProfile(DEFAULT_CURRENT_PROFILE);
+                    db(storedCurrentProfile)
                       .delete()
                       .then(() => {
                         window.location.reload();

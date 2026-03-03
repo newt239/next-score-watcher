@@ -1,10 +1,12 @@
 "use client";
 
 import { Accordion, Box, Tabs } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import Link from "@/components/Link";
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
 
@@ -20,14 +22,24 @@ type Props = {
 };
 
 const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
-  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
-  const players = useLiveQuery(() => db(currentProfile).players.orderBy("name").toArray(), []);
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
+  const game = useLiveQuery(
+    () => db(storedCurrentProfile).games.get(game_id as string),
+    [storedCurrentProfile, game_id]
+  );
+  const players = useLiveQuery(
+    () => db(storedCurrentProfile).players.orderBy("name").toArray(),
+    [storedCurrentProfile]
+  );
   const logs = useLiveQuery(
     () =>
-      db(currentProfile)
+      db(storedCurrentProfile)
         .logs.where({ game_id: game_id as string, system: 0, available: 1 })
         .toArray(),
-    []
+    [storedCurrentProfile, game_id]
   );
 
   if (!game || !players || !logs) return <NotFound />;
@@ -65,7 +77,7 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
         </Tabs.List>
         <Box className={classes.tab_panel_area}>
           <Tabs.Panel value="rule">
-            <RuleSettings game={game} currentProfile={currentProfile} />
+            <RuleSettings game={game} currentProfile={storedCurrentProfile} />
           </Tabs.Panel>
           <Tabs.Panel value="player">
             <PlayersConfig
@@ -73,11 +85,11 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
               rule={game.rule}
               playerList={players}
               players={game.players}
-              currentProfile={currentProfile}
+              currentProfile={storedCurrentProfile}
             />
           </Tabs.Panel>
           <Tabs.Panel value="other">
-            <OtherConfig game={game} currentProfile={currentProfile} />
+            <OtherConfig game={game} currentProfile={storedCurrentProfile} />
           </Tabs.Panel>
         </Box>
       </Tabs>
