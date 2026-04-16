@@ -4,8 +4,6 @@ import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import GameList from "./_components/GameList/GameList";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "作成したゲーム",
   alternates: {

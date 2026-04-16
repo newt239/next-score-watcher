@@ -8,7 +8,7 @@ import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import ManagePlayer from "./_components/ManagePlayer/ManagePlayer";
 
-export const dynamic = "force-dynamic";
+
 
 type Props = {
   searchParams: Promise<{

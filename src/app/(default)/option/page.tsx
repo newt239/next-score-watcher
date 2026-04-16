@@ -10,8 +10,6 @@ import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
 import WebhookSettings from "./_components/WebhookSettings";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "アプリ設定",
   alternates: {

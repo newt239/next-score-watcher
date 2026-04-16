@@ -7,7 +7,7 @@ import ViewerBoard from "./_components/ViewerBoard/ViewerBoard";
 import ViewerHeader from "./_components/ViewerHeader/ViewerHeader";
 import styles from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+
 
 export const metadata: Metadata = {
   title: "観戦モード - Score Watcher",

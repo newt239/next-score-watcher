@@ -4,8 +4,6 @@ import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import Board from "./_components/Board/Board";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "得点表示",
   robots: {
