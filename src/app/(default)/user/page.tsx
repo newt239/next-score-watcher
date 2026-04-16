@@ -23,7 +23,7 @@ const AccountPage = async () => {
   const user = await getUser();
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/sign-in?callbackURL=/user");
   }
 
   const apiClient = await createApiClientOnServer();

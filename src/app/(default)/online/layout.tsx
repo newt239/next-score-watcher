@@ -16,7 +16,7 @@ const OnlineLayout = async ({ children }: OnlineLayoutProps) => {
   const user = await getUser();
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/sign-in?callbackURL=/online/games");
   }
 
   return <>{children}</>;

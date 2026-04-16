@@ -1,45 +1,36 @@
-"use client";
-
-import { useState, useTransition } from "react";
-
-import { Alert, Button, Title } from "@mantine/core";
+import { Alert, Title } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
 
-import { authClient } from "@/utils/auth/auth-client";
+import LoginForm from "./_components/LoginForm";
 
-const LoginPage = () => {
-  const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+type LoginPageProps = {
+  searchParams: Promise<{ callbackURL?: string }>;
+};
 
-  const handleLogin = async () => {
-    setError(null);
-    startTransition(async () => {
-      try {
-        await authClient.signIn.social({
-          provider: "google",
-          callbackURL: "/",
-        });
-      } catch (err) {
-        console.error("サインインエラー:", err);
-        setError("サインインに失敗しました。もう一度お試しください。");
-      }
-    });
-  };
+/**
+ * オンライン機能へのサインインページ
+ * 認証後のリダイレクト先はクエリパラメータ callbackURL で指定する
+ * 指定が無い場合はオンライン版トップ (/online) に戻す
+ */
+const LoginPage = async ({ searchParams }: LoginPageProps) => {
+  const params = await searchParams;
+  const callbackURL =
+    params.callbackURL && params.callbackURL.startsWith("/")
+      ? params.callbackURL
+      : "/online/games";
 
   return (
     <main>
       <Title>ログイン</Title>
-      <Alert color="red" title="アルファ版の機能です" icon={<IconInfoCircle />} mt="md">
+      <Alert
+        color="red"
+        title="アルファ版の機能です"
+        icon={<IconInfoCircle />}
+        mt="md"
+      >
         ログイン機能はアルファ版の機能です。この期間に保存されたデータはすべて正式リリース時に削除されます。
       </Alert>
-      <Button mt="lg" onClick={handleLogin} color="blue" loading={isPending} disabled={isPending}>
-        Googleでログイン
-      </Button>
-      {error && (
-        <Alert color="red" mt="md">
-          {error}
-        </Alert>
-      )}
+      <LoginForm callbackURL={callbackURL} />
     </main>
   );
 };
