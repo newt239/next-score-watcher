@@ -7,7 +7,12 @@ import { useLocalStorage } from "@mantine/hooks";
 import { nanoid } from "nanoid";
 
 import Dropzone from "@/app/_components/Dropzone/Dropzone";
-import { CURRENT_PROFILE_STORAGE_KEY, setStoredCurrentProfile } from "@/utils/current-profile";
+import {
+  CURRENT_PROFILE_STORAGE_KEY,
+  PROFILE_LIST_STORAGE_KEY,
+  type ProfileListItem,
+  setStoredCurrentProfile,
+} from "@/utils/current-profile";
 import db from "@/utils/db";
 import {
   type GamePropsUnion,
@@ -21,14 +26,17 @@ import classes from "./ManageData.module.css";
 import type { FileWithPath } from "@mantine/dropzone";
 
 type Props = {
-  profileList: { name: string; id: string }[];
   currentProfile: string;
 };
 
-const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
+const ManageData: React.FC<Props> = ({ currentProfile }) => {
   const [storedCurrentProfile] = useLocalStorage({
     key: CURRENT_PROFILE_STORAGE_KEY,
     defaultValue: currentProfile,
+  });
+  const [profileList, setProfileList] = useLocalStorage<ProfileListItem[]>({
+    key: PROFILE_LIST_STORAGE_KEY,
+    defaultValue: [],
   });
   const [input, setInput] = useState<string>("");
 
@@ -67,7 +75,7 @@ const ManageData: React.FC<Props> = ({ profileList, currentProfile }) => {
         if (typeof jsonData === "object") {
           const newProfileId = `profile_${nanoid()}`;
           const newProfileList = [...profileList, { name: encodeURI(input), id: newProfileId }];
-          window.document.cookie = `scorew_profile_list=${JSON.stringify(newProfileList)}`;
+          setProfileList(newProfileList);
           setStoredCurrentProfile(newProfileId);
 
           if (jsonData.games) {

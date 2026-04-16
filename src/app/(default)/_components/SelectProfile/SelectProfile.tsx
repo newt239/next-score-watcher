@@ -12,22 +12,23 @@ import { nanoid } from "nanoid";
 import {
   CURRENT_PROFILE_STORAGE_KEY,
   DEFAULT_CURRENT_PROFILE,
-  setStoredCurrentProfile,
+  PROFILE_LIST_STORAGE_KEY,
+  type ProfileListItem,
 } from "@/utils/current-profile";
 import db from "@/utils/db";
 
-type Props = {
-  profileList: { name: string; id: string }[];
-  currentProfile: string;
-};
-
-const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
+const SelectProfile: React.FC = () => {
   const [storedCurrentProfile, setCurrentProfile] = useLocalStorage({
     key: CURRENT_PROFILE_STORAGE_KEY,
-    defaultValue: currentProfile,
+    defaultValue: DEFAULT_CURRENT_PROFILE,
   });
-  const currentProfileName =
-    profileList.find((p) => p.id === storedCurrentProfile)?.name || "デフォルト";
+  const [profileList, setProfileList] = useLocalStorage<ProfileListItem[]>({
+    key: PROFILE_LIST_STORAGE_KEY,
+    defaultValue: [],
+  });
+  const currentProfileName = profileList.find((p) => p.id === storedCurrentProfile)
+    ? decodeURI(profileList.find((p) => p.id === storedCurrentProfile)!.name)
+    : "デフォルト";
   const [newProfileName, setNewProfileName] = useState("");
 
   return (
@@ -76,8 +77,8 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
                 ...profileList,
                 { name: encodeURI(newProfileName), id: newProfileId },
               ];
-              window.document.cookie = `scorew_profile_list=${JSON.stringify(newProfileList)}`;
-              setStoredCurrentProfile(newProfileId);
+              setProfileList(newProfileList);
+              setCurrentProfile(newProfileId);
               window.location.reload();
             }}
           >
@@ -100,10 +101,10 @@ const SelectProfile: React.FC<Props> = ({ profileList, currentProfile }) => {
                   labels: { confirm: "削除する", cancel: "削除しない" },
                   confirmProps: { color: "red" },
                   onConfirm: () => {
-                    const newProfileList = profileList.filter((p) => p.id !== storedCurrentProfile);
-                    window.document.cookie = `scorew_profile_list=${JSON.stringify(
-                      newProfileList
-                    )}`;
+                    const newProfileList = profileList.filter(
+                      (p) => p.id !== storedCurrentProfile
+                    );
+                    setProfileList(newProfileList);
                     setCurrentProfile(DEFAULT_CURRENT_PROFILE);
                     db(storedCurrentProfile)
                       .delete()
