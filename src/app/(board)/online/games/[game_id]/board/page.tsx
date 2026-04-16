@@ -20,9 +20,7 @@ const BoardPage = async ({ params }: { params: Promise<{ game_id: string }> }) =
   const user = await getUser();
 
   if (!user) {
-    redirect(
-      `/sign-in?callbackURL=${encodeURIComponent(`/online/games/${game_id}/board`)}`
-    );
+    redirect("/sign-in");
   }
 
   const apiClient = await createApiClientOnServer();
