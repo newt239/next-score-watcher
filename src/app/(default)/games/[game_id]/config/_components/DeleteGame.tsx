@@ -1,12 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Box, Button, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";

@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Box, Button, Card, Group, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { IconCirclePlus } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 import { createGame } from "@/utils/functions";

@@ -1,9 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Box, Button, Group, Title } from "@mantine/core";
 import { sendGAEvent } from "@next/third-parties/google";
+import { useRouter } from "next/navigation";
 
 import { createGame } from "@/utils/functions";
 

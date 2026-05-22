@@ -1,9 +1,8 @@
 "use client";
 
-import { default as NextLink } from "next/link";
-
 import { Anchor } from "@mantine/core";
 import { IconExternalLink } from "@tabler/icons-react";
+import { default as NextLink } from "next/link";
 
 type Props = {
   children: React.ReactNode;

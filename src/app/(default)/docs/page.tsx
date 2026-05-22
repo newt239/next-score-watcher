@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { Box, Card, Group, SimpleGrid, Title } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
+import Link from "next/link";
 
 import AppInfo from "./_components/AppInfo";
 import RecommendedEnvironment from "./_components/RecommendedEnvironment";

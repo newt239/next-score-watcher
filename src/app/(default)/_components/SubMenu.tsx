@@ -1,7 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
 import { Flex } from "@mantine/core";
 import {
   IconHelp,
@@ -13,6 +11,7 @@ import {
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
+import { usePathname } from "next/navigation";
 
 import ButtonLink from "@/components/ButtonLink";
 
