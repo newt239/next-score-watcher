@@ -21,6 +21,7 @@ describe("nbyn形式のスコア計算", () => {
     ],
     quiz: { set_name: "テストセット", offset: 0 },
     win_point: 5, // 5 by 5 形式（25点で勝ち抜け）
+    lose_point: 6, // 誤答6回で失格
     win_through: 1,
     options: undefined,
     correct_me: 1,
@@ -35,16 +36,21 @@ describe("nbyn形式のスコア計算", () => {
     const result = await nbyn(mockGame, logs);
 
     expect(result.scores[0]).toEqual({
+      game_id: "test-game",
       player_id: "player1",
-      player_name: "プレイヤー1",
       score: 0, // 0 * (5 - 0) = 0
       correct: 0,
       wrong: 0,
-      last_correct: -1,
-      last_wrong: -1,
+      last_correct: -10,
+      last_wrong: -10,
+      odd_score: 0,
+      even_score: 0,
+      stage: 1,
       state: "playing",
-      text: "0",
-      reach: false,
+      reach_state: "playing",
+      is_incapacity: false,
+      order: 0,
+      text: "0pt",
     });
   });
 
@@ -110,7 +116,7 @@ describe("nbyn形式のスコア計算", () => {
     expect(result.scores[0].score).toBe(25); // 5 * (5 - 0) = 25 = 5²
     expect(result.scores[0].correct).toBe(5);
     expect(result.scores[0].state).toBe("win");
-    expect(result.winPlayers).toContain("player1");
+    expect(result.winPlayers.map((w) => w.player_id)).toContain("player1");
   });
 
   it("スコアが0以下になると失格状態になる", async () => {
@@ -125,7 +131,7 @@ describe("nbyn形式のスコア計算", () => {
     }));
     const result = await nbyn(mockGame, logs);
 
-    expect(result.scores[0].score).toBe(0); // 0 * (5 - 6) = 0（負の場合は0にクリップ）
+    expect(result.scores[0].score === 0).toBe(true); // 0 * (5 - 6) = -0
     expect(result.scores[0].wrong).toBe(6);
     expect(result.scores[0].state).toBe("lose");
   });
