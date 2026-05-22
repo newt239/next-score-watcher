@@ -7,9 +7,6 @@ const normal = async (game: AllGameProps["normal"], gameLogList: LogDBProps[]) =
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
-        if (playerState.state === "win" || playerState.state === "lose") {
-          return playerState;
-        }
         const newScore =
           playerState.score + (log.variant === "correct" ? game.correct_me : game.wrong_me);
         switch (log.variant) {
@@ -32,7 +29,7 @@ const normal = async (game: AllGameProps["normal"], gameLogList: LogDBProps[]) =
             }
           case "wrong":
             const newWrong = playerState.wrong + 1;
-            if (newScore <= game.lose_point!) {
+            if (newWrong >= game.lose_point!) {
               return {
                 ...playerState,
                 wrong: newWrong,

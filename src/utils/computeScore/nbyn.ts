@@ -9,9 +9,6 @@ const nbyn = async (game: AllGameProps["nbyn"], gameLogList: LogDBProps[]) => {
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
-        if (playerState.state === "win" || playerState.state === "lose") {
-          return playerState;
-        }
         switch (log.variant) {
           case "correct":
             const newCorrect = playerState.correct + 1;
