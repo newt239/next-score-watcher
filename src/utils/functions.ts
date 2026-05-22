@@ -57,8 +57,8 @@ export const createGame = async (
 };
 
 export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => {
-  const showSignString = localStorage.getItem("scorew-show-sign-string");
-  const wrongNumber = localStorage.getItem("scorew-wrong-number");
+  const showSignString = localStorage.getItem("showSignString");
+  const wrongNumber = localStorage.getItem("wrongNumber");
   if (typeof score === "undefined") {
     switch (type) {
       case "correct":
