@@ -94,8 +94,7 @@ describe("normal形式のスコア計算", () => {
     expect(player1?.correct).toBe(0);
     expect(player1?.wrong).toBe(1);
     expect(player1?.last_wrong).toBe(0);
-    // normalのlose判定はwrong数をlose_point(-30)と比較するため1誤答でlose扱いになる
-    expect(player1?.state).toBe("lose");
+    expect(player1?.state).toBe("playing");
   });
 
   it("勝ち抜けポイントに達すると勝利状態になる", async () => {
@@ -176,7 +175,6 @@ describe("normal形式のスコア計算", () => {
     expect(result.scores[0].score).toBe(10);
     expect(result.scores[1].score).toBe(-10);
     expect(result.scores[0].state).toBe("playing");
-    // player2は1誤答でlose扱いになる（normalのlose判定の仕様）
-    expect(result.scores[1].state).toBe("lose");
+    expect(result.scores[1].state).toBe("playing");
   });
 });

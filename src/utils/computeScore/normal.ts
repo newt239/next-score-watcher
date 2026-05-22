@@ -29,7 +29,7 @@ const normal = async (game: AllGameProps["normal"], gameLogList: LogDBProps[]) =
             }
           case "wrong":
             const newWrong = playerState.wrong + 1;
-            if (newWrong >= game.lose_point!) {
+            if (newScore <= game.lose_point!) {
               return {
                 ...playerState,
                 wrong: newWrong,
