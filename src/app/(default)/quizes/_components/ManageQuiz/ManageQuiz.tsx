@@ -3,6 +3,9 @@
 import { useState } from "react";
 
 import { Tabs, TextInput, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 
 import ImportQuiz from "../ImportQuiz/ImportQuiz";
 import LoadQuiz from "../LoadQuiz/LoadQuiz";
@@ -14,6 +17,10 @@ type Props = {
 };
 
 const ManageQuiz: React.FC<Props> = ({ currentProfile }) => {
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
   const [setName, setSetName] = useState<string>("セット1");
 
   return (
@@ -28,14 +35,14 @@ const ManageQuiz: React.FC<Props> = ({ currentProfile }) => {
         </Tabs.List>
 
         <Tabs.Panel value="paste" className={classes.tab_panel}>
-          <LoadQuiz currentProfile={currentProfile} set_name={setName} />
+          <LoadQuiz currentProfile={storedCurrentProfile} set_name={setName} />
         </Tabs.Panel>
         <Tabs.Panel value="import" className={classes.tab_panel}>
-          <ImportQuiz currentProfile={currentProfile} set_name={setName} />
+          <ImportQuiz currentProfile={storedCurrentProfile} set_name={setName} />
         </Tabs.Panel>
       </Tabs>
 
-      <QuizesTable currentProfile={currentProfile} />
+      <QuizesTable currentProfile={storedCurrentProfile} />
     </>
   );
 };

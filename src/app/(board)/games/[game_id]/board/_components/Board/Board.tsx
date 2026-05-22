@@ -10,6 +10,7 @@ import { nanoid } from "nanoid";
 
 import NotFound from "@/app/(default)/_components/NotFound";
 import computeScore from "@/utils/computeScore";
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 import db from "@/utils/db";
 import { getRuleStringByType } from "@/utils/rules";
 
@@ -29,16 +30,23 @@ type Props = {
 };
 
 const Board: React.FC<Props> = ({ game_id, current_profile }) => {
-  const game = useLiveQuery(() => db(current_profile).games.get(game_id as string));
+  const [currentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: current_profile,
+  });
+  const game = useLiveQuery(
+    () => db(currentProfile).games.get(game_id as string),
+    [currentProfile, game_id]
+  );
   const logs = useLiveQuery(
     () =>
-      db(current_profile)
+      db(currentProfile)
         .logs.where({ game_id: game_id as string, available: 1 })
         .sortBy("timestamp"),
-    []
+    [currentProfile, game_id]
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
-  const playerList = useLiveQuery(() => db(current_profile).players.toArray(), []);
+  const playerList = useLiveQuery(() => db(currentProfile).players.toArray(), [currentProfile]);
   const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const [skipSuggest, setSkipSuggest] = useState(false);
 
@@ -48,10 +56,10 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   });
 
   useEffect(() => {
-    db(current_profile).games.update(game_id as string, {
+    db(currentProfile).games.update(game_id as string, {
       last_open: cdate().text(),
     });
-  }, []);
+  }, [currentProfile, game_id]);
 
   useEffect(() => {
     if (game) {
@@ -81,7 +89,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   useEffect(() => {
     if (logs) {
       const executeComputeScore = async () => {
-        const { data: result } = await computeScore(game_id as string, current_profile);
+        const { data: result } = await computeScore(game_id as string, currentProfile);
         setScores(result.scores);
         if (result.win_players.length > 0) {
           if (result.win_players[0].name) {
@@ -106,7 +114,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
       };
       executeComputeScore();
     }
-  }, [logs]);
+  }, [logs, currentProfile, game_id]);
 
   useWindowEvent("keydown", async (event) => {
     // TODO: incapacity状態のプレイヤーに対してショートカットキーによるアクションを追加できないようにする
@@ -119,7 +127,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           playerIndex <= players.length
         ) {
           if (playerIndex === 0 && players.length >= 10) {
-            await db(current_profile).logs.put({
+            await db(currentProfile).logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[9].id,
@@ -129,7 +137,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
               available: 1,
             });
           } else if (playerIndex > 0) {
-            await db(current_profile).logs.put({
+            await db(currentProfile).logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[playerIndex - 1].id,
@@ -148,7 +156,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           playerIndex <= players.length
         ) {
           if (playerIndex <= players.length) {
-            await db(current_profile).logs.put({
+            await db(currentProfile).logs.put({
               id: nanoid(),
               game_id: game.id,
               player_id: players[playerIndex].id,
@@ -165,12 +173,12 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
         (event.code === "KeyZ" && event.metaKey)
       ) {
         if (logs && logs.length !== 0) {
-          await db(current_profile).logs.update(logs[logs.length - 1].id, {
+          await db(currentProfile).logs.update(logs[logs.length - 1].id, {
             available: 0,
           });
         }
       } else if (event.code === "Period") {
-        await db(current_profile).logs.put({
+        await db(currentProfile).logs.put({
           id: nanoid(),
           game_id: game.id,
           player_id: "-",
@@ -187,7 +195,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
 
   return (
     <>
-      <BoardHeader game={game} logs={logs} currentProfile={current_profile} />
+      <BoardHeader game={game} logs={logs} currentProfile={currentProfile} />
       {game.rule === "squarex" && (
         <Box
           className={classes.squarex_bar}
@@ -202,7 +210,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           players={players}
           scores={scores}
           game={game}
-          currentProfile={current_profile}
+          currentProfile={currentProfile}
           team_name={game.options}
           show_header={showHeader}
         />
@@ -211,17 +219,17 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           game={game}
           scores={scores}
           players={players}
-          currentProfile={current_profile}
+          currentProfile={currentProfile}
           show_header={showHeader}
         />
       )}
       <ActionButtons
         game={game}
         logs={logs}
-        currentProfile={current_profile}
+        currentProfile={currentProfile}
         skipSuggest={skipSuggest}
       />
-      <GameLogs logs={logs} players={players} quiz={game.quiz} currentProfile={current_profile} />
+      <GameLogs logs={logs} players={players} quiz={game.quiz} currentProfile={currentProfile} />
       <WinModal
         onClose={() => setWinThroughPlayer({ name: "", text: "" })}
         roundName={getRuleStringByType(game)}

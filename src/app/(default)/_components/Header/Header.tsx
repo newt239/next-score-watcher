@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { getImageProps } from "next/image";
 
 import { Anchor, Box, Flex } from "@mantine/core";
@@ -12,12 +11,6 @@ import SubMenu from "../SubMenu";
 import classes from "./Header.module.css";
 
 const Header = async () => {
-  const cookieStore = await cookies();
-  const profileListCookie = cookieStore.get("scorew_profile_list");
-  const profileList = profileListCookie?.value ? JSON.parse(profileListCookie?.value) : [];
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
-
   // Better Authユーザー取得
   const user = await getUser();
 
@@ -62,7 +55,7 @@ const Header = async () => {
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
           <SubMenu user={user} />
           <Flex direction="column" gap={4}>
-            <SelectProfile profileList={profileList} currentProfile={currentProfile} />
+            <SelectProfile />
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}

@@ -3,6 +3,9 @@
 import { Suspense } from "react";
 
 import { Tabs, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 
 import CreatePlayer from "../CreatePlayer/CreatePlayer";
 import ImportPlayer from "../ImportPlayer/ImportPlayer";
@@ -16,6 +19,11 @@ type Props = {
 };
 
 const ManagePlayer: React.FC<Props> = ({ currentProfile, from }) => {
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
+
   return (
     <>
       <Title order={2}>プレイヤー管理</Title>
@@ -29,18 +37,18 @@ const ManagePlayer: React.FC<Props> = ({ currentProfile, from }) => {
         <Tabs.Panel value="add" className={classes.tab_panel}>
           <Suspense>
             {/* ref: https://qiita.com/nk175/items/5b437355e9c2c3e59e19 */}
-            <CreatePlayer currentProfile={currentProfile} from={from} />
+            <CreatePlayer currentProfile={storedCurrentProfile} from={from} />
           </Suspense>
         </Tabs.Panel>
         <Tabs.Panel value="paste" className={classes.tab_panel}>
-          <LoadPlayer currentProfile={currentProfile} />
+          <LoadPlayer currentProfile={storedCurrentProfile} />
         </Tabs.Panel>
         <Tabs.Panel value="import" className={classes.tab_panel}>
-          <ImportPlayer currentProfile={currentProfile} />
+          <ImportPlayer currentProfile={storedCurrentProfile} />
         </Tabs.Panel>
       </Tabs>
 
-      <PlayersTable currentProfile={currentProfile} />
+      <PlayersTable currentProfile={storedCurrentProfile} />
     </>
   );
 };

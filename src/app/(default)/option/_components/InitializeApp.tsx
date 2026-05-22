@@ -1,8 +1,10 @@
 "use client";
 
 import { Button, Group, Text, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 import db from "@/utils/db";
 
 type Props = {
@@ -10,9 +12,14 @@ type Props = {
 };
 
 const InitializeApp: React.FC<Props> = ({ currentProfile }) => {
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
+
   const deleteAppData = () => {
     window.localStorage.removeItem("scorewatcher-version");
-    db(currentProfile)
+    db(storedCurrentProfile)
       .delete()
       .then(() => {
         window.document.location.reload();
