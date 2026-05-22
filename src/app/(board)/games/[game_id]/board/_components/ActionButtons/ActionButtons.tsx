@@ -123,7 +123,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
           >
             一つ戻す
           </Button>
-          {game.rule !== "aql" && (
+          {game.rule !== "aql" && game.rule !== "attack25" && (
             <Button
               visibleFrom="md"
               size="xs"
