@@ -196,7 +196,8 @@ describe("swedish10形式のスコア計算", () => {
     const result = await swedish10(mockGame, logs);
 
     expect(result.scores[0].correct).toBe(3);
-    expect(result.scores[0].wrong).toBe(15); // 正解3問なので誤答ペナルティは3、5回で15失点
+    // 正解3問なので誤答ペナルティは3。4回目で12失点に達しlose、5回目は無視される
+    expect(result.scores[0].wrong).toBe(12);
     expect(result.scores[0].state).toBe("lose");
   });
 });

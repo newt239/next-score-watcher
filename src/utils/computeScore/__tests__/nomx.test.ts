@@ -60,7 +60,7 @@ describe("nomx形式のスコア計算", () => {
       reach_state: "playing",
       is_incapacity: false,
       order: 0,
-      text: "0pt",
+      text: "0 - 0",
     });
     expect(result.winPlayers).toEqual([]);
   });
@@ -82,7 +82,7 @@ describe("nomx形式のスコア計算", () => {
     expect(result.scores[0].correct).toBe(1);
     expect(result.scores[0].wrong).toBe(0);
     expect(result.scores[0].last_correct).toBe(0);
-    expect(result.scores[0].text).toBe("0pt"); // nomxはscoreを更新しないため常に0pt
+    expect(result.scores[0].text).toBe("1 - 0");
     expect(result.scores[0].state).toBe("playing");
   });
 
@@ -104,7 +104,7 @@ describe("nomx形式のスコア計算", () => {
     expect(player1?.correct).toBe(0);
     expect(player1?.wrong).toBe(1);
     expect(player1?.last_wrong).toBe(0);
-    expect(player1?.text).toBe("0pt"); // nomxはscoreを更新しないため常に0pt
+    expect(player1?.text).toBe("0 - 1");
     expect(player1?.state).toBe("playing");
   });
 
@@ -193,7 +193,7 @@ describe("nomx形式のスコア計算", () => {
 
     expect(result.scores[0].correct).toBe(2);
     expect(result.scores[0].wrong).toBe(1);
-    expect(result.scores[0].text).toBe("0pt"); // nomxはscoreを更新しないため常に0pt
+    expect(result.scores[0].text).toBe("2 - 1");
     expect(result.scores[0].state).toBe("playing");
   });
 });

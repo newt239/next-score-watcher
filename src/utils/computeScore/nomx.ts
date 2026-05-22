@@ -1,5 +1,5 @@
 import { getInitialPlayersState, getSortedPlayerOrderList, indicator } from "@/utils/computeScore";
-import { detectPlayerState, numberSign } from "@/utils/functions";
+import { detectPlayerState } from "@/utils/functions";
 
 import type { AllGameProps, LogDBProps, WinPlayerProps } from "@/utils/types";
 
@@ -9,6 +9,9 @@ const nomx = async (game: AllGameProps["nomx"], gameLogList: LogDBProps[]) => {
   gameLogList.map((log, qn) => {
     playersState = playersState.map((playerState) => {
       if (playerState.player_id === log.player_id) {
+        if (playerState.state === "win" || playerState.state === "lose") {
+          return playerState;
+        }
         switch (log.variant) {
           case "correct":
             const newCorrect = playerState.correct + 1;
@@ -76,7 +79,7 @@ const nomx = async (game: AllGameProps["nomx"], gameLogList: LogDBProps[]) => {
         ? indicator(order)
         : playerState.state === "lose"
           ? "LOSE"
-          : numberSign("pt", playerState.score);
+          : `${playerState.correct} - ${playerState.wrong}`;
     if (state === "win" && playerState.last_correct + 1 === gameLogList.length) {
       winPlayers.push({ player_id: playerState.player_id, text });
     }
