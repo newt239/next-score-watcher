@@ -8,8 +8,6 @@ import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import ManagePlayer from "./_components/ManagePlayer/ManagePlayer";
 
-
-
 type Props = {
   searchParams: Promise<{
     from?: string;

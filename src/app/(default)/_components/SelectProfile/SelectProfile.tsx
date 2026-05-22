@@ -101,9 +101,7 @@ const SelectProfile: React.FC = () => {
                   labels: { confirm: "削除する", cancel: "削除しない" },
                   confirmProps: { color: "red" },
                   onConfirm: () => {
-                    const newProfileList = profileList.filter(
-                      (p) => p.id !== storedCurrentProfile
-                    );
+                    const newProfileList = profileList.filter((p) => p.id !== storedCurrentProfile);
                     setProfileList(newProfileList);
                     setCurrentProfile(DEFAULT_CURRENT_PROFILE);
                     db(storedCurrentProfile)
