@@ -12,8 +12,8 @@ type Props = {
 };
 
 const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer }) => {
-  const showWinthroughPopup = useLocalStorage({
-    key: "scorew_show_winthrough_popup",
+  const [showWinthroughPopup] = useLocalStorage({
+    key: "showWinthroughPopup",
     defaultValue: true,
   });
   if (winTroughPlayer.name === "") return null;
