@@ -1,10 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import { Burger } from "@mantine/core";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
+import { usePathname } from "next/navigation";
 
 import classes from "./Hamburger.module.css";
 

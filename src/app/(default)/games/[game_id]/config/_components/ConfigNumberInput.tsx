@@ -1,10 +1,10 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { useId } from "react";
 
 import { NumberInput } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useParams } from "next/navigation";
 
 import db from "@/utils/db";
 

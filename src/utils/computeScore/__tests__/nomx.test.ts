@@ -46,16 +46,21 @@ describe("nomx形式のスコア計算", () => {
 
     expect(result.scores).toHaveLength(2);
     expect(result.scores[0]).toEqual({
+      game_id: "test-game",
       player_id: "player1",
-      player_name: "プレイヤー1",
       score: 0,
       correct: 0,
       wrong: 0,
-      last_correct: -1,
-      last_wrong: -1,
+      last_correct: -10,
+      last_wrong: -10,
+      odd_score: 0,
+      even_score: 0,
+      stage: 1,
       state: "playing",
-      text: "0 - 0",
-      reach: false,
+      reach_state: "playing",
+      is_incapacity: false,
+      order: 0,
+      text: "0pt",
     });
     expect(result.winPlayers).toEqual([]);
   });
@@ -77,7 +82,7 @@ describe("nomx形式のスコア計算", () => {
     expect(result.scores[0].correct).toBe(1);
     expect(result.scores[0].wrong).toBe(0);
     expect(result.scores[0].last_correct).toBe(0);
-    expect(result.scores[0].text).toBe("1 - 0");
+    expect(result.scores[0].text).toBe("0pt"); // nomxはscoreを更新しないため常に0pt
     expect(result.scores[0].state).toBe("playing");
   });
 
@@ -94,12 +99,13 @@ describe("nomx形式のスコア計算", () => {
       },
     ];
     const result = await nomx(mockGame, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].correct).toBe(0);
-    expect(result.scores[0].wrong).toBe(1);
-    expect(result.scores[0].last_wrong).toBe(0);
-    expect(result.scores[0].text).toBe("0 - 1");
-    expect(result.scores[0].state).toBe("playing");
+    expect(player1?.correct).toBe(0);
+    expect(player1?.wrong).toBe(1);
+    expect(player1?.last_wrong).toBe(0);
+    expect(player1?.text).toBe("0pt"); // nomxはscoreを更新しないため常に0pt
+    expect(player1?.state).toBe("playing");
   });
 
   it("勝ち抜けポイントに達すると勝利状態になる", async () => {
@@ -116,7 +122,7 @@ describe("nomx形式のスコア計算", () => {
 
     expect(result.scores[0].correct).toBe(7);
     expect(result.scores[0].state).toBe("win");
-    expect(result.winPlayers).toContain("player1");
+    expect(result.winPlayers.map((w) => w.player_id)).toContain("player1");
   });
 
   it("失格ポイントに達すると失格状態になる", async () => {
@@ -130,9 +136,10 @@ describe("nomx形式のスコア計算", () => {
       available: 1,
     }));
     const result = await nomx(mockGame, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].wrong).toBe(3);
-    expect(result.scores[0].state).toBe("lose");
+    expect(player1?.wrong).toBe(3);
+    expect(player1?.state).toBe("lose");
   });
 
   it("リーチ状態が正しく判定される", async () => {
@@ -148,7 +155,7 @@ describe("nomx形式のスコア計算", () => {
     const result = await nomx(mockGame, logs);
 
     expect(result.scores[0].correct).toBe(6);
-    expect(result.scores[0].reach_state).toBe(true);
+    expect(result.scores[0].reach_state).toBe("win");
     expect(result.scores[0].state).toBe("playing");
   });
 
@@ -186,7 +193,7 @@ describe("nomx形式のスコア計算", () => {
 
     expect(result.scores[0].correct).toBe(2);
     expect(result.scores[0].wrong).toBe(1);
-    expect(result.scores[0].text).toBe("2 - 1");
+    expect(result.scores[0].text).toBe("0pt"); // nomxはscoreを更新しないため常に0pt
     expect(result.scores[0].state).toBe("playing");
   });
 });

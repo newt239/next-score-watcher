@@ -7,6 +7,7 @@ import ClientRoot from "@/app/_components/ClientRoot";
 
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+
 import "./globals.css";
 
 export const metadata: Metadata = {

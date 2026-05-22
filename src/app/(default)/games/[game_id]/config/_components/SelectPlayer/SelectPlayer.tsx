@@ -24,7 +24,7 @@ type Props = {
     {
       players: GameDBPlayerProps[];
     },
-    (values: { players: GameDBPlayerProps[] }) => {
+    {
       players: GameDBPlayerProps[];
     }
   >;

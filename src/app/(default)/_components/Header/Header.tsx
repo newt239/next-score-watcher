@@ -1,6 +1,5 @@
-import { getImageProps } from "next/image";
-
 import { Anchor, Box, Flex } from "@mantine/core";
+import { getImageProps } from "next/image";
 
 import ClientLink from "@/components/ClientLink/ClientLink";
 

@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { IconBrandX } from "@tabler/icons-react";
+import Link from "next/link";
 
 import classes from "./XIntentButton.module.css";
 
