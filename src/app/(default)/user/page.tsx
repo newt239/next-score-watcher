@@ -10,6 +10,8 @@ import { createApiClientOnServer } from "@/utils/hono/server";
 import SignOutButton from "./_components/SignOutButton";
 import UserPreferencesSettings from "./_components/UserPreferencesSettings";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "ユーザー設定",
   alternates: {
