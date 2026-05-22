@@ -4,7 +4,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: "standalone",
   webpack: (config) => {
     config.infrastructureLogging = {
       level: "error",

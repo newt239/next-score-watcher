@@ -54,6 +54,7 @@ next-env.d.ts
 /playwright/.cache/
 tests/temp/
 html-report/
+.playwright-mcp/
 
 # terraform
 terraform/.terraform
