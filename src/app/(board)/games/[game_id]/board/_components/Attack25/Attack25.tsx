@@ -136,14 +136,14 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
 
   const winnerName = (() => {
     if (!boardFull) return "";
-    const top = players.reduce<{ name: string; count: number }>(
+    const top = players.reduce<{ id: string; count: number }>(
       (acc, player) => {
         const count = counts[player.id] ?? 0;
-        return count > acc.count ? { name: player.name, count } : acc;
+        return count > acc.count ? { id: player.id, count } : acc;
       },
-      { name: "", count: -1 }
+      { id: "", count: -1 }
     );
-    return top.name;
+    return top.id ? displayNameOf(top.id) : "";
   })();
 
   return (
@@ -153,7 +153,7 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
       data-showq={!!game.quiz}
       data-showheader={show_header}
     >
-      <Box component="output" className={classes.message}>
+      <Box component="output" className={classes.message} aria-live="polite" aria-atomic="true">
         {boardFull ? (
           <Text className={classes.message_text} fw={700}>
             ゲーム終了 — 優勝: {winnerName}
