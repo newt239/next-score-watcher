@@ -126,6 +126,40 @@ describe("computeAttack25Board", () => {
     const { attackChanceUsed } = computeAttack25Board(logs, false);
     expect(attackChanceUsed).toBe(false);
   });
+
+  it("panel が範囲外のログは盤面に影響しない", () => {
+    const logs = [
+      correctLog("1", "A", 0),
+      correctLog("2", "B", -1),
+      correctLog("3", "B", PANEL_COUNT),
+      correctLog("4", "B", 1.5),
+    ];
+    const { board } = computeAttack25Board(logs, true);
+    expect(countPanels(board)).toEqual({ A: 1 });
+  });
+
+  it("既に埋まっているマスへの正解ログは無視される", () => {
+    const logs = [
+      correctLog("1", "A", 0),
+      correctLog("2", "B", 0), // 既にAが埋めているので無視
+    ];
+    const { board } = computeAttack25Board(logs, true);
+    expect(board[0]).toBe("A");
+    expect(countPanels(board)).toEqual({ A: 1 });
+  });
+
+  it("removed_panel が範囲外または空きの場合は消去を行わない", () => {
+    const logs = [
+      correctLog("1", "A", 0),
+      correctLog("2", "B", 5, PANEL_COUNT), // 範囲外
+      correctLog("3", "B", 6, 10), // 空きマスを指定
+    ];
+    const { board } = computeAttack25Board(logs, true);
+    expect(board[0]).toBe("A");
+    expect(board[5]).toBe("B");
+    expect(board[6]).toBe("B");
+    expect(board[10]).toBeNull();
+  });
 });
 
 describe("isAttackChanceActive", () => {

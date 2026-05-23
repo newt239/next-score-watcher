@@ -169,18 +169,32 @@ export const countPanels = (board: Attack25Board): Record<string, number> => {
  * @param attackChanceEnabled アタックチャンスを有効にするかどうか
  * @returns 盤面とアタックチャンス使用済みフラグ
  */
+/**
+ * パネル番号が盤面の範囲内にある整数か判定する。
+ * @param index 検証するパネル番号
+ * @returns 0 以上 PANEL_COUNT 未満の整数なら true
+ */
+const isValidPanelIndex = (index: number): boolean =>
+  Number.isInteger(index) && index >= 0 && index < PANEL_COUNT;
+
 export const computeAttack25Board = (logs: LogDBProps[], attackChanceEnabled: boolean) => {
   let board: Attack25Board = Array.from({ length: PANEL_COUNT }, () => null);
   let attackChanceUsed = false;
   for (const log of logs) {
     if (log.variant !== "correct" || log.panel === undefined) continue;
+    // 範囲外や既に埋まっているパネルは破損ログとみなし、ログ畳み込みを止めずに無視する
+    if (!isValidPanelIndex(log.panel)) continue;
+    if (board[log.panel] !== null) continue;
     const emptyBefore = board.filter((cell) => cell === null).length;
     // この正解より前に空きが ATTACK_CHANCE_THRESHOLD 枚以下なら、これがアタックチャンスのターン
     const isAttackChanceTurn =
       attackChanceEnabled && !attackChanceUsed && emptyBefore <= ATTACK_CHANCE_THRESHOLD;
     board = applyReversiFlip(board, log.panel, log.player_id);
     if (log.removed_panel !== undefined) {
-      board[log.removed_panel] = null;
+      // 消去対象も範囲内かつ点灯済みのときだけ反映する
+      if (isValidPanelIndex(log.removed_panel) && board[log.removed_panel] !== null) {
+        board[log.removed_panel] = null;
+      }
     }
     if (isAttackChanceTurn) attackChanceUsed = true;
   }
