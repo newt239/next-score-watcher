@@ -6,17 +6,16 @@ import { Flex, useComputedColorScheme } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import db from "@/utils/db";
+import { rules } from "@/utils/rules";
+
 import PlayerColorConfig from "../PlayerColorConfig";
 import PlayerHeader from "../PlayerHeader/PlayerHeader";
 import PlayerName from "../PlayerName/PlayerName";
 import PlayerScore from "../PlayerScore/PlayerScore";
-
 import classes from "./Player.module.css";
 
 import type { ComputedScoreProps, PlayerDBProps, States } from "@/utils/types";
-
-import db from "@/utils/db";
-import { rules } from "@/utils/rules";
 
 type Props = {
   game_id: string;

@@ -4,16 +4,16 @@ import { Accordion, Box, Button, Drawer } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPlus } from "@tabler/icons-react";
 
+import Link from "@/components/Link";
+
 import CompactCreatePlayer from "../CompactCreatePlayer";
 import CompactPlayerTable from "../CompactPlayerTable";
 import SelectPlayerFromExistingGame from "../SelectPlayerFromExistingGame";
-
 import classes from "./SelectPlayer.module.css";
 
 import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
-import type { UseFormReturnType } from "@mantine/form";
 
-import Link from "@/components/Link";
+import type { UseFormReturnType } from "@mantine/form";
 
 type Props = {
   game_id: string;
@@ -24,7 +24,7 @@ type Props = {
     {
       players: GameDBPlayerProps[];
     },
-    (values: { players: GameDBPlayerProps[] }) => {
+    {
       players: GameDBPlayerProps[];
     }
   >;

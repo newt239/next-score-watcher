@@ -5,11 +5,11 @@ import { Center, Group, NumberInput, ScrollArea, TextInput } from "@mantine/core
 import { useForm } from "@mantine/form";
 import { IconGripVertical } from "@tabler/icons-react";
 
+import db from "@/utils/db";
+
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import type { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
-
-import db from "@/utils/db";
 
 type Props = {
   game_id: string;

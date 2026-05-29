@@ -19,7 +19,8 @@ export type RuleNames =
   | "freezex"
   | "endless-chance"
   | "variables"
-  | "aql";
+  | "aql"
+  | "attack25";
 
 export type GameDBPlayerProps = {
   id: string;
@@ -36,7 +37,7 @@ export type GameDBQuizProps = {
 };
 
 export type GameOptionProps = {
-  [key in Exclude<RuleNames, "nomx-ad" | "endless-chance" | "aql">]: undefined;
+  [key in Exclude<RuleNames, "nomx-ad" | "endless-chance" | "aql" | "attack25">]: undefined;
 } & {
   "nomx-ad": {
     streak_over3: boolean;
@@ -47,6 +48,9 @@ export type GameOptionProps = {
   aql: {
     left_team: string;
     right_team: string;
+  };
+  attack25: {
+    attack_chance: boolean;
   };
 };
 
@@ -91,6 +95,13 @@ export type Variants =
   | "skip"
   | "blank";
 
+/** ログに付随する形式ごとの追加情報。形式が増えたらユニオンにメンバーを追加する */
+export type LogDetail = {
+  type: "attack25";
+  panel: number; // attack25: 獲得したパネル番号 (0-24)
+  removed_panel?: number; // attack25: アタックチャンスで消したパネル番号 (0-24)
+};
+
 export type LogDBProps = {
   id: string;
   game_id: string;
@@ -99,6 +110,7 @@ export type LogDBProps = {
   system: 0 | 1;
   timestamp: string;
   available: 0 | 1;
+  detail?: LogDetail; // 形式ごとの追加情報を入れる拡張スロット
 };
 
 export type States = "win" | "lose" | "playing";

@@ -191,6 +191,17 @@ export const rules = {
     },
     rows: 3,
   },
+  attack25: {
+    rule: "attack25",
+    name: "アタック25",
+    short_description: "5×5の25パネルをオセロ形式で奪い合う形式です。",
+    description:
+      "4人のプレイヤーが、正解するたびに5×5＝25枚のパネルを1枚ずつ獲得します。獲得したパネルと自分の既存パネルで相手のパネルを挟むと、オセロのように挟まれたパネルが自分の色に反転します。すべてのパネルが埋まったとき、最も多くのパネルを獲得しているプレイヤーが優勝です。",
+    options: {
+      attack_chance: true,
+    },
+    rows: 1,
+  },
 } as const satisfies RuleProps;
 
 export const getRuleStringByType = (game: GamePropsUnion): string => {
@@ -229,6 +240,8 @@ export const getRuleStringByType = (game: GamePropsUnion): string => {
       return `Variables`;
     case "aql":
       return `AQL`;
+    case "attack25":
+      return "アタック25";
     default:
       return "unknown";
   }

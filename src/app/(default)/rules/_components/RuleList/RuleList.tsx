@@ -1,27 +1,32 @@
 "use client";
 
+import { Box, Button, Card, Group, Title } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { IconCirclePlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Card, Group, Title } from "@mantine/core";
-import { IconCirclePlus } from "@tabler/icons-react";
+import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
+import { createGame } from "@/utils/functions";
+import { rules } from "@/utils/rules";
 
 import classes from "./RuleList.module.css";
 
 import type { RuleNames } from "@/utils/types";
-
-import { createGame } from "@/utils/functions";
-import { rules } from "@/utils/rules";
 
 type RuleListProps = {
   currentProfile: string;
 };
 
 const RuleList: React.FC<RuleListProps> = ({ currentProfile }) => {
+  const [storedCurrentProfile] = useLocalStorage({
+    key: CURRENT_PROFILE_STORAGE_KEY,
+    defaultValue: currentProfile,
+  });
   const router = useRouter();
   const ruleNameList = Object.keys(rules) as RuleNames[];
 
   const onClick = async (rule_name: RuleNames) => {
-    const game_id = await createGame(rule_name, currentProfile);
+    const game_id = await createGame(rule_name, storedCurrentProfile);
     router.push(`/games/${game_id}/config`);
   };
 

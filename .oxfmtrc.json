@@ -8,5 +8,30 @@
   "arrowParens": "always",
   "proseWrap": "preserve",
   "htmlWhitespaceSensitivity": "css",
-  "lineWidth": 80
+  "lineWidth": 80,
+  "ignorePatterns": ["node_modules/", ".next/", "out/", "build/", "generated/"],
+  "sortImports": {
+    "groups": [
+      "react",
+      ["value-builtin", "value-external"],
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index"],
+      ["type-parent", "type-sibling", "type-index"],
+      "type-internal",
+      "type-import",
+      "unknown"
+    ],
+    "customGroups": [
+      {
+        "groupName": "react",
+        "elementNamePattern": ["react", "react-dom", "next"]
+      }
+    ],
+    "newlinesBetween": true,
+    "order": "asc",
+    "ignoreCase": true
+  },
+  "sortPackageJson": {
+    "sortScripts": true
+  }
 }

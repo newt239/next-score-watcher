@@ -6,12 +6,12 @@ import { sendGAEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
+import Dropzone from "@/app/_components/Dropzone/Dropzone";
+import db from "@/utils/db";
+
 import classes from "./ImportPlayer.module.css";
 
 import type { FileWithPath } from "@mantine/dropzone";
-
-import Dropzone from "@/app/_components/Dropzone/Dropzone";
-import db from "@/utils/db";
 
 type Props = {
   currentProfile: string;

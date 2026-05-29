@@ -1,9 +1,16 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["nextjs", "typescript", "react"],
-  "categories": {
-    "correctness": "off"
-  },
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "react",
+    "react-perf",
+    "nextjs",
+    "oxc",
+    "import",
+    "jsx-a11y"
+  ],
   "env": {
     "builtin": true
   },
@@ -62,6 +69,7 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
+    "no-floating-promises": "off",
     "@typescript-eslint/no-wrapper-object-types": "error",
     "@typescript-eslint/prefer-as-const": "error",
     "@typescript-eslint/prefer-namespace-keyword": "error",

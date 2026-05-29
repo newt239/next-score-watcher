@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+
+import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import RuleList from "./_components/RuleList/RuleList";
 
@@ -11,10 +12,7 @@ export const metadata: Metadata = {
 };
 
 const RulesPage = async () => {
-  const cookieStore = await cookies();
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
-  return <RuleList currentProfile={currentProfile} />;
+  return <RuleList currentProfile={DEFAULT_CURRENT_PROFILE} />;
 };
 
 export default RulesPage;

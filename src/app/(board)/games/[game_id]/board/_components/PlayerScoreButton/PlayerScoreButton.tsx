@@ -7,9 +7,9 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
-import classes from "./PlayerScoreButton.module.css";
-
 import db from "@/utils/db";
+
+import classes from "./PlayerScoreButton.module.css";
 
 type Props = {
   color: "red" | "blue" | "green" | "gray" | "black" | "win" | "lose" | "playing";
@@ -43,6 +43,8 @@ const PlayerScoreButton: React.FC<Props> = ({
       : children.endsWith("✕")
         ? "wrong"
         : "none";
+  // 「数値 + 記号」の形式のときのみ記号部分を小さく表示し、連続記号はそのまま表示する。
+  const signParts = children.match(/^(-?\d+)((?:○)|(?:✕)|(?:pt))$/);
   const computedColorScheme = useComputedColorScheme("light");
 
   const defaultColor = computedColorScheme === "light" ? "white" : "gray.8";
@@ -128,12 +130,12 @@ const PlayerScoreButton: React.FC<Props> = ({
           c={filled ? defaultColor : variantColor}
           bg={filled ? variantColor : "transparent"}
         >
-          {numberSign === "none" ? (
+          {numberSign === "none" || signParts === null ? (
             <span>{children}</span>
           ) : (
             <>
-              <span>{children.split(/((?:○)|(?:✕)|(?:pt))/)[0]}</span>
-              <span style={{ fontSize: "50%" }}>{children.split(/((?:○)|(?:✕)|(?:pt))/)[1]}</span>
+              <span>{signParts[1]}</span>
+              <span style={{ fontSize: "50%" }}>{signParts[2]}</span>
             </>
           )}
         </UnstyledButton>

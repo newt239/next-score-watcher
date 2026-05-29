@@ -7,11 +7,11 @@ import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 
+import db from "@/utils/db";
+
 import classes from "./LoadPlayer.module.css";
 
 import type { PlayerDBProps } from "@/utils/types";
-
-import db from "@/utils/db";
 
 type Props = {
   currentProfile: string;

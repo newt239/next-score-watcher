@@ -1,8 +1,8 @@
 import { Flex } from "@mantine/core";
 
-import classes from "./PlayerName.module.css";
-
 import { zenkaku2Hankaku } from "@/utils/functions";
+
+import classes from "./PlayerName.module.css";
 
 type Props = {
   player_name: string;

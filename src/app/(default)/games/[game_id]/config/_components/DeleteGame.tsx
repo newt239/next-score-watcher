@@ -1,17 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { Box, Button, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import { sendGAEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
-
-import type { GamePropsUnion } from "@/utils/types";
+import { useRouter } from "next/navigation";
 
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
+
+import type { GamePropsUnion } from "@/utils/types";
 
 type CopyGamePropsUnion = {
   game: GamePropsUnion;

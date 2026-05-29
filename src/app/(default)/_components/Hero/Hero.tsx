@@ -2,6 +2,7 @@ import { Box, Button, Image } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 
 import ClientLink from "@/components/ClientLink/ClientLink";
+
 import classes from "./Hero.module.css";
 
 const Hero = () => {

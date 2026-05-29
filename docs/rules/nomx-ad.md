@@ -171,8 +171,7 @@ if (log.variant === "correct" && playerState.stage === 2) {
 
 ```typescript
 const next_ad =
-  (!game.options.streak_over3 && playerState.stage === 1) ||
-  game.options.streak_over3;
+  (!game.options.streak_over3 && playerState.stage === 1) || game.options.streak_over3;
 ```
 
 - **streak_over3が false**：初回正解時のみアドバンテージ獲得

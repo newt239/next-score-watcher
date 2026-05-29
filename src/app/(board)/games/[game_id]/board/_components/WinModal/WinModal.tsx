@@ -1,9 +1,9 @@
 import { Box, Flex, Modal } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 
-import classes from "./WinModal.module.css";
-
 import XIntentButton from "@/app/_components/XIntentButton/XIntentButton";
+
+import classes from "./WinModal.module.css";
 
 type Props = {
   onClose: () => void;
@@ -12,8 +12,8 @@ type Props = {
 };
 
 const WinModal: React.FC<Props> = ({ onClose, winTroughPlayer }) => {
-  const showWinthroughPopup = useLocalStorage({
-    key: "scorew_show_winthrough_popup",
+  const [showWinthroughPopup] = useLocalStorage({
+    key: "showWinthroughPopup",
     defaultValue: true,
   });
   if (winTroughPlayer.name === "") return null;

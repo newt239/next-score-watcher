@@ -1,27 +1,14 @@
-import { cookies } from "next/headers";
+import { Anchor, Box, Flex } from "@mantine/core";
 import { getImageProps } from "next/image";
 
-import { Anchor, Box, Flex } from "@mantine/core";
+import ClientLink from "@/components/ClientLink/ClientLink";
 
 import Hamburger from "../Hamburger/Hamburger";
 import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
-
 import classes from "./Header.module.css";
 
-import ClientLink from "@/components/ClientLink/ClientLink";
-import { getUser } from "@/utils/auth/auth-helpers";
-
-const Header = async () => {
-  const cookieStore = await cookies();
-  const profileListCookie = cookieStore.get("scorew_profile_list");
-  const profileList = profileListCookie?.value ? JSON.parse(profileListCookie?.value) : [];
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
-
-  // Better Authユーザー取得
-  const user = await getUser();
-
+const Header = () => {
   const common = {
     alt: "Score Watcherのロゴ。モノカラーで、三日月の中央部に円が配置された形をしている。",
     sizes: "100vw",
@@ -57,13 +44,13 @@ const Header = async () => {
         </Flex>
         <Box hiddenFrom="md">
           <Hamburger>
-            <SubMenu user={user} />
+            <SubMenu />
           </Hamburger>
         </Box>
         <Flex hidden visibleFrom="md" className={classes.header_menu_desktop}>
-          <SubMenu user={user} />
+          <SubMenu />
           <Flex direction="column" gap={4}>
-            <SelectProfile profileList={profileList} currentProfile={currentProfile} />
+            <SelectProfile />
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}

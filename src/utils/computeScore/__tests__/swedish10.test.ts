@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { AllGameProps, LogDBProps } from "@/utils/types";
-
 import swedish10 from "@/utils/computeScore/swedish10";
+
+import type { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("swedish10形式のスコア計算", () => {
   const mockGame: AllGameProps["swedish10"] = {
@@ -36,16 +36,21 @@ describe("swedish10形式のスコア計算", () => {
     const result = await swedish10(mockGame, logs);
 
     expect(result.scores[0]).toEqual({
+      game_id: "test-game",
       player_id: "player1",
-      player_name: "プレイヤー1",
       score: 0,
       correct: 0,
       wrong: 0,
-      last_correct: -1,
-      last_wrong: -1,
+      last_correct: -10,
+      last_wrong: -10,
+      odd_score: 0,
+      even_score: 0,
+      stage: 1,
       state: "playing",
-      text: "0 - 0",
-      reach: false,
+      reach_state: "playing",
+      is_incapacity: false,
+      order: 0,
+      text: "0pt",
     });
   });
 
@@ -65,11 +70,11 @@ describe("swedish10形式のスコア計算", () => {
 
     expect(result.scores[0].correct).toBe(1);
     expect(result.scores[0].wrong).toBe(0);
-    expect(result.scores[0].text).toBe("1 - 0");
+    expect(result.scores[0].text).toBe("1pt");
     expect(result.scores[0].state).toBe("playing");
   });
 
-  it("0-2問正解時の誤答は1失点", async () => {
+  it("0問正解時の誤答は1失点", async () => {
     const logs: LogDBProps[] = [
       {
         id: "log1",
@@ -85,10 +90,10 @@ describe("swedish10形式のスコア計算", () => {
 
     expect(result.scores[0].correct).toBe(0);
     expect(result.scores[0].wrong).toBe(1);
-    expect(result.scores[0].text).toBe("0 - 1");
+    expect(result.scores[0].text).toBe("0pt");
   });
 
-  it("3-5問正解時の誤答は2失点", async () => {
+  it("3-5問正解時の誤答は3失点", async () => {
     const logs: LogDBProps[] = [
       // 3問正解
       ...Array.from({ length: 3 }, (_, i) => ({
@@ -114,11 +119,11 @@ describe("swedish10形式のスコア計算", () => {
     const result = await swedish10(mockGame, logs);
 
     expect(result.scores[0].correct).toBe(3);
-    expect(result.scores[0].wrong).toBe(2); // 誤答時の失点は2
-    expect(result.scores[0].text).toBe("3 - 2");
+    expect(result.scores[0].wrong).toBe(3); // 正解3問時の誤答ペナルティは3
+    expect(result.scores[0].text).toBe("3pt");
   });
 
-  it("6問以上正解時の誤答は3失点", async () => {
+  it("6問以上正解時の誤答は4失点", async () => {
     const logs: LogDBProps[] = [
       // 6問正解
       ...Array.from({ length: 6 }, (_, i) => ({
@@ -144,8 +149,8 @@ describe("swedish10形式のスコア計算", () => {
     const result = await swedish10(mockGame, logs);
 
     expect(result.scores[0].correct).toBe(6);
-    expect(result.scores[0].wrong).toBe(3); // 誤答時の失点は3
-    expect(result.scores[0].text).toBe("6 - 3");
+    expect(result.scores[0].wrong).toBe(4); // 正解6問以上時の誤答ペナルティは4
+    expect(result.scores[0].text).toBe("6pt");
   });
 
   it("10問正解で勝ち抜け", async () => {
@@ -162,7 +167,7 @@ describe("swedish10形式のスコア計算", () => {
 
     expect(result.scores[0].correct).toBe(10);
     expect(result.scores[0].state).toBe("win");
-    expect(result.winPlayers).toContain("player1");
+    expect(result.winPlayers.map((w) => w.player_id)).toContain("player1");
   });
 
   it("10失点で失格", async () => {
@@ -191,7 +196,7 @@ describe("swedish10形式のスコア計算", () => {
     const result = await swedish10(mockGame, logs);
 
     expect(result.scores[0].correct).toBe(3);
-    expect(result.scores[0].wrong).toBe(10); // 5回 × 2失点 = 10失点
+    expect(result.scores[0].wrong).toBe(15); // 正解3問なので誤答ペナルティは3、5回で15失点
     expect(result.scores[0].state).toBe("lose");
   });
 });

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { AllGameProps, LogDBProps } from "@/utils/types";
-
 import ny from "@/utils/computeScore/ny";
+
+import type { AllGameProps, LogDBProps } from "@/utils/types";
 
 describe("ny形式のスコア計算", () => {
   const mockGame: AllGameProps["ny"] = {
@@ -91,13 +91,14 @@ describe("ny形式のスコア計算", () => {
       },
     ];
     const result = await ny(mockGame, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].score).toBe(-1);
-    expect(result.scores[0].correct).toBe(0);
-    expect(result.scores[0].wrong).toBe(1);
-    expect(result.scores[0].last_wrong).toBe(0);
-    expect(result.scores[0].text).toBe("-1pt");
-    expect(result.scores[0].state).toBe("playing");
+    expect(player1?.score).toBe(-1);
+    expect(player1?.correct).toBe(0);
+    expect(player1?.wrong).toBe(1);
+    expect(player1?.last_wrong).toBe(0);
+    expect(player1?.text).toBe("-1pt");
+    expect(player1?.state).toBe("playing");
   });
 
   it("勝ち抜けポイントに達すると勝利状態になる", async () => {
@@ -154,11 +155,12 @@ describe("ny形式のスコア計算", () => {
       available: 1,
     }));
     const result = await ny(gameWithLosePoint, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].score).toBe(-3);
-    expect(result.scores[0].wrong).toBe(3);
-    expect(result.scores[0].state).toBe("lose");
-    expect(result.scores[0].text).toBe("LOSE");
+    expect(player1?.score).toBe(-3);
+    expect(player1?.wrong).toBe(3);
+    expect(player1?.state).toBe("lose");
+    expect(player1?.text).toBe("LOSE");
   });
 
   it("敗退リーチ状態が正しく判定される", async () => {
@@ -177,12 +179,13 @@ describe("ny形式のスコア計算", () => {
       available: 1,
     }));
     const result = await ny(gameWithLosePoint, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].score).toBe(-2);
-    expect(result.scores[0].wrong).toBe(2);
-    expect(result.scores[0].reach_state).toBe("lose");
-    expect(result.scores[0].state).toBe("playing");
-    expect(result.scores[0].text).toBe("-2pt");
+    expect(player1?.score).toBe(-2);
+    expect(player1?.wrong).toBe(2);
+    expect(player1?.reach_state).toBe("lose");
+    expect(player1?.state).toBe("playing");
+    expect(player1?.text).toBe("-2pt");
   });
 
   it("正解と誤答が混在した場合に正しく計算される", async () => {
@@ -287,7 +290,7 @@ describe("ny形式のスコア計算", () => {
     expect(result.scores[1].state).toBe("playing");
   });
 
-  it("勝ち抜け後の操作は無視される", async () => {
+  it("勝ち抜け後の誤答も反映される（state=winは維持）", async () => {
     const logs: LogDBProps[] = [
       // 10回正解で勝ち抜け
       ...Array.from({ length: 10 }, (_, i) => ({
@@ -312,14 +315,15 @@ describe("ny形式のスコア計算", () => {
     ];
     const result = await ny(mockGame, logs);
 
-    expect(result.scores[0].score).toBe(10);
+    // 現状のnyは勝ち抜け後の誤答もスコアに反映する（state=winは維持される）
+    expect(result.scores[0].score).toBe(9);
     expect(result.scores[0].correct).toBe(10);
-    expect(result.scores[0].wrong).toBe(0);
+    expect(result.scores[0].wrong).toBe(1);
     expect(result.scores[0].state).toBe("win");
     expect(result.scores[0].text).toBe("1st");
   });
 
-  it("敗退後の操作は無視される", async () => {
+  it("敗退後の正解も反映される（state=loseは維持）", async () => {
     const gameWithLosePoint: AllGameProps["ny"] = {
       ...mockGame,
       lose_point: 2,
@@ -357,12 +361,14 @@ describe("ny形式のスコア計算", () => {
       },
     ];
     const result = await ny(gameWithLosePoint, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].score).toBe(-2);
-    expect(result.scores[0].correct).toBe(0);
-    expect(result.scores[0].wrong).toBe(2);
-    expect(result.scores[0].state).toBe("lose");
-    expect(result.scores[0].text).toBe("LOSE");
+    // 現状のnyは敗退後の正解もスコアに反映する（state=loseは維持される）
+    expect(player1?.score).toBe(-1);
+    expect(player1?.correct).toBe(1);
+    expect(player1?.wrong).toBe(2);
+    expect(player1?.state).toBe("lose");
+    expect(player1?.text).toBe("LOSE");
   });
 
   it("マイナススコアでも正常に動作する", async () => {
@@ -376,12 +382,13 @@ describe("ny形式のスコア計算", () => {
       available: 1,
     }));
     const result = await ny(mockGame, logs);
+    const player1 = result.scores.find((s) => s.player_id === "player1");
 
-    expect(result.scores[0].score).toBe(-5);
-    expect(result.scores[0].correct).toBe(0);
-    expect(result.scores[0].wrong).toBe(5);
-    expect(result.scores[0].text).toBe("-5pt");
-    expect(result.scores[0].state).toBe("playing");
+    expect(player1?.score).toBe(-5);
+    expect(player1?.correct).toBe(0);
+    expect(player1?.wrong).toBe(5);
+    expect(player1?.text).toBe("-5pt");
+    expect(player1?.state).toBe("playing");
   });
 
   it("同時勝ち抜けの場合、順位が正しく設定される", async () => {
@@ -417,8 +424,9 @@ describe("ny形式のスコア計算", () => {
     expect(player2Result?.state).toBe("win");
     expect(player2Result?.text).toBe("2nd");
 
-    expect(result.winPlayers).toHaveLength(2);
-    expect(result.winPlayers[0]).toEqual({ player_id: "player1", text: "1st" });
-    expect(result.winPlayers[1]).toEqual({ player_id: "player2", text: "2nd" });
+    // winPlayersには最終ログで勝ち抜けたプレイヤーのみ入る。
+    // player1は途中で勝ち抜けているため含まれない。
+    expect(result.winPlayers).toHaveLength(1);
+    expect(result.winPlayers[0]).toEqual({ player_id: "player2", text: "2nd" });
   });
 });

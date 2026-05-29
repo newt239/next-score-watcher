@@ -54,3 +54,10 @@ next-env.d.ts
 /playwright/.cache/
 tests/temp/
 html-report/
+.playwright-mcp/
+
+# terraform
+terraform/.terraform
+terraform/.terraform.lock.hcl
+*.tfvars
+crash.*.log

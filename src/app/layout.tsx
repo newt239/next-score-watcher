@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 
-import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from "@mantine/core";
-import { ModalsProvider } from "@mantine/modals";
-import { Notifications } from "@mantine/notifications";
+import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 
-import UpdateModal from "./_components/UpdateModal";
-
-import TypekitLoader from "@/app/_components/TypekitLoader";
-import { theme } from "@/utils/theme";
+import ClientRoot from "@/app/_components/ClientRoot";
 
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -52,18 +47,9 @@ const RootLayout = ({
           </>
         )}
         <ColorSchemeScript />
-        <TypekitLoader />
       </head>
       <body>
-        <NuqsAdapter>
-          <MantineProvider theme={theme}>
-            <ModalsProvider>
-              {children}
-              <UpdateModal />
-            </ModalsProvider>
-            <Notifications />
-          </MantineProvider>
-        </NuqsAdapter>
+        <ClientRoot>{children}</ClientRoot>
       </body>
     </html>
   );

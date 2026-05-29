@@ -6,11 +6,11 @@ import { Box, Button, Group, Table, Text } from "@mantine/core";
 import { IconCheck, IconCopy, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
+import db from "@/utils/db";
+
 import classes from "./GameLogs.module.css";
 
 import type { LogDBProps, QuizDBProps } from "@/utils/types";
-
-import db from "@/utils/db";
 
 type Props = {
   players: { id: string; name: string }[];
@@ -54,9 +54,10 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
               const logsWithTableFormat = `<table><tbody>${(reverse
                 ? filterdLogs.slice().reverse()
                 : filterdLogs
-              ).map((log, qn) => {
-                const player = players.find((p) => p.id === log.player_id);
-                return `
+              )
+                .map((log, qn) => {
+                  const player = players.find((p) => p.id === log.player_id);
+                  return `
                 <tr>
                   <td>${reverse ? filterdLogs.length - qn : qn + 1}.</td>
                   <td>${player ? player.name : log.variant === "through" ? "(スルー)" : "-"}</td>
@@ -71,8 +72,8 @@ const GameLogs: React.FC<Props> = ({ players, logs, quiz, currentProfile }) => {
                       : ""
                   }
                 </tr>`;
-              })}
-            </tbody></table>`;
+                })
+                .join("")}</tbody></table>`;
               const blob = new Blob([logsWithTableFormat], {
                 type: "text/html",
               });

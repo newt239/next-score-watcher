@@ -5,14 +5,13 @@ import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
-import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
+import db from "@/utils/db";
+import { useNumberSign } from "@/utils/useNumberSign";
 
+import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 import classes from "./PlayerScore.module.css";
 
 import type { ComputedScoreProps, GamePropsUnion } from "@/utils/types";
-
-import db from "@/utils/db";
-import { numberSign } from "@/utils/functions";
 
 type Props = {
   game: GamePropsUnion;
@@ -21,6 +20,7 @@ type Props = {
 };
 
 const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
+  const numberSign = useNumberSign();
   const logs = useLiveQuery(
     () => db(currentProfile).logs.where({ game_id: game.id, available: 1 }).sortBy("timestamp"),
     []

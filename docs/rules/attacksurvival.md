@@ -139,10 +139,7 @@ const newScore = playerState.score + game.correct_other;
 if (newScore <= 0) {
   // 失格
   state = "lose";
-} else if (
-  newScore + game.correct_other <= 0 ||
-  newScore + game.wrong_me <= 0
-) {
+} else if (newScore + game.correct_other <= 0 || newScore + game.wrong_me <= 0) {
   // 失格リーチ
   reach_state = "lose";
 }
@@ -160,9 +157,7 @@ if (newScore <= 0) {
 ```typescript
 const playingPlayers = playersState.filter((p) => p.state === "playing");
 const currentState =
-  game.win_through &&
-  game.win_through >= playingPlayers.length &&
-  playerState.state === "playing"
+  game.win_through && game.win_through >= playingPlayers.length && playerState.state === "playing"
     ? "win"
     : playerState.state;
 ```
@@ -399,7 +394,3 @@ const currentState =
 4. **協調度測定**：プレイヤー間の協力・競争関係の分析
 
 この形式は、従来の個人戦中心のクイズ形式とは異なり、他者との相互作用を重視した戦略的な競技形式として設計されています。プレイヤーには知識力だけでなく、状況判断力と戦略的思考力が要求される、高度に発展したルールです。
-
-## ユニットテスト観点
-
-ユニットテストでは`getInitialPlayersStateForOnline`がattacksurvival形式において初期スコアを`option.win_through`とプレイヤー固有の`initialScore`の合計から算出し、正解数と誤答数を0で初期化することを確認する。勝ち残り人数の異なる設定を用意して、初期スコアがオプションに追随すること、並び替え時にスコア差と勝敗状態が正しく反映されること、さらにプレイヤーが一人も勝ち抜けていない初期状態で`generateScoreText`がスコアの数値文字列を返すことを検証する。

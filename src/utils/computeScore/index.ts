@@ -1,14 +1,7 @@
 import { cdate } from "cdate";
 
-import type {
-  ComputedScoreProps,
-  GameDBPlayerProps,
-  GamePropsUnion,
-  States,
-  WinPlayerProps,
-} from "@/utils/types";
-
 import aql from "@/utils/computeScore/aql";
+import attack25 from "@/utils/computeScore/attack25";
 import attacksurvival from "@/utils/computeScore/attacksurvival";
 import backstream from "@/utils/computeScore/backstream";
 import divide from "@/utils/computeScore/divide";
@@ -26,6 +19,14 @@ import swedish10 from "@/utils/computeScore/swedish10";
 import variables from "@/utils/computeScore/variables";
 import z from "@/utils/computeScore/z";
 import db from "@/utils/db";
+
+import type {
+  ComputedScoreProps,
+  GameDBPlayerProps,
+  GamePropsUnion,
+  States,
+  WinPlayerProps,
+} from "@/utils/types";
 
 const computeScore = async (game_id: string, currentProfile: string) => {
   const game = await db(currentProfile).games.get(game_id);
@@ -89,6 +90,9 @@ const computeScore = async (game_id: string, currentProfile: string) => {
       break;
     case "aql":
       result = await aql(game, gameLogList);
+      break;
+    case "attack25":
+      result = await attack25(game, gameLogList);
       break;
   }
 
@@ -181,6 +185,8 @@ const getInitialScore = (game: GamePropsUnion, player: GameDBPlayerProps) => {
       return (player.initial_correct || 1) * (player.initial_wrong || 1);
     case "aql":
       return 1;
+    case "attack25":
+      return 0;
     default:
       return player.initial_correct;
   }

@@ -1,14 +1,14 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { useId } from "react";
 
 import { Switch } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
-
-import type { GameOptionProps, RuleNames } from "@/utils/types";
+import { useParams } from "next/navigation";
 
 import db from "@/utils/db";
+
+import type { GameOptionProps, RuleNames } from "@/utils/types";
 
 type Props = {
   [T in RuleNames]: {
@@ -39,6 +39,8 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
   if (game.rule === "nomx-ad" && input_id === "streak_over3") {
     isChecked = game.options[input_id] as boolean;
   } else if (game.rule === "endless-chance" && input_id === "use_r") {
+    isChecked = game.options[input_id] as boolean;
+  } else if (game.rule === "attack25" && input_id === "attack_chance") {
     isChecked = game.options[input_id] as boolean;
   } else {
     return null;

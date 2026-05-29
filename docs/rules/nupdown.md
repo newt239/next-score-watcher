@@ -117,10 +117,7 @@ if (newWrong >= game.lose_point!) {
   // 失格
   state = "lose";
   score = 0;
-} else if (
-  newWrong + 1 === game.lose_point! &&
-  playerState.score + 1 !== game.win_point!
-) {
+} else if (newWrong + 1 === game.lose_point! && playerState.score + 1 !== game.win_point!) {
   // 失格リーチ（勝ち抜けリーチでない場合のみ）
   reach_state = "lose";
   score = 0;

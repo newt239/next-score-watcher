@@ -1,11 +1,11 @@
 import { Flex, NumberInput, Switch } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
+import db from "@/utils/db";
+
 import classes from "./ConfigLimit.module.css";
 
 import type { RuleNames } from "@/utils/types";
-
-import db from "@/utils/db";
 
 type Props = {
   rule: RuleNames;

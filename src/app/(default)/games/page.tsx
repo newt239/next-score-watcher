@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
+
+import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import GameList from "./_components/GameList/GameList";
-
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "作成したゲーム",
@@ -13,11 +12,7 @@ export const metadata: Metadata = {
 };
 
 const GamesPage = async () => {
-  const cookieStore = await cookies();
-  const currentProfileCookie = cookieStore.get("scorew_current_profile");
-  const currentProfile = currentProfileCookie?.value || "score_watcher";
-
-  return <GameList currentProfile={currentProfile} />;
+  return <GameList currentProfile={DEFAULT_CURRENT_PROFILE} />;
 };
 
 export default GamesPage;

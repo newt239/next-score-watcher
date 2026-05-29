@@ -211,11 +211,7 @@ const rightTeamScore = playerScoreList.slice(5, 10).reduce((acc, cur) => {
 
 // 勝敗判定
 const leftTeamState =
-  leftTeamScore >= 200
-    ? "win"
-    : rightTeamScore >= 200 || 失格者5人
-      ? "lose"
-      : "playing";
+  leftTeamScore >= 200 ? "win" : rightTeamScore >= 200 || 失格者5人 ? "lose" : "playing";
 ```
 
 ## 使用場面
@@ -255,7 +251,3 @@ AQL形式特有の戦略的要素：
 4. **チーム連携**: 相手チームの状況を見極めた戦術変更
 
 これらの要素により、単純な早押し技術だけでなく、高度なチーム戦略が求められる形式となっています。
-
-## ユニットテスト観点
-
-ユニットテストでは`getInitialPlayersStateForOnline`がaql形式で全プレイヤーのスコアを必ず1に設定し、正解数・誤答数・奇数偶数スコアを0で初期化すること、`stage`が1、`is_incapacity`が`false`で開始することを確認する。10人ちょうどで初期化したケースと人数が不足する異常系を分けて検証し、チーム分割順序が維持された状態で並び替えロジックが勝敗判定に影響しないこと、さらには勝者が存在しない初期状態で`generateScoreText`がスコア数値「1」を返すことをチェックする。

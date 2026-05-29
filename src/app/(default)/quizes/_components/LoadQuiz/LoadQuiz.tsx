@@ -7,12 +7,12 @@ import { notifications } from "@mantine/notifications";
 import { IconCirclePlus } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 
+import db from "@/utils/db";
+import { str2num } from "@/utils/functions";
+
 import classes from "./LoadQuiz.module.css";
 
 import type { QuizDBProps } from "@/utils/types";
-
-import db from "@/utils/db";
-import { str2num } from "@/utils/functions";
 
 type Props = {
   set_name: string;

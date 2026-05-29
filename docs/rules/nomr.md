@@ -99,8 +99,7 @@ Score Watcherでは、プレイヤーデータは2つの段階で管理されて
 
 ```typescript
 // 休み状態から回復する条件
-const isRecovered =
-  game.lose_point! < gameLogList.length - playerState.last_wrong;
+const isRecovered = game.lose_point! < gameLogList.length - playerState.last_wrong;
 ```
 
 休み状態からの回復は、`logs`テーブルで`variant`が`correct`、`wrong`、`through`のいずれかであるログエントリの累積数に基づいて判定されます。最後に誤答した問題番号からの経過問題数が`lose_point`以上になると解答権が回復します。
@@ -235,7 +234,3 @@ const isRecovered =
 1. **複数回誤答時の挙動明確化**：休み中の誤答操作に対する仕様を明確に定義
 2. **状態遷移の整合性チェック**：プレイヤー状態の不正な変更を防ぐ仕組み
 3. **ログ管理の改善**：undo/redo操作に対してより安全な実装
-
-## ユニットテスト観点
-
-ユニットテストでは`getInitialPlayersStateForOnline`がnomr形式でプレイヤーごとの`initialScore`をそのままスコアと正解数に引き継ぎ、誤答数も同じ初期値で開始することを確認する。複数のプレイヤーに異なる初期正解数を設定し、全員が`is_incapacity: false`かつ`reach_state: "playing"`で初期化されること、並び替え時に初期正解数が高いプレイヤーが優先されること、休み状態を持たない初期ログで順位が安定して返却されることを検証する。
