@@ -16,6 +16,7 @@ import { getRuleStringByType } from "@/utils/rules";
 
 import ActionButtons from "../ActionButtons/ActionButtons";
 import AQL from "../AQL/AQL";
+import Attack25 from "../Attack25/Attack25";
 import BoardHeader from "../BoardHeader/BoardHeader";
 import GameLogs from "../GameLogs/GameLogs";
 import Players from "../Players/Players";
@@ -119,7 +120,10 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   useWindowEvent("keydown", async (event) => {
     // TODO: incapacity状態のプレイヤーに対してショートカットキーによるアクションを追加できないようにする
     if (window.location.pathname.endsWith("board") && game && !game.editable) {
-      if (event.code.startsWith("Digit") || event.code.startsWith("Numpad")) {
+      if (
+        game.rule !== "attack25" &&
+        (event.code.startsWith("Digit") || event.code.startsWith("Numpad"))
+      ) {
         const playerIndex = event.code[0] === "D" ? Number(event.code[5]) : Number(event.code[6]);
         if (
           typeof playerIndex === "number" &&
@@ -148,7 +152,7 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
             });
           }
         }
-      } else if (["Minus", "Equal", "IntlYen"].includes(event.code)) {
+      } else if (game.rule !== "attack25" && ["Minus", "Equal", "IntlYen"].includes(event.code)) {
         const playerIndex = ["Minus", "Equal", "IntlYen"].indexOf(event.code) + 10;
         if (
           typeof playerIndex === "number" &&
@@ -205,7 +209,15 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
           }}
         />
       )}
-      {game.rule === "aql" ? (
+      {game.rule === "attack25" ? (
+        <Attack25
+          game={game}
+          players={players}
+          logs={logs}
+          currentProfile={currentProfile}
+          show_header={showHeader}
+        />
+      ) : game.rule === "aql" ? (
         <AQL
           players={players}
           scores={scores}

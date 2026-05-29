@@ -188,7 +188,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
             >
               一つ戻す
             </Menu.Item>
-            {game.rule !== "aql" && (
+            {game.rule !== "aql" && game.rule !== "attack25" && (
               <Menu.Item
                 leftSection={game.editable ? <IconSquareCheck /> : <IconSquare />}
                 onClick={async () => {

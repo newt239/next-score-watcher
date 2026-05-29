@@ -30,6 +30,8 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
     );
   if (game.rule === "aql" && game.players.length !== 10)
     errorMessages.push("AQLは10人でプレイする必要があります。");
+  if (game.rule === "attack25" && game.players.length !== 4)
+    errorMessages.push("アタック25は4人でプレイする必要があります。");
 
   const playButtonIsDisabled =
     errorMessages.filter((t) => t.indexOf("ゲームが開始済み") === -1).length !== 0;

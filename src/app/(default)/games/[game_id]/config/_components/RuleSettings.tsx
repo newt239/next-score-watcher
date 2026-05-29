@@ -172,6 +172,15 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, currentProfile }) => 
           />
         )}
         {game.rule === "aql" && <AQLOptions game={game} currentProfile={currentProfile} />}
+        {game.rule === "attack25" && (
+          <ConfigBooleanInput
+            helperText="残りパネルが5枚になった次の正解者は、パネル獲得後に点灯済みパネルを1枚消すことができます。"
+            input_id="attack_chance"
+            label="アタックチャンスを有効にする"
+            rule={game.rule}
+            currentProfile={currentProfile}
+          />
+        )}
         {game.rule !== "normal" && (
           <ConfigLimit game_id={game.id} rule={game.rule} currentProfile={currentProfile} />
         )}

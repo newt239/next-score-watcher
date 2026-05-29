@@ -40,6 +40,8 @@ const ConfigBooleanInput: React.FC<Props[RuleNames]> = ({
     isChecked = game.options[input_id] as boolean;
   } else if (game.rule === "endless-chance" && input_id === "use_r") {
     isChecked = game.options[input_id] as boolean;
+  } else if (game.rule === "attack25" && input_id === "attack_chance") {
+    isChecked = game.options[input_id] as boolean;
   } else {
     return null;
   }
