@@ -14,28 +14,20 @@ import classes from "./NewGame.module.css";
 
 import type { RuleNames } from "@/utils/types";
 
-/**
- * 与えられた文字列が有効なゲーム形式名かどうかを判定する型ガード。
- * @param value 判定対象の文字列
- * @returns rules に存在する形式名であれば true
- */
+/** 有効なゲーム形式名かどうかを判定する型ガード */
 const isValidRule = (value: string): value is RuleNames =>
   Object.prototype.hasOwnProperty.call(rules, value);
 
 /**
- * URLパラメータに応じてゲームを自動作成し、適切な画面へ遷移するコンポーネント。
- * rule で指定された形式のゲームを作成し、preset=default の場合はデフォルト名の
- * プレイヤーも作成して board 画面へ直行する。それ以外は config 画面へ遷移する。
- * 親レイアウトが force-static のため searchParams はサーバーで取得できず、
- * useSearchParams でクライアント側のURLパラメータを読む（Suspense 境界が必要）。
+ * URLパラメータに応じてゲームを作成し、適切な画面へ遷移するコンポーネント。
+ * 親レイアウトが force-static のため searchParams をサーバーで取得できず、useSearchParams を用いる。
  */
 const NewGame: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // マウント時の自動作成を一度だけ実行するためのガード（dev/StrictMode の二重実行対策）
   const hasRun = useRef(false);
 
-  // データ取得ではなく「マウント時に1回だけゲームを作成して遷移する」副作用のため useEffect を使用する
+  // マウント時に一度だけゲームを作成して遷移する副作用（StrictMode の二重実行を hasRun でガード）
   useEffect(() => {
     if (hasRun.current) return;
     hasRun.current = true;
