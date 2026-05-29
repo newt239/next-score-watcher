@@ -181,19 +181,20 @@ export const computeAttack25Board = (logs: LogDBProps[], attackChanceEnabled: bo
   let board: Attack25Board = Array.from({ length: PANEL_COUNT }, () => null);
   let attackChanceUsed = false;
   for (const log of logs) {
-    if (log.variant !== "correct" || log.panel === undefined) continue;
+    if (log.variant !== "correct" || log.detail?.type !== "attack25") continue;
+    const { panel, removed_panel } = log.detail;
     // 範囲外や既に埋まっているパネルは破損ログとみなし、ログ畳み込みを止めずに無視する
-    if (!isValidPanelIndex(log.panel)) continue;
-    if (board[log.panel] !== null) continue;
+    if (!isValidPanelIndex(panel)) continue;
+    if (board[panel] !== null) continue;
     const emptyBefore = board.filter((cell) => cell === null).length;
     // この正解より前に空きが ATTACK_CHANCE_THRESHOLD 枚以下なら、これがアタックチャンスのターン
     const isAttackChanceTurn =
       attackChanceEnabled && !attackChanceUsed && emptyBefore <= ATTACK_CHANCE_THRESHOLD;
-    board = applyReversiFlip(board, log.panel, log.player_id);
-    if (log.removed_panel !== undefined) {
+    board = applyReversiFlip(board, panel, log.player_id);
+    if (removed_panel !== undefined) {
       // 消去対象も範囲内かつ点灯済みのときだけ反映する
-      if (isValidPanelIndex(log.removed_panel) && board[log.removed_panel] !== null) {
-        board[log.removed_panel] = null;
+      if (isValidPanelIndex(removed_panel) && board[removed_panel] !== null) {
+        board[removed_panel] = null;
       }
     }
     if (isAttackChanceTurn) attackChanceUsed = true;

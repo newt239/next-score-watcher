@@ -32,8 +32,11 @@ const correctLog = (
   system: 0,
   timestamp: id,
   available: 1,
-  panel,
-  ...(removedPanel === undefined ? {} : { removed_panel: removedPanel }),
+  detail: {
+    type: "attack25",
+    panel,
+    ...(removedPanel === undefined ? {} : { removed_panel: removedPanel }),
+  },
 });
 
 describe("applyReversiFlip", () => {

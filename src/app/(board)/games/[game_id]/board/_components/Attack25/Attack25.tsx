@@ -77,7 +77,7 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
     return players[index]?.name || `プレイヤー${index + 1}`;
   };
 
-  const writeLog = (log: Pick<LogDBProps, "player_id" | "variant" | "panel" | "removed_panel">) => {
+  const writeLog = (log: Pick<LogDBProps, "player_id" | "variant" | "detail">) => {
     startTransition(async () => {
       await db(currentProfile).logs.put({
         id: nanoid(),
@@ -98,8 +98,7 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
         writeLog({
           player_id: pendingClaim.playerId,
           variant: "correct",
-          panel: pendingClaim.panel,
-          removed_panel: index,
+          detail: { type: "attack25", panel: pendingClaim.panel, removed_panel: index },
         });
         setPendingClaim(null);
         setSelectedPlayerId(null);
@@ -112,7 +111,11 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
     if (attackChanceActive) {
       setPendingClaim({ playerId: selectedPlayerId, panel: index });
     } else {
-      writeLog({ player_id: selectedPlayerId, variant: "correct", panel: index });
+      writeLog({
+        player_id: selectedPlayerId,
+        variant: "correct",
+        detail: { type: "attack25", panel: index },
+      });
       setSelectedPlayerId(null);
     }
   };
@@ -122,7 +125,7 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
     writeLog({
       player_id: pendingClaim.playerId,
       variant: "correct",
-      panel: pendingClaim.panel,
+      detail: { type: "attack25", panel: pendingClaim.panel },
     });
     setPendingClaim(null);
     setSelectedPlayerId(null);
