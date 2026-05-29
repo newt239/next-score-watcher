@@ -56,9 +56,30 @@ export const createGame = async (
   }
 };
 
-export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => {
-  const showSignString = localStorage.getItem("showSignString");
-  const wrongNumber = localStorage.getItem("wrongNumber");
+/** numberSign の表示設定。未指定時は localStorage から読み取る */
+type NumberSignOptions = {
+  /** スコアに「○」「✕」「pt」の文字列を付与するか */
+  showSignString: boolean;
+  /** 誤答数が4以下のとき✕の数で表示するか */
+  wrongNumber: boolean;
+};
+
+/**
+ * スコアの表示文字列を生成する。
+ * options を渡すとその設定で計算し、省略時は localStorage から設定を読み取る（React 外のスコア計算用）。
+ * @param type スコアの種別
+ * @param score 表示する数値（未指定時は記号のみを返す）
+ * @param options 表示設定（React コンポーネントからリアクティブな値を渡す）
+ * @returns 表示用の文字列
+ */
+export const numberSign = (
+  type: "correct" | "wrong" | "pt",
+  score?: number,
+  options?: NumberSignOptions
+) => {
+  const showSignString =
+    options?.showSignString ?? localStorage.getItem("showSignString") !== "false";
+  const wrongNumber = options?.wrongNumber ?? localStorage.getItem("wrongNumber") === "true";
   if (typeof score === "undefined") {
     switch (type) {
       case "correct":
@@ -68,18 +89,18 @@ export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => 
       case "pt":
         return "pt";
     }
-  } else if (showSignString === "true" || showSignString === null) {
+  } else if (showSignString) {
     switch (type) {
       case "correct":
         return `${score}○`;
       case "wrong":
-        if (wrongNumber === "true") {
+        if (wrongNumber) {
           if (score === 0) {
             return "・";
           } else if (0 < score && score < 5) {
             return "✕".repeat(score);
           } else {
-            return `${score}○`;
+            return `${score}✕`;
           }
         } else {
           return `${score}✕`;
@@ -88,13 +109,14 @@ export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => 
         return `${score}pt`;
     }
   } else {
-    if (type === "wrong" && wrongNumber === "true") {
+    if (type === "wrong" && wrongNumber) {
       if (score === 0) {
         return "・";
       } else if (0 < score && score < 5) {
         return "✕".repeat(score);
       } else {
-        return `${score}○`;
+        // 記号付与がオフのため誤答数5以上は数値のみで表示する
+        return score.toString();
       }
     } else {
       return score.toString();
