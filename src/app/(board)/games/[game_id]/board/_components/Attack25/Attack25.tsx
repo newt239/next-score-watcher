@@ -246,7 +246,10 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
                 aria-label={panelLabel}
                 onClick={() => handlePanelClick(index)}
               >
-                {index + 1}
+                <span className={classes.panel_number}>{index + 1}</span>
+                <span className={classes.panel_owner} aria-hidden>
+                  {cell === null ? "" : displayNameOf(cell)}
+                </span>
               </UnstyledButton>
             );
           })}
