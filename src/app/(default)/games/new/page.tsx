@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import NewGame from "./_components/NewGame/NewGame";
 
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 };
 
 const NewGamePage = () => {
-  return <NewGame />;
+  return (
+    <Suspense>
+      <NewGame />
+    </Suspense>
+  );
 };
 
 export default NewGamePage;

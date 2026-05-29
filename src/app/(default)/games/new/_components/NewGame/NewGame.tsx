@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { Center, Loader, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { getStoredCurrentProfile } from "@/utils/current-profile";
 import { createGame, createPresetPlayers } from "@/utils/functions";
@@ -27,10 +27,11 @@ const isValidRule = (value: string): value is RuleNames =>
  * rule で指定された形式のゲームを作成し、preset=default の場合はデフォルト名の
  * プレイヤーも作成して board 画面へ直行する。それ以外は config 画面へ遷移する。
  * 親レイアウトが force-static のため searchParams はサーバーで取得できず、
- * クライアントで window.location.search を直接読む。
+ * useSearchParams でクライアント側のURLパラメータを読む（Suspense 境界が必要）。
  */
 const NewGame: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   // マウント時の自動作成を一度だけ実行するためのガード（dev/StrictMode の二重実行対策）
   const hasRun = useRef(false);
 
@@ -40,9 +41,8 @@ const NewGame: React.FC = () => {
     hasRun.current = true;
 
     const run = async () => {
-      const params = new URLSearchParams(window.location.search);
-      const rule = params.get("rule");
-      const preset = params.get("preset");
+      const rule = searchParams.get("rule");
+      const preset = searchParams.get("preset");
 
       if (!rule || !isValidRule(rule)) {
         notifications.show({
@@ -75,7 +75,7 @@ const NewGame: React.FC = () => {
     };
 
     run();
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <Center className={classes.new_game}>
