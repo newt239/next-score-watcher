@@ -79,7 +79,7 @@ export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => 
           } else if (0 < score && score < 5) {
             return "✕".repeat(score);
           } else {
-            return `${score}○`;
+            return `${score}✕`;
           }
         } else {
           return `${score}✕`;
@@ -94,7 +94,7 @@ export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => 
       } else if (0 < score && score < 5) {
         return "✕".repeat(score);
       } else {
-        return `${score}○`;
+        return `${score}✕`;
       }
     } else {
       return score.toString();
