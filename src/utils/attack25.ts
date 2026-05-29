@@ -6,6 +6,8 @@ export const BOARD_SIZE = 5;
 export const PANEL_COUNT = BOARD_SIZE * BOARD_SIZE;
 /** アタックチャンスが発火する残りパネル数のしきい値 */
 export const ATTACK_CHANCE_THRESHOLD = 5;
+/** 最初の正解者が必ず獲得する中央パネルのインデックス（パネル13＝5×5の中心） */
+export const FIRST_PANEL_INDEX = 12;
 
 /** 1マスの状態。プレイヤーIDが入っていれば点灯済み、null なら空き */
 export type Attack25Cell = string | null;
@@ -134,13 +136,15 @@ export const getAdjacentEmptyPanels = (board: Attack25Board): number[] => {
 
 /**
  * プレイヤーが獲得できるマスの一覧を返す。
+ * 盤面が空（初手）なら必ず中央パネル（13番）のみ。
  * 反転できるマスがあれば必ずそのマスのみ。無ければ点灯済みパネルに隣接する空きマス。
- * 盤面が空（初手）ならすべての空きマス。
  * @param board 現在の盤面
  * @param playerId 配置するプレイヤーのID
  * @returns 獲得可能なパネル番号一覧
  */
 export const getClaimablePanels = (board: Attack25Board, playerId: string): number[] => {
+  // 初手（盤面が空）は最初の正解者が必ず中央パネル（13番）からスタートする
+  if (board.every((cell) => cell === null)) return [FIRST_PANEL_INDEX];
   const flippable = getFlippablePanels(board, playerId);
   if (flippable.length > 0) return flippable;
   const adjacent = getAdjacentEmptyPanels(board);

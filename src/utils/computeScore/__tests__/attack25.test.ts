@@ -7,6 +7,7 @@ import {
   getAdjacentEmptyPanels,
   getClaimablePanels,
   getFlippablePanels,
+  FIRST_PANEL_INDEX,
   isAttackChanceActive,
   PANEL_COUNT,
 } from "@/utils/attack25";
@@ -223,8 +224,8 @@ describe("獲得可能マスの判定", () => {
     expect(claimable.sort((x, y) => x - y)).toEqual([1, 5, 6]);
   });
 
-  it("getClaimablePanels: 盤面が空なら全マスを返す", () => {
-    expect(getClaimablePanels(emptyBoard(), "A")).toHaveLength(PANEL_COUNT);
+  it("getClaimablePanels: 盤面が空（初手）なら中央パネル（13番）のみ返す", () => {
+    expect(getClaimablePanels(emptyBoard(), "A")).toEqual([FIRST_PANEL_INDEX]);
   });
 });
 
