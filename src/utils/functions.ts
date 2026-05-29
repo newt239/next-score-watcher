@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
 
-import type { GamePropsUnion, RuleNames, States } from "@/utils/types";
+import type { GameDBPlayerProps, GamePropsUnion, RuleNames, States } from "@/utils/types";
 
 export const createGame = async (
   param:
@@ -54,6 +54,43 @@ export const createGame = async (
       console.log(err);
     }
   }
+};
+
+/**
+ * 指定ゲームにデフォルト名のプレイヤーを作成して紐付ける。
+ * 人数はルールに応じて決定する（AQL: 10人 / アタック25: 4人 / その他: 5人）。
+ * @param game_id 対象のゲームID
+ * @param rule ゲーム形式
+ * @param currentProfile 現在のプロファイルID
+ * @returns 作成したプレイヤー数
+ */
+export const createPresetPlayers = async (
+  game_id: string,
+  rule: RuleNames,
+  currentProfile: string
+) => {
+  const playerCount = rule === "aql" ? 10 : rule === "attack25" ? 4 : 5;
+  const gamePlayers: GameDBPlayerProps[] = [];
+  for (let i = 1; i <= playerCount; i++) {
+    const name = `プレイヤー ${i}`;
+    const player_id = await db(currentProfile).players.put({
+      id: nanoid(),
+      name,
+      text: "",
+      belong: "",
+      tags: [],
+    });
+    gamePlayers.push({
+      id: player_id,
+      name,
+      initial_correct: 0,
+      initial_wrong: 0,
+      base_correct_point: 1,
+      base_wrong_point: -1,
+    });
+  }
+  await db(currentProfile).games.update(game_id, { players: gamePlayers });
+  return playerCount;
 };
 
 /** numberSign の表示設定。未指定時は localStorage から読み取る */
