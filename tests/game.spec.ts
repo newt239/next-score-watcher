@@ -7,8 +7,9 @@ let page: Page;
 let context: BrowserContext;
 
 test.beforeAll(async ({ browser }) => {
-  page = await browser.newPage();
+  // context.addInitScript を page に効かせるため、page は context から生成する
   context = await browser.newContext();
+  page = await context.newPage();
   await page.goto("http://localhost:3000/");
 });
 
@@ -31,9 +32,7 @@ test.describe("得点表示", () => {
   test.describe.configure({ mode: "default" });
 
   test.beforeAll(async () => {
-    await context.addInitScript(() => {
-      window.localStorage.setItem("scorewatcher-version", "latest");
-    });
+    // アップデートモーダルは「アップデートモーダル」テストで閉じ済みのため、再読み込みして開始する
     await page.reload();
   });
 
@@ -143,7 +142,7 @@ test.describe("誤答数の記号表示", () => {
 
   test.beforeAll(async () => {
     // 「誤答数が4以下のとき✕の数で表示」を有効化した状態で検証する
-    await page.addInitScript(() => {
+    await context.addInitScript(() => {
       window.localStorage.setItem("wrongNumber", "true");
     });
     // 初回表示でアップデートモーダルがバージョンを保存するため、reloadで閉じる
