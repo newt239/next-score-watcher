@@ -208,4 +208,15 @@ test.describe("誤答数の記号表示", () => {
     await expect(wrongButton).toContainText("5✕");
     await expect(wrongButton).not.toContainText("○");
   });
+
+  test("記号付与がオフのとき誤答数5以上は数値のみ表示される", async () => {
+    // 「スコアに○✕ptの文字列を付与する」をオフにして再読み込みする
+    await page.evaluate(() => window.localStorage.setItem("showSignString", "false"));
+    await page.reload();
+    // 直前のテストで誤答数は5になっている
+    const wrongButton = page.getByTestId("player").first().getByRole("button").nth(1);
+    await expect(wrongButton).toHaveText("5");
+    await expect(wrongButton).not.toContainText("✕");
+    await expect(wrongButton).not.toContainText("○");
+  });
 });

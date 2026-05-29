@@ -94,7 +94,8 @@ export const numberSign = (type: "correct" | "wrong" | "pt", score?: number) => 
       } else if (0 < score && score < 5) {
         return "✕".repeat(score);
       } else {
-        return `${score}✕`;
+        // 記号付与がオフのため誤答数5以上は数値のみで表示する
+        return score.toString();
       }
     } else {
       return score.toString();
