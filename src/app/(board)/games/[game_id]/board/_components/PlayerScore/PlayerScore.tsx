@@ -6,7 +6,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
 
 import db from "@/utils/db";
-import { numberSign } from "@/utils/functions";
+import { useNumberSign } from "@/utils/useNumberSign";
 
 import PlayerScoreButton from "../PlayerScoreButton/PlayerScoreButton";
 import classes from "./PlayerScore.module.css";
@@ -20,6 +20,7 @@ type Props = {
 };
 
 const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
+  const numberSign = useNumberSign();
   const logs = useLiveQuery(
     () => db(currentProfile).logs.where({ game_id: game.id, available: 1 }).sortBy("timestamp"),
     []

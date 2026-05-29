@@ -6,7 +6,7 @@ import { Flex, useComputedColorScheme } from "@mantine/core";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
-import { numberSign } from "@/utils/functions";
+import { useNumberSign } from "@/utils/useNumberSign";
 
 import PlayerHeader from "../PlayerHeader/PlayerHeader";
 import PlayerName from "../PlayerName/PlayerName";
@@ -32,6 +32,7 @@ const AQLPlayer: React.FC<Props> = ({
   is_incapacity,
   currentProfile,
 }) => {
+  const numberSign = useNumberSign();
   const computedColorScheme = useComputedColorScheme("light");
   const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
   const [editableState, setEditableState] = useState<States>("playing");

@@ -219,4 +219,15 @@ test.describe("誤答数の記号表示", () => {
     await expect(wrongButton).not.toContainText("✕");
     await expect(wrongButton).not.toContainText("○");
   });
+
+  test("表示設定の切り替えがスコア操作なしで即座に反映される", async () => {
+    // 直前のテストで showSignString=false。誤答数0の2人目で wrongNumber の切り替えを検証する
+    const wrongButton = page.getByTestId("player").nth(1).getByRole("button").nth(1);
+    await expect(wrongButton).toHaveText("・");
+    // 「表示設定」ドロワーを開き、得点ボタンを押さずにスイッチを切り替える
+    await page.getByRole("button", { name: "表示設定" }).click();
+    await page.getByLabel("誤答数が4以下のとき✕の数で表示").click();
+    // 得点操作をしていないが、スイッチ変更で表示が即座に更新される
+    await expect(wrongButton).toHaveText("0");
+  });
 });
