@@ -49,6 +49,11 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
     defaultValue: true,
   });
 
+  const [showPreviousQn] = useLocalStorage({
+    key: "showPreviousQn",
+    defaultValue: false,
+  });
+
   useEffect(() => {
     const getQuizList = async () => {
       if (game.quiz) {
@@ -68,6 +73,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
     : game.quiz
       ? game.quiz.offset + qn - 1
       : 0;
+  const displayedQuizNumber = game.editable ? manualQuizPosition + 1 : showPreviousQn ? qn : qn + 1;
 
   useEffect(() => {
     setManualQuizPosition((game.quiz ? game.quiz.offset : 0) + qn);
@@ -88,7 +94,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
           // ゲーム名なしの場合
           game.name === rules[game.rule].name || game.name === "" ? (
             <div className={classes.game_name_only} data-showqn={showQn}>
-              <span>Q{game.editable ? manualQuizPosition + 1 : qn + 1}</span>
+              <span>Q{displayedQuizNumber}</span>
               <span>{getRuleStringByType(game)}</span>
             </div>
           ) : (
@@ -99,9 +105,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               </Flex>
               {showQn && (
                 <Flex className={classes.quiz_number_area}>
-                  <Box className={classes.quiz_number}>
-                    Q{game.editable ? manualQuizPosition + 1 : qn + 1}
-                  </Box>
+                  <Box className={classes.quiz_number}>Q{displayedQuizNumber}</Box>
                   {game.editable && (
                     <Button.Group variant="outline">
                       <Button
