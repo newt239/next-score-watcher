@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Anchor, Box, Button, NumberInput, Select } from "@mantine/core";
 import { IconArrowRight, IconSettings } from "@tabler/icons-react";
+import { z } from "zod";
 
 import ClientLink from "@/components/ClientLink/ClientLink";
 import { MAX_PLAYER_COUNT } from "@/utils/functions";
@@ -11,15 +12,22 @@ import { rules } from "@/utils/rules";
 
 import classes from "./QuickStart.module.css";
 
+import type { RuleNames } from "@/utils/types";
+
 /** 形式ごとに人数を固定する場合の値。指定がない形式は任意の人数を選べる */
-const FIXED_PLAYER_COUNTS: Record<string, number> = {
+const FIXED_PLAYER_COUNTS: Partial<Record<RuleNames, number>> = {
   attack25: 4,
   aql: 10,
 };
 
+/** rules に存在する形式名のみ受け付けるスキーマ */
+const RuleSchema = z.custom<RuleNames>(
+  (value) => typeof value === "string" && Object.prototype.hasOwnProperty.call(rules, value)
+);
+
 /** 形式と人数を選んでワンクリックでゲームを開始するヒーロー内のクイックスタートカード */
 const QuickStart = () => {
-  const [rule, setRule] = useState("nomx");
+  const [rule, setRule] = useState<RuleNames>("nomx");
   const [players, setPlayers] = useState<number>(5);
 
   const ruleOptions = Object.values(rules).map((r) => ({
@@ -27,7 +35,7 @@ const QuickStart = () => {
     label: r.name,
   }));
 
-  const isPlayerCountFixed = FIXED_PLAYER_COUNTS[rule] !== undefined;
+  const isPlayerCountFixed = typeof FIXED_PLAYER_COUNTS[rule] === "number";
 
   return (
     <Box className={classes.card}>
@@ -41,10 +49,11 @@ const QuickStart = () => {
           radius="md"
           value={rule}
           onChange={(value) => {
-            if (!value) return;
-            setRule(value);
-            const fixed = FIXED_PLAYER_COUNTS[value];
-            if (fixed !== undefined) setPlayers(fixed);
+            const result = RuleSchema.safeParse(value);
+            if (!result.success) return;
+            setRule(result.data);
+            const fixed = FIXED_PLAYER_COUNTS[result.data];
+            if (typeof fixed === "number") setPlayers(fixed);
           }}
         />
         <NumberInput

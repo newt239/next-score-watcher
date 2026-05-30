@@ -37,7 +37,7 @@ test.describe("得点表示", () => {
   });
 
   test("形式一覧ページに移動できる", async () => {
-    await page.getByRole("link", { name: "ゲームを作る" }).click();
+    await page.getByRole("link", { name: "形式一覧" }).click();
     await expect(page).toHaveTitle(/形式一覧/);
   });
 
@@ -154,7 +154,7 @@ test.describe("誤答数の記号表示", () => {
     if (isMobile) {
       await page.getByRole("banner").getByRole("button").first().click();
     }
-    await page.getByRole("link", { name: "ゲームを作る" }).click();
+    await page.getByRole("link", { name: "形式一覧" }).click();
     await expect(page).toHaveTitle(/形式一覧/);
     // 「N○M✕」(nomx)と「連答つきN○M✕」(nomx-ad)を区別するため厳密一致で絞り込む
     const card = page

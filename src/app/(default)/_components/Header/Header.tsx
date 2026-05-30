@@ -6,10 +6,10 @@ import ClientLink from "@/components/ClientLink/ClientLink";
 import Hamburger from "../Hamburger/Hamburger";
 import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
+import CopyrightYear from "./CopyrightYear";
 import classes from "./Header.module.css";
 
 const Header = () => {
-  const currentYear = new Date().getFullYear();
   const common = {
     alt: "Score Watcherのロゴ。モノカラーで、三日月の中央部に円が配置された形をしている。",
     sizes: "100vw",
@@ -59,7 +59,9 @@ const Header = () => {
                   newt239
                 </Anchor>
               </Box>
-              <Box>2022-{currentYear}</Box>
+              <Box>
+                <CopyrightYear />
+              </Box>
             </Flex>
           </Flex>
         </Flex>
