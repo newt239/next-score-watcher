@@ -47,6 +47,8 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
     playerId: string;
     panel: number;
   } | null>(null);
+  // 消せる相手パネルが無くアタックチャンスを通知だけして次へ進んだ状態
+  const [attackChanceNotice, setAttackChanceNotice] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const attackChanceEnabled = game.options.attack_chance;
@@ -93,8 +95,12 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
   const handlePanelClick = (index: number) => {
     if (boardFull || isPending) return;
     if (pendingClaim) {
-      // 消去モード: 点灯済みパネル（獲得したばかりのパネルを除く）をクリックで消去
-      if (displayBoard[index] !== null && index !== pendingClaim.panel) {
+      // 消去モード: 相手プレイヤーの点灯済みパネルのみクリックで消去
+      if (
+        displayBoard[index] !== null &&
+        index !== pendingClaim.panel &&
+        displayBoard[index] !== pendingClaim.playerId
+      ) {
         writeLog({
           player_id: pendingClaim.playerId,
           variant: "correct",
@@ -109,7 +115,23 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
     if (board[index] !== null || !selectedPlayerId) return;
     if (claimablePanels && !claimablePanels.has(index)) return;
     if (attackChanceActive) {
-      setPendingClaim({ playerId: selectedPlayerId, panel: index });
+      // 獲得後に相手のパネルが残るときだけ消去を促す
+      const claimedBoard = applyReversiFlip(board, index, selectedPlayerId);
+      const hasOpponentPanel = claimedBoard.some(
+        (cell) => cell !== null && cell !== selectedPlayerId
+      );
+      if (hasOpponentPanel) {
+        setPendingClaim({ playerId: selectedPlayerId, panel: index });
+      } else {
+        // 自分のパネルしかない場合は消去させず、アタックチャンスを通知して次へ
+        writeLog({
+          player_id: selectedPlayerId,
+          variant: "correct",
+          detail: { type: "attack25", panel: index },
+        });
+        setSelectedPlayerId(null);
+        setAttackChanceNotice(true);
+      }
     } else {
       writeLog({
         player_id: selectedPlayerId,
@@ -171,7 +193,13 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
             </Button>
           </>
         ) : !selectedPlayerId ? (
-          <Text className={classes.message_text}>正解したプレイヤーを選択してください</Text>
+          attackChanceNotice ? (
+            <Text className={classes.message_text} fw={700} c="orange">
+              アタックチャンスでしたが消せる相手のパネルがありませんでした。次の正解者を選択してください
+            </Text>
+          ) : (
+            <Text className={classes.message_text}>正解したプレイヤーを選択してください</Text>
+          )
         ) : (
           <>
             <Text className={classes.message_text}>
@@ -212,7 +240,10 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
                 disabled={boardFull || !!pendingClaim || isPending}
                 aria-pressed={isSelected}
                 aria-label={`${COLOR_LABELS[color]}・${name}・${counts[player.id] ?? 0}枚保持`}
-                onClick={() => setSelectedPlayerId(isSelected ? null : player.id)}
+                onClick={() => {
+                  setAttackChanceNotice(false);
+                  setSelectedPlayerId(isSelected ? null : player.id);
+                }}
               >
                 <Box className={classes.player_swatch} data-color={color} aria-hidden />
                 <Text className={classes.player_name}>{name}</Text>
@@ -225,7 +256,11 @@ const Attack25: React.FC<Props> = ({ game, players, logs, currentProfile, show_h
           {Array.from({ length: PANEL_COUNT }, (_, index) => {
             const cell = displayBoard[index];
             const color = cell === null ? "empty" : colorOf(cell);
-            const isRemovable = !!pendingClaim && cell !== null && index !== pendingClaim.panel;
+            const isRemovable =
+              !!pendingClaim &&
+              cell !== null &&
+              index !== pendingClaim.panel &&
+              cell !== pendingClaim.playerId;
             const isClaimable =
               claimablePanels !== null && cell === null && claimablePanels.has(index);
             const panelLabel = (() => {
