@@ -3,13 +3,14 @@
 import { useState } from "react";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { ActionIcon, Center, Group, Menu, NumberInput, ScrollArea, TextInput } from "@mantine/core";
+import { ActionIcon, Card, Center, Menu, NumberInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconDotsVertical, IconGripVertical, IconPencil } from "@tabler/icons-react";
 
 import db from "@/utils/db";
 
 import EditPlayerModal from "./EditPlayerModal/EditPlayerModal";
+import classes from "./PlayersConfig.module.css";
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import type { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
@@ -42,77 +43,87 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
   const fields = form.getValues().players.map((item, index) => (
     <Draggable key={item.id} index={index} draggableId={item.id}>
       {(provided) => (
-        <ScrollArea offsetScrollbars ref={provided.innerRef} {...provided.draggableProps}>
-          <Group w={500} wrap="nowrap">
-            <Center {...provided.dragHandleProps}>
-              <IconGripVertical size="1.2rem" />
-            </Center>
-            <TextInput
-              label="プレイヤー名"
-              placeholder="John Doe"
-              size="md"
-              key={form.key(`players.${index}.name`)}
-              {...form.getInputProps(`players.${index}.name`)}
-            />
-            {rule !== "squarex" && (
-              <>
+        <div ref={provided.innerRef} className={classes.card_wrapper} {...provided.draggableProps}>
+          <Card withBorder radius="md" shadow="sm" p="md">
+            <div className={classes.card_header}>
+              <Center {...provided.dragHandleProps} className={classes.drag_handle}>
+                <IconGripVertical size="1.2rem" />
+              </Center>
+              <span className={classes.index}>プレイヤー {index + 1}</span>
+              <div className={classes.spacer} />
+              <Menu position="bottom-end" withinPortal>
+                <Menu.Target>
+                  <ActionIcon variant="subtle" color="gray" aria-label="プレイヤー操作">
+                    <IconDotsVertical size="1.2rem" />
+                  </ActionIcon>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item
+                    leftSection={<IconPencil size="1rem" />}
+                    onClick={() => setEditingIndex(index)}
+                  >
+                    元データを編集
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </div>
+            <div className={classes.fields}>
+              <TextInput
+                className={classes.name_field}
+                label="プレイヤー名"
+                placeholder="John Doe"
+                size="md"
+                key={form.key(`players.${index}.name`)}
+                {...form.getInputProps(`players.${index}.name`)}
+              />
+              {rule !== "squarex" && (
+                <>
+                  <NumberInput
+                    className={classes.number_field}
+                    label="初期正答数"
+                    size="md"
+                    key={form.key(`players.${index}.initial_correct`)}
+                    {...form.getInputProps(`players.${index}.initial_correct`)}
+                  />
+                  <NumberInput
+                    className={classes.number_field}
+                    label="初期誤答数"
+                    size="md"
+                    key={form.key(`players.${index}.initial_wrong`)}
+                    {...form.getInputProps(`players.${index}.initial_wrong`)}
+                  />
+                </>
+              )}
+              {rule === "squarex" && (
+                <>
+                  <NumberInput
+                    className={classes.number_field}
+                    label="奇数問目の正解数"
+                    size="md"
+                    key={form.key(`players.${index}.initial_correct`)}
+                    {...form.getInputProps(`players.${index}.initial_correct`)}
+                  />
+                  <NumberInput
+                    className={classes.number_field}
+                    label="偶数問目の正解数"
+                    size="md"
+                    key={form.key(`players.${index}.initial_wrong`)}
+                    {...form.getInputProps(`players.${index}.initial_wrong`)}
+                  />
+                </>
+              )}
+              {rule === "variables" && (
                 <NumberInput
-                  label="初期正答数"
-                  size="md"
-                  key={form.key(`players.${index}.initial_correct`)}
-                  {...form.getInputProps(`players.${index}.initial_correct`)}
-                />
-                <NumberInput
-                  label="初期誤答数"
-                  size="md"
-                  key={form.key(`players.${index}.initial_wrong`)}
-                  {...form.getInputProps(`players.${index}.initial_wrong`)}
-                />
-              </>
-            )}
-            {rule === "squarex" && (
-              <>
-                <NumberInput
-                  label="奇数問目の正解数"
-                  size="md"
-                  key={form.key(`players.${index}.initial_correct`)}
-                  {...form.getInputProps(`players.${index}.initial_correct`)}
-                />
-                <NumberInput
-                  label="偶数問目の正解数"
-                  size="md"
-                  key={form.key(`players.${index}.initial_wrong`)}
-                  {...form.getInputProps(`players.${index}.initial_wrong`)}
-                />
-              </>
-            )}
-            {rule === "variables" && (
-              <>
-                <NumberInput
+                  className={classes.number_field}
                   label="N"
                   size="md"
                   key={form.key(`players.${index}.base_correct_point`)}
                   {...form.getInputProps(`players.${index}.base_correct_point`)}
                 />
-              </>
-            )}
-            <Menu position="bottom-end" withinPortal>
-              <Menu.Target>
-                <ActionIcon variant="subtle" color="gray" mt="xl" aria-label="プレイヤー操作">
-                  <IconDotsVertical size="1.2rem" />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item
-                  leftSection={<IconPencil size="1rem" />}
-                  onClick={() => setEditingIndex(index)}
-                >
-                  元データを編集
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </Group>
-        </ScrollArea>
+              )}
+            </div>
+          </Card>
+        </div>
       )}
     </Draggable>
   ));
