@@ -1,30 +1,34 @@
 .hero {
   position: relative;
-  margin: -1rem -1rem 2rem;
-  overflow: hidden;
-  border-radius: var(--mantine-radius-lg);
+  margin: -1rem -1rem 11.5rem;
 
   @media (width >= 62em) {
-    border-radius: 0;
+    margin-bottom: 2rem;
   }
 }
 
 .hero_media {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  border-radius: 0 0 var(--mantine-radius-lg) var(--mantine-radius-lg);
+
+  @media (width >= 62em) {
+    border-radius: 0;
+  }
 }
 
 .hero_image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(100%) contrast(1.05) brightness(0.95);
+  filter: grayscale(100%) contrast(1.05) brightness(1.15);
 }
 
 .hero_tint {
   position: absolute;
   inset: 0;
-  background-color: var(--mantine-color-teal-8);
+  background-color: var(--mantine-color-teal-6);
   mix-blend-mode: multiply;
 }
 
@@ -32,15 +36,14 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  justify-content: flex-end;
-  min-height: 60vh;
-  padding: 2rem 1.5rem;
+  justify-content: flex-start;
+  min-height: 56vh;
+  padding: 2.5rem 1.5rem;
 
   @media (width >= 62em) {
     flex-direction: row;
     gap: 2rem;
-    align-items: flex-end;
+    align-items: stretch;
     justify-content: space-between;
     min-height: 68vh;
     padding: 3rem 2.5rem;
@@ -49,7 +52,10 @@
 
 .hero_text {
   @media (width >= 62em) {
+    display: flex;
     flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 }
 
@@ -81,11 +87,18 @@
 }
 
 .hero_card {
+  position: absolute;
+  inset: auto 1.5rem 0;
   display: flex;
   justify-content: center;
+  transform: translateY(50%);
 
   @media (width >= 62em) {
+    position: static;
+    inset: auto;
     flex: 0 0 auto;
+    align-items: flex-end;
     justify-content: flex-end;
+    transform: none;
   }
 }

@@ -24,36 +24,42 @@ const QuickStart = () => {
   return (
     <Box className={classes.card}>
       <Box className={classes.card_title}>得点表示を作る</Box>
-      <Select
-        allowDeselect={false}
-        data={ruleOptions}
-        label="形式"
-        radius="md"
-        value={rule}
-        onChange={(value) => value && setRule(value)}
-      />
-      <NumberInput
-        clampBehavior="strict"
-        label="人数"
-        max={MAX_PLAYER_COUNT}
-        min={1}
-        radius="md"
-        value={players}
-        onChange={(value) => setPlayers(typeof value === "number" ? value : 1)}
-      />
-      <Button
-        component={ClientLink}
-        href={`/games/new?rule=${rule}&players=${players}`}
-        radius="lg"
-        rightSection={<IconArrowRight />}
-        size="md"
-      >
-        開始する
-      </Button>
-      <Anchor className={classes.detail_link} component={ClientLink} href="/rules">
-        <IconSettings size={16} />
-        細かく設定する
-      </Anchor>
+      <Box className={classes.inputs}>
+        <Select
+          allowDeselect={false}
+          className={classes.rule_select}
+          data={ruleOptions}
+          label="形式"
+          radius="md"
+          value={rule}
+          onChange={(value) => value && setRule(value)}
+        />
+        <NumberInput
+          className={classes.player_input}
+          clampBehavior="strict"
+          label="人数"
+          max={MAX_PLAYER_COUNT}
+          min={1}
+          radius="md"
+          value={players}
+          onChange={(value) => setPlayers(typeof value === "number" ? value : 1)}
+        />
+      </Box>
+      <Box className={classes.actions}>
+        <Button
+          component={ClientLink}
+          href={`/games/new?rule=${rule}&players=${players}`}
+          radius="lg"
+          rightSection={<IconArrowRight />}
+          size="md"
+        >
+          開始する
+        </Button>
+        <Anchor className={classes.detail_link} component={ClientLink} href="/rules">
+          <IconSettings size={16} />
+          細かく設定する
+        </Anchor>
+      </Box>
     </Box>
   );
 };
