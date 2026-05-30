@@ -165,6 +165,8 @@ test.describe("誤答数の記号表示", () => {
   });
 
   test("失格誤答数を増やして敗退を防ぐ", async () => {
+    // 初期表示は「プレイヤー設定」タブのため、形式設定タブを開く
+    await page.getByRole("tab", { name: "形式設定" }).click();
     // 既定では誤答3回で失格になるため、表示検証のため失格誤答数を増やす
     const losePointInput = page.getByLabel("失格誤答数");
     await losePointInput.fill("10");
