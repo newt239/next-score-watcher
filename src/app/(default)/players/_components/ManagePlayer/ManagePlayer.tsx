@@ -29,7 +29,7 @@ const ManagePlayer: React.FC<Props> = ({ currentProfile, from }) => {
       <Title order={2}>プレイヤー管理</Title>
       <h3>プレイヤーの読み込み</h3>
       <Tabs pt="lg" variant="outline" defaultValue="add">
-        <Tabs.List mt="lg" grow>
+        <Tabs.List mt="lg" grow className={classes.tab_list}>
           <Tabs.Tab value="add">個別に追加</Tabs.Tab>
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
           <Tabs.Tab value="import">インポート</Tabs.Tab>
