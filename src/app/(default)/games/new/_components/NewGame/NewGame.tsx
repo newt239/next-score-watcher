@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { Center, Loader, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
@@ -32,13 +32,8 @@ const parsePlayerCount = (value: string | null): number | null => {
 const NewGame: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const hasRun = useRef(false);
 
-  // マウント時に一度だけゲームを作成して遷移する副作用（StrictMode の二重実行を hasRun でガード）
   useEffect(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
-
     const run = async () => {
       const rule = searchParams.get("rule");
       const playerCount = parsePlayerCount(searchParams.get("players"));
@@ -65,7 +60,6 @@ const NewGame: React.FC = () => {
         return;
       }
 
-      // rule と players の両方が有効なら board へ直行、players が無効/未指定なら config へ
       if (playerCount !== null) {
         await createDefaultPlayers(game_id, playerCount, currentProfile);
         router.replace(`/games/${game_id}/board`);
