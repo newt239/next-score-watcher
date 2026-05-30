@@ -1,12 +1,15 @@
 "use client";
 
+import { useState } from "react";
+
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { Center, Group, NumberInput, ScrollArea, TextInput } from "@mantine/core";
+import { ActionIcon, Center, Group, Menu, NumberInput, ScrollArea, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconGripVertical } from "@tabler/icons-react";
+import { IconDotsVertical, IconGripVertical, IconPencil } from "@tabler/icons-react";
 
 import db from "@/utils/db";
 
+import EditPlayerModal from "./EditPlayerModal/EditPlayerModal";
 import SelectPlayer from "./SelectPlayer/SelectPlayer";
 
 import type { GameDBPlayerProps, PlayerDBProps, RuleNames } from "@/utils/types";
@@ -20,6 +23,7 @@ type Props = {
 };
 
 const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, currentProfile }) => {
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -92,11 +96,30 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
                 />
               </>
             )}
+            <Menu position="bottom-end" withinPortal>
+              <Menu.Target>
+                <ActionIcon variant="subtle" color="gray" mt="xl" aria-label="プレイヤー操作">
+                  <IconDotsVertical size="1.2rem" />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  leftSection={<IconPencil size="1rem" />}
+                  onClick={() => setEditingIndex(index)}
+                >
+                  元データを編集
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
         </ScrollArea>
       )}
     </Draggable>
   ));
+
+  const editingGamePlayerId =
+    editingIndex !== null ? form.getValues().players[editingIndex]?.id : undefined;
+  const editingPlayer = playerList.find((player) => player.id === editingGamePlayerId);
 
   return (
     <>
@@ -129,6 +152,16 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
         players={players}
         form={form}
       />
+      {editingIndex !== null && editingPlayer && (
+        <EditPlayerModal
+          key={editingPlayer.id}
+          opened
+          onClose={() => setEditingIndex(null)}
+          player={editingPlayer}
+          currentProfile={currentProfile}
+          onNameChange={(name) => form.setFieldValue(`players.${editingIndex}.name`, name)}
+        />
+      )}
     </>
   );
 };
