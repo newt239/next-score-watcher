@@ -73,7 +73,7 @@ export const createDefaultPlayers = async (
 ) => {
   const gamePlayers: GameDBPlayerProps[] = [];
   for (let i = 1; i <= count; i++) {
-    const name = `プレイヤー ${i}`;
+    const name = `プレイヤー${i}`;
     const player_id = await db(currentProfile).players.put({
       id: nanoid(),
       name,

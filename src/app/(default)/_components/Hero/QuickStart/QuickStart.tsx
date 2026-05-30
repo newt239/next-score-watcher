@@ -11,6 +11,12 @@ import { rules } from "@/utils/rules";
 
 import classes from "./QuickStart.module.css";
 
+/** 形式ごとに人数を固定する場合の値。指定がない形式は任意の人数を選べる */
+const FIXED_PLAYER_COUNTS: Record<string, number> = {
+  attack25: 4,
+  aql: 10,
+};
+
 /** 形式と人数を選んでワンクリックでゲームを開始するヒーロー内のクイックスタートカード */
 const QuickStart = () => {
   const [rule, setRule] = useState("nomx");
@@ -20,6 +26,8 @@ const QuickStart = () => {
     value: r.rule,
     label: r.name,
   }));
+
+  const isPlayerCountFixed = FIXED_PLAYER_COUNTS[rule] !== undefined;
 
   return (
     <Box className={classes.card}>
@@ -32,11 +40,17 @@ const QuickStart = () => {
           label="形式"
           radius="md"
           value={rule}
-          onChange={(value) => value && setRule(value)}
+          onChange={(value) => {
+            if (!value) return;
+            setRule(value);
+            const fixed = FIXED_PLAYER_COUNTS[value];
+            if (fixed !== undefined) setPlayers(fixed);
+          }}
         />
         <NumberInput
           className={classes.player_input}
           clampBehavior="strict"
+          disabled={isPlayerCountFixed}
           label="人数"
           max={MAX_PLAYER_COUNT}
           min={1}
@@ -55,7 +69,11 @@ const QuickStart = () => {
         >
           開始する
         </Button>
-        <Anchor className={classes.detail_link} component={ClientLink} href="/rules">
+        <Anchor
+          className={classes.detail_link}
+          component={ClientLink}
+          href={`/games/new?rule=${rule}`}
+        >
           <IconSettings size={16} />
           細かく設定する
         </Anchor>
