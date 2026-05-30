@@ -1,6 +1,6 @@
 "use client";
 
-import { Accordion, Box, Tabs } from "@mantine/core";
+import { Accordion, Tabs } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -63,35 +63,27 @@ const Config: React.FC<Props> = ({ game_id, currentProfile }) => {
         </Accordion.Item>
       </Accordion>
       <GameStartButton game={game} logs={logs} disabled={disabled} />
-      <Tabs
-        pt="lg"
-        variant="outline"
-        orientation="vertical"
-        defaultValue="rule"
-        className={classes.tabs_area}
-      >
-        <Tabs.List className={classes.tab_list}>
+      <Tabs pt="lg" variant="outline" defaultValue="player" className={classes.tabs_area}>
+        <Tabs.List mt="lg" grow className={classes.tab_list}>
           <Tabs.Tab value="rule">形式設定</Tabs.Tab>
           <Tabs.Tab value="player">プレイヤー設定</Tabs.Tab>
           <Tabs.Tab value="other">その他の設定</Tabs.Tab>
         </Tabs.List>
-        <Box className={classes.tab_panel_area}>
-          <Tabs.Panel value="rule">
-            <RuleSettings game={game} currentProfile={storedCurrentProfile} />
-          </Tabs.Panel>
-          <Tabs.Panel value="player">
-            <PlayersConfig
-              game_id={game.id}
-              rule={game.rule}
-              playerList={players}
-              players={game.players}
-              currentProfile={storedCurrentProfile}
-            />
-          </Tabs.Panel>
-          <Tabs.Panel value="other">
-            <OtherConfig game={game} currentProfile={storedCurrentProfile} />
-          </Tabs.Panel>
-        </Box>
+        <Tabs.Panel value="rule" className={classes.tab_panel}>
+          <RuleSettings game={game} currentProfile={storedCurrentProfile} />
+        </Tabs.Panel>
+        <Tabs.Panel value="player" className={classes.tab_panel}>
+          <PlayersConfig
+            game_id={game.id}
+            rule={game.rule}
+            playerList={players}
+            players={game.players}
+            currentProfile={storedCurrentProfile}
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="other" className={classes.tab_panel}>
+          <OtherConfig game={game} currentProfile={storedCurrentProfile} />
+        </Tabs.Panel>
       </Tabs>
     </>
   );

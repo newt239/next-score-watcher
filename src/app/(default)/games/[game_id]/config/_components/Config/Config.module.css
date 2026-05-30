@@ -3,10 +3,16 @@
 }
 
 .tab_list {
+  & button {
+    padding-block: 1rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
   & button[data-active="true"] {
     color: var(--mantine-color-gray-9);
     background-color: var(--mantine-color-gray-1);
-    border-right: 1px solid transparent;
+    border-bottom-color: transparent;
 
     @mixin dark {
       color: var(--mantine-color-gray-1);
@@ -15,18 +21,16 @@
   }
 }
 
-.tab_panel_area {
-  flex-grow: 1;
-  min-height: 80vh;
+.tab_panel {
+  min-height: 60vh;
   padding: 1rem;
-  overflow: scroll;
   background-color: var(--mantine-color-gray-1);
   border: 1px solid var(--mantine-color-gray-3);
-  border-left: 1px solid transparent;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
 
   @mixin dark {
     background-color: var(--mantine-color-gray-8);
-    border: 1px solid var(--mantine-color-gray-7);
-    border-left: 1px solid transparent;
+    border-color: var(--mantine-color-gray-7);
   }
 }

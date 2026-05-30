@@ -1,6 +1,31 @@
+.tab_list {
+  & button {
+    padding-block: 1rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  & button[data-active="true"] {
+    color: var(--mantine-color-gray-9);
+    background-color: var(--mantine-color-gray-1);
+    border-bottom-color: transparent;
+
+    @mixin dark {
+      color: var(--mantine-color-gray-1);
+      background-color: var(--mantine-color-gray-8);
+    }
+  }
+}
+
 .tab_panel {
   padding: 1rem;
-  border: 1px solid var(--tab-border-color);
+  background-color: var(--mantine-color-gray-1);
+  border: 1px solid var(--mantine-color-gray-3);
   border-top: none;
   border-radius: 0 0 0.5rem 0.5rem;
+
+  @mixin dark {
+    background-color: var(--mantine-color-gray-8);
+    border-color: var(--mantine-color-gray-7);
+  }
 }
