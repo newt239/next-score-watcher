@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import db from "@/utils/db";
 import { rules } from "@/utils/rules";
 
-import type { GamePropsUnion, RuleNames, States } from "@/utils/types";
+import type { GameDBPlayerProps, GamePropsUnion, RuleNames, States } from "@/utils/types";
 
 export const createGame = async (
   param:
@@ -54,6 +54,44 @@ export const createGame = async (
       console.log(err);
     }
   }
+};
+
+/** ゲームに設定できるプレイヤー人数の上限 */
+export const MAX_PLAYER_COUNT = 14;
+
+/**
+ * 指定ゲームにデフォルト名（プレイヤー i）のプレイヤーを count 人作成して紐付ける。
+ * @param game_id 対象のゲームID
+ * @param count 作成する人数
+ * @param currentProfile 現在のプロファイルID
+ * @returns 作成したプレイヤー数
+ */
+export const createDefaultPlayers = async (
+  game_id: string,
+  count: number,
+  currentProfile: string
+) => {
+  const gamePlayers: GameDBPlayerProps[] = [];
+  for (let i = 1; i <= count; i++) {
+    const name = `プレイヤー ${i}`;
+    const player_id = await db(currentProfile).players.put({
+      id: nanoid(),
+      name,
+      text: "",
+      belong: "",
+      tags: [],
+    });
+    gamePlayers.push({
+      id: player_id,
+      name,
+      initial_correct: 0,
+      initial_wrong: 0,
+      base_correct_point: 1,
+      base_wrong_point: -1,
+    });
+  }
+  await db(currentProfile).games.update(game_id, { players: gamePlayers });
+  return count;
 };
 
 /** numberSign の表示設定。未指定時は localStorage から読み取る */
