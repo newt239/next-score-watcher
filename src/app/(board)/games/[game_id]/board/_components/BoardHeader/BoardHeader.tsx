@@ -46,7 +46,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
 
   const [showQn] = useLocalStorage({
     key: "showQn",
-    defaultValue: true,
+    defaultValue: false,
   });
 
   const [showPreviousQn] = useLocalStorage({
