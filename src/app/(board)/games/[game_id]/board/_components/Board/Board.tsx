@@ -53,8 +53,9 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   // 表示名はゲーム独自名(game.players[].name)を用い、順位・所属・タグは元データから補完する
   const players = useMemo<PlayerDBProps[]>(() => {
     if (!game || !playerList) return [];
+    const masterById = new Map(playerList.map((player) => [player.id, player]));
     return game.players.map((gamePlayer) => {
-      const master = playerList.find((player) => player.id === gamePlayer.id);
+      const master = masterById.get(gamePlayer.id);
       return {
         id: gamePlayer.id,
         name: gamePlayer.name,

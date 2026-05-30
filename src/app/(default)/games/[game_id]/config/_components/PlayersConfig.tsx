@@ -29,7 +29,7 @@ type Props = {
 };
 
 const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, currentProfile }) => {
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   // SPでは名前以外のフィールドを折り畳む。開いているプレイヤーをidで保持する
   const [openDetailIds, setOpenDetailIds] = useState<string[]>([]);
   const form = useForm({
@@ -79,7 +79,7 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
                   <Menu.Dropdown>
                     <Menu.Item
                       leftSection={<IconPencil size="1rem" />}
-                      onClick={() => setEditingIndex(index)}
+                      onClick={() => setEditingId(item.id)}
                     >
                       元データを編集
                     </Menu.Item>
@@ -176,9 +176,7 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
     );
   });
 
-  const editingGamePlayerId =
-    editingIndex !== null ? form.getValues().players[editingIndex]?.id : undefined;
-  const editingPlayer = playerList.find((player) => player.id === editingGamePlayerId);
+  const editingPlayer = playerList.find((player) => player.id === editingId);
 
   return (
     <>
@@ -211,14 +209,20 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
         players={players}
         form={form}
       />
-      {editingIndex !== null && editingPlayer && (
+      {editingPlayer && (
         <EditPlayerModal
           key={editingPlayer.id}
           opened
-          onClose={() => setEditingIndex(null)}
+          onClose={() => setEditingId(null)}
           player={editingPlayer}
           currentProfile={currentProfile}
-          onNameChange={(name) => form.setFieldValue(`players.${editingIndex}.name`, name)}
+          onNameChange={(name) => {
+            // 保存時点の最新の並びからindexを引き直し、別プレイヤーへの誤適用を防ぐ
+            const index = form.getValues().players.findIndex((player) => player.id === editingId);
+            if (index !== -1) {
+              form.setFieldValue(`players.${index}.name`, name);
+            }
+          }}
         />
       )}
     </>

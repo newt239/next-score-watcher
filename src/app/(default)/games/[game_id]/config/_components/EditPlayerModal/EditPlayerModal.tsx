@@ -39,20 +39,40 @@ const EditPlayerModal: React.FC<Props> = ({
   /** 入力値を元データ(playersテーブル)へ保存し、このゲームの独自名にも反映する */
   const handleSubmit = (values: typeof form.values) => {
     startTransition(async () => {
-      await db(currentProfile).players.update(player.id, {
-        name: values.name,
-        text: values.text,
-        belong: values.belong,
-        tags: values.tags,
-      });
-      onNameChange(values.name);
-      notifications.show({
-        title: "プレイヤー情報を更新しました",
-        message: values.name,
-        autoClose: 5000,
-        withCloseButton: true,
-      });
-      onClose();
+      try {
+        const updated = await db(currentProfile).players.update(player.id, {
+          name: values.name,
+          text: values.text,
+          belong: values.belong,
+          tags: values.tags,
+        });
+        if (updated === 0) {
+          notifications.show({
+            title: "プレイヤー情報を更新できませんでした",
+            message: "対象のプレイヤーが見つかりませんでした",
+            color: "red",
+            autoClose: 5000,
+            withCloseButton: true,
+          });
+          return;
+        }
+        onNameChange(values.name);
+        notifications.show({
+          title: "プレイヤー情報を更新しました",
+          message: values.name,
+          autoClose: 5000,
+          withCloseButton: true,
+        });
+        onClose();
+      } catch (error) {
+        notifications.show({
+          title: "プレイヤー情報の更新に失敗しました",
+          message: error instanceof Error ? error.message : "不明なエラーが発生しました",
+          color: "red",
+          autoClose: 5000,
+          withCloseButton: true,
+        });
+      }
     });
   };
 
