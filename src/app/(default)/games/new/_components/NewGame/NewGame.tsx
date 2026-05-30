@@ -16,9 +16,16 @@ import classes from "./NewGame.module.css";
 import type { RuleNames } from "@/utils/types";
 
 /** rules に存在する形式名のみ受け付けるスキーマ */
-const ruleSchema = z.custom<RuleNames>(
+const RuleSchema = z.custom<RuleNames>(
   (value) => typeof value === "string" && Object.prototype.hasOwnProperty.call(rules, value)
 );
+
+/** players は 0 以上 MAX_PLAYER_COUNT 以下の整数のみ受け付けるスキーマ */
+const PlayersSchema = z
+  .string()
+  .regex(/^\d+$/)
+  .transform(Number)
+  .pipe(z.number().max(MAX_PLAYER_COUNT));
 
 /** URLパラメータに応じてゲームを作成し、適切な画面へ遷移するコンポーネント */
 const NewGame: React.FC = () => {
@@ -27,15 +34,9 @@ const NewGame: React.FC = () => {
 
   useEffect(() => {
     const run = async () => {
-      const ruleResult = ruleSchema.safeParse(searchParams.get("rule"));
-      const playersParam = searchParams.get("players");
-      // players は 0 以上 MAX_PLAYER_COUNT 以下の整数のみ有効
-      const playerCount =
-        playersParam !== null &&
-        /^\d+$/.test(playersParam) &&
-        Number(playersParam) <= MAX_PLAYER_COUNT
-          ? Number(playersParam)
-          : null;
+      const ruleResult = RuleSchema.safeParse(searchParams.get("rule"));
+      const playersResult = PlayersSchema.safeParse(searchParams.get("players"));
+      const playerCount = playersResult.success ? playersResult.data : null;
 
       if (!ruleResult.success) {
         notifications.show({
