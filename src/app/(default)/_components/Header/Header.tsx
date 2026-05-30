@@ -6,6 +6,7 @@ import ClientLink from "@/components/ClientLink/ClientLink";
 import Hamburger from "../Hamburger/Hamburger";
 import SelectProfile from "../SelectProfile/SelectProfile";
 import SubMenu from "../SubMenu";
+import CopyrightYear from "./CopyrightYear";
 import classes from "./Header.module.css";
 
 const Header = () => {
@@ -58,7 +59,9 @@ const Header = () => {
                   newt239
                 </Anchor>
               </Box>
-              <Box>2022-2025</Box>
+              <Box>
+                <CopyrightYear />
+              </Box>
             </Flex>
           </Flex>
         </Flex>

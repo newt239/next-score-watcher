@@ -1,29 +1,30 @@
-import { Box, Button, Image } from "@mantine/core";
-import { IconArrowRight } from "@tabler/icons-react";
-
-import ClientLink from "@/components/ClientLink/ClientLink";
+import { Box, Image } from "@mantine/core";
 
 import classes from "./Hero.module.css";
+import QuickStart from "./QuickStart/QuickStart";
 
 const Hero = () => {
   return (
     <Box className={classes.hero}>
-      <Image alt="大会画像" radius="xl" src="/images/hero.webp" className={classes.hero_image} />
-      <Box className={classes.hero_text_area}>
+      <Box className={classes.hero_media}>
+        <Image alt="大会画像" src="/images/hero.webp" className={classes.hero_image} />
+        <Box className={classes.hero_tint} />
+      </Box>
+      <Box className={classes.hero_content}>
         <Box className={classes.hero_text}>
-          <Box>競技クイズのための</Box>
-          <Box>
-            <Box className={classes.marked_text}>得点表示</Box>
-            アプリ
+          <Box className={classes.hero_title}>
+            <span className={classes.title_line}>競技クイズのための</span>
+            <span className={classes.title_line}>得点表示アプリ</span>
           </Box>
+          <p className={classes.hero_subtitle}>
+            <span className={classes.nowrap}>スコアの表示だけでなく、</span>
+            <span className={classes.nowrap}>勝ち抜け・敗退状態や</span>
+            <span className={classes.nowrap}>問題文の表示にも対応。</span>
+          </p>
         </Box>
-        <Box my="lg">
-          <p>Score Watcherは、競技クイズの得点表示に特化したWebアプリケーションです。</p>
-          <p>スコアの表示だけでなく、勝ち抜け・敗退状態や問題文の表示にも対応しています。</p>
+        <Box className={classes.hero_card}>
+          <QuickStart />
         </Box>
-        <Button component={ClientLink} href="/rules" size="lg" rightSection={<IconArrowRight />}>
-          ゲームを作る
-        </Button>
       </Box>
     </Box>
   );

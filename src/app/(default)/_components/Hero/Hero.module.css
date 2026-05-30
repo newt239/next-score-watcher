@@ -1,37 +1,103 @@
 .hero {
   position: relative;
-  width: 100%;
+  margin: -1rem -1rem 11.5rem;
+
+  @media (width >= 62em) {
+    margin-bottom: 2rem;
+  }
+}
+
+.hero_media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 0 0 var(--mantine-radius-lg) var(--mantine-radius-lg);
+
+  @media (width >= 62em) {
+    border-radius: 0;
+  }
 }
 
 .hero_image {
   width: 100%;
-  height: 80vh;
+  height: 100%;
   object-fit: cover;
+  filter: grayscale(100%) contrast(1.05) brightness(1.15);
 }
 
-.hero_text_area {
+.hero_tint {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc(100% - 4rem);
-  color: white;
-  border-radius: 1rem;
-  transform: translateX(-50%) translateY(-50%);
+  inset: 0;
+  background-color: var(--mantine-color-teal-6);
+  mix-blend-mode: multiply;
 }
 
-.hero_text {
-  font-size: 2.25rem;
-  font-weight: 700;
-  line-height: 2.25rem;
-  text-shadow: black 1px 0 10px;
+.hero_content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 56vh;
+  padding: 2.5rem 1.5rem;
 
   @media (width >= 62em) {
-    font-size: 3.75rem;
-    line-height: 3.75rem;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: stretch;
+    justify-content: space-between;
+    min-height: 68vh;
+    padding: 3rem 2.5rem;
   }
 }
 
-.marked_text {
-  display: inline;
-  text-shadow: green 1px 0 10px;
+.hero_text {
+  @media (width >= 62em) {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.hero_title {
+  font-size: clamp(1.875rem, 4vw, 2.875rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: white;
+  text-shadow: 0 2px 16px rgb(0 0 0 / 50%);
+}
+
+.title_line {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero_subtitle {
+  max-width: 32rem;
+  margin: 0.75rem 0 0;
+  font-size: clamp(0.9rem, 1.6vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 95%);
+  text-shadow: 0 1px 10px rgb(0 0 0 / 60%);
+}
+
+.nowrap {
+  display: inline-block;
+}
+
+.hero_card {
+  position: absolute;
+  inset: auto 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  transform: translateY(50%);
+
+  @media (width >= 62em) {
+    inset: auto 2.5rem 3rem auto;
+    flex: 0 0 auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+    transform: none;
+  }
 }
