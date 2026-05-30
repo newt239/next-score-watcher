@@ -56,22 +56,23 @@ export const createGame = async (
   }
 };
 
+/** ゲームに設定できるプレイヤー人数の上限 */
+export const MAX_PLAYER_COUNT = 14;
+
 /**
- * 指定ゲームにデフォルト名のプレイヤーを作成して紐付ける。
- * 人数はルールに応じて決定する（AQL: 10人 / アタック25: 4人 / その他: 5人）。
+ * 指定ゲームにデフォルト名（プレイヤー i）のプレイヤーを count 人作成して紐付ける。
  * @param game_id 対象のゲームID
- * @param rule ゲーム形式
+ * @param count 作成する人数
  * @param currentProfile 現在のプロファイルID
  * @returns 作成したプレイヤー数
  */
-export const createPresetPlayers = async (
+export const createDefaultPlayers = async (
   game_id: string,
-  rule: RuleNames,
+  count: number,
   currentProfile: string
 ) => {
-  const playerCount = rule === "aql" ? 10 : rule === "attack25" ? 4 : 5;
   const gamePlayers: GameDBPlayerProps[] = [];
-  for (let i = 1; i <= playerCount; i++) {
+  for (let i = 1; i <= count; i++) {
     const name = `プレイヤー ${i}`;
     const player_id = await db(currentProfile).players.put({
       id: nanoid(),
@@ -90,7 +91,7 @@ export const createPresetPlayers = async (
     });
   }
   await db(currentProfile).games.update(game_id, { players: gamePlayers });
-  return playerCount;
+  return count;
 };
 
 /** numberSign の表示設定。未指定時は localStorage から読み取る */

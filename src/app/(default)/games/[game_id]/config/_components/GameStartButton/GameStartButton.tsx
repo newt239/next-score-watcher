@@ -4,6 +4,7 @@ import { Box, Button, Flex } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 
 import ButtonLink from "@/components/ButtonLink";
+import { MAX_PLAYER_COUNT } from "@/utils/functions";
 
 import classes from "./GameStartButton.module.css";
 
@@ -19,7 +20,8 @@ const GameStartButton: React.FC<Props> = ({ game, logs, disabled }) => {
   const errorMessages = [];
   if (game.players.length === 0)
     errorMessages.push("「プレイヤー設定」からプレイヤーを選択してください。");
-  if (game.players.length > 14) errorMessages.push("プレイヤー人数は14人以内で設定してください。");
+  if (game.players.length > MAX_PLAYER_COUNT)
+    errorMessages.push(`プレイヤー人数は${MAX_PLAYER_COUNT}人以内で設定してください。`);
   if (game.win_through && game.players.length <= game.win_through)
     errorMessages.push("「勝ち抜け人数」はプレイヤーの人数より少なくしてください。");
   if (disabled)

@@ -7,7 +7,7 @@ import { notifications } from "@mantine/notifications";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { getStoredCurrentProfile } from "@/utils/current-profile";
-import { createGame, createPresetPlayers } from "@/utils/functions";
+import { MAX_PLAYER_COUNT, createDefaultPlayers, createGame } from "@/utils/functions";
 import { rules } from "@/utils/rules";
 
 import classes from "./NewGame.module.css";
@@ -17,6 +17,13 @@ import type { RuleNames } from "@/utils/types";
 /** 有効なゲーム形式名かどうかを判定する型ガード */
 const isValidRule = (value: string): value is RuleNames =>
   Object.prototype.hasOwnProperty.call(rules, value);
+
+/** players パラメータを 0 以上 MAX_PLAYER_COUNT 以下の整数として解釈する。無効なら null */
+const parsePlayerCount = (value: string | null): number | null => {
+  if (value === null || !/^\d+$/.test(value)) return null;
+  const count = Number(value);
+  return count <= MAX_PLAYER_COUNT ? count : null;
+};
 
 /**
  * URLパラメータに応じてゲームを作成し、適切な画面へ遷移するコンポーネント。
@@ -34,7 +41,7 @@ const NewGame: React.FC = () => {
 
     const run = async () => {
       const rule = searchParams.get("rule");
-      const preset = searchParams.get("preset");
+      const playerCount = parsePlayerCount(searchParams.get("players"));
 
       if (!rule || !isValidRule(rule)) {
         notifications.show({
@@ -58,8 +65,9 @@ const NewGame: React.FC = () => {
         return;
       }
 
-      if (preset === "default") {
-        await createPresetPlayers(game_id, rule, currentProfile);
+      // rule と players の両方が有効なら board へ直行、players が無効/未指定なら config へ
+      if (playerCount !== null) {
+        await createDefaultPlayers(game_id, playerCount, currentProfile);
         router.replace(`/games/${game_id}/board`);
       } else {
         router.replace(`/games/${game_id}/config`);
