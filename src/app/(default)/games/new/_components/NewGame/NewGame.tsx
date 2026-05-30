@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Center, Loader, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useRouter, useSearchParams } from "next/navigation";
+import { z } from "zod";
 
 import { getStoredCurrentProfile } from "@/utils/current-profile";
 import { MAX_PLAYER_COUNT, createDefaultPlayers, createGame } from "@/utils/functions";
@@ -14,17 +15,19 @@ import classes from "./NewGame.module.css";
 
 import type { RuleNames } from "@/utils/types";
 
-/**
- * URLパラメータに応じてゲームを作成し、適切な画面へ遷移するコンポーネント。
- * 親レイアウトが force-static のため searchParams をサーバーで取得できず、useSearchParams を用いる。
- */
+/** rules に存在する形式名のみ受け付けるスキーマ */
+const ruleSchema = z.custom<RuleNames>(
+  (value) => typeof value === "string" && Object.prototype.hasOwnProperty.call(rules, value)
+);
+
+/** URLパラメータに応じてゲームを作成し、適切な画面へ遷移するコンポーネント */
 const NewGame: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const run = async () => {
-      const rule = searchParams.get("rule");
+      const ruleResult = ruleSchema.safeParse(searchParams.get("rule"));
       const playersParam = searchParams.get("players");
       // players は 0 以上 MAX_PLAYER_COUNT 以下の整数のみ有効
       const playerCount =
@@ -34,7 +37,7 @@ const NewGame: React.FC = () => {
           ? Number(playersParam)
           : null;
 
-      if (!rule || !Object.prototype.hasOwnProperty.call(rules, rule)) {
+      if (!ruleResult.success) {
         notifications.show({
           title: "ゲームを作成できませんでした",
           message: "指定された形式が見つかりませんでした。",
@@ -45,8 +48,7 @@ const NewGame: React.FC = () => {
       }
 
       const currentProfile = getStoredCurrentProfile();
-      // rule は rules に存在することを確認済み
-      const game_id = await createGame(rule as RuleNames, currentProfile);
+      const game_id = await createGame(ruleResult.data, currentProfile);
       if (!game_id) {
         notifications.show({
           title: "ゲームを作成できませんでした",
