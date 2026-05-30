@@ -21,6 +21,10 @@ const Preferences: React.FC = () => {
     key: "showQn",
     defaultValue: false,
   });
+  const [showPreviousQn, setShowPreviousQn] = useLocalStorage({
+    key: "showPreviousQn",
+    defaultValue: false,
+  });
   const [showSignString, setShowSignString] = useLocalStorage({
     key: "showSignString",
     defaultValue: true,
@@ -88,6 +92,15 @@ const Preferences: React.FC = () => {
           updateSetting(setShowQn, event.currentTarget.checked, "show_qn");
         }}
         label="ヘッダーに問題番号を表示"
+        size="md"
+      />
+      <Switch
+        checked={showPreviousQn}
+        onChange={(event) => {
+          updateSetting(setShowPreviousQn, event.currentTarget.checked, "show_previous_qn");
+        }}
+        label="一つ前の問題番号を表示する"
+        description="ヘッダーの問題番号と問題が一致するようになります"
         size="md"
       />
       <Switch
