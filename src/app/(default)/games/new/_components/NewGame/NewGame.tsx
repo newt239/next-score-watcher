@@ -14,17 +14,6 @@ import classes from "./NewGame.module.css";
 
 import type { RuleNames } from "@/utils/types";
 
-/** 有効なゲーム形式名かどうかを判定する型ガード */
-const isValidRule = (value: string): value is RuleNames =>
-  Object.prototype.hasOwnProperty.call(rules, value);
-
-/** players パラメータを 0 以上 MAX_PLAYER_COUNT 以下の整数として解釈する。無効なら null */
-const parsePlayerCount = (value: string | null): number | null => {
-  if (value === null || !/^\d+$/.test(value)) return null;
-  const count = Number(value);
-  return count <= MAX_PLAYER_COUNT ? count : null;
-};
-
 /**
  * URLパラメータに応じてゲームを作成し、適切な画面へ遷移するコンポーネント。
  * 親レイアウトが force-static のため searchParams をサーバーで取得できず、useSearchParams を用いる。
@@ -36,9 +25,16 @@ const NewGame: React.FC = () => {
   useEffect(() => {
     const run = async () => {
       const rule = searchParams.get("rule");
-      const playerCount = parsePlayerCount(searchParams.get("players"));
+      const playersParam = searchParams.get("players");
+      // players は 0 以上 MAX_PLAYER_COUNT 以下の整数のみ有効
+      const playerCount =
+        playersParam !== null &&
+        /^\d+$/.test(playersParam) &&
+        Number(playersParam) <= MAX_PLAYER_COUNT
+          ? Number(playersParam)
+          : null;
 
-      if (!rule || !isValidRule(rule)) {
+      if (!rule || !Object.prototype.hasOwnProperty.call(rules, rule)) {
         notifications.show({
           title: "ゲームを作成できませんでした",
           message: "指定された形式が見つかりませんでした。",
@@ -49,7 +45,8 @@ const NewGame: React.FC = () => {
       }
 
       const currentProfile = getStoredCurrentProfile();
-      const game_id = await createGame(rule, currentProfile);
+      // rule は rules に存在することを確認済み
+      const game_id = await createGame(rule as RuleNames, currentProfile);
       if (!game_id) {
         notifications.show({
           title: "ゲームを作成できませんでした",
