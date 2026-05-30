@@ -2,6 +2,10 @@
   margin-bottom: var(--mantine-spacing-md);
 }
 
+.card_dragging {
+  border-color: var(--mantine-primary-color-filled);
+}
+
 .card_header {
   display: flex;
   gap: var(--mantine-spacing-xs);
@@ -26,6 +30,22 @@
   flex: 1;
 }
 
+.detail_toggle {
+  display: inline-flex;
+
+  @media (width >= 48em) {
+    display: none;
+  }
+}
+
+.chevron {
+  transition: transform 150ms ease;
+}
+
+.chevron_open {
+  transform: rotate(180deg);
+}
+
 .fields {
   display: flex;
   flex-direction: column;
@@ -37,13 +57,34 @@
   }
 }
 
-.name_field {
-  width: 100%;
+.name_row {
+  display: flex;
+  gap: var(--mantine-spacing-xs);
+  align-items: flex-end;
 
   @media (width >= 48em) {
     flex: 1 1 12rem;
-    width: auto;
   }
+}
+
+.name_field {
+  flex: 1;
+}
+
+.detail_fields {
+  display: none;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+
+  @media (width >= 48em) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.detail_fields_expanded {
+  display: flex;
 }
 
 .number_field {
