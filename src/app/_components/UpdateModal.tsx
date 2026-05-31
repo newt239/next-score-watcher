@@ -2,15 +2,36 @@
 
 import { useEffect, useState } from "react";
 
-import { Box, List, ListItem, Modal, Title } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Divider,
+  Group,
+  List,
+  Modal,
+  ScrollArea,
+  Text,
+  ThemeIcon,
+  Title,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconBug, IconRocket, IconSparkles, IconTool, IconWand } from "@tabler/icons-react";
 
-import Link from "@/components/Link";
+import ClientLink from "@/components/ClientLink/ClientLink";
+import { changelog } from "@/utils/changelog";
+
+const sections = [
+  { key: "features", label: "新機能", color: "green", icon: <IconSparkles size="1rem" /> },
+  { key: "improvements", label: "改善", color: "blue", icon: <IconWand size="1rem" /> },
+  { key: "fixes", label: "不具合修正", color: "orange", icon: <IconBug size="1rem" /> },
+  { key: "others", label: "その他", color: "gray", icon: <IconTool size="1rem" /> },
+] as const;
 
 const UpdateModal: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [currentVersion, setCurrentVersion] = useState<string | null>("");
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
+  const latest = changelog[0];
 
   useEffect(() => {
     const raw = window.localStorage.getItem("scorewatcher-version");
@@ -33,66 +54,65 @@ const UpdateModal: React.FC = () => {
     });
   }, []);
 
-  const feature = {
-    news: (
-      <>
-        新ルール「アタック25」を追加しました。あわせて複数の形式における機能不備を修正しています。引き続きサポートフォームなどを通じてご報告いただけますと幸いです。
-      </>
-    ),
-    feature: ["新ルール「アタック25」を追加", "表示設定の変更をスコア表示へ即時反映するよう改善"],
-    bugfix: [
-      "誤答数の記号表示で✕の個数や○の混入が起きる不具合を修正",
-      "アプリ設定のトグルが正しく保存されない不具合を修正",
-      "N○M✕ / normal 形式のスコア計算・勝ち抜け・敗退判定の不具合を修正",
-    ],
-  };
-
   return (
     <Modal
       opened={opened}
       onClose={close}
-      title="新しいバージョンがリリースされました"
+      title={<Title order={3}>新しいバージョンがリリースされました</Title>}
       centered
-      size="auto"
+      radius="md"
+      size="lg"
     >
-      <Box>
-        {currentVersion && `v.${currentVersion} から`} v.{latestVersion} にアップデートしました。
-      </Box>
-      {feature && (
-        <>
-          {feature.news && (
-            <Box mt="md">
-              <Title order={3}>📢お知らせ</Title>
-              {feature.news}
-            </Box>
-          )}
-          {feature.feature.length > 0 && (
-            <Box mt="md">
-              <Title order={3}>🎉新機能</Title>
-              <List>
-                {feature.feature.map((v, i) => (
-                  <ListItem key={i}>{v}</ListItem>
+      <Group
+        gap="sm"
+        mb="md"
+        p="sm"
+        style={{ borderRadius: "var(--mantine-radius-md)" }}
+        bg="var(--mantine-color-blue-light)"
+        wrap="nowrap"
+      >
+        <ThemeIcon variant="white" color="blue" size="lg" radius="xl">
+          <IconRocket size="1.4rem" />
+        </ThemeIcon>
+        <Text fw={700}>
+          {currentVersion && `v.${currentVersion} から `}v.{latestVersion} にアップデートしました
+        </Text>
+      </Group>
+
+      <ScrollArea.Autosize mah="50vh" offsetScrollbars>
+        {latest.news && <Text mb="sm">{latest.news}</Text>}
+        {sections.map((section) => {
+          const items = latest[section.key];
+          if (!items || items.length === 0) return null;
+          return (
+            <Box key={section.key} mt="md">
+              <Group gap="xs" mb={4}>
+                <ThemeIcon variant="light" color={section.color} size="sm" radius="xl">
+                  {section.icon}
+                </ThemeIcon>
+                <Text fw={700} size="sm">
+                  {section.label}
+                </Text>
+              </Group>
+              <List size="sm" spacing={4} withPadding>
+                {items.map((item, i) => (
+                  <List.Item key={i}>{typeof item === "string" ? item : item.text}</List.Item>
                 ))}
               </List>
             </Box>
-          )}
-          {feature.bugfix.length > 0 && (
-            <Box mt="md">
-              <Title order={3}>🐛不具合修正</Title>
-              <List>
-                {feature.bugfix.map((v, i) => (
-                  <ListItem key={i}>{v}</ListItem>
-                ))}
-              </List>
-            </Box>
-          )}
-        </>
-      )}
-      <Box mt="md">
-        詳細は
-        <Link href="https://github.com/newt239/next-score-watcher/releases">リリースノート</Link>
-        をご確認ください。
-      </Box>
+          );
+        })}
+      </ScrollArea.Autosize>
+
+      <Divider my="md" />
+      <Group justify="flex-end">
+        <Button variant="subtle" color="gray" onClick={close}>
+          閉じる
+        </Button>
+        <Button component={ClientLink} href="/changelog" onClick={close}>
+          アップデート履歴を見る
+        </Button>
+      </Group>
     </Modal>
   );
 };

@@ -4,6 +4,7 @@ import {
   IconExternalLink,
   IconFileText,
   IconHelp,
+  IconHistory,
   IconInfoCircle,
   IconList,
   IconListDetails,
@@ -31,6 +32,7 @@ const QuickLinks = () => {
     { href: "/quizes", title: "問題管理", icon: <IconFileText /> },
     { href: "/option", title: "アプリ設定", icon: <IconSettings /> },
     { href: "/docs", title: "アプリ情報", icon: <IconInfoCircle /> },
+    { href: "/changelog", title: "アップデート履歴", icon: <IconHistory /> },
     {
       href: "https://docs.score-watcher.com/",
       title: "使い方を見る",

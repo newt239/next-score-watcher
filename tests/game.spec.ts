@@ -22,7 +22,8 @@ test.describe("アップデートモーダル", () => {
   });
 
   test("アップデートモーダルを閉じる", async () => {
-    await page.getByRole("dialog").locator("button").click();
+    // モーダルには×ボタン・「閉じる」・「アップデート履歴を見る」が並ぶため「閉じる」を明示的に押す
+    await page.getByRole("dialog").getByRole("button", { name: "閉じる" }).click();
     const headerEl = page.getByRole("dialog");
     await expect(headerEl).toBeVisible({ visible: false });
   });
