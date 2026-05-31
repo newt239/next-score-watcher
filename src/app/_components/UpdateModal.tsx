@@ -96,7 +96,7 @@ const UpdateModal: React.FC = () => {
               </Group>
               <List size="sm" spacing={4} withPadding>
                 {items.map((item, i) => (
-                  <List.Item key={i}>{item}</List.Item>
+                  <List.Item key={i}>{typeof item === "string" ? item : item.text}</List.Item>
                 ))}
               </List>
             </Box>
