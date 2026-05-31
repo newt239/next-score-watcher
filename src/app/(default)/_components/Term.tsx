@@ -6,7 +6,7 @@ import Link from "@/components/Link";
 
 const Term: React.FC = () => {
   return (
-    <Box mt="lg">
+    <Box>
       <Title order={2}>ご利用にあたって</Title>
       <List>
         <List.Item>

@@ -11,7 +11,6 @@ import db from "@/utils/db";
 import { parseGameList } from "@/utils/parseGameList";
 
 import GameListGrid from "../../games/_components/GameListGrid/GameListGrid";
-import classes from "./RecentGames.module.css";
 
 type Props = {
   currentProfile: string;
@@ -36,7 +35,7 @@ const RecentGames: React.FC<Props> = ({ currentProfile }) => {
   const recentGames = parseGameList(games, logs, "last_open").slice(0, RECENT_GAMES_COUNT);
 
   return (
-    <Box className={classes.recent_games}>
+    <Box>
       <Group justify="space-between" align="center" mb="md">
         <Title order={2} style={{ padding: 0 }}>
           最近のゲーム
