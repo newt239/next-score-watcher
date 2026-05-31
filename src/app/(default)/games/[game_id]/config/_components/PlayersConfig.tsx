@@ -3,14 +3,16 @@
 import { useState } from "react";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { ActionIcon, Card, Center, Menu, NumberInput, TextInput } from "@mantine/core";
+import { ActionIcon, Card, Center, Menu, NumberInput, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {
   IconChevronDown,
   IconDotsVertical,
   IconGripVertical,
   IconPencil,
+  IconTrash,
 } from "@tabler/icons-react";
+import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 
@@ -32,6 +34,7 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
   const [editingId, setEditingId] = useState<string | null>(null);
   // SPでは名前以外のフィールドを折り畳む。開いているプレイヤーをidで保持する
   const [openDetailIds, setOpenDetailIds] = useState<string[]>([]);
+  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -46,6 +49,22 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
       }
     },
   });
+
+  /**
+   * このゲームからプレイヤーを削除する。プレイヤーの元データは削除せず、ゲームの参加者から外す。
+   * @param playerId 削除するプレイヤーのid
+   */
+  const deleteGamePlayer = async (playerId: string) => {
+    const newPlayers = form.getValues().players.filter((player) => player.id !== playerId);
+    const deleteLogIdList = logs
+      ?.filter((log) => log.game_id === game_id && log.player_id === playerId)
+      .map((log) => log.id);
+    if (deleteLogIdList && deleteLogIdList.length > 0) {
+      await db(currentProfile).logs.bulkDelete(deleteLogIdList);
+    }
+    await db(currentProfile).games.update(game_id, { players: newPlayers });
+    form.setFieldValue("players", newPlayers);
+  };
 
   const fields = form.getValues().players.map((item, index) => {
     const detailOpen = openDetailIds.includes(item.id);
@@ -82,6 +101,13 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
                       onClick={() => setEditingId(item.id)}
                     >
                       元データを編集
+                    </Menu.Item>
+                    <Menu.Item
+                      color="red"
+                      leftSection={<IconTrash size="1rem" />}
+                      onClick={() => deleteGamePlayer(item.id)}
+                    >
+                      プレイヤーを削除
                     </Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
@@ -182,6 +208,11 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
     <>
       {players.length !== 0 && (
         <>
+          <Text size="sm" c="dimmed" mb="md">
+            プレイヤー左上の
+            <IconGripVertical size="1rem" className={classes.inline_icon} />
+            アイコンを持ってドラッグすると順番を変えられます。
+          </Text>
           <DragDropContext
             onDragEnd={({ destination, source }) =>
               destination?.index !== undefined &&

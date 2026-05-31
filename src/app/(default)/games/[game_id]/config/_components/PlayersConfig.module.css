@@ -2,6 +2,11 @@
   margin-bottom: var(--mantine-spacing-md);
 }
 
+.inline_icon {
+  margin: 0 0.1rem;
+  vertical-align: middle;
+}
+
 .card_dragging {
   border-color: var(--mantine-primary-color-filled);
 }
