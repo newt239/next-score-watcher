@@ -12,7 +12,6 @@ import {
   IconPencil,
   IconTrash,
 } from "@tabler/icons-react";
-import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 
@@ -34,7 +33,6 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
   const [editingId, setEditingId] = useState<string | null>(null);
   // SPでは名前以外のフィールドを折り畳む。開いているプレイヤーをidで保持する
   const [openDetailIds, setOpenDetailIds] = useState<string[]>([]);
-  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -56,13 +54,16 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
    */
   const deleteGamePlayer = async (playerId: string) => {
     const newPlayers = form.getValues().players.filter((player) => player.id !== playerId);
-    const deleteLogIdList = logs
-      ?.filter((log) => log.game_id === game_id && log.player_id === playerId)
-      .map((log) => log.id);
-    if (deleteLogIdList && deleteLogIdList.length > 0) {
-      await db(currentProfile).logs.bulkDelete(deleteLogIdList);
-    }
-    await db(currentProfile).games.update(game_id, { players: newPlayers });
+    const client = db(currentProfile);
+    await client.transaction("rw", client.logs, client.games, async () => {
+      // 該当ゲーム・該当プレイヤーの操作ログを削除する
+      await client.logs
+        .where("game_id")
+        .equals(game_id)
+        .and((log) => log.player_id === playerId)
+        .delete();
+      await client.games.update(game_id, { players: newPlayers });
+    });
     form.setFieldValue("players", newPlayers);
   };
 

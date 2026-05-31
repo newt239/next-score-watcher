@@ -123,17 +123,19 @@ const CompactPlayerTable: React.FC<Props> = ({
     })();
   }, []);
 
-  // カードからの削除などで外部からgamePlayersが変化した際に選択状態を同期する
+  // カードからの削除などで外部からgamePlayersやplayerListが変化した際に選択状態を同期する
   const gamePlayerIdsKey = gamePlayerIds.join(",");
+  const playerListKey = playerList.map((player) => player.id).join(",");
   useDidUpdate(() => {
+    const gamePlayerIdSet = new Set(gamePlayerIds);
     const newRowSelection: { [key: number]: boolean } = {};
     playerList.forEach((player, i) => {
-      if (gamePlayerIds.includes(player.id)) {
+      if (gamePlayerIdSet.has(player.id)) {
         newRowSelection[i] = true;
       }
     });
     setRowSelection(newRowSelection);
-  }, [gamePlayerIdsKey]);
+  }, [gamePlayerIdsKey, playerListKey]);
 
   // didにしておかないと選択状態がリセットされる
   useDidUpdate(() => {
