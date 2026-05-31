@@ -23,7 +23,6 @@ export const changelog: ChangelogEntry[] = [
       "アプリ設定のトグルが正しく保存されない不具合を修正",
       "N○M✕ / normal 形式のスコア計算・勝ち抜け・敗退判定の不具合を修正",
     ],
-    others: ["オンライン機能を削除しローカル版のみの構成に変更", "依存関係を更新"],
   },
   {
     version: "3.2.0",
@@ -143,13 +142,11 @@ export const changelog: ChangelogEntry[] = [
   },
 ];
 
-/** 今後追加予定の機能（※暫定。実際の予定に合わせて編集してください） */
 export const upcomingFeatures: string[] = [
   "得点表示画面のレイアウトをさらに細かくカスタマイズできる機能",
   "複数のゲームを大会としてまとめて管理する機能",
   "クイズ問題のインポート・エクスポート形式の拡充",
 ];
 
-/** 新機能の要望・不具合報告を受け付けるGoogleフォームのURL */
 export const REQUEST_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform";
