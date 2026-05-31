@@ -37,8 +37,19 @@
 }
 
 .rule_select {
+  display: none;
+
   @media (width >= 62em) {
+    display: block;
     flex: 1 1 auto;
+  }
+}
+
+.rule_native_select {
+  display: block;
+
+  @media (width >= 62em) {
+    display: none;
   }
 }
 

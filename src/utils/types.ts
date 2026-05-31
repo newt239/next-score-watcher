@@ -78,6 +78,16 @@ export type AllGameProps = {
 
 export type GamePropsUnion = AllGameProps[RuleNames];
 
+/** ゲーム一覧表示用に整形したゲーム1件分のデータ */
+export type ParsedGameListItem = {
+  id: string;
+  name: string;
+  type: string;
+  player_count: number;
+  state: string;
+  last_open: string;
+};
+
 export type PlayerDBProps = {
   id: string;
   name: string;

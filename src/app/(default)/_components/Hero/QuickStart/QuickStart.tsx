@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Anchor, Box, Button, NumberInput, Select } from "@mantine/core";
+import { Anchor, Box, Button, NativeSelect, NumberInput, Select } from "@mantine/core";
 import { IconArrowRight, IconSettings } from "@tabler/icons-react";
 import { z } from "zod";
 
@@ -37,6 +37,15 @@ const QuickStart = () => {
 
   const isPlayerCountFixed = typeof FIXED_PLAYER_COUNTS[rule] === "number";
 
+  /** 選択された形式を検証して state を更新し、固定人数形式なら人数も同期する */
+  const applyRule = (value: string | null) => {
+    const result = RuleSchema.safeParse(value);
+    if (!result.success) return;
+    setRule(result.data);
+    const fixed = FIXED_PLAYER_COUNTS[result.data];
+    if (typeof fixed === "number") setPlayers(fixed);
+  };
+
   return (
     <Box className={classes.card}>
       <Box className={classes.card_title}>得点表示を作る</Box>
@@ -48,13 +57,15 @@ const QuickStart = () => {
           label="形式"
           radius="md"
           value={rule}
-          onChange={(value) => {
-            const result = RuleSchema.safeParse(value);
-            if (!result.success) return;
-            setRule(result.data);
-            const fixed = FIXED_PLAYER_COUNTS[result.data];
-            if (typeof fixed === "number") setPlayers(fixed);
-          }}
+          onChange={(value) => applyRule(value)}
+        />
+        <NativeSelect
+          className={classes.rule_native_select}
+          data={ruleOptions}
+          label="形式"
+          radius="md"
+          value={rule}
+          onChange={(event) => applyRule(event.currentTarget.value)}
         />
         <NumberInput
           className={classes.player_input}

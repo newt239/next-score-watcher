@@ -7,15 +7,10 @@ import { cdate } from "cdate";
 import ButtonLink from "@/components/ButtonLink";
 import Link from "@/components/Link";
 
+import type { ParsedGameListItem } from "@/utils/types";
+
 type Props = {
-  gameList: {
-    id: string;
-    name: string;
-    type: string;
-    player_count: number;
-    state: string;
-    last_open: string;
-  }[];
+  gameList: ParsedGameListItem[];
 };
 
 const GameListTable: React.FC<Props> = ({ gameList }) => {

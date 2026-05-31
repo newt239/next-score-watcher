@@ -1,0 +1,41 @@
+.quick_links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+
+  @media (width >= 62em) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.quick_link_card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    box-shadow: var(--mantine-shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+.quick_link_title {
+  font-size: 1.125rem;
+}
+
+.quick_link_description {
+  font-size: 0.875rem;
+  color: var(--mantine-color-dimmed);
+}
+
+.quick_link_footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+}

@@ -1,5 +1,8 @@
 .features {
   z-index: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
   padding: 1rem 1rem 0;
   background-image:
     linear-gradient(0deg, transparent calc(100% - 1px), #f0f0f0 calc(100% - 1px)),
@@ -12,51 +15,46 @@
       linear-gradient(0deg, transparent calc(100% - 1px), #2d3748 calc(100% - 1px)),
       linear-gradient(90deg, transparent calc(100% - 1px), #2d3748 calc(100% - 1px));
   }
+
+  @media (width >= 62em) {
+    gap: 0;
+  }
 }
 
 .each_feature {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: flex-start;
   padding: 0.5rem;
   font-size: 1.5rem;
   line-height: 1.5rem;
-
-  &:nth-child(odd) {
-    align-items: flex-start;
-
-    .feature_decoration {
-      left: -5px;
-
-      @media (width >= 62em) {
-        left: -30px;
-      }
-    }
-  }
-
-  &:nth-child(even) {
-    align-items: flex-end;
-
-    .feature_decoration {
-      right: -5px;
-
-      @media (width >= 62em) {
-        right: -30px;
-      }
-    }
-  }
 
   @media (width >= 62em) {
     gap: 1rem;
     padding: 2rem;
     font-size: 2rem;
     line-height: 2rem;
+
+    &:nth-child(odd) .feature_decoration {
+      left: -30px;
+    }
+
+    &:nth-child(even) {
+      align-items: flex-end;
+
+      .feature_decoration {
+        right: -30px;
+        left: auto;
+      }
+    }
   }
 }
 
 .feature_decoration {
   position: absolute;
   top: -5px;
+  left: -5px;
   z-index: 0;
   width: 90px;
   height: 90px;
@@ -83,5 +81,19 @@
 
 .feature_image {
   z-index: 10;
-  width: 75%;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--mantine-color-white);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--mantine-shadow-md);
+
+  @mixin dark {
+    background-color: var(--mantine-color-dark-6);
+    border-color: var(--mantine-color-dark-4);
+  }
+
+  @media (width >= 62em) {
+    width: 75%;
+  }
 }
