@@ -3,13 +3,14 @@
 import { useState } from "react";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { ActionIcon, Card, Center, Menu, NumberInput, TextInput } from "@mantine/core";
+import { ActionIcon, Card, Center, Menu, NumberInput, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {
   IconChevronDown,
   IconDotsVertical,
   IconGripVertical,
   IconPencil,
+  IconTrash,
 } from "@tabler/icons-react";
 
 import db from "@/utils/db";
@@ -47,6 +48,25 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
     },
   });
 
+  /**
+   * このゲームからプレイヤーを削除する。プレイヤーの元データは削除せず、ゲームの参加者から外す。
+   * @param playerId 削除するプレイヤーのid
+   */
+  const deleteGamePlayer = async (playerId: string) => {
+    const newPlayers = form.getValues().players.filter((player) => player.id !== playerId);
+    const client = db(currentProfile);
+    await client.transaction("rw", client.logs, client.games, async () => {
+      // 該当ゲーム・該当プレイヤーの操作ログを削除する
+      await client.logs
+        .where("game_id")
+        .equals(game_id)
+        .and((log) => log.player_id === playerId)
+        .delete();
+      await client.games.update(game_id, { players: newPlayers });
+    });
+    form.setFieldValue("players", newPlayers);
+  };
+
   const fields = form.getValues().players.map((item, index) => {
     const detailOpen = openDetailIds.includes(item.id);
     return (
@@ -82,6 +102,13 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
                       onClick={() => setEditingId(item.id)}
                     >
                       元データを編集
+                    </Menu.Item>
+                    <Menu.Item
+                      color="red"
+                      leftSection={<IconTrash size="1rem" />}
+                      onClick={() => deleteGamePlayer(item.id)}
+                    >
+                      プレイヤーを削除
                     </Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
@@ -182,6 +209,11 @@ const PlayersConfig: React.FC<Props> = ({ game_id, rule, playerList, players, cu
     <>
       {players.length !== 0 && (
         <>
+          <Text size="sm" c="dimmed" mb="md">
+            プレイヤー左上の
+            <IconGripVertical size="1rem" className={classes.inline_icon} />
+            アイコンを持ってドラッグすると順番を変えられます。
+          </Text>
           <DragDropContext
             onDragEnd={({ destination, source }) =>
               destination?.index !== undefined &&
