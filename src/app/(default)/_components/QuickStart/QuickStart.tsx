@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-import { Anchor, Box, Button, NativeSelect, NumberInput, Select } from "@mantine/core";
-import { IconArrowRight, IconSettings } from "@tabler/icons-react";
+import { ActionIcon, Anchor, Box, Button, NativeSelect, NumberInput, Select } from "@mantine/core";
+import { IconArrowRight, IconMinus, IconPlus, IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
 import { z } from "zod";
 
@@ -14,21 +14,21 @@ import classes from "./QuickStart.module.css";
 
 import type { RuleNames } from "@/utils/types";
 
-/** 形式ごとに人数を固定する場合の値。指定がない形式は任意の人数を選べる */
+import type { NumberInputHandlers } from "@mantine/core";
+
 const FIXED_PLAYER_COUNTS: Partial<Record<RuleNames, number>> = {
   attack25: 4,
   aql: 10,
 };
 
-/** rules に存在する形式名のみ受け付けるスキーマ */
 const RuleSchema = z.custom<RuleNames>(
   (value) => typeof value === "string" && Object.prototype.hasOwnProperty.call(rules, value)
 );
 
-/** 形式と人数を選んでワンクリックでゲームを開始するヒーロー内のクイックスタートカード */
 const QuickStart = () => {
   const [rule, setRule] = useState<RuleNames>("nomx");
   const [players, setPlayers] = useState<number>(5);
+  const handlersRef = useRef<NumberInputHandlers>(null);
 
   const ruleOptions = Object.values(rules).map((r) => ({
     value: r.rule,
@@ -37,7 +37,6 @@ const QuickStart = () => {
 
   const isPlayerCountFixed = typeof FIXED_PLAYER_COUNTS[rule] === "number";
 
-  /** 選択された形式を検証して state を更新し、固定人数形式なら人数も同期する */
   const applyRule = (value: string | null) => {
     const result = RuleSchema.safeParse(value);
     if (!result.success) return;
@@ -56,6 +55,7 @@ const QuickStart = () => {
           data={ruleOptions}
           label="形式"
           radius="md"
+          size="lg"
           value={rule}
           onChange={(value) => applyRule(value)}
         />
@@ -64,17 +64,50 @@ const QuickStart = () => {
           data={ruleOptions}
           label="形式"
           radius="md"
+          size="lg"
           value={rule}
           onChange={(event) => applyRule(event.currentTarget.value)}
         />
         <NumberInput
           className={classes.player_input}
+          classNames={{ input: classes.player_input_field }}
           clampBehavior="strict"
           disabled={isPlayerCountFixed}
+          handlersRef={handlersRef}
+          hideControls
           label="人数"
+          leftSection={
+            <ActionIcon
+              aria-label="人数を減らす"
+              disabled={isPlayerCountFixed || players <= 1}
+              radius="md"
+              size="lg"
+              variant="subtle"
+              onClick={() => handlersRef.current?.decrement()}
+            >
+              <IconMinus />
+            </ActionIcon>
+          }
+          leftSectionPointerEvents="all"
+          leftSectionWidth={48}
           max={MAX_PLAYER_COUNT}
           min={1}
           radius="md"
+          rightSection={
+            <ActionIcon
+              aria-label="人数を増やす"
+              disabled={isPlayerCountFixed || players >= MAX_PLAYER_COUNT}
+              radius="md"
+              size="lg"
+              variant="subtle"
+              onClick={() => handlersRef.current?.increment()}
+            >
+              <IconPlus />
+            </ActionIcon>
+          }
+          rightSectionPointerEvents="all"
+          rightSectionWidth={48}
+          size="lg"
           value={players}
           onChange={(value) => setPlayers(typeof value === "number" ? value : 1)}
         />
@@ -85,12 +118,12 @@ const QuickStart = () => {
           href={`/games/new?rule=${rule}&players=${players}`}
           radius="lg"
           rightSection={<IconArrowRight />}
-          size="md"
+          size="lg"
         >
           開始する
         </Button>
         <Anchor className={classes.detail_link} component={Link} href={`/games/new?rule=${rule}`}>
-          <IconSettings size={16} />
+          <IconSettings size={18} />
           細かく設定する
         </Anchor>
       </Box>

@@ -1,7 +1,7 @@
 import { Box, Image } from "@mantine/core";
 
+import QuickStart from "../QuickStart/QuickStart";
 import classes from "./Hero.module.css";
-import QuickStart from "./QuickStart/QuickStart";
 
 const Hero = () => {
   return (
