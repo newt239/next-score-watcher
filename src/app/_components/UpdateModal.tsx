@@ -16,8 +16,8 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBug, IconRocket, IconSparkles, IconTool, IconWand } from "@tabler/icons-react";
+import Link from "next/link";
 
-import ClientLink from "@/components/ClientLink/ClientLink";
 import { changelog } from "@/utils/changelog";
 
 const sections = [
@@ -109,7 +109,7 @@ const UpdateModal: React.FC = () => {
         <Button variant="subtle" color="gray" onClick={close}>
           閉じる
         </Button>
-        <Button component={ClientLink} href="/changelog" onClick={close}>
+        <Button component={Link} href="/changelog" onClick={close}>
           アップデート履歴を見る
         </Button>
       </Group>

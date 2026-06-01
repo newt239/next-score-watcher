@@ -11,8 +11,7 @@ import {
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react";
-
-import ClientLink from "@/components/ClientLink/ClientLink";
+import Link from "next/link";
 
 import classes from "./QuickLinks.module.css";
 
@@ -48,28 +47,27 @@ const QuickLinks = () => {
       </Title>
       <Box className={classes.card_grid}>
         {links.map((link) => (
-          <Card
-            className={classes.quick_link_card}
-            component={ClientLink}
+          <Link
+            className={classes.quick_link_card_link}
             href={link.href}
             key={link.href}
             rel={link.external ? "noopener noreferrer" : undefined}
-            shadow="xs"
             target={link.external ? "_blank" : undefined}
-            withBorder
           >
-            <Group className={classes.quick_link_label} gap="sm" wrap="nowrap">
-              {link.icon}
-              <Title className={classes.quick_link_title} order={3}>
-                {link.title}
-              </Title>
-            </Group>
-            {link.external ? (
-              <IconExternalLink className={classes.quick_link_chevron} />
-            ) : (
-              <IconChevronRight className={classes.quick_link_chevron} />
-            )}
-          </Card>
+            <Card className={classes.quick_link_card} shadow="xs" withBorder>
+              <Group className={classes.quick_link_label} gap="sm" wrap="nowrap">
+                {link.icon}
+                <Title className={classes.quick_link_title} order={3}>
+                  {link.title}
+                </Title>
+              </Group>
+              {link.external ? (
+                <IconExternalLink className={classes.quick_link_chevron} />
+              ) : (
+                <IconChevronRight className={classes.quick_link_chevron} />
+              )}
+            </Card>
+          </Link>
         ))}
       </Box>
     </Box>

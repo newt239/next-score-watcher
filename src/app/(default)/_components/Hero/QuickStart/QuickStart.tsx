@@ -4,9 +4,9 @@ import { useState } from "react";
 
 import { Anchor, Box, Button, NativeSelect, NumberInput, Select } from "@mantine/core";
 import { IconArrowRight, IconSettings } from "@tabler/icons-react";
+import Link from "next/link";
 import { z } from "zod";
 
-import ClientLink from "@/components/ClientLink/ClientLink";
 import { MAX_PLAYER_COUNT } from "@/utils/functions";
 import { rules } from "@/utils/rules";
 
@@ -81,7 +81,7 @@ const QuickStart = () => {
       </Box>
       <Box className={classes.actions}>
         <Button
-          component={ClientLink}
+          component={Link}
           href={`/games/new?rule=${rule}&players=${players}`}
           radius="lg"
           rightSection={<IconArrowRight />}
@@ -89,11 +89,7 @@ const QuickStart = () => {
         >
           開始する
         </Button>
-        <Anchor
-          className={classes.detail_link}
-          component={ClientLink}
-          href={`/games/new?rule=${rule}`}
-        >
+        <Anchor className={classes.detail_link} component={Link} href={`/games/new?rule=${rule}`}>
           <IconSettings size={16} />
           細かく設定する
         </Anchor>

@@ -1,7 +1,6 @@
 import { Anchor, Box, Flex } from "@mantine/core";
 import { getImageProps } from "next/image";
-
-import ClientLink from "@/components/ClientLink/ClientLink";
+import Link from "next/link";
 
 import Hamburger from "../Hamburger/Hamburger";
 import SelectProfile from "../SelectProfile/SelectProfile";
@@ -36,13 +35,13 @@ const Header = () => {
   return (
     <Box component="header" className={classes.header}>
       <Flex className={classes.header_inner}>
-        <Flex component={ClientLink} className={classes.header_link} href="/">
+        <Link className={classes.header_link} href="/">
           <picture className={classes.header_logo}>
             <source media="(min-width:62em)" srcSet={desktop} />
             <source media="(max-width:62em)" srcSet={mobile} />
             <img {...rest} alt="Score Watcherのロゴ。三日月の中央に円が配置されたモノカラー" />
           </picture>
-        </Flex>
+        </Link>
         <Box hiddenFrom="md">
           <Hamburger>
             <SubMenu />
@@ -55,7 +54,7 @@ const Header = () => {
             <Flex className={classes.header_copyright}>
               <Box>
                 ©{" "}
-                <Anchor component={ClientLink} c="white" href="https://twitter.com/newt239">
+                <Anchor c="white" href="https://twitter.com/newt239">
                   newt239
                 </Anchor>
               </Box>

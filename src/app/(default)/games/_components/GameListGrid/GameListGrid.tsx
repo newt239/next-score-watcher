@@ -3,8 +3,8 @@
 import { Box, Button, Card, Flex, List } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import { cdate } from "cdate";
+import { default as NextLink } from "next/link";
 
-import ClientLink from "@/components/ClientLink/ClientLink";
 import Link from "@/components/Link";
 
 import classes from "./GameListGrid.module.css";
@@ -29,7 +29,7 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
           {gameList.map((game) => (
             <Card
               className={classes.game_card}
-              component={ClientLink}
+              component={NextLink}
               href={`/games/${game.id}/config`}
               key={game.id}
               shadow="xs"
