@@ -50,7 +50,7 @@ const Changelog: React.FC = () => {
                 className={classes.version_heading}
               >
                 <Title order={3}>v{entry.version}</Title>
-                <Text size="sm" c="dimmed">
+                <Text size="md" c="dimmed">
                   {`${year}年${Number(month)}月${Number(day)}日`}
                 </Text>
               </Group>
@@ -62,13 +62,13 @@ const Changelog: React.FC = () => {
                   <Box key={section.key} className={classes.section}>
                     <Title order={4} className={classes.section_heading}>
                       <Group gap="xs">
-                        <ThemeIcon variant="light" color={section.color} size="sm" radius="xl">
+                        <ThemeIcon variant="light" color={section.color} size="md" radius="xl">
                           {section.icon}
                         </ThemeIcon>
                         {section.label}
                       </Group>
                     </Title>
-                    <List size="sm" spacing="sm" withPadding>
+                    <List size="md" spacing="md">
                       {items.map((item, i) => {
                         const text = typeof item === "string" ? item : item.text;
                         const image = typeof item === "string" ? undefined : item.image;
