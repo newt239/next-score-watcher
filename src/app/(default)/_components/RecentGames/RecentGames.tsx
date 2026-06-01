@@ -40,7 +40,7 @@ const RecentGames: React.FC<Props> = ({ currentProfile }) => {
         <Title order={2} style={{ padding: 0 }}>
           最近のゲーム
         </Title>
-        <ButtonLink href="/games" leftSection={<IconList />} size="sm" variant="subtle">
+        <ButtonLink href="/games" leftSection={<IconList />} size="sm" variant="white">
           すべて見る
         </ButtonLink>
       </Group>

@@ -30,7 +30,7 @@ const PlayerPage = async ({ searchParams }: Props) => {
         <ButtonLink
           href={`/games/${from}/config`}
           leftSection={<IconArrowLeft />}
-          variant="subtle"
+          variant="white"
           style={{ width: "fit-content" }}
         >
           ゲーム設定に戻る
