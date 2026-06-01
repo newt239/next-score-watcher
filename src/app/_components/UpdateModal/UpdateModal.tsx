@@ -12,13 +12,14 @@ import {
   ScrollArea,
   Text,
   ThemeIcon,
-  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBug, IconRocket, IconSparkles, IconTool, IconWand } from "@tabler/icons-react";
 import Link from "next/link";
 
 import { changelog } from "@/utils/changelog";
+
+import classes from "./UpdateModal.module.css";
 
 const sections = [
   { key: "features", label: "新機能", color: "green", icon: <IconSparkles size="1rem" /> },
@@ -58,7 +59,7 @@ const UpdateModal: React.FC = () => {
     <Modal
       opened={opened}
       onClose={close}
-      title={<Title order={3}>新しいバージョンがリリースされました</Title>}
+      title="新しいバージョンがリリースされました"
       centered
       radius="md"
       size="lg"
@@ -90,11 +91,11 @@ const UpdateModal: React.FC = () => {
                 <ThemeIcon variant="light" color={section.color} size="sm" radius="xl">
                   {section.icon}
                 </ThemeIcon>
-                <Text fw={700} size="sm">
+                <Text fw={700} size="md">
                   {section.label}
                 </Text>
               </Group>
-              <List size="sm" spacing={4} withPadding>
+              <List size="sm" spacing={4} fz="md">
                 {items.map((item, i) => (
                   <List.Item key={i}>{typeof item === "string" ? item : item.text}</List.Item>
                 ))}
@@ -105,14 +106,19 @@ const UpdateModal: React.FC = () => {
       </ScrollArea.Autosize>
 
       <Divider my="md" />
-      <Group justify="flex-end">
+      <Box className={classes.footer}>
         <Button variant="subtle" color="gray" onClick={close}>
           閉じる
         </Button>
         <Button component={Link} href="/changelog" onClick={close}>
-          アップデート履歴を見る
+          <Box component="span" hiddenFrom="sm">
+            詳しく見る
+          </Box>
+          <Box component="span" visibleFrom="sm">
+            アップデート履歴を見る
+          </Box>
         </Button>
-      </Group>
+      </Box>
     </Modal>
   );
 };

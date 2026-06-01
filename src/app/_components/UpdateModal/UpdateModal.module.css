@@ -1,0 +1,23 @@
+.banner {
+  align-items: flex-start;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  gap: var(--mantine-spacing-sm);
+}
+
+.footer > * {
+  flex: 1 1 0;
+}
+
+@media (width >= 48em) {
+  .footer {
+    justify-content: flex-end;
+  }
+
+  .footer > * {
+    flex: 0 0 auto;
+  }
+}
