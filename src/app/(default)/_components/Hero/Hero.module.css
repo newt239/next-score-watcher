@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 78vh;
+  min-height: max(400px, calc(100dvh - 4rem - (23.5rem * 0.4) - 1.25rem));
   padding: 2.5rem 1.5rem;
 
   @media (width >= 62em) {
