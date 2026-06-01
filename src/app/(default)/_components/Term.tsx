@@ -3,10 +3,11 @@
 import { Box, List, Title } from "@mantine/core";
 
 import Link from "@/components/Link";
+import { REQUEST_FORM_URL } from "@/utils/changelog";
 
 const Term: React.FC = () => {
   return (
-    <Box mt="lg">
+    <Box>
       <Title order={2}>ご利用にあたって</Title>
       <List>
         <List.Item>
@@ -33,9 +34,7 @@ const Term: React.FC = () => {
           でコメントをお寄せください。不具合報告や機能要望なども受け付けます。
         </List.Item>
         <List.Item>
-          <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform">
-            Googleフォーム
-          </Link>
+          <Link href={REQUEST_FORM_URL}>Googleフォーム</Link>
           でユーザーアンケートを行っています。今後のアップデートの参考とするため、ご協力いただけると幸いです。
         </List.Item>
       </List>

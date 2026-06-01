@@ -8,7 +8,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { theme } from "@/utils/theme";
 
 import TypekitLoader from "./TypekitLoader";
-import UpdateModal from "./UpdateModal";
+import UpdateModal from "./UpdateModal/UpdateModal";
 
 type ClientRootProps = {
   children: React.ReactNode;

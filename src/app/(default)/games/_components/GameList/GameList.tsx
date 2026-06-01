@@ -6,10 +6,9 @@ import { Group, NativeSelect, SegmentedControl, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { useLiveQuery } from "dexie-react-hooks";
 
-import Link from "@/components/Link";
 import { CURRENT_PROFILE_STORAGE_KEY } from "@/utils/current-profile";
 import db from "@/utils/db";
-import { getRuleStringByType } from "@/utils/rules";
+import { parseGameList } from "@/utils/parseGameList";
 
 import GameListGrid from "../GameListGrid/GameListGrid";
 import GameListTable from "../GameListTable/GameListTable";
@@ -31,30 +30,7 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
   const [orderType, setOrderType] = useState<"last_open" | "name">("last_open");
   const [displayMode, setDisplayMode] = useState<"grid" | "table">("grid");
 
-  const parsedGameList = (games || [])
-    .sort((prev, cur) => {
-      if (orderType === "last_open") {
-        if (prev.last_open > cur.last_open) return -1;
-        if (prev.last_open < cur.last_open) return 1;
-        return 0;
-      } else {
-        if (prev.name < cur.name) return -1;
-        if (prev.name > cur.name) return 1;
-        return 0;
-      }
-    })
-    .map((game) => {
-      const eachGameLogs = (logs || []).filter((log) => log.game_id === game.id);
-      const gameState = eachGameLogs.length === 0 ? "設定中" : `${eachGameLogs.length}問目`;
-      return {
-        id: game.id,
-        name: game.name,
-        type: getRuleStringByType(game),
-        player_count: game.players.length,
-        state: gameState,
-        last_open: game.last_open,
-      };
-    });
+  const parsedGameList = parseGameList(games, logs, orderType);
 
   return (
     <>
@@ -73,13 +49,7 @@ const GameList: React.FC<Props> = ({ currentProfile }) => {
           <option value="name">ゲーム名順</option>
         </NativeSelect>
       </Group>
-      {parsedGameList.length === 0 ? (
-        <p>
-          作成済みのゲームはありません。
-          <Link href="/rules">形式一覧</Link>
-          ページから新しいゲームを作ることが出来ます。
-        </p>
-      ) : displayMode === "grid" ? (
+      {displayMode === "grid" ? (
         <GameListGrid gameList={parsedGameList} />
       ) : (
         <GameListTable gameList={parsedGameList} />

@@ -3,6 +3,7 @@
 import { Flex } from "@mantine/core";
 import {
   IconHelp,
+  IconHistory,
   IconHome,
   IconInfoCircle,
   IconList,
@@ -26,6 +27,7 @@ const linkList: { text: string; path: string; icon: React.ReactNode }[] = [
   { path: "/quizes", text: "問題管理", icon: <IconQuestionMark /> },
   { path: "/option", text: "アプリ設定", icon: <IconSettings /> },
   { path: "/docs", text: "アプリ情報", icon: <IconInfoCircle /> },
+  { path: "/changelog", text: "アップデート履歴", icon: <IconHistory /> },
   {
     path: "https://docs.score-watcher.com/",
     text: "使い方を見る",

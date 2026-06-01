@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Box } from "@mantine/core";
 import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
@@ -48,8 +48,23 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
   );
   const [scores, setScores] = useState<ComputedScoreProps[]>([]);
   const playerList = useLiveQuery(() => db(currentProfile).players.toArray(), [currentProfile]);
-  const [players, setPlayers] = useState<PlayerDBProps[]>([]);
   const [skipSuggest, setSkipSuggest] = useState(false);
+
+  // 表示名はゲーム独自名(game.players[].name)を用い、順位・所属・タグは元データから補完する
+  const players = useMemo<PlayerDBProps[]>(() => {
+    if (!game || !playerList) return [];
+    const masterById = new Map(playerList.map((player) => [player.id, player]));
+    return game.players.map((gamePlayer) => {
+      const master = masterById.get(gamePlayer.id);
+      return {
+        id: gamePlayer.id,
+        name: gamePlayer.name,
+        text: master?.text ?? "",
+        belong: master?.belong ?? "",
+        tags: master?.tags ?? [],
+      };
+    });
+  }, [game, playerList]);
 
   const [showHeader] = useLocalStorage({
     key: "showBoardHeader",
@@ -67,20 +82,6 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
       document.title = `${game.name} | Score Watcher`;
     }
   }, [game]);
-
-  useEffect(() => {
-    if (playerList) {
-      const gamePlayers = (
-        game?.players.map((gamePlayer) =>
-          playerList.find((player) => player.id === gamePlayer.id)
-        ) || []
-      )
-        // undefined が消えてくれないのでタイプガードを使う
-        // https://qiita.com/suin/items/cda9af4f4f1c53c05c6f
-        .filter((v): v is PlayerDBProps => v !== undefined);
-      setPlayers(gamePlayers);
-    }
-  }, [playerList, game]);
 
   const [winThroughPlayer, setWinThroughPlayer] = useState<{
     name: string;

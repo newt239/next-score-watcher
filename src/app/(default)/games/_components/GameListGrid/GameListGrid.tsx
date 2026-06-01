@@ -1,23 +1,18 @@
 "use client";
 
-import { Box, Card, Flex, List } from "@mantine/core";
-import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
+import { Box, Button, Card, Flex, List } from "@mantine/core";
+import { IconChevronRight } from "@tabler/icons-react";
 import { cdate } from "cdate";
+import { default as NextLink } from "next/link";
 
-import ButtonLink from "@/components/ButtonLink";
 import Link from "@/components/Link";
 
 import classes from "./GameListGrid.module.css";
 
+import type { ParsedGameListItem } from "@/utils/types";
+
 type Props = {
-  gameList: {
-    id: string;
-    name: string;
-    type: string;
-    player_count: number;
-    state: string;
-    last_open: string;
-  }[];
+  gameList: ParsedGameListItem[];
 };
 
 const GameListGrid: React.FC<Props> = ({ gameList }) => {
@@ -32,7 +27,15 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
       ) : (
         <Box className={classes.game_list_grid}>
           {gameList.map((game) => (
-            <Card shadow="xs" key={game.id} title={game.name} withBorder>
+            <Card
+              className={classes.game_card}
+              component={NextLink}
+              href={`/games/${game.id}/config`}
+              key={game.id}
+              shadow="xs"
+              title={game.name}
+              withBorder
+            >
               <Card.Section className={classes.game_name} withBorder inheritPadding>
                 {game.name}
               </Card.Section>
@@ -46,13 +49,9 @@ const GameListGrid: React.FC<Props> = ({ gameList }) => {
               </Card.Section>
               <Flex className={classes.game_footer}>
                 <Box>{cdate(game.last_open).format("MM/DD HH:mm")}</Box>
-                <ButtonLink
-                  href={`/games/${game.id}/config`}
-                  leftSection={<IconAdjustmentsHorizontal />}
-                  size="sm"
-                >
+                <Button component="span" rightSection={<IconChevronRight />} size="sm">
                   開く
-                </ButtonLink>
+                </Button>
               </Flex>
             </Card>
           ))}

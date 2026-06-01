@@ -3,7 +3,7 @@
 import { Button, type ButtonProps } from "@mantine/core";
 import Link from "next/link";
 
-export type Props = {
+type Props = {
   children: React.ReactNode;
   href: string;
   className?: string;

@@ -1,0 +1,30 @@
+.version_heading {
+  padding-bottom: 0.15rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+
+.section_heading {
+  margin-bottom: 0.75rem;
+}
+
+.entry_list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.section {
+  margin-top: 1.75rem;
+}
+
+.section li {
+  line-height: 1.9;
+}
+
+.feature_image {
+  max-width: 100%;
+  margin-block: 0.25rem;
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-sm);
+}

@@ -22,7 +22,8 @@ test.describe("アップデートモーダル", () => {
   });
 
   test("アップデートモーダルを閉じる", async () => {
-    await page.getByRole("dialog").locator("button").click();
+    // モーダルには×ボタン・「閉じる」・「アップデート履歴を見る」が並ぶため「閉じる」を明示的に押す
+    await page.getByRole("dialog").getByRole("button", { name: "閉じる" }).click();
     const headerEl = page.getByRole("dialog");
     await expect(headerEl).toBeVisible({ visible: false });
   });
@@ -37,7 +38,8 @@ test.describe("得点表示", () => {
   });
 
   test("形式一覧ページに移動できる", async () => {
-    await page.getByRole("link", { name: "ゲームを作る" }).click();
+    // トップページの QuickLinks にも同名リンクがあるため、サイドバー(banner)に限定する
+    await page.getByRole("banner").getByRole("link", { name: "形式一覧" }).click();
     await expect(page).toHaveTitle(/形式一覧/);
   });
 
@@ -76,11 +78,13 @@ test.describe("得点表示", () => {
     if (isMobile) {
       await page.getByRole("banner").getByRole("button").first().click();
     }
-    await page.getByRole("link", { name: "作成したゲーム" }).click();
+    // トップページの QuickLinks にも同名リンクがあるため、サイドバー(banner)に限定する
+    await page.getByRole("banner").getByRole("link", { name: "作成したゲーム" }).click();
     await expect(page).toHaveTitle(/作成したゲーム/);
     const gameEl = page.getByTitle("スコア計算").first();
     await expect(gameEl).toContainText("5人");
-    await gameEl.getByRole("link", { name: "開く" }).click();
+    // ゲームカード全体がリンクになっているため、カードをクリックして設定ページへ遷移する
+    await gameEl.click();
   });
 
   test("得点表示のページに移動できる", async () => {
@@ -154,7 +158,8 @@ test.describe("誤答数の記号表示", () => {
     if (isMobile) {
       await page.getByRole("banner").getByRole("button").first().click();
     }
-    await page.getByRole("link", { name: "ゲームを作る" }).click();
+    // トップページの QuickLinks にも同名リンクがあるため、サイドバー(banner)に限定する
+    await page.getByRole("banner").getByRole("link", { name: "形式一覧" }).click();
     await expect(page).toHaveTitle(/形式一覧/);
     // 「N○M✕」(nomx)と「連答つきN○M✕」(nomx-ad)を区別するため厳密一致で絞り込む
     const card = page
@@ -165,6 +170,8 @@ test.describe("誤答数の記号表示", () => {
   });
 
   test("失格誤答数を増やして敗退を防ぐ", async () => {
+    // 初期表示は「プレイヤー設定」タブのため、形式設定タブを開く
+    await page.getByRole("tab", { name: "形式設定" }).click();
     // 既定では誤答3回で失格になるため、表示検証のため失格誤答数を増やす
     const losePointInput = page.getByLabel("失格誤答数");
     await losePointInput.fill("10");

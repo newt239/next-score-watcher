@@ -29,7 +29,7 @@ const ManageQuiz: React.FC<Props> = ({ currentProfile }) => {
       <h3>問題の読み込み</h3>
       <TextInput label="セット名" onChange={(e) => setSetName(e.target.value)} value={setName} />
       <Tabs pt="lg" variant="outline" defaultValue="paste">
-        <Tabs.List mt="lg" grow>
+        <Tabs.List mt="lg" grow className={classes.tab_list}>
           <Tabs.Tab value="paste">貼り付け</Tabs.Tab>
           <Tabs.Tab value="import">インポート</Tabs.Tab>
         </Tabs.List>

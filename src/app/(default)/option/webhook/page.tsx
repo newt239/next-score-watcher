@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const WebhookPage = () => {
   return (
     <>
-      <ButtonLink variant="subtle" href="/option" leftSection={<IconArrowBackUp />} size="sm">
+      <ButtonLink variant="white" href="/option" leftSection={<IconArrowBackUp />} size="sm">
         アプリ設定に戻る
       </ButtonLink>
       <div>
