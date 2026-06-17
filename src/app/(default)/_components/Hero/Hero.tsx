@@ -27,7 +27,7 @@ const Hero = () => {
           <p className={classes.hero_subtitle}>
             <span className={classes.nowrap}>スコアの表示だけでなく、</span>
             <span className={classes.nowrap}>勝ち抜け・敗退状態や</span>
-            <span className={classes.nowrap}>問題文の表示にも対応。</span>
+            <span className={classes.nowrap}>問題文の表示にも対応</span>
           </p>
         </Box>
         <Box className={classes.hero_card}>
