@@ -7,7 +7,6 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { theme } from "@/utils/theme";
 
-import TypekitLoader from "./TypekitLoader";
 import UpdateModal from "./UpdateModal/UpdateModal";
 
 type ClientRootProps = {
@@ -20,7 +19,6 @@ type ClientRootProps = {
 const ClientRoot: React.FC<ClientRootProps> = ({ children }) => {
   return (
     <>
-      <TypekitLoader />
       <NuqsAdapter>
         <MantineProvider theme={theme}>
           <ModalsProvider>

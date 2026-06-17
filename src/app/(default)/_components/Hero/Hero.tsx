@@ -1,4 +1,5 @@
-import { Box, Image } from "@mantine/core";
+import { Box } from "@mantine/core";
+import Image from "next/image";
 
 import QuickStart from "../QuickStart/QuickStart";
 import classes from "./Hero.module.css";
@@ -7,7 +8,14 @@ const Hero = () => {
   return (
     <Box className={classes.hero}>
       <Box className={classes.hero_media}>
-        <Image alt="大会画像" src="/images/hero.webp" className={classes.hero_image} />
+        <Image
+          alt="大会画像"
+          src="/images/hero.webp"
+          fill
+          priority
+          sizes="100vw"
+          className={classes.hero_image}
+        />
         <Box className={classes.hero_tint} />
       </Box>
       <Box className={classes.hero_content}>
