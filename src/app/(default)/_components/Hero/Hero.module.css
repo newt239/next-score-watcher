@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: max(400px, calc(100dvh - 4rem - (23.5rem * 0.4) - 1.25rem));
+  min-height: max(400px, calc(100svh - 4rem - (23.5rem * 0.4) - 1.25rem));
   padding: 2.5rem 1.5rem;
 
   @media (width >= 62em) {
@@ -77,8 +77,8 @@
   max-width: 32rem;
   margin: 0.75rem 0 0;
   font-size: clamp(0.9rem, 1.6vw, 1.125rem);
-  font-weight: 500;
-  line-height: 1.6;
+  font-weight: 800;
+  line-height: 1.3;
   color: rgb(255 255 255 / 95%);
   text-shadow: 0 1px 10px rgb(0 0 0 / 60%);
 }
