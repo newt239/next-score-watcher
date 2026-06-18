@@ -8,7 +8,7 @@ import Link from "next/link";
 import { z } from "zod";
 
 import { MAX_PLAYER_COUNT } from "@/utils/functions";
-import { rules } from "@/utils/rules";
+import { getRuleStringByType, rules } from "@/utils/rules";
 
 import classes from "./QuickStart.module.css";
 
@@ -32,7 +32,7 @@ const QuickStart = () => {
 
   const ruleOptions = Object.values(rules).map((r) => ({
     value: r.rule,
-    label: r.name,
+    label: r.rule === "normal" ? r.name : getRuleStringByType(r),
   }));
 
   const isPlayerCountFixed = typeof FIXED_PLAYER_COUNTS[rule] === "number";
