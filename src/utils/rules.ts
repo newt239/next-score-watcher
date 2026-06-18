@@ -204,18 +204,20 @@ export const rules = {
   },
 } as const satisfies RuleProps;
 
-export const getRuleStringByType = (game: GamePropsUnion): string => {
+type RuleStringInput = Pick<GamePropsUnion, "rule" | "win_point" | "lose_point">;
+
+export const getRuleStringByType = (game: RuleStringInput): string => {
   switch (game.rule) {
     case "normal":
       return "カウンター";
     case "nomx":
-      return `${game.win_point}o${game.lose_point}x`;
+      return `${game.win_point}○${game.lose_point}✕`;
     case "nomx-ad":
-      return `連答つき${game.win_point}o${game.lose_point}x`;
+      return `連答つき${game.win_point}○${game.lose_point}✕`;
     case "ny":
       return "NewYork";
     case "nomr":
-      return `${game.win_point}○N休`;
+      return `${game.win_point}○${game.lose_point}休`;
     case "nbyn":
       return `${game.win_point}by${game.win_point}`;
     case "nupdown":
