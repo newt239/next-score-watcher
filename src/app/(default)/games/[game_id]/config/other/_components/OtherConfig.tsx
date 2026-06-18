@@ -5,7 +5,7 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 import db from "@/utils/db";
 
-import ConfigInput from "./ConfigInput";
+import ConfigInput from "../../_components/ConfigInput";
 import CopyGame from "./CopyGame";
 import DeleteGame from "./DeleteGame";
 import ExportGame from "./ExportGame";
