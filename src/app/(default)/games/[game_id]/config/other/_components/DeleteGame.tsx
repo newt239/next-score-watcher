@@ -28,10 +28,7 @@ const DeleteGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
       autoClose: 9000,
       withCloseButton: true,
     });
-    sendGAEvent({
-      event: "delete_game",
-      value: game.id,
-    });
+    sendGAEvent("event", "delete_game", { game_id: game.id });
     router.refresh();
   };
 

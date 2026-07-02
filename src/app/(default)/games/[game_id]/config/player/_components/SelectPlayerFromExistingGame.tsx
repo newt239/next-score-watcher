@@ -43,10 +43,7 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id, currentProfile
                 players: selectedGame.players,
               });
               form.setFieldValue("players", selectedGame.players);
-              sendGAEvent({
-                event: "select_player_from_existing_game",
-                value: game_id,
-              });
+              sendGAEvent("event", "select_player_from_existing_game", { game_id });
               const gameLogIdList = logs
                 ?.filter((log) => log.game_id === game_id)
                 .map((log) => log.id);

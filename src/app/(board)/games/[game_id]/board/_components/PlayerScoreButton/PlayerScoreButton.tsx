@@ -110,10 +110,7 @@ const PlayerScoreButton: React.FC<Props> = ({
             } else {
               handleClick();
             }
-            sendGAEvent({
-              event: "click_score_button",
-              value: color,
-            });
+            sendGAEvent("event", "click_score_button", { button_color: color });
           }}
           className={classes.player_score_button}
           data-signed={numberSign !== "none"}

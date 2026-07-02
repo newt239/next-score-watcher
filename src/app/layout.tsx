@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import ClientRoot from "@/app/_components/ClientRoot";
 
@@ -48,7 +48,7 @@ const RootLayout = ({
           }}
         />
         {process.env.NODE_ENV === "production" && (
-          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GA_ID!} />
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
         )}
         <ColorSchemeScript />
       </head>

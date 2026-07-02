@@ -45,10 +45,7 @@ const SelectProfile: React.FC = () => {
             value={storedCurrentProfile}
             onChange={(e) => {
               const profileId = e.target.value;
-              sendGAEvent({
-                event: "change_profile",
-                value: profileId,
-              });
+              sendGAEvent("event", "change_profile", { profile_id: profileId });
               setCurrentProfile(profileId);
               window.location.reload();
             }}

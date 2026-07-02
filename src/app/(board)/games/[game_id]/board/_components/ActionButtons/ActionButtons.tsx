@@ -111,10 +111,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
             disabled={logs.length === 0 || game.editable}
             onClick={async () => {
               if (logs.length !== 0) {
-                sendGAEvent({
-                  event: "undo_log",
-                  value: game.rule,
-                });
+                sendGAEvent("event", "undo_log", { rule: game.rule });
                 await db(currentProfile).logs.update(logs[logs.length - 1].id, {
                   available: 0,
                 });
@@ -135,10 +132,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
                     ...game,
                     editable: !game.editable,
                   });
-                  sendGAEvent({
-                    event: "switch_editable",
-                    value: game.rule,
-                  });
+                  sendGAEvent("event", "switch_editable", { rule: game.rule });
                 } catch (e) {
                   console.log(e);
                 }
@@ -154,10 +148,7 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
               variant="default"
               leftSection={<IconMaximize size={20} />}
               onClick={() => {
-                sendGAEvent({
-                  event: "switch_fullscreen",
-                  value: game.rule,
-                });
+                sendGAEvent("event", "switch_fullscreen", { rule: game.rule });
                 if (document.fullscreenElement) {
                   document.exitFullscreen();
                 } else {
