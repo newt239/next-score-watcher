@@ -1,4 +1,4 @@
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
@@ -17,9 +17,9 @@ export const createGame = async (
   currentProfile: string
 ) => {
   if (typeof param !== "string") {
-    sendGAEvent({
+    sendGTMEvent({
       event: "create_game",
-      value: param.game.rule,
+      rule: param.game.rule,
     });
     const game_id = await db(currentProfile).games.put({
       ...param.game,
@@ -29,9 +29,9 @@ export const createGame = async (
     });
     return game_id;
   } else {
-    sendGAEvent({
+    sendGTMEvent({
       event: "create_game",
-      value: param,
+      rule: param,
     });
     try {
       const game_id = nanoid(6);

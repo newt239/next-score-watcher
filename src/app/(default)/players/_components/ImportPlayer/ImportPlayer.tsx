@@ -2,7 +2,7 @@
 
 import { Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
@@ -37,9 +37,9 @@ const ImportPlayer: React.FC<Props> = ({ currentProfile }) => {
               autoClose: 9000,
               withCloseButton: true,
             });
-            sendGAEvent({
+            sendGTMEvent({
               event: "import_player",
-              value: row,
+              count: row,
             });
           });
         }

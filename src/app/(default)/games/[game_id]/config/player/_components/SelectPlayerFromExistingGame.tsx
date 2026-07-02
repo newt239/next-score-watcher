@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, NativeSelect } from "@mantine/core";
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -43,9 +43,9 @@ const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id, currentProfile
                 players: selectedGame.players,
               });
               form.setFieldValue("players", selectedGame.players);
-              sendGAEvent({
+              sendGTMEvent({
                 event: "select_player_from_existing_game",
-                value: game_id,
+                game_id: game_id,
               });
               const gameLogIdList = logs
                 ?.filter((log) => log.game_id === game_id)

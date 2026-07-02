@@ -2,7 +2,7 @@
 
 import { Box, Button, Flex, Group, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from "@next/third-parties/google";
 import {
   IconAdjustmentsHorizontal,
   IconArrowBackUp,
@@ -111,9 +111,9 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
             disabled={logs.length === 0 || game.editable}
             onClick={async () => {
               if (logs.length !== 0) {
-                sendGAEvent({
+                sendGTMEvent({
                   event: "undo_log",
-                  value: game.rule,
+                  rule: game.rule,
                 });
                 await db(currentProfile).logs.update(logs[logs.length - 1].id, {
                   available: 0,
@@ -135,9 +135,9 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
                     ...game,
                     editable: !game.editable,
                   });
-                  sendGAEvent({
+                  sendGTMEvent({
                     event: "switch_editable",
-                    value: game.rule,
+                    rule: game.rule,
                   });
                 } catch (e) {
                   console.log(e);
@@ -154,9 +154,9 @@ const ActionButtons: React.FC<Props> = ({ game, logs, currentProfile, skipSugges
               variant="default"
               leftSection={<IconMaximize size={20} />}
               onClick={() => {
-                sendGAEvent({
+                sendGTMEvent({
                   event: "switch_fullscreen",
-                  value: game.rule,
+                  rule: game.rule,
                 });
                 if (document.fullscreenElement) {
                   document.exitFullscreen();

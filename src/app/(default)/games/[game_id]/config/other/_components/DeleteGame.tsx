@@ -3,7 +3,7 @@
 import { Box, Button, Title } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 
@@ -28,9 +28,9 @@ const DeleteGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
       autoClose: 9000,
       withCloseButton: true,
     });
-    sendGAEvent({
+    sendGTMEvent({
       event: "delete_game",
-      value: game.id,
+      game_id: game.id,
     });
     router.refresh();
   };

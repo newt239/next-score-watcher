@@ -1,7 +1,7 @@
 "use client";
 
 import { NativeSelect, NumberInput } from "@mantine/core";
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { IconUpload } from "@tabler/icons-react";
 
 import ButtonLink from "@/components/ButtonLink";
@@ -26,9 +26,9 @@ const SelectQuizset: React.FC<Props> = ({ game_id, game_quiz, quizset_names, cur
             label="セット名"
             defaultValue={game_quiz?.set_name || ""}
             onChange={async (v) => {
-              sendGAEvent({
+              sendGTMEvent({
                 event: "select_quizset",
-                value: v.target.value,
+                quizset_name: v.target.value,
               });
               await db(currentProfile).games.update(game_id as string, {
                 quiz: {
