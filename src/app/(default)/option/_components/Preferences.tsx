@@ -2,7 +2,7 @@
 
 import { Flex, Switch, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const Preferences: React.FC = () => {
   const { setColorScheme } = useMantineColorScheme();
@@ -44,10 +44,7 @@ const Preferences: React.FC = () => {
     localSetter(value);
 
     // GAイベント送信
-    sendGTMEvent({
-      event: eventName,
-      setting_value: String(value),
-    });
+    sendGAEvent("event", eventName, { setting_value: String(value) });
   };
 
   return (
@@ -58,10 +55,7 @@ const Preferences: React.FC = () => {
           const newTheme = computedColorScheme === "dark" ? "light" : "dark";
           setColorScheme(newTheme);
 
-          sendGTMEvent({
-            event: "switch_dark_mode",
-            theme: newTheme,
-          });
+          sendGAEvent("event", "switch_dark_mode", { theme: newTheme });
         }}
         label="ダークモード"
         size="md"

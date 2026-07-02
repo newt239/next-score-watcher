@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button, Flex, NativeSelect, Popover, TextInput, Title } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { nanoid } from "nanoid";
 
@@ -45,10 +45,7 @@ const SelectProfile: React.FC = () => {
             value={storedCurrentProfile}
             onChange={(e) => {
               const profileId = e.target.value;
-              sendGTMEvent({
-                event: "change_profile",
-                profile_id: profileId,
-              });
+              sendGAEvent("event", "change_profile", { profile_id: profileId });
               setCurrentProfile(profileId);
               window.location.reload();
             }}

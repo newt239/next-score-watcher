@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Title } from "@mantine/core";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
@@ -16,10 +16,7 @@ type Props = {
 
 const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
   const handleCopyGame = async () => {
-    sendGTMEvent({
-      event: "export_game",
-      rule: game.rule,
-    });
+    sendGAEvent("event", "export_game", { rule: game.rule });
     const { postData } = await computeScore(game.id, currentProfile);
     const blob = new Blob([JSON.stringify(postData, null, "\t")], {
       type: "application/json",

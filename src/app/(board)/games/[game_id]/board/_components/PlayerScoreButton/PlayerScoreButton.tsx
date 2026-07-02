@@ -3,7 +3,7 @@
 import React from "react";
 
 import { TextInput, UnstyledButton, useComputedColorScheme } from "@mantine/core";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 import { cdate } from "cdate";
 import { nanoid } from "nanoid";
 
@@ -110,10 +110,7 @@ const PlayerScoreButton: React.FC<Props> = ({
             } else {
               handleClick();
             }
-            sendGTMEvent({
-              event: "click_score_button",
-              button_color: color,
-            });
+            sendGAEvent("event", "click_score_button", { button_color: color });
           }}
           className={classes.player_score_button}
           data-signed={numberSign !== "none"}

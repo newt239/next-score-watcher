@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Group, Title } from "@mantine/core";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 import { useRouter } from "next/navigation";
 
 import { createGame } from "@/utils/functions";
@@ -17,10 +17,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   const router = useRouter();
 
   const onCompleteCopy = (game_id: string) => {
-    sendGTMEvent({
-      event: "copy_game",
-      rule: game.rule,
-    });
+    sendGAEvent("event", "copy_game", { rule: game.rule });
     router.push(`/games/${game_id}/config`);
   };
 

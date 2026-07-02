@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { ActionIcon, Box, Button, Flex, Menu, MenuDivider } from "@mantine/core";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 import {
   IconAdjustmentsHorizontal,
   IconArrowBackUp,
@@ -182,10 +182,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               disabled={logs.length === 0 || game.editable}
               onClick={async () => {
                 if (logs.length !== 0) {
-                  sendGTMEvent({
-                    event: "undo_log",
-                    rule: game.rule,
-                  });
+                  sendGAEvent("event", "undo_log", { rule: game.rule });
                   await db(currentProfile).logs.update(logs[logs.length - 1].id, { available: 0 });
                 }
               }}
@@ -201,10 +198,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
                       ...game,
                       editable: !game.editable,
                     });
-                    sendGTMEvent({
-                      event: "switch_editable",
-                      rule: game.rule,
-                    });
+                    sendGAEvent("event", "switch_editable", { rule: game.rule });
                   } catch (e) {
                     console.log(e);
                   }
@@ -217,10 +211,7 @@ const BoardHeader: React.FC<Props> = ({ game, logs, currentProfile }) => {
               <Menu.Item
                 leftSection={<IconMaximize />}
                 onClick={() => {
-                  sendGTMEvent({
-                    event: "switch_fullscreen",
-                    rule: game.rule,
-                  });
+                  sendGAEvent("event", "switch_fullscreen", { rule: game.rule });
                   if (document.fullscreenElement) {
                     document.exitFullscreen();
                   } else {

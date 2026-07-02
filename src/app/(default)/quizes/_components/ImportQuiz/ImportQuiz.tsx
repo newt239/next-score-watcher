@@ -2,7 +2,7 @@
 
 import { Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@next/third-parties/google";
 import Encoding from "encoding-japanese";
 import { nanoid } from "nanoid";
 
@@ -39,10 +39,7 @@ const ImportQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
               autoClose: 9000,
               withCloseButton: true,
             });
-            sendGTMEvent({
-              event: "import_quiz",
-              count: row,
-            });
+            sendGAEvent("event", "import_quiz", { count: row });
           });
         }
       };
