@@ -201,3 +201,17 @@ export const detectPlayerState = (
 export const isDesktop = () => {
   return window.innerWidth > 1024;
 };
+
+/**
+ * 検索用に文字列を正規化する。全角/半角・大文字小文字・ひらがな/カタカナ・
+ * ○✕記号のゆれを吸収し、空白や中黒を除去する。
+ */
+export const normalizeSearchText = (str: string): string => {
+  return str
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[ぁ-ん]/g, (c) => String.fromCharCode(c.charCodeAt(0) + 0x60))
+    .replace(/[○◯〇]/g, "o")
+    .replace(/[✕×╳]/g, "x")
+    .replace(/[\s・･]/g, "");
+};

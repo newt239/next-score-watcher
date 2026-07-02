@@ -8,6 +8,7 @@ type RuleProps = {
     short_description: string;
     description: string;
     rows: number;
+    aliases?: readonly string[];
   };
 };
 
@@ -17,6 +18,7 @@ export const rules = {
     name: "スコア計算",
     short_description: "スコアの計算を行います。",
     description: "ポイント数が表示されている部分をクリックすることでポイントが増加します。",
+    aliases: ["カウンター", "スコア計算", "counter", "normal"],
     options: undefined,
     rows: 1,
   },
@@ -25,6 +27,7 @@ export const rules = {
     name: "N○M✕",
     short_description: "N回正解で勝ち抜け、M回誤答で失格の形式です。",
     description: "代表的なものにナナマルサンバツがあります。",
+    aliases: ["ナナマルサンバツ", "エヌマルエムバツ", "7○3✕", "N○M✕", "nomx"],
     win_point: 7,
     lose_point: 3,
     options: undefined,
@@ -35,6 +38,7 @@ export const rules = {
     name: "連答つきN○M✕",
     short_description: "同じプレイヤーが連続で正解するとスコアが+2される形式です。",
     description: "abcの新形式に対応しています。",
+    aliases: ["連答つきN○M✕", "連答", "連答つき", "abc", "nomx-ad"],
     win_point: 7,
     lose_point: 3,
     options: {
@@ -48,6 +52,7 @@ export const rules = {
     short_description: "正答で+1、誤答で-1されNポイントを目指す形式です。",
     description:
       "各プレイヤーはNポイントを持ち、正答で+1、誤答で-1されます。Nポイントに達したプレイヤーが勝ち抜けとなります。",
+    aliases: ["ニューヨーク", "newyork", "ny"],
     win_point: 10,
     options: undefined,
     rows: 2,
@@ -57,6 +62,7 @@ export const rules = {
     name: "N○M休",
     short_description: "N回の正答で勝ち抜けですが、誤答するごとにM回休みになります。",
     description: "プレイヤーは何回でも誤答することができます。",
+    aliases: ["エヌマルエムキュウ", "N○M休", "nomr", "休み"],
     win_point: 7,
     lose_point: 3,
     options: undefined,
@@ -68,6 +74,7 @@ export const rules = {
     short_description: "正答数と誤答数の積を競う形式です。",
     description:
       "正答数と誤答数2つの変数を持ち、それぞれの初期値は0とNです。2つの変数の積がNの2乗に達したら勝ち抜けの形式です。",
+    aliases: ["エヌバイエヌ", "nbyn"],
     win_point: 5,
     lose_point: 5,
     options: undefined,
@@ -78,6 +85,7 @@ export const rules = {
     name: "Nupdown",
     short_description: "N回正解で勝ち抜けですが、途中で一度でも誤答すると0に戻る形式です。",
     description: "一回の誤答が結果を大きく左右するため、誤答に厳しい形式です。",
+    aliases: ["エヌアップダウン", "nupdown", "updown"],
     win_point: 5,
     lose_point: 2,
     options: undefined,
@@ -86,6 +94,7 @@ export const rules = {
   divide: {
     rule: "divide",
     name: "Divide",
+    aliases: ["ディバイド", "divide"],
     short_description: "誤答回数に応じてスコアの割る数が増加する形式です。",
     description:
       "初期値として10ptが与えられており、正解するごとに10pt加算される。1回目の誤答でその値を1で割り、2回目の誤答でその値を2で割り、というように誤答回数を重ねるにつれて割る数が大きくなる。値が100ptに達すると勝ち抜けとなる。",
@@ -97,6 +106,7 @@ export const rules = {
   swedish10: {
     rule: "swedish10",
     name: "Swedish10",
+    aliases: ["スウェーデン", "スウェディッシュ", "swedish"],
     short_description: "正答数に応じて誤答時のダメージポイントが変動する形式です。",
     description:
       "10回の正答で勝ち抜けですが、誤答すると正答数が0の時1✕、1～2の時2✕、3～5の時3✕、6～9の時4✕が付与され、10✕以上で失格となります。",
@@ -108,6 +118,7 @@ export const rules = {
   backstream: {
     rule: "backstream",
     name: "Backstream",
+    aliases: ["バックストリーム", "backstream"],
     short_description: "正答数 - 誤答数が10になると勝ち抜ける形式です。",
     description: "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。-10になると失格となります。",
     win_point: 10,
@@ -118,6 +129,7 @@ export const rules = {
   attacksurvival: {
     rule: "attacksurvival",
     name: "アタックサバイバル",
+    aliases: ["アタックサバイバル", "attacksurvival", "survival"],
     short_description: "ゲームの進行とともに各プレイヤーのポイントが減っていく形式です。",
     description:
       "プレイヤーは各自Nポイントを持った状態で開始します。正解すると他の回答者全員のポイントをXポイント減らすことができ、また誤答すると自分のポイントがYポイント減ります。ポイントが0になった時失格となります。",
@@ -133,6 +145,7 @@ export const rules = {
   squarex: {
     rule: "squarex",
     name: "SquareX",
+    aliases: ["スクエア", "square", "squarex"],
     short_description: "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
     description: "奇数問目と偶数問目の正解数をかけた数がX以上になれば勝ち抜けの形式です。",
     win_point: 16,
@@ -142,6 +155,7 @@ export const rules = {
   z: {
     rule: "z",
     name: "Z",
+    aliases: ["ゼット", "z"],
     short_description: "5つのステージのクリアを目指す形式です。",
     description:
       "各プレイヤーはステージ1に立った状態でゲームを開始します。\nいずれかのプレイヤーがステージをクリアしたとき、全員の正解数と誤答数および失格状態をリセットし、ステージをクリアしたプレイヤーはステージを1進めます。\n各ステージの内容は次の通りです:\n・ステージ1:1回の正解でクリアです。誤答すると1問の間、解答権が剥奪されます\n・ステージ2:2回の正解でクリアです。1問の誤答で失格となります\n・ステージ3:3回の正解でクリアです。2間の誤答で失格となります\n・ステージ4:4回の正解でクリアです。3問の誤答で失格となります\nステージ5に到達すれば勝ち抜けです。既定の人数が勝ち抜けたときゲームを終了します。",
@@ -151,6 +165,7 @@ export const rules = {
   freezex: {
     rule: "freezex",
     name: "freezeX",
+    aliases: ["フリーズ", "freeze", "freezex"],
     short_description: "X問正解で勝ち抜け、N回目の誤答でN回休みの形式です。",
     description: "N◯M休とは誤答時のペナルティが異なるのが特徴です。",
     win_point: 7,
@@ -160,6 +175,7 @@ export const rules = {
   "endless-chance": {
     rule: "endless-chance",
     name: "エンドレスチャンス",
+    aliases: ["エンドレスチャンス", "endless", "endless-chance"],
     short_description: "同じ問題に対して正答が出るまで複数人が回答できる形式です。",
     description: "正解者が出るかスルーになるまで次の問題に進みません。",
     win_point: 7,
@@ -172,6 +188,7 @@ export const rules = {
   variables: {
     rule: "variables",
     name: "Variables",
+    aliases: ["バリアブルズ", "variables"],
     short_description:
       "各プレイヤーは最初に好きな変動値Nを設定することができ、正解で+N、誤答で-N * 2されます。",
     description: "Nを大きくすればするほど、誤答時のダメージが大きくなる形式です。",
@@ -182,6 +199,7 @@ export const rules = {
   aql: {
     rule: "aql",
     name: "AQL",
+    aliases: ["エーキューエル", "aql", "チーム戦"],
     short_description: "クイズ大会「AQL」で使われている形式です。",
     description:
       "10人のプレイヤーが2つのチームに分かれ、プレイヤーのスコアの積が200を超えたチームが優勝です。",
@@ -194,6 +212,7 @@ export const rules = {
   attack25: {
     rule: "attack25",
     name: "アタック25",
+    aliases: ["アタック25", "attack25", "パネル", "オセロ"],
     short_description: "5×5の25パネルをオセロ形式で奪い合う形式です。",
     description:
       "4人のプレイヤーが、正解するたびに5×5＝25枚のパネルを1枚ずつ獲得します。獲得したパネルと自分の既存パネルで相手のパネルを挟むと、オセロのように挟まれたパネルが自分の色に反転します。すべてのパネルが埋まったとき、最も多くのパネルを獲得しているプレイヤーが優勝です。",
