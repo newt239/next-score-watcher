@@ -3,6 +3,6 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   enabled: process.env.NODE_ENV === "production",
   dsn: "https://7f2a3eb9428148c3a475c7b2c4bef92a@o4505277028433920.ingest.us.sentry.io/4505277040033792",
-  tracesSampleRate: 1,
+  tracesSampleRate: 0.1,
   debug: false,
 });
