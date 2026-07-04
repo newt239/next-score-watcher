@@ -6,11 +6,11 @@ import type { BrowserContext, Page } from "@playwright/test";
 let page: Page;
 let context: BrowserContext;
 
-test.beforeAll(async ({ browser }) => {
+test.beforeAll(async ({ browser }, testInfo) => {
   // context.addInitScript を page に効かせるため、page は context から生成する
-  context = await browser.newContext();
+  context = await browser.newContext({ baseURL: testInfo.project.use.baseURL });
   page = await context.newPage();
-  await page.goto("http://localhost:3000/");
+  await page.goto("/");
 });
 
 test.describe("アップデートモーダル", () => {
@@ -150,7 +150,7 @@ test.describe("誤答数の記号表示", () => {
       window.localStorage.setItem("wrongNumber", "true");
     });
     // 初回表示でアップデートモーダルがバージョンを保存するため、reloadで閉じる
-    await page.goto("http://localhost:3000/");
+    await page.goto("/");
     await page.reload();
   });
 
