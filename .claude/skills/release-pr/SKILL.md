@@ -121,18 +121,12 @@ npx tsc --noEmit && pnpm run lint:fix
 
 ### 6. コミット
 
-リリース準備コミットは prefix `chore:` を使う。
+リリース準備コミットのメッセージは、過去のリリースコミットの慣習に従い `update: v<新バージョン>` とする (例: `update: v3.3.0`)。
 
 ```bash
 git add package.json .env.example CHANGELOG.md src/utils/changelog.ts
-git commit -m "chore: v<新バージョン> リリース準備"
+git commit -m "update: v<新バージョン>"
 ```
-
-コミットメッセージは過去のコミット履歴の慣習に従う。
-
-- `prefix: message` の形式で日本語 1 行以内、末尾に句読点を付けない
-- prefix は `feat` / `fix` / `improve` / `style` / `refactor` / `perf` / `test` / `docs` / `chore` から選ぶ
-- 原則として括弧書きは使用しない。関連 issue がある場合のみ末尾に ` (#番号)` を付ける (例: `feat: ゲーム設定画面のURLをタブごとに切り分ける (#163)`)
 
 ### 7. タグの作成 (PR 作成前)
 
@@ -155,7 +149,7 @@ git push origin v<新バージョン>
 
 - Base: `main`
 - Head: 現在のブランチ (通常は `develop`)
-- タイトル: `chore: v<新バージョン> リリース`
+- タイトル: `release: v<新バージョン>` (直近のリリース PR の慣習に合わせる)
 - 本文: 以下テンプレート
 
 ```markdown
@@ -201,6 +195,6 @@ gh release create v<新バージョン> --title "v<新バージョン>" --notes 
 - **タグは develop 上で PR 作成前に作成する**。`v<新バージョン>` 形式 (タグのみ v プレフィックスを付ける)
 - **GitHub リリースは minor 以上のみ作成する**。patch はタグのみ
 - **changelog.ts (アップデートモーダル) にユーザーに関係のない変更を載せない**。内部変更は CHANGELOG.md のみに記載する
-- コミットメッセージは手順 6 の規約 (履歴の慣習) に従う
+- リリース準備コミットは `update: v<新バージョン>`、PR タイトルは `release: v<新バージョン>` (過去のリリースの慣習)
 - 既存の CHANGELOG.md / changelog.ts の文体・prefix 慣習を必ず踏襲する
 - 変更対象のバージョン文字列にプレフィックス (v, V) を付けない (package.json / .env.example の慣習)
