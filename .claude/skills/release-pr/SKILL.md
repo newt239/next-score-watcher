@@ -1,6 +1,6 @@
 ---
 name: release-pr
-description: develop → main のリリースPRを作成する。新バージョン番号の決定、CHANGELOG.md / src/utils/changelog.ts / .env.example / package.json のバージョン更新、アップデートモーダル用メッセージの作成までを一連で行い、最後に gh CLI で PR を出す。「リリース準備」「リリースPRを作って」などと言われたときに起動する。
+description: develop → main のリリースPRを作成する。新バージョン番号の決定、CHANGELOG.md / src/utils/changelog.ts / .env.example / package.json のバージョン更新、アップデートモーダル用メッセージの作成、タグの作成、gh CLI での PR 作成までを一連で行い、マージ後に GitHub リリース (minor 以上のみ) を作成する。「リリース準備」「リリースPRを作って」などと言われたときに起動する。
 ---
 
 # release-pr
@@ -109,6 +109,7 @@ prefix は次の通りマッピングする。
 
 - 内容が空のセクションはキーごと省略する (`features: []` は書かない)
 - モーダル (`src/app/_components/UpdateModal/UpdateModal.tsx`) はこの配列の `[0]` を参照して表示するため、モーダル用の文言はこの entry がそのまま使われる
+- **ユーザーに関係のない変更はこのファイルに載せない**。依存関係の更新・CI 調整・内部リファクタリングなどは CHANGELOG.md のみに記載し、changelog.ts (= アップデートモーダル) からは除外する
 
 ### 5. 品質チェック
 
@@ -120,17 +121,34 @@ npx tsc --noEmit && pnpm run lint:fix
 
 ### 6. コミット
 
-日本語で 1 行のコミットメッセージを作成する。prefix は `chore:` を使う。
+リリース準備コミットは prefix `chore:` を使う。
 
 ```bash
 git add package.json .env.example CHANGELOG.md src/utils/changelog.ts
 git commit -m "chore: v<新バージョン> リリース準備"
 ```
 
-### 7. プッシュと PR 作成
+コミットメッセージは過去のコミット履歴の慣習に従う。
+
+- `prefix: message` の形式で日本語 1 行以内、末尾に句読点を付けない
+- prefix は `feat` / `fix` / `improve` / `style` / `refactor` / `perf` / `test` / `docs` / `chore` から選ぶ
+- 原則として括弧書きは使用しない。関連 issue がある場合のみ末尾に ` (#番号)` を付ける (例: `feat: ゲーム設定画面のURLをタブごとに切り分ける (#163)`)
+
+### 7. タグの作成 (PR 作成前)
+
+すべてのリリース (patch / minor / major) で、develop 上のリリース準備コミットに `v<新バージョン>` 形式のタグを付与する。
+
+```bash
+git tag v<新バージョン>
+```
+
+### 8. プッシュと PR 作成
+
+ブランチとタグをまとめてプッシュする。
 
 ```bash
 git push -u origin <現在のブランチ>
+git push origin v<新バージョン>
 ```
 
 `gh pr create` で `main` 宛の PR を作成する。タイトル・本文は日本語。
@@ -156,7 +174,22 @@ v<新バージョン> のリリース PR です。
 - [ ] `/changelog` の履歴に新バージョンが表示されること
 ```
 
-PR URL をユーザーに提示して完了。
+PR URL をユーザーに提示し、マージを待つ。
+
+### 9. GitHub リリースの作成 (PR マージ後、minor 以上のみ)
+
+PR がマージされたことをユーザーから伝えられたら (または `gh pr view <PR番号> --json state` で MERGED を確認したら)、GitHub リリースを作成する。
+
+**GitHub リリースは minor 以上 (minor / major) の場合のみ作成する**。patch リリースではタグのみ (手順 7 で作成済み) とし、GitHub リリースは作成しない。
+
+```bash
+gh release create v<新バージョン> --title "v<新バージョン>" --notes "<リリースノート>"
+```
+
+- タグは手順 7 で作成・プッシュ済みのものを使用する (`--target` は指定しない)
+- リリースノートは CHANGELOG.md に追記した箇条書きをそのまま使う (`news` があれば冒頭に段落として含める)
+
+リリース URL をユーザーに提示して完了。
 
 ## 注意事項
 
@@ -164,5 +197,10 @@ PR URL をユーザーに提示して完了。
 - **勝手にリリースノートを書き切らない**。草案を見せて承認を得る
 - **他のブランチにコミットしない**。develop 以外にいる場合は必ず中止
 - **main へは push しない**。PR 経由でのみマージする
+- **PR のマージは行わない**。マージはユーザーが行い、マージ確認後に GitHub リリース作成へ進む
+- **タグは develop 上で PR 作成前に作成する**。`v<新バージョン>` 形式 (タグのみ v プレフィックスを付ける)
+- **GitHub リリースは minor 以上のみ作成する**。patch はタグのみ
+- **changelog.ts (アップデートモーダル) にユーザーに関係のない変更を載せない**。内部変更は CHANGELOG.md のみに記載する
+- コミットメッセージは手順 6 の規約 (履歴の慣習) に従う
 - 既存の CHANGELOG.md / changelog.ts の文体・prefix 慣習を必ず踏襲する
 - 変更対象のバージョン文字列にプレフィックス (v, V) を付けない (package.json / .env.example の慣習)
