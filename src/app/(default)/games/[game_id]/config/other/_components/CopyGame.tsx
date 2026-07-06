@@ -17,10 +17,7 @@ const CopyGame: React.FC<CopyGamePropsUnion> = ({ game, currentProfile }) => {
   const router = useRouter();
 
   const onCompleteCopy = (game_id: string) => {
-    sendGAEvent({
-      event: "copy_game",
-      value: game.rule,
-    });
+    sendGAEvent("event", "copy_game", { rule: game.rule });
     router.push(`/games/${game_id}/config`);
   };
 

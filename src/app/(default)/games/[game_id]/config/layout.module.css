@@ -5,7 +5,7 @@
 .tab_list {
   flex-wrap: nowrap;
 
-  & button {
+  & a {
     padding-block: 0.85rem;
     padding-inline: 0.4rem;
     font-size: 0.8rem;
@@ -19,7 +19,7 @@
     }
   }
 
-  & button[data-active="true"] {
+  & a[data-active="true"] {
     color: var(--mantine-color-gray-9);
     background-color: var(--mantine-color-gray-1);
     border-bottom-color: transparent;

@@ -9,12 +9,16 @@ export default defineConfig({
   reporter: process.env.CI
     ? [["github"], ["html", { outputFolder: "html-report", open: "never" }]]
     : [["list"], ["html", { outputFolder: "html-report", open: "never" }]],
+  // CIではdevサーバーのオンデマンドコンパイルが遅く、metadata反映が5秒を超えるため延長する
+  expect: {
+    timeout: process.env.CI ? 15000 : 5000,
+  },
   use: {
     baseURL: "http://localhost:3000",
     channel: "chromium",
     headless: true,
-    screenshot: process.env.CI ? "off" : "only-on-failure",
-    trace: process.env.CI ? "off" : "on-first-retry",
+    screenshot: "only-on-failure",
+    trace: process.env.CI ? "retain-on-failure" : "on-first-retry",
     video: process.env.CI ? "off" : "retain-on-failure",
     actionTimeout: 30000,
     navigationTimeout: 10000,

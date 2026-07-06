@@ -2,9 +2,9 @@
 
 import { Flex } from "@mantine/core";
 
+import ConfigInput from "../../_components/ConfigInput";
 import AQLOptions from "./AQLOptions";
 import ConfigBooleanInput from "./ConfigBooleanInput";
-import ConfigInput from "./ConfigInput";
 import ConfigLimit from "./ConfigLimit/ConfigLimit";
 import ConfigNumberInput from "./ConfigNumberInput";
 

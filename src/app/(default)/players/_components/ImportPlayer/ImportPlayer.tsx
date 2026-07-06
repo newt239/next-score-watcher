@@ -37,10 +37,7 @@ const ImportPlayer: React.FC<Props> = ({ currentProfile }) => {
               autoClose: 9000,
               withCloseButton: true,
             });
-            sendGAEvent({
-              event: "import_player",
-              value: row,
-            });
+            sendGAEvent("event", "import_player", { count: row });
           });
         }
       };

@@ -1,4 +1,5 @@
-import { Box, Flex, Image } from "@mantine/core";
+import { Box, Flex } from "@mantine/core";
+import Image from "next/image";
 
 import classes from "./Features.module.css";
 
@@ -9,13 +10,32 @@ type FeatureProps = {
 };
 
 const EachFeature: React.FC<FeatureProps> = ({ title, image, description }) => {
+  const isVideo = image?.endsWith(".mp4");
   return (
     <Flex className={classes.each_feature}>
       <Box pos="relative">
         <Box className={classes.feature_decoration}></Box>
       </Box>
       <Box className={classes.feature_title}>{title}</Box>
-      <Image src={`images/${image}`} alt={description} className={classes.feature_image} />
+      {isVideo ? (
+        <video
+          src={`/images/${image}`}
+          aria-label={description}
+          className={classes.feature_image}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      ) : (
+        <Image
+          src={`/images/${image}`}
+          alt={description}
+          width={1920}
+          height={1080}
+          className={classes.feature_image}
+        />
+      )}
     </Flex>
   );
 };
@@ -30,7 +50,7 @@ const Features: React.FC = () => {
     },
     {
       title: "操作を間違えてもすぐに戻せる",
-      image: "score-watcher_feature_undo.gif",
+      image: "score-watcher_feature_undo.mp4",
       description: "操作を間違えても、変更を取り消すことが出来ます。",
     },
     {
@@ -40,7 +60,7 @@ const Features: React.FC = () => {
     },
     {
       title: "スコアの手動更新",
-      image: "score-watcher_feature_editable.gif",
+      image: "score-watcher_feature_editable.mp4",
       description:
         "プログラムが想定外の挙動をしたときも大丈夫。プレイヤーのスコアや背景の色を自由に変更できるモードを搭載しています。限定問題数に達したときの判定勝ち抜けなどにも使えます。",
     },

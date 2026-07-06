@@ -17,10 +17,7 @@ export const createGame = async (
   currentProfile: string
 ) => {
   if (typeof param !== "string") {
-    sendGAEvent({
-      event: "create_game",
-      value: param.game.rule,
-    });
+    sendGAEvent("event", "create_game", { rule: param.game.rule });
     const game_id = await db(currentProfile).games.put({
       ...param.game,
       id: nanoid(),
@@ -29,10 +26,7 @@ export const createGame = async (
     });
     return game_id;
   } else {
-    sendGAEvent({
-      event: "create_game",
-      value: param,
-    });
+    sendGAEvent("event", "create_game", { rule: param });
     try {
       const game_id = nanoid(6);
       const commonGameProps: Omit<GamePropsUnion, "name" | "rule" | "options"> = {
@@ -200,4 +194,18 @@ export const detectPlayerState = (
 
 export const isDesktop = () => {
   return window.innerWidth > 1024;
+};
+
+/**
+ * 検索用に文字列を正規化する。全角/半角・大文字小文字・ひらがな/カタカナ・
+ * ○✕記号のゆれを吸収し、空白や中黒を除去する。
+ */
+export const normalizeSearchText = (str: string): string => {
+  return str
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[ぁ-ん]/g, (c) => String.fromCharCode(c.charCodeAt(0) + 0x60))
+    .replace(/[○◯〇]/g, "o")
+    .replace(/[✕×╳]/g, "x")
+    .replace(/[\s・･]/g, "");
 };

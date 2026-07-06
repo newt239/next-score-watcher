@@ -16,10 +16,7 @@ type Props = {
 
 const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
   const handleCopyGame = async () => {
-    sendGAEvent({
-      event: "export_game",
-      value: game.rule,
-    });
+    sendGAEvent("event", "export_game", { rule: game.rule });
     const { postData } = await computeScore(game.id, currentProfile);
     const blob = new Blob([JSON.stringify(postData, null, "\t")], {
       type: "application/json",

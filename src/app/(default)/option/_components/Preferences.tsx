@@ -44,10 +44,7 @@ const Preferences: React.FC = () => {
     localSetter(value);
 
     // GAイベント送信
-    sendGAEvent({
-      event: eventName,
-      value: String(value),
-    });
+    sendGAEvent("event", eventName, { setting_value: String(value) });
   };
 
   return (
@@ -58,10 +55,7 @@ const Preferences: React.FC = () => {
           const newTheme = computedColorScheme === "dark" ? "light" : "dark";
           setColorScheme(newTheme);
 
-          sendGAEvent({
-            event: "switch_dark_mode",
-            value: newTheme,
-          });
+          sendGAEvent("event", "switch_dark_mode", { theme: newTheme });
         }}
         label="ダークモード"
         size="md"

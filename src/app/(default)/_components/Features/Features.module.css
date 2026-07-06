@@ -82,6 +82,7 @@
 .feature_image {
   z-index: 10;
   width: 100%;
+  height: auto;
   padding: 0.75rem;
   background-color: var(--mantine-color-white);
   border: 1px solid var(--mantine-color-gray-3);

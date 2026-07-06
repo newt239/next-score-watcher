@@ -39,10 +39,7 @@ const ImportQuiz: React.FC<Props> = ({ set_name, currentProfile }) => {
               autoClose: 9000,
               withCloseButton: true,
             });
-            sendGAEvent({
-              event: "import_quiz",
-              value: row,
-            });
+            sendGAEvent("event", "import_quiz", { count: row });
           });
         }
       };
