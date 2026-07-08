@@ -33,7 +33,7 @@ const RuleSettings: React.FC<RuleSettingsProps> = ({ game, currentProfile }) => 
       min: undefined,
     },
     "endless-chance": {
-      name: "失格誤答数",
+      name: "勝ち抜け正解数",
       max: 100,
       min: undefined,
     },
