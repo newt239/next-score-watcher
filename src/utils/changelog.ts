@@ -12,6 +12,16 @@ export type ChangelogEntry = {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "3.5.1",
+    date: "2026-07-08",
+    news: "新機能のご要望や不具合のご報告は、Googleフォームより常時受け付けています。",
+    fixes: [
+      "プロファイル切替後にゲームやプレイヤーのデータが表示されない不具合を修正",
+      "エンドレスチャンスの設定項目ラベルを勝ち抜け正解数に修正",
+      "Backstreamの形式説明文を実際のスコア計算に合わせて修正",
+    ],
+  },
+  {
     version: "3.5.0",
     date: "2026-07-06",
     features: [
