@@ -78,7 +78,7 @@ prefix は次の通りマッピングする。
 - `fixes` → `[fix]`
 - `others` → `[chore]` (依存関係の更新など) / `[style]` (UI微調整) / `[docs]` (ドキュメント) をユーザーと相談して選択
 
-`news` を書いた場合は箇条書きの上に段落として追加する。
+`news` は changelog.ts のみに記載し、**CHANGELOG.md には記載しない**。
 
 #### 4.3 `src/utils/changelog.ts`
 
@@ -176,11 +176,12 @@ PR がマージされたことをユーザーから伝えられたら (または
 **GitHub リリースは minor 以上 (minor / major) の場合のみ作成する**。patch リリースではタグのみ (手順 7 で作成済み) とし、GitHub リリースは作成しない。
 
 ```bash
-gh release create v<新バージョン> --title "v<新バージョン>" --notes "<リリースノート>"
+gh release create v<新バージョン> --title "v<新バージョン>" --generate-notes --notes-start-tag v<前バージョン> --notes "<CHANGELOG.mdの箇条書き>"
 ```
 
 - タグは手順 7 で作成・プッシュ済みのものを使用する (`--target` は指定しない)
-- リリースノートは CHANGELOG.md に追記した箇条書きをそのまま使う (`news` があれば冒頭に段落として含める)
+- リリースノートは CHANGELOG.md に追記した箇条書きを冒頭に置き、`--generate-notes` で What's Changed を続ける (過去リリースの慣習)
+- `news` はリリースノートに含めない
 
 リリース URL をユーザーに提示して完了。
 
