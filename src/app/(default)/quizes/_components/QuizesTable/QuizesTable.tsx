@@ -27,7 +27,10 @@ type Props = {
 };
 
 const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
-  const quizes = useLiveQuery(() => db(currentProfile).quizes.orderBy("set_name").sortBy("n"), []);
+  const quizes = useLiveQuery(
+    () => db(currentProfile).quizes.orderBy("set_name").sortBy("n"),
+    [currentProfile]
+  );
   const [searchText, setSearchText] = useState<string>("");
 
   const [selectedQuizes, setSelectedQuizes] = useState({});

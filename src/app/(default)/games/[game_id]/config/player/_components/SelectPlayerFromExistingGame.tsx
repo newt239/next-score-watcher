@@ -26,8 +26,8 @@ type Props = {
 };
 
 const SelectPlayerFromExistingGame: React.FC<Props> = ({ game_id, currentProfile, form }) => {
-  const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
-  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
+  const games = useLiveQuery(() => db(currentProfile).games.toArray(), [currentProfile]);
+  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), [currentProfile]);
 
   if (!games) return null;
 

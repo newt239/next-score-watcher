@@ -19,7 +19,7 @@ type Props = {
 };
 
 const OtherConfig: React.FC<Props> = ({ game, currentProfile }) => {
-  const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), []);
+  const quizes = useLiveQuery(() => db(currentProfile).quizes.toArray(), [currentProfile]);
   const quizsetList = Array.from(new Set(quizes?.map((quiz) => quiz.set_name)));
 
   return (
