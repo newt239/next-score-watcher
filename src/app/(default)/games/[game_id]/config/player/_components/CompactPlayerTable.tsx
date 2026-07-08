@@ -47,7 +47,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   currentProfile,
   form,
 }) => {
-  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), []);
+  const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), [currentProfile]);
 
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
   const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>({});

@@ -23,7 +23,7 @@ const PlayerScore: React.FC<Props> = ({ game, player, currentProfile }) => {
   const numberSign = useNumberSign();
   const logs = useLiveQuery(
     () => db(currentProfile).logs.where({ game_id: game.id, available: 1 }).sortBy("timestamp"),
-    []
+    [currentProfile, game.id]
   );
 
   const props = {

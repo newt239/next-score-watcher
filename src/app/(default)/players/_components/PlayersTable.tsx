@@ -38,8 +38,11 @@ type Props = {
 };
 
 const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
-  const games = useLiveQuery(() => db(currentProfile).games.toArray(), []);
-  const players = useLiveQuery(() => db(currentProfile).players.orderBy("name").toArray(), []);
+  const games = useLiveQuery(() => db(currentProfile).games.toArray(), [currentProfile]);
+  const players = useLiveQuery(
+    () => db(currentProfile).players.orderBy("name").toArray(),
+    [currentProfile]
+  );
   const [searchText, setSearchText] = useState<string>("");
 
   const [selectedPlayers, setSelectedPlayers] = useState({});
