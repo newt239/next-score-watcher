@@ -34,7 +34,10 @@ const AQLPlayer: React.FC<Props> = ({
 }) => {
   const numberSign = useNumberSign();
   const computedColorScheme = useComputedColorScheme("light");
-  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
+  const game = useLiveQuery(
+    () => db(currentProfile).games.get(game_id as string),
+    [currentProfile, game_id]
+  );
   const [editableState, setEditableState] = useState<States>("playing");
 
   useEffect(() => {

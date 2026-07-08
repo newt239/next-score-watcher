@@ -32,7 +32,10 @@ const ConfigInput: React.FC<Props> = ({
 }) => {
   const innerId = useId();
   const { game_id } = useParams();
-  const game = useLiveQuery(() => db(currentProfile).games.get(game_id as string));
+  const game = useLiveQuery(
+    () => db(currentProfile).games.get(game_id as string),
+    [currentProfile, game_id]
+  );
   const [inputText, setInputText] = useState<string>("");
   const debouncedInputText = useDebouncedValue(inputText, 500);
 
