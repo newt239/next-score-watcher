@@ -1,20 +1,35 @@
+import type { ReactNode } from "react";
+
+import { Anchor } from "@mantine/core";
+
 export type ChangeItem = string | { text: string; image?: string; imageAlt?: string };
 
 export type ChangelogEntry = {
   version: string;
   date: string;
-  news?: string;
+  news?: ReactNode;
   features?: ChangeItem[];
   improvements?: ChangeItem[];
   fixes?: ChangeItem[];
   others?: ChangeItem[];
 };
 
+export const REQUEST_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform";
+
 export const changelog: ChangelogEntry[] = [
   {
     version: "3.5.1",
     date: "2026-07-08",
-    news: "新機能のご要望や不具合のご報告は、Googleフォームより常時受け付けています。",
+    news: (
+      <>
+        新機能のご要望や不具合のご報告は、
+        <Anchor href={REQUEST_FORM_URL} target="_blank" rel="noopener noreferrer">
+          Googleフォーム
+        </Anchor>
+        より常時受け付けています。
+      </>
+    ),
     fixes: [
       "プロファイル切替後にゲームやプレイヤーのデータが表示されない不具合を修正",
       "エンドレスチャンスの設定項目ラベルを勝ち抜け正解数に修正",
@@ -181,6 +196,3 @@ export const upcomingFeatures: string[] = [
   "複数のゲームを大会としてまとめて管理する機能",
   "クイズ問題のインポート・エクスポート形式の拡充",
 ];
-
-export const REQUEST_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdzHOWVcYOY6zWcrq8-niNOwk8e0XrhdjGESOEXe9Gk5yxNdQ/viewform";
