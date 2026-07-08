@@ -119,7 +119,7 @@ export const rules = {
     rule: "backstream",
     name: "Backstream",
     aliases: ["バックストリーム", "backstream"],
-    short_description: "正答数 - 誤答数が10になると勝ち抜ける形式です。",
+    short_description: "正答で+1、n回目の誤答で-nされ10ポイントを目指す形式です。",
     description: "1回の正答で+1、n回目の誤答で-nで10を目指す形式です。-10になると失格となります。",
     win_point: 10,
     lose_point: -10,
