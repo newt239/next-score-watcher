@@ -32,7 +32,13 @@ const UpdateModal: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [currentVersion, setCurrentVersion] = useState<string | null>("");
   const latestVersion = process.env.NEXT_PUBLIC_APP_VERSION;
-  const latest = changelog[0];
+  // パッチリリース時も直近のマイナーリリースの内容を引き続き表示するため、同一マイナー系列のエントリをまとめる
+  const [latestMajor, latestMinor] = changelog[0].version.split(".");
+  const seriesEntries = changelog.filter((entry) => {
+    const [major, minor] = entry.version.split(".");
+    return major === latestMajor && minor === latestMinor;
+  });
+  const news = seriesEntries.find((entry) => entry.news)?.news;
 
   useEffect(() => {
     const raw = window.localStorage.getItem("scorewatcher-version");
@@ -81,10 +87,10 @@ const UpdateModal: React.FC = () => {
       </Group>
 
       <ScrollArea.Autosize mah="50vh" offsetScrollbars>
-        {latest.news && <Text mb="sm">{latest.news}</Text>}
+        {news && <Text mb="sm">{news}</Text>}
         {sections.map((section) => {
-          const items = latest[section.key];
-          if (!items || items.length === 0) return null;
+          const items = seriesEntries.flatMap((entry) => entry[section.key] ?? []);
+          if (items.length === 0) return null;
           return (
             <Box key={section.key} mt="md">
               <Group gap="xs" mb={4}>
