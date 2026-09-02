@@ -8,18 +8,16 @@ import { IconFilter, IconSettings } from "@tabler/icons-react";
 import {
   createColumnHelper,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
-  type ColumnDef,
+  useTable,
   type FilterFn,
+  type RowSelectionState,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import ButtonLink from "@/components/ButtonLink";
 import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
+import { listTableFeatures, type ListTableFeatures } from "@/utils/tableFeatures";
 
 import type { GameDBPlayerProps, PlayerDBProps } from "@/utils/types";
 
@@ -50,10 +48,10 @@ const CompactPlayerTable: React.FC<Props> = ({
   const logs = useLiveQuery(() => db(currentProfile).logs.toArray(), [currentProfile]);
 
   const gamePlayerIds = gamePlayers.map((gamePlayer) => gamePlayer.id);
-  const [rowSelection, setRowSelection] = useState<{ [key: number]: boolean }>({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [searchText, setSearchText] = useState<string>("");
 
-  const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
+  const fuzzyFilter: FilterFn<ListTableFeatures, PlayerDBProps> = (row) => {
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
@@ -62,49 +60,48 @@ const CompactPlayerTable: React.FC<Props> = ({
     );
   };
 
-  const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns = useMemo<ColumnDef<PlayerDBProps, string>[]>(
-    () => [
-      columnHelper.accessor("id", {
-        header: "",
-        cell: ({ row }) => {
-          return (
-            <Checkbox
-              {...{
-                checked: row.getIsSelected(),
-                onChange: row.getToggleSelectedHandler(),
-              }}
-            />
-          );
-        },
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("name", {
-        header: "氏名",
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("text", {
-        header: "順位",
-        footer: (info) => info.column.id,
-      }),
-      columnHelper.accessor("belong", {
-        header: "所属",
-        footer: (info) => info.column.id,
-      }),
-    ],
+  const columnHelper = createColumnHelper<ListTableFeatures, PlayerDBProps>();
+  const columns = useMemo(
+    () =>
+      columnHelper.columns([
+        columnHelper.accessor("id", {
+          header: "",
+          cell: ({ row }) => {
+            return (
+              <Checkbox
+                {...{
+                  checked: row.getIsSelected(),
+                  onChange: row.getToggleSelectedHandler(),
+                }}
+              />
+            );
+          },
+          footer: (info) => info.column.id,
+        }),
+        columnHelper.accessor("name", {
+          header: "氏名",
+          footer: (info) => info.column.id,
+        }),
+        columnHelper.accessor("text", {
+          header: "順位",
+          footer: (info) => info.column.id,
+        }),
+        columnHelper.accessor("belong", {
+          header: "所属",
+          footer: (info) => info.column.id,
+        }),
+      ]),
     []
   );
 
-  const table = useReactTable<PlayerDBProps>({
+  const table = useTable({
+    features: listTableFeatures,
     data: playerList,
     columns,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     state: {
       globalFilter: searchText,
       rowSelection,
@@ -113,7 +110,7 @@ const CompactPlayerTable: React.FC<Props> = ({
 
   useEffect(() => {
     (async () => {
-      const initialPlayerIdList: { [key: number]: boolean } = {};
+      const initialPlayerIdList: RowSelectionState = {};
       playerList.forEach((player, i) => {
         if (gamePlayerIds.includes(player.id)) {
           initialPlayerIdList[i] = true;
@@ -128,7 +125,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   const playerListKey = playerList.map((player) => player.id).join(",");
   useDidUpdate(() => {
     const gamePlayerIdSet = new Set(gamePlayerIds);
-    const newRowSelection: { [key: number]: boolean } = {};
+    const newRowSelection: RowSelectionState = {};
     playerList.forEach((player, i) => {
       if (gamePlayerIdSet.has(player.id)) {
         newRowSelection[i] = true;
@@ -140,9 +137,7 @@ const CompactPlayerTable: React.FC<Props> = ({
   // didにしておかないと選択状態がリセットされる
   useDidUpdate(() => {
     (async () => {
-      const newGamePlayerIds = table
-        .getSelectedRowModel()
-        .rows.map(({ original }) => (original as PlayerDBProps).id);
+      const newGamePlayerIds = table.getSelectedRowModel().rows.map(({ original }) => original.id);
       if (newGamePlayerIds.length !== gamePlayerIds.length) {
         const sortedNewGamePlayerIds = [
           // newGamePlayersのうちすでに選択されているプレイヤー

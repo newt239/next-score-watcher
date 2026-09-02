@@ -1,11 +1,12 @@
 import { Group, NativeSelect, Pagination } from "@mantine/core";
 
+import type { ListTableFeatures } from "@/utils/tableFeatures";
 import type { PlayerDBProps, QuizDBProps } from "@/utils/types";
 
-import type { Table } from "@tanstack/react-table";
+import type { ReactTable } from "@tanstack/react-table";
 
 type TablePaginationProps = {
-  table: Table<PlayerDBProps> | Table<QuizDBProps>;
+  table: ReactTable<ListTableFeatures, PlayerDBProps> | ReactTable<ListTableFeatures, QuizDBProps>;
 };
 
 const TablePagenation: React.FC<TablePaginationProps> = ({ table }) => {
@@ -13,7 +14,7 @@ const TablePagenation: React.FC<TablePaginationProps> = ({ table }) => {
     <Group justify="space-between">
       <Pagination
         total={table.getPageCount()}
-        value={table.getState().pagination.pageIndex + 1}
+        value={table.state.pagination.pageIndex + 1}
         onChange={(n) => table.setPageIndex(n - 1)}
         size="sm"
         boundaries={1}
@@ -23,7 +24,7 @@ const TablePagenation: React.FC<TablePaginationProps> = ({ table }) => {
           table.setPageSize(Number(e.target.value));
         }}
         size="xs"
-        value={table.getState().pagination.pageSize}
+        value={table.state.pagination.pageSize}
       >
         {[10, 20, 30, 40, 50].map((pageSize) => (
           <option key={pageSize} value={pageSize}>
