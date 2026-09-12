@@ -32,6 +32,5 @@
       "Bash(mongod:*)",
       "mcp__supabase__execute_sql"
     ]
-  },
-  "enabledMcpjsonServers": ["deepwiki", "playwright", "context7"]
+  }
 }

@@ -1,7 +1,12 @@
 packages:
   - "."
 saveExact: true
-minimumReleaseAge: 1440
+minimumReleaseAge: 10080
+minimumReleaseAgeExcludePrune: true
+minimumReleaseAgeExclude:
+  - "@pnpm/exe.*"
+update:
+  githubActions: true
 allowBuilds:
   "@sentry/cli": false
   esbuild: true
