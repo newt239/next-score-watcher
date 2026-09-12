@@ -51,7 +51,7 @@
     "@types/node": "26.4.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
-    "@vitest/ui": "4.1.11",
+    "@vitest/ui": "5.0.0",
     "import-in-the-middle": "3.4.0",
     "jsdom": "30.0.1",
     "lefthook": "2.1.12",
@@ -64,7 +64,7 @@
     "stylelint-config-recess-order": "7.8.0",
     "stylelint-config-standard": "40.0.0",
     "typescript": "7.0.2",
-    "vitest": "4.1.11"
+    "vitest": "5.0.0"
   },
   "devEngines": {
     "runtime": {
