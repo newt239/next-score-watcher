@@ -7,6 +7,7 @@ import { DEFAULT_CURRENT_PROFILE } from "@/utils/current-profile";
 
 import InitializeApp from "./_components/InitializeApp";
 import ManageData from "./_components/ManageData/ManageData";
+import MigrateToPlus from "./_components/MigrateToPlus";
 import WebhookSettings from "./_components/WebhookSettings";
 
 export const metadata: Metadata = {
@@ -24,6 +25,9 @@ const OptionPage = async () => {
       <Preferences />
       <WebhookSettings />
       <ManageData currentProfile={DEFAULT_CURRENT_PROFILE} />
+      {process.env.NEXT_PUBLIC_HIDE_PLUS_MIGRATION !== "true" && (
+        <MigrateToPlus currentProfile={DEFAULT_CURRENT_PROFILE} />
+      )}
       <InitializeApp currentProfile={DEFAULT_CURRENT_PROFILE} />
     </>
   );
