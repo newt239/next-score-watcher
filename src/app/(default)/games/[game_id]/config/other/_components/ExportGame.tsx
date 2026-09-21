@@ -6,6 +6,7 @@ import { IconFileExport } from "@tabler/icons-react";
 import { cdate } from "cdate";
 
 import computeScore from "@/utils/computeScore";
+import { downloadJson } from "@/utils/download-json";
 
 import type { GamePropsUnion } from "@/utils/types";
 
@@ -18,15 +19,7 @@ const ExportGame: React.FC<Props> = ({ game, currentProfile }) => {
   const handleCopyGame = async () => {
     sendGAEvent("event", "export_game", { rule: game.rule });
     const { postData } = await computeScore(game.id, currentProfile);
-    const blob = new Blob([JSON.stringify(postData, null, "\t")], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-
-    a.download = `score-watcher_${game.id}_${cdate().format("YYMMDDHHmm")}.json`;
-    a.click();
+    downloadJson(postData, `score-watcher_${game.id}_${cdate().format("YYMMDDHHmm")}.json`, "\t");
   };
 
   return (
