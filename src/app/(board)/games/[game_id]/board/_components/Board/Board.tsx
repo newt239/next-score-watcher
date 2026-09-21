@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Box } from "@mantine/core";
 import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 import { cdate } from "cdate";
 import { useLiveQuery } from "dexie-react-hooks";
 import { nanoid } from "nanoid";
@@ -70,6 +71,51 @@ const Board: React.FC<Props> = ({ game_id, current_profile }) => {
     key: "showBoardHeader",
     defaultValue: true,
   });
+  const [preventScreenSleep] = useLocalStorage({
+    key: "preventScreenSleep",
+    defaultValue: true,
+  });
+
+  // Wake Lock APIはブラウザAPIのためuseEffectで扱う。タブを離れると解放されるので復帰時に取り直す
+  useEffect(() => {
+    if (!preventScreenSleep || !("wakeLock" in navigator)) return;
+
+    let sentinel: WakeLockSentinel | null = null;
+    let unmounted = false;
+    let notified = false;
+
+    const requestWakeLock = async () => {
+      if (sentinel || document.visibilityState !== "visible") return;
+      try {
+        const acquired = await navigator.wakeLock.request("screen");
+        if (unmounted) {
+          await acquired.release();
+          return;
+        }
+        sentinel = acquired;
+        acquired.addEventListener("release", () => {
+          sentinel = null;
+        });
+      } catch {
+        if (notified) return;
+        notified = true;
+        notifications.show({
+          title: "画面の自動オフを防止できませんでした",
+          message: "省電力モードが有効な場合、得点表示中に画面が消えることがあります。",
+          color: "yellow",
+        });
+      }
+    };
+
+    requestWakeLock();
+    document.addEventListener("visibilitychange", requestWakeLock);
+
+    return () => {
+      unmounted = true;
+      document.removeEventListener("visibilitychange", requestWakeLock);
+      sentinel?.release();
+    };
+  }, [preventScreenSleep]);
 
   useEffect(() => {
     db(currentProfile).games.update(game_id as string, {
