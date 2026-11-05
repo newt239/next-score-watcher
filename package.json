@@ -1,6 +1,6 @@
 {
   "name": "score-watcher",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "private": true,
   "scripts": {
     "build": "next build",
