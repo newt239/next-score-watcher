@@ -27,8 +27,10 @@
 実装後の必須作業として、以下のコマンドを実行してください。
 
 ```bash
-npx tsc --noEmit && pnpm run lint:fix
+pnpm exec tsc --noEmit && pnpm run lint:fix
 ```
+
+`npx`は使用しないでください。`package.json`の`devEngines`でNode.jsのバージョンを固定しているため、ローカルのNode.jsのバージョンが異なると`EBADDEVENGINES`エラーで失敗します。
 
 型エラーやリントエラーが出た場合は、コミット前に必ず修正してください。
 
@@ -82,6 +84,13 @@ UIコンポーネントライブラリの一つである**Mantine**を使用し�
 オフラインでの動作に対応させるため、サービスワーカーを使用しています。
 
 ## コマンド一覧
+
+### 実行環境
+
+Node.jsのバージョンは`package.json`の`devEngines.runtime`、pnpmのバージョンは`packageManager`で管理しています。CIもこの値を参照します。更新する際は以下の手順で行ってください。
+
+- Node.js: `devEngines.runtime.version`を書き換えて`pnpm install`を実行し、`pnpm-lock.yaml`を更新する
+- pnpm: `corepack use pnpm@<version>`を実行する (corepack経由のpnpmでは`pnpm self-update`が失敗する)
 
 ### 基本コマンド
 
