@@ -1,7 +1,7 @@
 "use client";
 
 import { Flex, Switch, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useMounted } from "@mantine/hooks";
 import { sendGAEvent } from "@next/third-parties/google";
 
 const Preferences: React.FC = () => {
@@ -37,6 +37,14 @@ const Preferences: React.FC = () => {
     key: "wrongNumber",
     defaultValue: true,
   });
+  const [preventScreenSleep, setPreventScreenSleep] = useLocalStorage({
+    key: "preventScreenSleep",
+    defaultValue: true,
+  });
+
+  // navigatorの参照はマウント後に限定し、サーバー側との描画差分を避ける
+  const mounted = useMounted();
+  const wakeLockUnsupported = mounted && !("wakeLock" in navigator);
 
   // 設定更新のヘルパー関数
   const updateSetting = <T,>(localSetter: (value: T) => void, value: T, eventName: string) => {
@@ -120,6 +128,20 @@ const Preferences: React.FC = () => {
         }}
         label="誤答数が4以下のとき✕の数で表示"
         description="誤答数が0のときは中黒・で表示されます。"
+        size="md"
+      />
+      <Switch
+        checked={preventScreenSleep}
+        disabled={wakeLockUnsupported}
+        onChange={(event) => {
+          updateSetting(setPreventScreenSleep, event.currentTarget.checked, "prevent_screen_sleep");
+        }}
+        label="得点表示中に画面を自動でオフにしない"
+        description={
+          wakeLockUnsupported
+            ? "お使いのブラウザはこの機能に対応していません。"
+            : "得点表示ページを開いている間、画面の自動オフやスクリーンセーバーを抑制します。"
+        }
         size="md"
       />
     </Flex>

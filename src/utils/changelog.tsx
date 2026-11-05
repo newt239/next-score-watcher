@@ -19,6 +19,20 @@ export const REQUEST_FORM_URL =
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: "3.6.0",
+    date: "2026-11-05",
+    news: (
+      <>
+        新機能のご要望や不具合のご報告は、
+        <Anchor href={REQUEST_FORM_URL} target="_blank" rel="noopener noreferrer">
+          Googleフォーム
+        </Anchor>
+        より常時受け付けています。
+      </>
+    ),
+    features: ["得点表示中に画面が自動でオフにならない設定を追加"],
+  },
+  {
     version: "3.5.1",
     date: "2026-07-08",
     news: (

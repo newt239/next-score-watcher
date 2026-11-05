@@ -14,6 +14,7 @@ import {
   setStoredCurrentProfile,
 } from "@/utils/current-profile";
 import db from "@/utils/db";
+import { downloadJson } from "@/utils/download-json";
 import {
   type GamePropsUnion,
   type LogDBProps,
@@ -47,16 +48,7 @@ const ManageData: React.FC<Props> = ({ currentProfile }) => {
       quizes: await db(storedCurrentProfile).quizes.toArray(),
       logs: await db(storedCurrentProfile).logs.toArray(),
     };
-    const dataStr = JSON.stringify(data, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${storedCurrentProfile}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadJson(data, `${storedCurrentProfile}.json`);
   };
 
   const handleOnChange = (files: FileWithPath[]) => {

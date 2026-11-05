@@ -27,8 +27,10 @@
 実装後の必須作業として、以下のコマンドを実行してください。
 
 ```bash
-npx tsc --noEmit && pnpm run lint:fix
+pnpm exec tsc --noEmit && pnpm run lint:fix
 ```
+
+`npx`は使用しないでください。`package.json`の`devEngines`でNode.jsのバージョンを固定しているため、ローカルのNode.jsのバージョンが異なると`EBADDEVENGINES`エラーで失敗します。
 
 型エラーやリントエラーが出た場合は、コミット前に必ず修正してください。
 
@@ -82,6 +84,13 @@ UIコンポーネントライブラリの一つである**Mantine**を使用し�
 オフラインでの動作に対応させるため、サービスワーカーを使用しています。
 
 ## コマンド一覧
+
+### 実行環境
+
+Node.jsのバージョンは`package.json`の`devEngines.runtime`、pnpmのバージョンは`packageManager`で管理しています。CIもこの値を参照します。更新する際は以下の手順で行ってください。
+
+- Node.js: `devEngines.runtime.version`を書き換えて`pnpm install`を実行し、`pnpm-lock.yaml`を更新する
+- pnpm: `corepack use pnpm@<version>`を実行する (corepack経由のpnpmでは`pnpm self-update`が失敗する)
 
 ### 基本コマンド
 
@@ -219,3 +228,13 @@ src/
 - このファイルの該当セクションに具体的に記載
 - 抽象的表現は避け、実行可能な形で記述
 - 将来のセッションで再現可能な内容にする
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

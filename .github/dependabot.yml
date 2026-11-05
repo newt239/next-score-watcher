@@ -6,6 +6,8 @@ updates:
       interval: "monthly"
       timezone: "Asia/Tokyo"
       time: "08:00"
+    cooldown:
+      default-days: 7
     groups:
       npm-dependencies:
         patterns:
@@ -16,6 +18,8 @@ updates:
       interval: "monthly"
       timezone: "Asia/Tokyo"
       time: "08:00"
+    cooldown:
+      default-days: 7
     groups:
       github-actions:
         patterns:

@@ -7,16 +7,15 @@ import { IconFilter, IconTrash } from "@tabler/icons-react";
 import {
   createColumnHelper,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
+  useTable,
   type FilterFn,
+  type RowSelectionState,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
+import { listTableFeatures, type ListTableFeatures } from "@/utils/tableFeatures";
 
 import classes from "./QuizesTable.module.css";
 
@@ -33,9 +32,9 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
   );
   const [searchText, setSearchText] = useState<string>("");
 
-  const [selectedQuizes, setSelectedQuizes] = useState({});
+  const [selectedQuizes, setSelectedQuizes] = useState<RowSelectionState>({});
 
-  const fuzzyFilter: FilterFn<QuizDBProps> = (row) => {
+  const fuzzyFilter: FilterFn<ListTableFeatures, QuizDBProps> = (row) => {
     const data = row.original;
     return (
       data.q?.includes(searchText) ||
@@ -44,15 +43,15 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
     );
   };
 
-  const columnHelper = createColumnHelper<QuizDBProps>();
-  const columns = [
+  const columnHelper = createColumnHelper<ListTableFeatures, QuizDBProps>();
+  const columns = columnHelper.columns([
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (
           <Checkbox
             radius="xs"
             checked={table.getIsAllRowsSelected()}
-            indeterminate={table.getIsSomeRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
             onChange={() => table.toggleAllRowsSelected()}
           />
         );
@@ -79,9 +78,10 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
     columnHelper.accessor("set_name", {
       header: "セット名",
     }),
-  ];
+  ]);
 
-  const table = useReactTable<QuizDBProps>({
+  const table = useTable({
+    features: listTableFeatures,
     data: quizes || [],
     columns,
     state: {
@@ -91,9 +91,6 @@ const QuizesTable: React.FC<Props> = ({ currentProfile }) => {
     onRowSelectionChange: setSelectedQuizes,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   });
 
   if (!quizes) return null;

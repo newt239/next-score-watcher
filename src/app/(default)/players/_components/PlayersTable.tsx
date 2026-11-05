@@ -19,17 +19,15 @@ import { IconTrash } from "@tabler/icons-react";
 import {
   createColumnHelper,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
-  type ColumnDef,
+  useTable,
   type FilterFn,
+  type RowSelectionState,
 } from "@tanstack/react-table";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import TablePagenation from "@/components/TablePagination";
 import db from "@/utils/db";
+import { listTableFeatures, type ListTableFeatures } from "@/utils/tableFeatures";
 
 import type { PlayerDBProps } from "@/utils/types";
 
@@ -45,9 +43,9 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
   );
   const [searchText, setSearchText] = useState<string>("");
 
-  const [selectedPlayers, setSelectedPlayers] = useState({});
+  const [selectedPlayers, setSelectedPlayers] = useState<RowSelectionState>({});
 
-  const fuzzyFilter: FilterFn<PlayerDBProps> = (row) => {
+  const fuzzyFilter: FilterFn<ListTableFeatures, PlayerDBProps> = (row) => {
     const data = row.original;
     return (
       data.name?.includes(searchText) ||
@@ -57,15 +55,15 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
     );
   };
 
-  const columnHelper = createColumnHelper<PlayerDBProps>();
-  const columns: ColumnDef<PlayerDBProps, string>[] = [
+  const columnHelper = createColumnHelper<ListTableFeatures, PlayerDBProps>();
+  const columns = columnHelper.columns([
     columnHelper.accessor("id", {
       header: ({ table }) => {
         return (
           <Checkbox
             radius="xs"
             checked={table.getIsAllRowsSelected()}
-            indeterminate={table.getIsSomeRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
             onChange={() => table.toggleAllRowsSelected()}
           />
         );
@@ -89,9 +87,10 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
     columnHelper.accessor("belong", {
       header: "所属",
     }),
-  ];
+  ]);
 
-  const table = useReactTable<PlayerDBProps>({
+  const table = useTable({
+    features: listTableFeatures,
     data: players || [],
     columns,
     state: {
@@ -101,9 +100,6 @@ const PlayersTable: React.FC<Props> = ({ currentProfile }) => {
     onRowSelectionChange: setSelectedPlayers,
     globalFilterFn: fuzzyFilter,
     onGlobalFilterChange: setSearchText,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
   });
 
   if (!games || !players) return null;
